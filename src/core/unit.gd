@@ -94,9 +94,13 @@ func execute_class_change(class_id: int, achievement_points: int = 0) -> Diction
 func report_damage_dealt(damage: int, is_kill: bool, is_battle: bool = true) -> int:
 	return class_component.report_damage_dealt(damage, is_kill, is_battle)
 
-## Get effective attribute value (base + class bonus)
+## Get effective attribute value (base + class bonus, suspended if below threshold)
 func get_effective_attribute(attr_type: int) -> int:
-	return attributes.get_value(attr_type) + class_component.get_class_bonus(attr_type)
+	var base: int = attributes.get_value(attr_type)
+	var attr_callable: Callable = func(a: int) -> int: return attributes.get_value(a)
+	if not class_component.is_bonus_active(attr_callable):
+		return base
+	return base + class_component.get_class_bonus(attr_type)
 
 ## Serialize unit data
 func serialize() -> Dictionary:

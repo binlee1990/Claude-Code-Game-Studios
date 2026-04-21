@@ -114,6 +114,19 @@ func execute_class_change(class_id: int, attributes: Callable, achievement_point
 func get_class_bonus(attr_type: int) -> int:
 	return ClassNames.get_class_bonus(_current_class, attr_type)
 
+## Check whether class bonus is currently active.
+## `attributes` is a callable: (attr_type: int) -> int
+## Bonus is suspended if base attributes drop below class thresholds.
+func is_bonus_active(attributes: Callable) -> bool:
+	var def: Dictionary = ClassNames.CLASS_DEFS[_current_class]
+	var primary_threshold: int = def["primary_threshold"]
+	var secondary_threshold: int = def["secondary_threshold"]
+	if primary_threshold == 0 and secondary_threshold == 0:
+		return true  # Basic classes always active
+	var primary_value: int = attributes.call(def["primary_attr"])
+	var secondary_value: int = attributes.call(def["secondary_attr"])
+	return primary_value >= primary_threshold and secondary_value >= secondary_threshold
+
 ## Evaluate CAN_UNLOCK for a target class.
 ## Returns Dictionary: { "can_unlock": bool, "reasons": String[] }
 ## `attributes` is a callable: (attr_type: int) -> int
