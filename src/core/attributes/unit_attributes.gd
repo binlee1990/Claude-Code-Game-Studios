@@ -105,8 +105,10 @@ func execute_breakthrough(attr_type: int) -> bool:
 func evaluate_crush(
 	attacker_value: int,
 	defender_value: int,
-	attribute_type: int
+	attribute_type: int,
+	is_damage_action: bool = true
 ) -> Dictionary:
+	var applicable := is_damage_action
 	var delta: int = attacker_value - defender_value
 	var did_crush: bool = absi(delta) > AttributeNames.CRUSH_THRESHOLD
 	var crush_direction: int = 0  # 0 = none, 1 = attacker crushes, -1 = defender crushes
@@ -119,9 +121,10 @@ func evaluate_crush(
 	return {
 		"did_crush": did_crush,
 		"crush_direction": crush_direction,
-		"damage_multiplier": AttributeNames.CRUSH_DAMAGE_MULTIPLIER if did_crush else 1.0,
-		"defense_multiplier": AttributeNames.CRUSH_DEFENSE_MULTIPLIER if did_crush else 1.0,
-		"delta": delta
+		"damage_multiplier": AttributeNames.CRUSH_DAMAGE_MULTIPLIER if (did_crush and applicable) else 1.0,
+		"defense_multiplier": AttributeNames.CRUSH_DEFENSE_MULTIPLIER if (did_crush and applicable) else 1.0,
+		"delta": delta,
+		"applicable": applicable
 	}
 
 ## Get all attributes snapshot (returns a fresh copy each call)

@@ -65,10 +65,10 @@ func execute_breakthrough(attr_type: int) -> bool:
 	return attributes.execute_breakthrough(attr_type)
 
 ## Evaluate crush condition against another unit
-func evaluate_crush_against(target: Unit, attribute_type: int) -> Dictionary:
+func evaluate_crush_against(target: Unit, attribute_type: int, is_damage_action: bool = true) -> Dictionary:
 	var attacker_value: int = attributes.get_value(attribute_type)
 	var defender_value: int = target.attributes.get_value(attribute_type)
-	return attributes.evaluate_crush(attacker_value, defender_value, attribute_type)
+	return attributes.evaluate_crush(attacker_value, defender_value, attribute_type, is_damage_action)
 
 ## Serialize unit data
 func serialize() -> Dictionary:
