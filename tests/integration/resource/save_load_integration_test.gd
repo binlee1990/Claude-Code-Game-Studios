@@ -1,0 +1,139 @@
+# tests/integration/resource/save_load_integration_test.gd
+# Story 006: Resource Save/Load Integration
+# Validates AC-S1 through AC-S4
+
+extends Gut
+
+var _inventory: Inventory
+
+func before_each() -> void:
+	_inventory = Inventory.new()
+	_inventory.name = "Inventory"
+	add_child(_inventory)
+
+func after_each() -> void:
+	if is_instance_valid(_inventory):
+		_inventory.queue_free()
+
+func _setup_complex_inventory() -> void:
+	_inventory.add_resource(ResourceTypes.Resource.GOLD, 5000)
+	_inventory.add_resource(ResourceTypes.Resource.BASIC_MATERIAL, 300)
+	_inventory.add_resource(ResourceTypes.Resource.FRUIT_STR, 5)
+	_inventory.add_resource(ResourceTypes.Resource.FRUIT_AGI, 3)
+	_inventory.add_resource(ResourceTypes.Resource.RARE_MATERIAL, 10)
+	_inventory.add_resource(ResourceTypes.Resource.PROTECT_SYMBOL, 2)
+	_inventory.add_resource(ResourceTypes.Resource.BARRIER_RESOURCE, 1)
+	_inventory.add_resource(ResourceTypes.Resource.ACHIEVEMENT, 3500)
+
+
+# AC-S1: Full inventory round-trip
+
+func test_full_inventory_round_trip() -> void:
+	_setup_complex_inventory()
+	var data: Dictionary = _inventory.serialize()
+
+	var loaded := Inventory.new()
+	loaded.name = "Loaded"
+	add_child(loaded)
+	loaded.deserialize(data)
+
+	assert_eq(loaded.get_amount(ResourceTypes.Resource.GOLD), 5000)
+	assert_eq(loaded.get_amount(ResourceTypes.Resource.BASIC_MATERIAL), 300)
+	assert_eq(loaded.get_amount(ResourceTypes.Resource.FRUIT_STR), 5)
+	assert_eq(loaded.get_amount(ResourceTypes.Resource.FRUIT_AGI), 3)
+	assert_eq(loaded.get_amount(ResourceTypes.Resource.RARE_MATERIAL), 10)
+	assert_eq(loaded.get_amount(ResourceTypes.Resource.PROTECT_SYMBOL), 2)
+	assert_eq(loaded.get_amount(ResourceTypes.Resource.BARRIER_RESOURCE), 1)
+	loaded.queue_free()
+
+
+# AC-S2: Achievement points round-trip
+
+func test_achievement_points_round_trip() -> void:
+	_inventory.add_resource(ResourceTypes.Resource.ACHIEVEMENT, 3500)
+	var data: Dictionary = _inventory.serialize()
+
+	var loaded := Inventory.new()
+	loaded.name = "Loaded"
+	add_child(loaded)
+	loaded.deserialize(data)
+	assert_eq(loaded.get_amount(ResourceTypes.Resource.ACHIEVEMENT), 3500)
+	loaded.queue_free()
+
+func test_achievement_large_value() -> void:
+	_inventory.add_resource(ResourceTypes.Resource.ACHIEVEMENT, 9999999)
+	var data: Dictionary = _inventory.serialize()
+
+	var loaded := Inventory.new()
+	loaded.name = "Loaded"
+	add_child(loaded)
+	loaded.deserialize(data)
+	assert_eq(loaded.get_amount(ResourceTypes.Resource.ACHIEVEMENT), 9999999)
+	loaded.queue_free()
+
+
+# AC-S3: Stack limit state preserved (no post-load overflow)
+
+func test_no_overflow_after_load() -> void:
+	_inventory.add_resource(ResourceTypes.Resource.GOLD, 9999999)
+	var data: Dictionary = _inventory.serialize()
+
+	var loaded := Inventory.new()
+	loaded.name = "Loaded"
+	add_child(loaded)
+	loaded.deserialize(data)
+
+	# Try adding more — should be blocked
+	var added: int = loaded.add_resource(ResourceTypes.Resource.GOLD, 100)
+	assert_eq(added, 0, "Cannot add past cap after load")
+	assert_eq(loaded.get_amount(ResourceTypes.Resource.GOLD), 9999999)
+	loaded.queue_free()
+
+
+# AC-S4: Double round-trip integrity
+
+func test_double_round_trip() -> void:
+	_setup_complex_inventory()
+
+	var saved1: Dictionary = _inventory.serialize()
+	var loaded1 := Inventory.new()
+	loaded1.name = "L1"
+	add_child(loaded1)
+	loaded1.deserialize(saved1)
+
+	var saved2: Dictionary = loaded1.serialize()
+	var loaded2 := Inventory.new()
+	loaded2.name = "L2"
+	add_child(loaded2)
+	loaded2.deserialize(saved2)
+
+	# Compare all resources
+	var all_res: Array = ResourceTypes.Resource.values()
+	for res in all_res:
+		assert_eq(loaded2.get_amount(res), loaded1.get_amount(res),
+			"%s identical across round-trips" % ResourceTypes.Resource.keys()[res])
+
+	loaded1.queue_free()
+	loaded2.queue_free()
+
+func test_all_fruits_round_trip() -> void:
+	var fruits: Array[int] = [
+		ResourceTypes.Resource.FRUIT_STR, ResourceTypes.Resource.FRUIT_AGI,
+		ResourceTypes.Resource.FRUIT_CON, ResourceTypes.Resource.FRUIT_INT,
+		ResourceTypes.Resource.FRUIT_CHA, ResourceTypes.Resource.FRUIT_LUK,
+		ResourceTypes.Resource.FRUIT_WIL, ResourceTypes.Resource.FRUIT_RES,
+		ResourceTypes.Resource.FRUIT_SOU,
+	]
+	for i in fruits.size():
+		_inventory.add_resource(fruits[i], (i + 1) * 5)
+
+	var data: Dictionary = _inventory.serialize()
+	var loaded := Inventory.new()
+	loaded.name = "Loaded"
+	add_child(loaded)
+	loaded.deserialize(data)
+
+	for i in fruits.size():
+		assert_eq(loaded.get_amount(fruits[i]), (i + 1) * 5,
+			"%s preserved" % ResourceTypes.Resource.keys()[fruits[i]])
+	loaded.queue_free()
