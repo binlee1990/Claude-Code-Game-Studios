@@ -43,10 +43,11 @@ func get_potential() -> int:
 func get_potential_grade() -> String:
 	return AttributeNames.get_potential_name(_potential)
 
-## Apply growth from level up
-func apply_growth() -> int:
+## Apply growth from level up, capped by the given barrier limit or 999
+func apply_growth(cap: int = AttributeNames.MAX_ATTRIBUTE_VALUE) -> int:
 	var old_value := _value
-	_value = mini(_value + _potential, AttributeNames.MAX_ATTRIBUTE_VALUE)
+	var effective_cap := mini(cap, AttributeNames.MAX_ATTRIBUTE_VALUE)
+	_value = mini(_value + _potential, effective_cap)
 	if _value != old_value:
 		value_changed.emit(_value, old_value)
 	return _value - old_value

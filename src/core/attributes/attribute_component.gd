@@ -56,9 +56,15 @@ func get_potential() -> int:
 func get_potential_grade() -> String:
 	return _data.get_potential_grade()
 
-## Apply level up growth
+## Apply level up growth, respecting barrier cap
 func apply_growth() -> int:
-	return _data.apply_growth()
+	return _data.apply_growth(_get_growth_cap())
+
+func _get_growth_cap() -> int:
+	for stage in range(1, 4):
+		if not _barriers_broken.get(stage, false):
+			return AttributeNames.get_barrier_threshold(stage)
+	return AttributeNames.MAX_ATTRIBUTE_VALUE
 
 ## Check if can use fruit
 func can_use_fruit() -> bool:

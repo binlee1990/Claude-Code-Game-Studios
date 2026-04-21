@@ -14,6 +14,7 @@ var attributes: UnitAttributes
 
 func _ready() -> void:
 	_ensure_attributes()
+	attributes.attribute_changed.connect(_on_attribute_changed)
 	unit_created.emit(self)
 
 func _exit_tree() -> void:
@@ -27,6 +28,9 @@ func _ensure_attributes() -> void:
 	attributes = UnitAttributes.new()
 	attributes.name = "UnitAttributes"
 	add_child(attributes)
+
+func _on_attribute_changed(attr_type: int, new_value: int, old_value: int) -> void:
+	GameEvents.attribute_changed.emit(self, attr_type, old_value, new_value)
 
 ## Get a specific attribute value
 func get_attribute(attr_type: int) -> int:
