@@ -20,6 +20,8 @@ signal game_saved(slot: int, timestamp: int)                          ## Game wa
 signal game_loaded(slot: int)                                         ## Game was loaded
 signal attribute_changed(unit: Node, attr_type: int, old_value: int, new_value: int)  ## Attribute V changed
 signal threshold_unlocked(unit: Node, attr_type: int, threshold: int)  ## Normal attribute reached threshold for first time
+signal class_changed(unit: Node, old_class: int, new_class: int)       ## Unit changed class
+signal class_level_up(unit: Node, class_id: int, new_level: int)       ## Unit class level increased
 
 
 func _init() -> void:
