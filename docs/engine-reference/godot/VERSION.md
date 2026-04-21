@@ -2,17 +2,19 @@
 
 | Field | Value |
 |-------|-------|
-| **Engine Version** | Godot 4.6 |
+| **Engine Version** | Godot 4.6.2 |
 | **Release Date** | January 2026 |
-| **Project Pinned** | 2026-02-12 |
+| **Project Pinned** | 2026-04-16 |
 | **Last Docs Verified** | 2026-02-12 |
 | **LLM Knowledge Cutoff** | May 2025 |
+| **Knowledge Risk** | HIGH — 4.6.x is beyond LLM training data (~4.3) |
 
 ## Knowledge Gap Warning
 
 The LLM's training data likely covers Godot up to ~4.3. Versions 4.4, 4.5,
 and 4.6 introduced significant changes that the model does NOT know about.
 Always cross-reference this directory before suggesting Godot API calls.
+Current project uses Godot 4.6.2 — reference docs MUST be consulted.
 
 ## Post-Cutoff Version Timeline
 

@@ -1,0 +1,57 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  gut-tests:
+    name: GUT Unit Tests
+    runs-on: ubuntu-latest
+    container:
+      image: barthel/godot-headless:4.6.2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Unit Tests
+        run: |
+          godot --headless --script tests/gdunit4_runner.gd
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gut-results
+          path: |
+            tests/results/
+          retention-days: 7
+
+  code-style:
+    name: Code Style Check
+    runs-on: ubuntu-latest
+    container:
+      image: barthel/godot-headless:4.6.2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: GDScript Lint
+        run: |
+          # Check for common GDScript issues
+          find res://src -name "*.gd" -exec godot --headless --script {} \;
+
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    container:
+      image: barthel/godot-headless:4.6.2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Integration Tests
+        run: |
+          godot --headless --script tests/gdunit4_runner.gd --integration
