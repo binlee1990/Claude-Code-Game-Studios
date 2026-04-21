@@ -24,7 +24,6 @@ func _ready() -> void:
 func _on_value_changed(new_value: int, old_value: int) -> void:
 	attribute_value_changed.emit(attribute_type, new_value, old_value)
 	_check_threshold(new_value)
-	_check_barrier_trigger(new_value)
 
 func _on_potential_changed(new_potential: int, old_potential: int) -> void:
 	pass
@@ -35,14 +34,23 @@ func _check_threshold(value: int) -> void:
 			_thresholds_reached[threshold] = true
 			threshold_reached.emit(attribute_type, threshold)
 
-func _check_barrier_trigger(value: int) -> void:
-	if _barriers_broken.get(_barrier_stage, true):
-		return
+## Check if barrier breakthrough is possible for the current stage
+func can_break_barrier() -> bool:
+	if _barrier_stage > 3:
+		return false
+	if _barriers_broken.get(_barrier_stage, false):
+		return false
 	var threshold: int = AttributeNames.get_barrier_threshold(_barrier_stage)
-	if value >= threshold:
-		_barriers_broken[_barrier_stage] = true
-		barrier_broken.emit(attribute_type, _barrier_stage)
-		_barrier_stage += 1
+	return _data.get_value() >= threshold
+
+## Execute barrier breakthrough for the current stage. Returns false if not possible.
+func execute_breakthrough() -> bool:
+	if not can_break_barrier():
+		return false
+	_barriers_broken[_barrier_stage] = true
+	barrier_broken.emit(attribute_type, _barrier_stage)
+	_barrier_stage += 1
+	return true
 
 ## Get current value
 func get_value() -> int:

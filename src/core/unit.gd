@@ -52,6 +52,14 @@ func apply_level_up() -> Dictionary:
 func use_fruit(attr_type: int) -> bool:
 	return attributes.use_fruit(attr_type)
 
+## Check if barrier breakthrough is possible for attribute
+func can_break_barrier(attr_type: int) -> bool:
+	return attributes.can_break_barrier(attr_type)
+
+## Execute barrier breakthrough for attribute
+func execute_breakthrough(attr_type: int) -> bool:
+	return attributes.execute_breakthrough(attr_type)
+
 ## Evaluate crush condition against another unit
 func evaluate_crush_against(target: Unit, attribute_type: int) -> Dictionary:
 	var attacker_value: int = attributes.get_value(attribute_type)

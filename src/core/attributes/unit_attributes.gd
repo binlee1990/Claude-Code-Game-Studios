@@ -89,6 +89,18 @@ func use_fruit(attr_type: int) -> bool:
 		return _components[attr_type].apply_fruit()
 	return false
 
+## Check if barrier breakthrough is possible
+func can_break_barrier(attr_type: int) -> bool:
+	if _components.has(attr_type):
+		return _components[attr_type].can_break_barrier()
+	return false
+
+## Execute barrier breakthrough
+func execute_breakthrough(attr_type: int) -> bool:
+	if _components.has(attr_type):
+		return _components[attr_type].execute_breakthrough()
+	return false
+
 ## Evaluate crush condition
 func evaluate_crush(
 	attacker_value: int,
