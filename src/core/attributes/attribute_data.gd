@@ -33,7 +33,7 @@ func get_value() -> int:
 
 ## Set value with clamping
 func set_value(v: int) -> void:
-	value = v
+	_value = v
 
 ## Get current potential (P) - returns 1-6
 func get_potential() -> int:

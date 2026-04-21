@@ -5,13 +5,11 @@
 extends SceneTree
 
 func _init() -> void:
-    var gut = GUT Gut.new()
-    gut.set_include_subdirectories(true)
-    gut.add_investigator_directory("res://tests/unit/")
-    gut.add_investigator_directory("res://tests/integration/")
-    gut.set_prefix("test_")
-    gut.set_suffix(".gd")
+	var gut := Gut.new()
+	gut.add_directory("res://tests/unit/")
+	gut.add_directory("res://tests/integration/")
+	gut.set_include_subdirectories(true)
 
-    add_child(gut)
-    var exit_code := gut.run_tests()
-    quit(exit_code)
+	add_child(gut)
+	gut.run_tests()
+	quit()

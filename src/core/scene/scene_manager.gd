@@ -7,7 +7,7 @@ const SCENES := {
 }
 
 func switch_scene(scene_key: String) -> void:
-	var path := SCENES.get(scene_key, "")
+	var path: String = SCENES.get(scene_key, "")
 	if path.is_empty():
 		push_error("Unknown scene: " + scene_key)
 		return
