@@ -1,7 +1,7 @@
 # Story 001: Terrain Data Model
 
 > **Epic**: Tactical Mechanism
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created

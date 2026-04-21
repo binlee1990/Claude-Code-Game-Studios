@@ -1,7 +1,7 @@
 # Story 004: Resource Consumption & Costs
 
 > **Epic**: Resource Economy
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created

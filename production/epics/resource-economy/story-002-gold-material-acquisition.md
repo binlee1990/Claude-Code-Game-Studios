@@ -1,7 +1,7 @@
 # Story 002: Gold & Material Acquisition
 
 > **Epic**: Resource Economy
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created

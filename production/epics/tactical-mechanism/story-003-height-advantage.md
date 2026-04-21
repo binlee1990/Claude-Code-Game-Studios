@@ -1,7 +1,7 @@
 # Story 003: Height Advantage
 
 > **Epic**: Tactical Mechanism
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created

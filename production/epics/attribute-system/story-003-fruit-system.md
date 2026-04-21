@@ -1,7 +1,7 @@
 # Story 003: Fruit System (Potential Upgrade)
 
 > **Epic**: Attribute & Growth System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created
@@ -85,3 +85,11 @@ From GDD C.3:
 
 - Depends on: Story 001 (data model)
 - Unlocks: None (fruit system is self-contained within attribute system)
+
+## Completion Notes
+
+**Completed**: 2026-04-22
+**Criteria**: 4/4 passing (all auto-verified)
+**Deviations**: ADVISORY — Interface uses `Unit.use_fruit()` instead of dedicated fruit method. Functionally equivalent.
+**Test Evidence**: Logic — `tests/unit/attributes/fruit_system_test.gd` (12 test functions)
+**Code Review**: Skipped (Solo mode)

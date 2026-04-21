@@ -1,7 +1,7 @@
 # Story 003: Target & Skill Selection
 
 > **Epic**: AI System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created

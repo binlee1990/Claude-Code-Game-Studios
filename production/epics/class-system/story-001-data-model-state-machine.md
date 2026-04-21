@@ -1,7 +1,7 @@
 # Story 001: Class Data Model & State Machine
 
 > **Epic**: Class System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created

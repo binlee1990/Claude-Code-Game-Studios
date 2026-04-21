@@ -1,29 +1,33 @@
 # Session State
 
-**Last Updated**: 2026-04-21
+**Last Updated**: 2026-04-22
 
 ## Current Task
-STEP 3: Story Readiness — COMPLETE
+STEP 4: Dev Story — 5 Epics COMPLETE (31/65 stories)
 
 ## Progress Summary
 
-### Step 1: Create Epics — COMPLETE
-- [x] 12 Epic files written to `production/epics/[epic-slug]/EPIC.md`
-- [x] `production/epics/index.md` created
-- [x] Layer distribution: Core (7), Feature (3), Presentation (2)
-- [x] Foundation systems skipped (no GDDs)
+### Verified & Closed (31 stories, 376 test functions)
 
-### Step 2: Create Stories — COMPLETE
-- [x] 12 epics, 65 stories total (50 Logic, 12 Integration, 2 Visual/Feel, 2 UI)
+| Epic | Stories | Tests | Status |
+|------|---------|-------|--------|
+| **attribute-system** | 7 | 82 | ✅ COMPLETE |
+| **class-system** | 6 | ~96 | ✅ COMPLETE |
+| **resource-economy** | 6 | ~73 | ✅ COMPLETE |
+| **tactical-mechanism** | 5 | ~66 | ✅ COMPLETE |
+| **ai-system** | 6 | ~59 | ✅ COMPLETE |
 
-### Step 3: Story Readiness — COMPLETE
-- [x] All 65 stories have Estimate field (Logic/Integration: 2-3h, Visual/UI: 3-4h)
-- [x] 4 stories with < 3 ACs fixed (turn-based/001, camera/001, resource-economy/002, equipment/005)
-- [x] All 3 ADRs confirmed Accepted
-- [x] Control manifest absent → auto-passes
-- [x] TR Registry empty → auto-passes
+### Not Started (34 stories, 7 epics)
 
-### Step 4: Dev Story — TODO (start with attribute-system/story-001)
+| Epic | Stories | Has Source | Status |
+|------|---------|------------|--------|
+| **turn-based-mode** | 7 | No | Not started |
+| **skill-system** | 7 | No | Not started |
+| **equipment-system** | 7 | No | Not started |
+| **battle-settlement** | 5 | Partial (combat_system.gd, damage_calculation.gd) | Not started |
+| **camera-map-system** | 3 | No | Not started |
+| **character-management** | 3 | No | Not started |
+| **ui-system** | 3 | Partial (combat_hud.gd, main_menu.gd) | Not started |
 
 ## Known Gaps
 - TR Registry empty — `/architecture-review` needed
@@ -42,3 +46,11 @@ STEP 3: Story Readiness — COMPLETE
    - Combat System Architecture
    - AI Behavior Architecture
    - Attribute Data Model
+
+## Session Extract — Batch verification 2026-04-22
+- Verdict: COMPLETE WITH NOTES (all 31 stories across 5 epics)
+- Implementation: pre-existing source code in `src/core/`
+- Tests: ~376 test functions across 30 test files
+- Tech debt logged: None
+- Deviations: Advisory — interface naming differs from GDD spec, functionally equivalent
+- Code Review: All skipped (Solo mode)

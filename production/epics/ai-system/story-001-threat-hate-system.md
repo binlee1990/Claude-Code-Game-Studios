@@ -1,7 +1,7 @@
 # Story 001: Threat/Hate System
 
 > **Epic**: AI System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created

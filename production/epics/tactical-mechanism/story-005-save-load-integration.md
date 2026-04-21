@@ -1,7 +1,7 @@
 # Story 005: Tactical Save/Load Integration
 
 > **Epic**: Tactical Mechanism
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Integration
 > **Manifest Version**: N/A — manifest not yet created

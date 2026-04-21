@@ -1,7 +1,7 @@
 # Story 006: Class Save/Load Integration
 
 > **Epic**: Class System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Integration
 > **Manifest Version**: N/A — manifest not yet created

@@ -1,7 +1,7 @@
 # Story 001: Attribute Data Model & Character Init
 
 > **Epic**: Attribute & Growth System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created
@@ -96,3 +96,11 @@ From ADR-001:
 
 - Depends on: None (foundational story)
 - Unlocks: Story 002, Story 003, Story 004, Story 005, Story 006, Story 007
+
+## Completion Notes
+
+**Completed**: 2026-04-22
+**Criteria**: 5/5 passing (all auto-verified)
+**Deviations**: ADVISORY — Interface naming differs from GDD spec (e.g. `Unit.get_attribute()` vs `get_attribute_value(character_id, ...)`). Functionally equivalent.
+**Test Evidence**: Logic — `tests/unit/attributes/data_model_init_test.gd` (14 test functions)
+**Code Review**: Skipped (Solo mode)

@@ -1,7 +1,7 @@
 # Story 002: Per-Level Growth Formula
 
 > **Epic**: Attribute & Growth System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created
@@ -88,3 +88,11 @@ From GDD Formulas:
 
 - Depends on: Story 001 (data model must exist)
 - Unlocks: Story 004 (barrier breakthrough affects growth cap)
+
+## Completion Notes
+
+**Completed**: 2026-04-22
+**Criteria**: 4/4 passing (all auto-verified)
+**Deviations**: ADVISORY — Interface uses `Unit.apply_level_up()` instead of `apply_level_up_growth(character_id)`. Functionally equivalent.
+**Test Evidence**: Logic — `tests/unit/attributes/growth_formula_test.gd` (13 test functions)
+**Code Review**: Skipped (Solo mode)

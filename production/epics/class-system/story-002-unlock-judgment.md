@@ -1,7 +1,7 @@
 # Story 002: Class Unlock Judgment (CAN_UNLOCK)
 
 > **Epic**: Class System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created

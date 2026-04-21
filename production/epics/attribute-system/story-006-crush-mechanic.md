@@ -1,7 +1,7 @@
 # Story 006: Crush Mechanic
 
 > **Epic**: Attribute & Growth System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created
@@ -87,3 +87,11 @@ From GDD C.6 and D.4:
 
 - Depends on: Story 001 (data model — reads attribute values)
 - Unlocks: Combat system can consume evaluate_crush results
+
+## Completion Notes
+
+**Completed**: 2026-04-22
+**Criteria**: 4/4 passing (all auto-verified)
+**Deviations**: ADVISORY — Returns Dictionary instead of typed CrushResult. Contains all required fields.
+**Test Evidence**: Logic — `tests/unit/attributes/crush_mechanic_test.gd` (11 test functions)
+**Code Review**: Skipped (Solo mode)

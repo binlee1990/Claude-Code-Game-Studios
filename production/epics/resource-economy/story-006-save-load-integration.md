@@ -1,7 +1,7 @@
 # Story 006: Resource Save/Load Integration
 
 > **Epic**: Resource Economy
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Integration
 > **Manifest Version**: N/A — manifest not yet created

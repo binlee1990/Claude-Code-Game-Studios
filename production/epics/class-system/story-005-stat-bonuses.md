@@ -1,7 +1,7 @@
 # Story 005: Class Stat Bonuses
 
 > **Epic**: Class System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created

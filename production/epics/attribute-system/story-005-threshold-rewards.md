@@ -1,7 +1,7 @@
 # Story 005: Threshold Rewards
 
 > **Epic**: Attribute & Growth System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created
@@ -86,3 +86,11 @@ From GDD C.5:
 
 - Depends on: Story 001 (data model), Story 002 (growth triggers threshold checks)
 - Unlocks: None (threshold events are consumed by downstream systems)
+
+## Completion Notes
+
+**Completed**: 2026-04-22
+**Criteria**: 4/4 passing (all auto-verified)
+**Deviations**: None
+**Test Evidence**: Logic — `tests/unit/attributes/threshold_rewards_test.gd` (11 test functions)
+**Code Review**: Skipped (Solo mode)
