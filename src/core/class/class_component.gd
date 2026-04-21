@@ -99,6 +99,21 @@ func report_damage_dealt(damage_dealt: int, is_kill: bool, is_battle: bool = tru
 	var exp: int = ClassNames.calculate_exp_gain(damage_dealt, is_kill, is_battle)
 	return add_class_exp(exp)
 
+## Execute class change with CAN_UNLOCK validation.
+## `attributes` is a callable: (attr_type: int) -> int
+## Returns Dictionary: { "success": bool, "reasons": String[] }
+func execute_class_change(class_id: int, attributes: Callable, achievement_points: int = 0) -> Dictionary:
+	var unlock_result: Dictionary = can_unlock(class_id, attributes, achievement_points)
+	if not unlock_result["can_unlock"]:
+		return {"success": false, "reasons": unlock_result["reasons"]}
+	if not confirm_class_change(class_id):
+		return {"success": false, "reasons": ["Invalid state for class change"]}
+	return {"success": true, "reasons": []}
+
+## Get stat bonus for a given attribute from current class
+func get_class_bonus(attr_type: int) -> int:
+	return ClassNames.get_class_bonus(_current_class, attr_type)
+
 ## Evaluate CAN_UNLOCK for a target class.
 ## Returns Dictionary: { "can_unlock": bool, "reasons": String[] }
 ## `attributes` is a callable: (attr_type: int) -> int

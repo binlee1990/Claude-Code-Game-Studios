@@ -11,11 +11,14 @@ signal unit_destroyed(unit: Unit)
 @export var display_name: String = ""
 
 var attributes: UnitAttributes
+var class_component: ClassComponent
 
 func _ready() -> void:
 	_ensure_attributes()
 	attributes.attribute_changed.connect(_on_attribute_changed)
 	attributes.threshold_unlocked.connect(_on_threshold_unlocked)
+	_ensure_class()
+	class_component.class_changed.connect(_on_class_changed)
 	unit_created.emit(self)
 
 func _exit_tree() -> void:
@@ -30,11 +33,23 @@ func _ensure_attributes() -> void:
 	attributes.name = "UnitAttributes"
 	add_child(attributes)
 
+func _ensure_class() -> void:
+	for child in get_children():
+		if child is ClassComponent:
+			class_component = child
+			return
+	class_component = ClassComponent.new()
+	class_component.name = "ClassComponent"
+	add_child(class_component)
+
 func _on_attribute_changed(attr_type: int, new_value: int, old_value: int) -> void:
 	GameEvents.attribute_changed.emit(self, attr_type, old_value, new_value)
 
 func _on_threshold_unlocked(attr_type: int, threshold: int) -> void:
 	GameEvents.threshold_unlocked.emit(self, attr_type, threshold)
+
+func _on_class_changed(old_class: int, new_class: int) -> void:
+	GameEvents.class_changed.emit(self, old_class, new_class)
 
 ## Get a specific attribute value
 func get_attribute(attr_type: int) -> int:
@@ -70,12 +85,26 @@ func evaluate_crush_against(target: Unit, attribute_type: int, is_damage_action:
 	var defender_value: int = target.attributes.get_value(attribute_type)
 	return attributes.evaluate_crush(attacker_value, defender_value, attribute_type, is_damage_action)
 
+## Execute class change with CAN_UNLOCK validation
+func execute_class_change(class_id: int, achievement_points: int = 0) -> Dictionary:
+	var attr_callable: Callable = func(attr_type: int) -> int: return attributes.get_value(attr_type)
+	return class_component.execute_class_change(class_id, attr_callable, achievement_points)
+
+## Report combat damage for class experience
+func report_damage_dealt(damage: int, is_kill: bool, is_battle: bool = true) -> int:
+	return class_component.report_damage_dealt(damage, is_kill, is_battle)
+
+## Get effective attribute value (base + class bonus)
+func get_effective_attribute(attr_type: int) -> int:
+	return attributes.get_value(attr_type) + class_component.get_class_bonus(attr_type)
+
 ## Serialize unit data
 func serialize() -> Dictionary:
 	return {
 		"unit_id": unit_id,
 		"display_name": display_name,
-		"attributes": attributes.serialize()
+		"attributes": attributes.serialize(),
+		"class": class_component.get_data(),
 	}
 
 ## Load unit data
@@ -86,3 +115,5 @@ func deserialize(data: Dictionary) -> void:
 		display_name = data["display_name"]
 	if "attributes" in data:
 		attributes.deserialize(data["attributes"])
+	if "class" in data:
+		class_component.load_data(data["class"])
