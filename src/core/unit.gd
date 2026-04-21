@@ -1,9 +1,8 @@
 class_name Unit
 extends Node
 
-## Base unit class - pure logic unit without visual representation
-## All gameplay units (characters, enemies, summons) inherit from this
-## Visual/spatial representation should be handled by a separate scene layer
+## Base unit class - pure logic unit without visual representation.
+## Creates UnitAttributes programmatically if no child is found in the scene.
 
 signal unit_created(unit: Unit)
 signal unit_destroyed(unit: Unit)
@@ -11,13 +10,23 @@ signal unit_destroyed(unit: Unit)
 @export var unit_id: StringName = &""
 @export var display_name: String = ""
 
-@onready var attributes: UnitAttributes = %UnitAttributes
+var attributes: UnitAttributes
 
 func _ready() -> void:
+	_ensure_attributes()
 	unit_created.emit(self)
 
 func _exit_tree() -> void:
 	unit_destroyed.emit(self)
+
+func _ensure_attributes() -> void:
+	for child in get_children():
+		if child is UnitAttributes:
+			attributes = child
+			return
+	attributes = UnitAttributes.new()
+	attributes.name = "UnitAttributes"
+	add_child(attributes)
 
 ## Get a specific attribute value
 func get_attribute(attr_type: int) -> int:

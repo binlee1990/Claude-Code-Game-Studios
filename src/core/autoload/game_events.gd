@@ -18,6 +18,7 @@ signal skill_used(user: Node, skill_id: String, targets: Array)      ## Skill ac
 signal skill_cooldown_ready(user: Node, skill_id: String)            ## Skill off cooldown
 signal game_saved(slot: int, timestamp: int)                          ## Game was saved
 signal game_loaded(slot: int)                                         ## Game was loaded
+signal attribute_changed(unit: Node, attr_type: int, old_value: int, new_value: int)  ## Attribute V changed
 
 
 func _init() -> void:

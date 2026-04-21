@@ -1,26 +1,23 @@
 class_name AttributeNames
 extends RefCounted
 
-## Attribute type enumerations and constants
+## Attribute type enumerations and constants.
+## All 9 attributes use a single enum to guarantee unique int keys for Dictionary lookups.
 
-# Normal attributes (5 dimensions)
+## All 9 attribute types. Normal (0-4) and Hidden (5-8).
 enum Attribute {
 	STR,  # 力量
 	AGI,  # 敏捷
 	CON,  # 体力
 	INT,  # 智力
 	CHA,  # 魅力
-}
-
-# Hidden attributes (4 dimensions)
-enum HiddenAttribute {
 	LUK,  # 幸运
 	WIL,  # 意志力
 	RES,  # 异常抵抗
 	SOU,  # 灵魂强度
 }
 
-# Potential grades (E=1 to S=6)
+## Potential grades (E=1 to S=6)
 enum PotentialGrade {
 	E = 1,
 	D = 2,
@@ -30,20 +27,24 @@ enum PotentialGrade {
 	S = 6,
 }
 
-# Barrier stages and their thresholds
+## Barrier stages and their thresholds
 enum BarrierStage {
 	STAGE_1 = 50,
 	STAGE_2 = 100,
 	STAGE_3 = 150,
 }
 
-# All attributes combined for iteration
-const ALL_ATTRIBUTES: Array[Attribute] = [
+const NORMAL_ATTRIBUTES: Array[Attribute] = [
 	Attribute.STR, Attribute.AGI, Attribute.CON, Attribute.INT, Attribute.CHA
 ]
 
-const ALL_HIDDEN_ATTRIBUTES: Array[HiddenAttribute] = [
-	HiddenAttribute.LUK, HiddenAttribute.WIL, HiddenAttribute.RES, HiddenAttribute.SOU
+const HIDDEN_ATTRIBUTES: Array[Attribute] = [
+	Attribute.LUK, Attribute.WIL, Attribute.RES, Attribute.SOU
+]
+
+const ALL_ATTRIBUTES: Array[Attribute] = [
+	Attribute.STR, Attribute.AGI, Attribute.CON, Attribute.INT, Attribute.CHA,
+	Attribute.LUK, Attribute.WIL, Attribute.RES, Attribute.SOU
 ]
 
 const ALL_POTENTIAL_GRADES: Array[int] = [
@@ -61,7 +62,10 @@ const CRUSH_DEFENSE_MULTIPLIER: float = 0.8
 
 const THRESHOLD_REWARDS: Array[int] = [50, 100, 150]
 
-## Utility functions
+## Returns true for hidden attributes (LUK/WIL/RES/SOU)
+static func is_hidden(attr: Attribute) -> bool:
+	return attr >= Attribute.LUK
+
 static func get_attribute_name(attr: Attribute) -> String:
 	match attr:
 		Attribute.STR: return "力量"
@@ -69,14 +73,10 @@ static func get_attribute_name(attr: Attribute) -> String:
 		Attribute.CON: return "体力"
 		Attribute.INT: return "智力"
 		Attribute.CHA: return "魅力"
-		_: return "未知"
-
-static func get_hidden_attribute_name(attr: HiddenAttribute) -> String:
-	match attr:
-		HiddenAttribute.LUK: return "幸运"
-		HiddenAttribute.WIL: return "意志力"
-		HiddenAttribute.RES: return "异常抵抗"
-		HiddenAttribute.SOU: return "灵魂强度"
+		Attribute.LUK: return "幸运"
+		Attribute.WIL: return "意志力"
+		Attribute.RES: return "异常抵抗"
+		Attribute.SOU: return "灵魂强度"
 		_: return "未知"
 
 static func get_potential_name(grade: int) -> String:
@@ -95,6 +95,3 @@ static func get_barrier_threshold(stage: int) -> int:
 		2: return BarrierStage.STAGE_2
 		3: return BarrierStage.STAGE_3
 		_: return 0
-
-static func is_hidden_attribute(attr: Variant) -> bool:
-	return attr in ALL_HIDDEN_ATTRIBUTES

@@ -1,38 +1,34 @@
 # Session State
 
-**Last Updated**: 2026-04-20
+**Last Updated**: 2026-04-21
 
 ## Current Task
-PRE-PRODUCTION PHASE ENTERED
-
-## Technical Setup → Pre-Production Gate
-
-**Gate Verdict**: CONCERNS (non-blocking)
-- Architecture Review: Completed
-- All required artifacts: Present
-- Production stage: Updated to 'Pre-Production'
+STEP 3: Story Readiness — COMPLETE
 
 ## Progress Summary
 
-### MVP Systems Design (12/12 Complete)
-- [x] 职业系统, 资源经济, 战术机制, AI系统, 技能系统
-- [x] 装备系统, 回合制模式, 战斗结算, 视角与地图
-- [x] UI系统, 角色管理
+### Step 1: Create Epics — COMPLETE
+- [x] 12 Epic files written to `production/epics/[epic-slug]/EPIC.md`
+- [x] `production/epics/index.md` created
+- [x] Layer distribution: Core (7), Feature (3), Presentation (2)
+- [x] Foundation systems skipped (no GDDs)
 
-### Technical Setup Artifacts (Complete)
-- [x] Art Bible (9 chapters)
-- [x] 3x Foundation ADRs (Event, Scene, Save)
-- [x] Test Framework (GUT)
-- [x] CI/CD Workflow
-- [x] Architecture Document
-- [x] Architecture Traceability
-- [x] Accessibility Requirements
-- [x] Interaction Patterns
+### Step 2: Create Stories — COMPLETE
+- [x] 12 epics, 65 stories total (50 Logic, 12 Integration, 2 Visual/Feel, 2 UI)
 
-### Pre-Production Initialization
-- [x] production/stage.txt → 'Pre-Production'
-- [x] prototypes/README.md created
-- [x] production/sprints/sprint-001.md created
+### Step 3: Story Readiness — COMPLETE
+- [x] All 65 stories have Estimate field (Logic/Integration: 2-3h, Visual/UI: 3-4h)
+- [x] 4 stories with < 3 ACs fixed (turn-based/001, camera/001, resource-economy/002, equipment/005)
+- [x] All 3 ADRs confirmed Accepted
+- [x] Control manifest absent → auto-passes
+- [x] TR Registry empty → auto-passes
+
+### Step 4: Dev Story — TODO (start with attribute-system/story-001)
+
+## Known Gaps
+- TR Registry empty — `/architecture-review` needed
+- Control manifest does not exist
+- Foundation systems (美术风格, 存档系统, 世界观/叙事) have no GDDs
 
 ## Pre-Production Goals
 
@@ -46,8 +42,3 @@ PRE-PRODUCTION PHASE ENTERED
    - Combat System Architecture
    - AI Behavior Architecture
    - Attribute Data Model
-
-## Next Steps
-- Begin vertical slice prototype implementation
-- Create combat system ADR
-- Run /gate-check production when vertical slice complete

@@ -1,21 +1,12 @@
 class_name UnitAttributes
 extends Node
 
-## Manages all 9 attributes for a unit
+## Manages all 9 attributes for a unit.
+## Discovers AttributeComponent children dynamically, or creates defaults if none exist.
 
 signal attribute_changed(attr_type: int, new_value: int, old_value: int)
 signal threshold_unlocked(attr_type: int, threshold: int)
 signal crush_evaluated(attacker_value: int, defender_value: int, did_crush: bool, crush_direction: int)
-
-@onready var str_component: AttributeComponent = %STRComponent
-@onready var agi_component: AttributeComponent = %AGIComponent
-@onready var con_component: AttributeComponent = %CONComponent
-@onready var int_component: AttributeComponent = %INTComponent
-@onready var cha_component: AttributeComponent = %CHAComponent
-@onready var luk_component: AttributeComponent = %LUKComponent
-@onready var wil_component: AttributeComponent = %WILComponent
-@onready var res_component: AttributeComponent = %RESComponent
-@onready var sou_component: AttributeComponent = %SOUComponent
 
 var _components: Dictionary = {}
 var _barrier_states: Dictionary = {1: false, 2: false, 3: false}
@@ -25,17 +16,31 @@ func _ready() -> void:
 	_connect_signals()
 
 func _setup_components() -> void:
-	_components = {
-		AttributeNames.Attribute.STR: str_component,
-		AttributeNames.Attribute.AGI: agi_component,
-		AttributeNames.Attribute.CON: con_component,
-		AttributeNames.Attribute.INT: int_component,
-		AttributeNames.Attribute.CHA: cha_component,
-		AttributeNames.HiddenAttribute.LUK: luk_component,
-		AttributeNames.HiddenAttribute.WIL: wil_component,
-		AttributeNames.HiddenAttribute.RES: res_component,
-		AttributeNames.HiddenAttribute.SOU: sou_component,
-	}
+	_components = {}
+	for child in get_children():
+		if child is AttributeComponent:
+			_components[child.attribute_type] = child
+	if _components.is_empty():
+		_create_default_components()
+
+func _create_default_components() -> void:
+	var names := [
+		"STRComponent", "AGIComponent", "CONComponent", "INTComponent", "CHAComponent",
+		"LUKComponent", "WILComponent", "RESComponent", "SOUComponent"
+	]
+	var types: Array[int] = [
+		AttributeNames.Attribute.STR, AttributeNames.Attribute.AGI,
+		AttributeNames.Attribute.CON, AttributeNames.Attribute.INT,
+		AttributeNames.Attribute.CHA, AttributeNames.Attribute.LUK,
+		AttributeNames.Attribute.WIL, AttributeNames.Attribute.RES,
+		AttributeNames.Attribute.SOU
+	]
+	for i in names.size():
+		var comp := AttributeComponent.new()
+		comp.name = names[i]
+		comp.attribute_type = types[i]
+		add_child(comp)
+		_components[types[i]] = comp
 
 func _connect_signals() -> void:
 	for attr_type in _components:
@@ -48,7 +53,7 @@ func _on_attribute_value_changed(attr_type: int, new_value: int, old_value: int)
 	attribute_changed.emit(attr_type, new_value, old_value)
 
 func _on_threshold_reached(attr_type: int, threshold: int) -> void:
-	if not AttributeNames.is_hidden_attribute(attr_type):
+	if not AttributeNames.is_hidden(attr_type):
 		threshold_unlocked.emit(attr_type, threshold)
 
 func _on_barrier_broken(attr_type: int, stage: int) -> void:
@@ -92,13 +97,10 @@ func evaluate_crush(
 ) -> Dictionary:
 	var delta: int = attacker_value - defender_value
 	var did_crush: bool = absi(delta) > AttributeNames.CRUSH_THRESHOLD
-	var crush_direction: int = 0  # 0 = none, 1 = attacker crushes defender, -1 = defender crushes attacker
+	var crush_direction: int = 0  # 0 = none, 1 = attacker crushes, -1 = defender crushes
 
 	if did_crush:
-		if delta > 0:
-			crush_direction = 1
-		else:
-			crush_direction = -1
+		crush_direction = 1 if delta > 0 else -1
 
 	crush_evaluated.emit(attacker_value, defender_value, did_crush, crush_direction)
 
@@ -110,7 +112,7 @@ func evaluate_crush(
 		"delta": delta
 	}
 
-## Get all attributes snapshot
+## Get all attributes snapshot (returns a fresh copy each call)
 func get_snapshot() -> Dictionary:
 	var snapshot: Dictionary = {}
 	for attr_type in _components:
