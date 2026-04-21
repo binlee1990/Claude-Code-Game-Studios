@@ -22,6 +22,8 @@ signal attribute_changed(unit: Node, attr_type: int, old_value: int, new_value: 
 signal threshold_unlocked(unit: Node, attr_type: int, threshold: int)  ## Normal attribute reached threshold for first time
 signal class_changed(unit: Node, old_class: int, new_class: int)       ## Unit changed class
 signal class_level_up(unit: Node, class_id: int, new_level: int)       ## Unit class level increased
+signal resource_changed(resource_type: int, old_amount: int, new_amount: int)  ## Resource amount changed
+signal resource_overflow(resource_type: int, discarded: int)                    ## Resource hit stack limit
 
 
 func _init() -> void:
