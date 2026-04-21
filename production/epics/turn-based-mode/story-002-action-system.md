@@ -1,7 +1,7 @@
 # Story 002: Action System
 
 > **Epic**: Turn-Based Mode
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created
@@ -74,3 +74,11 @@ From GDD C.3: Action types — basic attack (no MP, triggers cooldown), skill at
 
 - Depends on: Story 001 (turn order determines who acts)
 - Unlocks: Story 004 (combat flow uses action system)
+
+## Completion Notes
+
+**Completed**: 2026-04-22
+**Criteria**: 3/3 passing (all auto-verified)
+**Deviations**: None
+**Test Evidence**: Logic — `tests/unit/turn/action_system_test.gd` (17 test functions)
+**Code Review**: Skipped (Solo mode)

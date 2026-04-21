@@ -1,7 +1,7 @@
 # Story 003: Movement System
 
 > **Epic**: Turn-Based Mode
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created
@@ -82,3 +82,11 @@ From GDD C.2: Base movement 5 cells/turn. Terrain affects cost: sand = 2×, norm
 - Depends on: Story 001 (turn order)
 - Cross-epic: Tactical Mechanism Story 001 (terrain data provides terrain costs)
 - Unlocks: Story 004 (combat flow includes movement phase)
+
+## Completion Notes
+
+**Completed**: 2026-04-22
+**Criteria**: 4/4 passing (all auto-verified)
+**Deviations**: None
+**Test Evidence**: Logic — `tests/unit/turn/movement_system_test.gd` (18 test functions)
+**Code Review**: Skipped (Solo mode)

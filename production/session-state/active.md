@@ -54,3 +54,21 @@ STEP 4: Dev Story — 5 Epics COMPLETE (31/65 stories)
 - Tech debt logged: None
 - Deviations: Advisory — interface naming differs from GDD spec, functionally equivalent
 - Code Review: All skipped (Solo mode)
+
+## Session Extract — /story-done 2026-04-22
+- Verdict: COMPLETE WITH NOTES
+- Story: production/epics/turn-based-mode/story-001-turn-order-speed-sequence.md — Turn Order & Speed Sequence
+- Tech debt logged: None
+- Next recommended: Story 002 Action System — production/epics/turn-based-mode/story-002-action-system.md
+
+## Session Extract — /story-done 2026-04-22
+- Verdict: COMPLETE
+- Story: production/epics/turn-based-mode/story-002-action-system.md — Action System
+- Tech debt logged: None
+- Next recommended: Story 003 Movement System — production/epics/turn-based-mode/story-003-movement-system.md
+
+## Session Extract — /story-done 2026-04-22
+- Verdict: COMPLETE
+- Story: production/epics/turn-based-mode/story-003-movement-system.md — Movement System
+- Tech debt logged: None
+- Next recommended: Story 004 Combat Flow State Machine — production/epics/turn-based-mode/story-004-combat-flow.md

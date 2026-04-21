@@ -1,7 +1,7 @@
 # Story 001: Turn Order & Speed Sequence
 
 > **Epic**: Turn-Based Mode
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created
@@ -68,3 +68,11 @@ From GDD C.1: `turn_order = units.sort_by(agi_value, descending)`. Same AGI → 
 
 - Depends on: None (foundational story)
 - Unlocks: Stories 002-007 (all turn-based stories consume turn order)
+
+## Completion Notes
+
+**Completed**: 2026-04-22
+**Criteria**: 3/3 passing (all auto-verified)
+**Deviations**: ADVISORY — Removed execute_turn(actor_id) and changed end_turn(actor_id) to end_turn() from original skeleton; action execution is Story 002 scope, and API now matches GameEvents signal signatures.
+**Test Evidence**: Logic — `tests/unit/turn/turn_order_test.gd` (11 test functions)
+**Code Review**: Skipped (Solo mode)
