@@ -246,3 +246,10 @@ static func is_advanced(class_id: int) -> bool:
 
 static func is_special(class_id: int) -> bool:
 	return CLASS_DEFS[class_id]["tier"] == TIER_SPECIAL
+
+## Calculate class experience gain from combat performance (formula D.2)
+static func calculate_exp_gain(damage_dealt: int, is_kill: bool, is_battle: bool) -> int:
+	var dmg_exp: int = mini(int(damage_dealt * DMG_EXP_COEFFICIENT), DMG_EXP_CAP)
+	var kill_exp: int = KILL_BONUS if is_kill else 0
+	var battle_exp: int = BATTLE_BONUS if is_battle else 0
+	return dmg_exp + kill_exp + battle_exp

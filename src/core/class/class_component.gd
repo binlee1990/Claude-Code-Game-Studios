@@ -94,6 +94,11 @@ func add_class_exp(amount: int) -> int:
 	_class_exp[_current_class] = new_exp
 	return new_exp - current
 
+## Report combat performance and apply class experience
+func report_damage_dealt(damage_dealt: int, is_kill: bool, is_battle: bool = true) -> int:
+	var exp: int = ClassNames.calculate_exp_gain(damage_dealt, is_kill, is_battle)
+	return add_class_exp(exp)
+
 ## Evaluate CAN_UNLOCK for a target class.
 ## Returns Dictionary: { "can_unlock": bool, "reasons": String[] }
 ## `attributes` is a callable: (attr_type: int) -> int
