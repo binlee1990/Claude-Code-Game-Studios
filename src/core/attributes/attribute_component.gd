@@ -70,8 +70,10 @@ func _get_growth_cap() -> int:
 func can_use_fruit() -> bool:
 	return _data.can_use_fruit(_barriers_broken.get(_barrier_stage, true), _barrier_stage)
 
-## Apply fruit to increase potential
+## Apply fruit to increase potential (checks barrier and cap conditions)
 func apply_fruit() -> bool:
+	if not can_use_fruit():
+		return false
 	return _data.apply_fruit()
 
 ## Get barrier state for current stage
