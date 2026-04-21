@@ -15,6 +15,7 @@ var attributes: UnitAttributes
 func _ready() -> void:
 	_ensure_attributes()
 	attributes.attribute_changed.connect(_on_attribute_changed)
+	attributes.threshold_unlocked.connect(_on_threshold_unlocked)
 	unit_created.emit(self)
 
 func _exit_tree() -> void:
@@ -31,6 +32,9 @@ func _ensure_attributes() -> void:
 
 func _on_attribute_changed(attr_type: int, new_value: int, old_value: int) -> void:
 	GameEvents.attribute_changed.emit(self, attr_type, old_value, new_value)
+
+func _on_threshold_unlocked(attr_type: int, threshold: int) -> void:
+	GameEvents.threshold_unlocked.emit(self, attr_type, threshold)
 
 ## Get a specific attribute value
 func get_attribute(attr_type: int) -> int:
