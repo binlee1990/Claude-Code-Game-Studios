@@ -94,6 +94,54 @@ func add_class_exp(amount: int) -> int:
 	_class_exp[_current_class] = new_exp
 	return new_exp - current
 
+## Evaluate CAN_UNLOCK for a target class.
+## Returns Dictionary: { "can_unlock": bool, "reasons": String[] }
+## `attributes` is a callable: (attr_type: int) -> int
+## `achievement_points` is the player's current achievement points (for special classes)
+func can_unlock(class_id: int, attributes: Callable, achievement_points: int = 0) -> Dictionary:
+	var reasons: Array[String] = []
+
+	# Basic classes always unlock
+	if ClassNames.is_basic(class_id):
+		return {"can_unlock": true, "reasons": reasons}
+
+	var def: Dictionary = ClassNames.CLASS_DEFS[class_id]
+
+	# Special classes check achievement points
+	if ClassNames.is_special(class_id):
+		var cost: int = def["spc_cost"]
+		if achievement_points < cost:
+			reasons.append("Achievement points insufficient (%d/%d)" % [achievement_points, cost])
+		if reasons.size() > 0:
+			return {"can_unlock": false, "reasons": reasons}
+		return {"can_unlock": true, "reasons": reasons}
+
+	# Advanced classes: check primary attr, secondary attr, class experience
+	var primary_attr: int = def["primary_attr"]
+	var secondary_attr: int = def["secondary_attr"]
+	var primary_threshold: int = def["primary_threshold"]
+	var secondary_threshold: int = def["secondary_threshold"]
+	var exp_required: int = def["exp_required"]
+
+	var primary_value: int = attributes.call(primary_attr)
+	var secondary_value: int = attributes.call(secondary_attr)
+	var class_exp: int = get_class_exp(class_id)
+
+	if primary_value < primary_threshold:
+		reasons.append("%s needs %d more" % [
+			AttributeNames.Attribute.keys()[primary_attr],
+			primary_threshold - primary_value
+		])
+	if secondary_value < secondary_threshold:
+		reasons.append("%s needs %d more" % [
+			AttributeNames.Attribute.keys()[secondary_attr],
+			secondary_threshold - secondary_value
+		])
+	if class_exp < exp_required:
+		reasons.append("Class experience needs %d more" % [exp_required - class_exp])
+
+	return {"can_unlock": reasons.is_empty(), "reasons": reasons}
+
 ## Check if this is a terminal state
 func is_terminal() -> bool:
 	return _state == ClassNames.ClassState.SPECIAL_ACTIVE
