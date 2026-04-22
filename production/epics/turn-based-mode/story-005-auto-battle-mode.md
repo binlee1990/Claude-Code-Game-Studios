@@ -30,6 +30,8 @@
 
 From GDD C.5: Auto-battle uses AI system for player units. AI selects target (threat-based), skill (highest expected value), and position (best scoring). From E.5: If items run out during auto-battle → skip that action, don't interrupt flow. Toggle is immediate — ON means next unit is AI-controlled, OFF means next unit is player-controlled.
 
+**Performance**: N/A — 本 story 仅将玩家单位的决策委托给已有 AI 系统，不新增性能关键路径。
+
 ---
 
 ## Out of Scope

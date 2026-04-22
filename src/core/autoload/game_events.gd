@@ -24,6 +24,8 @@ signal class_changed(unit: Node, old_class: int, new_class: int)       ## Unit c
 signal class_level_up(unit: Node, class_id: int, new_level: int)       ## Unit class level increased
 signal resource_changed(resource_type: int, old_amount: int, new_amount: int)  ## Resource amount changed
 signal resource_overflow(resource_type: int, discarded: int)                    ## Resource hit stack limit
+signal auto_battle_toggled(enabled: bool)             ## Auto-battle mode was turned on or off
+signal manual_override_activated(unit: Node)           ## Player took manual control of a unit for this turn
 
 
 func _init() -> void:

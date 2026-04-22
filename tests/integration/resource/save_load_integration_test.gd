@@ -117,7 +117,7 @@ func test_double_round_trip() -> void:
 	loaded2.queue_free()
 
 func test_all_fruits_round_trip() -> void:
-	var fruits: Array[int] = [
+	var fruits: Array[ResourceTypes.Resource] = [
 		ResourceTypes.Resource.FRUIT_STR, ResourceTypes.Resource.FRUIT_AGI,
 		ResourceTypes.Resource.FRUIT_CON, ResourceTypes.Resource.FRUIT_INT,
 		ResourceTypes.Resource.FRUIT_CHA, ResourceTypes.Resource.FRUIT_LUK,

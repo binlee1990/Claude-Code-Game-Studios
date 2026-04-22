@@ -10,6 +10,6 @@ func _init() -> void:
 	gut.add_directory("res://tests/integration/")
 	gut.set_include_subdirectories(true)
 
-	add_child(gut)
+	root.add_child(gut)
 	gut.run_tests()
 	quit()

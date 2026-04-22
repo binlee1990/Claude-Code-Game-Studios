@@ -1,7 +1,7 @@
 # Story 004: Combat Flow State Machine
 
 > **Epic**: Turn-Based Mode
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created

@@ -15,6 +15,15 @@ var _current_actor_index: int = 0
 var _combat_units: Dictionary = {}
 var _interrupted: bool = false
 
+## Optional auto-battle controller. When set, end_turn() clears per-unit
+## manual overrides so each unit's override lifetime matches exactly one turn.
+var _auto_battle_controller: AutoBattleController = null
+
+## Attach an AutoBattleController so turn endings automatically clear overrides.
+## Pass null to detach. Safe to call at any point during combat.
+func set_auto_battle_controller(abc: AutoBattleController) -> void:
+	_auto_battle_controller = abc
+
 ## Register a unit with team and HP for combat.
 func register_unit(unit: Unit, team: int, max_hp: int) -> void:
 	_combat_units[unit] = {
@@ -70,6 +79,10 @@ func end_turn() -> void:
 		var actor = _turn_order[_current_actor_index]
 		if is_unit_alive(actor):
 			GameEvents.turn_ended.emit(actor)
+		# Clear any manual override so the next time this unit acts it reverts
+		# to AI control (assuming auto-battle is still ON).
+		if _auto_battle_controller != null:
+			_auto_battle_controller.clear_override(actor)
 	_advance_to_next()
 
 func _advance_to_next() -> void:

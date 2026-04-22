@@ -17,7 +17,7 @@ func after_each() -> void:
 		_unit.queue_free()
 
 func _setup_complex_state() -> void:
-	var attrs: Array[int] = [
+	var attrs: Array[AttributeNames.Attribute] = [
 		AttributeNames.Attribute.STR, AttributeNames.Attribute.AGI,
 		AttributeNames.Attribute.CON, AttributeNames.Attribute.INT,
 		AttributeNames.Attribute.CHA, AttributeNames.Attribute.LUK,
@@ -86,7 +86,7 @@ func test_attribute_values_round_trip() -> void:
 	loaded_unit.queue_free()
 
 func test_boundary_values_round_trip() -> void:
-	var attrs: Array[int] = AttributeNames.ALL_ATTRIBUTES
+	var attrs: Array[AttributeNames.Attribute] = AttributeNames.ALL_ATTRIBUTES
 	for attr in attrs:
 		var comp: AttributeComponent = _unit.attributes.get_component(attr)
 		comp.load_data({
@@ -107,7 +107,7 @@ func test_boundary_values_round_trip() -> void:
 	loaded_unit.queue_free()
 
 func test_max_values_round_trip() -> void:
-	var attrs: Array[int] = AttributeNames.ALL_ATTRIBUTES
+	var attrs: Array[AttributeNames.Attribute] = AttributeNames.ALL_ATTRIBUTES
 	for attr in attrs:
 		var comp: AttributeComponent = _unit.attributes.get_component(attr)
 		comp.load_data({
@@ -152,7 +152,7 @@ func test_potentials_round_trip() -> void:
 	loaded_unit.queue_free()
 
 func test_potential_boundaries_round_trip() -> void:
-	var attrs: Array[int] = AttributeNames.ALL_ATTRIBUTES
+	var attrs: Array[AttributeNames.Attribute] = AttributeNames.ALL_ATTRIBUTES
 	# All potentials set to S(6)
 	for attr in attrs:
 		var comp: AttributeComponent = _unit.attributes.get_component(attr)
@@ -249,7 +249,7 @@ func test_double_round_trip_identical() -> void:
 	loaded2.deserialize(saved2)
 
 	# Compare all attributes
-	var attrs: Array[int] = AttributeNames.ALL_ATTRIBUTES
+	var attrs: Array[AttributeNames.Attribute] = AttributeNames.ALL_ATTRIBUTES
 	for attr in attrs:
 		assert_eq(loaded2.get_attribute(attr), loaded1.get_attribute(attr),
 			"%s value identical across round-trips" % AttributeNames.Attribute.keys()[attr])
