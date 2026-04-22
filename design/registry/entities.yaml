@@ -37,132 +37,760 @@
 #   Each entry: name, status, source, referenced_by[], attributes{}, added, revised
 
 version: 1
-last_updated: ""
+last_updated: "2026-04-22"
 
-# ─── ENTITIES ────────────────────────────────────────────────────────────────
+# --- ENTITIES ---------------------------------------------------------------
 # Named game-world objects: enemies, NPCs, characters, factions, bosses.
-# Register an entity here when it appears in more than one GDD — e.g., an
-# enemy defined in combat.md that also drops items listed in inventory.md.
-#
-# Required fields: name, status, source, referenced_by, added
-# Attribute fields: any key stats that could appear in another GDD
-#   (health, damage, drops, faction, etc.)
+# No named entities defined yet — current GDDs use type/class references only.
 
 entities: []
 
-# Example (remove when first real entry is added):
-#
-# entities:
-#   - name: goblin
-#     status: active              # active | deprecated
-#     source: design/gdd/combat.md
-#     referenced_by:
-#       - design/gdd/combat.md
-#       - design/gdd/inventory.md
-#     health: 40
-#     damage: 8
-#     drops:
-#       - item: goblin_arm        # must match an entry in items section
-#         qty: 1
-#         drop_rate: 0.8          # 0.0–1.0
-#     added: 2026-03-26
-#     revised: ""
-
-
-# ─── ITEMS ───────────────────────────────────────────────────────────────────
+# --- ITEMS ------------------------------------------------------------------
 # Named collectables, equipment, consumables, crafting materials, currency.
-# Register an item when its name or value appears in more than one GDD.
-#
-# Required fields: name, status, source, referenced_by, added
-# Attribute fields: value_gold, weight, stackable, category, and any stat
-#   modifiers that another system (e.g., economy, crafting) might reference.
+# Registered when name or value appears in more than one GDD.
 
-items: []
+items:
+  - name: 果子
+    status: active
+    source: design/gdd/attribute-growth-system.md
+    referenced_by:
+      - design/gdd/attribute-growth-system.md
+      - design/gdd/resource-economy.md
+      - design/gdd/equipment-system.md
+    subtypes:
+      - RES_FRUIT_STR: 力量果
+      - RES_FRUIT_AGI: 敏捷果
+      - RES_FRUIT_CON: 体力果
+      - RES_FRUIT_INT: 智力果
+      - RES_FRUIT_CHA: 魅力果
+      - RES_FRUIT_LUK: 幸运果
+      - RES_FRUIT_WIL: 意志果
+      - RES_FRUIT_RES: 抵抗果
+      - RES_FRUIT_SOU: 灵魂果
+    stackable: true
+    stack_limit: 99
+    effect: 消耗1个，对应属性潜质+1等级
+    drop_rate_normal: 0.05
+    drop_rate_boss: 1.0
+    drop_qty_boss: "1-2"
+    added: "2026-04-22"
+    revised: ""
 
-# Example:
-#
-# items:
-#   - name: goblin_arm
-#     status: active
-#     source: design/gdd/combat.md   # drop defined in combat GDD
-#     referenced_by:
-#       - design/gdd/combat.md
-#       - design/gdd/inventory.md    # inventory GDD lists its weight/stack rules
-#       - design/gdd/economy.md      # economy GDD references its sell price
-#     value_gold: 5
-#     weight: 1
-#     stackable: true
-#     category: crafting_material
-#     added: 2026-03-26
-#     revised: ""
+  - name: 壁障突破资源
+    status: active
+    source: design/gdd/resource-economy.md
+    referenced_by:
+      - design/gdd/resource-economy.md
+      - design/gdd/attribute-growth-system.md
+    stackable: true
+    stack_limit: 99
+    effect: 消耗1个触发壁障突破挑战
+    drop_rate_boss: 0.05
+    barrier_return_ratio: 0.50
+    added: "2026-04-22"
+    revised: ""
+
+  - name: 保护符
+    status: active
+    source: design/gdd/resource-economy.md
+    referenced_by:
+      - design/gdd/resource-economy.md
+      - design/gdd/equipment-system.md
+    stackable: true
+    stack_limit: 99
+    effect: 强化失败时消耗1个，装备不降级
+    drop_rate_hell: 0.02
+    added: "2026-04-22"
+    revised: ""
+
+  - name: 金币
+    status: active
+    source: design/gdd/resource-economy.md
+    referenced_by:
+      - design/gdd/resource-economy.md
+      - design/gdd/battle-settlement.md
+      - design/gdd/equipment-system.md
+      - design/gdd/base-system.md
+      - design/gdd/skill-system.md
+    stack_limit: 9999999
+    added: "2026-04-22"
+    revised: ""
+
+  - name: 基础材料
+    status: active
+    source: design/gdd/resource-economy.md
+    referenced_by:
+      - design/gdd/resource-economy.md
+      - design/gdd/equipment-system.md
+      - design/gdd/base-system.md
+    stackable: true
+    stack_limit: 9999
+    added: "2026-04-22"
+    revised: ""
+
+  - name: 稀有材料
+    status: active
+    source: design/gdd/resource-economy.md
+    referenced_by:
+      - design/gdd/resource-economy.md
+      - design/gdd/equipment-system.md
+      - design/gdd/base-system.md
+    stackable: true
+    stack_limit: 999
+    added: "2026-04-22"
+    revised: ""
+
+  - name: 成就点数
+    status: active
+    source: design/gdd/resource-economy.md
+    referenced_by:
+      - design/gdd/resource-economy.md
+      - design/gdd/new-game-plus-system.md
+      - design/gdd/difficulty-system.md
+      - design/gdd/class-system.md
+    stack_limit: -1  # 无上限
+    effect: 跨周目累积，兑换新周目开关
+    added: "2026-04-22"
+    revised: ""
 
 
-# ─── FORMULAS ────────────────────────────────────────────────────────────────
+# --- FORMULAS ---------------------------------------------------------------
 # Named calculations with defined variables and output ranges.
-# Register a formula when its output feeds into another system's input,
-# or when another GDD references it by name.
-#
-# Required fields: name, status, source, referenced_by, variables[],
-#   output_range[min, max], added
-# Optional: expression (the actual formula), notes
+# Registered when output feeds into another system's input.
 
-formulas: []
+formulas:
+  - name: attribute_growth
+    status: active
+    source: design/gdd/attribute-growth-system.md
+    referenced_by:
+      - design/gdd/attribute-growth-system.md
+      - design/gdd/class-system.md
+      - design/gdd/battle-settlement.md
+    variables:
+      - V_old (int [0,999])
+      - P_current (int [1,6])
+    output_range: [1, 6]
+    expression: "V_new = V_old + P_current"
+    constraints: "壁障截断和999硬顶"
+    added: "2026-04-22"
+    revised: ""
 
-# Example:
-#
-# formulas:
-#   - name: damage_formula
-#     status: active
-#     source: design/gdd/combat.md
-#     referenced_by:
-#       - design/gdd/combat.md
-#       - design/gdd/progression.md   # progression GDD scales attack variable
-#     variables:
-#       - attack
-#       - defense
-#       - crit_chance
-#       - crit_multiplier
-#     output_range: [0, 999]
-#     expression: "max(0, attack - defense) * (1 + crit_chance * crit_multiplier)"
-#     notes: "Output feeds into health-system damage intake. Min is 0 (armour
-#       can absorb all damage). Max is uncapped in formula but tuning knob
-#       damage_cap in combat.md clamps at 999."
-#     added: 2026-03-26
-#     revised: ""
+  - name: crush_evaluation
+    status: active
+    source: design/gdd/attribute-growth-system.md
+    referenced_by:
+      - design/gdd/attribute-growth-system.md
+      - design/gdd/tactical-mechanism.md
+      - design/gdd/ai-system.md
+    variables:
+      - V_attacker (int [0,999])
+      - V_defender (int [0,999])
+    output_range: "bool + {1.0, 1.5} damage_mult + {1.0, 0.8} defense_mult"
+    expression: "|V_attacker - V_defender| > 30 → crush"
+    added: "2026-04-22"
+    revised: ""
+
+  - name: class_unlock
+    status: active
+    source: design/gdd/class-system.md
+    referenced_by:
+      - design/gdd/class-system.md
+      - design/gdd/equipment-system.md
+    variables:
+      - V_primary_attribute (int [0,999])
+      - V_secondary_attribute (int [0,999])
+      - class_experience (int [0,+∞))
+    output_range: "bool"
+    expression: "CAN_UNLOCK = (V_pa >= 50) AND (V_sa >= 40) AND (exp >= 500)"
+    added: "2026-04-22"
+    revised: ""
+
+  - name: class_exp_gain
+    status: active
+    source: design/gdd/class-system.md
+    referenced_by:
+      - design/gdd/class-system.md
+      - design/gdd/battle-settlement.md
+    variables:
+      - damage_dealt (int [0,+∞))
+      - is_kill (bool)
+    output_range: [20, 530]
+    expression: "min(floor(damage_dealt × 0.02), 500) + kill_bonus(0/10) + battle_bonus(20)"
+    added: "2026-04-22"
+    revised: ""
+
+  - name: gold_gain
+    status: active
+    source: design/gdd/resource-economy.md
+    referenced_by:
+      - design/gdd/resource-economy.md
+      - design/gdd/battle-settlement.md
+    variables:
+      - base_reward (int [50,200])
+      - damage_dealt (int [0,+∞))
+      - is_boss_kill (bool)
+    output_range: [50, 2000]
+    expression: "base_reward + floor(damage_dealt × 0.1) + kill_bonus(0/20)"
+    added: "2026-04-22"
+    revised: ""
+
+  - name: enhancement_cost_safe_zone
+    status: active
+    source: design/gdd/resource-economy.md
+    referenced_by:
+      - design/gdd/resource-economy.md
+      - design/gdd/equipment-system.md
+    variables:
+      - base_cost (int 100)
+      - current_enhance_level (int [0,4])
+      - target_level (int [1,5])
+    output_range: "gold [100,500], materials [5,25]"
+    expression: "gold = 100 × (level+1); materials = 5 × target_level"
+    notes: "仅适用于+1~+5安全区。+6以上见equipment-system C.4表格。"
+    added: "2026-04-22"
+    revised: ""
+
+  - name: triangle_damage_multiplier
+    status: active
+    source: design/gdd/tactical-mechanism.md
+    referenced_by:
+      - design/gdd/tactical-mechanism.md
+      - design/gdd/ai-system.md
+      - design/gdd/attribute-growth-system.md
+    variables:
+      - base_multiplier ({1.0, 1.5})
+      - crush_multiplier ({1.0, 1.5})
+    output_range: [1.0, 2.25]
+    expression: "final_multiplier = base_multiplier × crush_multiplier"
+    added: "2026-04-22"
+    revised: ""
+
+  - name: final_attribute
+    status: active
+    source: design/gdd/equipment-system.md
+    referenced_by:
+      - design/gdd/equipment-system.md
+      - design/gdd/class-system.md
+      - design/gdd/attribute-growth-system.md
+    variables:
+      - base_value (int [0,999])
+      - class_bonus (int)
+      - equipment_bonus (int)
+      - barrier_bonus (int)
+    expression: "final_attr = base_value + class_bonus + equipment_bonus + barrier_bonus"
+    added: "2026-04-22"
+    revised: ""
+
+  - name: threat_score
+    status: active
+    source: design/gdd/ai-system.md
+    referenced_by:
+      - design/gdd/ai-system.md
+      - design/gdd/boss-system.md
+    variables:
+      - base_threat (float [0,1])
+      - damage_dealt_recent (int)
+      - skill_threat (int {0,5,10,15,20})
+      - position_threat (int {0,5,10})
+    output_range: [0, +∞)
+    expression: "base_threat + damage_recent×0.1 + skill_threat + position_threat"
+    added: "2026-04-22"
+    revised: ""
+
+  - name: skill_damage
+    status: active
+    source: design/gdd/skill-system.md
+    referenced_by:
+      - design/gdd/skill-system.md
+      - design/gdd/turn-based-mode.md
+    variables:
+      - base_damage (int)
+      - level (int [1,99])
+      - trait_multiplier (float)
+      - attribute_bonus (float)
+    expression: "base_damage × (1+(level-1)×0.1) × trait_multiplier × (1+attribute_bonus)"
+    added: "2026-04-22"
+    revised: ""
+
+  - name: exp_distribution
+    status: active
+    source: design/gdd/battle-settlement.md
+    referenced_by:
+      - design/gdd/battle-settlement.md
+      - design/gdd/attribute-growth-system.md
+    variables:
+      - total_exp (int)
+      - surviving_units (int [1,4])
+    expression: "exp_per_unit = total_exp / surviving_units"
+    added: "2026-04-22"
+    revised: ""
+
+  - name: bond_affinity_gain
+    status: active
+    source: design/gdd/bond-system.md
+    referenced_by:
+      - design/gdd/bond-system.md
+      - design/gdd/battle-settlement.md
+    variables:
+      - base_gain (int [2,50])
+      - proximity_modifier (float [0.5,1.0])
+      - type_affinity (float [0.8,1.3])
+    expression: "affinity_gain = base_gain × proximity_modifier × type_affinity"
+    added: "2026-04-22"
+    revised: ""
+
+  - name: difficulty_scaling
+    status: active
+    source: design/gdd/difficulty-system.md
+    referenced_by:
+      - design/gdd/difficulty-system.md
+      - design/gdd/boss-system.md
+      - design/gdd/ai-system.md
+    variables:
+      - base_stat (float)
+      - difficulty_multiplier (float {1,2,4,8,16})
+    expression: "scaled_stat = base_stat × difficulty_multiplier"
+    added: "2026-04-22"
+    revised: ""
+
+  - name: boss_phase_trigger
+    status: active
+    source: design/gdd/boss-system.md
+    referenced_by:
+      - design/gdd/boss-system.md
+      - design/gdd/ai-system.md
+    variables:
+      - boss_max_hp (int)
+      - phase_threshold (float {0.50, 0.25})
+    expression: "phase_trigger = boss_max_hp × threshold"
+    notes: "Phase 1→2 at 50% HP, Phase 2→3 at 25% HP"
+    added: "2026-04-22"
+    revised: ""
 
 
-# ─── CONSTANTS ───────────────────────────────────────────────────────────────
+# --- CONSTANTS ---------------------------------------------------------------
 # Named numerical values referenced across multiple systems.
-# Register a constant when it is defined in one GDD but another GDD must
-# agree with it (e.g., gold carry limit defined in economy but checked in
-# inventory, or base inventory slots defined in inventory but displayed in HUD).
-#
-# Required fields: name, status, source, referenced_by, value, unit, added
 
-constants: []
+constants:
+  # --- 属性与成长 ---
+  - name: attribute_value_cap
+    status: active
+    source: design/gdd/attribute-growth-system.md
+    referenced_by:
+      - design/gdd/attribute-growth-system.md
+      - design/gdd/class-system.md
+      - design/gdd/equipment-system.md
+    value: 999
+    unit: attribute_points
+    added: "2026-04-22"
+    revised: ""
 
-# Example:
-#
-# constants:
-#   - name: gold_carry_limit
-#     status: active
-#     source: design/gdd/economy.md
-#     referenced_by:
-#       - design/gdd/economy.md
-#       - design/gdd/inventory.md   # inventory enforces the carry limit
-#       - design/gdd/ui.md          # HUD displays current gold vs limit
-#     value: 9999
-#     unit: gold
-#     added: 2026-03-26
-#     revised: ""
-#
-#   - name: base_inventory_slots
-#     status: active
-#     source: design/gdd/inventory.md
-#     referenced_by:
-#       - design/gdd/inventory.md
-#       - design/gdd/progression.md  # progression unlocks additional slots
-#     value: 20
-#     unit: slots
-#     added: 2026-03-26
-#     revised: ""
+  - name: starting_attribute_value
+    status: active
+    source: design/gdd/attribute-growth-system.md
+    referenced_by:
+      - design/gdd/attribute-growth-system.md
+      - design/gdd/class-system.md
+    value: 10
+    unit: attribute_points
+    added: "2026-04-22"
+    revised: ""
+
+  - name: barrier_threshold_stage_1
+    status: active
+    source: design/gdd/attribute-growth-system.md
+    referenced_by:
+      - design/gdd/attribute-growth-system.md
+      - design/gdd/resource-economy.md
+      - design/gdd/class-system.md
+    value: 50
+    unit: attribute_points
+    added: "2026-04-22"
+    revised: ""
+
+  - name: barrier_threshold_stage_2
+    status: active
+    source: design/gdd/attribute-growth-system.md
+    referenced_by:
+      - design/gdd/attribute-growth-system.md
+      - design/gdd/resource-economy.md
+    value: 100
+    unit: attribute_points
+    added: "2026-04-22"
+    revised: ""
+
+  - name: barrier_threshold_stage_3
+    status: active
+    source: design/gdd/attribute-growth-system.md
+    referenced_by:
+      - design/gdd/attribute-growth-system.md
+      - design/gdd/resource-economy.md
+    value: 150
+    unit: attribute_points
+    added: "2026-04-22"
+    revised: ""
+
+  - name: crush_attribute_threshold
+    status: active
+    source: design/gdd/attribute-growth-system.md
+    referenced_by:
+      - design/gdd/attribute-growth-system.md
+      - design/gdd/tactical-mechanism.md
+    value: 30
+    unit: attribute_points
+    added: "2026-04-22"
+    revised: ""
+
+  - name: crush_damage_multiplier
+    status: active
+    source: design/gdd/attribute-growth-system.md
+    referenced_by:
+      - design/gdd/attribute-growth-system.md
+      - design/gdd/tactical-mechanism.md
+    value: 1.5
+    unit: multiplier
+    added: "2026-04-22"
+    revised: ""
+
+  - name: crush_defense_reduction
+    status: active
+    source: design/gdd/attribute-growth-system.md
+    referenced_by:
+      - design/gdd/attribute-growth-system.md
+      - design/gdd/tactical-mechanism.md
+    value: 0.20
+    unit: percentage
+    added: "2026-04-22"
+    revised: ""
+
+  # --- 战术机制 ---
+  - name: triangle_advantage_multiplier
+    status: active
+    source: design/gdd/tactical-mechanism.md
+    referenced_by:
+      - design/gdd/tactical-mechanism.md
+      - design/gdd/ai-system.md
+    value: 1.5
+    unit: multiplier
+    added: "2026-04-22"
+    revised: ""
+
+  - name: base_movement
+    status: active
+    source: design/gdd/turn-based-mode.md
+    referenced_by:
+      - design/gdd/turn-based-mode.md
+      - design/gdd/tactical-mechanism.md
+    value: 5
+    unit: grid_cells
+    added: "2026-04-22"
+    revised: ""
+
+  - name: mp_recovery_rate
+    status: active
+    source: design/gdd/turn-based-mode.md
+    referenced_by:
+      - design/gdd/turn-based-mode.md
+      - design/gdd/skill-system.md
+    value: 0.10
+    unit: percentage_per_turn
+    added: "2026-04-22"
+    revised: ""
+
+  - name: height_range_modifier_per_level
+    status: active
+    source: design/gdd/tactical-mechanism.md
+    referenced_by:
+      - design/gdd/tactical-mechanism.md
+      - design/gdd/ai-system.md
+      - design/gdd/fog-of-war-system.md
+    value: 1
+    unit: grid_cells
+    added: "2026-04-22"
+    revised: ""
+
+  - name: height_hit_modifier_per_level
+    status: active
+    source: design/gdd/tactical-mechanism.md
+    referenced_by:
+      - design/gdd/tactical-mechanism.md
+      - design/gdd/ai-system.md
+    value: 0.10
+    unit: percentage
+    added: "2026-04-22"
+    revised: ""
+
+  - name: burn_damage_ratio
+    status: active
+    source: design/gdd/tactical-mechanism.md
+    referenced_by:
+      - design/gdd/tactical-mechanism.md
+      - design/gdd/ai-system.md
+    value: 0.30
+    unit: percentage_of_base_damage
+    added: "2026-04-22"
+    revised: ""
+
+  - name: burn_duration_turns
+    status: active
+    source: design/gdd/tactical-mechanism.md
+    referenced_by:
+      - design/gdd/tactical-mechanism.md
+      - design/gdd/fog-of-war-system.md
+    value: 2
+    unit: turns
+    added: "2026-04-22"
+    revised: ""
+
+  - name: chain_decay_rate
+    status: active
+    source: design/gdd/tactical-mechanism.md
+    referenced_by:
+      - design/gdd/tactical-mechanism.md
+      - design/gdd/ai-system.md
+    value: 0.20
+    unit: percentage_per_bounce
+    added: "2026-04-22"
+    revised: ""
+
+  - name: max_chain_targets
+    status: active
+    source: design/gdd/tactical-mechanism.md
+    referenced_by:
+      - design/gdd/tactical-mechanism.md
+      - design/gdd/ai-system.md
+    value: 3
+    unit: targets
+    added: "2026-04-22"
+    revised: ""
+
+  # --- 职业系统 ---
+  - name: advancement_primary_attribute_threshold
+    status: active
+    source: design/gdd/class-system.md
+    referenced_by:
+      - design/gdd/class-system.md
+      - design/gdd/attribute-growth-system.md
+    value: 50
+    unit: attribute_points
+    added: "2026-04-22"
+    revised: ""
+
+  - name: advancement_experience_required
+    status: active
+    source: design/gdd/class-system.md
+    referenced_by:
+      - design/gdd/class-system.md
+      - design/gdd/battle-settlement.md
+    value: 500
+    unit: class_experience
+    added: "2026-04-22"
+    revised: ""
+
+  - name: special_class_cost_low
+    status: active
+    source: design/gdd/class-system.md
+    referenced_by:
+      - design/gdd/class-system.md
+      - design/gdd/new-game-plus-system.md
+    value: 2000
+    unit: achievement_points
+    notes: "龙骑士/暗夜使者。与new-game-plus已对齐。"
+    added: "2026-04-22"
+    revised: ""
+
+  - name: special_class_cost_high
+    status: active
+    source: design/gdd/class-system.md
+    referenced_by:
+      - design/gdd/class-system.md
+      - design/gdd/new-game-plus-system.md
+    value: 3000
+    unit: achievement_points
+    notes: "帝王。与new-game-plus已对齐。"
+    added: "2026-04-22"
+    revised: ""
+
+  # --- 强化系统 ---
+  - name: enhancement_safe_zone_max
+    status: active
+    source: design/gdd/resource-economy.md
+    referenced_by:
+      - design/gdd/resource-economy.md
+      - design/gdd/equipment-system.md
+    value: 5
+    unit: enhancement_levels
+    added: "2026-04-22"
+    revised: ""
+
+  - name: enhancement_downgrade_levels
+    status: active
+    source: design/gdd/equipment-system.md
+    referenced_by:
+      - design/gdd/equipment-system.md
+      - design/gdd/resource-economy.md
+    value: 5
+    unit: levels
+    added: "2026-04-22"
+    revised: ""
+
+  # --- 战斗结算 ---
+  - name: enemy_exp_normal
+    status: active
+    source: design/gdd/battle-settlement.md
+    referenced_by:
+      - design/gdd/battle-settlement.md
+      - design/gdd/resource-economy.md
+    value: 50
+    unit: experience_points
+    added: "2026-04-22"
+    revised: ""
+
+  - name: enemy_exp_elite
+    status: active
+    source: design/gdd/battle-settlement.md
+    referenced_by:
+      - design/gdd/battle-settlement.md
+      - design/gdd/resource-economy.md
+    value: 150
+    unit: experience_points
+    added: "2026-04-22"
+    revised: ""
+
+  - name: enemy_exp_boss
+    status: active
+    source: design/gdd/battle-settlement.md
+    referenced_by:
+      - design/gdd/battle-settlement.md
+      - design/gdd/boss-system.md
+    value: 1000
+    unit: experience_points
+    added: "2026-04-22"
+    revised: ""
+
+  - name: evaluation_perfect_bonus
+    status: active
+    source: design/gdd/battle-settlement.md
+    referenced_by:
+      - design/gdd/battle-settlement.md
+      - design/gdd/bond-system.md
+    value: 0.50
+    unit: multiplier
+    added: "2026-04-22"
+    revised: ""
+
+  - name: max_party_size
+    status: active
+    source: design/gdd/character-management.md
+    referenced_by:
+      - design/gdd/character-management.md
+      - design/gdd/battle-settlement.md
+      - design/gdd/bond-system.md
+    value: 4
+    unit: characters
+    added: "2026-04-22"
+    revised: ""
+
+  # --- Boss系统 ---
+  - name: boss_phase1_threshold
+    status: active
+    source: design/gdd/boss-system.md
+    referenced_by:
+      - design/gdd/boss-system.md
+      - design/gdd/ai-system.md
+    value: 0.50
+    unit: hp_percentage
+    notes: "AI系统已对齐（原70%，已修正为50%）"
+    added: "2026-04-22"
+    revised: ""
+
+  - name: boss_phase2_threshold
+    status: active
+    source: design/gdd/boss-system.md
+    referenced_by:
+      - design/gdd/boss-system.md
+      - design/gdd/ai-system.md
+    value: 0.25
+    unit: hp_percentage
+    added: "2026-04-22"
+    revised: ""
+
+  - name: boss_retained_hp_ratio
+    status: active
+    source: design/gdd/boss-system.md
+    referenced_by:
+      - design/gdd/boss-system.md
+      - design/gdd/save-system.md
+    value: 0.15
+    unit: hp_percentage
+    added: "2026-04-22"
+    revised: ""
+
+  # --- 羁绊系统 ---
+  - name: max_bonds_per_character
+    status: active
+    source: design/gdd/bond-system.md
+    referenced_by:
+      - design/gdd/bond-system.md
+      - design/gdd/character-management.md
+    value: 5
+    unit: bonds
+    added: "2026-04-22"
+    revised: ""
+
+  - name: bond_proximity_range
+    status: active
+    source: design/gdd/bond-system.md
+    referenced_by:
+      - design/gdd/bond-system.md
+      - design/gdd/tactical-mechanism.md
+    value: 3
+    unit: grid_cells
+    added: "2026-04-22"
+    revised: ""
+
+  # --- 难度/多周目 ---
+  - name: difficulty_2x_cost
+    status: active
+    source: design/gdd/difficulty-system.md
+    referenced_by:
+      - design/gdd/difficulty-system.md
+      - design/gdd/new-game-plus-system.md
+    value: 100
+    unit: achievement_points
+    added: "2026-04-22"
+    revised: ""
+
+  - name: difficulty_16x_cost
+    status: active
+    source: design/gdd/difficulty-system.md
+    referenced_by:
+      - design/gdd/difficulty-system.md
+      - design/gdd/new-game-plus-system.md
+    value: 1000
+    unit: achievement_points
+    added: "2026-04-22"
+    revised: ""
+
+  # --- 战争迷雾 ---
+  - name: base_vision_range
+    status: active
+    source: design/gdd/fog-of-war-system.md
+    referenced_by:
+      - design/gdd/fog-of-war-system.md
+      - design/gdd/tactical-mechanism.md
+    value: 3
+    unit: grid_cells
+    added: "2026-04-22"
+    revised: ""
+
+  - name: blind_fire_penalty
+    status: active
+    source: design/gdd/fog-of-war-system.md
+    referenced_by:
+      - design/gdd/fog-of-war-system.md
+      - design/gdd/ai-system.md
+    value: 0.20
+    unit: percentage
+    added: "2026-04-22"
+    revised: ""

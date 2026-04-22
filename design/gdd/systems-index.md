@@ -2,7 +2,7 @@
 
 > **Status**: Draft
 > **Created**: 2026-04-16
-> **Last Updated**: 2026-04-16
+> **Last Updated**: 2026-04-22
 > **Source Concept**: design/gdd/SRPG 核心模块设计总纲.md
 
 ---
@@ -17,9 +17,9 @@
 
 | # | System Name | Category | Priority | Status | Design Doc | Depends On |
 |---|-------------|----------|----------|--------|------------|------------|
-| 1 | 美术风格 | Foundation | Foundation | Not Started | — | — |
-| 2 | 存档系统 | Foundation | Foundation | Not Started | — | — |
-| 3 | 世界观/叙事 | Narrative | Foundation | Not Started | — | — |
+| 1 | 美术风格 | Foundation | Foundation | Designed | design/gdd/art-style.md | — |
+| 2 | 存档系统 | Foundation | Foundation | Designed | design/gdd/save-system.md | — |
+| 3 | 世界观/叙事 | Narrative | Foundation | Designed | design/gdd/worldbuilding-narrative.md | — |
 | 4 | 属性与成长系统 | Core | MVP | Designed | design/gdd/attribute-growth-system.md | — |
 | 5 | 职业系统 | Core | MVP | Designed | design/gdd/class-system.md | 属性与成长系统 |
 | 6 | AI系统 | Core | MVP | Designed | design/gdd/ai-system.md | 属性与成长系统、战术机制 |
@@ -28,18 +28,18 @@
 | 9 | 技能系统 | Core | MVP | Designed | design/gdd/skill-system.md | 属性与成长系统、职业系统 |
 | 10 | 装备系统 | Feature | MVP | Designed | design/gdd/equipment-system.md | 属性与成长系统、资源经济 |
 | 11 | 回合制模式 | Core | MVP | Designed | design/gdd/turn-based-mode.md | AI系统、战术机制 |
-| 12 | 羁绊系统 | Feature | Vertical Slice | Not Started | — | 属性与成长系统、战斗结算 |
+| 12 | 羁绊系统 | Feature | Vertical Slice | Designed | design/gdd/bond-system.md | 属性与成长系统、战斗结算 |
 | 13 | 角色管理 | Feature | MVP | Designed | design/gdd/character-management.md | 属性与成长系统、回合制模式 |
 | 14 | 战斗结算 | Feature | MVP | Designed | design/gdd/battle-settlement.md | 回合制模式、资源经济 |
-| 15 | 难度系统 | Meta | Vertical Slice | Not Started | — | 战斗结算 |
-| 16 | Boss战 | Feature | Vertical Slice | Not Started | — | AI系统、战斗结算、难度系统 |
-| 17 | 战争迷雾 | Feature | Vertical Slice | Not Started | — | AI系统、战术机制 |
+| 15 | 难度系统 | Meta | Vertical Slice | Designed | design/gdd/difficulty-system.md | 战斗结算 |
+| 16 | Boss战 | Feature | Vertical Slice | Designed | design/gdd/boss-system.md | AI系统、战斗结算、难度系统 |
+| 17 | 战争迷雾 | Feature | Vertical Slice | Designed | design/gdd/fog-of-war-system.md | AI系统、战术机制 |
 | 18 | 视角与地图 | Presentation | MVP | Designed | design/gdd/camera-map-system.md | 美术风格 |
-| 19 | 基地系统 | Feature | Alpha | Not Started | — | 资源经济、装备系统 |
+| 19 | 基地系统 | Feature | Alpha | Designed | design/gdd/base-system.md | 资源经济、装备系统 |
 | 20 | UI系统 | Presentation | MVP | Designed | design/gdd/ui-system.md | 所有核心系统 |
-| 21 | 多周目系统 | Meta | Alpha | Not Started | — | 战斗结算、角色管理 |
-| 22 | 事件系统 | Narrative | Alpha | Not Started | — | 世界观/叙事、角色管理 |
-| 23 | 音效/音乐 | Presentation | Alpha | Not Started | — | 回合制模式、Boss战 |
+| 21 | 多周目系统 | Meta | Alpha | Designed | design/gdd/new-game-plus-system.md | 战斗结算、角色管理 |
+| 22 | 事件系统 | Narrative | Alpha | Designed | design/gdd/event-system.md | 世界观/叙事、角色管理 |
+| 23 | 音效/音乐 | Presentation | Alpha | Designed | design/gdd/audio-system.md | 回合制模式、Boss战 |
 
 ---
 

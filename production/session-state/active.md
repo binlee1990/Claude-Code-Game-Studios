@@ -3,7 +3,15 @@
 **Last Updated**: 2026-04-22
 
 ## Current Task
-STEP 4: Dev Story — 5 Epics COMPLETE (31/65 stories)
+ALL 23 GDD COMPLETE (23/23 systems Designed)
+Previous session: 11 MVP + 3 Foundation = 14 pre-existing
+This session: 9 new GDDs authored
+  - Foundation: 美术风格, 存档系统, 世界观/叙事
+  - Vertical Slice: 羁绊系统, 难度系统, Boss战, 战争迷雾
+  - Alpha: 基地系统, 多周目系统, 事件系统, 音效/音乐
+Status: All Designed (pending review)
+Consistency Check: DONE — 5 conflicts found & resolved, registry populated
+Next: /review-all-gdds, /gate-check
 
 ## Progress Summary
 
@@ -30,9 +38,18 @@ STEP 4: Dev Story — 5 Epics COMPLETE (31/65 stories)
 | **ui-system** | 3 | Partial (combat_hud.gd, main_menu.gd) | Not started |
 
 ## Known Gaps
-- TR Registry empty — `/architecture-review` needed
 - Control manifest does not exist
 - Foundation systems (美术风格, 存档系统, 世界观/叙事) have no GDDs
+
+## Consistency Check — 2026-04-22
+- Registry: design/registry/entities.yaml — populated with 7 items, 15 formulas, 35 constants
+- 5 conflicts found & resolved:
+  1. Boss phase threshold: AI 70% → 50% (aligned with boss-system)
+  2. Enhancement gold cost: resource-economy D.4 scoped to +1~+5 only
+  3. Enhancement success rate: equipment D.3 formula removed, C.4 table authoritative
+  4. Fruit at barrier: resource-economy E.5 aligned with attribute system (cannot use)
+  5. Special class cost: NG+ 150~300 → 2000~3000 (aligned with class-system)
+- 1 inconsistency noted: final_attribute formula now includes barrier_bonus in both class & equipment GDDs
 
 ## Pre-Production Goals
 

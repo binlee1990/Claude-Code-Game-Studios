@@ -208,6 +208,8 @@ fruit_quantity = random_in_range(1, 2)
 
 ### D.4 强化成本公式
 
+**安全区（+1~+5）线性公式：**
+
 ```
 enhancement_cost_gold = base_cost × (current_enhance_level + 1)
 enhancement_cost_materials = 5 × target_enhance_level
@@ -218,21 +220,21 @@ enhancement_cost_materials = 5 × target_enhance_level
 | 变量 | 符号 | 类型 | 范围 | 描述 |
 |------|------|------|------|------|
 | base_cost | c | int | 100 | 强化基础金币成本 |
-| current_enhance_level | cl | int | [0, +∞) | 当前强化等级 |
-| target_enhance_level | tl | int | [1, +∞) | 目标强化等级 |
-| enhancement_cost_gold | cg | int | [100, +∞) | 强化所需金币 |
-| enhancement_cost_materials | cm | int | [5, +∞) | 强化所需基础材料 |
+| current_enhance_level | cl | int | [0, 4] | 当前强化等级（安全区） |
+| target_enhance_level | tl | int | [1, 5] | 目标强化等级（安全区） |
+| enhancement_cost_gold | cg | int | [100, 500] | 强化所需金币 |
+| enhancement_cost_materials | cm | int | [5, 25] | 强化所需基础材料 |
 
-**输出范围:** 金币[100, +∞)，材料[5, +∞)
+**输出范围:** 安全区金币[100, 500]，材料[5, 25]
 
 **安全区规则:** +1~+5必定成功，不消耗保护符
 
-**风险区规则:** +6以上有失败概率
+**风险区规则:** +6以上成本和成功率由装备系统 C.4 表格定义，本公式不适用
 
 **示例:**
 - +1强化：金币 `100 × (0+1) = 100`，材料 `5 × 1 = 5`
 - +5强化：金币 `100 × (4+1) = 500`，材料 `5 × 5 = 25`
-- +10强化：金币 `100 × (9+1) = 1000`，材料 `5 × 10 = 50`
+- +6强化：见装备系统 C.4 表格（金币1000，材料30）
 
 ## Edge Cases
 
@@ -279,9 +281,9 @@ enhancement_cost_materials = 5 × target_enhance_level
 **场景**: 玩家对已达当前壁障上限的属性使用果子
 
 **处理**:
-- 潜质可以正常提升（果子作用于潜质，不受壁障限制）
-- 但属性值因壁障无法增长（属性值卡在壁障上限）
-- 提示玩家："潜质已提升，但属性已达壁障，需突破后生效"
+- 不可使用果子（与属性与成长系统一致：壁障上限属性禁用果子）
+- 果子不消耗，静默拒绝
+- 提示玩家："属性已达壁障上限，需先突破壁障才能使用果子"
 
 ### E.6 壁障突破资源不足
 

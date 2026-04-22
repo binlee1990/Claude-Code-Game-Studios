@@ -175,7 +175,7 @@ enum CharacterClassState {
 
 - **从本系统获取**：`get_class_bonus()` 职业加成表
 - **提供给本系统**：职业变更后重新计算装备可行性
-- **属性计算顺序**：`final_attr = base_value + class_bonus + equipment_bonus`
+- **属性计算顺序**：`final_attr = base_value + class_bonus + equipment_bonus + barrier_bonus`
 
 **战斗系统：**
 
@@ -411,7 +411,7 @@ class_level = floor(E_c / CAP_c) + 1
 | System | Dependency Type | Interface Contract |
 |--------|---------------|-------------------|
 | **技能系统** | 数据提供方 | 本系统提供 `get_class_id()`、`get_class_skill_tree()`；技能系统需知道当前职业才能解锁对应技能 |
-| **装备系统** | 数据提供方 | 本系统提供 `get_class_bonus()` 职业加成表；装备系统据此计算最终属性 `final_attr = base_value + class_bonus + equipment_bonus` |
+| **装备系统** | 数据提供方 | 本系统提供 `get_class_bonus()` 职业加成表；装备系统据此计算最终属性 `final_attr = base_value + class_bonus + equipment_bonus + barrier_bonus` |
 | **战斗系统** | 数据消费者 | 本系统接收 `report_damage_dealt()` 触发职业经验计算；战斗系统需调用 `apply_class_exp()` |
 | **AI系统** | 数据消费者 | AI角色同样遵循职业系统规则；AI转职逻辑与玩家一致 |
 | **羁绊系统** | 无直接依赖 | 羁绊系统不直接依赖职业系统；但羁绊buff可能影响属性从而间接影响职业解锁 |
@@ -438,7 +438,7 @@ class_level = floor(E_c / CAP_c) + 1
 
 **装备系统 ← 职业系统**:
 - 装备系统调用 `get_class_bonus(character_id)` 获取当前职业的固定加成
-- 最终属性计算顺序：`final_attr = base_value + class_bonus + equipment_bonus`
+- 最终属性计算顺序：`final_attr = base_value + class_bonus + equipment_bonus + barrier_bonus`
 - 职业变更后装备可行性需重新验证（如某些装备有职业限制）
 
 ## Tuning Knobs
@@ -620,7 +620,7 @@ class_level = floor(E_c / CAP_c) + 1
 
 ### AC.5 职业属性加成
 
-- [ ] **AC.5.1** 职业加成表正确应用：`final_attr = base_value + class_bonus + equipment_bonus`
+- [ ] **AC.5.1** 职业加成表正确应用：`final_attr = base_value + class_bonus + equipment_bonus + barrier_bonus`
 - [ ] **AC.5.2** 职业变更后，装备可行性正确重新验证
 - [ ] **AC.5.3** 属性降低至门槛以下时，职业加成暂时失效（不撤销职业状态）
 

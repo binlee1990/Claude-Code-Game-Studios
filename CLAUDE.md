@@ -2,6 +2,10 @@
 
 **Remember**: Think in English, respond to user in Chinese.
 
+所有文档使用中文输出。
+
+- **必问协议**: 决策节点（Schema 字段取舍、实体建模边界、Cypher 建模方式、Phase 范围变更）一律调用 `AskUserQuestion`，至少 4 个选项，其中 1 个 "(Recommended)" 并附理由。不猜测、不默认。
+
 Indie game development managed through 48 coordinated Claude Code subagents.
 Each agent owns a specific domain, enforcing separation of concerns and quality.
 
