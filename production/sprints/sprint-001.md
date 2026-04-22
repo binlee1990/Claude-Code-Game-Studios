@@ -1,39 +1,102 @@
-# Sprint 1: Vertical Slice
+# Sprint 1: Vertical Slice Core Loop
 
-> 版本: v0.1 | 日期: 2026-04-20 | 状态: 规划中
+> Version: v1.0 | Date: 2026-04-23 | Status: Active
+> Previous: v0.1 (规划中) — 重写以引用真实 story 路径
+> Control Manifest: 2026-04-23-v1
 
-## Sprint目标
+## Sprint Goal
 
-创建SRPG垂直切片，包含完整的核心战斗循环。
+完成 SRPG 核心战斗循环的 Vertical Slice：从战斗开始到结算的完整玩家体验。
 
-## 交付物
+## Scope
 
-### 战斗系统
-- [ ] 速度序列回合制
-- [ ] 基础战斗UI (HUD)
-- [ ] 伤害计算
-- [ ] 战斗结算
+### 已完成 (31 stories, 5 epics) — 不在本 Sprint 范围
 
-### 角色系统
-- [ ] 角色属性面板
-- [ ] 职业选择
-- [ ] 技能释放
+| Epic | Stories | Status |
+|------|---------|--------|
+| attribute-system | 7 | COMPLETE |
+| class-system | 6 | COMPLETE |
+| resource-economy | 6 | COMPLETE |
+| tactical-mechanism | 5 | COMPLETE |
+| ai-system | 6 | COMPLETE |
 
-### 存档系统
-- [ ] 存档/读档
-- [ ] 自动存档
+### 本 Sprint 交付 (Vertical Slice 核心)
 
-## 任务列表
+#### Epic 1: 回合制模式 — 收尾 (2 stories)
 
-| ID | 任务 | 预估 | 状态 |
-|----|------|------|------|
-| SP1-001 | 创建战斗场景 | M | TODO |
-| SP1-002 | 实现速度序列系统 | M | TODO |
-| SP1-003 | 创建战斗HUD | S | TODO |
-| SP1-004 | 实现伤害计算 | S | TODO |
-| SP1-005 | 创建属性面板 | S | TODO |
-| SP1-006 | 实现存档系统 | M | TODO |
+| Story ID | Path | Description | Est. | Status |
+|----------|------|-------------|------|--------|
+| TBM-006 | `production/epics/turn-based-mode/story-006-speed-up-mode.md` | 加速模式 (1x/2x/3x) | S | TODO |
+| TBM-007 | `production/epics/turn-based-mode/story-007-save-load-integration.md` | 存档集成 | S | TODO |
 
-## 时间线
+#### Epic 2: 战斗结算 (5 stories)
 
-- Sprint 1: 2026-04-20 ~ 2026-05-03 (2周)
+| Story ID | Path | Description | Est. | Status |
+|----------|------|-------------|------|--------|
+| BS-001 | `production/epics/battle-settlement/story-001-settlement-trigger-flow.md` | 结算触发流程 | M | TODO |
+| BS-002 | `production/epics/battle-settlement/story-002-experience-distribution.md` | 经验分配 | M | TODO |
+| BS-003 | `production/epics/battle-settlement/story-003-battle-evaluation.md` | 战斗评价 | S | TODO |
+| BS-004 | `production/epics/battle-settlement/story-004-material-equipment-drops.md` | 掉落系统 | M | TODO |
+| BS-005 | `production/epics/battle-settlement/story-005-save-load-integration.md` | 存档集成 | S | TODO |
+
+#### Epic 3: 视角与地图 (3 stories)
+
+| Story ID | Path | Description | Est. | Status |
+|----------|------|-------------|------|--------|
+| CM-001 | `production/epics/camera-map-system/story-001-isometric-camera.md` | 斜45度摄像机 | M | TODO |
+| CM-002 | `production/epics/camera-map-system/story-002-grid-map-rendering.md` | 网格地图渲染 | M | TODO |
+| CM-003 | `production/epics/camera-map-system/story-003-save-load-integration.md` | 存档集成 | S | TODO |
+
+#### Epic 4: UI 系统 (3 stories)
+
+| Story ID | Path | Description | Est. | Status |
+|----------|------|-------------|------|--------|
+| UI-001 | `production/epics/ui-system/story-001-battle-hud.md` | 战斗 HUD | L | TODO |
+| UI-002 | `production/epics/ui-system/story-002-resource-hud-menu-system.md` | 资源HUD+菜单 | M | TODO |
+| UI-003 | `production/epics/ui-system/story-003-save-load-integration.md` | 存档集成 | S | TODO |
+
+### 不在本 Sprint 范围 (后续 Sprint)
+
+| Epic | Stories | Reason |
+|------|---------|--------|
+| skill-system | 7 | 依赖 VS 验证后再实施 |
+| equipment-system | 7 | 同上 |
+| character-management | 3 | 同上 |
+
+## Vertical Slice Acceptance Criteria
+
+Sprint 完成时，Vertical Slice 必须满足:
+
+- [ ] 完整战斗循环: 开始 → 行动(移动/攻击/技能) → 结算 → 奖励
+- [ ] 回合顺序正确显示且可操作
+- [ ] 伤害计算正确
+- [ ] 战斗评价和经验分配正确
+- [ ] 加速/自动战斗可用
+- [ ] 战斗 HUD 显示 HP/MP/技能栏/回合顺序
+- [ ] 地图正确渲染（斜45度 + 网格）
+- [ ] 存档/读档功能正常
+
+## Timeline
+
+- Sprint Start: 2026-04-23
+- Sprint End: 2026-05-06 (2 weeks)
+- Playtest Target: 2026-05-07
+
+## GDD References
+
+| System | GDD |
+|--------|-----|
+| 回合制 | design/gdd/turn-based-mode.md |
+| 战斗结算 | design/gdd/battle-settlement.md |
+| 视角地图 | design/gdd/camera-map-system.md |
+| UI | design/gdd/ui-system.md |
+| 存档 | design/gdd/save-system.md |
+
+## Architecture References
+
+| ADR | Scope |
+|-----|-------|
+| ADR-001 | 事件架构（所有系统通信） |
+| ADR-002 | 场景管理（地图/战斗切换） |
+| ADR-003 | 存档系统（存档集成 stories） |
+| Control Manifest | docs/architecture/control-manifest.md (v2026-04-23-v1) |

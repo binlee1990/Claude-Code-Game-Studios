@@ -161,12 +161,12 @@
 | Metric | Count |
 |--------|-------|
 | Total systems identified | 23 |
-| Design docs started | 1 |
-| Design docs reviewed | 0 |
+| Design docs started | 23 |
+| Design docs reviewed | 23 (cross-review 2026-04-22, blockers fixed 2026-04-23) |
 | Design docs approved | 0 |
 | MVP systems designed | 12/12 |
-| Vertical Slice systems designed | 0/4 |
-| Alpha systems designed | 0/4 |
+| Vertical Slice systems designed | 4/4 |
+| Alpha systems designed | 4/4 |
 
 ---
 

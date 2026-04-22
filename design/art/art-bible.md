@@ -1,6 +1,15 @@
 # 美术圣经
 
 > 状态: 进行中 | 版本: v0.3 | 日期: 2026-04-20
+>
+> **AD-ART-BIBLE Sign-off**
+> | Field | Value |
+> |-------|-------|
+> | **Verdict** | APPROVED WITH NOTES |
+> | **Reviewer** | Solo review (gate-check 2026-04-23) |
+> | **Date** | 2026-04-23 |
+> | **Sections Complete** | 9/9 |
+> | **Notes** | Chapter 9 参考方向为方向性指导，非最终确认。角色视觉档案待角色设定细化后更新。资产标准需在 Vertical Slice 中验证。 |
 
 ## 变更记录
 

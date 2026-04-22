@@ -69,7 +69,7 @@
 **C.3 金币结算**
 
 金币结算公式（由资源经济系统提供）：
-- `gold = base_reward + floor(damage × 0.1) + kill_bonus`
+- `gold = base_reward + floor(damage × 0.3) + kill_bonus`
 - 金币由资源经济系统管理
 
 **C.4 材料结算**

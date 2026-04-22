@@ -48,7 +48,7 @@
 | **进阶职业** | 一周目属性达标+经验达标 | 保留属性，重置当前职业经验 | 2000 |
 | **特殊职业** | 多周目成就点数兑换 | 保留属性，重置当前职业经验 | 2000 |
 
-**基础职业（6个）：**
+**基础职业（7个）：**
 
 | ID | 名称 | 主属性 | 副属性 | 起始技能 |
 |----|------|--------|--------|----------|
@@ -58,6 +58,7 @@
 | BASIC_ROGUE | 盗贼 | AGI | LUK | 偷袭 |
 | BASIC_CLERIC | 牧师 | CHA | INT | 治疗术 |
 | BASIC_KNIGHT | 骑士 | CON | STR | 盾击 |
+| BASIC_SCOUT | 侦察兵 | AGI | WIL | 侦察（视野+3格） |
 
 **进阶职业解锁条件：**
 
@@ -69,6 +70,7 @@
 | ADV_ASSASSIN | 刺客 | 盗贼 | AGI≥50 | LUK≥40 | 500 |
 | ADV_HIGHCLERIC | 大祭司 | 牧师 | CHA≥50 | INT≥40 | 500 |
 | ADV_PALADIN | 圣骑士 | 骑士 | CON≥50 | CHA≥40 | 500 |
+| ADV_RANGER | 游侠 | 侦察兵 | AGI≥50 | WIL≥40 | 500 |
 
 **特殊职业（示例）：**
 
@@ -152,7 +154,7 @@ enum CharacterClassState {
 
 | 当前状态 | 触发条件 | 目标状态 | 操作 |
 |---------|---------|---------|------|
-| NONE | 角色创建 | BASIC_ACTIVE | 初始化为基础战士 |
+| NONE | 角色创建 | BASIC_ACTIVE | 初始化为基础职业（默认战士，侦察兵等需剧情或玩家选择解锁） |
 | BASIC_ACTIVE | 门槛达标且经验≥500 | ADVANCED_UNLOCKED | 解锁进阶选项 |
 | ADVANCED_UNLOCKED | 玩家选择转职 | ADVANCED_ACTIVE | 执行转职流程 |
 | ADVANCED_UNLOCKED | 玩家保持 | BASIC_ACTIVE | 记录决策 |

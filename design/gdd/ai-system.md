@@ -326,6 +326,7 @@ ai_think_time = base_time + complexity_penalty
 | **回合制模式** | 数据消费者 | 回合制模式驱动AI行动顺序；AI输出行动指令给回合制模式执行 |
 | **战斗系统** | 数据消费者 | AI的攻击/治疗/移动指令由战斗系统执行 |
 | **关卡设计** | 数据消费者 | 关卡设计使用AI配置文件定义敌人行为 |
+| **难度系统** | 受影响方 | 难度倍率修改AI威胁权重和决策参数（见 difficulty-system.md） |
 
 ### Dependency Details
 
