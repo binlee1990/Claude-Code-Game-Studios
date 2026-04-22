@@ -1,43 +1,61 @@
-# SRPG Vertical Slice Prototype
+# SRPG Prototypes
 
-> 版本: v0.1 | 日期: 2026-04-20 | 状态: 规划中
+## Vertical Slice Battle Demo
 
-## 概述
+> Status: Active | Date: 2026-04-23
+> Hypothesis: The core combat loop (turn order → move/attack → damage → end turn) is enjoyable and strategically interesting
 
-本原型用于验证SRPG核心玩法循环的可行性，包括：
-- 回合制战斗（速度序列制）
-- 基础属性系统
-- 职业选择
-- 装备系统
+### How to Run
 
-## 目标
+1. Open project in Godot 4.6.2
+2. In FileSystem dock, navigate to `prototypes/vertical-slice/vs_battle.tscn`
+3. Right-click → **Play Scene** (F6)
 
-在Pre-Production阶段创建一个可玩的垂直切片，包含：
-1. 完整的战斗循环（开始→行动→结束）
-2. 基础角色养成
-3. UI/HUD展示
-4. 存档功能
-
-## 核心系统优先级
-
-1. 战斗系统（回合制 + 速度序列）
-2. 基础属性
-3. 职业系统（基础职业）
-4. 装备系统（基础）
-
-## 验证标准
-
-- [ ] 战斗可正常进行
-- [ ] 伤害计算正确
-- [ ] 回合顺序正确
-- [ ] 角色可装备道具
-- [ ] 可保存/读取游戏
-
-## 文件结构
-
+Or from command line:
+```bash
+godot --path . res://prototypes/vertical-slice/vs_battle.tscn
 ```
-prototypes/
-├── combat-prototype/     # 战斗系统原型
-├── attribute-prototype/  # 属性系统原型
-└── vertical-slice/      # 垂直切片
-```
+
+### What It Tests
+
+- Speed-based turn order (AGI sorting)
+- Click-to-select unit → click-to-move → click-to-attack flow
+- HP bars and damage calculation
+- Simple enemy AI (move toward nearest player, attack)
+- Victory/defeat conditions
+
+### Controls
+
+| Input | Action |
+|-------|--------|
+| Click blue unit | Select current actor |
+| Click blue cell | Move selected unit |
+| Click red cell | Attack enemy in range |
+| 1 | Select/Move mode |
+| 2 | Attack mode |
+| 3 | Standby (end turn without attacking) |
+| 4 | End turn |
+
+### Setup
+
+- 8x8 grid
+- 2 player units (Swordsman, Archer) — blue
+- 2 enemy units (Dark Knight, Dark Mage) — red
+- Turn order sorted by AGI attribute
+
+### Acceptance Criteria for VS
+
+- [ ] Battle starts with 4 units visible on grid
+- [ ] Turn order displayed correctly
+- [ ] Current unit highlighted in gold
+- [ ] Player can move selected unit within range
+- [ ] Player can attack enemies in range
+- [ ] HP bars update on damage
+- [ ] Dead units visually grayed out
+- [ ] Victory displayed when all enemies die
+- [ ] Defeat displayed when all players die
+- [ ] Enemy AI acts automatically
+
+### Findings
+
+_To be updated after playtesting._

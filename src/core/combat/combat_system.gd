@@ -51,6 +51,7 @@ func start_battle(battle_id: String, map_id: String, difficulty: int) -> void:
 	_state = BattleState.UNIT_TURN
 	_calculate_turn_order()
 	GameEvents.combat_started.emit()
+	GameEvents.turn_started.emit(_turn_order[_current_actor_index])
 
 ## Sort turn_order by AGI descending; random tie-break for same AGI.
 func _calculate_turn_order() -> void:
@@ -93,6 +94,8 @@ func _advance_to_next() -> void:
 		_current_actor_index += 1
 	if _current_actor_index >= _turn_order.size():
 		_next_round()
+	else:
+		GameEvents.turn_started.emit(_turn_order[_current_actor_index])
 
 func _next_round() -> void:
 	_current_turn += 1

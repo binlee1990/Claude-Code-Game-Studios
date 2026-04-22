@@ -1,6 +1,7 @@
 tests/integration/ai/ai_integration_test.gd
 tests/integration/attributes/save_load_integration_test.gd
 tests/integration/class/save_load_integration_test.gd
+tests/integration/prototypes/vs_battle_test.gd
 tests/integration/resource/save_load_integration_test.gd
 tests/integration/tactical/tactical_integration_test.gd
 tests/integration/test_turn_order_integration.gd
