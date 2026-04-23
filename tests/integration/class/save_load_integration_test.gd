@@ -32,7 +32,6 @@ func test_advanced_class_state_round_trip() -> void:
 	_unit.class_component._class_exp[ClassNames.ClassID.ADV_SWORDMASTER] = 350
 	_unit.class_component.try_unlock_advanced()
 	_unit.class_component.confirm_class_change(ClassNames.ClassID.ADV_SWORDMASTER)
-	_unit.class_component.add_class_exp(350)
 
 	var saved: Dictionary = _unit.serialize()
 	var loaded := Unit.new()
@@ -115,10 +114,9 @@ func test_special_active_terminal_round_trip() -> void:
 
 func test_double_round_trip_stable() -> void:
 	_unit.class_component.add_class_exp(300)
-	_unit.class_component._class_exp[ClassNames.ClassID.ADV_SWORDMASTER] = 100
+	_unit.class_component._class_exp[ClassNames.ClassID.ADV_SWORDMASTER] = 200
 	_unit.class_component.try_unlock_advanced()
 	_unit.class_component.confirm_class_change(ClassNames.ClassID.ADV_SWORDMASTER)
-	_unit.class_component.add_class_exp(200)
 
 	var saved1: Dictionary = _unit.serialize()
 	var loaded1 := Unit.new()

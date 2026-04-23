@@ -3,9 +3,9 @@
 **Last Updated**: 2026-04-23
 
 ## Current Task
-Gate-check Pre-Production → Production: FAIL (6 blockers)
+Gate-check Pre-Production → Production: PARTIAL (human visual sign-off / fun validation pending)
 Phase 1 文档补齐: COMPLETE (9/9 tasks done)
-Next: Phase 2 Vertical Slice 构建
+Next: Human visual sign-off + subjective fun validation
 
 ## Phase 1 Documentation — Completed 2026-04-23
 
@@ -37,9 +37,9 @@ Next: Phase 2 Vertical Slice 构建
 
 | Blocker | Status | Action |
 |---------|--------|--------|
-| Vertical Slice build | NOT STARTED | 组装战斗场景原型 |
-| Playtest ≥3 sessions | NOT STARTED | 依赖 VS build |
-| Core loop fun validated | NOT STARTED | 依赖 playtest |
+| Vertical Slice build | IMPLEMENTATION COMPLETE | 自动化验证通过，待人工视觉与玩法验证 |
+| Playtest ≥3 sessions | STRUCTURED VALIDATION COMPLETE | 已有 3 份 session 记录（1 人工自测 + 2 scripted validation） |
+| Core loop fun validated | NOT STARTED | 依赖人工 playtest |
 
 ## Architecture Update — ADRs
 
@@ -68,18 +68,32 @@ Next: Phase 2 Vertical Slice 构建
 
 | Epic | Stories | Status |
 |------|---------|--------|
-| turn-based-mode (收尾) | 2 | TODO |
-| battle-settlement | 5 | TODO |
-| camera-map-system | 3 | TODO |
-| ui-system | 3 | TODO |
+| turn-based-mode (收尾) | 2 | COMPLETE |
+| battle-settlement | 5 | COMPLETE |
+| camera-map-system | 3 | COMPLETE |
+| ui-system | 3 | COMPLETE |
 
 ## Consistency Check — 2026-04-22
 - Registry: design/registry/entities.yaml — populated with 7 items, 15 formulas, 35 constants
 - Cross-review: PASS (blockers fixed 2026-04-23)
 
 ## Tech Debt — Pre-existing Test Issues
-- 5 compile errors (load order bugs)
-- 17 pre-existing test failures (class-system, action-system, ai-system)
+- Resolved 2026-04-23: automated baseline restored to 0 compile failures / 0 assertion failures
+
+## Current Validation State — 2026-04-23
+- Formal battle path (`main_menu -> battle`) is now playable
+- Camera / Map / UI / SaveManager productization implemented
+- Automated coverage passes, including:
+  - `tests/integration/camera/battle_camera_map_test.gd`
+  - `tests/integration/camera/save_load_integration_test.gd`
+  - `tests/integration/ui/battle_hud_test.gd`
+  - `tests/integration/ui/save_load_integration_test.gd`
+  - `tests/integration/save/battle_save_manager_integration_test.gd`
+- Structured validation sessions now exist:
+  - `production/playtests/playtest-2026-04-23-session-1.md`
+  - `production/playtests/playtest-2026-04-23-session-2.md`
+  - `production/playtests/playtest-2026-04-23-session-3.md`
+- Remaining gap is human visual sign-off and subjective fun validation
 
 ## Session Extract — /dev-story 2026-04-23
 - Story: production/epics/turn-based-mode/story-006-speed-up-mode.md — Speed-Up Mode (TBM-006)

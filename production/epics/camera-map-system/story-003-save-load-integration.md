@@ -1,7 +1,7 @@
 # Story 003: Camera Save/Load Integration
 
 > **Epic**: Camera & Map System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Presentation
 > **Type**: Integration
 > **Manifest Version**: N/A — manifest not yet created
@@ -62,7 +62,7 @@ From ADR-003: Camera preferences stored as user settings. Includes: rotation_ang
 
 **Story Type**: Integration
 **Required evidence**: `tests/integration/camera/save_load_integration_test.gd`
-**Status**: [ ] Not yet created
+**Status**: [x] `tests/integration/camera/save_load_integration_test.gd` created and passing
 
 ---
 

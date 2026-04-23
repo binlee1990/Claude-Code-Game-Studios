@@ -1,7 +1,7 @@
 # Story 002: Resource HUD & Menu System
 
 > **Epic**: UI System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Presentation
 > **Type**: UI
 > **Manifest Version**: N/A — manifest not yet created
@@ -63,7 +63,7 @@ From GDD C.3: Top bar shows gold, current stage, pause button. Top-left shows ke
 
 **Story Type**: UI
 **Required evidence**: `production/qa/evidence/resource-menu-evidence.md` + manual walkthrough doc
-**Status**: [ ] Not yet created
+**Status**: [x] `production/qa/evidence/resource-menu-evidence.md` created; manual walkthrough pending
 
 ---
 

@@ -33,11 +33,23 @@ func get_value() -> int:
 
 ## Set value with clamping
 func set_value(v: int) -> void:
-	_value = v
+	var clamped: int = mini(v, AttributeNames.MAX_ATTRIBUTE_VALUE)
+	var old: int = _value
+	_value = clamped
+	if _value != old:
+		value_changed.emit(_value, old)
 
 ## Get current potential (P) - returns 1-6
 func get_potential() -> int:
 	return _potential
+
+## Set potential with clamping and signal emission.
+func set_potential(p: int) -> void:
+	var clamped: int = clampi(p, AttributeNames.PotentialGrade.E, AttributeNames.PotentialGrade.S)
+	var old: int = _potential
+	_potential = clamped
+	if _potential != old:
+		potential_changed.emit(_potential, old)
 
 ## Get potential grade letter (E/D/C/B/A/S)
 func get_potential_grade() -> String:
@@ -70,5 +82,10 @@ func can_use_fruit(barrier_broken: bool, barrier_stage: int) -> bool:
 func apply_fruit() -> bool:
 	if _potential >= AttributeNames.PotentialGrade.S:
 		return false
-	_potential += 1
+	set_potential(_potential + 1)
 	return true
+
+## Restore raw state without emitting change signals.
+func load_state_silent(value: int, potential: int) -> void:
+	_value = mini(value, AttributeNames.MAX_ATTRIBUTE_VALUE)
+	_potential = clampi(potential, AttributeNames.PotentialGrade.E, AttributeNames.PotentialGrade.S)

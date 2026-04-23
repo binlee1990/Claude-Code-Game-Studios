@@ -30,7 +30,7 @@ func _on_potential_changed(new_potential: int, old_potential: int) -> void:
 
 func _check_threshold(value: int) -> void:
 	for threshold in AttributeNames.THRESHOLD_REWARDS:
-		if value >= threshold and not _thresholds_reached[threshold]:
+		if value >= threshold and not _thresholds_reached.get(threshold, false):
 			_thresholds_reached[threshold] = true
 			threshold_reached.emit(attribute_type, threshold)
 
@@ -102,7 +102,7 @@ func set_value(value: int) -> void:
 
 ## Force set potential (for loading saved games)
 func set_potential(potential: int) -> void:
-	_data._potential = potential
+	_data.set_potential(potential)
 
 ## Get data for serialization
 func get_data() -> Dictionary:
@@ -116,13 +116,45 @@ func get_data() -> Dictionary:
 
 ## Load from serialized data
 func load_data(data: Dictionary) -> void:
-	if "value" in data:
-		_data._value = data["value"]
-	if "potential" in data:
-		_data._potential = data["potential"]
+	var value: int = data.get("value", _data.get_value())
+	var potential: int = data.get("potential", _data.get_potential())
+	var value_connected: bool = _data.value_changed.is_connected(_on_value_changed)
+	var potential_connected: bool = _data.potential_changed.is_connected(_on_potential_changed)
+	if value_connected:
+		_data.value_changed.disconnect(_on_value_changed)
+	if potential_connected:
+		_data.potential_changed.disconnect(_on_potential_changed)
+	_data.load_state_silent(value, potential)
+	if value_connected:
+		_data.value_changed.connect(_on_value_changed)
+	if potential_connected:
+		_data.potential_changed.connect(_on_potential_changed)
 	if "barrier_stage" in data:
 		_barrier_stage = data["barrier_stage"]
 	if "barriers_broken" in data:
-		_barriers_broken = data["barriers_broken"]
+		_barriers_broken = _normalize_stage_flags(data["barriers_broken"], false)
 	if "thresholds_reached" in data:
-		_thresholds_reached = data["thresholds_reached"]
+		_thresholds_reached = _normalize_threshold_flags(data["thresholds_reached"])
+	else:
+		_thresholds_reached = _normalize_threshold_flags({})
+
+func _normalize_stage_flags(raw: Dictionary, default_value: bool) -> Dictionary:
+	var normalized: Dictionary = {1: default_value, 2: default_value, 3: default_value}
+	for stage in normalized.keys():
+		if raw.has(stage):
+			normalized[stage] = bool(raw[stage])
+		elif raw.has(str(stage)):
+			normalized[stage] = bool(raw[str(stage)])
+	return normalized
+
+func _normalize_threshold_flags(raw: Dictionary) -> Dictionary:
+	var normalized: Dictionary = {}
+	var current_value: int = _data.get_value()
+	for threshold in AttributeNames.THRESHOLD_REWARDS:
+		if raw.has(threshold):
+			normalized[threshold] = bool(raw[threshold])
+		elif raw.has(str(threshold)):
+			normalized[threshold] = bool(raw[str(threshold)])
+		else:
+			normalized[threshold] = current_value > threshold
+	return normalized

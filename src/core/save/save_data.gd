@@ -12,6 +12,13 @@ extends Resource
 @export var inventory_items: Array = []
 @export var story_progress: Dictionary = {}
 @export var achievement_points: int = 0
+@export var current_scene_key: String = ""
+@export var settings: Dictionary = {}
+@export var battle_state: Dictionary = {}
+@export var camera_preferences: Dictionary = {}
+@export var ui_preferences: Dictionary = {}
+@export var inventory_state: Dictionary = {}
+@export var battle_history: Dictionary = {}
 
 func serialize() -> Dictionary:
 	return {
@@ -21,7 +28,14 @@ func serialize() -> Dictionary:
 		"party_units": party_units,
 		"inventory_items": inventory_items,
 		"story_progress": story_progress,
-		"achievement_points": achievement_points
+		"achievement_points": achievement_points,
+		"current_scene_key": current_scene_key,
+		"settings": settings,
+		"battle_state": battle_state,
+		"camera_preferences": camera_preferences,
+		"ui_preferences": ui_preferences,
+		"inventory_state": inventory_state,
+		"battle_history": battle_history,
 	}
 
 static func deserialize(data: Dictionary) -> SaveData:
@@ -33,4 +47,11 @@ static func deserialize(data: Dictionary) -> SaveData:
 	sd.inventory_items = data.get("inventory_items", [])
 	sd.story_progress = data.get("story_progress", {})
 	sd.achievement_points = data.get("achievement_points", 0)
+	sd.current_scene_key = data.get("current_scene_key", "")
+	sd.settings = data.get("settings", {})
+	sd.battle_state = data.get("battle_state", {})
+	sd.camera_preferences = data.get("camera_preferences", {})
+	sd.ui_preferences = data.get("ui_preferences", {})
+	sd.inventory_state = data.get("inventory_state", {})
+	sd.battle_history = data.get("battle_history", {})
 	return sd

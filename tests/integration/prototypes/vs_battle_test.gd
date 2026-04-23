@@ -3,20 +3,22 @@
 
 extends Gut
 
-var _battle: VSBattle
+var _battle
 
 func before_each() -> void:
+	SaveManager.clear_pending_loaded_data()
 	var scene: PackedScene = load("res://prototypes/vertical-slice/vs_battle.tscn")
-	_battle = scene.instantiate() as VSBattle
+	_battle = scene.instantiate()
 	add_child(_battle)
 
 func after_each() -> void:
+	SaveManager.clear_pending_loaded_data()
 	if is_instance_valid(_battle):
 		_battle.queue_free()
 
 func test_initial_battle_state_is_immediately_playable() -> void:
 	var actor: Unit = _battle._combat.get_current_actor()
-	assert_eq(_battle._phase, VSBattle.VSPhase.SELECT_UNIT, "Prototype should wait on a player turn")
+	assert_eq(_battle._phase, _battle.VSPhase.SELECT_UNIT, "Prototype should wait on a player turn")
 	assert_eq(_battle._combat.get_unit_team(actor), CombatSystem.Team.PLAYER, "Initial controllable actor should belong to the player")
 	assert_true(_battle._info_label.text.begins_with("Your turn:"), "Prompt should identify the active player unit")
 
@@ -27,13 +29,13 @@ func test_click_input_selects_active_unit_and_moves_it() -> void:
 	_click_cell(origin)
 
 	assert_eq(_battle._selected_unit, actor, "Clicking the active unit should select it")
-	assert_eq(_battle._phase, VSBattle.VSPhase.SELECT_MOVE, "Selection should enter move mode")
+	assert_eq(_battle._phase, _battle.VSPhase.SELECT_MOVE, "Selection should enter move mode")
 
 	var move_target: Vector2i = _first_distinct_position(_battle._move_range, origin)
 	_click_cell(move_target)
 
 	assert_eq(_battle._unit_cells[actor], move_target, "Move click should relocate the actor")
-	assert_eq(_battle._phase, VSBattle.VSPhase.SELECT_TARGET, "Move should transition into attack selection")
+	assert_eq(_battle._phase, _battle.VSPhase.SELECT_TARGET, "Move should transition into attack selection")
 
 func test_attack_flow_reduces_enemy_hp() -> void:
 	var actor: Unit = _battle._combat.get_current_actor()
@@ -65,7 +67,7 @@ func test_enemy_turn_acquires_nearest_player_target() -> void:
 	while _battle._combat.get_current_actor() != enemy:
 		_battle._combat.end_turn()
 
-	_battle._phase = VSBattle.VSPhase.ENEMY_TURN
+	_battle._phase = _battle.VSPhase.ENEMY_TURN
 	_battle._do_enemy_turn(enemy)
 
 	var after_pos: Vector2i = _battle._unit_cells[enemy]
@@ -76,10 +78,7 @@ func _click_cell(grid_pos: Vector2i) -> void:
 	var event := InputEventMouseButton.new()
 	event.button_index = MOUSE_BUTTON_LEFT
 	event.pressed = true
-	event.position = Vector2(
-		grid_pos.x * _battle.CELL_SIZE + _battle.MARGIN + (_battle.CELL_SIZE / 2.0),
-		grid_pos.y * _battle.CELL_SIZE + _battle.MARGIN + (_battle.CELL_SIZE / 2.0)
-	)
+	event.position = _battle.get_cell_click_point(grid_pos)
 	_battle._input(event)
 
 func _first_distinct_position(positions: Array, origin: Vector2i) -> Vector2i:

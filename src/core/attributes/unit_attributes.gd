@@ -45,9 +45,9 @@ func _create_default_components() -> void:
 func _connect_signals() -> void:
 	for attr_type in _components:
 		var comp: AttributeComponent = _components[attr_type]
-		comp.attribute_value_changed.connect(_on_attribute_value_changed.bind(attr_type))
-		comp.threshold_reached.connect(_on_threshold_reached.bind(attr_type))
-		comp.barrier_broken.connect(_on_barrier_broken.bind(attr_type))
+		comp.attribute_value_changed.connect(_on_attribute_value_changed)
+		comp.threshold_reached.connect(_on_threshold_reached)
+		comp.barrier_broken.connect(_on_barrier_broken)
 
 func _on_attribute_value_changed(attr_type: int, new_value: int, old_value: int) -> void:
 	attribute_changed.emit(attr_type, new_value, old_value)

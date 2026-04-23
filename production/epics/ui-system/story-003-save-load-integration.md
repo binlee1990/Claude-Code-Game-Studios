@@ -1,7 +1,7 @@
 # Story 003: UI Save/Load Integration
 
 > **Epic**: UI System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Presentation
 > **Type**: Integration
 > **Manifest Version**: N/A — manifest not yet created
@@ -62,7 +62,7 @@ From ADR-003: UI settings stored as user preferences separate from game save dat
 
 **Story Type**: Integration
 **Required evidence**: `tests/integration/ui/save_load_integration_test.gd`
-**Status**: [ ] Not yet created
+**Status**: [x] `tests/integration/ui/save_load_integration_test.gd` created and passing
 
 ---
 

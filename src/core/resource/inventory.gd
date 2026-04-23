@@ -10,7 +10,7 @@ var _resources: Dictionary = {}
 
 func _ready() -> void:
 	# Initialize all resources to 0
-	for res in ResourceTypes.Resource.values():
+	for res in ResourceTypes.all_resource_ids():
 		_resources[res] = 0
 
 ## Get current amount of a resource

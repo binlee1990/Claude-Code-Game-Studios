@@ -54,12 +54,12 @@ func test_enrage_stacks_with_restraint() -> void:
 	var enrage: float = _brain.get_boss_damage_multiplier()
 	var restraint: float = TacticalFormulas.get_triangle_modifier(
 		TacticalFormulas.WeaponType.SWORD, TacticalFormulas.WeaponType.SPEAR)
-	assert_eq(enrage * restraint, 1.95, "1.3 × 1.5 = 1.95")
+	assert_eq_fTol(enrage * restraint, 1.95, 0.0001, "1.3 × 1.5 = 1.95")
 
 func test_enrage_stacks_with_crush() -> void:
 	_brain.check_boss_phase(0.69)
 	var combined: float = _brain.get_boss_damage_multiplier() * 1.5
-	assert_eq(combined, 1.95)
+	assert_eq_fTol(combined, 1.95, 0.0001)
 
 
 # AC.4.3: Phase switch event

@@ -80,7 +80,7 @@ func test_battle_bonus_win() -> void:
 
 func test_no_battle_bonus() -> void:
 	var gained: int = _component.report_damage_dealt(100, true, false)
-	assert_eq(gained, 2, "Only damage portion, no battle bonus")
+	assert_eq(gained, 12, "Damage portion plus kill bonus, no battle bonus")
 	# floor(100*0.02) = 2 + 10 (kill) + 0 (no battle) = 12
 	assert_eq(_component.get_current_class_exp(), 12)
 
@@ -147,11 +147,10 @@ func test_advanced_level_3() -> void:
 	assert_eq(_component.get_class_level(), 3)
 
 
-# Exp cap per class
-
-func test_exp_does_not_exceed_cap() -> void:
+# CAP is the level divisor, not a hard total-exp ceiling.
+func test_exp_can_exceed_level_divisor() -> void:
 	_component.add_class_exp(99999)
-	assert_eq(_component.get_current_class_exp(), 1000, "Basic class capped at 1000")
+	assert_eq(_component.get_current_class_exp(), 99999, "Current class exp keeps accumulating")
 
 func test_calculate_exp_gain_static() -> void:
 	assert_eq(ClassNames.calculate_exp_gain(300, true, true), 36)

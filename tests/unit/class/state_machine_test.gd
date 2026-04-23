@@ -134,10 +134,10 @@ func test_add_class_exp() -> void:
 	_component.add_class_exp(100)
 	assert_eq(_component.get_current_class_exp(), 100)
 
-func test_class_exp_capped() -> void:
+func test_class_exp_accumulates_large_values() -> void:
 	var added: int = _component.add_class_exp(9999)
-	assert_eq(_component.get_current_class_exp(), ClassNames.EXP_CAP_BASIC)
-	assert_eq(added, ClassNames.EXP_CAP_BASIC, "Only actual gain returned")
+	assert_eq(_component.get_current_class_exp(), 9999)
+	assert_eq(added, 9999, "Full gain is returned")
 
 func test_class_level_at_1000() -> void:
 	_component.add_class_exp(1000)

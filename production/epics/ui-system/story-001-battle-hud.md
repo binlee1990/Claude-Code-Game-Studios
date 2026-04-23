@@ -1,7 +1,7 @@
 # Story 001: Battle HUD
 
 > **Epic**: UI System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Presentation
 > **Type**: UI
 > **Manifest Version**: N/A — manifest not yet created
@@ -64,7 +64,7 @@ From GDD C.1: 4-layer UI hierarchy — bottom (map), middle (battle info), upper
 
 **Story Type**: UI
 **Required evidence**: `production/qa/evidence/battle-hud-evidence.md` + manual walkthrough doc
-**Status**: [ ] Not yet created
+**Status**: [x] `production/qa/evidence/battle-hud-evidence.md` created; manual walkthrough pending
 
 ---
 

@@ -51,7 +51,7 @@ godot --headless res://prototypes/vertical-slice/vs_battle.tscn
 
 | File | Purpose |
 |------|---------|
-| `vs_battle.gd` | Main controller — all battle logic |
+| `src/ui/combat/battle_arena.gd` | Canonical battle controller — prototype and formal battle scene both reuse it |
 | `vs_battle.tscn` | Scene file — attaches script |
 | `README.md` | This file |
 

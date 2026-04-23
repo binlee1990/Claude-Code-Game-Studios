@@ -62,9 +62,11 @@ func test_jump_across_threshold_still_triggers() -> void:
 	assert_eq(_signals[0]["threshold"], 50)
 
 func test_multiple_thresholds_in_one_growth() -> void:
-	# V=49, P=52 with all barriers broken → V=101, crosses both 50 and 100
+	# Valid potentials cap at 6, so use a direct value jump to verify that
+	# crossing multiple thresholds in one update fans out both reward signals.
 	_setup_attr(AttributeNames.Attribute.CON, 49, 52, 4, {1: true, 2: true, 3: true})
-	_unit.apply_level_up()
+	var comp: AttributeComponent = _unit.attributes.get_component(AttributeNames.Attribute.CON)
+	comp.set_value(101)
 	assert_eq(_unit.get_attribute(AttributeNames.Attribute.CON), 101)
 	assert_eq(_signals.size(), 2, "Both 50 and 100 triggered")
 

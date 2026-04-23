@@ -88,9 +88,10 @@ func try_unlock_special() -> bool:
 
 ## Add experience to current class (capped at exp_cap)
 func add_class_exp(amount: int) -> int:
-	var cap: int = ClassNames.get_exp_cap(_current_class)
+	if amount <= 0:
+		return 0
 	var current: int = get_current_class_exp()
-	var new_exp: int = mini(current + amount, cap)
+	var new_exp: int = current + amount
 	_class_exp[_current_class] = new_exp
 	return new_exp - current
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://vs_battle_demo"]
 
-[ext_resource type="Script" path="res://prototypes/vertical-slice/vs_battle.gd" id="1_script"]
+[ext_resource type="Script" path="res://src/ui/combat/battle_arena.gd" id="1_script"]
 
 [node name="VSBattle" type="Control"]
 layout_mode = 3

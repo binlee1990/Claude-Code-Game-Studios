@@ -72,6 +72,7 @@ func test_old_class_exp_preserved() -> void:
 
 func test_bonus_applies_immediately() -> void:
 	_set_attr(AttributeNames.Attribute.STR, 52)
+	_set_attr(AttributeNames.Attribute.AGI, 45)
 	_unit.class_component.try_unlock_advanced()
 	_unit.class_component.confirm_class_change(ClassNames.ClassID.ADV_SWORDMASTER)
 	assert_eq(_unit.get_effective_attribute(AttributeNames.Attribute.STR), 67, "52 + 15 SWORDMASTER bonus")
@@ -81,6 +82,7 @@ func test_basic_warrior_bonus() -> void:
 	assert_eq(_unit.get_effective_attribute(AttributeNames.Attribute.STR), 40, "30 + 10 warrior bonus")
 
 func test_bonus_changes_on_class_change() -> void:
+	_set_attr(AttributeNames.Attribute.STR, 52)
 	_set_attr(AttributeNames.Attribute.AGI, 50)
 	assert_eq(_unit.get_effective_attribute(AttributeNames.Attribute.AGI), 50, "Warrior has 0 AGI bonus")
 	_unit.class_component.try_unlock_advanced()

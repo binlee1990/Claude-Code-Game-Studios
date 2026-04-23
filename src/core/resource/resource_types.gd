@@ -1,8 +1,10 @@
 class_name ResourceTypes
 extends RefCounted
 
-## Resource type enum — all囤积 (stockpilable) resources
-enum Resource {
+## Resource type enum — all stockpilable resources.
+## `Resource` is avoided as the enum name because it collides with Godot's
+## builtin `Resource` type in external references from tests/scripts.
+enum ResourceId {
 	GOLD,
 	BASIC_MATERIAL,
 	FRUIT_STR,
@@ -22,35 +24,44 @@ enum Resource {
 
 ## Stack limits per resource type
 const STACK_LIMITS: Dictionary = {
-	Resource.GOLD: 9999999,
-	Resource.BASIC_MATERIAL: 9999,
-	Resource.FRUIT_STR: 99,
-	Resource.FRUIT_AGI: 99,
-	Resource.FRUIT_CON: 99,
-	Resource.FRUIT_INT: 99,
-	Resource.FRUIT_CHA: 99,
-	Resource.FRUIT_LUK: 99,
-	Resource.FRUIT_WIL: 99,
-	Resource.FRUIT_RES: 99,
-	Resource.FRUIT_SOU: 99,
-	Resource.RARE_MATERIAL: 999,
-	Resource.PROTECT_SYMBOL: 99,
-	Resource.BARRIER_RESOURCE: 99,
-	Resource.ACHIEVEMENT: -1,  # No limit
+	ResourceId.GOLD: 9999999,
+	ResourceId.BASIC_MATERIAL: 9999,
+	ResourceId.FRUIT_STR: 99,
+	ResourceId.FRUIT_AGI: 99,
+	ResourceId.FRUIT_CON: 99,
+	ResourceId.FRUIT_INT: 99,
+	ResourceId.FRUIT_CHA: 99,
+	ResourceId.FRUIT_LUK: 99,
+	ResourceId.FRUIT_WIL: 99,
+	ResourceId.FRUIT_RES: 99,
+	ResourceId.FRUIT_SOU: 99,
+	ResourceId.RARE_MATERIAL: 999,
+	ResourceId.PROTECT_SYMBOL: 99,
+	ResourceId.BARRIER_RESOURCE: 99,
+	ResourceId.ACHIEVEMENT: -1,  # No limit
 }
 
 ## Fruit resource IDs mapped to attribute types
 const FRUIT_ATTR_MAP: Dictionary = {
-	Resource.FRUIT_STR: AttributeNames.Attribute.STR,
-	Resource.FRUIT_AGI: AttributeNames.Attribute.AGI,
-	Resource.FRUIT_CON: AttributeNames.Attribute.CON,
-	Resource.FRUIT_INT: AttributeNames.Attribute.INT,
-	Resource.FRUIT_CHA: AttributeNames.Attribute.CHA,
-	Resource.FRUIT_LUK: AttributeNames.Attribute.LUK,
-	Resource.FRUIT_WIL: AttributeNames.Attribute.WIL,
-	Resource.FRUIT_RES: AttributeNames.Attribute.RES,
-	Resource.FRUIT_SOU: AttributeNames.Attribute.SOU,
+	ResourceId.FRUIT_STR: AttributeNames.Attribute.STR,
+	ResourceId.FRUIT_AGI: AttributeNames.Attribute.AGI,
+	ResourceId.FRUIT_CON: AttributeNames.Attribute.CON,
+	ResourceId.FRUIT_INT: AttributeNames.Attribute.INT,
+	ResourceId.FRUIT_CHA: AttributeNames.Attribute.CHA,
+	ResourceId.FRUIT_LUK: AttributeNames.Attribute.LUK,
+	ResourceId.FRUIT_WIL: AttributeNames.Attribute.WIL,
+	ResourceId.FRUIT_RES: AttributeNames.Attribute.RES,
+	ResourceId.FRUIT_SOU: AttributeNames.Attribute.SOU,
 }
+
+static func all_resource_ids() -> Array:
+	return ResourceId.values()
+
+static func get_resource_name(resource_type: int) -> String:
+	var names: PackedStringArray = ResourceId.keys()
+	if resource_type < 0 or resource_type >= names.size():
+		return "UNKNOWN"
+	return names[resource_type]
 
 static func get_stack_limit(resource_type: int) -> int:
 	return STACK_LIMITS.get(resource_type, 0)

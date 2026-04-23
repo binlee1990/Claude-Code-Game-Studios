@@ -1,6 +1,6 @@
 # Sprint 1: Vertical Slice Core Loop
 
-> Version: v1.0 | Date: 2026-04-23 | Status: Active
+> Version: v1.1 | Date: 2026-04-23 | Status: Implementation Complete / Validation Pending
 > Previous: v0.1 (规划中) — 重写以引用真实 story 路径
 > Control Manifest: 2026-04-23-v1
 
@@ -26,34 +26,34 @@
 
 | Story ID | Path | Description | Est. | Status |
 |----------|------|-------------|------|--------|
-| TBM-006 | `production/epics/turn-based-mode/story-006-speed-up-mode.md` | 加速模式 (1x/2x/3x) | S | TODO |
-| TBM-007 | `production/epics/turn-based-mode/story-007-save-load-integration.md` | 存档集成 | S | TODO |
+| TBM-006 | `production/epics/turn-based-mode/story-006-speed-up-mode.md` | 加速模式 (1x/2x/3x) | S | DONE |
+| TBM-007 | `production/epics/turn-based-mode/story-007-save-load-integration.md` | 存档集成 | S | DONE |
 
 #### Epic 2: 战斗结算 (5 stories)
 
 | Story ID | Path | Description | Est. | Status |
 |----------|------|-------------|------|--------|
-| BS-001 | `production/epics/battle-settlement/story-001-settlement-trigger-flow.md` | 结算触发流程 | M | TODO |
-| BS-002 | `production/epics/battle-settlement/story-002-experience-distribution.md` | 经验分配 | M | TODO |
-| BS-003 | `production/epics/battle-settlement/story-003-battle-evaluation.md` | 战斗评价 | S | TODO |
-| BS-004 | `production/epics/battle-settlement/story-004-material-equipment-drops.md` | 掉落系统 | M | TODO |
-| BS-005 | `production/epics/battle-settlement/story-005-save-load-integration.md` | 存档集成 | S | TODO |
+| BS-001 | `production/epics/battle-settlement/story-001-settlement-trigger-flow.md` | 结算触发流程 | M | DONE |
+| BS-002 | `production/epics/battle-settlement/story-002-experience-distribution.md` | 经验分配 | M | DONE |
+| BS-003 | `production/epics/battle-settlement/story-003-battle-evaluation.md` | 战斗评价 | S | DONE |
+| BS-004 | `production/epics/battle-settlement/story-004-material-equipment-drops.md` | 掉落系统 | M | DONE |
+| BS-005 | `production/epics/battle-settlement/story-005-save-load-integration.md` | 存档集成 | S | DONE |
 
 #### Epic 3: 视角与地图 (3 stories)
 
 | Story ID | Path | Description | Est. | Status |
 |----------|------|-------------|------|--------|
-| CM-001 | `production/epics/camera-map-system/story-001-isometric-camera.md` | 斜45度摄像机 | M | TODO |
-| CM-002 | `production/epics/camera-map-system/story-002-grid-map-rendering.md` | 网格地图渲染 | M | TODO |
-| CM-003 | `production/epics/camera-map-system/story-003-save-load-integration.md` | 存档集成 | S | TODO |
+| CM-001 | `production/epics/camera-map-system/story-001-isometric-camera.md` | 斜45度摄像机 | M | DONE |
+| CM-002 | `production/epics/camera-map-system/story-002-grid-map-rendering.md` | 网格地图渲染 | M | DONE |
+| CM-003 | `production/epics/camera-map-system/story-003-save-load-integration.md` | 存档集成 | S | DONE |
 
 #### Epic 4: UI 系统 (3 stories)
 
 | Story ID | Path | Description | Est. | Status |
 |----------|------|-------------|------|--------|
-| UI-001 | `production/epics/ui-system/story-001-battle-hud.md` | 战斗 HUD | L | TODO |
-| UI-002 | `production/epics/ui-system/story-002-resource-hud-menu-system.md` | 资源HUD+菜单 | M | TODO |
-| UI-003 | `production/epics/ui-system/story-003-save-load-integration.md` | 存档集成 | S | TODO |
+| UI-001 | `production/epics/ui-system/story-001-battle-hud.md` | 战斗 HUD | L | DONE |
+| UI-002 | `production/epics/ui-system/story-002-resource-hud-menu-system.md` | 资源HUD+菜单 | M | DONE |
+| UI-003 | `production/epics/ui-system/story-003-save-load-integration.md` | 存档集成 | S | DONE |
 
 ### 不在本 Sprint 范围 (后续 Sprint)
 
@@ -67,20 +67,21 @@
 
 Sprint 完成时，Vertical Slice 必须满足:
 
-- [ ] 完整战斗循环: 开始 → 行动(移动/攻击/技能) → 结算 → 奖励
-- [ ] 回合顺序正确显示且可操作
-- [ ] 伤害计算正确
-- [ ] 战斗评价和经验分配正确
-- [ ] 加速/自动战斗可用
-- [ ] 战斗 HUD 显示 HP/MP/技能栏/回合顺序
-- [ ] 地图正确渲染（斜45度 + 网格）
-- [ ] 存档/读档功能正常
+- [x] 完整战斗循环: 开始 → 行动(移动/攻击/技能) → 结算 → 奖励
+- [x] 回合顺序正确显示且可操作
+- [x] 伤害计算正确
+- [x] 战斗评价和经验分配正确
+- [x] 加速/自动战斗可用
+- [x] 战斗 HUD 显示 HP/MP/技能栏/回合顺序
+- [x] 地图正确渲染（斜45度 + 网格）
+- [x] 存档/读档功能正常
 
 ## Timeline
 
 - Sprint Start: 2026-04-23
 - Sprint End: 2026-05-06 (2 weeks)
 - Playtest Target: 2026-05-07
+- Validation Gate: Manual playtest + visual sign-off still pending
 
 ## GDD References
 
