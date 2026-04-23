@@ -22,12 +22,12 @@ func test_default_camera_and_map_state() -> void:
 	assert_true(_battle.is_grid_overlay_enabled())
 	assert_eq(_battle._cells.size(), 225, "15x15 map should build 225 projected cells")
 
-func test_camera_rotation_updates_projected_positions() -> void:
+func test_camera_rotation_is_locked_for_top_down_slice() -> void:
 	var before: Vector2 = _battle.get_cell_click_point(Vector2i(2, 5))
 	_battle.rotate_camera(1)
 	var after: Vector2 = _battle.get_cell_click_point(Vector2i(2, 5))
-	assert_eq(_battle.get_camera_rotation_degrees(), 90)
-	assert_ne(before, after, "Projected click point should change when the camera rotates")
+	assert_eq(_battle.get_camera_rotation_degrees(), 0)
+	assert_eq(before, after, "Top-down slice keeps a fixed orthographic view")
 
 func test_map_size_presets_rebuild_cells() -> void:
 	_battle.set_map_size(20)

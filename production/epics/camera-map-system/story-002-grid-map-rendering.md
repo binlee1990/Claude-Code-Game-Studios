@@ -1,7 +1,7 @@
 # Story 002: Grid Map Rendering
 
 > **Epic**: Camera & Map System
-> **Status**: Complete
+> **Status**: Complete (implemented as 2D top-down readable grid for vertical slice)
 > **Layer**: Presentation
 > **Type**: Visual/Feel
 > **Manifest Version**: N/A — manifest not yet created
@@ -63,7 +63,7 @@ From GDD C.3: Three map sizes — standard 15×15, large 20×20, extra-large 25�
 
 **Story Type**: Visual/Feel
 **Required evidence**: `production/qa/evidence/grid-map-rendering-evidence.md` + screenshot sign-off
-**Status**: [x] `production/qa/evidence/grid-map-rendering-evidence.md` created; screenshot sign-off pending
+**Status**: [x] `production/qa/evidence/grid-map-rendering-evidence.md` created; current implementation is the 2D top-down fallback grid
 
 ---
 

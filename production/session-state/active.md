@@ -3,7 +3,7 @@
 **Last Updated**: 2026-04-23
 
 ## Current Task
-Gate-check Pre-Production → Production: PARTIAL (human visual sign-off / fun validation pending)
+Gate-check Pre-Production → Production: PARTIAL (2D top-down remediation landed; human visual sign-off / fun validation pending)
 Phase 1 文档补齐: COMPLETE (9/9 tasks done)
 Next: Human visual sign-off + subjective fun validation
 
@@ -83,6 +83,7 @@ Next: Human visual sign-off + subjective fun validation
 ## Current Validation State — 2026-04-23
 - Formal battle path (`main_menu -> battle`) is now playable
 - Camera / Map / UI / SaveManager productization implemented
+- Formal battle scene was remediated from awkward 2.5D projection to a 2D top-down readable grid after user feedback
 - Automated coverage passes, including:
   - `tests/integration/camera/battle_camera_map_test.gd`
   - `tests/integration/camera/save_load_integration_test.gd`

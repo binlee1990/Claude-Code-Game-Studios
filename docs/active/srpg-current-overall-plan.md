@@ -37,6 +37,7 @@
 ### 当前缺口
 
 - 自动化实现层已经闭环，但仍缺人工视觉验收与玩法验证
+- 正式 battle scene 已根据用户反馈回退为 2D 俯视图；原 `CM-001` 等角视角目标已延后
 - 结构化 validation session 已完成，尚未完成纯人工自由试玩结论
 - `core loop fun validated` 仍未形成结论
 - `production/sprints/sprint-001.md` 与 `production/session-state/active.md` 存在状态漂移
@@ -107,12 +108,11 @@
 - UI 和正式战斗展示都依赖可用视角与地图承载
 - `CM-003` 是典型后置集成项，必须建立在前两项之上
 
-退出条件：
+当前状态：
 
-- [x] 45 度视角可用
-- [x] 4 个固定角度旋转可用
-- [x] 网格可显示 / 切换
-- [x] camera 偏好可持久化
+- `CM-001` 已延后。vertical slice 正式场景改为 2D 俯视图以优先解决操作和可读性
+- `CM-002` 当前以 2D 可读性优先的网格地图实现
+- `CM-003` 当前只保留对现有 top-down grid/map prefs 的持久化
 
 ### P1：完成 UI 三个 story
 

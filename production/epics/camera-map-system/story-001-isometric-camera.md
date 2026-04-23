@@ -1,7 +1,7 @@
 # Story 001: Isometric Camera
 
 > **Epic**: Camera & Map System
-> **Status**: Complete
+> **Status**: Deferred (2D top-down fallback active for vertical slice)
 > **Layer**: Presentation
 > **Type**: Visual/Feel
 > **Manifest Version**: N/A — manifest not yet created
@@ -58,7 +58,7 @@ From GDD C.1: 2.5D oblique 45-degree isometric view. From C.2: 4 fixed rotation 
 
 **Story Type**: Visual/Feel
 **Required evidence**: `production/qa/evidence/camera-isometric-evidence.md` + screenshot sign-off
-**Status**: [x] `production/qa/evidence/camera-isometric-evidence.md` created; screenshot sign-off pending
+**Status**: [ ] Deferred after readability feedback; formal slice currently uses 2D top-down fallback
 
 ---
 

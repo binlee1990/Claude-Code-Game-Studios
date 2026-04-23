@@ -9,9 +9,8 @@ const CELL_SIZE := 64
 const MARGIN := 20
 const DEFAULT_MAP_SIZE := 15
 const MAP_SIZE_OPTIONS := [15, 20, 25]
-const _RENDER_CELL_SIZES := {15: 52.0, 20: 40.0, 25: 32.0}
-const _HEIGHT_STEP := 18.0
-const _CAMERA_ROTATION_DEGREES := [0, 90, 180, 270]
+const _RENDER_CELL_SIZES := {15: 42.0, 20: 32.0, 25: 26.0}
+const _CAMERA_ROTATION_DEGREES := [0]
 const _SCENE_KEY := "battle"
 const _DEFAULT_UI_PREFERENCES := {
 	"master_volume": 70,
@@ -47,7 +46,6 @@ var _camera_rotation: int = 0
 var _grid_overlay_enabled: bool = true
 var _map_heights: Dictionary = {}  # Vector2i -> int
 var _render_cell_size: float = 52.0
-var _iso_origin: Vector2 = Vector2.ZERO
 var _menu_open: bool = false
 var _active_menu_tab: String = "character"
 var _ui_preferences: Dictionary = _DEFAULT_UI_PREFERENCES.duplicate(true)
@@ -61,6 +59,7 @@ var _grid_area: Panel
 var _grid_container: Control
 var _cells: Dictionary = {}  # Vector2i -> ColorRect
 var _cell_centers: Dictionary = {}  # Vector2i -> Vector2
+var _cell_height_labels: Dictionary = {}  # Vector2i -> Label
 var _unit_panels: Dictionary = {}  # Unit -> Panel
 var _unit_labels: Dictionary = {}  # Unit -> Label
 var _hp_bars: Dictionary = {}  # Unit -> ProgressBar
@@ -187,8 +186,6 @@ func _build_top_bar() -> void:
 		_resource_labels[resource_name.to_lower()] = label
 
 	var button_specs := [
-		{"text": "Rotate L (Q)", "cb": func() -> void: rotate_camera(-1)},
-		{"text": "Rotate R (E)", "cb": func() -> void: rotate_camera(1)},
 		{"text": "Grid (G)", "cb": func() -> void: set_grid_overlay_enabled(not _grid_overlay_enabled)},
 		{"text": "Map Size", "cb": _cycle_map_size},
 		{"text": "Speed", "cb": _cycle_speed_tier},
@@ -394,7 +391,7 @@ func _apply_loaded_save_data(save_data: SaveData) -> void:
 func _load_battle_from_state(state: Dictionary) -> void:
 	var restored_map_size: int = state.get("map_size", DEFAULT_MAP_SIZE)
 	set_map_size(restored_map_size)
-	_camera_rotation = state.get("camera_rotation", _camera_rotation)
+	_camera_rotation = 0
 	_grid_overlay_enabled = state.get("grid_overlay_enabled", _grid_overlay_enabled)
 	_camera_preferences["rotation_index"] = _camera_rotation
 	_camera_preferences["grid_overlay_enabled"] = _grid_overlay_enabled
@@ -537,8 +534,8 @@ func _create_unit_visual_nodes(unit: Unit, max_hp: int) -> void:
 
 func _calculate_grid_area_size(size: int) -> Vector2:
 	var render_size: float = _RENDER_CELL_SIZES.get(size, 40.0)
-	var width: float = maxf(860.0, size * render_size + 180.0)
-	var height: float = maxf(620.0, size * render_size * 0.65 + 220.0)
+	var width: float = maxf(860.0, MARGIN * 2.0 + size * render_size + 40.0)
+	var height: float = maxf(620.0, MARGIN * 2.0 + size * render_size + 40.0)
 	return Vector2(width, height)
 
 func _compute_render_cell_size(size: int) -> float:
@@ -591,17 +588,17 @@ func get_map_size() -> int:
 
 ## Rotate the camera by the given step count (modulo 4).
 func rotate_camera(step: int = 1) -> void:
-	set_camera_rotation((_camera_rotation + step + 4) % 4)
+	set_camera_rotation(0)
 
 ## Set the camera rotation index directly (0..3).
 func set_camera_rotation(index: int) -> void:
-	_camera_rotation = posmod(index, 4)
+	_camera_rotation = 0
 	_camera_preferences["rotation_index"] = _camera_rotation
 	_reflow_map_visuals()
 
 ## Return the active camera heading in degrees.
 func get_camera_rotation_degrees() -> int:
-	return _CAMERA_ROTATION_DEGREES[_camera_rotation]
+	return 0
 
 ## Enable or disable the projected grid overlay.
 func set_grid_overlay_enabled(enabled: bool) -> void:
@@ -637,7 +634,7 @@ func capture_camera_preferences() -> Dictionary:
 func apply_camera_preferences(data: Dictionary) -> void:
 	if data.is_empty():
 		return
-	_camera_rotation = data.get("rotation_index", _camera_rotation)
+	_camera_rotation = 0
 	_grid_overlay_enabled = data.get("grid_overlay_enabled", _grid_overlay_enabled)
 	var target_size: int = data.get("map_size", _map_size)
 	set_map_size(target_size)
@@ -692,7 +689,7 @@ func _capture_battle_state() -> Dictionary:
 
 	return {
 		"map_size": _map_size,
-		"camera_rotation": _camera_rotation,
+		"camera_rotation": 0,
 		"grid_overlay_enabled": _grid_overlay_enabled,
 		"phase": _phase,
 		"selected_unit_id": String(_selected_unit.unit_id) if _selected_unit != null else "",
@@ -708,23 +705,28 @@ func _rebuild_cells() -> void:
 	for node in _cells.values():
 		if is_instance_valid(node):
 			node.queue_free()
+	for label in _cell_height_labels.values():
+		if is_instance_valid(label):
+			label.queue_free()
 	_cells.clear()
 	_cell_centers.clear()
+	_cell_height_labels.clear()
 
 	for x in range(_map_size):
 		for y in range(_map_size):
 			var cell := ColorRect.new()
-			cell.size = Vector2(_render_cell_size * 0.72, _render_cell_size * 0.72)
-			cell.pivot_offset = cell.size * 0.5
-			cell.rotation = PI / 4.0
-			cell.scale = Vector2(1.0, 0.55)
+			cell.size = Vector2(_render_cell_size - 2.0, _render_cell_size - 2.0)
 			cell.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			var pos := Vector2i(x, y)
 			_cells[pos] = cell
 			_grid_container.add_child(cell)
+			var label := Label.new()
+			label.add_theme_font_size_override("font_size", 10)
+			label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			_cell_height_labels[pos] = label
+			_grid_container.add_child(label)
 
 func _reflow_map_visuals() -> void:
-	_update_iso_origin()
 	for pos in _cells.keys():
 		_update_cell_transform(pos)
 		_update_cell_color(pos)
@@ -734,21 +736,24 @@ func _reflow_map_visuals() -> void:
 	_refresh_turn_display()
 	_refresh_status_panel()
 
-func _update_iso_origin() -> void:
-	var size: Vector2 = _grid_area.custom_minimum_size
-	_iso_origin = Vector2(size.x * 0.5, MARGIN + _render_cell_size * 1.25)
-
 func _update_cell_transform(pos: Vector2i) -> void:
 	var cell: ColorRect = _cells[pos]
-	var center: Vector2 = _project_cell_center(pos)
-	cell.position = center - cell.size * 0.5
-	cell.pivot_offset = cell.size * 0.5
+	cell.position = Vector2(
+		MARGIN + pos.x * _render_cell_size + 1.0,
+		MARGIN + pos.y * _render_cell_size + 1.0
+	)
+	var center: Vector2 = cell.position + cell.size * 0.5
 	_cell_centers[pos] = center
+	var label: Label = _cell_height_labels[pos]
+	label.position = cell.position + Vector2(4.0, 2.0)
+	label.text = "H%d" % _map_heights.get(pos, 1)
 
 func _update_cell_color(pos: Vector2i, override_color: Color = Color.TRANSPARENT) -> void:
 	var cell: ColorRect = _cells[pos]
 	if override_color != Color.TRANSPARENT:
 		cell.color = override_color
+		if _cell_height_labels.has(pos):
+			(_cell_height_labels[pos] as Label).modulate = Color(1, 1, 1, 0.95)
 		return
 
 	var height: int = _map_heights.get(pos, 1)
@@ -756,51 +761,34 @@ func _update_cell_color(pos: Vector2i, override_color: Color = Color.TRANSPARENT
 	var base_color: Color
 	match height:
 		0:
-			base_color = Color(0.18, 0.28, 0.20) if parity else Color(0.20, 0.32, 0.24)
+			base_color = Color(0.26, 0.36, 0.28) if parity else Color(0.28, 0.40, 0.30)
 		1:
-			base_color = Color(0.24, 0.34, 0.28) if parity else Color(0.28, 0.38, 0.32)
+			base_color = Color(0.42, 0.48, 0.30) if parity else Color(0.46, 0.52, 0.34)
 		2:
-			base_color = Color(0.31, 0.42, 0.34) if parity else Color(0.35, 0.46, 0.38)
+			base_color = Color(0.60, 0.46, 0.30) if parity else Color(0.66, 0.52, 0.34)
 		_:
-			base_color = Color(0.25, 0.35, 0.29)
-	base_color.a = 0.95 if _grid_overlay_enabled else 0.35
+			base_color = Color(0.35, 0.40, 0.32)
+	base_color.a = 0.98 if _grid_overlay_enabled else 0.72
 	cell.color = base_color
+	if _cell_height_labels.has(pos):
+		(_cell_height_labels[pos] as Label).modulate = Color(0.12, 0.12, 0.12, 0.95)
 
 func _project_cell_center(pos: Vector2i) -> Vector2:
-	var rotated: Vector2i = _rotate_grid_position(pos)
-	var half_w: float = _render_cell_size * 0.5
-	var half_h: float = _render_cell_size * 0.25
-	var height_offset: float = float(_map_heights.get(pos, 1)) * _HEIGHT_STEP
-	return _iso_origin + Vector2(
-		(rotated.x - rotated.y) * half_w,
-		(rotated.x + rotated.y) * half_h - height_offset
+	return Vector2(
+		MARGIN + pos.x * _render_cell_size + (_render_cell_size * 0.5),
+		MARGIN + pos.y * _render_cell_size + (_render_cell_size * 0.5)
 	)
-
-func _rotate_grid_position(pos: Vector2i) -> Vector2i:
-	var max_idx: int = _map_size - 1
-	match _camera_rotation:
-		1:
-			return Vector2i(pos.y, max_idx - pos.x)
-		2:
-			return Vector2i(max_idx - pos.x, max_idx - pos.y)
-		3:
-			return Vector2i(max_idx - pos.y, pos.x)
-		_:
-			return pos
 
 func _find_nearest_grid_pos(click_pos: Vector2) -> Vector2i:
 	var local_click: Vector2 = click_pos - _grid_container.get_global_rect().position
-	var best_pos := Vector2i(-1, -1)
-	var best_distance := INF
-	for pos in _cell_centers.keys():
-		var center: Vector2 = _cell_centers[pos]
-		var distance: float = center.distance_to(local_click)
-		if distance < best_distance:
-			best_distance = distance
-			best_pos = pos
-	if best_distance > _render_cell_size:
+	local_click -= Vector2(MARGIN, MARGIN)
+	if local_click.x < 0 or local_click.y < 0:
 		return Vector2i(-1, -1)
-	return best_pos
+	var grid_x: int = int(floor(local_click.x / _render_cell_size))
+	var grid_y: int = int(floor(local_click.y / _render_cell_size))
+	if grid_x < 0 or grid_y < 0 or grid_x >= _map_size or grid_y >= _map_size:
+		return Vector2i(-1, -1)
+	return Vector2i(grid_x, grid_y)
 
 func _refresh_all() -> void:
 	_reflow_map_visuals()
@@ -885,13 +873,13 @@ func _update_unit_position(unit: Unit, pos: Vector2i) -> void:
 	var center: Vector2 = _project_cell_center(pos)
 	var panel: Panel = _unit_panels.get(unit)
 	if panel:
-		panel.position = center + Vector2(-panel.custom_minimum_size.x * 0.5, -_render_cell_size * 0.9)
+		panel.position = center + Vector2(-panel.custom_minimum_size.x * 0.5, -panel.custom_minimum_size.y * 0.5)
 	var label: Label = _unit_labels.get(unit)
 	if label:
-		label.position = center + Vector2(-24.0, -_render_cell_size * 1.28)
+		label.position = center + Vector2(-24.0, -_render_cell_size * 0.62)
 	var hp_bar: ProgressBar = _hp_bars.get(unit)
 	if hp_bar:
-		hp_bar.position = center + Vector2(-hp_bar.size.x * 0.5, -_render_cell_size * 0.35)
+		hp_bar.position = center + Vector2(-hp_bar.size.x * 0.5, _render_cell_size * 0.18)
 
 func _refresh_status_panel() -> void:
 	var focus_unit: Unit = _selected_unit if _selected_unit != null else _combat.get_current_actor()
@@ -906,7 +894,7 @@ func _refresh_status_panel() -> void:
 	_status_hp_label.text = "HP: %d" % _combat.get_unit_hp(focus_unit)
 	_status_mp_label.text = "MP: %d / %d" % [_actions.get_current_mp(focus_unit), _actions.get_max_mp(focus_unit)]
 	var team_name := "Player" if _combat.get_unit_team(focus_unit) == CombatSystem.Team.PLAYER else "Enemy"
-	_status_misc_label.text = "Team: %s | Phase: %s | Camera: %d°" % [team_name, VSPhase.keys()[_phase], get_camera_rotation_degrees()]
+	_status_misc_label.text = "Team: %s | Phase: %s | View: Top-Down" % [team_name, VSPhase.keys()[_phase]]
 
 func _refresh_resource_hud() -> void:
 	if _inventory == null:
@@ -917,8 +905,7 @@ func _refresh_resource_hud() -> void:
 	_resource_labels["protect"].text = "Protect: %d" % _inventory.get_amount(ResourceTypes.ResourceId.PROTECT_SYMBOL)
 
 func _refresh_camera_status() -> void:
-	_camera_state_label.text = "Camera %d° | Grid %s | Map %d×%d | Speed x%d" % [
-		get_camera_rotation_degrees(),
+	_camera_state_label.text = "View Top-Down | Grid %s | Map %d×%d | Speed x%d" % [
 		"ON" if _grid_overlay_enabled else "OFF",
 		_map_size,
 		_map_size,
@@ -1065,10 +1052,6 @@ func _input(event: InputEvent) -> void:
 				_on_action_standby()
 			KEY_4:
 				_on_action_end_turn()
-			KEY_Q:
-				rotate_camera(-1)
-			KEY_E:
-				rotate_camera(1)
 			KEY_G:
 				set_grid_overlay_enabled(not _grid_overlay_enabled)
 			KEY_C:

@@ -41,7 +41,7 @@ func test_save_manager_restores_formal_battle_runtime_state() -> void:
 	add_child(restored)
 
 	var restored_enemy: Unit = _first_enemy(restored)
-	assert_eq(restored.get_camera_rotation_degrees(), 180)
+	assert_eq(restored.get_camera_rotation_degrees(), 0)
 	assert_false(restored.is_grid_overlay_enabled())
 	assert_eq(restored._active_menu_tab, "settings")
 	assert_true(restored._menu_layer.visible, "UI menu visibility should restore")

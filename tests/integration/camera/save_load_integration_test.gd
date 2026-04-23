@@ -35,7 +35,7 @@ func test_camera_preferences_round_trip_via_save_manager() -> void:
 	var restored = scene.instantiate()
 	add_child(restored)
 
-	assert_eq(restored.get_camera_rotation_degrees(), 180)
+	assert_eq(restored.get_camera_rotation_degrees(), 0)
 	assert_false(restored.is_grid_overlay_enabled())
 	assert_eq(restored.get_map_size(), 20)
 	restored.queue_free()
