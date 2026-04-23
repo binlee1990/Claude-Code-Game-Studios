@@ -1,6 +1,6 @@
 {
-  "last_turn_at": "2026-04-23T16:12:24.184Z",
-  "turn_count": 18,
-  "last_progress_at": "2026-04-23T16:12:24.184Z",
-  "last_agent_output": "这轮我把“先做设计、编码、测试”的最高价值项落到了真实运行时保存链路上，而没有再碰人工视觉验证。\n\n实现上，`SaveManager` 现在会真正写入 `SaveData.party_units` /"
+  "last_turn_at": "2026-04-23T16:46:16.944Z",
+  "turn_count": 22,
+  "last_progress_at": "2026-04-23T16:46:16.944Z",
+  "last_agent_output": "**产物**\n\n已完成并保存到 `docs/active`：\n\n- [srpg-remaining-nonhuman-work-solution.md](<D:\\work\\Games\\SRPG\\doc"
 }

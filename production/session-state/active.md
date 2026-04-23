@@ -1,11 +1,27 @@
 # Session State
 
-**Last Updated**: 2026-04-23
+**Last Updated**: 2026-04-24
 
 ## Current Task
 Gate-check Pre-Production → Production: PARTIAL (2D top-down remediation landed; human visual sign-off / fun validation pending)
-Phase 1 文档补齐: COMPLETE (9/9 tasks done)
-Next: human visual sign-off + subjective fun validation (automatable P3 chain complete)
+Automatable P3 chain: COMPLETE (`skill-system` → `equipment-system` → `character-management`)
+Execution focus: run the human-only gate with prepared evidence templates before opening new feature epics
+Next: fill `production/playtests/playtest-2026-04-24-visual-signoff.md` and `production/playtests/playtest-2026-04-24-fun-validation.md`, then resync stage docs from the results
+
+## Immediate Execution Checklist — 2026-04-24
+
+| Step | Owner | Evidence file | Exit rule |
+|------|-------|---------------|-----------|
+| Visual sign-off on formal battle path | Human | `production/playtests/playtest-2026-04-24-visual-signoff.md` | Menu -> battle readability, HUD readability, top-down map readability, and save/load presentation are judged and recorded |
+| Free-play fun validation | Human | `production/playtests/playtest-2026-04-24-fun-validation.md` | A real unscripted session produces a conclusion on pacing, clarity, and whether the core loop is fun enough to advance |
+| Stage resync after human evidence | Human + agent | `production/session-state/active.md`, `production/project-stage-report.md`, optional `production/stage.txt` | Keep `Pre-Production` unless both human reports justify a gate change |
+| Follow-up automation only from evidence | Agent | Targeted fix/test runs | Only regression reruns and concrete fixes found by the human sessions are in scope |
+
+## Do Not Start Yet
+
+- Do not open new feature epics before the two human gate reports exist.
+- Do not upgrade `production/stage.txt` from `Pre-Production` without explicit human PASS evidence.
+- Do not treat the scripted/headless validation sessions as a substitute for visual sign-off or fun validation.
 
 ## Phase 1 Documentation — Completed 2026-04-23
 

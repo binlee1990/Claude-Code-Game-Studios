@@ -1,6 +1,6 @@
 # 项目阶段分析
 
-**日期**: 2026-04-23
+**日期**: 2026-04-24
 **阶段**: Pre-Production / Vertical Slice Build
 **阶段置信度**: PASS — 基于权威状态文件、当前实现和回归结果
 
@@ -16,6 +16,13 @@
   - `skill-system`
   - `equipment-system`
   - `character-management`
+
+## 立即执行项
+
+1. 先完成人工视觉签字，使用 `production/playtests/playtest-2026-04-24-visual-signoff.md` 记录结果。
+2. 再完成人工自由试玩 / fun validation，使用 `production/playtests/playtest-2026-04-24-fun-validation.md` 记录结果。
+3. 只有在两份人类报告都支持推进时，才回写 `production/session-state/active.md`，并评估是否允许修改 `production/stage.txt`。
+4. 在这两份报告完成前，不继续开启新的 feature epic；自动化只做回归重跑和人类报告直接指出的问题修复。
 
 ## 证据摘要
 
