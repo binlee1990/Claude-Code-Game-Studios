@@ -3,6 +3,8 @@ tests/integration/attributes/save_load_integration_test.gd
 tests/integration/camera/battle_camera_map_test.gd
 tests/integration/camera/save_load_integration_test.gd
 tests/integration/class/save_load_integration_test.gd
+tests/integration/character/save_load_integration_test.gd
+tests/integration/equipment/save_load_integration_test.gd
 tests/integration/skill/save_load_integration_test.gd
 tests/integration/prototypes/battle_arena_entry_test.gd
 tests/integration/prototypes/vs_battle_test.gd
@@ -30,6 +32,14 @@ tests/unit/class/experience_level_test.gd
 tests/unit/class/stat_bonuses_test.gd
 tests/unit/class/state_machine_test.gd
 tests/unit/class/unlock_judgment_test.gd
+tests/unit/character/departure_recall_test.gd
+tests/unit/character/party_composition_test.gd
+tests/unit/equipment/affix_generation_test.gd
+tests/unit/equipment/decomposition_test.gd
+tests/unit/equipment/enhancement_test.gd
+tests/unit/equipment/equipment_data_model_test.gd
+tests/unit/equipment/final_attribute_test.gd
+tests/unit/equipment/set_bonus_test.gd
 tests/unit/resource/consumption_costs_test.gd
 tests/unit/resource/data_model_inventory_test.gd
 tests/unit/resource/enhancement_system_test.gd

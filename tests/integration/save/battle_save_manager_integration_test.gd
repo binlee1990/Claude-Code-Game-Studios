@@ -4,6 +4,7 @@
 extends Gut
 
 const TEST_SLOT := 7
+const CharacterRosterScript = preload("res://src/core/character/character_roster.gd")
 
 var _battle
 
@@ -49,10 +50,35 @@ func test_save_manager_restores_formal_battle_runtime_state() -> void:
 	assert_true(restored._auto_battle_controller.is_enabled())
 	assert_eq(restored._combat.get_unit_hp(restored_enemy), restored._combat._combat_units[restored_enemy]["hp"])
 	assert_true(restored._combat.get_unit_hp(restored_enemy) < 70, "Enemy HP should restore from saved combat state")
+	assert_eq(restored._roster.get_roster_size(), 6, "Roster should restore six tracked characters")
+	assert_eq(restored._roster.get_status(&"R3"), CharacterRosterScript.Status.DEPARTED, "Departed roster member should persist")
+	assert_true(restored._roster.get_character(&"R2").equipment_component.get_item(&"r2_dagger") != null, "Reserve equipment should restore")
 	restored.queue_free()
+
+func test_save_manager_writes_party_units_and_inventory_items_to_save_data() -> void:
+	assert_true(SaveManager.save_game(TEST_SLOT), "Scene state should save through SaveManager")
+	var saved: SaveData = load("user://saves/save_%d.tres" % TEST_SLOT) as SaveData
+	assert_true(saved != null, "Save file should deserialize as SaveData")
+	assert_eq(saved.party_units.size(), 6, "party_units should persist full roster")
+	assert_true(saved.inventory_items.size() > 0, "inventory_items should persist inventory snapshot")
+	assert_true(_find_party_entry(saved.party_units, &"P1").get("party_index", -1) == 0, "Party ordering should be encoded")
+	assert_eq(_find_inventory_entry(saved.inventory_items, ResourceTypes.ResourceId.GOLD).get("amount", 0), 500)
 
 func _first_enemy(battle) -> Unit:
 	for unit in battle._unit_cells:
 		if battle._combat.get_unit_team(unit) == CombatSystem.Team.ENEMY:
 			return unit
 	return null
+
+func _find_party_entry(entries: Array, unit_id: StringName) -> Dictionary:
+	for entry in entries:
+		var payload: Dictionary = entry.get("unit", {})
+		if StringName(payload.get("unit_id", "")) == unit_id:
+			return entry
+	return {}
+
+func _find_inventory_entry(entries: Array, resource_type: int) -> Dictionary:
+	for entry in entries:
+		if int(entry.get("resource_type", -1)) == resource_type:
+			return entry
+	return {}

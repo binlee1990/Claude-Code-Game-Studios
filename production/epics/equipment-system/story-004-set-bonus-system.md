@@ -1,10 +1,10 @@
 # Story 004: Set Bonus System
 
 > **Epic**: Equipment System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Feature
 > **Type**: Logic
-> **Manifest Version**: N/A — manifest not yet created
+> **Manifest Version**: 2026-04-23-v1
 
 > **Estimate**: 2-3 hours
 
@@ -65,7 +65,7 @@ From GDD C.5: 4 sets defined — Warrior's Power (STR+10, HP+100 / 20% double da
 
 **Story Type**: Logic
 **Required evidence**: `tests/unit/equipment/set_bonus_test.gd`
-**Status**: [ ] Not yet created
+**Status**: [x] `tests/unit/equipment/set_bonus_test.gd` created and passing
 
 ---
 

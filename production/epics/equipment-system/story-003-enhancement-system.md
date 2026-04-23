@@ -1,10 +1,10 @@
 # Story 003: Enhancement System
 
 > **Epic**: Equipment System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Feature
 > **Type**: Logic
-> **Manifest Version**: N/A — manifest not yet created
+> **Manifest Version**: 2026-04-23-v1
 
 > **Estimate**: 2-3 hours
 
@@ -73,7 +73,7 @@ From GDD D.3: `success_rate = 1.0 - (level - 5) × 0.05` for +6 and above. From 
 
 **Story Type**: Logic
 **Required evidence**: `tests/unit/equipment/enhancement_test.gd`
-**Status**: [ ] Not yet created
+**Status**: [x] `tests/unit/equipment/enhancement_test.gd` created and passing
 
 ---
 

@@ -17,6 +17,11 @@ signal buff_removed(unit: Node, buff_id: String)                    ## Status ef
 signal skill_used(user: Node, skill_id: String, targets: Array)      ## Skill activated
 signal skill_cooldown_ready(user: Node, skill_id: String)            ## Skill off cooldown
 signal skill_learned(unit: Node, skill_id: String)                   ## Skill learned or unlocked
+signal item_equipped(unit: Node, slot: int, item_id: String)         ## Equipment slot now points at item_id
+signal item_unequipped(unit: Node, slot: int, item_id: String)       ## Equipment item removed from slot
+signal party_composition_changed(old_party: Array, new_party: Array) ## Deployment order changed outside battle
+signal character_departed(unit_id: String, departure_type: String, reason: String) ## Character left active roster
+signal character_recalled(unit_id: String)                            ## Character returned to active roster
 signal game_saved(slot: int, timestamp: int)                          ## Game was saved
 signal game_loaded(slot: int)                                         ## Game was loaded
 signal attribute_changed(unit: Node, attr_type: int, old_value: int, new_value: int)  ## Attribute V changed

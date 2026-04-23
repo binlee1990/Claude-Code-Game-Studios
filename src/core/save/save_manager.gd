@@ -76,6 +76,8 @@ func _create_save_data() -> SaveData:
 	var provider: Node = _find_save_state_provider()
 	if provider != null and provider.has_method("capture_runtime_state"):
 		var runtime: Dictionary = provider.call("capture_runtime_state")
+		save_data.party_units = runtime.get("party_units", [])
+		save_data.inventory_items = runtime.get("inventory_items", [])
 		save_data.settings = runtime.get("settings", {})
 		save_data.battle_state = runtime.get("battle_state", {})
 		save_data.camera_preferences = runtime.get("camera_preferences", {})

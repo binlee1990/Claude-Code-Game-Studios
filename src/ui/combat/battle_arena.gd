@@ -30,6 +30,7 @@ enum VSPhase { SELECT_UNIT, SELECT_MOVE, SELECT_TARGET, ANIMATING, ENEMY_TURN, B
 var _combat: CombatSystem
 var _actions: ActionSystem
 var _inventory: Inventory
+var _roster: CharacterRoster
 var _speed_controller: SpeedController
 var _auto_battle_controller: AutoBattleController
 var _battle_history_log: BattleHistoryLog
@@ -319,6 +320,8 @@ func _reset_runtime_systems() -> void:
 	add_child(_actions)
 	_inventory = Inventory.new()
 	add_child(_inventory)
+	_roster = CharacterRoster.new()
+	add_child(_roster)
 	_speed_controller = SpeedController.new()
 	_auto_battle_controller = AutoBattleController.new(AIBrain.new(AI.AIType.BALANCED))
 	_battle_history_log = BattleHistoryLog.new()
@@ -339,7 +342,7 @@ func _reset_runtime_systems() -> void:
 	_battle_end_emitted = false
 
 func _destroy_runtime_nodes() -> void:
-	for node in [_combat, _actions, _inventory]:
+	for node in [_combat, _actions, _inventory, _roster]:
 		if is_instance_valid(node):
 			node.free()
 
@@ -357,10 +360,41 @@ func _load_default_battle() -> void:
 	set_map_size(DEFAULT_MAP_SIZE)
 	_seed_demo_inventory()
 
-	_create_unit("P1", "Swordsman", true, 80, Vector2i(2, 5), {"str": 22, "agi": 24})
-	_create_unit("P2", "Archer", true, 60, Vector2i(4, 6), {"str": 18, "agi": 20})
+	var p1: Unit = _create_unit("P1", "Swordsman", true, 80, Vector2i(2, 5), {"str": 22, "agi": 24})
+	var p2: Unit = _create_unit("P2", "Archer", true, 60, Vector2i(4, 6), {"str": 18, "agi": 20})
 	_create_unit("E1", "Dark Knight", false, 70, Vector2i(11, 7), {"str": 20, "agi": 12})
 	_create_unit("E2", "Dark Mage", false, 55, Vector2i(9, 9), {"str": 16, "agi": 10})
+	_seed_demo_equipment(p1, [
+		{
+			"item_id": "p1_bronze_sword",
+			"name": "Bronze Sword",
+			"slot": EquipmentDefinitions.Slot.WEAPON,
+			"quality": EquipmentDefinitions.Quality.BLUE,
+			"affixes": [{
+				"type": EquipmentDefinitions.AffixType.STR,
+				"value": 8,
+				"attribute_type": AttributeNames.Attribute.STR,
+				"stat_key": "",
+				"category": EquipmentDefinitions.AffixCategory.ATTACK,
+			}],
+		},
+	])
+	_seed_demo_equipment(p2, [
+		{
+			"item_id": "p2_longbow",
+			"name": "Longbow",
+			"slot": EquipmentDefinitions.Slot.WEAPON,
+			"quality": EquipmentDefinitions.Quality.BLUE,
+			"affixes": [{
+				"type": EquipmentDefinitions.AffixType.AGI,
+				"value": 7,
+				"attribute_type": AttributeNames.Attribute.AGI,
+				"stat_key": "",
+				"category": EquipmentDefinitions.AffixCategory.ATTACK,
+			}],
+		},
+	])
+	_seed_demo_roster([p1, p2])
 
 	var all_units: Array = _unit_cells.keys()
 	_combat.start_battle("vs_demo", "demo_map", 1)
@@ -380,6 +414,8 @@ func _apply_loaded_save_data(save_data: SaveData) -> void:
 
 	if not save_data.inventory_state.is_empty():
 		_inventory.deserialize(save_data.inventory_state)
+	elif not save_data.inventory_items.is_empty():
+		_restore_inventory_from_items(save_data.inventory_items)
 	else:
 		_seed_demo_inventory()
 
@@ -387,6 +423,7 @@ func _apply_loaded_save_data(save_data: SaveData) -> void:
 		_battle_history_log.deserialize(save_data.battle_history)
 
 	_load_battle_from_state(save_data.battle_state)
+	_restore_roster_from_save(save_data)
 
 func _load_battle_from_state(state: Dictionary) -> void:
 	var restored_map_size: int = state.get("map_size", DEFAULT_MAP_SIZE)
@@ -424,6 +461,48 @@ func _seed_demo_inventory() -> void:
 	_inventory.add_resource(ResourceTypes.ResourceId.FRUIT_STR, 3)
 	_inventory.add_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, 2)
 
+func _seed_demo_roster(deployed_units: Array) -> void:
+	for unit in deployed_units:
+		_roster.add_character(unit, CharacterRoster.Status.DEPLOYED)
+	_roster.set_party([&"P1", &"P2"])
+	var reserve_specs := [
+		{"id": "R1", "name": "Cleric", "stats": {"str": 12, "agi": 14}, "status": CharacterRoster.Status.AVAILABLE},
+		{"id": "R2", "name": "Rogue", "stats": {"str": 16, "agi": 21}, "status": CharacterRoster.Status.AVAILABLE},
+		{"id": "R3", "name": "Lancer", "stats": {"str": 20, "agi": 16}, "status": CharacterRoster.Status.DEPARTED, "reason": "chapter_2_exit"},
+		{"id": "R4", "name": "Mage", "stats": {"str": 11, "agi": 17}, "status": CharacterRoster.Status.AVAILABLE},
+	]
+	for spec in reserve_specs:
+		var reserve_unit := Unit.new()
+		reserve_unit.unit_id = StringName(spec["id"])
+		reserve_unit.display_name = String(spec["name"])
+		add_child(reserve_unit)
+		_apply_unit_stats(reserve_unit, spec["stats"])
+		if reserve_unit.unit_id == &"R2":
+			_seed_demo_equipment(reserve_unit, [
+				{
+					"item_id": "r2_dagger",
+					"name": "Scout Dagger",
+					"slot": EquipmentDefinitions.Slot.WEAPON,
+					"quality": EquipmentDefinitions.Quality.GREEN,
+					"affixes": [{
+						"type": EquipmentDefinitions.AffixType.AGI,
+						"value": 4,
+						"attribute_type": AttributeNames.Attribute.AGI,
+						"stat_key": "",
+						"category": EquipmentDefinitions.AffixCategory.ATTACK,
+					}],
+				},
+			])
+		_roster.add_character(reserve_unit, int(spec["status"]))
+		if int(spec["status"]) == CharacterRoster.Status.DEPARTED:
+			_roster.mark_story_departed(reserve_unit.unit_id, String(spec.get("reason", "")))
+
+func _seed_demo_equipment(unit: Unit, item_defs: Array) -> void:
+	for item_def in item_defs:
+		var item := EquipmentItem.new(item_def)
+		unit.equipment_component.add_item(item)
+		unit.equipment_component.equip_item(item.item_id)
+
 func _build_default_mp_config(units: Array) -> Dictionary:
 	var config: Dictionary = {}
 	for unit in units:
@@ -439,6 +518,9 @@ func _clear_unit_nodes() -> void:
 			unit.free()
 	_grid_units.clear()
 	_unit_cells.clear()
+	for child in get_children():
+		if child is Unit and is_instance_valid(child):
+			child.free()
 
 	for dict_ref in [_unit_panels, _unit_labels, _hp_bars]:
 		for value in dict_ref.values():
@@ -614,6 +696,8 @@ func is_grid_overlay_enabled() -> bool:
 func capture_runtime_state() -> Dictionary:
 	_ui_preferences["last_menu_tab"] = _active_menu_tab
 	return {
+		"party_units": _capture_party_units(),
+		"inventory_items": _capture_inventory_items(),
 		"settings": _ui_preferences.duplicate(true),
 		"battle_state": _capture_battle_state(),
 		"camera_preferences": capture_camera_preferences(),
@@ -661,6 +745,8 @@ func apply_ui_preferences(data: Dictionary) -> void:
 ## Apply a previously captured runtime-state payload to the current scene.
 func apply_runtime_state(state: Dictionary) -> void:
 	var wrapper := SaveData.new()
+	wrapper.party_units = state.get("party_units", [])
+	wrapper.inventory_items = state.get("inventory_items", [])
 	wrapper.battle_state = state.get("battle_state", {})
 	wrapper.camera_preferences = state.get("camera_preferences", {})
 	wrapper.ui_preferences = state.get("ui_preferences", {})
@@ -676,6 +762,54 @@ func set_active_menu_tab(tab_name: String) -> void:
 	_refresh_menu_content()
 	if _menu_buttons.has(tab_name):
 		(_menu_buttons[tab_name] as Button).grab_focus()
+
+func _capture_party_units() -> Array:
+	if _roster == null:
+		return []
+	return _roster.get_data().get("characters", []).duplicate(true)
+
+func _capture_inventory_items() -> Array:
+	var items: Array = []
+	if _inventory == null:
+		return items
+	var snapshot: Dictionary = _inventory.serialize()
+	var resource_ids: Array = snapshot.keys()
+	resource_ids.sort()
+	for resource_id in resource_ids:
+		items.append({
+			"resource_type": int(resource_id),
+			"amount": int(snapshot[resource_id]),
+		})
+	return items
+
+func _restore_inventory_from_items(items: Array) -> void:
+	var snapshot: Dictionary = {}
+	for entry in items:
+		if typeof(entry) != TYPE_DICTIONARY:
+			continue
+		snapshot[int(entry.get("resource_type", -1))] = int(entry.get("amount", 0))
+	_inventory.deserialize(snapshot)
+
+func _restore_roster_from_save(save_data: SaveData) -> void:
+	if _roster == null:
+		return
+	if save_data.party_units.is_empty():
+		_rebuild_roster_from_active_units()
+		return
+	_roster.load_data({
+		"characters": save_data.party_units,
+		"battle_active": _phase != VSPhase.BATTLE_END,
+	}, _build_all_unit_id_map())
+
+func _rebuild_roster_from_active_units() -> void:
+	_roster.load_data({"characters": [], "party": [], "battle_active": _phase != VSPhase.BATTLE_END})
+	var deployed: Array = []
+	for unit in _unit_cells.keys():
+		if _combat.get_unit_team(unit) != CombatSystem.Team.PLAYER:
+			continue
+		deployed.append(String(unit.unit_id))
+		_roster.add_character(unit, CharacterRoster.Status.DEPLOYED)
+	_roster.set_party(deployed)
 
 func _capture_battle_state() -> Dictionary:
 	var units: Array = []
@@ -931,7 +1065,7 @@ func _refresh_menu_content() -> void:
 			if actor == null:
 				text = "No active character."
 			else:
-				text = "Character\nName: %s\nHP: %d\nMP: %d/%d\nSTR: %d\nAGI: %d\nClass: %s" % [
+				text = "Character\nName: %s\nHP: %d\nMP: %d/%d\nSTR: %d\nAGI: %d\nClass: %s\nParty: %s\nReserve: %d | Departed: %d\nEquipment: %s" % [
 					actor.display_name,
 					_combat.get_unit_hp(actor),
 					_actions.get_current_mp(actor),
@@ -939,13 +1073,18 @@ func _refresh_menu_content() -> void:
 					actor.get_effective_attribute(AttributeNames.Attribute.STR),
 					actor.get_effective_attribute(AttributeNames.Attribute.AGI),
 					ClassNames.ClassID.keys()[actor.class_component.get_class_id()],
+					", ".join(_stringify_name_array(_roster.get_party())),
+					_roster.get_reserve_ids().size(),
+					_roster.get_departed_ids().size(),
+					_format_equipment_summary(actor),
 				]
 		"inventory":
-			text = "Inventory\nGold: %d\nMaterials: %d\nSTR Fruit: %d\nProtect Symbols: %d" % [
+			text = "Inventory\nGold: %d\nMaterials: %d\nSTR Fruit: %d\nProtect Symbols: %d\nSerialized entries: %d" % [
 				_inventory.get_amount(ResourceTypes.ResourceId.GOLD),
 				_inventory.get_amount(ResourceTypes.ResourceId.BASIC_MATERIAL),
 				_inventory.get_amount(ResourceTypes.ResourceId.FRUIT_STR),
 				_inventory.get_amount(ResourceTypes.ResourceId.PROTECT_SYMBOL),
+				_capture_inventory_items().size(),
 			]
 		"save":
 			text = "Save / Load\nCurrent Slot: %d\nPress F5 to save slot 1.\nPress F9 to load slot 1.\nContinue is now wired through SaveManager." % SaveManager.get_current_slot()
@@ -960,6 +1099,27 @@ func _refresh_menu_content() -> void:
 		_:
 			text = "Unknown menu tab."
 	_menu_content_label.text = text
+
+func _format_equipment_summary(unit: Unit) -> String:
+	var parts: Array[String] = []
+	for slot in unit.equipment_component.get_loadout():
+		var item: EquipmentItem = unit.equipment_component.get_equipped_item(slot)
+		if item == null:
+			continue
+		parts.append(item.name if item.name != "" else String(item.item_id))
+	if parts.is_empty():
+		return "None"
+	return ", ".join(parts)
+
+func _stringify_name_array(unit_ids: Array) -> Array[String]:
+	var names: Array[String] = []
+	for unit_id_variant in unit_ids:
+		var unit: Unit = _roster.get_character(StringName(unit_id_variant))
+		if unit == null:
+			names.append(String(unit_id_variant))
+		else:
+			names.append(unit.display_name)
+	return names
 
 func _restore_result_ui() -> void:
 	_result_label.visible = false
@@ -989,6 +1149,13 @@ func _build_unit_id_map() -> Dictionary:
 	var out: Dictionary = {}
 	for unit in _unit_cells.keys():
 		out[String(unit.unit_id)] = unit
+	return out
+
+func _build_all_unit_id_map() -> Dictionary:
+	var out: Dictionary = {}
+	for child in get_children():
+		if child is Unit:
+			out[String((child as Unit).unit_id)] = child
 	return out
 
 func _find_unit_by_id(unit_id: String) -> Unit:

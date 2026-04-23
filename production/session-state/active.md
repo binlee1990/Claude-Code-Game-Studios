@@ -5,7 +5,7 @@
 ## Current Task
 Gate-check Pre-Production → Production: PARTIAL (2D top-down remediation landed; human visual sign-off / fun validation pending)
 Phase 1 文档补齐: COMPLETE (9/9 tasks done)
-Next: equipment-system (P3 sequence after skill-system)
+Next: human visual sign-off + subjective fun validation (automatable P3 chain complete)
 
 ## Phase 1 Documentation — Completed 2026-04-23
 
@@ -98,6 +98,8 @@ Next: equipment-system (P3 sequence after skill-system)
 
 ## P3 Progress — 2026-04-23
 - `skill-system` epic implementation complete
+- `equipment-system` epic implementation complete
+- `character-management` epic implementation complete
 - New coverage added:
   - `tests/unit/skill/skill_data_model_test.gd`
   - `tests/unit/skill/proficiency_leveling_test.gd`
@@ -106,7 +108,18 @@ Next: equipment-system (P3 sequence after skill-system)
   - `tests/unit/skill/skill_damage_test.gd`
   - `tests/unit/skill/class_skills_test.gd`
   - `tests/integration/skill/save_load_integration_test.gd`
-- Next ordered epic: `equipment-system`
+  - `tests/unit/equipment/equipment_data_model_test.gd`
+  - `tests/unit/equipment/affix_generation_test.gd`
+  - `tests/unit/equipment/enhancement_test.gd`
+  - `tests/unit/equipment/set_bonus_test.gd`
+  - `tests/unit/equipment/decomposition_test.gd`
+  - `tests/unit/equipment/final_attribute_test.gd`
+  - `tests/integration/equipment/save_load_integration_test.gd`
+  - `tests/unit/character/party_composition_test.gd`
+  - `tests/unit/character/departure_recall_test.gd`
+  - `tests/integration/character/save_load_integration_test.gd`
+- Automatable P3 recommendation chain complete (`skill-system` → `equipment-system` → `character-management`)
+- Remaining blocker remains human visual sign-off and subjective fun validation before the gate can move beyond PARTIAL
 
 ## Session Extract — /dev-story 2026-04-23
 - Story: production/epics/turn-based-mode/story-006-speed-up-mode.md — Speed-Up Mode (TBM-006)

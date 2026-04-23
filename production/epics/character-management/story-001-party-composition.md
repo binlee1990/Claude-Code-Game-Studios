@@ -1,10 +1,10 @@
 # Story 001: Party Composition
 
 > **Epic**: Character Management
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Feature
 > **Type**: Logic
-> **Manifest Version**: N/A — manifest not yet created
+> **Manifest Version**: 2026-04-23-v1
 
 > **Estimate**: 2-3 hours
 
@@ -66,7 +66,7 @@ From GDD C.1: Max deployment = 4. Total roster = 6-8 characters (MVP fixed at 6)
 
 **Story Type**: Logic
 **Required evidence**: `tests/unit/character/party_composition_test.gd`
-**Status**: [ ] Not yet created
+**Status**: [x] `tests/unit/character/party_composition_test.gd` created and passing
 
 ---
 

@@ -1,10 +1,10 @@
 # Story 003: Character Save/Load Integration
 
 > **Epic**: Character Management
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Feature
 > **Type**: Integration
-> **Manifest Version**: N/A — manifest not yet created
+> **Manifest Version**: 2026-04-23-v1
 
 > **Estimate**: 2-3 hours
 
@@ -62,7 +62,7 @@ From ADR-003: Roster stored as array of character entries with status (available
 
 **Story Type**: Integration
 **Required evidence**: `tests/integration/character/save_load_integration_test.gd`
-**Status**: [ ] Not yet created
+**Status**: [x] `tests/integration/character/save_load_integration_test.gd` created and passing
 
 ---
 

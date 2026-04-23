@@ -1,10 +1,10 @@
 # Story 002: Affix Generation
 
 > **Epic**: Equipment System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Feature
 > **Type**: Logic
-> **Manifest Version**: N/A — manifest not yet created
+> **Manifest Version**: 2026-04-23-v1
 
 > **Estimate**: 2-3 hours
 
@@ -66,7 +66,7 @@ From GDD C.3: 4 affix categories — attack, defense, survival, special (rare). 
 
 **Story Type**: Logic
 **Required evidence**: `tests/unit/equipment/affix_generation_test.gd`
-**Status**: [ ] Not yet created
+**Status**: [x] `tests/unit/equipment/affix_generation_test.gd` created and passing
 
 ---
 

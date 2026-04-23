@@ -13,6 +13,7 @@ signal unit_destroyed(unit: Unit)
 var attributes: UnitAttributes
 var class_component: ClassComponent
 var skill_component: SkillComponent
+var equipment_component: EquipmentComponent
 
 func _ready() -> void:
 	_ensure_attributes()
@@ -20,8 +21,10 @@ func _ready() -> void:
 	attributes.threshold_unlocked.connect(_on_threshold_unlocked)
 	_ensure_class()
 	_ensure_skills()
+	_ensure_equipment()
 	class_component.class_changed.connect(_on_class_changed)
 	skill_component.bind_to_unit(self, class_component)
+	equipment_component.bind_to_unit(self)
 	unit_created.emit(self)
 
 func _exit_tree() -> void:
@@ -53,6 +56,15 @@ func _ensure_skills() -> void:
 	skill_component = SkillComponent.new()
 	skill_component.name = "SkillComponent"
 	add_child(skill_component)
+
+func _ensure_equipment() -> void:
+	for child in get_children():
+		if child is EquipmentComponent:
+			equipment_component = child
+			return
+	equipment_component = EquipmentComponent.new()
+	equipment_component.name = "EquipmentComponent"
+	add_child(equipment_component)
 
 func _on_attribute_changed(attr_type: int, new_value: int, old_value: int) -> void:
 	GameEvents.attribute_changed.emit(self, attr_type, old_value, new_value)
@@ -118,9 +130,14 @@ func get_skill(skill_id: StringName) -> SkillData:
 func get_effective_attribute(attr_type: int) -> int:
 	var base: int = attributes.get_value(attr_type)
 	var attr_callable: Callable = func(a: int) -> int: return attributes.get_value(a)
-	if not class_component.is_bonus_active(attr_callable):
-		return base
-	return base + class_component.get_class_bonus(attr_type)
+	var class_bonus: int = 0
+	if class_component.is_bonus_active(attr_callable):
+		class_bonus = class_component.get_class_bonus(attr_type)
+	return equipment_component.calculate_final_attribute(attr_type, base, class_bonus, 0)
+
+## Return equipment-only bonus for the given attribute.
+func get_equipment_bonus(attr_type: int) -> int:
+	return equipment_component.get_equipment_bonus(attr_type)
 
 ## Serialize unit data
 func serialize() -> Dictionary:
@@ -130,6 +147,7 @@ func serialize() -> Dictionary:
 		"attributes": attributes.serialize(),
 		"class": class_component.get_data(),
 		"skills": skill_component.get_data(),
+		"equipment": equipment_component.get_data(),
 	}
 
 ## Load unit data
@@ -144,3 +162,5 @@ func deserialize(data: Dictionary) -> void:
 		class_component.load_data(data["class"])
 	if "skills" in data:
 		skill_component.load_data(data["skills"])
+	if "equipment" in data:
+		equipment_component.load_data(data["equipment"])

@@ -1,10 +1,10 @@
 # Story 005: Equipment Decomposition
 
 > **Epic**: Equipment System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Feature
 > **Type**: Logic
-> **Manifest Version**: N/A — manifest not yet created
+> **Manifest Version**: 2026-04-23-v1
 
 > **Estimate**: 2 hours
 
@@ -59,7 +59,7 @@ From GDD C.6: White=2 basic materials, Green=5 basic, Blue=10 basic + 20% rare, 
 
 **Story Type**: Logic
 **Required evidence**: `tests/unit/equipment/decomposition_test.gd`
-**Status**: [ ] Not yet created
+**Status**: [x] `tests/unit/equipment/decomposition_test.gd` created and passing
 
 ---
 

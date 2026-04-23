@@ -9,11 +9,10 @@
 - `P0` 已完成：Godot 全量测试已恢复为 `0` 编译失败、`0` 断言失败
 - `P1` 已完成：battle 主路径、Camera/Map、UI、SaveManager 产品化整合已落地并通过自动化回归
 - `P2` 已部分完成：3 份结构化验证 session 已落地，剩余的是人类不可替代的视觉签字与主观 fun 判断
-- `P3` 已开始：`skill-system` epic 已完成并通过自动化回归
+- `P3` 已完成当前推荐链：`skill-system`、`equipment-system`、`character-management` 已完成并通过自动化回归
 - 当前未完成重点已收敛为：
-  - ≥3 次 playtest 与 fun validation
-  - `equipment-system`
-  - `character-management`
+  - 人类视觉签字
+  - `core loop` 主观 fun validation
 
 ## 目标
 
@@ -54,7 +53,7 @@
 - 现在继续堆功能，会把已有失败继续埋深
 - prototype 已证明核心循环可玩，但还没进入正式场景路径
 - Camera / UI / Save 是当前 Vertical Slice 的真正阻塞项
-- `skill-system` / `equipment-system` / `character-management` 现在开工会放大返工面
+- 当前自动化 backlog 已落地，继续推进 Production gate 主要取决于人类不可替代的验证证据
 
 ## 执行优先级
 
@@ -182,8 +181,8 @@
 推荐顺序：
 
 1. `skill-system` `[x]`
-2. `equipment-system` `[ ]`
-3. `character-management` `[ ]`
+2. `equipment-system` `[x]`
+3. `character-management` `[x]`
 
 原因：
 
@@ -214,11 +213,9 @@
 
 ## 当前不建议立即做的事
 
-- 直接开启 `skill-system` 全 epic
-- 直接开启 `equipment-system` 全 epic
-- 直接开启 `character-management` 全 epic
-- 在测试基线未恢复前继续追加 presentation 复杂度
-- 在正式主路径未接通前长期维护 prototype 与 product 双实现
+- 在没有人工视觉签字与 fun validation 的情况下宣称 Production gate 完成
+- 在未补足人工验证前，把当前阶段误判为“只剩继续堆功能”
+- 重新引入 prototype 与 product 的双轨实现
 
 ## 文档同步要求
 
@@ -231,4 +228,4 @@
 
 ## 建议的下一步
 
-按既定顺序继续进入 `equipment-system`，随后才是 `character-management`。
+执行人工视觉签字与自由试玩 fun validation；在拿到这部分人类证据之前，不要把 Pre-Production → Production gate 从 `PARTIAL` 升级为完成。

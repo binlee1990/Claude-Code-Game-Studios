@@ -1,10 +1,10 @@
 # Story 001: Equipment Data Model
 
 > **Epic**: Equipment System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Feature
 > **Type**: Logic
-> **Manifest Version**: N/A — manifest not yet created
+> **Manifest Version**: 2026-04-23-v1
 
 > **Estimate**: 2-3 hours
 
@@ -66,7 +66,7 @@ From GDD C.1: 6 equipment slots — weapon (sword/spear/axe/bow/staff/fist), arm
 
 **Story Type**: Logic
 **Required evidence**: `tests/unit/equipment/equipment_data_model_test.gd`
-**Status**: [ ] Not yet created
+**Status**: [x] `tests/unit/equipment/equipment_data_model_test.gd` created and passing
 
 ---
 

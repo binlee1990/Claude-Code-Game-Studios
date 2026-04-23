@@ -1,10 +1,10 @@
 # Story 006: Final Attribute Calculation
 
 > **Epic**: Equipment System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Feature
 > **Type**: Logic
-> **Manifest Version**: N/A — manifest not yet created
+> **Manifest Version**: 2026-04-23-v1
 
 > **Estimate**: 2-3 hours
 
@@ -64,7 +64,7 @@ From GDD D.1: `final_attribute = base_value + class_bonus + equipment_bonus + ba
 
 **Story Type**: Logic
 **Required evidence**: `tests/unit/equipment/final_attribute_test.gd`
-**Status**: [ ] Not yet created
+**Status**: [x] `tests/unit/equipment/final_attribute_test.gd` created and passing
 
 ---
 

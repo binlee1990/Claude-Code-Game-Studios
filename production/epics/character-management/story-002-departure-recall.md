@@ -1,10 +1,10 @@
 # Story 002: Character Departure & Recall
 
 > **Epic**: Character Management
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Feature
 > **Type**: Logic
-> **Manifest Version**: N/A — manifest not yet created
+> **Manifest Version**: 2026-04-23-v1
 
 > **Estimate**: 2-3 hours
 
@@ -66,7 +66,7 @@ From GDD C.2: Two departure types — story (narrative trigger, recallable via q
 
 **Story Type**: Logic
 **Required evidence**: `tests/unit/character/departure_recall_test.gd`
-**Status**: [ ] Not yet created
+**Status**: [x] `tests/unit/character/departure_recall_test.gd` created and passing
 
 ---
 

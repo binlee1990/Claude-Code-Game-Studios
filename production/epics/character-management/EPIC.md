@@ -3,7 +3,7 @@
 > **Layer**: Feature
 > **GDD**: design/gdd/character-management.md
 > **Architecture Module**: Attributes
-> **Status**: Ready
+> **Status**: Complete
 > **Stories**: 3 stories created (2 Logic, 1 Integration)
 
 ## Overview
@@ -32,9 +32,9 @@ Implements party composition and roster management: players maintain a roster of
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | Party Composition | Logic | Ready | ADR-001 |
-| 002 | Character Departure & Recall | Logic | Ready | ADR-001 |
-| 003 | Character Save/Load Integration | Integration | Ready | ADR-001, ADR-003 |
+| 001 | Party Composition | Logic | Complete | ADR-001 |
+| 002 | Character Departure & Recall | Logic | Complete | ADR-001 |
+| 003 | Character Save/Load Integration | Integration | Complete | ADR-001, ADR-003 |
 
 ## Definition of Done
 
@@ -46,4 +46,4 @@ This epic is complete when:
 
 ## Next Step
 
-Run `/story-readiness production/epics/character-management/story-001-party-composition.md` then `/dev-story` to begin implementation.
+Epic complete. Remaining gate work is human visual sign-off and subjective fun validation.

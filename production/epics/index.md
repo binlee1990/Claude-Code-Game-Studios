@@ -1,22 +1,22 @@
 # Epics Index
 
-Last Updated: 2026-04-21
+Last Updated: 2026-04-23
 Engine: Godot 4.6.2
 
 | Epic | Layer | System | GDD | Stories | Status |
 |------|-------|--------|-----|---------|--------|
-| attribute-system | Core | 属性与成长 | attribute-growth-system.md | 7 stories (6 Logic, 1 Integration) | Ready |
-| class-system | Core | 职业系统 | class-system.md | 6 stories (5 Logic, 1 Integration) | Ready |
-| resource-economy | Core | 资源经济 | resource-economy.md | 6 stories (5 Logic, 1 Integration) | Ready |
-| tactical-mechanism | Core | 战术机制 | tactical-mechanism.md | 5 stories (4 Logic, 1 Integration) | Ready |
-| ai-system | Core | AI系统 | ai-system.md | 6 stories (5 Logic, 1 Integration) | Ready |
+| attribute-system | Core | 属性与成长 | attribute-growth-system.md | 7 stories (6 Logic, 1 Integration) | Complete |
+| class-system | Core | 职业系统 | class-system.md | 6 stories (5 Logic, 1 Integration) | Complete |
+| resource-economy | Core | 资源经济 | resource-economy.md | 6 stories (5 Logic, 1 Integration) | Complete |
+| tactical-mechanism | Core | 战术机制 | tactical-mechanism.md | 5 stories (4 Logic, 1 Integration) | Complete |
+| ai-system | Core | AI系统 | ai-system.md | 6 stories (5 Logic, 1 Integration) | Complete |
 | skill-system | Core | 技能系统 | skill-system.md | 7 stories (6 Logic, 1 Integration) | Complete |
-| turn-based-mode | Core | 回合制模式 | turn-based-mode.md | 7 stories (6 Logic, 1 Integration) | Ready |
-| equipment-system | Feature | 装备系统 | equipment-system.md | 7 stories (6 Logic, 1 Integration) | Ready |
-| character-management | Feature | 角色管理 | character-management.md | 3 stories (2 Logic, 1 Integration) | Ready |
-| battle-settlement | Feature | 战斗结算 | battle-settlement.md | 5 stories (4 Logic, 1 Integration) | Ready |
-| camera-map-system | Presentation | 视角与地图 | camera-map-system.md | 3 stories (2 Visual/Feel, 1 Integration) | Ready |
-| ui-system | Presentation | UI系统 | ui-system.md | 3 stories (2 UI, 1 Integration) | Ready |
+| turn-based-mode | Core | 回合制模式 | turn-based-mode.md | 7 stories (6 Logic, 1 Integration) | Complete |
+| equipment-system | Feature | 装备系统 | equipment-system.md | 7 stories (6 Logic, 1 Integration) | Complete |
+| character-management | Feature | 角色管理 | character-management.md | 3 stories (2 Logic, 1 Integration) | Complete |
+| battle-settlement | Feature | 战斗结算 | battle-settlement.md | 5 stories (4 Logic, 1 Integration) | Complete |
+| camera-map-system | Presentation | 视角与地图 | camera-map-system.md | 3 stories (2 Visual/Feel, 1 Integration) | Complete |
+| ui-system | Presentation | UI系统 | ui-system.md | 3 stories (2 UI, 1 Integration) | Complete |
 
 ## Summary
 
