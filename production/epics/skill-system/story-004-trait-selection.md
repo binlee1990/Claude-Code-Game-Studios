@@ -1,7 +1,7 @@
 # Story 004: Trait Selection
 
 > **Epic**: Skill System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created
@@ -66,7 +66,7 @@ From GDD C.5: At levels 10/20/30, 2-3 trait options presented, player picks 1 pe
 
 **Story Type**: Logic
 **Required evidence**: `tests/unit/skill/trait_selection_test.gd`
-**Status**: [ ] Not yet created
+**Status**: [x] `tests/unit/skill/trait_selection_test.gd` created and passing
 
 ---
 

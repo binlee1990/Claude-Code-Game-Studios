@@ -9,8 +9,11 @@
 - `P0` 已完成：Godot 全量测试已恢复为 `0` 编译失败、`0` 断言失败
 - `P1` 已完成：battle 主路径、Camera/Map、UI、SaveManager 产品化整合已落地并通过自动化回归
 - `P2` 已部分完成：3 份结构化验证 session 已落地，剩余的是人类不可替代的视觉签字与主观 fun 判断
+- `P3` 已开始：`skill-system` epic 已完成并通过自动化回归
 - 当前未完成重点已收敛为：
   - ≥3 次 playtest 与 fun validation
+  - `equipment-system`
+  - `character-management`
 
 ## 目标
 
@@ -178,9 +181,9 @@
 
 推荐顺序：
 
-1. `skill-system`
-2. `equipment-system`
-3. `character-management`
+1. `skill-system` `[x]`
+2. `equipment-system` `[ ]`
+3. `character-management` `[ ]`
 
 原因：
 
@@ -228,9 +231,4 @@
 
 ## 建议的下一步
 
-进入 `P2`：
-
-1. 做至少 3 次人工 playtest
-2. 补截图 / walkthrough sign-off
-3. 根据反馈做最小必要修正
-4. 完成 `core loop fun validated` 的明确结论
+按既定顺序继续进入 `equipment-system`，随后才是 `character-management`。

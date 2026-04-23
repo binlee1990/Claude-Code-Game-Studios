@@ -5,7 +5,7 @@
 ## Current Task
 Gate-check Pre-Production → Production: PARTIAL (2D top-down remediation landed; human visual sign-off / fun validation pending)
 Phase 1 文档补齐: COMPLETE (9/9 tasks done)
-Next: Human visual sign-off + subjective fun validation
+Next: equipment-system (P3 sequence after skill-system)
 
 ## Phase 1 Documentation — Completed 2026-04-23
 
@@ -95,6 +95,18 @@ Next: Human visual sign-off + subjective fun validation
   - `production/playtests/playtest-2026-04-23-session-2.md`
   - `production/playtests/playtest-2026-04-23-session-3.md`
 - Remaining gap is human visual sign-off and subjective fun validation
+
+## P3 Progress — 2026-04-23
+- `skill-system` epic implementation complete
+- New coverage added:
+  - `tests/unit/skill/skill_data_model_test.gd`
+  - `tests/unit/skill/proficiency_leveling_test.gd`
+  - `tests/unit/skill/rank_system_test.gd`
+  - `tests/unit/skill/trait_selection_test.gd`
+  - `tests/unit/skill/skill_damage_test.gd`
+  - `tests/unit/skill/class_skills_test.gd`
+  - `tests/integration/skill/save_load_integration_test.gd`
+- Next ordered epic: `equipment-system`
 
 ## Session Extract — /dev-story 2026-04-23
 - Story: production/epics/turn-based-mode/story-006-speed-up-mode.md — Speed-Up Mode (TBM-006)

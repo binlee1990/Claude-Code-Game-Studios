@@ -16,6 +16,7 @@ signal buff_added(unit: Node, buff_id: String)                      ## Status ef
 signal buff_removed(unit: Node, buff_id: String)                    ## Status effect expired
 signal skill_used(user: Node, skill_id: String, targets: Array)      ## Skill activated
 signal skill_cooldown_ready(user: Node, skill_id: String)            ## Skill off cooldown
+signal skill_learned(unit: Node, skill_id: String)                   ## Skill learned or unlocked
 signal game_saved(slot: int, timestamp: int)                          ## Game was saved
 signal game_loaded(slot: int)                                         ## Game was loaded
 signal attribute_changed(unit: Node, attr_type: int, old_value: int, new_value: int)  ## Attribute V changed

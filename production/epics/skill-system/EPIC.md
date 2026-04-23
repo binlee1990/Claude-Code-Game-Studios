@@ -3,7 +3,7 @@
 > **Layer**: Core
 > **GDD**: design/gdd/skill-system.md
 > **Architecture Module**: Skills
-> **Status**: Ready
+> **Status**: Complete
 > **Stories**: 7 stories created (6 Logic, 1 Integration)
 
 ## Overview
@@ -34,13 +34,13 @@ Implements the proficiency-driven skill growth framework: skills gain proficienc
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | Skill Data Model | Logic | Ready | ADR-001 |
-| 002 | Proficiency & Leveling | Logic | Ready | ADR-001 |
-| 003 | Rank System | Logic | Ready | ADR-001 |
-| 004 | Trait Selection | Logic | Ready | ADR-001 |
-| 005 | Skill Damage Calculation | Logic | Ready | ADR-001 |
-| 006 | Class Skills | Logic | Ready | ADR-001 |
-| 007 | Skill Save/Load Integration | Integration | Ready | ADR-001, ADR-003 |
+| 001 | Skill Data Model | Logic | Complete | ADR-001 |
+| 002 | Proficiency & Leveling | Logic | Complete | ADR-001 |
+| 003 | Rank System | Logic | Complete | ADR-001 |
+| 004 | Trait Selection | Logic | Complete | ADR-001 |
+| 005 | Skill Damage Calculation | Logic | Complete | ADR-001 |
+| 006 | Class Skills | Logic | Complete | ADR-001 |
+| 007 | Skill Save/Load Integration | Integration | Complete | ADR-001, ADR-003 |
 
 ## Definition of Done
 
@@ -53,4 +53,4 @@ This epic is complete when:
 
 ## Next Step
 
-Run `/story-readiness production/epics/skill-system/story-001-skill-data-model.md` then `/dev-story` to begin implementation.
+Epic complete. Next ordered execution item is `production/epics/equipment-system/`.

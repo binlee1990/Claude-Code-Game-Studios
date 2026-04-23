@@ -12,13 +12,16 @@ signal unit_destroyed(unit: Unit)
 
 var attributes: UnitAttributes
 var class_component: ClassComponent
+var skill_component: SkillComponent
 
 func _ready() -> void:
 	_ensure_attributes()
 	attributes.attribute_changed.connect(_on_attribute_changed)
 	attributes.threshold_unlocked.connect(_on_threshold_unlocked)
 	_ensure_class()
+	_ensure_skills()
 	class_component.class_changed.connect(_on_class_changed)
+	skill_component.bind_to_unit(self, class_component)
 	unit_created.emit(self)
 
 func _exit_tree() -> void:
@@ -41,6 +44,15 @@ func _ensure_class() -> void:
 	class_component = ClassComponent.new()
 	class_component.name = "ClassComponent"
 	add_child(class_component)
+
+func _ensure_skills() -> void:
+	for child in get_children():
+		if child is SkillComponent:
+			skill_component = child
+			return
+	skill_component = SkillComponent.new()
+	skill_component.name = "SkillComponent"
+	add_child(skill_component)
 
 func _on_attribute_changed(attr_type: int, new_value: int, old_value: int) -> void:
 	GameEvents.attribute_changed.emit(self, attr_type, old_value, new_value)
@@ -94,6 +106,14 @@ func execute_class_change(class_id: int, achievement_points: int = 0) -> Diction
 func report_damage_dealt(damage: int, is_kill: bool, is_battle: bool = true) -> int:
 	return class_component.report_damage_dealt(damage, is_kill, is_battle)
 
+## Learn a normal skill by id.
+func learn_skill(skill_id: StringName) -> bool:
+	return skill_component.learn_normal_skill(skill_id)
+
+## Return a skill instance by id, or null when unknown.
+func get_skill(skill_id: StringName) -> SkillData:
+	return skill_component.get_skill(skill_id)
+
 ## Get effective attribute value (base + class bonus, suspended if below threshold)
 func get_effective_attribute(attr_type: int) -> int:
 	var base: int = attributes.get_value(attr_type)
@@ -109,6 +129,7 @@ func serialize() -> Dictionary:
 		"display_name": display_name,
 		"attributes": attributes.serialize(),
 		"class": class_component.get_data(),
+		"skills": skill_component.get_data(),
 	}
 
 ## Load unit data
@@ -121,3 +142,5 @@ func deserialize(data: Dictionary) -> void:
 		attributes.deserialize(data["attributes"])
 	if "class" in data:
 		class_component.load_data(data["class"])
+	if "skills" in data:
+		skill_component.load_data(data["skills"])

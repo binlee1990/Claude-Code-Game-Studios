@@ -1,7 +1,7 @@
 # Story 002: Proficiency & Leveling
 
 > **Epic**: Skill System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created
@@ -65,7 +65,7 @@ From GDD D.1: `proficiency_gained = base_proficiency × (1 + synergy_bonus + tal
 
 **Story Type**: Logic
 **Required evidence**: `tests/unit/skill/proficiency_leveling_test.gd`
-**Status**: [ ] Not yet created
+**Status**: [x] `tests/unit/skill/proficiency_leveling_test.gd` created and passing
 
 ---
 

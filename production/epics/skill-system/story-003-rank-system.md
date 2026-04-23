@@ -1,7 +1,7 @@
 # Story 003: Rank System
 
 > **Epic**: Skill System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created
@@ -66,7 +66,7 @@ From GDD C.4: Four ranks — Basic (max Lv10, default), Intermediate (max Lv20, 
 
 **Story Type**: Logic
 **Required evidence**: `tests/unit/skill/rank_system_test.gd`
-**Status**: [ ] Not yet created
+**Status**: [x] `tests/unit/skill/rank_system_test.gd` created and passing
 
 ---
 

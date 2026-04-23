@@ -10,7 +10,7 @@ Engine: Godot 4.6.2
 | resource-economy | Core | 资源经济 | resource-economy.md | 6 stories (5 Logic, 1 Integration) | Ready |
 | tactical-mechanism | Core | 战术机制 | tactical-mechanism.md | 5 stories (4 Logic, 1 Integration) | Ready |
 | ai-system | Core | AI系统 | ai-system.md | 6 stories (5 Logic, 1 Integration) | Ready |
-| skill-system | Core | 技能系统 | skill-system.md | 7 stories (6 Logic, 1 Integration) | Ready |
+| skill-system | Core | 技能系统 | skill-system.md | 7 stories (6 Logic, 1 Integration) | Complete |
 | turn-based-mode | Core | 回合制模式 | turn-based-mode.md | 7 stories (6 Logic, 1 Integration) | Ready |
 | equipment-system | Feature | 装备系统 | equipment-system.md | 7 stories (6 Logic, 1 Integration) | Ready |
 | character-management | Feature | 角色管理 | character-management.md | 3 stories (2 Logic, 1 Integration) | Ready |

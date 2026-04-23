@@ -1,7 +1,7 @@
 # Story 007: Skill Save/Load Integration
 
 > **Epic**: Skill System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Integration
 > **Manifest Version**: N/A — manifest not yet created
@@ -68,7 +68,7 @@ From ADR-003: Skill data per unit stored in save system. Each skill entry includ
 
 **Story Type**: Integration
 **Required evidence**: `tests/integration/skill/save_load_integration_test.gd`
-**Status**: [ ] Not yet created
+**Status**: [x] `tests/integration/skill/save_load_integration_test.gd` created and passing
 
 ---
 

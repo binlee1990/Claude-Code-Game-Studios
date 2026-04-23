@@ -1,7 +1,7 @@
 # Story 001: Skill Data Model
 
 > **Epic**: Skill System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created
@@ -66,7 +66,7 @@ From GDD C.1: Two classification dimensions — source (normal/class) and usage 
 
 **Story Type**: Logic
 **Required evidence**: `tests/unit/skill/skill_data_model_test.gd`
-**Status**: [ ] Not yet created
+**Status**: [x] `tests/unit/skill/skill_data_model_test.gd` created and passing
 
 ---
 

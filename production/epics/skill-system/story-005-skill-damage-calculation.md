@@ -1,7 +1,7 @@
 # Story 005: Skill Damage Calculation
 
 > **Epic**: Skill System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created
@@ -65,7 +65,7 @@ From GDD D.3: `final_damage = base_damage × level_multiplier × trait_multiplie
 
 **Story Type**: Logic
 **Required evidence**: `tests/unit/skill/skill_damage_test.gd`
-**Status**: [ ] Not yet created
+**Status**: [x] `tests/unit/skill/skill_damage_test.gd` created and passing
 
 ---
 

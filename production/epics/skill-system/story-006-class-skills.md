@@ -1,7 +1,7 @@
 # Story 006: Class Skills
 
 > **Epic**: Skill System
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Manifest Version**: N/A — manifest not yet created
@@ -66,7 +66,7 @@ From GDD C.6: 12 class-specific skills mapped to 12 classes. From C.7: Normal sk
 
 **Story Type**: Logic
 **Required evidence**: `tests/unit/skill/class_skills_test.gd`
-**Status**: [ ] Not yet created
+**Status**: [x] `tests/unit/skill/class_skills_test.gd` created and passing
 
 ---
 
