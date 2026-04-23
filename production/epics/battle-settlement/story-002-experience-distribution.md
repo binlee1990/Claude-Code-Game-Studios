@@ -1,10 +1,10 @@
 # Story 002: Experience Distribution
 
 > **Epic**: Battle Settlement
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Feature
 > **Type**: Logic
-> **Manifest Version**: N/A — manifest not yet created
+> **Manifest Version**: 2026-04-23-v1
 
 > **Estimate**: 2-3 hours
 
@@ -20,9 +20,9 @@
 
 ## Acceptance Criteria
 
-- [ ] AC.2.1: EXP distributed equally among surviving player units
-- [ ] AC-E1: Evaluation bonus multiplies final EXP (perfect=×1.5, excellent=×1.2, normal=×1.0)
-- [ ] AC-E2: EXP overflow carries into next level (consecutive level-ups possible)
+- [x] AC.2.1: EXP distributed equally among surviving player units
+- [x] AC-E1: Evaluation bonus multiplies final EXP (perfect=×1.5, excellent=×1.2, normal=×1.0)
+- [x] AC-E2: EXP overflow carries into next level (consecutive level-ups possible)
 
 ---
 
@@ -65,8 +65,8 @@ From GDD D.1: `exp_per_unit = total_exp / surviving_unit_count` (integer divisio
 ## Test Evidence
 
 **Story Type**: Logic
-**Required evidence**: `tests/unit/settlement/exp_distribution_test.gd`
-**Status**: [ ] Not yet created
+**Required evidence**: `tests/unit/settlement/experience_distribution_test.gd`
+**Status**: [x] Created 2026-04-23 (18 tests — AC.2.1, AC-E1, AC-E2)
 
 ---
 

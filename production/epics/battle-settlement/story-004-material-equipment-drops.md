@@ -1,10 +1,10 @@
 # Story 004: Material & Equipment Drops
 
 > **Epic**: Battle Settlement
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Feature
 > **Type**: Logic
-> **Manifest Version**: N/A — manifest not yet created
+> **Manifest Version**: 2026-04-23-v1
 
 > **Estimate**: 2-3 hours
 

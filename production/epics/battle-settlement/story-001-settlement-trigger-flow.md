@@ -1,10 +1,10 @@
 # Story 001: Settlement Trigger & Flow
 
 > **Epic**: Battle Settlement
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Feature
 > **Type**: Logic
-> **Manifest Version**: N/A — manifest not yet created
+> **Manifest Version**: 2026-04-23-v1
 
 > **Estimate**: 2-3 hours
 
@@ -20,9 +20,9 @@
 
 ## Acceptance Criteria
 
-- [ ] AC.1.1: Victory (all enemies HP=0) triggers victory settlement with full rewards
-- [ ] AC.1.2: Defeat (all allies HP=0) triggers defeat settlement (no EXP, no gold, small material reward)
-- [ ] AC.1.3: Retreat triggers retreat settlement (treated as defeat)
+- [x] AC.1.1: Victory (all enemies HP=0) triggers victory settlement with full rewards
+- [x] AC.1.2: Defeat (all allies HP=0) triggers defeat settlement (no EXP, no gold, small material reward)
+- [x] AC.1.3: Retreat triggers retreat settlement (treated as defeat)
 
 ---
 
@@ -74,3 +74,19 @@ From GDD C.1: Settlement triggered by combat flow end conditions. Victory: full 
 
 - Depends on: None (receives combat result from turn-based epic)
 - Unlocks: Stories 002-005
+
+---
+
+## Completion Notes
+
+**Completed**: 2026-04-23
+**Criteria**: 3/3 AC passing (AC.1.1, AC.1.2, AC.1.3) — plus GDD E.1, E.2, E.5 edge cases verified
+**Deviations**: None
+**Test Evidence**: `tests/unit/settlement/settlement_trigger_test.gd` — 15/15 PASS
+**Code Review**: Informal (solo mode) — integrated assertion substitution (`assert_null` → `assert_eq(..., null)`) for gut_stub compatibility before write
+**Files Delivered**:
+- `src/core/settlement/settlement_result.gd` (new, 38 lines)
+- `src/core/settlement/settlement_trigger.gd` (new, 72 lines)
+- `src/core/autoload/game_events.gd` (+1 signal `settlement_triggered`)
+- `tests/unit/settlement/settlement_trigger_test.gd` (new, 15 tests)
+- `tests/tests_manifest.txt` (+1 line)

@@ -114,3 +114,39 @@ func _has_affordable_skill(data: Dictionary) -> bool:
 func _recover_mp(data: Dictionary) -> void:
 	var recovery: int = int(data["max_mp"] * MP_RECOVERY_RATE)
 	data["current_mp"] = mini(data["current_mp"] + recovery, data["max_mp"])
+
+# ---------------------------------------------------------------------------
+# Save / Load
+# ---------------------------------------------------------------------------
+
+## Serialize all per-unit action state to a Dictionary keyed by unit_id (String).
+## Caller must ensure all units are registered via initialize() before calling.
+## Implements Story 007 (design/gdd/turn-based-mode.md AC-S2).
+func serialize() -> Dictionary:
+	var out: Dictionary = {}
+	for unit in _unit_data:
+		var d: Dictionary = _unit_data[unit]
+		out[String(unit.unit_id)] = {
+			"has_acted": d["has_acted"],
+			"has_moved": d["has_moved"],
+			"current_mp": d["current_mp"],
+			"max_mp": d["max_mp"],
+			"skill_costs": d["skill_costs"].duplicate(),
+		}
+	return out
+
+## Restore per-unit action state from serialized data.
+## Caller must first call initialize() so unit-to-data entries exist.
+## Units whose unit_id does not appear in data are left at their initialized defaults.
+## Unknown unit IDs in data (units not registered) are silently ignored.
+func deserialize(data: Dictionary) -> void:
+	for unit in _unit_data:
+		var key: String = String(unit.unit_id)
+		if not data.has(key):
+			continue
+		var d: Dictionary = data[key]
+		_unit_data[unit]["has_acted"] = d.get("has_acted", false)
+		_unit_data[unit]["has_moved"] = d.get("has_moved", false)
+		_unit_data[unit]["max_mp"] = d.get("max_mp", _unit_data[unit]["max_mp"])
+		_unit_data[unit]["current_mp"] = d.get("current_mp", _unit_data[unit]["max_mp"])
+		_unit_data[unit]["skill_costs"] = d.get("skill_costs", []).duplicate()

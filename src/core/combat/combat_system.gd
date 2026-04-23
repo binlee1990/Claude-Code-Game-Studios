@@ -180,3 +180,69 @@ func get_state() -> BattleState:
 
 func get_result() -> CombatResult:
 	return _result
+
+# ---------------------------------------------------------------------------
+# Save / Load
+# ---------------------------------------------------------------------------
+
+## Serialize core turn-flow state to a Dictionary.
+## Units are referenced by unit_id (String) — not Node refs — so data is
+## scene-independent and survives reload.
+## Implements Story 007 (design/gdd/turn-based-mode.md AC-S1, AC-S2).
+func serialize() -> Dictionary:
+	var order_ids: Array = []
+	for u in _turn_order:
+		order_ids.append(String(u.unit_id))
+	var units_data: Dictionary = {}
+	for unit in _combat_units:
+		units_data[String(unit.unit_id)] = {
+			"team": _combat_units[unit]["team"],
+			"hp": _combat_units[unit]["hp"],
+			"max_hp": _combat_units[unit]["max_hp"],
+			"is_alive": _combat_units[unit]["is_alive"],
+		}
+	return {
+		"state": _state,
+		"result": _result,
+		"current_turn": _current_turn,
+		"current_actor_index": _current_actor_index,
+		"turn_order_ids": order_ids,
+		"combat_units": units_data,
+		"interrupted": _interrupted,
+	}
+
+## Restore combat state from serialized data.
+## id_to_unit — Dictionary[String -> Unit] mapping unit_id strings to live Node refs.
+## Caller must build this map before calling deserialize.
+## Unknown unit IDs in data are silently skipped.
+func deserialize(data: Dictionary, id_to_unit: Dictionary) -> void:
+	# Validate enum values — corrupted saves with out-of-range ints fall back to defaults
+	var state_val: int = data.get("state", BattleState.IDLE)
+	_state = state_val if BattleState.values().has(state_val) else BattleState.IDLE
+	var result_val: int = data.get("result", CombatResult.NONE)
+	_result = result_val if CombatResult.values().has(result_val) else CombatResult.NONE
+	_current_turn = data.get("current_turn", 0)
+	_current_actor_index = data.get("current_actor_index", 0)
+	_interrupted = data.get("interrupted", false)
+
+	_turn_order.clear()
+	for id_str in data.get("turn_order_ids", []):
+		if id_to_unit.has(id_str):
+			_turn_order.append(id_to_unit[id_str])
+
+	_combat_units.clear()
+	var units_data: Dictionary = data.get("combat_units", {})
+	for id_str in units_data:
+		if not id_to_unit.has(id_str):
+			continue
+		var u: Unit = id_to_unit[id_str]
+		var d: Dictionary = units_data[id_str]
+		var team_val: int = d.get("team", Team.PLAYER)
+		if not Team.values().has(team_val):
+			team_val = Team.PLAYER
+		_combat_units[u] = {
+			"team": team_val,
+			"hp": d.get("hp", 0),
+			"max_hp": d.get("max_hp", 0),
+			"is_alive": d.get("is_alive", true),
+		}

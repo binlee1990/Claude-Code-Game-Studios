@@ -1,10 +1,10 @@
 # Story 006: Speed-Up Mode
 
 > **Epic**: Turn-Based Mode
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
-> **Manifest Version**: N/A — manifest not yet created
+> **Manifest Version**: 2026-04-23-v1
 
 > **Estimate**: 2-3 hours
 
@@ -20,9 +20,9 @@
 
 ## Acceptance Criteria
 
-- [ ] AC.4.1: Normal mode = 1× animation speed, AI delay 0.5-1.5s
-- [ ] AC.4.2: Fast mode = 2× animation speed, AI delay 0.2-0.5s
-- [ ] AC.4.3: Max speed = 3× animation speed, AI delay 0s
+- [x] AC.4.1: Normal mode = 1× animation speed, AI delay 0.5-1.5s
+- [x] AC.4.2: Fast mode = 2× animation speed, AI delay 0.2-0.5s
+- [x] AC.4.3: Max speed = 3× animation speed, AI delay 0s
 
 ---
 
@@ -71,3 +71,19 @@ From GDD C.6: Three speed tiers affect animation playback rate and AI decision d
 
 - Depends on: Story 004 (combat flow provides the action loop)
 - Unlocks: Story 007 (save/load persists speed setting)
+
+---
+
+## Completion Notes
+
+**Completed**: 2026-04-23
+**Criteria**: 3/3 passing (AC.4.1, AC.4.2, AC.4.3) — no deferred
+**Deviations**: None
+**Test Evidence**: `tests/unit/turn/speed_up_mode_test.gd` — 14/14 PASS (14 functions cover all 3 ACs + idempotency + invalid input + mid-combat switch + range inspection)
+**Code Review**: Complete (APPROVED WITH NITS, both NITs fixed — enum-name dict keys, signal order documented)
+**Review Mode**: solo (LP-CODE-REVIEW and QL-TEST-COVERAGE gates skipped per project mode)
+**Files Delivered**:
+- `src/core/combat/speed_controller.gd` (new)
+- `src/core/autoload/game_events.gd` (+1 signal `speed_tier_changed`)
+- `tests/unit/turn/speed_up_mode_test.gd` (new)
+- `tests/tests_manifest.txt` (registration)

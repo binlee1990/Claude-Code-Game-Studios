@@ -3,7 +3,9 @@ tests/integration/attributes/save_load_integration_test.gd
 tests/integration/class/save_load_integration_test.gd
 tests/integration/prototypes/vs_battle_test.gd
 tests/integration/resource/save_load_integration_test.gd
+tests/integration/settlement/save_load_integration_test.gd
 tests/integration/tactical/tactical_integration_test.gd
+tests/integration/turn/save_load_integration_test.gd
 tests/integration/test_turn_order_integration.gd
 tests/unit/ai/ai_type_weights_test.gd
 tests/unit/ai/boss_ai_test.gd
@@ -26,6 +28,10 @@ tests/unit/resource/data_model_inventory_test.gd
 tests/unit/resource/enhancement_system_test.gd
 tests/unit/resource/gold_material_acquisition_test.gd
 tests/unit/resource/rare_drops_test.gd
+tests/unit/settlement/battle_evaluation_test.gd
+tests/unit/settlement/drop_calculator_test.gd
+tests/unit/settlement/experience_distribution_test.gd
+tests/unit/settlement/settlement_trigger_test.gd
 tests/unit/tactical/elemental_interactions_test.gd
 tests/unit/tactical/height_advantage_test.gd
 tests/unit/tactical/terrain_data_model_test.gd
@@ -35,4 +41,5 @@ tests/unit/turn/action_system_test.gd
 tests/unit/turn/auto_battle_test.gd
 tests/unit/turn/combat_flow_test.gd
 tests/unit/turn/movement_system_test.gd
+tests/unit/turn/speed_up_mode_test.gd
 tests/unit/turn/turn_order_test.gd

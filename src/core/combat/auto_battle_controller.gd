@@ -143,3 +143,20 @@ func delegate_turn(
 		"target_id": chosen_target,
 		"position_idx": chosen_position,
 	}
+
+# ---------------------------------------------------------------------------
+# Save / Load
+# ---------------------------------------------------------------------------
+
+## Serialize auto-battle enabled flag.
+## Manual overrides are per-turn transient state and are NOT persisted.
+## Implements Story 007 (design/gdd/turn-based-mode.md AC-S3).
+func serialize() -> Dictionary:
+	return {"enabled": _enabled}
+
+## Restore auto-battle state from serialized data.
+## Manual overrides are cleared — they are per-turn only and do not survive a load.
+## Direct assignment — does NOT emit toggled signal (loading is not a user action).
+func deserialize(data: Dictionary) -> void:
+	_enabled = data.get("enabled", false)
+	_manual_overrides.clear()

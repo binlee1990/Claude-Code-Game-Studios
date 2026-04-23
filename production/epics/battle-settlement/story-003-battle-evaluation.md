@@ -1,10 +1,10 @@
 # Story 003: Battle Evaluation
 
 > **Epic**: Battle Settlement
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Feature
 > **Type**: Logic
-> **Manifest Version**: N/A — manifest not yet created
+> **Manifest Version**: 2026-04-23-v1
 
 > **Estimate**: 2-3 hours
 
@@ -20,9 +20,9 @@
 
 ## Acceptance Criteria
 
-- [ ] AC.3.1: No deaths → Excellent rating (+20% EXP)
-- [ ] AC.3.2: No deaths AND zero damage taken → Perfect rating (+50% EXP)
-- [ ] AC.3.3: Any death → Normal rating (+0% EXP)
+- [x] AC.3.1: No deaths → Excellent rating (+20% EXP)
+- [x] AC.3.2: No deaths AND zero damage taken → Perfect rating (+50% EXP)
+- [x] AC.3.3: Any death → Normal rating (+0% EXP)
 
 ---
 
@@ -65,7 +65,7 @@ From GDD C.5: Four ratings — Perfect (no death, 0 damage), Excellent (no death
 
 **Story Type**: Logic
 **Required evidence**: `tests/unit/settlement/battle_evaluation_test.gd`
-**Status**: [ ] Not yet created
+**Status**: [x] Created — `tests/unit/settlement/battle_evaluation_test.gd` (14 tests, 2026-04-23)
 
 ---
 
