@@ -3,13 +3,18 @@
 **Last Updated**: 2026-04-26
 
 ## Current Task
-Sprint-002 Lane C COMPLETE（CH2-001～004 全部完成）。
+**Sprint-002 ALL LANES COMPLETE** — A 治理 + B 观感 P0（含 ART/AUDIO） + C Ch.2 全部 DONE。
 
 Active stage: Production (post-vertical-slice). Last gate: Pre-Production → Production PASS WITH CONCERNS.
 
-Next: Lane C Gate 验证 — 运行 `/design-review design/gdd/chapter-02.md`；
-确认 `production/epics/index.md` 已含 chapter-02 行。
-Lane A（治理闭环）和 Lane B（观感 P0）待执行。
+Quality gates passed:
+- godot --check-only --quit: 0 parse error
+- GUT 测试 686/686 PASS（0 fail / 0 regression）
+- License 合规：OFL 字体 + CC-BY 3.0 BGM + 强制 attribution 已写入 design/ux/credits.md
+- Hooks ERROR 修复：所有 hook 命令统一改为 `$CLAUDE_PROJECT_DIR` 绝对路径
+
+Next: 人工动作（截图归档 + Windows packaged smoke 重跑）+ Sprint-003 准备
+（建议主题：内容扩展 Ch.3 + 管理屏 Beta 目标 + ADR-007/008/009）。
 
 ## Sprint-002 Lane C — COMPLETE 2026-04-26
 
@@ -29,6 +34,44 @@ Lane A（治理闭环）和 Lane B（观感 P0）待执行。
 - enemy_stat_multiplier：act_a=1.10 / act_b=1.15 / finale=1.30
 - design/narrative/ 目录已由 Write 工具自动创建
 
+## Sprint-002 Lane A — COMPLETE 2026-04-26
+
+| Story | 交付物 | 状态 |
+|-------|-------|------|
+| GOV-001 | ADR-004 Combat System → Accepted | DONE |
+| GOV-002 | ADR-005 AI Behavior → Accepted | DONE |
+| GOV-003 | ADR-006 Attribute Data Model → Accepted | DONE |
+| GOV-004 | docs/architecture/control-manifest.md → v2（覆盖 ADR-001~006） | DONE |
+| GOV-005 | 12 EPIC.md 回填 TR-IDs（65 行 TR refs） | DONE |
+| GOV-006 | docs/architecture/tr-registry.yaml 加 DEPRECATED 注释，权威路径迁至 production/registries/ | DONE |
+
+## Sprint-002 Lane B — COMPLETE 2026-04-26
+
+| Story | 交付物 | 状态 |
+|-------|-------|------|
+| UI-P0-01 | 主菜单焦点 GOLD + 存档摘要 + SaveManager.peek_save 只读接口 | DONE |
+| UI-P0-02 | 战斗 HUD Auto/手动徽章 + speed badge | DONE |
+| UI-P0-03 | 回合立牌迷你 HP 条（HP%-color） | DONE |
+| UI-P0-04 | src/ui/common/hint_bar.gd 全局按键提示行（主菜单 + 战斗均挂载） | DONE |
+| ART-P0-05 | 标题字体 ZCOOL XiaoWei（OFL）落盘 + srpg_theme TITLE_FONT preload | DONE |
+| ART-P0-06 | 正文字体 Noto Serif SC（OFL）落盘 + srpg_theme BODY_FONT preload | DONE |
+| AUDIO-P0-07 | 主菜单 BGM Cambodean Odyssey（CC-BY 3.0，727KB）autoplay loop | DONE |
+| AUDIO-P0-08 | 战斗 BGM Rite of Passage（CC-BY 3.0，3.3MB）autoplay loop | DONE |
+
+## 关键架构决策记录（Lane B）
+
+- focus stylebox border 颜色全局 JADE → GOLD（统一焦点视觉语言）
+- SaveManager 加 peek_save(slot) → SaveData 只读接口（避免 load_game 副作用污染主菜单预览）
+- HintBar 类型注解用 Control 而非 class_name HintBar（规避 Godot --check-only 模式下 class 注册时序问题）
+- BGM autoplay 在 _ready 末尾挂载；AudioStreamOggVorbis 设 loop=true；OGG 文件需先 godot --editor 触发 import 扫描
+
+## 关键事件记录（Lane B 资产链）
+
+- art-director 初版 BGM 清单 4 条 URL 全部死链（soundimage 404、opengameart 搜索页非直链、pixabay 403、Wonders_2014 archive item 文件清单为空）
+- audio-director 重做后仍有 3/4 死链（Wonders_2014 album 内文件 02/05/10 均 404）
+- orchestrator 介入直接 curl https://archive.org/download/Global_Sampler-9620/ 拉取真实文件清单，挑出 9 首中适配武侠基调的 2 首作为 menu/battle BGM
+- 教训：archive.org item 存在 ≠ 内部任意预期文件名存在；future agent 必须基于真实 directory listing 而非搜索结果中"看似"的曲目编号
+
 ## Sprint-002 Baseline Documents — 2026-04-26
 
 | Lane | Document | Path | Lines |
@@ -43,7 +86,7 @@ Lane A（治理闭环）和 Lane B（观感 P0）待执行。
 ## Sprint-002 Plan
 
 Path: `production/sprints/sprint-002.md`
-Status: PLANNING (awaiting lane priority decision)
+Status: **COMPLETE** (v1.0 — 2026-04-26)
 
 | Lane | Stories | Risk | Notes |
 |------|---------|------|-------|

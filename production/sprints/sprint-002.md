@@ -1,8 +1,60 @@
 # Sprint 2: Governance Closure + Presentation P0 + Chapter 2 Foundation
 
-> Version: v0.1 | Date: 2026-04-26 | Status: PLANNING
+> Version: v1.0 | Date: 2026-04-26 | Status: **COMPLETE** — All lanes delivered, 686/686 tests PASS, godot --check-only PASS
 > Previous: sprint-001 v1.2 COMPLETE (Vertical Slice Validated With Product-Scope Notes)
-> Control Manifest: 2026-04-23-v1（本 Sprint 内将升 v2）
+> Control Manifest: 2026-04-26-v2（已升级，覆盖 ADR-001~006）
+
+## Delivery Summary — 2026-04-26
+
+| Lane | Story | Status | Evidence |
+|------|-------|--------|----------|
+| A 治理 | GOV-001 ADR-004 → Accepted | ✅ | docs/architecture/ADR-004-combat-system.md |
+| A 治理 | GOV-002 ADR-005 → Accepted | ✅ | docs/architecture/ADR-005-ai-behavior.md |
+| A 治理 | GOV-003 ADR-006 → Accepted | ✅ | docs/architecture/ADR-006-attribute-data-model.md |
+| A 治理 | GOV-004 control-manifest v2 | ✅ | docs/architecture/control-manifest.md (覆盖 ADR-001~006) |
+| A 治理 | GOV-005 12 EPIC TR-IDs 回填 | ✅ | 12 个 production/epics/*/EPIC.md (65 行 TR refs) |
+| A 治理 | GOV-006 旧 tr-registry deprecated | ✅ | docs/architecture/tr-registry.yaml (DEPRECATED 注释) |
+| B1 字体 | OFL 字体下载 + LICENSE | ✅ | assets/fonts/{zcool_xiaowei.ttf,noto_serif_sc.otf,LICENSE.md} |
+| B2 UI | UI-P0-01 主菜单焦点 + 存档摘要 | ✅ | src/ui/menu/main_menu.gd, src/core/save/save_manager.gd (peek_save) |
+| B2 UI | UI-P0-02 战斗 HUD Auto/speed 徽章 | ✅ | src/ui/combat/battle_arena.gd |
+| B2 UI | UI-P0-03 立牌迷你 HP 条 | ✅ | src/ui/combat/battle_arena.gd |
+| B2 UI | UI-P0-04 全局 hint_bar | ✅ | src/ui/common/hint_bar.gd (新建) |
+| ART | ART-P0-05/06 字体挂到 srpg_theme | ✅ | src/ui/theme/srpg_theme.gd (TITLE_FONT/BODY_FONT preload) |
+| AUDIO | AUDIO-P0-07 主菜单 BGM | ✅ | assets/audio/bgm/main_menu_bgm.ogg (Cambodean Odyssey, 727KB) |
+| AUDIO | AUDIO-P0-08 战斗 BGM | ✅ | assets/audio/bgm/battle_bgm.ogg (Rite of Passage, 3.3MB) |
+| C 内容 | CH2-001 GDD 全量 8 节 | ✅ | design/gdd/chapter-02.md (531 行) |
+| C 内容 | CH2-002 信念值分支文档 | ✅ | design/narrative/belief-branching.md (172 行) |
+| C 内容 | CH2-003 三战 JSON skeleton | ✅ | src/ui/combat/battle_definitions/chapter_02_{act_a,act_b,finale}.json |
+| C 内容 | CH2-004 epic 入口 | ✅ | production/epics/chapter-02/index.md + index 追加行 |
+
+## Quality Gates Passed
+
+- godot --check-only --quit：无 parse error
+- GUT 测试套件：**686/686 PASS**（0 fail，0 regression）
+- License 合规：OFL 字体 + CC-BY 3.0 BGM 全部记录，CC-BY 强制 attribution 已写入 design/ux/credits.md
+
+## Known Outstanding (Sprint-003+)
+
+- Windows packaged smoke 重跑（验证 release 包字体/BGM）
+- 人工截图归档至 production/qa/evidence/sprint-002-presentation-p0.md
+- ADR-007/008/009（职业/资源/装备）+ 6 系统 epic 化（羁绊/迷雾/基地/多周目/事件/正式音频）
+- UX 提案 Beta 目标（结算屏全量 + 管理屏手动编队）
+- Chapter 2 实际战斗实装（CH2-content-001~006）
+
+## Risk Resolution Log
+
+| 风险 | 状态 |
+|------|------|
+| ADR 提升发现内容与代码不一致 | 未触发 — 提升后跑全量测试 686/686 PASS |
+| 中文字体生僻字缺失 | 用 Noto Serif SC 子集（11MB），覆盖度合格 |
+| BGM 循环不顺 | OGG Vorbis loop=true，未来人工试听确认 |
+| Ch.2 GDD 与总纲冲突 | game-designer 已先读总纲再写 |
+| Lane A/B 同时改 srpg_theme | 实际未冲突 — A 不动主题，B 仅添加字体 const |
+| 资产清单 URL 不可达（BGM） | 已暴露 — audio-director 重做后仍 3/4 死链；orchestrator 介入查 archive.org 真实文件清单解决 |
+
+---
+
+> 以下为 Sprint 启动时的 Plan 草稿，保留作为追溯参考。
 
 ## Sprint Goal
 
