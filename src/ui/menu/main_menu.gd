@@ -167,14 +167,14 @@ func _execute_packaged_playthrough_smoke() -> Dictionary:
 		return {"success": false, "reason": "load_failed"}
 	var restored = scene.instantiate()
 	add_child(restored)
-	var restored_ok := restored.get_battle_id() == "chapter_01_finale"
+	var restored_ok: bool = restored.get_battle_id() == "chapter_01_finale"
 	restored_ok = restored_ok and bool(restored.get_management_screen_state().get("visible", false))
-	restored_ok = restored_ok and restored.get_campaign_state().get("camp_report", "") != ""
-	var report := {
+	restored_ok = restored_ok and String(restored.get_campaign_state().get("camp_report", "")) != ""
+	var report: Dictionary = {
 		"success": restored_ok,
 		"battle": restored.get_battle_id(),
 		"management_tab": restored.get_management_screen_state().get("tab", ""),
-		"camp_report_present": restored.get_campaign_state().get("camp_report", "") != "",
+		"camp_report_present": String(restored.get_campaign_state().get("camp_report", "")) != "",
 	}
 	restored.queue_free()
 	var save_path := "user://saves/save_6.tres"
