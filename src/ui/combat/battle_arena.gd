@@ -28,6 +28,7 @@ const _HIT_FLASH_DURATION := 0.22
 const _DEATH_FADE_DURATION := 0.36
 const _CAMERA_ROTATION_DEGREES := [0]
 const _SCENE_KEY := "battle"
+const _CHAPTER_01_TO_CHAPTER_02_PATH := "res://src/ui/combat/battle_definitions/chapter_02_act_a.json"
 const _DEFAULT_UI_PREFERENCES := {
 	"master_volume": 70,
 	"sfx_volume": 70,
@@ -118,14 +119,25 @@ var _auto_badge_label: Label
 var _speed_badge_label: Label
 var _hint_bar: Control
 var _menu_layer: CanvasLayer
+var _menu_blocker: ColorRect
 var _menu_panel: Panel
 var _menu_content_label: Label
 var _menu_buttons: Dictionary = {}
+var _settlement_layer: CanvasLayer
+var _settlement_blocker: ColorRect
+var _settlement_panel: Panel
+var _settlement_title_label: Label
+var _settlement_summary_label: Label
+var _settlement_next_label: Label
+var _settlement_continue_btn: Button
+var _settlement_main_menu_btn: Button
 var _management_layer: CanvasLayer
+var _management_blocker: ColorRect
 var _management_panel: Panel
 var _management_title_label: Label
 var _management_content_label: Label
 var _management_buttons: Dictionary = {}
+var _is_chapter_transitioning: bool = false
 
 func _ready() -> void:
 	add_to_group("save_state_provider")
@@ -281,11 +293,13 @@ func _build_ui() -> void:
 	_result_label.add_theme_color_override("font_shadow_color", Color(0.0, 0.0, 0.0, 0.8))
 	_result_label.add_theme_constant_override("shadow_offset_x", 2)
 	_result_label.add_theme_constant_override("shadow_offset_y", 3)
+	_result_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_result_label.visible = false
 	add_child(_result_label)
 
 	_build_menu_overlay()
 	_build_management_overlay()
+	_build_settlement_overlay()
 	_build_audio_bus()
 
 func _build_top_bar() -> void:
@@ -371,10 +385,10 @@ func _build_menu_overlay() -> void:
 	_menu_layer = CanvasLayer.new()
 	add_child(_menu_layer)
 
-	var blocker := ColorRect.new()
-	blocker.set_anchors_preset(Control.PRESET_FULL_RECT)
-	blocker.color = Color(0.0, 0.0, 0.0, 0.62)
-	_menu_layer.add_child(blocker)
+	_menu_blocker = ColorRect.new()
+	_menu_blocker.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_menu_blocker.color = Color(0.0, 0.0, 0.0, 0.62)
+	_menu_layer.add_child(_menu_blocker)
 
 	_menu_panel = Panel.new()
 	_menu_panel.set_anchors_preset(Control.PRESET_CENTER)
@@ -490,17 +504,17 @@ func _build_menu_overlay() -> void:
 	SRPGTheme.apply_label(_menu_content_label, SRPGTheme.PAPER, 15)
 	content.add_child(_menu_content_label)
 
-	_menu_layer.visible = false
+	_set_menu_overlay_visible(false)
 
 func _build_management_overlay() -> void:
 	_management_layer = CanvasLayer.new()
 	_management_layer.layer = 12
 	add_child(_management_layer)
 
-	var blocker := ColorRect.new()
-	blocker.set_anchors_preset(Control.PRESET_FULL_RECT)
-	blocker.color = Color(0.0, 0.0, 0.0, 0.72)
-	_management_layer.add_child(blocker)
+	_management_blocker = ColorRect.new()
+	_management_blocker.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_management_blocker.color = Color(0.0, 0.0, 0.0, 0.72)
+	_management_layer.add_child(_management_blocker)
 
 	_management_panel = Panel.new()
 	_management_panel.set_anchors_preset(Control.PRESET_CENTER)
@@ -597,7 +611,70 @@ func _build_management_overlay() -> void:
 	SRPGTheme.apply_label(_management_content_label, SRPGTheme.PAPER, 16)
 	layout.add_child(_management_content_label)
 
-	_management_layer.visible = false
+	_set_management_overlay_visible(false)
+
+func _build_settlement_overlay() -> void:
+	_settlement_layer = CanvasLayer.new()
+	_settlement_layer.layer = 25
+	add_child(_settlement_layer)
+
+	_settlement_blocker = ColorRect.new()
+	_settlement_blocker.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_settlement_blocker.color = Color(0.0, 0.0, 0.0, 0.72)
+	_settlement_layer.add_child(_settlement_blocker)
+
+	_settlement_panel = Panel.new()
+	_settlement_panel.set_anchors_preset(Control.PRESET_CENTER)
+	_settlement_panel.custom_minimum_size = Vector2(680, 380)
+	_settlement_panel.position = Vector2(-340, -190)
+	SRPGTheme.apply_panel(_settlement_panel, Color(0.034, 0.028, 0.024, 0.98), SRPGTheme.GOLD)
+	_settlement_layer.add_child(_settlement_panel)
+
+	var content := VBoxContainer.new()
+	content.set_anchors_preset(Control.PRESET_FULL_RECT)
+	content.offset_left = 16
+	content.offset_top = 16
+	content.offset_right = -16
+	content.offset_bottom = -16
+	content.add_theme_constant_override("separation", 12)
+	_settlement_panel.add_child(content)
+
+	_settlement_title_label = Label.new()
+	_settlement_title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	SRPGTheme.apply_label(_settlement_title_label, SRPGTheme.WHITE, 26)
+	content.add_child(_settlement_title_label)
+
+	_settlement_summary_label = Label.new()
+	_settlement_summary_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_settlement_summary_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	SRPGTheme.apply_label(_settlement_summary_label, SRPGTheme.PAPER, 15)
+	content.add_child(_settlement_summary_label)
+
+	_settlement_next_label = Label.new()
+	_settlement_next_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	SRPGTheme.apply_label(_settlement_next_label, SRPGTheme.PAPER_MUTED, 14)
+	content.add_child(_settlement_next_label)
+
+	var actions := HBoxContainer.new()
+	actions.alignment = BoxContainer.ALIGNMENT_CENTER
+	actions.add_theme_constant_override("separation", 12)
+	content.add_child(actions)
+
+	_settlement_continue_btn = Button.new()
+	_settlement_continue_btn.text = "Continue"
+	_settlement_continue_btn.focus_mode = Control.FOCUS_ALL
+	SRPGTheme.apply_button(_settlement_continue_btn, true, false, true)
+	_settlement_continue_btn.pressed.connect(_on_settlement_continue_pressed)
+	actions.add_child(_settlement_continue_btn)
+
+	_settlement_main_menu_btn = Button.new()
+	_settlement_main_menu_btn.text = "Return to Main Menu"
+	_settlement_main_menu_btn.focus_mode = Control.FOCUS_ALL
+	SRPGTheme.apply_button(_settlement_main_menu_btn, false, true, true)
+	_settlement_main_menu_btn.pressed.connect(_return_to_main_menu)
+	actions.add_child(_settlement_main_menu_btn)
+
+	_set_settlement_overlay_visible(false)
 
 func _build_audio_bus() -> void:
 	_audio_bus = SRPGAudioBusScript.new()
@@ -668,6 +745,10 @@ func _apply_default_preferences() -> void:
 
 func _load_default_battle() -> void:
 	_apply_default_preferences()
+	_hide_settlement_and_transient_overlays()
+	if _result_label != null:
+		_result_label.visible = false
+		_result_label.text = ""
 	_load_battle_definition(DEFAULT_BATTLE_DEFINITION_PATH)
 	set_map_size(int(_battle_definition.get("map_size", DEFAULT_MAP_SIZE)))
 	_story_progress = _battle_definition.get("progress_on_start", {}).duplicate(true)
@@ -762,21 +843,56 @@ func get_campaign_state() -> Dictionary:
 func get_briefing_text() -> String:
 	return String(_battle_definition.get("briefing", "No briefing available."))
 
+func _set_menu_overlay_visible(is_visible: bool) -> void:
+	if _menu_layer != null:
+		_menu_layer.visible = is_visible
+	if _menu_blocker != null:
+		_menu_blocker.visible = is_visible
+		_menu_blocker.mouse_filter = Control.MOUSE_FILTER_STOP if is_visible else Control.MOUSE_FILTER_IGNORE
+	if _menu_panel != null:
+		_menu_panel.visible = is_visible
+		_menu_panel.mouse_filter = Control.MOUSE_FILTER_STOP if is_visible else Control.MOUSE_FILTER_IGNORE
+
+func _set_management_overlay_visible(is_visible: bool) -> void:
+	if _management_layer != null:
+		_management_layer.visible = is_visible
+	if _management_blocker != null:
+		_management_blocker.visible = is_visible
+		_management_blocker.mouse_filter = Control.MOUSE_FILTER_STOP if is_visible else Control.MOUSE_FILTER_IGNORE
+	if _management_panel != null:
+		_management_panel.visible = is_visible
+		_management_panel.mouse_filter = Control.MOUSE_FILTER_STOP if is_visible else Control.MOUSE_FILTER_IGNORE
+
+func _set_settlement_overlay_visible(is_visible: bool) -> void:
+	if _settlement_layer != null:
+		_settlement_layer.visible = is_visible
+	if _settlement_blocker != null:
+		_settlement_blocker.visible = is_visible
+		_settlement_blocker.mouse_filter = Control.MOUSE_FILTER_STOP if is_visible else Control.MOUSE_FILTER_IGNORE
+	if _settlement_panel != null:
+		_settlement_panel.visible = is_visible
+		_settlement_panel.mouse_filter = Control.MOUSE_FILTER_STOP if is_visible else Control.MOUSE_FILTER_IGNORE
+
+func _is_management_overlay_visible() -> bool:
+	return _management_panel != null and _management_panel.visible
+
+func _is_settlement_overlay_visible() -> bool:
+	return _settlement_panel != null and _settlement_panel.visible
+
 ## Open the dedicated campaign readiness screen.
 func open_management_screen(tab_name: String = "rewards") -> void:
 	if _management_layer == null:
 		return
 	_menu_open = false
-	if _menu_layer != null:
-		_menu_layer.visible = false
-	_management_layer.visible = true
+	_set_menu_overlay_visible(false)
+	_set_management_overlay_visible(true)
 	_play_ui_cue("menu")
 	set_active_management_tab(tab_name)
 
 func close_management_screen() -> void:
 	if _management_layer == null:
 		return
-	_management_layer.visible = false
+	_set_management_overlay_visible(false)
 	_refresh_action_bar()
 
 func set_active_management_tab(tab_name: String) -> void:
@@ -791,7 +907,7 @@ func set_active_management_tab(tab_name: String) -> void:
 
 func get_management_screen_state() -> Dictionary:
 	return {
-		"visible": _management_layer != null and _management_layer.visible,
+		"visible": _is_management_overlay_visible(),
 		"tab": _active_management_tab,
 		"title": _management_title_label.text if _management_title_label != null else "",
 		"content": _management_content_label.text if _management_content_label != null else "",
@@ -839,8 +955,92 @@ func advance_to_next_battle() -> bool:
 	_refresh_all()
 	return true
 
+func _get_settlement_next_battle_path() -> String:
+	if _get_next_battle_definition_path() != "":
+		return _get_next_battle_definition_path()
+	if get_battle_id() == "chapter_01_finale":
+		return _CHAPTER_01_TO_CHAPTER_02_PATH
+	return ""
+
+func _get_settlement_next_battle_title(path: String) -> String:
+	var file_stem := path.get_file().trim_suffix(".json")
+	if file_stem == "":
+		return ""
+	var chunks := file_stem.split("_")
+	var title_chunks: Array[String] = []
+	for chunk in chunks:
+		var piece := String(chunk).to_lower()
+		if piece == "":
+			continue
+		title_chunks.append(piece.substr(0, 1).to_upper() + piece.substr(1))
+	return " ".join(title_chunks)
+
+func _show_settlement_overlay() -> void:
+	if _settlement_layer == null:
+		return
+	_set_settlement_overlay_visible(true)
+	if _auto_battle_controller != null:
+		_auto_battle_controller.set_enabled(false)
+	var next_path := _get_settlement_next_battle_path()
+	var can_continue := next_path != ""
+	var title := "Victory Settlement" if bool(_settlement_reward_summary.get("rewards_enabled", false)) else "Defeat Settlement"
+	_settlement_title_label.text = "%s - %s" % [title, get_battle_id()]
+	_settlement_summary_label.text = _format_settlement_menu()
+	if can_continue:
+		_settlement_next_label.text = "Next chapter available: %s" % _get_settlement_next_battle_title(next_path)
+	else:
+		_settlement_next_label.text = "No next battle is linked for this encounter."
+	_settlement_continue_btn.text = "Continue Chapter"
+	_settlement_continue_btn.disabled = not can_continue
+	if _settlement_continue_btn != null:
+		SRPGTheme.apply_button(_settlement_continue_btn, can_continue, false, true)
+	_settlement_main_menu_btn.grab_focus()
+	_play_ui_cue("camp")
+	_refresh_action_bar()
+
+func _hide_settlement_and_transient_overlays() -> void:
+	_set_menu_overlay_visible(false)
+	_set_management_overlay_visible(false)
+	_set_settlement_overlay_visible(false)
+	_menu_open = false
+	if _result_label != null:
+		_result_label.visible = false
+		_result_label.text = ""
+
+func _on_settlement_continue_pressed() -> void:
+	if _is_chapter_transitioning:
+		return
+	var next_path: String = _get_settlement_next_battle_path()
+	if next_path == "":
+		_info_label.text = "No next battle is linked."
+		_play_ui_cue("error")
+		_settlement_next_label.text = "No next chapter is linked for this encounter."
+		return
+	if _phase != VSPhase.BATTLE_END or not bool(_settlement_reward_summary.get("rewards_enabled", false)):
+		_info_label.text = "Clear the current battle before advancing."
+		_play_ui_cue("error")
+		return
+	_is_chapter_transitioning = true
+	_hide_settlement_and_transient_overlays()
+	if _result_label != null:
+		_result_label.visible = false
+		_result_label.text = ""
+	var carry: Dictionary = _capture_campaign_carry_state()
+	if String(_story_progress.get("last_camp_battle", "")) != get_battle_id():
+		_apply_default_camp_plan()
+		carry = _capture_campaign_carry_state()
+	_start_campaign_battle(next_path, carry)
+	_info_label.text = "Campaign advanced to %s." % get_battle_id()
+	_play_ui_cue("camp")
+	_refresh_all()
+	call_deferred("_hide_settlement_and_transient_overlays")
+
 func _get_next_battle_definition_path() -> String:
-	return String(_battle_definition.get("next_battle_definition_path", ""))
+	var next_path: Variant = _battle_definition.get("next_battle_definition_path", "")
+	if typeof(next_path) != TYPE_STRING:
+		return ""
+	var next_path_str: String = next_path
+	return next_path_str.strip_edges()
 
 func _apply_loaded_save_data(save_data: SaveData) -> void:
 	if save_data == null or save_data.battle_state.is_empty():
@@ -1343,7 +1543,7 @@ func capture_ui_preferences() -> Dictionary:
 	var data: Dictionary = _ui_preferences.duplicate(true)
 	data["last_menu_tab"] = _active_menu_tab
 	data["menu_open"] = _menu_open
-	data["management_open"] = _management_layer != null and _management_layer.visible
+	data["management_open"] = _is_management_overlay_visible()
 	data["management_tab"] = _active_management_tab
 	return data
 
@@ -1353,12 +1553,12 @@ func apply_ui_preferences(data: Dictionary) -> void:
 		return
 	for key in data:
 		_ui_preferences[key] = data[key]
-	_active_menu_tab = _ui_preferences.get("last_menu_tab", _active_menu_tab)
-	_menu_open = data.get("menu_open", false)
-	_menu_layer.visible = _menu_open
+	_active_menu_tab = String(_ui_preferences.get("last_menu_tab", _active_menu_tab))
+	_menu_open = bool(data.get("menu_open", false))
+	_set_menu_overlay_visible(_menu_open)
 	_active_management_tab = String(data.get("management_tab", _active_management_tab))
 	if _management_layer != null:
-		_management_layer.visible = bool(data.get("management_open", false))
+		_set_management_overlay_visible(bool(data.get("management_open", false)))
 		_refresh_management_content()
 	_refresh_menu_content()
 
@@ -1578,14 +1778,21 @@ func _update_cell_transform(pos: Vector2i) -> void:
 	_cell_centers[pos] = center
 	var label: Label = _cell_height_labels[pos]
 	label.position = cell.position + Vector2(4.0, 2.0)
-	label.text = "%s H%d" % [_terrain_short_name(int(_map_terrain.get(pos, TerrainTypes.Terrain.NORMAL))), _map_heights.get(pos, 1)]
+	label.visible = _grid_overlay_enabled
+	if _grid_overlay_enabled:
+		label.text = "%s H%d" % [_terrain_short_name(int(_map_terrain.get(pos, TerrainTypes.Terrain.NORMAL))), _map_heights.get(pos, 1)]
+	else:
+		label.text = ""
 
 func _update_cell_color(pos: Vector2i, override_color: Color = Color.TRANSPARENT) -> void:
 	var cell: ColorRect = _cells[pos]
 	if override_color != Color.TRANSPARENT:
 		cell.color = override_color
 		if _cell_height_labels.has(pos):
-			(_cell_height_labels[pos] as Label).modulate = Color(1, 1, 1, 0.95)
+			var override_label: Label = _cell_height_labels[pos] as Label
+			override_label.visible = _grid_overlay_enabled
+			var override_alpha: float = 0.95 if _grid_overlay_enabled else 0.0
+			override_label.modulate = Color(1, 1, 1, override_alpha)
 		return
 
 	var terrain: int = int(_map_terrain.get(pos, TerrainTypes.Terrain.NORMAL))
@@ -1609,7 +1816,10 @@ func _update_cell_color(pos: Vector2i, override_color: Color = Color.TRANSPARENT
 	base_color.a = 0.94 if _grid_overlay_enabled else 0.62
 	cell.color = base_color
 	if _cell_height_labels.has(pos):
-		(_cell_height_labels[pos] as Label).modulate = Color(0.92, 0.84, 0.66, 0.78)
+		var terrain_label: Label = _cell_height_labels[pos] as Label
+		terrain_label.visible = _grid_overlay_enabled
+		var label_alpha: float = 0.78 if _grid_overlay_enabled else 0.0
+		terrain_label.modulate = Color(0.92, 0.84, 0.66, label_alpha)
 
 func _terrain_short_name(terrain: int) -> String:
 	match terrain:
@@ -2365,6 +2575,12 @@ func _cycle_speed_tier() -> void:
 	_refresh_camera_status()
 
 func _toggle_auto_battle() -> void:
+	if _phase == VSPhase.BATTLE_END:
+		_info_label.text = "Auto-battle is paused at battle end."
+		return
+	if _is_settlement_overlay_visible():
+		_info_label.text = "Auto-battle is paused during settlement."
+		return
 	_auto_battle_controller.set_enabled(not _auto_battle_controller.is_enabled())
 	_refresh_camera_status()
 	_refresh_action_bar()
@@ -2376,9 +2592,9 @@ func _toggle_auto_battle() -> void:
 
 func _toggle_menu() -> void:
 	_menu_open = not _menu_open
-	_menu_layer.visible = _menu_open
-	if _menu_open and _management_layer != null:
-		_management_layer.visible = false
+	_set_menu_overlay_visible(_menu_open)
+	if _menu_open:
+		_set_management_overlay_visible(false)
 	if _menu_open:
 		_play_ui_cue("menu")
 	_refresh_menu_content()
@@ -2414,7 +2630,13 @@ func _return_to_main_menu() -> void:
 # --- Input ---
 
 func _input(event: InputEvent) -> void:
-	if _management_layer != null and _management_layer.visible:
+	if _is_settlement_overlay_visible():
+		if event is InputEventKey and event.pressed and not event.echo:
+			if event.keycode in [KEY_ENTER, KEY_KP_ENTER, KEY_SPACE]:
+				if _settlement_continue_btn != null and not _settlement_continue_btn.disabled:
+					_on_settlement_continue_pressed()
+		return
+	if _is_management_overlay_visible():
 		if event is InputEventKey and event.pressed and not event.echo and event.keycode in [KEY_ESCAPE, KEY_M]:
 			close_management_screen()
 		return
@@ -3198,24 +3420,30 @@ func _quality_name(quality: int) -> String:
 			return "White"
 
 func _capture_campaign_carry_state() -> Dictionary:
+	var carry_ui: Dictionary = capture_ui_preferences()
+	carry_ui["menu_open"] = false
+	carry_ui["management_open"] = false
+	var carry_camera: Dictionary = capture_camera_preferences()
+	carry_camera["grid_overlay_enabled"] = false
 	return {
 		"party_units": _capture_party_units(),
 		"inventory_state": _inventory.serialize(),
 		"battle_history": _battle_history_log.serialize(),
 		"story_progress": _story_progress.duplicate(true),
-		"ui_preferences": capture_ui_preferences(),
-		"camera_preferences": capture_camera_preferences(),
+		"ui_preferences": carry_ui,
+		"camera_preferences": carry_camera,
 		"last_camp_report": _last_camp_report,
 	}
 
 func _start_campaign_battle(path: String, carry: Dictionary) -> void:
-	var carried_units := _index_carried_units(carry.get("party_units", []))
+	_hide_settlement_and_transient_overlays()
+	var carried_units: Dictionary = _index_carried_units(carry.get("party_units", []))
 	var carried_inventory: Dictionary = carry.get("inventory_state", {})
 	var carried_history: Dictionary = carry.get("battle_history", {})
 	var carried_story: Dictionary = carry.get("story_progress", {})
 	var carried_ui: Dictionary = carry.get("ui_preferences", {})
 	var carried_camera: Dictionary = carry.get("camera_preferences", {})
-	var carried_camp_report := String(carry.get("last_camp_report", _last_camp_report))
+	var carried_camp_report: String = String(carry.get("last_camp_report", _last_camp_report))
 
 	_reset_runtime_systems()
 	_load_battle_definition(path)
@@ -3248,13 +3476,14 @@ func _start_campaign_battle(path: String, carry: Dictionary) -> void:
 		apply_ui_preferences(carried_ui)
 	if not carried_camera.is_empty():
 		apply_camera_preferences(carried_camera)
-	_menu_open = false
-	_menu_layer.visible = false
+	_hide_settlement_and_transient_overlays()
 	_combat.start_battle(get_battle_id(), _get_map_id(), int(_battle_definition.get("difficulty", 1)))
 	_actions.initialize(_unit_cells.keys(), _build_default_mp_config(_unit_cells.keys()))
 	_speed_controller.deserialize({"tier": SpeedController.SpeedTier.NORMAL})
 	_auto_battle_controller.deserialize({"enabled": false})
 	_sync_phase_prompt()
+	call_deferred("_hide_settlement_and_transient_overlays")
+	_is_chapter_transitioning = false
 
 func _index_carried_units(entries: Array) -> Dictionary:
 	var out: Dictionary = {}
@@ -3435,6 +3664,8 @@ func _finalize_battle_result(result_type: int, rating: int) -> void:
 			int(_settlement_reward_summary.get("materials_awarded", 0)),
 		]
 	_info_label.text = _format_settlement_menu()
+	if result_type == SettlementResult.SettlementType.VICTORY:
+		_show_settlement_overlay()
 	_refresh_objective_label()
 	_refresh_menu_content()
 	_refresh_management_content()
