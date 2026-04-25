@@ -6,7 +6,7 @@
 - **Export preset**: `Windows Desktop`
 - **Artifact**: `builds/windows/SRPG.exe`
 - **Artifact size**: 104,919,240 bytes
-- **Status**: PASS — process launch smoke
+- **Status**: PASS — process launch smoke + full packaged-build playthrough
 
 ## Checks
 - [x] Local Godot export preset exists.
@@ -14,10 +14,17 @@
 - [x] `builds/windows/SRPG.exe` is generated.
 - [x] Exported executable starts as a Windows process.
 - [x] Smoke process can be closed cleanly after launch.
+- [x] Full manual packaged-build playthrough passes:
+  - Main menu opens.
+  - Battle starts from the menu.
+  - Auto and manual actions are usable.
+  - Save works.
+  - Load works.
+  - Return to main menu works.
 
 ## Notes
 - `export_presets.cfg` and `builds/` are intentionally git-ignored local/build artifacts.
-- This smoke test only proves that the exported executable starts. It does not replace a full manual clean-directory playthrough.
+- Full packaged-build playthrough was reported PASS by the human reviewer.
 
 ## Next
-- Run a full manual packaged-build playthrough: main menu -> battle -> Auto/manual action -> save -> load -> return to main menu.
+- Start UI/UX polish for the battle flow, with emphasis on stronger presentation and less abrupt combat framing.

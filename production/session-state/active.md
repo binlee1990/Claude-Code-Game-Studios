@@ -6,7 +6,7 @@
 Gate-check Pre-Production → Production: PASS WITH CONCERNS (visual readability PASS WITH NOTES; fun validation rerun PASS)
 Automatable P3 chain: COMPLETE (`skill-system` → `equipment-system` → `character-management`)
 Execution focus: Production-phase UI/UX polish, battle presentation, and first real content slice
-Next: run a full packaged-build playthrough, then start UI/UX polish for the battle flow
+Next: start UI/UX polish for the battle flow
 
 ## Immediate Execution Checklist — 2026-04-25
 
@@ -16,7 +16,7 @@ Next: run a full packaged-build playthrough, then start UI/UX polish for the bat
 | Free-play fun validation rerun | Human | `production/playtests/playtest-2026-04-25-fun-validation-rerun.md` | COMPLETE — PASS WITH PRODUCT-SCOPE NOTES |
 | Targeted UX friction fixes | Agent | `src/ui/combat/battle_arena.gd`, `src/core/combat/speed_controller.gd` | COMPLETE — board responsiveness, Auto status/immediate takeover/paced turns, speed-tier test cleanup, and main-menu return |
 | Stage resync after rerun | Human + agent | `production/session-state/active.md`, `production/project-stage-report.md`, `production/stage.txt` | COMPLETE — stage advanced to `Production` with concerns |
-| Windows playable build smoke | Agent | `production/playtests/windows-build-smoke-2026-04-25.md` | PASS — `builds/windows/SRPG.exe` generated and process launches |
+| Windows packaged-build playthrough | Human + agent | `production/playtests/windows-build-smoke-2026-04-25.md` | PASS — `builds/windows/SRPG.exe` generated, launches, and passes main menu -> battle -> Auto/manual -> save/load -> main menu |
 
 ## Production Guardrails
 

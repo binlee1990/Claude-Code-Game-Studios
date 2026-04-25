@@ -11,7 +11,6 @@
 - `P2` 已完成：3 份结构化验证 session 已落地，人工视觉可读性 PASS WITH NOTES，2026-04-25 fun validation rerun PASS
 - `P3` 已完成当前推荐链：`skill-system`、`equipment-system`、`character-management` 已完成并通过自动化回归
 - 当前未完成重点已转入 Production：
-  - packaged-build 完整试玩
   - UI/UX polish
   - 最小战斗表现层
   - 第一关真实内容切片
@@ -55,7 +54,7 @@
 - 现在继续堆功能，会把已有失败继续埋深
 - prototype 已证明核心循环可玩，但还没进入正式场景路径
 - Camera / UI / Save 是当前 Vertical Slice 的真正阻塞项
-- 当前自动化 backlog、人工 gate 证据、Windows exe smoke 已落地，下一步是 packaged-build 完整试玩、内容和 polish
+- 当前自动化 backlog、人工 gate 证据、Windows exe smoke、packaged-build 完整试玩已落地，下一步是 UI/UX polish、内容和战斗表现
 
 ## 执行优先级
 
@@ -230,4 +229,4 @@
 
 ## 建议的下一步
 
-运行完整 packaged-build playthrough；随后按 UI/UX polish → 最小战斗表现 → 第一关内容切片推进。
+按 UI/UX polish → 最小战斗表现 → 第一关内容切片推进。

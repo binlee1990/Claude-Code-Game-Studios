@@ -57,7 +57,7 @@ Verdict: PASS WITH CONCERNS
 
 | Lane | 目标 | Gate |
 |------|------|------|
-| Playable build | Windows exe 可试玩包 | Process-launch smoke PASS; full packaged playthrough still recommended |
+| Playable build | Windows exe 可试玩包 | Full packaged playthrough PASS |
 | UI/UX polish | 降低“简陋/突兀”感 | 人工截图/试玩确认 |
 | Battle presentation | 移动、攻击、伤害、死亡有轻量表现 | Auto/手动都不再瞬间突兀 |
 | First content slice | Tutorial / Chapter 1 小关 | 从主菜单完整打一关并结算 |
@@ -65,6 +65,6 @@ Verdict: PASS WITH CONCERNS
 
 ## 建议路径
 
-1. **立即**: 运行完整 packaged-build playthrough，覆盖主菜单、战斗、Auto/手动、存档、读档、返回主菜单
-2. **然后**: 做正式 UI/UX polish pass，重点解决“画面简陋、战斗突兀”
+1. **立即**: 做正式 UI/UX polish pass，重点解决“画面简陋、战斗突兀”
+2. **然后**: 做最小战斗表现层，让移动、攻击、伤害、死亡有轻量反馈
 3. **后续**: 做第一关内容切片，把已有技能/装备/角色系统逐步接入玩家路径
