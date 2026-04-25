@@ -8,11 +8,10 @@
 
 - `P0` 已完成：Godot 全量测试已恢复为 `0` 编译失败、`0` 断言失败
 - `P1` 已完成：battle 主路径、Camera/Map、UI、SaveManager 产品化整合已落地并通过自动化回归
-- `P2` 已部分完成：3 份结构化验证 session 已落地，剩余的是人类不可替代的视觉签字与主观 fun 判断
+- `P2` 已部分完成：3 份结构化验证 session 已落地，人工视觉可读性已 PASS WITH NOTES，剩余的是主观 fun validation 重跑
 - `P3` 已完成当前推荐链：`skill-system`、`equipment-system`、`character-management` 已完成并通过自动化回归
 - 当前未完成重点已收敛为：
-  - 人类视觉签字
-  - `core loop` 主观 fun validation
+  - `core loop` 主观 fun validation（当前 PARTIAL）
 
 ## 目标
 
@@ -38,10 +37,10 @@
 
 ### 当前缺口
 
-- 自动化实现层已经闭环，但仍缺人工视觉验收与玩法验证
+- 自动化实现层已经闭环；人工视觉可读性已通过但有 UI polish notes，玩法验证仍为 PARTIAL
 - 正式 battle scene 已根据用户反馈回退为 2D 俯视图；原 `CM-001` 等角视角目标已延后
 - 结构化 validation session 已完成，尚未完成纯人工自由试玩结论
-- `core loop fun validated` 仍未形成结论
+- `core loop fun validated` 已形成 PARTIAL 结论；Auto 立即接管/行动节奏、返回主菜单、棋盘自适应修复后需重跑
 - `production/sprints/sprint-001.md` 与 `production/session-state/active.md` 存在状态漂移
 
 ## 总体策略
@@ -213,7 +212,7 @@
 
 ## 当前不建议立即做的事
 
-- 在没有人工视觉签字与 fun validation 的情况下宣称 Production gate 完成
+- 在 fun validation 仍为 PARTIAL 的情况下宣称 Production gate 完成
 - 在未补足人工验证前，把当前阶段误判为“只剩继续堆功能”
 - 重新引入 prototype 与 product 的双轨实现
 
@@ -228,4 +227,4 @@
 
 ## 建议的下一步
 
-执行人工视觉签字与自由试玩 fun validation；在拿到这部分人类证据之前，不要把 Pre-Production → Production gate 从 `PARTIAL` 升级为完成。
+重跑自由试玩 fun validation；在拿到 PASS 证据之前，不要把 Pre-Production → Production gate 从 `PARTIAL` 升级为完成。

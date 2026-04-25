@@ -179,25 +179,27 @@ func test_set_tier_same_value_no_signal() -> void:
 	, CONNECT_ONE_SHOT)
 
 	# Act — set same tier
-	_sc.set_tier(SpeedController.SpeedTier.NORMAL)
+	var accepted: bool = _sc.set_tier(SpeedController.SpeedTier.NORMAL)
 
 	# Assert
+	assert_true(accepted, "Setting the current tier is a valid no-op")
 	assert_eq(ge_bag["count"], 0,
 		"GameEvents.speed_tier_changed must NOT fire when tier is unchanged")
 	assert_eq(int_bag["count"], 0,
 		"Internal tier_changed must NOT fire when tier is unchanged")
 
-func test_set_tier_invalid_value_pushes_error_state_unchanged() -> void:
+func test_set_tier_invalid_value_is_rejected_state_unchanged() -> void:
 	# Arrange — tier starts as NORMAL; connect to detect any spurious signal
 	var int_bag := {"count": 0}
 	_sc.tier_changed.connect(func(_o: int, _n: int) -> void:
 		int_bag["count"] += 1
 	, CONNECT_ONE_SHOT)
 
-	# Act — invalid tier (push_error is expected internally; we verify state only)
-	_sc.set_tier(99)
+	# Act — invalid tier is rejected without producing a scary test-run error.
+	var accepted: bool = _sc.set_tier(99)
 
 	# Assert — state must remain NORMAL, no signal emitted
+	assert_false(accepted, "Invalid tier values must be rejected")
 	assert_eq(_sc.get_tier(), SpeedController.SpeedTier.NORMAL,
 		"State must remain NORMAL after invalid set_tier call")
 	assert_eq(int_bag["count"], 0,

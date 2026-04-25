@@ -74,6 +74,44 @@ func test_enemy_turn_acquires_nearest_player_target() -> void:
 	var after_distance: int = _manhattan(after_pos, player_pos)
 	assert_true(after_distance < before_distance, "Enemy turn should identify a player target and move closer")
 
+func test_auto_toggle_immediately_starts_controlled_turn() -> void:
+	var actor: Unit = _battle._combat.get_current_actor()
+
+	_battle._toggle_auto_battle()
+
+	assert_true(_battle._auto_battle_controller.is_enabled(), "Auto toggle should enable auto-battle")
+	assert_true(_battle._turn_sequence_running, "Auto toggle should immediately start the current player turn")
+	assert_eq(_battle._phase, _battle.VSPhase.ANIMATING, "Auto turn should enter controlled presentation")
+	assert_eq(_battle._selected_unit, actor, "Auto turn should select the current actor without a manual Move click")
+	assert_true(_battle._info_label.text.contains("chooses a move"), "Prompt should show that auto is acting now")
+
+func test_auto_controlled_turn_moves_and_attacks_without_manual_input() -> void:
+	var actor: Unit = _battle._combat.get_current_actor()
+	var enemy: Unit = _first_enemy_unit()
+	var actor_pos := Vector2i(3, 3)
+	var enemy_pos := Vector2i(6, 3)
+
+	_relocate_unit(actor, actor_pos)
+	_relocate_unit(enemy, enemy_pos)
+	var hp_before: int = _battle._combat.get_unit_hp(enemy)
+
+	_battle._toggle_auto_battle()
+	_battle._advance_controlled_turn_step()
+
+	assert_ne(_battle._unit_cells[actor], actor_pos, "Auto step should move the actor without player tile input")
+	assert_eq(_battle._combat.get_unit_hp(enemy), hp_before, "Move step should not apply attack damage yet")
+
+	_battle._advance_controlled_turn_step()
+
+	assert_true(_battle._combat.get_unit_hp(enemy) < hp_before, "Attack step should damage the target without player input")
+
+	_battle._advance_controlled_turn_step()
+
+	var next_actor: Unit = _battle._combat.get_current_actor()
+	assert_ne(next_actor, actor, "Final step should advance to the next actor")
+	assert_true(_battle._turn_sequence_running, "Auto battle should hand off directly to the next controlled turn")
+	assert_eq(_battle._selected_unit, next_actor, "Selection should follow the next controlled actor")
+
 func _click_cell(grid_pos: Vector2i) -> void:
 	var event := InputEventMouseButton.new()
 	event.button_index = MOUSE_BUTTON_LEFT

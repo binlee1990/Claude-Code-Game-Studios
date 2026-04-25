@@ -81,7 +81,7 @@ Sprint 完成时，Vertical Slice 必须满足:
 - Sprint Start: 2026-04-23
 - Sprint End: 2026-05-06 (2 weeks)
 - Playtest Target: 2026-05-07
-- Validation Gate: Manual playtest + visual sign-off still pending
+- Validation Gate: Visual readability PASS WITH NOTES; fun validation still PARTIAL pending UX-friction rerun
 
 ## GDD References
 

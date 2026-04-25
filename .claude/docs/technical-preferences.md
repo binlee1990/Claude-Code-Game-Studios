@@ -41,6 +41,14 @@
 - **Minimum Coverage**: Core gameplay systems (attributes, combat, turn order)
 - **Required Tests**: Balance formulas, state machines, signal connections
 
+## Local Tooling
+
+- **Machine-local config**: `.claude/settings.local.json`
+- **Godot executable key**: `project.godot_executable`
+- **Godot project path key**: `project.godot_project_path`
+- **Preferred test scene key**: `project.godot_test_scene`
+- **Usage note**: When `godot` is not on PATH, agents should read the machine-local config and invoke the executable path directly.
+
 ## Forbidden Patterns
 
 - [None configured yet — add as architectural decisions are made]

@@ -1,6 +1,6 @@
 {
-  "last_turn_at": "2026-04-23T16:46:16.944Z",
-  "turn_count": 22,
-  "last_progress_at": "2026-04-23T16:46:16.944Z",
-  "last_agent_output": "**产物**\n\n已完成并保存到 `docs/active`：\n\n- [srpg-remaining-nonhuman-work-solution.md](<D:\\work\\Games\\SRPG\\doc"
+  "last_turn_at": "2026-04-25T07:12:08.295Z",
+  "turn_count": 29,
+  "last_progress_at": "2026-04-25T07:12:08.295Z",
+  "last_agent_output": "已按确认方案修完。\n\n这次核心改动在 [battle_arena.gd](D:/work/Games/SRPG/src/ui/combat/battle_arena.gd:1492)：\n\n- 点 `A"
 }

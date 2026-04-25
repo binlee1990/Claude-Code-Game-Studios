@@ -10,6 +10,8 @@ const MARGIN := 20
 const DEFAULT_MAP_SIZE := 15
 const MAP_SIZE_OPTIONS := [15, 20, 25]
 const _RENDER_CELL_SIZES := {15: 42.0, 20: 32.0, 25: 26.0}
+const _MIN_CONTROLLED_TURN_DELAY := 0.18
+const _MAX_CONTROLLED_TURN_DELAY := 0.65
 const _CAMERA_ROTATION_DEGREES := [0]
 const _SCENE_KEY := "battle"
 const _DEFAULT_UI_PREFERENCES := {
@@ -52,6 +54,9 @@ var _active_menu_tab: String = "character"
 var _ui_preferences: Dictionary = _DEFAULT_UI_PREFERENCES.duplicate(true)
 var _camera_preferences: Dictionary = _DEFAULT_CAMERA_PREFERENCES.duplicate(true)
 var _battle_end_emitted: bool = false
+var _turn_sequence_running: bool = false
+var _controlled_turn_plan: Dictionary = {}
+var _controlled_turn_timer: float = 0.0
 
 # UI references
 var _root_layout: VBoxContainer
@@ -75,6 +80,7 @@ var _status_misc_label: Label
 var _info_label: Label
 var _result_label: Label
 var _camera_state_label: Label
+var _auto_button: Button
 var _menu_layer: CanvasLayer
 var _menu_panel: Panel
 var _menu_content_label: Label
@@ -93,6 +99,13 @@ func _ready() -> void:
 		_load_default_battle()
 
 	_refresh_all()
+
+func _process(delta: float) -> void:
+	if not _turn_sequence_running:
+		return
+	_controlled_turn_timer -= delta
+	if _controlled_turn_timer <= 0.0:
+		_advance_controlled_turn_step()
 
 func _build_ui() -> void:
 	_root_layout = VBoxContainer.new()
@@ -114,7 +127,10 @@ func _build_ui() -> void:
 
 	_grid_area = Panel.new()
 	_grid_area.custom_minimum_size = _calculate_grid_area_size(DEFAULT_MAP_SIZE)
+	_grid_area.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_grid_area.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_grid_area.mouse_filter = Control.MOUSE_FILTER_PASS
+	_grid_area.resized.connect(_on_grid_area_resized)
 	hsplit.add_child(_grid_area)
 
 	_grid_container = Control.new()
@@ -190,7 +206,7 @@ func _build_top_bar() -> void:
 		{"text": "Grid (G)", "cb": func() -> void: set_grid_overlay_enabled(not _grid_overlay_enabled)},
 		{"text": "Map Size", "cb": _cycle_map_size},
 		{"text": "Speed", "cb": _cycle_speed_tier},
-		{"text": "Auto", "cb": _toggle_auto_battle},
+		{"text": "Auto OFF (B)", "cb": _toggle_auto_battle},
 		{"text": "Menu (Esc)", "cb": _toggle_menu},
 	]
 	for spec in button_specs:
@@ -199,6 +215,8 @@ func _build_top_bar() -> void:
 		button.focus_mode = Control.FOCUS_ALL
 		button.pressed.connect(spec["cb"])
 		_top_bar.add_child(button)
+		if button.text.begins_with("Auto"):
+			_auto_button = button
 
 	_camera_state_label = Label.new()
 	_top_bar.add_child(_camera_state_label)
@@ -297,6 +315,12 @@ func _build_menu_overlay() -> void:
 	)
 	menu_actions.add_child(load_btn)
 
+	var main_menu_btn := Button.new()
+	main_menu_btn.text = "Main Menu"
+	main_menu_btn.focus_mode = Control.FOCUS_ALL
+	main_menu_btn.pressed.connect(_return_to_main_menu)
+	menu_actions.add_child(main_menu_btn)
+
 	_menu_content_label = Label.new()
 	_menu_content_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_menu_content_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -340,6 +364,9 @@ func _reset_runtime_systems() -> void:
 	_move_range.clear()
 	_attack_range.clear()
 	_battle_end_emitted = false
+	_turn_sequence_running = false
+	_controlled_turn_plan.clear()
+	_controlled_turn_timer = 0.0
 
 func _destroy_runtime_nodes() -> void:
 	for node in [_combat, _actions, _inventory, _roster]:
@@ -616,12 +643,19 @@ func _create_unit_visual_nodes(unit: Unit, max_hp: int) -> void:
 
 func _calculate_grid_area_size(size: int) -> Vector2:
 	var render_size: float = _RENDER_CELL_SIZES.get(size, 40.0)
-	var width: float = maxf(860.0, MARGIN * 2.0 + size * render_size + 40.0)
-	var height: float = maxf(620.0, MARGIN * 2.0 + size * render_size + 40.0)
+	var width: float = maxf(520.0, MARGIN * 2.0 + size * render_size + 24.0)
+	var height: float = maxf(420.0, MARGIN * 2.0 + size * render_size + 24.0)
 	return Vector2(width, height)
 
 func _compute_render_cell_size(size: int) -> float:
-	return _RENDER_CELL_SIZES.get(size, 40.0)
+	if not is_instance_valid(_grid_area):
+		return _RENDER_CELL_SIZES.get(size, 40.0)
+	var area_size: Vector2 = _grid_area.size
+	if area_size.x <= 1.0 or area_size.y <= 1.0:
+		return _RENDER_CELL_SIZES.get(size, 40.0)
+	var usable_width: float = maxf(1.0, area_size.x - MARGIN * 2.0 - 8.0)
+	var usable_height: float = maxf(1.0, area_size.y - MARGIN * 2.0 - 8.0)
+	return clampf(floor(minf(usable_width, usable_height) / size), 18.0, 76.0)
 
 func _generate_map_heights(size: int) -> Dictionary:
 	var heights: Dictionary = {}
@@ -659,7 +693,7 @@ func set_map_size(size: int) -> void:
 	if is_instance_valid(_grid_area):
 		_grid_area.custom_minimum_size = _calculate_grid_area_size(size)
 	if is_instance_valid(_grid_container):
-		_grid_container.size = _calculate_grid_area_size(size)
+		_update_grid_container_bounds()
 
 	_rebuild_cells()
 	_reflow_map_visuals()
@@ -860,7 +894,51 @@ func _rebuild_cells() -> void:
 			_cell_height_labels[pos] = label
 			_grid_container.add_child(label)
 
+func _on_grid_area_resized() -> void:
+	if _map_size <= 0 or _cells.is_empty():
+		return
+	var next_cell_size: float = _compute_render_cell_size(_map_size)
+	if is_equal_approx(next_cell_size, _render_cell_size):
+		_update_grid_container_bounds()
+		return
+	_render_cell_size = next_cell_size
+	_apply_render_cell_size_to_nodes()
+	_reflow_map_visuals()
+
+func _apply_render_cell_size_to_nodes() -> void:
+	for cell in _cells.values():
+		if is_instance_valid(cell):
+			(cell as ColorRect).size = Vector2(_render_cell_size - 2.0, _render_cell_size - 2.0)
+	for unit in _unit_panels.keys():
+		var panel: Panel = _unit_panels.get(unit)
+		if panel != null:
+			panel.custom_minimum_size = Vector2(maxf(20.0, _render_cell_size * 0.5), maxf(16.0, _render_cell_size * 0.35))
+			panel.size = panel.custom_minimum_size
+		var hp_bar: ProgressBar = _hp_bars.get(unit)
+		if hp_bar != null:
+			hp_bar.size = Vector2(maxf(28.0, _render_cell_size * 0.8), 10)
+
+func _update_grid_container_bounds() -> void:
+	if not is_instance_valid(_grid_container):
+		return
+	var content_size := Vector2(
+		MARGIN * 2.0 + _map_size * _render_cell_size,
+		MARGIN * 2.0 + _map_size * _render_cell_size
+	)
+	_grid_container.size = content_size
+	if not is_instance_valid(_grid_area):
+		_grid_container.position = Vector2.ZERO
+		return
+	var area_size: Vector2 = _grid_area.size
+	if area_size.x <= 1.0 or area_size.y <= 1.0:
+		area_size = _grid_area.custom_minimum_size
+	_grid_container.position = Vector2(
+		maxf(0.0, (area_size.x - content_size.x) * 0.5),
+		maxf(0.0, (area_size.y - content_size.y) * 0.5)
+	)
+
 func _reflow_map_visuals() -> void:
+	_update_grid_container_bounds()
 	for pos in _cells.keys():
 		_update_cell_transform(pos)
 		_update_cell_color(pos)
@@ -1039,14 +1117,25 @@ func _refresh_resource_hud() -> void:
 	_resource_labels["protect"].text = "Protect: %d" % _inventory.get_amount(ResourceTypes.ResourceId.PROTECT_SYMBOL)
 
 func _refresh_camera_status() -> void:
-	_camera_state_label.text = "View Top-Down | Grid %s | Map %d×%d | Speed x%d" % [
+	_camera_state_label.text = "View Top-Down | Grid %s | Map %d×%d | Speed x%d | Auto %s" % [
 		"ON" if _grid_overlay_enabled else "OFF",
 		_map_size,
 		_map_size,
-		int(_speed_controller.get_animation_multiplier())
+		int(_speed_controller.get_animation_multiplier()),
+		"ON" if _auto_battle_controller.is_enabled() else "OFF",
 	]
+	_refresh_auto_button()
+
+func _refresh_auto_button() -> void:
+	if _auto_button == null:
+		return
+	_auto_button.text = "Auto ON (B)" if _auto_battle_controller.is_enabled() else "Auto OFF (B)"
 
 func _refresh_action_bar() -> void:
+	if _turn_sequence_running or _phase in [VSPhase.ANIMATING, VSPhase.ENEMY_TURN, VSPhase.BATTLE_END]:
+		for button in _action_buttons.values():
+			(button as Button).disabled = true
+		return
 	var move_enabled: bool = _phase == VSPhase.SELECT_UNIT or _phase == VSPhase.SELECT_MOVE
 	(_action_buttons["move"] as Button).disabled = not move_enabled
 	(_action_buttons["attack"] as Button).disabled = _selected_unit == null and _phase != VSPhase.SELECT_TARGET
@@ -1177,7 +1266,13 @@ func _cycle_speed_tier() -> void:
 
 func _toggle_auto_battle() -> void:
 	_auto_battle_controller.set_enabled(not _auto_battle_controller.is_enabled())
-	_info_label.text = "Auto-battle %s." % ("enabled" if _auto_battle_controller.is_enabled() else "disabled")
+	_refresh_camera_status()
+	_refresh_action_bar()
+	if _auto_battle_controller.is_enabled():
+		if not _try_start_auto_current_turn():
+			_info_label.text = "Auto-battle enabled. It will control player units when their turns are ready."
+	else:
+		_info_label.text = "Auto-battle disabled. Player control restored."
 
 func _toggle_menu() -> void:
 	_menu_open = not _menu_open
@@ -1204,12 +1299,25 @@ func _load_from_slot(slot: int) -> void:
 	_refresh_all()
 	_info_label.text = "Loaded slot %d." % slot
 
+func _return_to_main_menu() -> void:
+	SaveManager.clear_pending_loaded_data()
+	SceneManager.switch_scene("main_menu")
+
 # --- Input ---
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT and not _menu_open:
+		if _turn_sequence_running:
+			return
 		_handle_grid_click(event.position)
 	elif event is InputEventKey and event.pressed and not event.echo:
+		if _turn_sequence_running:
+			match event.keycode:
+				KEY_B:
+					_toggle_auto_battle()
+				KEY_ESCAPE, KEY_M:
+					_toggle_menu()
+			return
 		match event.keycode:
 			KEY_1:
 				_on_action_move()
@@ -1332,15 +1440,15 @@ func _process_next_turn() -> void:
 		_info_label.text = "Enemy turn: %s" % actor.display_name
 		_refresh_turn_display()
 		_refresh_all_units()
-		_do_enemy_turn(actor)
+		_queue_controlled_turn(actor, CombatSystem.Team.PLAYER, 15.0, 8.0, "Enemy")
 		return
 
-	if _auto_battle_controller.is_enabled():
+	if _auto_battle_controller.should_auto_control(actor):
 		_phase = VSPhase.ANIMATING
 		_info_label.text = "Auto-battle: %s" % actor.display_name
 		_refresh_turn_display()
 		_refresh_all_units()
-		_do_auto_player_turn(actor)
+		_queue_controlled_turn(actor, CombatSystem.Team.ENEMY, 20.0, 10.0, "Auto-battle")
 		return
 
 	_phase = VSPhase.SELECT_UNIT
@@ -1350,15 +1458,7 @@ func _process_next_turn() -> void:
 	_refresh_action_bar()
 
 func _do_enemy_turn(enemy: Unit) -> void:
-	var enemy_pos: Vector2i = _unit_cells[enemy]
-	var nearest_player: Unit = null
-	var nearest_dist := 999
-	for unit in _unit_cells:
-		if _combat.get_unit_team(unit) == CombatSystem.Team.PLAYER and _combat.is_unit_alive(unit):
-			var dist: int = abs(_unit_cells[unit].x - enemy_pos.x) + abs(_unit_cells[unit].y - enemy_pos.y)
-			if dist < nearest_dist:
-				nearest_player = unit
-				nearest_dist = dist
+	var nearest_player: Unit = _find_nearest_target(enemy, CombatSystem.Team.PLAYER)
 
 	if nearest_player != null:
 		_perform_simple_turn(enemy, nearest_player, 15.0, 8.0)
@@ -1369,15 +1469,7 @@ func _do_enemy_turn(enemy: Unit) -> void:
 		_process_next_turn()
 
 func _do_auto_player_turn(unit: Unit) -> void:
-	var nearest_enemy: Unit = null
-	var nearest_dist := 999
-	var unit_pos: Vector2i = _unit_cells[unit]
-	for other in _unit_cells:
-		if _combat.get_unit_team(other) == CombatSystem.Team.ENEMY and _combat.is_unit_alive(other):
-			var dist: int = abs(_unit_cells[other].x - unit_pos.x) + abs(_unit_cells[other].y - unit_pos.y)
-			if dist < nearest_dist:
-				nearest_enemy = other
-				nearest_dist = dist
+	var nearest_enemy: Unit = _find_nearest_target(unit, CombatSystem.Team.ENEMY)
 
 	if nearest_enemy != null:
 		_perform_simple_turn(unit, nearest_enemy, 20.0, 10.0)
@@ -1385,9 +1477,178 @@ func _do_auto_player_turn(unit: Unit) -> void:
 	_end_player_turn()
 
 func _perform_simple_turn(actor: Unit, target_unit: Unit, attack_value: float, defense_value: float) -> void:
+	if not _unit_cells.has(actor) or not _unit_cells.has(target_unit):
+		return
 	var actor_pos: Vector2i = _unit_cells[actor]
-	var target_pos: Vector2i = _unit_cells[target_unit]
 	var move_range: Array = _get_move_range(actor)
+	var best_pos: Vector2i = _choose_best_approach_position(actor, target_unit, move_range)
+
+	if best_pos != actor_pos:
+		_move_unit_to_cell(actor, best_pos)
+
+	if _can_attack_target(actor, target_unit):
+		_apply_basic_attack(actor, target_unit, attack_value, defense_value)
+
+func _try_start_auto_current_turn() -> bool:
+	if _turn_sequence_running or _phase == VSPhase.BATTLE_END:
+		return false
+	var actor: Unit = _combat.get_current_actor()
+	if actor == null:
+		return false
+	if _combat.get_unit_team(actor) != CombatSystem.Team.PLAYER:
+		return false
+	if not _auto_battle_controller.should_auto_control(actor):
+		return false
+	_phase = VSPhase.ANIMATING
+	return _queue_controlled_turn(actor, CombatSystem.Team.ENEMY, 20.0, 10.0, "Auto-battle")
+
+func _queue_controlled_turn(actor: Unit, target_team: int, attack_value: float, defense_value: float, label: String) -> bool:
+	if _turn_sequence_running or actor == null or not _unit_cells.has(actor):
+		return false
+	_clear_highlights()
+	_move_range.clear()
+	_attack_range.clear()
+	_selected_unit = actor
+	_turn_sequence_running = true
+	_controlled_turn_plan = {
+		"actor": actor,
+		"target_team": target_team,
+		"attack_value": attack_value,
+		"defense_value": defense_value,
+		"label": label,
+		"step": 0,
+		"target": null,
+		"best_pos": _unit_cells[actor],
+	}
+	_controlled_turn_timer = 0.0
+	_refresh_turn_display()
+	_refresh_all_units()
+	_refresh_action_bar()
+	_advance_controlled_turn_step()
+	return true
+
+func _advance_controlled_turn_step() -> void:
+	if not _turn_sequence_running:
+		return
+	var actor: Unit = _controlled_turn_plan.get("actor")
+	if actor == null or not _unit_cells.has(actor) or not _combat.is_unit_alive(actor):
+		_finish_controlled_turn()
+		return
+
+	match int(_controlled_turn_plan.get("step", 0)):
+		0:
+			_begin_controlled_turn_step(actor)
+		1:
+			_move_controlled_turn_actor(actor)
+		2:
+			_attack_controlled_turn_target(actor)
+		_:
+			_finish_controlled_turn()
+
+func _begin_controlled_turn_step(actor: Unit) -> void:
+	var label: String = _controlled_turn_plan.get("label", "Auto-battle")
+	var target_team: int = _controlled_turn_plan.get("target_team", CombatSystem.Team.ENEMY)
+	var target: Unit = _find_nearest_target(actor, target_team)
+	_controlled_turn_plan["target"] = target
+	_move_range = _get_move_range(actor)
+	_highlight_cells(_move_range, Color(0.20, 0.52, 0.70, 0.88))
+	if target == null:
+		_info_label.text = "%s: %s has no available target." % [label, actor.display_name]
+		_controlled_turn_plan["step"] = 3
+	else:
+		var best_pos: Vector2i = _choose_best_approach_position(actor, target, _move_range)
+		_controlled_turn_plan["best_pos"] = best_pos
+		_info_label.text = "%s: %s chooses a move." % [label, actor.display_name]
+		_controlled_turn_plan["step"] = 1
+	_refresh_all_units()
+	_schedule_controlled_turn_step()
+
+func _move_controlled_turn_actor(actor: Unit) -> void:
+	var label: String = _controlled_turn_plan.get("label", "Auto-battle")
+	var target: Unit = _controlled_turn_plan.get("target")
+	var actor_pos: Vector2i = _unit_cells.get(actor, Vector2i(-1, -1))
+	var best_pos: Vector2i = _controlled_turn_plan.get("best_pos", actor_pos)
+	_clear_highlights()
+	_move_range.clear()
+	if best_pos != actor_pos:
+		_move_unit_to_cell(actor, best_pos)
+		if target != null:
+			_info_label.text = "%s: %s moves toward %s." % [label, actor.display_name, target.display_name]
+		else:
+			_info_label.text = "%s: %s moves." % [label, actor.display_name]
+	else:
+		_info_label.text = "%s: %s holds position." % [label, actor.display_name]
+	_attack_range = _get_attack_range(actor)
+	_highlight_cells(_attack_range, Color(0.82, 0.32, 0.26, 0.88))
+	_controlled_turn_plan["step"] = 2
+	_refresh_all_units()
+	_schedule_controlled_turn_step()
+
+func _attack_controlled_turn_target(actor: Unit) -> void:
+	var label: String = _controlled_turn_plan.get("label", "Auto-battle")
+	var target: Unit = _controlled_turn_plan.get("target")
+	_clear_highlights()
+	_attack_range.clear()
+	if target != null and _unit_cells.has(target) and _combat.is_unit_alive(target) and _can_attack_target(actor, target):
+		var damage: int = _apply_basic_attack(
+			actor,
+			target,
+			float(_controlled_turn_plan.get("attack_value", 20.0)),
+			float(_controlled_turn_plan.get("defense_value", 10.0))
+		)
+		var target_pos: Vector2i = _unit_cells.get(target, Vector2i(-1, -1))
+		if target_pos.x >= 0:
+			_highlight_cells([target_pos], Color(1.0, 0.82, 0.18, 0.92))
+		_info_label.text = "%s: %s attacks %s for %d damage." % [label, actor.display_name, target.display_name, damage]
+	else:
+		_info_label.text = "%s: %s ends turn without an attack." % [label, actor.display_name]
+	_controlled_turn_plan["step"] = 3
+	_refresh_all_units()
+	_schedule_controlled_turn_step()
+
+func _finish_controlled_turn() -> void:
+	_clear_highlights()
+	_move_range.clear()
+	_attack_range.clear()
+	_selected_unit = null
+	_turn_sequence_running = false
+	_controlled_turn_plan.clear()
+	_controlled_turn_timer = 0.0
+	_refresh_all_units()
+	_combat.end_turn()
+	_check_battle_end()
+	if _phase != VSPhase.BATTLE_END:
+		_process_next_turn()
+
+func _schedule_controlled_turn_step() -> void:
+	_controlled_turn_timer = _get_controlled_turn_delay()
+
+func _get_controlled_turn_delay() -> float:
+	if _speed_controller.should_skip_animations():
+		return 0.0
+	var delay: float = _speed_controller.get_ai_delay() * 0.45
+	return clampf(delay, _MIN_CONTROLLED_TURN_DELAY, _MAX_CONTROLLED_TURN_DELAY)
+
+func _find_nearest_target(actor: Unit, target_team: int) -> Unit:
+	if actor == null or not _unit_cells.has(actor):
+		return null
+	var actor_pos: Vector2i = _unit_cells[actor]
+	var nearest: Unit = null
+	var nearest_dist := 999
+	for other in _unit_cells:
+		if _combat.get_unit_team(other) != target_team or not _combat.is_unit_alive(other):
+			continue
+		var dist: int = abs(_unit_cells[other].x - actor_pos.x) + abs(_unit_cells[other].y - actor_pos.y)
+		if dist < nearest_dist:
+			nearest = other
+			nearest_dist = dist
+	return nearest
+
+func _choose_best_approach_position(actor: Unit, target_unit: Unit, move_range: Array) -> Vector2i:
+	var actor_pos: Vector2i = _unit_cells[actor]
+	if target_unit == null or not _unit_cells.has(target_unit):
+		return actor_pos
+	var target_pos: Vector2i = _unit_cells[target_unit]
 	var best_pos := actor_pos
 	var best_dist: int = abs(actor_pos.x - target_pos.x) + abs(actor_pos.y - target_pos.y)
 	for pos in move_range:
@@ -1395,22 +1656,30 @@ func _perform_simple_turn(actor: Unit, target_unit: Unit, attack_value: float, d
 		if dist < best_dist:
 			best_dist = dist
 			best_pos = pos
+	return best_pos
 
-	if best_pos != actor_pos:
-		_grid_units.erase(actor_pos)
-		_grid_units[best_pos] = actor
-		_unit_cells[actor] = best_pos
-		_update_unit_position(actor, best_pos)
+func _move_unit_to_cell(unit: Unit, target_pos: Vector2i) -> void:
+	var old_pos: Vector2i = _unit_cells[unit]
+	_grid_units.erase(old_pos)
+	_grid_units[target_pos] = unit
+	_unit_cells[unit] = target_pos
+	_update_unit_position(unit, target_pos)
 
+func _can_attack_target(actor: Unit, target_unit: Unit) -> bool:
+	if not _unit_cells.has(actor) or not _unit_cells.has(target_unit):
+		return false
+	var target_pos: Vector2i = _unit_cells[target_unit]
 	var attack_range: Array = _get_attack_range(actor)
 	var final_pos: Vector2i = _unit_cells[actor]
-	if attack_range.has(target_pos) or (abs(final_pos.x - target_pos.x) + abs(final_pos.y - target_pos.y) <= 2):
-		var damage := DamageCalculation.calculate_damage(
-			{"attack": attack_value, "strength": actor.get_attribute(AttributeNames.Attribute.STR)},
-			{"defense": defense_value},
-			{"damage_multiplier": 1.0}
-		)
-		_combat.apply_damage(target_unit, damage, actor)
+	return attack_range.has(target_pos) or (abs(final_pos.x - target_pos.x) + abs(final_pos.y - target_pos.y) <= 2)
+
+func _apply_basic_attack(actor: Unit, target_unit: Unit, attack_value: float, defense_value: float) -> int:
+	var damage := DamageCalculation.calculate_damage(
+		{"attack": attack_value, "strength": actor.get_attribute(AttributeNames.Attribute.STR)},
+		{"defense": defense_value},
+		{"damage_multiplier": 1.0}
+	)
+	return _combat.apply_damage(target_unit, damage, actor)
 
 func _check_battle_end() -> void:
 	var result := _combat.check_end_conditions()

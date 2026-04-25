@@ -71,16 +71,15 @@ func _init(rng: RandomNumberGenerator = null) -> void:
 # ---------------------------------------------------------------------------
 
 ## Set the active speed tier. Idempotent: no signal emitted if tier is unchanged.
-## Invalid tier values log an error and leave state unchanged.
+## Invalid tier values are rejected and leave state unchanged.
 ##
 ## Example:
-##   speed_controller.set_tier(SpeedController.SpeedTier.FAST)
-func set_tier(new_tier: int) -> void:
+##   var accepted := speed_controller.set_tier(SpeedController.SpeedTier.FAST)
+func set_tier(new_tier: int) -> bool:
 	if new_tier == _tier:
-		return
+		return true
 	if not _ANIM_MULTIPLIER.has(new_tier):
-		push_error("SpeedController.set_tier: invalid tier value %d" % new_tier)
-		return
+		return false
 	var old_tier: int = _tier
 	_tier = new_tier
 	# Emission order: GameEvents first, then instance signal — matches the
@@ -88,6 +87,7 @@ func set_tier(new_tier: int) -> void:
 	# listeners see a consistent broadcast-then-local sequence across the codebase.
 	GameEvents.speed_tier_changed.emit(old_tier, new_tier)
 	tier_changed.emit(old_tier, new_tier)
+	return true
 
 ## Returns the current speed tier as a SpeedTier enum integer.
 ##
