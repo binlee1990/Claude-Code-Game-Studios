@@ -5,8 +5,8 @@
 ## Current Task
 Gate-check Pre-Production → Production: PASS WITH CONCERNS (visual readability PASS WITH NOTES; fun validation rerun PASS)
 Automatable P3 chain: COMPLETE (`skill-system` → `equipment-system` → `character-management`)
-Execution focus: Production-phase UI/UX polish, battle presentation, and first real content slice
-Next: start UI/UX polish for the battle flow
+Production systems completion batch: COMPLETE — Chapter 1 now has a three-battle formal path, with difficulty profile, class skills, Boss phase checkpoints, equipment/roster/Boss/campaign/camp/tactics menu visibility, independent rewards/camp/party/equipment management screen, story progress persistence, post-battle settlement rewards, default recommended camp growth, tactical terrain/height/weapon/element modifiers, AI target/position selection, generated audio cues, localization catalog, SaveManager recovery, Windows export smoke, and packaged scripted playthrough
+Next: Chapter 2 content expansion and external human subjective release sign-off
 
 ## Immediate Execution Checklist — 2026-04-25
 
@@ -17,11 +17,15 @@ Next: start UI/UX polish for the battle flow
 | Targeted UX friction fixes | Agent | `src/ui/combat/battle_arena.gd`, `src/core/combat/speed_controller.gd` | COMPLETE — board responsiveness, Auto status/immediate takeover/paced turns, speed-tier test cleanup, and main-menu return |
 | Stage resync after rerun | Human + agent | `production/session-state/active.md`, `production/project-stage-report.md`, `production/stage.txt` | COMPLETE — stage advanced to `Production` with concerns |
 | Windows packaged-build playthrough | Human + agent | `production/playtests/windows-build-smoke-2026-04-25.md` | PASS — `builds/windows/SRPG.exe` generated, launches, and passes main menu -> battle -> Auto/manual -> save/load -> main menu |
+| Chapter 1 content/presentation batch | Agent | `production/qa/evidence/chapter-01-content-slice-evidence.md` | COMPLETE — automated suite, check-only, export, and launch smoke all pass |
+| Post-battle settlement/reward path | Agent | `production/qa/evidence/post-battle-settlement-evidence.md` | COMPLETE — victory grants EXP/gold/materials/equipment, settlement menu exposes rewards, SaveManager restores the post-battle state |
+| Campaign/camp/tactics systems path | Agent | `production/qa/evidence/campaign-camp-tactics-evidence.md` | COMPLETE — second battle, default camp growth, tactical modifiers, AI/Boss behavior, save/load, tests, export, and launch smoke pass |
+| Chapter 1 complete release path | Agent | `production/qa/evidence/chapter-01-complete-release-evidence.md` | COMPLETE — third battle, independent management screen, audio/localization scaffolds, release packaging script, packaged scripted playthrough, export, and launch smoke pass |
 
 ## Production Guardrails
 
 - Do not treat the vertical-slice PASS as release readiness.
-- Prioritize playable build, UI/UX polish, minimal battle presentation, and first real content slice before broad new systems.
+- Prioritize Chapter 2 content expansion, deeper manual management interactions, and human subjective UI/UX release sign-off before broad new systems.
 - Keep every production-phase lane tied to smoke tests, human-visible evidence, or automated regression.
 
 ## Phase 1 Documentation — Completed 2026-04-23

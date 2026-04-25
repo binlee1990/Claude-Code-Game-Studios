@@ -10,10 +10,11 @@
 - `P1` 已完成：battle 主路径、Camera/Map、UI、SaveManager 产品化整合已落地并通过自动化回归
 - `P2` 已完成：3 份结构化验证 session 已落地，人工视觉可读性 PASS WITH NOTES，2026-04-25 fun validation rerun PASS
 - `P3` 已完成当前推荐链：`skill-system`、`equipment-system`、`character-management` 已完成并通过自动化回归
-- 当前未完成重点已转入 Production：
-  - UI/UX polish
-  - 最小战斗表现层
-  - 第一关真实内容切片
+- Production 当前系统闭环已完成：第一章三战 `chapter_01_tutorial -> chapter_01_crossroads -> chapter_01_finale` 已形成正式 battle path 战役推进，包含难度曲线、职业/技能初始化、Boss 阶段检查点、装备/队伍/Boss 菜单、独立奖励/回营/队伍/装备管理屏、生成式轻量音效、本地化字典、轻量战斗反馈、故事进度存档、战后结算/奖励应用、默认回营成长、战术地形/高低差/武器克制/元素反应、AI 目标与站位选择、SaveManager 恢复、Windows 导出 smoke、packaged scripted playthrough
+- 当前未完成重点已从“可执行系统缺口”收窄为外部/后续 Production：
+  - Chapter 2 及之后的关卡内容、叙事节奏和关卡选择包装
+  - 独立管理屏当前已可用但仍是推荐动作/只读为主；拖拽装备、手动队伍编成、动画化奖励领取属于后续 UX 深化
+  - 真人主观 UI/UX 最终签收、正式美术/音乐/全量本地化/release distribution
 
 ## 目标
 
@@ -54,7 +55,7 @@
 - 现在继续堆功能，会把已有失败继续埋深
 - prototype 已证明核心循环可玩，但还没进入正式场景路径
 - Camera / UI / Save 是当前 Vertical Slice 的真正阻塞项
-- 当前自动化 backlog、人工 gate 证据、Windows exe smoke、packaged-build 完整试玩已落地，下一步是 UI/UX polish、内容和战斗表现
+- 当前自动化 backlog、人工 gate 证据、Windows exe smoke、packaged scripted playthrough、第一章三战内容切片、战后奖励闭环、默认回营成长、独立管理屏、战术/AI 正式接入已落地，下一步是 Chapter 2 内容与人工主观签收
 
 ## 执行优先级
 
@@ -215,7 +216,7 @@
 ## 当前不建议立即做的事
 
 - 把 vertical-slice PASS 误读为 release readiness
-- 在还没有可试玩构建和第一关内容前，把 Production 阶段误判为“只剩扩系统”
+- 把当前 agent-verifiable PASS 误判为商业 release readiness；真人主观签收和正式资产发行仍是外部 gate
 - 重新引入 prototype 与 product 的双轨实现
 
 ## 文档同步要求
@@ -229,4 +230,4 @@
 
 ## 建议的下一步
 
-按 UI/UX polish → 最小战斗表现 → 第一关内容切片推进。
+按 Chapter 1 后续关卡节奏 → 战役/回营成长路径 → 第二轮 UI/UX polish 推进。

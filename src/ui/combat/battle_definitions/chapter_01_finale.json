@@ -1,0 +1,173 @@
+{
+  "definition_path": "res://src/ui/combat/battle_definitions/chapter_01_finale.json",
+  "battle_id": "chapter_01_finale",
+  "map_id": "watchtower_gate",
+  "chapter_id": 1,
+  "chapter_title": "Chapter 1: Watchtower Gate",
+  "objective": "Defeat the gate commander and secure the watchtower route.",
+  "briefing": "The patrol pushes from the crossroads to the old watchtower. Bring the trained vanguard, use the ridge line, and finish Chapter 1 before reinforcements arrive.",
+  "map_size": 15,
+  "difficulty": 3,
+  "difficulty_profile": {
+    "label": "Chapter 1 Finale",
+    "enemy_stat_multiplier": 1.0,
+    "exp_multiplier": 1.15,
+    "resource_multiplier": 1.2,
+    "ai_tier": "chapter_finale"
+  },
+  "completion_key": "chapter_01_finale_complete",
+  "settlement": {
+    "rng_seed": 303,
+    "reward_note": "Chapter 1 route secured. The patrol can return to camp for the next production slice."
+  },
+  "progress_on_start": {
+    "chapter": 1,
+    "current_battle": "chapter_01_finale",
+    "watchtower_started": true
+  },
+  "progress_on_victory": {
+    "chapter": 1,
+    "current_battle": "chapter_01_finale",
+    "chapter_01_finale_complete": true,
+    "chapter_01_complete": true,
+    "route_to_watchtower_secure": true
+  },
+  "terrain": [
+    {"x": 5, "y": 3, "type": "highland"},
+    {"x": 6, "y": 3, "type": "highland"},
+    {"x": 7, "y": 4, "type": "highland"},
+    {"x": 8, "y": 4, "type": "highland"},
+    {"x": 9, "y": 5, "type": "highland"},
+    {"x": 6, "y": 9, "type": "grass"},
+    {"x": 7, "y": 9, "type": "grass"},
+    {"x": 8, "y": 10, "type": "mud"},
+    {"x": 9, "y": 10, "type": "mud"},
+    {"x": 10, "y": 7, "type": "water"},
+    {"x": 11, "y": 7, "type": "water"},
+    {"x": 12, "y": 6, "type": "obstacle"},
+    {"x": 12, "y": 8, "type": "obstacle"}
+  ],
+  "inventory": [
+    {"resource": "gold", "amount": 650},
+    {"resource": "basic_material", "amount": 22},
+    {"resource": "fruit_str", "amount": 4},
+    {"resource": "protect_symbol", "amount": 2}
+  ],
+  "units": [
+    {
+      "id": "P1",
+      "name": "Swordsman",
+      "team": "player",
+      "class": "basic_warrior",
+      "hp": 88,
+      "position": {"x": 2, "y": 7},
+      "stats": {"str": 26, "agi": 24},
+      "tactics": {"weapon": "sword", "element": "none", "ai": "balanced", "move": 3, "range": 2},
+      "equipment": [
+        {
+          "item_id": "p1_bronze_sword",
+          "name": "Bronze Sword",
+          "slot": "weapon",
+          "quality": "blue",
+          "affixes": [{"type": "str", "value": 8, "attribute": "str"}]
+        }
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Archer",
+      "team": "player",
+      "class": "basic_archer",
+      "hp": 68,
+      "position": {"x": 3, "y": 9},
+      "stats": {"str": 19, "agi": 24},
+      "tactics": {"weapon": "bow", "element": "wind", "ai": "balanced", "move": 3, "range": 3},
+      "equipment": [
+        {
+          "item_id": "p2_longbow",
+          "name": "Longbow",
+          "slot": "weapon",
+          "quality": "blue",
+          "affixes": [{"type": "agi", "value": 7, "attribute": "agi"}]
+        }
+      ]
+    },
+    {
+      "id": "R2",
+      "name": "Rogue",
+      "team": "player",
+      "class": "basic_rogue",
+      "hp": 62,
+      "position": {"x": 2, "y": 5},
+      "stats": {"str": 18, "agi": 25},
+      "tactics": {"weapon": "fist", "element": "none", "ai": "balanced", "move": 4, "range": 1},
+      "equipment": [
+        {
+          "item_id": "r2_dagger",
+          "name": "Scout Dagger",
+          "slot": "weapon",
+          "quality": "green",
+          "affixes": [{"type": "agi", "value": 4, "attribute": "agi"}]
+        }
+      ]
+    },
+    {
+      "id": "E6",
+      "name": "Gate Commander",
+      "team": "enemy",
+      "class": "basic_knight",
+      "boss": true,
+      "boss_profile": {
+        "title": "Gate Commander",
+        "phase_thresholds": [0.7, 0.35],
+        "phase_names": ["Shield Wall", "Counter Order", "Last Stand"],
+        "phase_damage_multiplier": 1.5,
+        "checkpoint_retained_hp_ratio": 0.22,
+        "hint": "Break the commander from high ground before the axe line closes."
+      },
+      "hp": 110,
+      "position": {"x": 12, "y": 7},
+      "stats": {"str": 25, "agi": 14},
+      "tactics": {"weapon": "spear", "element": "earth", "ai": "defensive", "move": 2, "range": 2},
+      "reward": {"tier": "boss", "base_gold": 180, "damage_dealt": 1200}
+    },
+    {
+      "id": "E7",
+      "name": "Torch Adept",
+      "team": "enemy",
+      "class": "basic_mage",
+      "hp": 70,
+      "position": {"x": 10, "y": 5},
+      "stats": {"str": 19, "agi": 16},
+      "tactics": {"weapon": "magic", "element": "fire", "ai": "control", "move": 3, "range": 3},
+      "reward": {"tier": "elite", "base_gold": 95, "damage_dealt": 420}
+    },
+    {
+      "id": "E8",
+      "name": "Axe Linebreaker",
+      "team": "enemy",
+      "class": "basic_warrior",
+      "hp": 82,
+      "position": {"x": 9, "y": 9},
+      "stats": {"str": 24, "agi": 13},
+      "tactics": {"weapon": "axe", "element": "none", "ai": "aggressive", "move": 3, "range": 2},
+      "reward": {"tier": "elite", "base_gold": 90, "damage_dealt": 460}
+    },
+    {
+      "id": "E9",
+      "name": "Bow Sentry",
+      "team": "enemy",
+      "class": "basic_archer",
+      "hp": 58,
+      "position": {"x": 11, "y": 10},
+      "stats": {"str": 18, "agi": 18},
+      "tactics": {"weapon": "bow", "element": "wind", "ai": "support", "move": 3, "range": 3},
+      "reward": {"tier": "normal", "base_gold": 65, "damage_dealt": 260}
+    }
+  ],
+  "reserves": [
+    {"id": "R1", "name": "Cleric", "class": "basic_cleric", "stats": {"str": 12, "agi": 14}, "status": "available"},
+    {"id": "R3", "name": "Lancer", "class": "basic_knight", "stats": {"str": 20, "agi": 16}, "status": "departed", "reason": "chapter_2_exit"},
+    {"id": "R4", "name": "Mage", "class": "basic_mage", "stats": {"str": 11, "agi": 17}, "status": "available"}
+  ]
+}

@@ -118,6 +118,11 @@ func load_data(data: Dictionary) -> void:
 		var entry: Dictionary = data[skill_id_str]
 		_skills[StringName(skill_id_str)] = SkillData.deserialize(entry)
 
+## Replace current skills with the class skills for an initial content setup.
+func reset_to_class_skills(class_id: int) -> void:
+	_skills.clear()
+	_unlock_class_skills(class_id)
+
 func _on_class_changed(old_class: int, new_class: int) -> void:
 	_freeze_class_skills(old_class, new_class)
 	_unlock_class_skills(new_class)

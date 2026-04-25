@@ -1,0 +1,140 @@
+{
+  "definition_path": "res://src/ui/combat/battle_definitions/chapter_01_tutorial.json",
+  "battle_id": "chapter_01_tutorial",
+  "map_id": "training_pass",
+  "chapter_id": 1,
+  "chapter_title": "Chapter 1: Training Pass",
+  "objective": "Defeat both raiders and keep the patrol standing.",
+  "briefing": "A border patrol is ambushed on a narrow mountain road. Use movement, focus fire, and turn order to secure the pass.",
+  "map_size": 15,
+  "difficulty": 1,
+  "next_battle_definition_path": "res://src/ui/combat/battle_definitions/chapter_01_crossroads.json",
+  "difficulty_profile": {
+    "label": "First Playthrough Tutorial",
+    "enemy_stat_multiplier": 0.7,
+    "exp_multiplier": 1.2,
+    "resource_multiplier": 1.0,
+    "ai_tier": "baseline"
+  },
+  "completion_key": "chapter_01_tutorial_complete",
+  "settlement": {
+    "rng_seed": 101,
+    "reward_note": "Securing the pass opens the road to the next Chapter 1 encounter."
+  },
+  "terrain": [
+    {"x": 5, "y": 5, "type": "highland"},
+    {"x": 6, "y": 5, "type": "highland"},
+    {"x": 7, "y": 6, "type": "grass"},
+    {"x": 8, "y": 8, "type": "water"},
+    {"x": 10, "y": 7, "type": "mud"}
+  ],
+  "progress_on_start": {
+    "chapter": 1,
+    "current_battle": "chapter_01_tutorial",
+    "tutorial_started": true
+  },
+  "progress_on_victory": {
+    "chapter": 1,
+    "current_battle": "chapter_01_tutorial",
+    "chapter_01_complete": true,
+    "tutorial_complete": true
+  },
+  "inventory": [
+    {"resource": "gold", "amount": 500},
+    {"resource": "basic_material", "amount": 18},
+    {"resource": "fruit_str", "amount": 3},
+    {"resource": "protect_symbol", "amount": 2}
+  ],
+  "units": [
+    {
+      "id": "P1",
+      "name": "Swordsman",
+      "team": "player",
+      "class": "basic_warrior",
+      "hp": 80,
+      "position": {"x": 2, "y": 5},
+      "stats": {"str": 22, "agi": 24},
+      "tactics": {"weapon": "sword", "element": "none", "ai": "balanced", "move": 3, "range": 2},
+      "equipment": [
+        {
+          "item_id": "p1_bronze_sword",
+          "name": "Bronze Sword",
+          "slot": "weapon",
+          "quality": "blue",
+          "affixes": [{"type": "str", "value": 8, "attribute": "str"}]
+        }
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Archer",
+      "team": "player",
+      "class": "basic_archer",
+      "hp": 60,
+      "position": {"x": 4, "y": 6},
+      "stats": {"str": 18, "agi": 20},
+      "tactics": {"weapon": "bow", "element": "wind", "ai": "balanced", "move": 3, "range": 3},
+      "equipment": [
+        {
+          "item_id": "p2_longbow",
+          "name": "Longbow",
+          "slot": "weapon",
+          "quality": "blue",
+          "affixes": [{"type": "agi", "value": 7, "attribute": "agi"}]
+        }
+      ]
+    },
+    {
+      "id": "E1",
+      "name": "Raider Captain",
+      "team": "enemy",
+      "class": "basic_knight",
+      "boss": true,
+      "boss_profile": {
+        "title": "Raider Captain",
+        "phase_thresholds": [0.5],
+        "phase_names": ["Guarded Stance", "Broken Guard"],
+        "phase_damage_multiplier": 1.3,
+        "checkpoint_retained_hp_ratio": 0.15,
+        "hint": "Break the captain below half HP, then finish with focus fire."
+      },
+      "hp": 70,
+      "position": {"x": 11, "y": 7},
+      "stats": {"str": 20, "agi": 12},
+      "tactics": {"weapon": "spear", "element": "earth", "ai": "aggressive", "move": 3, "range": 2},
+      "reward": {"tier": "boss", "base_gold": 100, "damage_dealt": 700}
+    },
+    {
+      "id": "E2",
+      "name": "Dark Mage",
+      "team": "enemy",
+      "class": "basic_mage",
+      "hp": 55,
+      "position": {"x": 9, "y": 9},
+      "stats": {"str": 16, "agi": 10},
+      "tactics": {"weapon": "magic", "element": "fire", "ai": "control", "move": 3, "range": 3},
+      "reward": {"tier": "normal", "base_gold": 60, "damage_dealt": 220}
+    }
+  ],
+  "reserves": [
+    {"id": "R1", "name": "Cleric", "class": "basic_cleric", "stats": {"str": 12, "agi": 14}, "status": "available"},
+    {
+      "id": "R2",
+      "name": "Rogue",
+      "class": "basic_rogue",
+      "stats": {"str": 16, "agi": 21},
+      "status": "available",
+      "equipment": [
+        {
+          "item_id": "r2_dagger",
+          "name": "Scout Dagger",
+          "slot": "weapon",
+          "quality": "green",
+          "affixes": [{"type": "agi", "value": 4, "attribute": "agi"}]
+        }
+      ]
+    },
+    {"id": "R3", "name": "Lancer", "class": "basic_knight", "stats": {"str": 20, "agi": 16}, "status": "departed", "reason": "chapter_2_exit"},
+    {"id": "R4", "name": "Mage", "class": "basic_mage", "stats": {"str": 11, "agi": 17}, "status": "available"}
+  ]
+}

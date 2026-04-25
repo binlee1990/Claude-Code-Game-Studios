@@ -3,6 +3,8 @@ extends Control
 
 const SRPGTheme := preload("res://src/ui/theme/srpg_theme.gd")
 const InkBackdrop := preload("res://src/ui/theme/ink_backdrop.gd")
+const SRPGLocalizationScript := preload("res://src/core/localization/srpg_localization.gd")
+const BATTLE_SCENE_PATH := "res://src/ui/combat/battle_arena.tscn"
 
 @onready var start_button: Button = $VBox/StartButton
 @onready var continue_button: Button = $VBox/ContinueButton
@@ -21,6 +23,8 @@ func _ready() -> void:
 	# 检查是否有存档
 	continue_button.disabled = not SaveManager.has_save(1)
 	_refresh_status_label()
+	if OS.get_cmdline_args().has("--srpg-playthrough-smoke"):
+		call_deferred("_run_packaged_playthrough_smoke")
 
 func _on_start_pressed() -> void:
 	# 开始新游戏
@@ -60,23 +64,23 @@ func _build_visuals() -> void:
 	add_child(title_stack)
 
 	var eyebrow := Label.new()
-	eyebrow.text = "VERTICAL SLICE"
+	eyebrow.text = "CHAPTER 1 BUILD"
 	SRPGTheme.apply_label(eyebrow, SRPGTheme.GOLD, 15)
 	title_stack.add_child(eyebrow)
 
 	var title := Label.new()
-	title.text = "江湖试锋"
+	title.text = SRPGLocalizationScript.translate("game.title")
 	SRPGTheme.apply_label(title, SRPGTheme.WHITE, 56)
 	title_stack.add_child(title)
 
 	var subtitle := Label.new()
-	subtitle.text = "深墨、纸白、朱红点睛的战棋原型"
+	subtitle.text = SRPGLocalizationScript.translate("main.subtitle")
 	subtitle.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	SRPGTheme.apply_label(subtitle, SRPGTheme.PAPER, 20)
 	title_stack.add_child(subtitle)
 
 	var seal := Label.new()
-	seal.text = "斩敌不是炫技，是一招定局。"
+	seal.text = SRPGLocalizationScript.translate("main.seal")
 	seal.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	SRPGTheme.apply_label(seal, SRPGTheme.PAPER_MUTED, 16)
 	title_stack.add_child(seal)
@@ -125,6 +129,71 @@ func _refresh_status_label() -> void:
 	if _status_label == null:
 		return
 	if continue_button.disabled:
-		_status_label.text = "没有检测到 1 号存档。开始游戏会进入当前可玩战斗。"
+		_status_label.text = "没有检测到 1 号存档。开始游戏会进入第一章教程战。"
 	else:
-		_status_label.text = "检测到 1 号存档，可以继续上次战斗。"
+		_status_label.text = "检测到 1 号存档，可以继续第一章进度。"
+
+func _run_packaged_playthrough_smoke() -> void:
+	var result := _execute_packaged_playthrough_smoke()
+	if bool(result.get("success", false)):
+		print("PACKAGED_PLAYTHROUGH_SMOKE PASS %s" % JSON.stringify(result))
+		get_tree().quit(0)
+	else:
+		push_error("PACKAGED_PLAYTHROUGH_SMOKE FAIL %s" % JSON.stringify(result))
+		get_tree().quit(1)
+
+func _execute_packaged_playthrough_smoke() -> Dictionary:
+	SaveManager.clear_pending_loaded_data()
+	var scene: PackedScene = load(BATTLE_SCENE_PATH)
+	if scene == null:
+		return {"success": false, "reason": "missing_battle_scene"}
+	var battle = scene.instantiate()
+	add_child(battle)
+	if battle.get_battle_id() != "chapter_01_tutorial":
+		return {"success": false, "reason": "wrong_start_battle", "battle": battle.get_battle_id()}
+	if not _smoke_clear_and_advance(battle, "chapter_01_crossroads"):
+		return {"success": false, "reason": "failed_to_reach_crossroads", "battle": battle.get_battle_id()}
+	if not _smoke_clear_and_advance(battle, "chapter_01_finale"):
+		return {"success": false, "reason": "failed_to_reach_finale", "battle": battle.get_battle_id()}
+	battle.open_management_screen("equipment")
+	var management_state: Dictionary = battle.get_management_screen_state()
+	if not bool(management_state.get("visible", false)):
+		return {"success": false, "reason": "management_screen_not_visible"}
+	if not SaveManager.save_game(6):
+		return {"success": false, "reason": "save_failed"}
+	battle.queue_free()
+	battle = null
+	if not SaveManager.load_game(6):
+		return {"success": false, "reason": "load_failed"}
+	var restored = scene.instantiate()
+	add_child(restored)
+	var restored_ok := restored.get_battle_id() == "chapter_01_finale"
+	restored_ok = restored_ok and bool(restored.get_management_screen_state().get("visible", false))
+	restored_ok = restored_ok and restored.get_campaign_state().get("camp_report", "") != ""
+	var report := {
+		"success": restored_ok,
+		"battle": restored.get_battle_id(),
+		"management_tab": restored.get_management_screen_state().get("tab", ""),
+		"camp_report_present": restored.get_campaign_state().get("camp_report", "") != "",
+	}
+	restored.queue_free()
+	var save_path := "user://saves/save_6.tres"
+	if FileAccess.file_exists(save_path):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(save_path))
+	return report
+
+func _smoke_clear_and_advance(battle, expected_next_battle: String) -> bool:
+	_smoke_defeat_current_enemies(battle)
+	if not battle.advance_to_next_battle():
+		return false
+	return battle.get_battle_id() == expected_next_battle
+
+func _smoke_defeat_current_enemies(battle) -> void:
+	var actor: Unit = battle._combat.get_current_actor()
+	var enemies: Array = []
+	for unit in battle._unit_cells.keys():
+		if battle._combat.get_unit_team(unit) == CombatSystem.Team.ENEMY:
+			enemies.append(unit)
+	for enemy in enemies:
+		battle._combat.apply_damage(enemy, 999, actor)
+	battle._check_battle_end()

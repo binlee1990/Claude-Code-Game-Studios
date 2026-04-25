@@ -114,6 +114,11 @@ func execute_class_change(class_id: int, achievement_points: int = 0) -> Diction
 	var attr_callable: Callable = func(attr_type: int) -> int: return attributes.get_value(attr_type)
 	return class_component.execute_class_change(class_id, attr_callable, achievement_points)
 
+## Configure the unit's starting class and class skills for scenario content.
+func configure_starting_class(class_id: int, state: int = ClassNames.ClassState.BASIC_ACTIVE) -> void:
+	class_component.initialize(class_id, state, {}, false)
+	skill_component.reset_to_class_skills(class_id)
+
 ## Report combat damage for class experience
 func report_damage_dealt(damage: int, is_kill: bool, is_battle: bool = true) -> int:
 	return class_component.report_damage_dealt(damage, is_kill, is_battle)

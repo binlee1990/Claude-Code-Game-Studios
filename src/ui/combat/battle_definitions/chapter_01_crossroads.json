@@ -1,0 +1,155 @@
+{
+  "definition_path": "res://src/ui/combat/battle_definitions/chapter_01_crossroads.json",
+  "battle_id": "chapter_01_crossroads",
+  "map_id": "crossroads_ambush",
+  "chapter_id": 1,
+  "chapter_title": "Chapter 1: Crossroads Ambush",
+  "objective": "Defeat the ambush leader after regrouping at camp.",
+  "briefing": "The patrol reaches a ruined crossroads. Use high ground, weapon advantage, and the camp upgrades from the first fight to break the ambush.",
+  "map_size": 15,
+  "difficulty": 2,
+  "difficulty_profile": {
+    "label": "Chapter 1 Follow-up",
+    "enemy_stat_multiplier": 0.85,
+    "exp_multiplier": 1.1,
+    "resource_multiplier": 1.1,
+    "ai_tier": "tactical"
+  },
+  "next_battle_definition_path": "res://src/ui/combat/battle_definitions/chapter_01_finale.json",
+  "completion_key": "chapter_01_crossroads_complete",
+  "settlement": {
+    "rng_seed": 202,
+    "reward_note": "The crossroads are clear. The camp route and second Chapter 1 encounter are now proven."
+  },
+  "progress_on_start": {
+    "chapter": 1,
+    "current_battle": "chapter_01_crossroads",
+    "crossroads_started": true
+  },
+  "progress_on_victory": {
+    "chapter": 1,
+    "current_battle": "chapter_01_crossroads",
+    "chapter_01_crossroads_complete": true,
+    "chapter_01_route_secure": true
+  },
+  "terrain": [
+    {"x": 6, "y": 4, "type": "highland"},
+    {"x": 7, "y": 4, "type": "highland"},
+    {"x": 8, "y": 5, "type": "highland"},
+    {"x": 5, "y": 7, "type": "grass"},
+    {"x": 6, "y": 8, "type": "grass"},
+    {"x": 9, "y": 8, "type": "water"},
+    {"x": 10, "y": 8, "type": "water"},
+    {"x": 8, "y": 9, "type": "mud"},
+    {"x": 11, "y": 6, "type": "obstacle"}
+  ],
+  "inventory": [
+    {"resource": "gold", "amount": 500},
+    {"resource": "basic_material", "amount": 18},
+    {"resource": "fruit_str", "amount": 3},
+    {"resource": "protect_symbol", "amount": 2}
+  ],
+  "units": [
+    {
+      "id": "P1",
+      "name": "Swordsman",
+      "team": "player",
+      "class": "basic_warrior",
+      "hp": 84,
+      "position": {"x": 2, "y": 6},
+      "stats": {"str": 24, "agi": 24},
+      "tactics": {"weapon": "sword", "element": "none", "ai": "balanced", "move": 3, "range": 2},
+      "equipment": [
+        {
+          "item_id": "p1_bronze_sword",
+          "name": "Bronze Sword",
+          "slot": "weapon",
+          "quality": "blue",
+          "affixes": [{"type": "str", "value": 8, "attribute": "str"}]
+        }
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Archer",
+      "team": "player",
+      "class": "basic_archer",
+      "hp": 64,
+      "position": {"x": 3, "y": 8},
+      "stats": {"str": 18, "agi": 22},
+      "tactics": {"weapon": "bow", "element": "wind", "ai": "balanced", "move": 3, "range": 3},
+      "equipment": [
+        {
+          "item_id": "p2_longbow",
+          "name": "Longbow",
+          "slot": "weapon",
+          "quality": "blue",
+          "affixes": [{"type": "agi", "value": 7, "attribute": "agi"}]
+        }
+      ]
+    },
+    {
+      "id": "E3",
+      "name": "Axe Raider",
+      "team": "enemy",
+      "class": "basic_warrior",
+      "hp": 72,
+      "position": {"x": 10, "y": 6},
+      "stats": {"str": 22, "agi": 13},
+      "tactics": {"weapon": "axe", "element": "none", "ai": "aggressive", "move": 3, "range": 2},
+      "reward": {"tier": "elite", "base_gold": 80, "damage_dealt": 360}
+    },
+    {
+      "id": "E4",
+      "name": "Storm Adept",
+      "team": "enemy",
+      "class": "basic_mage",
+      "boss": true,
+      "boss_profile": {
+        "title": "Storm Adept",
+        "phase_thresholds": [0.6, 0.3],
+        "phase_names": ["Channeling", "Overcharged", "Last Spark"],
+        "phase_damage_multiplier": 1.45,
+        "checkpoint_retained_hp_ratio": 0.20,
+        "hint": "Avoid water tiles when the adept is overcharged."
+      },
+      "hp": 88,
+      "position": {"x": 12, "y": 8},
+      "stats": {"str": 18, "agi": 15},
+      "tactics": {"weapon": "magic", "element": "electric", "ai": "control", "move": 3, "range": 3},
+      "reward": {"tier": "boss", "base_gold": 120, "damage_dealt": 880}
+    },
+    {
+      "id": "E5",
+      "name": "Spear Guard",
+      "team": "enemy",
+      "class": "basic_knight",
+      "hp": 68,
+      "position": {"x": 9, "y": 10},
+      "stats": {"str": 18, "agi": 12},
+      "tactics": {"weapon": "spear", "element": "earth", "ai": "defensive", "move": 3, "range": 2},
+      "reward": {"tier": "normal", "base_gold": 70, "damage_dealt": 300}
+    }
+  ],
+  "reserves": [
+    {"id": "R1", "name": "Cleric", "class": "basic_cleric", "stats": {"str": 12, "agi": 14}, "status": "available"},
+    {
+      "id": "R2",
+      "name": "Rogue",
+      "class": "basic_rogue",
+      "stats": {"str": 16, "agi": 21},
+      "status": "available",
+      "equipment": [
+        {
+          "item_id": "r2_dagger",
+          "name": "Scout Dagger",
+          "slot": "weapon",
+          "quality": "green",
+          "affixes": [{"type": "agi", "value": 4, "attribute": "agi"}]
+        }
+      ]
+    },
+    {"id": "R3", "name": "Lancer", "class": "basic_knight", "stats": {"str": 20, "agi": 16}, "status": "departed", "reason": "chapter_2_exit"},
+    {"id": "R4", "name": "Mage", "class": "basic_mage", "stats": {"str": 11, "agi": 17}, "status": "available"}
+  ]
+}

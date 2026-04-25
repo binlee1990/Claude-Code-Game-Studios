@@ -95,6 +95,15 @@ func add_class_exp(amount: int) -> int:
 	_class_exp[_current_class] = new_exp
 	return new_exp - current
 
+## Add experience toward unlocking a specific class.
+func add_class_unlock_exp(class_id: int, amount: int) -> int:
+	if amount <= 0:
+		return 0
+	var current: int = get_class_exp(class_id)
+	var new_exp: int = current + amount
+	_class_exp[class_id] = new_exp
+	return new_exp - current
+
 ## Report combat performance and apply class experience
 func report_damage_dealt(damage_dealt: int, is_kill: bool, is_battle: bool = true) -> int:
 	var exp: int = ClassNames.calculate_exp_gain(damage_dealt, is_kill, is_battle)

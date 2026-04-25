@@ -11,10 +11,10 @@
 |------|--------|------|
 | Design | 95% | 23/23 系统全部 Designed, cross-review done |
 | Architecture | 90% | 6 ADRs (3 Foundation + 3 Core), review + control-manifest 完整 |
-| Code | 75% | 43 源文件, 5 个 核心 epic + 3 个 P3 epic 全部完成 |
-| Tests | 85% | 66 测试文件, 446+ tests, 17 pre-existing failures |
-| Production | 65% | Sprint-001 vertical slice validated; next work is production content/polish |
-| UX | 82% | 6 UX docs, visual readability PASS WITH NOTES；fun validation PASS，但完整 UI/UX polish 仍需做 |
+| Code | 87% | 46+ 源文件, 5 个核心 epic + 3 个 P3 epic 完成；第一章三战、战役推进、独立管理屏、默认回营成长、音效/本地化脚手架、战术/AI/结算/存档闭环已进入正式 battle path |
+| Tests | 91% | 73 测试文件, 686 个 `test_` 函数；当前 Godot 全量测试 `686 | Pass: 686 | Fail: 0` |
+| Production | 82% | Sprint-001 vertical slice validated；第一章三战、战后结算、默认回营、独立管理屏、战术/AI 正式接入、Windows export smoke、packaged scripted playthrough 已完成 |
+| UX | 88% | 6 UX docs, visual readability PASS WITH NOTES；系统菜单和独立管理屏已覆盖 Campaign/Camp/Tactics/Settlement/Party/Equipment，仍需真人主观 release sign-off |
 
 ## 已完成
 
@@ -60,11 +60,12 @@ Verdict: PASS WITH CONCERNS
 | Playable build | Windows exe 可试玩包 | Full packaged playthrough PASS |
 | UI/UX polish | 降低“简陋/突兀”感 | 人工截图/试玩确认 |
 | Battle presentation | 移动、攻击、伤害、死亡有轻量表现 | Auto/手动都不再瞬间突兀 |
-| First content slice | Tutorial / Chapter 1 小关 | 从主菜单完整打一关并结算 |
-| Systems productization | 技能、装备、角色管理进入玩家路径 | 可在 UI 中查看/使用/保存 |
+| First content slice | Tutorial / Chapter 1 小关 | COMPLETE — 正式 battle path 加载 `chapter_01_tutorial` |
+| Systems productization | 技能、装备、角色管理进入玩家路径 | CURRENT PASS COMPLETE — 技能、装备、队伍、职业/属性训练、回营推荐成长、独立管理屏、战术规则、AI/Boss、结算奖励均有正式路径并可保存；深度手动操作仍属后续 UX backlog |
+| Post-battle flow | 结算/奖励展示进入玩家路径 | COMPLETE — 胜利后 EXP、金币、材料、装备掉落会应用并在 Settlement 菜单和存档中保留 |
 
 ## 建议路径
 
-1. **立即**: 做正式 UI/UX polish pass，重点解决“画面简陋、战斗突兀”
-2. **然后**: 做最小战斗表现层，让移动、攻击、伤害、死亡有轻量反馈
-3. **后续**: 做第一关内容切片，把已有技能/装备/角色系统逐步接入玩家路径
+1. **立即**: 扩展 Chapter 2 内容，避免 Chapter 1 完成后出现长期内容断点
+2. **然后**: 将当前独立管理屏升级为可手动队伍编成、装备切换、奖励领取动画的深度管理界面
+3. **后续**: 做真人主观 UI/UX release sign-off、正式音频/视觉资产、全量本地化与发行包流程
