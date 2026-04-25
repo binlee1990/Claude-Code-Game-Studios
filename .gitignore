@@ -141,3 +141,7 @@ $RECYCLE.BIN/
 *.msp
 *.lnk
 .omc/
+
+# === Local agent/browser preview artifacts ===
+.superpowers/
+.playwright-mcp/

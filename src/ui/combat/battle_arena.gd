@@ -4,6 +4,9 @@ extends Control
 ## Combines the playable combat loop with the current Camera / UI / Save
 ## productization layer used by the formal `battle_arena.tscn` entry path.
 
+const SRPGTheme := preload("res://src/ui/theme/srpg_theme.gd")
+const InkBackdrop := preload("res://src/ui/theme/ink_backdrop.gd")
+
 const GRID_SIZE := 15
 const CELL_SIZE := 64
 const MARGIN := 20
@@ -108,15 +111,29 @@ func _process(delta: float) -> void:
 		_advance_controlled_turn_step()
 
 func _build_ui() -> void:
+	var backdrop := InkBackdrop.new()
+	backdrop.name = "BattleInkBackdrop"
+	backdrop.intensity = 0.72
+	backdrop.show_moon = false
+	backdrop.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(backdrop)
+
 	_root_layout = VBoxContainer.new()
 	_root_layout.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_root_layout.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	_root_layout.grow_vertical = Control.GROW_DIRECTION_BOTH
+	_root_layout.add_theme_constant_override("separation", 8)
 	add_child(_root_layout)
 
+	var top_plate := PanelContainer.new()
+	top_plate.custom_minimum_size = Vector2(0, 54)
+	top_plate.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	SRPGTheme.apply_panel(top_plate, Color(0.075, 0.064, 0.060, 0.94), SRPGTheme.GOLD)
+	_root_layout.add_child(top_plate)
+
 	_top_bar = HBoxContainer.new()
-	_top_bar.custom_minimum_size = Vector2(0, 44)
-	_root_layout.add_child(_top_bar)
+	_top_bar.add_theme_constant_override("separation", 8)
+	top_plate.add_child(_top_bar)
 
 	_build_top_bar()
 
@@ -131,6 +148,7 @@ func _build_ui() -> void:
 	_grid_area.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_grid_area.mouse_filter = Control.MOUSE_FILTER_PASS
 	_grid_area.resized.connect(_on_grid_area_resized)
+	SRPGTheme.apply_panel(_grid_area, Color(0.060, 0.060, 0.058, 0.92), SRPGTheme.GOLD)
 	hsplit.add_child(_grid_area)
 
 	_grid_container = Control.new()
@@ -139,41 +157,56 @@ func _build_ui() -> void:
 	_grid_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_grid_area.add_child(_grid_container)
 
+	var right_plate := PanelContainer.new()
+	right_plate.custom_minimum_size = Vector2(330, 0)
+	right_plate.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	SRPGTheme.apply_panel(right_plate, Color(0.070, 0.062, 0.058, 0.94), SRPGTheme.GOLD)
+	hsplit.add_child(right_plate)
+
 	var right_panel := VBoxContainer.new()
-	right_panel.custom_minimum_size = Vector2(300, 0)
-	right_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	hsplit.add_child(right_panel)
+	right_panel.add_theme_constant_override("separation", 8)
+	right_plate.add_child(right_panel)
 
 	var turn_label := Label.new()
-	turn_label.text = "Turn Order"
+	turn_label.text = "Turn Order / 出手序"
+	SRPGTheme.apply_label(turn_label, SRPGTheme.GOLD, 16)
 	right_panel.add_child(turn_label)
 
 	_turn_list = VBoxContainer.new()
+	_turn_list.add_theme_constant_override("separation", 4)
 	right_panel.add_child(_turn_list)
 
 	var status_title := Label.new()
-	status_title.text = "Status"
+	status_title.text = "Status / 身法"
+	SRPGTheme.apply_label(status_title, SRPGTheme.GOLD, 16)
 	right_panel.add_child(status_title)
 
 	var status_panel := VBoxContainer.new()
+	status_panel.add_theme_constant_override("separation", 4)
 	right_panel.add_child(status_panel)
 
 	_status_name_label = Label.new()
+	SRPGTheme.apply_label(_status_name_label, SRPGTheme.WHITE, 16)
 	status_panel.add_child(_status_name_label)
 	_status_hp_label = Label.new()
+	SRPGTheme.apply_label(_status_hp_label, SRPGTheme.PAPER, 15)
 	status_panel.add_child(_status_hp_label)
 	_status_mp_label = Label.new()
+	SRPGTheme.apply_label(_status_mp_label, SRPGTheme.PAPER, 15)
 	status_panel.add_child(_status_mp_label)
 	_status_misc_label = Label.new()
 	_status_misc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	SRPGTheme.apply_label(_status_misc_label, SRPGTheme.PAPER_MUTED, 14)
 	status_panel.add_child(_status_misc_label)
 
 	_info_label = Label.new()
 	_info_label.text = "Loading battle..."
 	_info_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	SRPGTheme.apply_label(_info_label, SRPGTheme.WHITE, 15)
 	right_panel.add_child(_info_label)
 
 	_action_bar = HBoxContainer.new()
+	_action_bar.add_theme_constant_override("separation", 8)
 	right_panel.add_child(_action_bar)
 	_build_action_bar()
 
@@ -182,6 +215,9 @@ func _build_ui() -> void:
 	_result_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_result_label.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_result_label.add_theme_font_size_override("font_size", 48)
+	_result_label.add_theme_color_override("font_shadow_color", Color(0.0, 0.0, 0.0, 0.8))
+	_result_label.add_theme_constant_override("shadow_offset_x", 2)
+	_result_label.add_theme_constant_override("shadow_offset_y", 3)
 	_result_label.visible = false
 	add_child(_result_label)
 
@@ -189,7 +225,8 @@ func _build_ui() -> void:
 
 func _build_top_bar() -> void:
 	var title := Label.new()
-	title.text = "SRPG Vertical Slice"
+	title.text = "江湖试锋"
+	SRPGTheme.apply_label(title, SRPGTheme.WHITE, 20)
 	_top_bar.add_child(title)
 
 	var spacer := Control.new()
@@ -199,12 +236,13 @@ func _build_top_bar() -> void:
 	for resource_name in ["Gold", "Materials", "Fruit", "Protect"]:
 		var label := Label.new()
 		label.text = "%s: 0" % resource_name
+		SRPGTheme.apply_label(label, SRPGTheme.PAPER, 14)
 		_top_bar.add_child(label)
 		_resource_labels[resource_name.to_lower()] = label
 
 	var button_specs := [
 		{"text": "Grid (G)", "cb": func() -> void: set_grid_overlay_enabled(not _grid_overlay_enabled)},
-		{"text": "Map Size", "cb": _cycle_map_size},
+		{"text": "Map", "cb": _cycle_map_size},
 		{"text": "Speed", "cb": _cycle_speed_tier},
 		{"text": "Auto OFF (B)", "cb": _toggle_auto_battle},
 		{"text": "Menu (Esc)", "cb": _toggle_menu},
@@ -213,12 +251,14 @@ func _build_top_bar() -> void:
 		var button := Button.new()
 		button.text = spec["text"]
 		button.focus_mode = Control.FOCUS_ALL
+		SRPGTheme.apply_button(button, button.text.begins_with("Auto"), false, true)
 		button.pressed.connect(spec["cb"])
 		_top_bar.add_child(button)
 		if button.text.begins_with("Auto"):
 			_auto_button = button
 
 	_camera_state_label = Label.new()
+	SRPGTheme.apply_label(_camera_state_label, SRPGTheme.PAPER_MUTED, 13)
 	_top_bar.add_child(_camera_state_label)
 
 func _build_action_bar() -> void:
@@ -233,6 +273,7 @@ func _build_action_bar() -> void:
 		var btn := Button.new()
 		btn.text = spec["text"]
 		btn.focus_mode = Control.FOCUS_ALL
+		SRPGTheme.apply_button(btn, spec["id"] == "move", false, true)
 		btn.pressed.connect(spec["cb"])
 		_action_bar.add_child(btn)
 		_action_buttons[spec["id"]] = btn
@@ -251,13 +292,14 @@ func _build_menu_overlay() -> void:
 
 	var blocker := ColorRect.new()
 	blocker.set_anchors_preset(Control.PRESET_FULL_RECT)
-	blocker.color = Color(0.0, 0.0, 0.0, 0.35)
+	blocker.color = Color(0.0, 0.0, 0.0, 0.62)
 	_menu_layer.add_child(blocker)
 
 	_menu_panel = Panel.new()
 	_menu_panel.set_anchors_preset(Control.PRESET_CENTER)
-	_menu_panel.custom_minimum_size = Vector2(460, 320)
-	_menu_panel.position = Vector2(-230, -160)
+	_menu_panel.custom_minimum_size = Vector2(520, 360)
+	_menu_panel.position = Vector2(-260, -180)
+	SRPGTheme.apply_panel(_menu_panel, Color(0.078, 0.068, 0.063, 0.98), SRPGTheme.GOLD)
 	_menu_layer.add_child(_menu_panel)
 
 	var content := VBoxContainer.new()
@@ -269,6 +311,7 @@ func _build_menu_overlay() -> void:
 	_menu_panel.add_child(content)
 
 	var tabs := HBoxContainer.new()
+	tabs.add_theme_constant_override("separation", 8)
 	content.add_child(tabs)
 
 	var tab_specs := [
@@ -282,6 +325,7 @@ func _build_menu_overlay() -> void:
 		var btn := Button.new()
 		btn.text = spec["text"]
 		btn.focus_mode = Control.FOCUS_ALL
+		SRPGTheme.apply_button(btn, false, false, true)
 		var tab_id: String = String(spec["id"])
 		btn.pressed.connect(func() -> void:
 			set_active_menu_tab(tab_id)
@@ -298,10 +342,12 @@ func _build_menu_overlay() -> void:
 		current.focus_neighbor_left = current.get_path_to(prev_btn)
 
 	var menu_actions := HBoxContainer.new()
+	menu_actions.add_theme_constant_override("separation", 8)
 	content.add_child(menu_actions)
 	var save_btn := Button.new()
 	save_btn.text = "Save Slot 1 (F5)"
 	save_btn.focus_mode = Control.FOCUS_ALL
+	SRPGTheme.apply_button(save_btn, true, false, true)
 	save_btn.pressed.connect(func() -> void:
 		_save_to_slot(1)
 	)
@@ -310,6 +356,7 @@ func _build_menu_overlay() -> void:
 	var load_btn := Button.new()
 	load_btn.text = "Load Slot 1 (F9)"
 	load_btn.focus_mode = Control.FOCUS_ALL
+	SRPGTheme.apply_button(load_btn, false, false, true)
 	load_btn.pressed.connect(func() -> void:
 		_load_from_slot(1)
 	)
@@ -318,12 +365,14 @@ func _build_menu_overlay() -> void:
 	var main_menu_btn := Button.new()
 	main_menu_btn.text = "Main Menu"
 	main_menu_btn.focus_mode = Control.FOCUS_ALL
+	SRPGTheme.apply_button(main_menu_btn, false, true, true)
 	main_menu_btn.pressed.connect(_return_to_main_menu)
 	menu_actions.add_child(main_menu_btn)
 
 	_menu_content_label = Label.new()
 	_menu_content_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_menu_content_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	SRPGTheme.apply_label(_menu_content_label, SRPGTheme.PAPER, 15)
 	content.add_child(_menu_content_label)
 
 	_menu_layer.visible = false
@@ -622,6 +671,7 @@ func _create_unit_visual_nodes(unit: Unit, max_hp: int) -> void:
 	var panel := Panel.new()
 	panel.custom_minimum_size = Vector2(maxf(20.0, _render_cell_size * 0.5), maxf(16.0, _render_cell_size * 0.35))
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	SRPGTheme.apply_panel(panel, Color(0.120, 0.105, 0.092, 0.96), SRPGTheme.GOLD)
 	_grid_container.add_child(panel)
 	_unit_panels[unit] = panel
 
@@ -631,12 +681,17 @@ func _create_unit_visual_nodes(unit: Unit, max_hp: int) -> void:
 	hp_bar.value = max_hp
 	hp_bar.show_percentage = false
 	hp_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	SRPGTheme.apply_hp_bar(hp_bar, _combat.get_unit_team(unit) == CombatSystem.Team.PLAYER)
 	_grid_container.add_child(hp_bar)
 	_hp_bars[unit] = hp_bar
 
 	var lbl := Label.new()
 	lbl.text = unit.display_name
 	lbl.add_theme_font_size_override("font_size", 11)
+	lbl.add_theme_color_override("font_color", SRPGTheme.WHITE)
+	lbl.add_theme_color_override("font_shadow_color", Color(0.0, 0.0, 0.0, 0.80))
+	lbl.add_theme_constant_override("shadow_offset_x", 1)
+	lbl.add_theme_constant_override("shadow_offset_y", 1)
 	lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_grid_container.add_child(lbl)
 	_unit_labels[unit] = lbl
@@ -793,6 +848,8 @@ func apply_runtime_state(state: Dictionary) -> void:
 func set_active_menu_tab(tab_name: String) -> void:
 	_active_menu_tab = tab_name
 	_ui_preferences["last_menu_tab"] = tab_name
+	for key in _menu_buttons.keys():
+		SRPGTheme.apply_button(_menu_buttons[key] as Button, key == tab_name, false, true)
 	_refresh_menu_content()
 	if _menu_buttons.has(tab_name):
 		(_menu_buttons[tab_name] as Button).grab_focus()
@@ -883,13 +940,14 @@ func _rebuild_cells() -> void:
 	for x in range(_map_size):
 		for y in range(_map_size):
 			var cell := ColorRect.new()
-			cell.size = Vector2(_render_cell_size - 2.0, _render_cell_size - 2.0)
+			cell.size = Vector2(_render_cell_size - 3.0, _render_cell_size - 3.0)
 			cell.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			var pos := Vector2i(x, y)
 			_cells[pos] = cell
 			_grid_container.add_child(cell)
 			var label := Label.new()
 			label.add_theme_font_size_override("font_size", 10)
+			label.add_theme_color_override("font_color", Color(SRPGTheme.PAPER.r, SRPGTheme.PAPER.g, SRPGTheme.PAPER.b, 0.72))
 			label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			_cell_height_labels[pos] = label
 			_grid_container.add_child(label)
@@ -908,7 +966,7 @@ func _on_grid_area_resized() -> void:
 func _apply_render_cell_size_to_nodes() -> void:
 	for cell in _cells.values():
 		if is_instance_valid(cell):
-			(cell as ColorRect).size = Vector2(_render_cell_size - 2.0, _render_cell_size - 2.0)
+			(cell as ColorRect).size = Vector2(_render_cell_size - 3.0, _render_cell_size - 3.0)
 	for unit in _unit_panels.keys():
 		var panel: Panel = _unit_panels.get(unit)
 		if panel != null:
@@ -973,17 +1031,17 @@ func _update_cell_color(pos: Vector2i, override_color: Color = Color.TRANSPARENT
 	var base_color: Color
 	match height:
 		0:
-			base_color = Color(0.26, 0.36, 0.28) if parity else Color(0.28, 0.40, 0.30)
+			base_color = Color(0.145, 0.215, 0.170) if parity else Color(0.170, 0.245, 0.190)
 		1:
-			base_color = Color(0.42, 0.48, 0.30) if parity else Color(0.46, 0.52, 0.34)
+			base_color = Color(0.245, 0.235, 0.185) if parity else Color(0.285, 0.268, 0.205)
 		2:
-			base_color = Color(0.60, 0.46, 0.30) if parity else Color(0.66, 0.52, 0.34)
+			base_color = Color(0.350, 0.255, 0.185) if parity else Color(0.395, 0.290, 0.205)
 		_:
-			base_color = Color(0.35, 0.40, 0.32)
-	base_color.a = 0.98 if _grid_overlay_enabled else 0.72
+			base_color = Color(0.205, 0.210, 0.175)
+	base_color.a = 0.94 if _grid_overlay_enabled else 0.62
 	cell.color = base_color
 	if _cell_height_labels.has(pos):
-		(_cell_height_labels[pos] as Label).modulate = Color(0.12, 0.12, 0.12, 0.95)
+		(_cell_height_labels[pos] as Label).modulate = Color(0.92, 0.84, 0.66, 0.78)
 
 func _project_cell_center(pos: Vector2i) -> Vector2:
 	return Vector2(
@@ -1020,12 +1078,20 @@ func _refresh_unit_visual(unit: Unit) -> void:
 		return
 	var is_player := _combat.get_unit_team(unit) == CombatSystem.Team.PLAYER
 	var is_alive := _combat.is_unit_alive(unit)
-	if is_player:
-		panel.self_modulate = Color(0.30, 0.56, 0.92) if is_alive else Color(0.32, 0.32, 0.32, 0.6)
-	else:
-		panel.self_modulate = Color(0.90, 0.34, 0.34) if is_alive else Color(0.32, 0.32, 0.32, 0.6)
+	var body_color := Color(0.150, 0.245, 0.205, 0.98) if is_player else Color(0.330, 0.075, 0.065, 0.98)
+	var border_color := SRPGTheme.JADE if is_player else SRPGTheme.VERMILION
+	if not is_alive:
+		body_color = Color(0.105, 0.100, 0.096, 0.60)
+		border_color = Color(0.220, 0.205, 0.180, 0.70)
 	if _selected_unit == unit:
-		panel.self_modulate = Color(1.0, 0.84, 0.22)
+		body_color = Color(0.540, 0.405, 0.145, 0.98)
+		border_color = SRPGTheme.GOLD
+	panel.self_modulate = Color.WHITE
+	panel.add_theme_stylebox_override("panel", SRPGTheme.panel(body_color, border_color, 4, 1))
+	if is_player:
+		(_unit_labels[unit] as Label).add_theme_color_override("font_color", SRPGTheme.WHITE if is_alive else SRPGTheme.PAPER_MUTED)
+	else:
+		(_unit_labels[unit] as Label).add_theme_color_override("font_color", Color(1.0, 0.86, 0.78, 1.0) if is_alive else SRPGTheme.PAPER_MUTED)
 
 func _refresh_turn_display() -> void:
 	for child in _turn_list.get_children():
@@ -1039,6 +1105,7 @@ func _refresh_turn_display() -> void:
 		var prefix := ">" if unit == current else " "
 		var team_tag := "[P]" if _combat.get_unit_team(unit) == CombatSystem.Team.PLAYER else "[E]"
 		lbl.text = "%s %s %s HP:%d" % [prefix, team_tag, unit.display_name, _combat.get_unit_hp(unit)]
+		SRPGTheme.apply_label(lbl, SRPGTheme.GOLD if unit == current else SRPGTheme.PAPER, 14)
 		_turn_list.add_child(lbl)
 
 func _clear_highlights() -> void:
@@ -1129,7 +1196,9 @@ func _refresh_camera_status() -> void:
 func _refresh_auto_button() -> void:
 	if _auto_button == null:
 		return
-	_auto_button.text = "Auto ON (B)" if _auto_battle_controller.is_enabled() else "Auto OFF (B)"
+	var enabled := _auto_battle_controller.is_enabled()
+	_auto_button.text = "Auto ON (B)" if enabled else "Auto OFF (B)"
+	SRPGTheme.apply_button(_auto_button, enabled, false, true)
 
 func _refresh_action_bar() -> void:
 	if _turn_sequence_running or _phase in [VSPhase.ANIMATING, VSPhase.ENEMY_TURN, VSPhase.BATTLE_END]:
@@ -1364,7 +1433,7 @@ func _select_unit(unit: Unit) -> void:
 	_selected_unit = unit
 	_clear_highlights()
 	_move_range = _get_move_range(unit)
-	_highlight_cells(_move_range, Color(0.20, 0.52, 0.70, 0.88))
+	_highlight_cells(_move_range, Color(SRPGTheme.JADE.r, SRPGTheme.JADE.g, SRPGTheme.JADE.b, 0.72))
 	_phase = VSPhase.SELECT_MOVE
 	_info_label.text = "%s selected. Click a highlighted tile to move, or press 2 to attack." % unit.display_name
 	_refresh_all_units()
@@ -1381,7 +1450,7 @@ func _do_move(target_pos: Vector2i) -> void:
 	_info_label.text = "%s moved. Press 2 to attack or 3 to standby." % _selected_unit.display_name
 	_phase = VSPhase.SELECT_TARGET
 	_attack_range = _get_attack_range(_selected_unit)
-	_highlight_cells(_attack_range, Color(0.82, 0.32, 0.26, 0.88))
+	_highlight_cells(_attack_range, Color(SRPGTheme.VERMILION.r, SRPGTheme.VERMILION.g, SRPGTheme.VERMILION.b, 0.78))
 	_refresh_action_bar()
 
 func _do_attack(target_pos: Vector2i) -> void:
@@ -1391,7 +1460,8 @@ func _do_attack(target_pos: Vector2i) -> void:
 		{"defense": 10.0},
 		{"damage_multiplier": 1.0}
 	)
-	_combat.apply_damage(target, damage, _selected_unit)
+	var applied_damage: int = _combat.apply_damage(target, damage, _selected_unit)
+	_show_damage_number(target_pos, applied_damage)
 	_clear_highlights()
 	_attack_range.clear()
 	_end_player_turn()
@@ -1408,7 +1478,7 @@ func _on_action_attack() -> void:
 		_move_range.clear()
 		_phase = VSPhase.SELECT_TARGET
 		_attack_range = _get_attack_range(_selected_unit)
-		_highlight_cells(_attack_range, Color(0.82, 0.32, 0.26, 0.88))
+		_highlight_cells(_attack_range, Color(SRPGTheme.VERMILION.r, SRPGTheme.VERMILION.g, SRPGTheme.VERMILION.b, 0.78))
 		_info_label.text = "%s: Click a highlighted enemy tile to attack." % _selected_unit.display_name
 		_refresh_action_bar()
 
@@ -1487,7 +1557,9 @@ func _perform_simple_turn(actor: Unit, target_unit: Unit, attack_value: float, d
 		_move_unit_to_cell(actor, best_pos)
 
 	if _can_attack_target(actor, target_unit):
-		_apply_basic_attack(actor, target_unit, attack_value, defense_value)
+		var target_pos: Vector2i = _unit_cells.get(target_unit, Vector2i(-1, -1))
+		var damage: int = _apply_basic_attack(actor, target_unit, attack_value, defense_value)
+		_show_damage_number(target_pos, damage)
 
 func _try_start_auto_current_turn() -> bool:
 	if _turn_sequence_running or _phase == VSPhase.BATTLE_END:
@@ -1551,7 +1623,7 @@ func _begin_controlled_turn_step(actor: Unit) -> void:
 	var target: Unit = _find_nearest_target(actor, target_team)
 	_controlled_turn_plan["target"] = target
 	_move_range = _get_move_range(actor)
-	_highlight_cells(_move_range, Color(0.20, 0.52, 0.70, 0.88))
+	_highlight_cells(_move_range, Color(SRPGTheme.JADE.r, SRPGTheme.JADE.g, SRPGTheme.JADE.b, 0.72))
 	if target == null:
 		_info_label.text = "%s: %s has no available target." % [label, actor.display_name]
 		_controlled_turn_plan["step"] = 3
@@ -1579,7 +1651,7 @@ func _move_controlled_turn_actor(actor: Unit) -> void:
 	else:
 		_info_label.text = "%s: %s holds position." % [label, actor.display_name]
 	_attack_range = _get_attack_range(actor)
-	_highlight_cells(_attack_range, Color(0.82, 0.32, 0.26, 0.88))
+	_highlight_cells(_attack_range, Color(SRPGTheme.VERMILION.r, SRPGTheme.VERMILION.g, SRPGTheme.VERMILION.b, 0.78))
 	_controlled_turn_plan["step"] = 2
 	_refresh_all_units()
 	_schedule_controlled_turn_step()
@@ -1590,15 +1662,16 @@ func _attack_controlled_turn_target(actor: Unit) -> void:
 	_clear_highlights()
 	_attack_range.clear()
 	if target != null and _unit_cells.has(target) and _combat.is_unit_alive(target) and _can_attack_target(actor, target):
+		var target_pos: Vector2i = _unit_cells.get(target, Vector2i(-1, -1))
 		var damage: int = _apply_basic_attack(
 			actor,
 			target,
 			float(_controlled_turn_plan.get("attack_value", 20.0)),
 			float(_controlled_turn_plan.get("defense_value", 10.0))
 		)
-		var target_pos: Vector2i = _unit_cells.get(target, Vector2i(-1, -1))
 		if target_pos.x >= 0:
-			_highlight_cells([target_pos], Color(1.0, 0.82, 0.18, 0.92))
+			_highlight_cells([target_pos], Color(SRPGTheme.GOLD.r, SRPGTheme.GOLD.g, SRPGTheme.GOLD.b, 0.90))
+			_show_damage_number(target_pos, damage)
 		_info_label.text = "%s: %s attacks %s for %d damage." % [label, actor.display_name, target.display_name, damage]
 	else:
 		_info_label.text = "%s: %s ends turn without an attack." % [label, actor.display_name]
@@ -1680,6 +1753,30 @@ func _apply_basic_attack(actor: Unit, target_unit: Unit, attack_value: float, de
 		{"damage_multiplier": 1.0}
 	)
 	return _combat.apply_damage(target_unit, damage, actor)
+
+func _show_damage_number(target_pos: Vector2i, damage: int) -> void:
+	if target_pos.x < 0 or not is_instance_valid(_grid_container):
+		return
+	var label := Label.new()
+	label.text = "%d" % damage
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.size = Vector2(72.0, 36.0)
+	label.position = _project_cell_center(target_pos) - Vector2(36.0, _render_cell_size * 0.82)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	SRPGTheme.apply_label(label, SRPGTheme.GOLD, 30)
+	label.add_theme_color_override("font_shadow_color", Color(SRPGTheme.VERMILION.r, SRPGTheme.VERMILION.g, SRPGTheme.VERMILION.b, 0.82))
+	label.add_theme_constant_override("shadow_offset_x", 2)
+	label.add_theme_constant_override("shadow_offset_y", 2)
+	_grid_container.add_child(label)
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(label, "position", label.position + Vector2(0.0, -30.0), 0.58).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(label, "modulate:a", 0.0, 0.58).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	tween.finished.connect(func() -> void:
+		if is_instance_valid(label):
+			label.queue_free()
+	)
 
 func _check_battle_end() -> void:
 	var result := _combat.check_end_conditions()
