@@ -1,17 +1,20 @@
 # SRPG 当前整体执行方案
 
-**Last Updated**: 2026-04-23  
-**Stage**: Pre-Production / Vertical Slice Build  
+**Last Updated**: 2026-04-25
+**Stage**: Production / Post-Vertical-Slice Build
 **Owner Mode**: Solo execute with evidence-first verification
 
 ## Progress Update
 
 - `P0` 已完成：Godot 全量测试已恢复为 `0` 编译失败、`0` 断言失败
 - `P1` 已完成：battle 主路径、Camera/Map、UI、SaveManager 产品化整合已落地并通过自动化回归
-- `P2` 已部分完成：3 份结构化验证 session 已落地，人工视觉可读性已 PASS WITH NOTES，剩余的是主观 fun validation 重跑
+- `P2` 已完成：3 份结构化验证 session 已落地，人工视觉可读性 PASS WITH NOTES，2026-04-25 fun validation rerun PASS
 - `P3` 已完成当前推荐链：`skill-system`、`equipment-system`、`character-management` 已完成并通过自动化回归
-- 当前未完成重点已收敛为：
-  - `core loop` 主观 fun validation（当前 PARTIAL）
+- 当前未完成重点已转入 Production：
+  - packaged-build 完整试玩
+  - UI/UX polish
+  - 最小战斗表现层
+  - 第一关真实内容切片
 
 ## 目标
 
@@ -37,10 +40,10 @@
 
 ### 当前缺口
 
-- 自动化实现层已经闭环；人工视觉可读性已通过但有 UI polish notes，玩法验证仍为 PARTIAL
+- 自动化实现层已经闭环；人工视觉可读性已通过但有 UI polish notes，玩法验证 rerun 已 PASS
 - 正式 battle scene 已根据用户反馈回退为 2D 俯视图；原 `CM-001` 等角视角目标已延后
-- 结构化 validation session 已完成，尚未完成纯人工自由试玩结论
-- `core loop fun validated` 已形成 PARTIAL 结论；Auto 立即接管/行动节奏、返回主菜单、棋盘自适应修复后需重跑
+- 结构化 validation session 已完成，纯人工自由试玩 rerun 已形成 PASS WITH PRODUCT-SCOPE NOTES
+- `core loop fun validated` 已通过；玩家继续游玩意愿依赖后续内容与 polish
 - `production/sprints/sprint-001.md` 与 `production/session-state/active.md` 存在状态漂移
 
 ## 总体策略
@@ -52,7 +55,7 @@
 - 现在继续堆功能，会把已有失败继续埋深
 - prototype 已证明核心循环可玩，但还没进入正式场景路径
 - Camera / UI / Save 是当前 Vertical Slice 的真正阻塞项
-- 当前自动化 backlog 已落地，继续推进 Production gate 主要取决于人类不可替代的验证证据
+- 当前自动化 backlog、人工 gate 证据、Windows exe smoke 已落地，下一步是 packaged-build 完整试玩、内容和 polish
 
 ## 执行优先级
 
@@ -212,8 +215,8 @@
 
 ## 当前不建议立即做的事
 
-- 在 fun validation 仍为 PARTIAL 的情况下宣称 Production gate 完成
-- 在未补足人工验证前，把当前阶段误判为“只剩继续堆功能”
+- 把 vertical-slice PASS 误读为 release readiness
+- 在还没有可试玩构建和第一关内容前，把 Production 阶段误判为“只剩扩系统”
 - 重新引入 prototype 与 product 的双轨实现
 
 ## 文档同步要求
@@ -227,4 +230,4 @@
 
 ## 建议的下一步
 
-重跑自由试玩 fun validation；在拿到 PASS 证据之前，不要把 Pre-Production → Production gate 从 `PARTIAL` 升级为完成。
+运行完整 packaged-build playthrough；随后按 UI/UX polish → 最小战斗表现 → 第一关内容切片推进。

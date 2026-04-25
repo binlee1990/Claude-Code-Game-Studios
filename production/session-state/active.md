@@ -3,25 +3,26 @@
 **Last Updated**: 2026-04-25
 
 ## Current Task
-Gate-check Pre-Production → Production: PARTIAL (visual readability PASS WITH NOTES; fun validation PARTIAL)
+Gate-check Pre-Production → Production: PASS WITH CONCERNS (visual readability PASS WITH NOTES; fun validation rerun PASS)
 Automatable P3 chain: COMPLETE (`skill-system` → `equipment-system` → `character-management`)
-Execution focus: fix the concrete UX friction found by human playtest, then rerun fun validation before opening new feature epics
-Next: rerun `production/playtests/playtest-2026-04-24-fun-validation.md` after Auto immediate takeover, paced controlled turns, main-menu return, and board responsiveness fixes are checked in-game
+Execution focus: Production-phase UI/UX polish, battle presentation, and first real content slice
+Next: run a full packaged-build playthrough, then start UI/UX polish for the battle flow
 
 ## Immediate Execution Checklist — 2026-04-25
 
 | Step | Owner | Evidence file | Exit rule |
 |------|-------|---------------|-----------|
 | Visual sign-off on formal battle path | Human | `production/playtests/playtest-2026-04-24-visual-signoff.md` | COMPLETE — PASS WITH NOTES |
-| Free-play fun validation | Human | `production/playtests/playtest-2026-04-24-fun-validation.md` | PARTIAL — rerun after UX friction fixes |
-| Targeted UX friction fixes | Agent | `src/ui/combat/battle_arena.gd`, `src/core/combat/speed_controller.gd` | Remove scary speed-tier test error, add board responsiveness, Auto status/immediate takeover/paced turns, and main-menu return |
-| Stage resync after rerun | Human + agent | `production/session-state/active.md`, `production/project-stage-report.md`, optional `production/stage.txt` | Keep `Pre-Production` unless rerun fun validation justifies a gate change |
+| Free-play fun validation rerun | Human | `production/playtests/playtest-2026-04-25-fun-validation-rerun.md` | COMPLETE — PASS WITH PRODUCT-SCOPE NOTES |
+| Targeted UX friction fixes | Agent | `src/ui/combat/battle_arena.gd`, `src/core/combat/speed_controller.gd` | COMPLETE — board responsiveness, Auto status/immediate takeover/paced turns, speed-tier test cleanup, and main-menu return |
+| Stage resync after rerun | Human + agent | `production/session-state/active.md`, `production/project-stage-report.md`, `production/stage.txt` | COMPLETE — stage advanced to `Production` with concerns |
+| Windows playable build smoke | Agent | `production/playtests/windows-build-smoke-2026-04-25.md` | PASS — `builds/windows/SRPG.exe` generated and process launches |
 
-## Do Not Start Yet
+## Production Guardrails
 
-- Do not open new feature epics before the fun-validation rerun is complete.
-- Do not upgrade `production/stage.txt` from `Pre-Production` without explicit human PASS evidence on fun validation.
-- Do not treat the scripted/headless validation sessions as a substitute for visual sign-off or fun validation.
+- Do not treat the vertical-slice PASS as release readiness.
+- Prioritize playable build, UI/UX polish, minimal battle presentation, and first real content slice before broad new systems.
+- Keep every production-phase lane tied to smoke tests, human-visible evidence, or automated regression.
 
 ## Phase 1 Documentation — Completed 2026-04-23
 
@@ -55,7 +56,7 @@ Next: rerun `production/playtests/playtest-2026-04-24-fun-validation.md` after A
 |---------|--------|--------|
 | Vertical Slice build | IMPLEMENTATION COMPLETE | 自动化验证通过，人工可读性 PASS WITH NOTES |
 | Playtest ≥3 sessions | STRUCTURED VALIDATION COMPLETE | 已有 3 份 session 记录（1 人工自测 + 2 scripted validation） |
-| Core loop fun validated | PARTIAL | 2026-04-25 人工反馈指出 UI/UX 突兀、Auto 不清楚、缺少返回主菜单入口 |
+| Core loop fun validated | PASS WITH CONCERNS | 2026-04-25 rerun PASS；玩家表示需要完善游戏才愿意继续 |
 
 ## Architecture Update — ADRs
 
@@ -110,7 +111,7 @@ Next: rerun `production/playtests/playtest-2026-04-24-fun-validation.md` after A
   - `production/playtests/playtest-2026-04-23-session-1.md`
   - `production/playtests/playtest-2026-04-23-session-2.md`
   - `production/playtests/playtest-2026-04-23-session-3.md`
-- Human visual readability sign-off is PASS WITH NOTES; remaining gap is subjective fun validation after UX friction fixes
+- Human visual readability sign-off is PASS WITH NOTES; subjective fun validation rerun is PASS WITH PRODUCT-SCOPE NOTES
 
 ## P3 Progress — 2026-04-23
 - `skill-system` epic implementation complete
@@ -135,7 +136,7 @@ Next: rerun `production/playtests/playtest-2026-04-24-fun-validation.md` after A
   - `tests/unit/character/departure_recall_test.gd`
   - `tests/integration/character/save_load_integration_test.gd`
 - Automatable P3 recommendation chain complete (`skill-system` → `equipment-system` → `character-management`)
-- Remaining blocker is subjective fun validation before the gate can move beyond PARTIAL
+- Pre-Production -> Production gate has moved beyond PARTIAL; remaining work is Production-phase product completion and polish
 
 ## Session Extract — /dev-story 2026-04-23
 - Story: production/epics/turn-based-mode/story-006-speed-up-mode.md — Speed-Up Mode (TBM-006)

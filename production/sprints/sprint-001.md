@@ -1,6 +1,6 @@
 # Sprint 1: Vertical Slice Core Loop
 
-> Version: v1.1 | Date: 2026-04-23 | Status: Implementation Complete / Validation Pending
+> Version: v1.2 | Date: 2026-04-25 | Status: COMPLETE — Validated With Product-Scope Notes
 > Previous: v0.1 (规划中) — 重写以引用真实 story 路径
 > Control Manifest: 2026-04-23-v1
 
@@ -81,7 +81,7 @@ Sprint 完成时，Vertical Slice 必须满足:
 - Sprint Start: 2026-04-23
 - Sprint End: 2026-05-06 (2 weeks)
 - Playtest Target: 2026-05-07
-- Validation Gate: Visual readability PASS WITH NOTES; fun validation still PARTIAL pending UX-friction rerun
+- Validation Gate: Visual readability PASS WITH NOTES; fun validation rerun PASS WITH PRODUCT-SCOPE NOTES
 
 ## GDD References
 

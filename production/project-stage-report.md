@@ -1,7 +1,7 @@
 # 项目阶段分析 — 2026-04-25
 
-**阶段**: Pre-Production
-**置信度**: PASS — `production/stage.txt` + gate artifacts + multi-source一致
+**阶段**: Production
+**置信度**: PASS WITH CONCERNS — `production/stage.txt` + vertical-slice validation artifacts + human fun validation rerun 一致
 
 ---
 
@@ -13,8 +13,8 @@
 | Architecture | 90% | 6 ADRs (3 Foundation + 3 Core), review + control-manifest 完整 |
 | Code | 75% | 43 源文件, 5 个 核心 epic + 3 个 P3 epic 全部完成 |
 | Tests | 85% | 66 测试文件, 446+ tests, 17 pre-existing failures |
-| Production | 60% | 12 epics 已创建, sprint-001 7/13 done |
-| UX | 80% | 6 UX docs, UX Review 未确认；人工反馈显示战斗 UX 仍突兀 |
+| Production | 65% | Sprint-001 vertical slice validated; next work is production content/polish |
+| UX | 82% | 6 UX docs, visual readability PASS WITH NOTES；fun validation PASS，但完整 UI/UX polish 仍需做 |
 
 ## 已完成
 
@@ -42,31 +42,29 @@
 | 2 | `design/narrative/`, `design/levels/` 空 | Info | No — 阶段预期内 |
 | 3 | `production/milestones/` 空 | Low | No — sprint plan 替代 |
 | 4 | 人工视觉签收 | Medium | No — 2026-04-25 PASS WITH NOTES |
-| 5 | **Fun validation / UX framing** | **HIGH** | **YES — 2026-04-25 PARTIAL** |
+| 5 | Fun validation / UX framing | Medium | No — 2026-04-25 rerun PASS WITH PRODUCT-SCOPE NOTES |
 
 ## 当前 Gate 阻塞
 
 ```
 Gate: Pre-Production → Production
-Verdict: PARTIAL
-阻塞原因: 自动化验证通过，人工视觉可读性 PASS WITH NOTES，但 fun validation 仍为 PARTIAL；战斗 UI/UX 进入战斗突兀，Auto 立即接管/节奏、返回主菜单 affordance 已补救，仍需重跑主观玩法验证
+Verdict: PASS WITH CONCERNS
+通过原因: 自动化验证通过，人工视觉可读性 PASS WITH NOTES，2026-04-25 fun validation rerun 给出 PASS；核心循环已足够推进到 Production。
+保留关注: 玩家明确表示“需要完善游戏才愿意继续”，因此这不是 release/readiness PASS，而是 Production 启动 PASS。
 ```
 
-## Sprint-001 剩余 (6 stories)
+## Production 起点
 
-| Story | 类型 | 依赖 |
-|-------|------|------|
-| CM-001 摄像机 | Visual/Feel | — |
-| CM-002 网格地图 | Visual/Feel | CM-001 |
-| CM-003 存档集成 | Integration | CM-001, CM-002 |
-| UI-001 战斗HUD | UI | battle-hud UX spec |
-| UI-002 资源HUD | UI | — |
-| UI-003 存档集成 | Integration | UI-001, UI-002 |
-
-> 全部需人工视觉验证 — 已到达自主实现能力上限
+| Lane | 目标 | Gate |
+|------|------|------|
+| Playable build | Windows exe 可试玩包 | Process-launch smoke PASS; full packaged playthrough still recommended |
+| UI/UX polish | 降低“简陋/突兀”感 | 人工截图/试玩确认 |
+| Battle presentation | 移动、攻击、伤害、死亡有轻量表现 | Auto/手动都不再瞬间突兀 |
+| First content slice | Tutorial / Chapter 1 小关 | 从主菜单完整打一关并结算 |
+| Systems productization | 技能、装备、角色管理进入玩家路径 | 可在 UI 中查看/使用/保存 |
 
 ## 建议路径
 
-1. **立即**: 重跑 fun validation，重点验证 Auto 立即接管与行动节奏、返回主菜单入口、棋盘窗口自适应是否解决主要摩擦
-2. **然后**: 如果 fun validation 达到 PASS，再运行 `/gate-check` 重新评估是否推进到 Production
-3. **后续**: 做正式 UI/UX polish pass，提升当前简陋界面
+1. **立即**: 运行完整 packaged-build playthrough，覆盖主菜单、战斗、Auto/手动、存档、读档、返回主菜单
+2. **然后**: 做正式 UI/UX polish pass，重点解决“画面简陋、战斗突兀”
+3. **后续**: 做第一关内容切片，把已有技能/装备/角色系统逐步接入玩家路径

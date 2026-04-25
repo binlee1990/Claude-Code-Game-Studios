@@ -7,7 +7,8 @@
 - Date: 2026-04-24
 - Owner / Author: Codex
 - Scope: Repository-side remaining work that does not require a human to execute directly
-- Status: draft
+- Status: superseded by 2026-04-25 Production gate sync
+- Superseded note: This document was written before the human visual/fun gate was completed. Use `production/session-state/active.md`, `production/project-stage-report.md`, `production/stage.txt`, and `docs/active/srpg-current-overall-plan.md` as the current authority.
 - Related documents:
   - `production/stage.txt`
   - `production/session-state/active.md`
@@ -26,8 +27,9 @@
   - `tests/`
   - `src/`
 - Related decisions:
-  - Keep the project formally in `Pre-Production` until human-only gate evidence exists
-  - Exclude human visual sign-off, subjective fun validation, and approval-only actions from the executable scope
+  - Superseded: keeping the project formally in `Pre-Production` was correct before human-only gate evidence existed.
+  - Current: 2026-04-25 human fun validation rerun produced PASS WITH PRODUCT-SCOPE NOTES, so the stage has advanced to `Production`.
+  - Exclude human visual sign-off, subjective fun validation, and approval-only actions from non-human executable scope.
 
 ---
 
@@ -64,8 +66,8 @@
 
 ### 1.4 Non-goals
 
-- Perform human visual sign-off or subjective fun validation.
-- Upgrade `production/stage.txt` out of `Pre-Production`.
+- Perform human visual sign-off or subjective fun validation. (Superseded: these were completed after this draft.)
+- Upgrade `production/stage.txt` out of `Pre-Production`. (Superseded: stage is now `Production`.)
 - Accept ADRs or GDDs on behalf of human decision makers.
 - Implement new gameplay systems, UI, or content.
 - Produce art, music, narrative content, or manual review evidence.
@@ -78,7 +80,7 @@
 
 | ID | Fact | Source | Confidence | Expires? |
 |----|------|--------|------------|----------|
-| F1 | The authoritative stage is still `Pre-Production`. | `production/stage.txt` | high | no |
+| F1 | Superseded fact: the authoritative stage was `Pre-Production` when this draft was written; it is now `Production`. | `production/stage.txt` | high | yes |
 | F2 | Current session state says the automatable P3 chain is complete and the next blocker is human-only. | `production/session-state/active.md` | high | yes |
 | F3 | `production/epics/index.md` marks 12 epics as `Complete`. | `production/epics/index.md` | high | yes |
 | F4 | `design/gdd/systems-index.md` enumerates 23 designed systems, including 8 designed systems with no corresponding `production/epics/` directory for execution. | `design/gdd/systems-index.md`, `production/epics/` | high | yes |
