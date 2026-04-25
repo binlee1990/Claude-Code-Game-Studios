@@ -27,7 +27,18 @@ Implements the three-tier class progression framework: 6 basic classes (default 
 | Section C.4 | Class change flow: preserve attributes, reset new class exp, apply bonuses immediately | ADR-001, ADR-003 |
 | Section C.5 | Per-class stat bonus table (STR/AGI/CON/INT/CHA/LUK/WIL/RES/SOU) | ADR-001 |
 
-> Note: TR-IDs not yet registered in registry. Run `/architecture-review` to populate.
+## TR-IDs
+
+本 epic 实现以下技术需求（详见 `production/registries/tr-registry.yaml`）：
+
+| Story | TR-ID | Requirement |
+|-------|-------|-------------|
+| story-001-data-model-state-machine | TR-class-001 | Three-tier class architecture: 6 basic + 6 advanced + 3 sp... |
+| story-002-unlock-judgment | TR-class-002 | Unlock judgment: primary attr >= threshold AND secondary a... |
+| story-003-experience-level | TR-class-003 | Class experience formula: floor(damage*0.02) + kill_bonus... |
+| story-004-class-change-flow | TR-class-004 | Class change flow: preserve attributes, reset new class ex... |
+| story-005-stat-bonuses | TR-class-005 | Per-class stat bonus table applied to 9 attributes |
+| story-006-save-load-integration | TR-class-006 | Class state round-trip through save/load |
 
 ## Definition of Done
 

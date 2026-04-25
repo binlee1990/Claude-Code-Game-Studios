@@ -1,0 +1,162 @@
+{
+  "definition_path": "res://src/ui/combat/battle_definitions/chapter_02_act_a.json",
+  "battle_id": "chapter_02_act_a",
+  "map_id": "refugee_camp_outskirts",
+  "chapter_id": 2,
+  "chapter_title": "Chapter 2: The Refugee Camp",
+  "objective": "Defeat all enemy combatants.",
+  "briefing": "The squad arrives at the refugee camp to find local militia clashing with refugees. Choose a side before the battle begins — your stance shapes the battlefield.",
+  "map_size": 18,
+  "difficulty": 4,
+  "next_battle_definition_path": "res://src/ui/combat/battle_definitions/chapter_02_act_b.json",
+  "difficulty_profile": {
+    "label": "Chapter 2 Act A",
+    "enemy_stat_multiplier": 1.10,
+    "exp_multiplier": 1.15,
+    "resource_multiplier": 1.0,
+    "ai_tier": "chapter_standard"
+  },
+  "completion_key": "chapter_02_act_a_complete",
+  "belief_branch_check": {
+    "note": "TODO: branch routing — read after settlement; if (yi - max(ren, zhi)) >= branch_threshold route act_b to suppression variant, else mercy variant",
+    "branch_threshold": 5,
+    "output_key": "belief_branch"
+  },
+  "narrative_choice": {
+    "node_id": "B2-N1",
+    "prompt": "流民首领王秀向你求助。你将如何抉择？",
+    "options": [
+      {
+        "id": "disperse",
+        "label": "驱散流民，维护秩序",
+        "belief_delta": {"ren": -5, "yi": 8, "zhi": 3},
+        "effects": ["E1_flip_to_neutral", "NPC1_removed"]
+      },
+      {
+        "id": "shelter",
+        "label": "收留流民，对抗豪强",
+        "belief_delta": {"ren": 10, "yi": -3, "zhi": 5},
+        "effects": ["NPC1_add_as_ally"]
+      }
+    ]
+  },
+  "settlement": {
+    "rng_seed": 201,
+    "reward_note": "Chapter 2 Act A complete. Belief branch determined for Act B routing."
+  },
+  "progress_on_start": {
+    "chapter": 2,
+    "current_battle": "chapter_02_act_a",
+    "chapter_02_started": true
+  },
+  "progress_on_victory": {
+    "chapter": 2,
+    "current_battle": "chapter_02_act_a",
+    "chapter_02_act_a_complete": true
+  },
+  "terrain": [
+    {"x": 3,  "y": 3,  "type": "highland"},
+    {"x": 4,  "y": 3,  "type": "highland"},
+    {"x": 5,  "y": 4,  "type": "highland"},
+    {"x": 9,  "y": 9,  "type": "grass"},
+    {"x": 10, "y": 9,  "type": "grass"},
+    {"x": 11, "y": 10, "type": "mud"},
+    {"x": 12, "y": 10, "type": "mud"},
+    {"x": 14, "y": 6,  "type": "water"},
+    {"x": 15, "y": 7,  "type": "water"}
+  ],
+  "inventory": [
+    {"resource": "gold",           "amount": "TODO: balance pass"},
+    {"resource": "basic_material", "amount": "TODO: balance pass"},
+    {"resource": "fruit_str",      "amount": "TODO: balance pass"}
+  ],
+  "units": [
+    {
+      "id": "P1",
+      "name": "Swordsman",
+      "team": "player",
+      "class": "basic_warrior",
+      "hp": "TODO: carry-forward from chapter_01_finale save",
+      "position": {"x": 2, "y": 8},
+      "stats": {"str": "TODO: carry-forward", "agi": "TODO: carry-forward"},
+      "tactics": {"weapon": "sword", "element": "none", "ai": "balanced", "move": 3, "range": 2}
+    },
+    {
+      "id": "P2",
+      "name": "Archer",
+      "team": "player",
+      "class": "basic_archer",
+      "hp": "TODO: carry-forward from chapter_01_finale save",
+      "position": {"x": 2, "y": 10},
+      "stats": {"str": "TODO: carry-forward", "agi": "TODO: carry-forward"},
+      "tactics": {"weapon": "bow", "element": "wind", "ai": "balanced", "move": 3, "range": 3}
+    },
+    {
+      "id": "E1",
+      "name": "Militia Captain",
+      "team": "enemy",
+      "class": "basic_knight",
+      "boss": false,
+      "hp": "TODO: balance pass",
+      "position": {"x": 14, "y": 8},
+      "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+      "tactics": {"weapon": "spear", "element": "earth", "ai": "aggressive", "move": 3, "range": 2},
+      "reward": {"tier": "elite", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"},
+      "note": "disperse choice: flips to neutral (removed from enemy list); shelter choice: remains enemy"
+    },
+    {
+      "id": "E2a",
+      "name": "Militia Soldier",
+      "team": "enemy",
+      "class": "basic_warrior",
+      "hp": "TODO: balance pass",
+      "position": {"x": 13, "y": 7},
+      "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+      "tactics": {"weapon": "sword", "element": "none", "ai": "aggressive", "move": 3, "range": 2},
+      "reward": {"tier": "normal", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+    },
+    {
+      "id": "E2b",
+      "name": "Militia Soldier",
+      "team": "enemy",
+      "class": "basic_warrior",
+      "hp": "TODO: balance pass",
+      "position": {"x": 15, "y": 9},
+      "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+      "tactics": {"weapon": "sword", "element": "none", "ai": "aggressive", "move": 3, "range": 2},
+      "reward": {"tier": "normal", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+    },
+    {
+      "id": "E3",
+      "name": "Watchtower Archer",
+      "team": "enemy",
+      "class": "basic_archer",
+      "hp": "TODO: balance pass",
+      "position": {"x": 5, "y": 4},
+      "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+      "tactics": {"weapon": "bow", "element": "wind", "ai": "support", "move": 3, "range": 3},
+      "reward": {"tier": "normal", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"},
+      "note": "positioned on highland — gains height advantage"
+    }
+  ],
+  "conditional_units": [
+    {
+      "id": "NPC1",
+      "name": "Liu Meng (Refugee Guard)",
+      "team": "player_ally",
+      "class": "basic_warrior",
+      "hp": "TODO: balance pass",
+      "position": {"x": 4, "y": 12},
+      "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+      "tactics": {"weapon": "sword", "element": "none", "ai": "balanced", "move": 3, "range": 2},
+      "spawn_condition": "narrative_choice == shelter",
+      "controllable": true,
+      "note": "Only added if player chose shelter option in narrative_choice"
+    }
+  ],
+  "reserves": [
+    {"id": "R1", "name": "Cleric",  "class": "basic_cleric", "stats": {"str": "TODO: carry-forward", "agi": "TODO: carry-forward"}, "status": "available"},
+    {"id": "R4", "name": "Mage",    "class": "basic_mage",   "stats": {"str": "TODO: carry-forward", "agi": "TODO: carry-forward"}, "status": "available"},
+    {"id": "R3", "name": "Lancer",  "class": "basic_knight", "stats": {"str": 20, "agi": 16}, "status": "departed", "reason": "chapter_2_exit"}
+  ]
+}

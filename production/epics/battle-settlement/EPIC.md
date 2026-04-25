@@ -26,7 +26,17 @@ Implements the post-battle reward pipeline that closes the gameplay loop: calcul
 | Core Rules | Boss vs normal reward differentiation | ADR-001 |
 | Core Rules | Settlement UI: display all rewards with animations | ADR-001 |
 
-> Note: TR-IDs not yet registered in registry. Run `/architecture-review` to populate.
+## TR-IDs
+
+本 epic 实现以下技术需求（详见 `production/registries/tr-registry.yaml`）：
+
+| Story | TR-ID | Requirement |
+|-------|-------|-------------|
+| story-001-settlement-trigger-flow | TR-settle-001 | Settlement trigger: battle_ended signal initiates reward p... |
+| story-002-experience-distribution | TR-settle-002 | Experience distribution: performance-linked EXP based on d... |
+| story-003-battle-evaluation | TR-settle-003 | Battle evaluation: S/A/B/C/D grade based on turns, losses,... |
+| story-004-material-equipment-drops | TR-settle-004 | Material and equipment drops: gold, materials, rare items... |
+| story-005-save-load-integration | TR-settle-005 | Settlement state round-trip through save/load (rewards, b... |
 
 ## Stories
 

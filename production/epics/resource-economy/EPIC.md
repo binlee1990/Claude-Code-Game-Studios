@@ -27,7 +27,18 @@ Implements the dual-layer resource framework: an abundant common layer (gold, ba
 | Section C.4 | Stack limits and overflow handling (gold 9,999,999; materials 9,999; fruits 99) | ADR-003 |
 | Section D.1-D.4 | Gold formula, material formula, fruit drop formula, enhancement cost formula | ADR-001 |
 
-> Note: TR-IDs not yet registered in registry. Run `/architecture-review` to populate.
+## TR-IDs
+
+本 epic 实现以下技术需求（详见 `production/registries/tr-registry.yaml`）：
+
+| Story | TR-ID | Requirement |
+|-------|-------|-------------|
+| story-001-data-model-inventory | TR-resource-001 | Dual-layer resource taxonomy: 4 common types + 5 rare type... |
+| story-002-gold-material-acquisition | TR-resource-002 | Gold and material acquisition formulas from combat rewards |
+| story-003-rare-drops | TR-resource-003 | Rare drops: fruit drop probability, protection symbol acqu... |
+| story-004-consumption-costs | TR-resource-004 | Consumption costs: enhancement, fruit usage, barrier break... |
+| story-005-enhancement-system | TR-resource-005 | Enhancement system: safe zone +1~+5, risk zone +6+ with fa... |
+| story-006-save-load-integration | TR-resource-006 | Resource state round-trip through save/load with stack lim... |
 
 ## Stories
 

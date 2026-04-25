@@ -1,12 +1,73 @@
 # Session State
 
-**Last Updated**: 2026-04-25
+**Last Updated**: 2026-04-26
 
 ## Current Task
-Gate-check Pre-Production → Production: PASS WITH CONCERNS (visual readability PASS WITH NOTES; fun validation rerun PASS)
-Automatable P3 chain: COMPLETE (`skill-system` → `equipment-system` → `character-management`)
-Production systems completion batch: COMPLETE — Chapter 1 now has a three-battle formal path, with difficulty profile, class skills, Boss phase checkpoints, equipment/roster/Boss/campaign/camp/tactics menu visibility, independent rewards/camp/party/equipment management screen, story progress persistence, post-battle settlement rewards, default recommended camp growth, tactical terrain/height/weapon/element modifiers, AI target/position selection, generated audio cues, localization catalog, SaveManager recovery, Windows export smoke, and packaged scripted playthrough
-Next: Chapter 2 content expansion and external human subjective release sign-off
+Sprint-002 Lane C COMPLETE（CH2-001～004 全部完成）。
+
+Active stage: Production (post-vertical-slice). Last gate: Pre-Production → Production PASS WITH CONCERNS.
+
+Next: Lane C Gate 验证 — 运行 `/design-review design/gdd/chapter-02.md`；
+确认 `production/epics/index.md` 已含 chapter-02 行。
+Lane A（治理闭环）和 Lane B（观感 P0）待执行。
+
+## Sprint-002 Lane C — COMPLETE 2026-04-26
+
+| Story | 交付物 | 行数 | 状态 |
+|-------|-------|------|------|
+| CH2-001 | `design/gdd/chapter-02.md`（8 节全量） | 531 行 | DONE |
+| CH2-002（信念值分支） | `design/narrative/belief-branching.md`（新建，含目录） | ~170 行 | DONE |
+| CH2-003（三战 JSON） | `chapter_02_act_a.json` / `chapter_02_act_b.json` / `chapter_02_finale.json` | 各约 100-200 行 | DONE |
+| CH2-004（epic 入口） | `production/epics/chapter-02/index.md` | ~70 行 | DONE |
+| CH2-004（index 追加） | `production/epics/index.md` 末尾新增 chapter-02 行 | +1 行 | DONE |
+
+## 关键决策记录（Lane C）
+
+- B2-GATE 分叉阈值：5（义领先 ≥5 走 suppression，否则走 mercy）
+- 王秀 HP：30；护卫姿态伤害分摊比：30%
+- Ch.2-3 援军刷新：第 12 回合（阶段三提前至第 10 回合）
+- enemy_stat_multiplier：act_a=1.10 / act_b=1.15 / finale=1.30
+- design/narrative/ 目录已由 Write 工具自动创建
+
+## Sprint-002 Baseline Documents — 2026-04-26
+
+| Lane | Document | Path | Lines |
+|------|----------|------|-------|
+| L1 治理 | Architecture review | `production/reviews/architecture-review-2026-04-26.md` | 276 |
+| L1 治理 | TR registry | `production/registries/tr-registry.yaml` | 699 |
+| L2 内容 | Chapter 2 GDD skeleton | `design/gdd/chapter-02.md` | 179 |
+| L3 UX | UI redesign proposal | `design/ux/ui-redesign-proposal-2026-04-26.md` | 368 |
+| L4 美术 | Free asset shopping list | `production/assets/free-asset-shopping-list.md` | 283 |
+| L4 美术 | Art redesign direction | `design/art/redesign-direction-2026-04-26.md` | 210 |
+
+## Sprint-002 Plan
+
+Path: `production/sprints/sprint-002.md`
+Status: PLANNING (awaiting lane priority decision)
+
+| Lane | Stories | Risk | Notes |
+|------|---------|------|-------|
+| A 治理闭环 | GOV-001~006 (6) | LOW — 文档级 | ADR-004/005/006 升 Accepted + control-manifest v2 + tr-registry 集成 |
+| B 观感 P0 修复 | UI/ART/AUDIO-P0-01~08 (8) | LOW-MED — 代码级但范围有限 | 字体 + BGM + 主菜单焦点 + Auto 状态可读性 + 迷你 HP 条 + 按键提示 |
+| C Ch.2 内容基线 | CH2-001~004 (4) | LOW — 设计级 | Ch.2 GDD 全量展开 + 信念值分支 + epic 创建 |
+
+## Critical Findings From Baseline
+
+1. **治理 P0**: ADR-004/005/006 status=Proposed 但其 12 epic 已 Complete — 合规绕过风险，需立即提升至 Accepted
+2. **观感 P0**: 玩家"简陋感"主因是字体不统一 + 音频缺失 — 零逻辑改动即可显著改善（替换 OFL 字体 + 挂载 OpenGameArt BGM）
+3. **内容 P0**: Ch.1 finale 后无下一战 — Ch.2 GDD skeleton 已就位，需 `/design-system` 全量展开
+4. **路径冲突**: 存在两个 tr-registry 路径 — 本轮已规范化到 `production/registries/`，旧的 `docs/architecture/tr-registry.yaml` 待 deprecated
+
+## Out of Sprint-002 Scope (Sprint-003+)
+
+- 羁绊 / 战争迷雾 / 基地 / 多周目 / 事件系统 / 正式音频系统 epic 化与实现
+- 深度手动编队、装备切换、奖励领取动画的管理屏升级
+- 角色立绘 / 3D 立牌正式美术资产
+- 全量本地化、平台合规、人工 release sign-off
+
+---
+
+## Legacy Sections (Sprint-001 history) — kept for traceability
 
 ## Immediate Execution Checklist — 2026-04-25
 

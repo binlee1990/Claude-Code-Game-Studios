@@ -14,6 +14,9 @@ const CYAN := Color(0.420, 0.700, 0.780)
 const WHITE := Color(0.960, 0.930, 0.840)
 const DISABLED_TEXT := Color(0.440, 0.400, 0.340)
 
+const TITLE_FONT := preload("res://assets/fonts/zcool_xiaowei.ttf")
+const BODY_FONT := preload("res://assets/fonts/noto_serif_sc.otf")
+
 static func panel(bg: Color = INK_PANEL, border: Color = GOLD, radius: int = 6, border_width: int = 1) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
 	style.bg_color = bg
@@ -62,18 +65,20 @@ static func apply_button(button: Button, accent: bool = false, danger: bool = fa
 	button.add_theme_stylebox_override("normal", button_style(base_bg, border))
 	button.add_theme_stylebox_override("hover", button_style(hover_bg, Color(GOLD.r, GOLD.g, GOLD.b, 0.95)))
 	button.add_theme_stylebox_override("pressed", button_style(pressed_bg, border))
-	button.add_theme_stylebox_override("focus", button_style(Color(base_bg.r, base_bg.g, base_bg.b, 0.72), JADE))
+	button.add_theme_stylebox_override("focus", button_style(Color(base_bg.r, base_bg.g, base_bg.b, 0.72), GOLD))
 	button.add_theme_stylebox_override("disabled", button_style(Color(0.085, 0.078, 0.075, 0.82), Color(0.220, 0.200, 0.165, 0.74)))
 	button.add_theme_color_override("font_color", text)
 	button.add_theme_color_override("font_hover_color", WHITE)
 	button.add_theme_color_override("font_pressed_color", GOLD)
 	button.add_theme_color_override("font_disabled_color", DISABLED_TEXT)
 	button.add_theme_font_size_override("font_size", 15 if compact else 18)
+	button.add_theme_font_override("font", BODY_FONT)
 	button.custom_minimum_size = Vector2(96.0, 34.0 if compact else 44.0)
 
-static func apply_label(label: Label, color: Color = PAPER, size: int = 16) -> void:
+static func apply_label(label: Label, color: Color = PAPER, size: int = 16, is_title: bool = false) -> void:
 	label.add_theme_color_override("font_color", color)
 	label.add_theme_font_size_override("font_size", size)
+	label.add_theme_font_override("font", TITLE_FONT if is_title else BODY_FONT)
 
 static func apply_panel(panel_node: Control, bg: Color = INK_PANEL, border: Color = GOLD) -> void:
 	panel_node.add_theme_stylebox_override("panel", panel(bg, Color(border.r, border.g, border.b, 0.68)))

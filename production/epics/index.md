@@ -17,6 +17,7 @@ Engine: Godot 4.6.2
 | battle-settlement | Feature | 战斗结算 | battle-settlement.md | 5 stories (4 Logic, 1 Integration) | Complete |
 | camera-map-system | Presentation | 视角与地图 | camera-map-system.md | 3 stories (2 Visual/Feel, 1 Integration) | Complete |
 | ui-system | Presentation | UI系统 | ui-system.md | 3 stories (2 UI, 1 Integration) | Complete |
+| chapter-02 | Content | Ch.2 内容 | chapter-02.md | 6 stories (placeholder) | Planning |
 
 ## Summary
 

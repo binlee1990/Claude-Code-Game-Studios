@@ -1,4 +1,8 @@
-# Technical Requirement ID Registry
+# DEPRECATED 2026-04-26 — Authoritative path moved to production/registries/tr-registry.yaml
+# Do not write here. See production/registries/tr-registry.yaml
+# This file is kept for backward-compatibility with legacy references; new TR-IDs MUST land in production/registries/tr-registry.yaml.
+#
+# Technical Requirement ID Registry (LEGACY HEADER BELOW)
 #
 # PURPOSE: Persistent, stable IDs for every GDD technical requirement.
 # Prevents TR-ID renumbering across /architecture-review runs, which would

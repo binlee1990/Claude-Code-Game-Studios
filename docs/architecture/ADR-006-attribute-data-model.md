@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed
+Accepted
 
 ## Date
 
@@ -199,3 +199,11 @@ crush_check(attacker_attr, defender_attr):
 - ADR-001: 事件架构 (attribute_changed 信号)
 - ADR-003: 存档系统 (UnitSaveData)
 - ADR-004: Combat System (伤害计算引用属性)
+
+## Acceptance History
+
+| Field | Value |
+|-------|-------|
+| **Accepted on** | 2026-04-26 |
+| **Accepted via** | Sprint-002 governance closure |
+| **Reason** | 12 epic Complete 引用本 ADR，需消除合规绕过风险 |

@@ -1,0 +1,224 @@
+{
+  "definition_path": "res://src/ui/combat/battle_definitions/chapter_02_finale.json",
+  "battle_id": "chapter_02_finale",
+  "map_id": "ancient_road_pass",
+  "chapter_id": 2,
+  "chapter_title": "Chapter 2: The Flying Cavalry Standoff",
+  "objective": "Defeat Commander Chen Lang.",
+  "briefing": "Chen Lang and the Flying Cavalry make their stand at the ancient pass. End this — before reinforcements seal the route.",
+  "map_size": 20,
+  "difficulty": 6,
+  "next_battle_definition_path": null,
+  "difficulty_profile": {
+    "label": "Chapter 2 Finale",
+    "enemy_stat_multiplier": 1.30,
+    "exp_multiplier": 1.20,
+    "resource_multiplier": 1.2,
+    "ai_tier": "chapter_finale"
+  },
+  "completion_key": "chapter_02_finale_complete",
+  "chapter_completion_key": "chapter_02_complete",
+  "narrative_choice": {
+    "node_id": "B2-N3",
+    "prompt": "陈朗就在眼前。你选择——",
+    "options": [
+      {
+        "id": "persuade",
+        "label": "喊话劝降",
+        "belief_delta": {"ren": 6, "yi": -3},
+        "effects": ["chen_lang_extra_dialogue"],
+        "note": "If bond_level(R3) >= B: 20% chance triggers special reaction line (fixed RNG, seed tied to save)"
+      },
+      {
+        "id": "assault",
+        "label": "直接接战",
+        "belief_delta": {"yi": 6, "ren": -6},
+        "effects": ["chen_lang_enraged_speed_plus_2"]
+      }
+    ]
+  },
+  "settlement": {
+    "rng_seed": 203,
+    "reward_note": "Chapter 2 complete. Fruit selection screen triggers on victory. Base system initial access unlocked.",
+    "fruit_selection": {
+      "pool": ["fruit_str", "fruit_agi", "fruit_int"],
+      "choose_count": 2,
+      "completion_flag": "fruit_selection_done",
+      "note": "Player must select exactly 2 of 3. UI is mandatory (cannot be dismissed). If save interrupted before selection, re-presents on next load."
+    }
+  },
+  "progress_on_start": {
+    "chapter": 2,
+    "current_battle": "chapter_02_finale",
+    "chapter_02_finale_started": true
+  },
+  "progress_on_victory": {
+    "chapter": 2,
+    "current_battle": "chapter_02_finale",
+    "chapter_02_finale_complete": true,
+    "chapter_02_complete": true
+  },
+  "terrain": [
+    {"x": 6,  "y": 4,  "type": "highland"},
+    {"x": 7,  "y": 4,  "type": "highland"},
+    {"x": 8,  "y": 5,  "type": "highland"},
+    {"x": 9,  "y": 5,  "type": "highland"},
+    {"x": 10, "y": 6,  "type": "highland"},
+    {"x": 9,  "y": 10, "type": "water"},
+    {"x": 10, "y": 10, "type": "water"},
+    {"x": 11, "y": 10, "type": "obstacle"},
+    {"x": 11, "y": 11, "type": "water"},
+    {"x": 12, "y": 11, "type": "water"},
+    {"x": 14, "y": 8,  "type": "obstacle"},
+    {"x": 14, "y": 9,  "type": "obstacle"},
+    {"x": 16, "y": 6,  "type": "obstacle"},
+    {"x": 16, "y": 7,  "type": "obstacle"}
+  ],
+  "inventory": [
+    {"resource": "gold",           "amount": "TODO: balance pass"},
+    {"resource": "basic_material", "amount": "TODO: balance pass"},
+    {"resource": "fruit_str",      "amount": 1},
+    {"resource": "fruit_agi",      "amount": 1},
+    {"resource": "fruit_int",      "amount": 1},
+    {"note": "fruit amounts are fixed at 1 each — player selects 2 of 3 in post-battle fruit_selection screen"}
+  ],
+  "units": [
+    {
+      "id": "P1",
+      "name": "Swordsman",
+      "team": "player",
+      "class": "basic_warrior",
+      "hp": "TODO: carry-forward from chapter_02_act_b save",
+      "position": {"x": 2, "y": 10},
+      "stats": {"str": "TODO: carry-forward", "agi": "TODO: carry-forward"},
+      "tactics": {"weapon": "sword", "element": "none", "ai": "balanced", "move": 3, "range": 2}
+    },
+    {
+      "id": "P2",
+      "name": "Archer",
+      "team": "player",
+      "class": "basic_archer",
+      "hp": "TODO: carry-forward from chapter_02_act_b save",
+      "position": {"x": 2, "y": 12},
+      "stats": {"str": "TODO: carry-forward", "agi": "TODO: carry-forward"},
+      "tactics": {"weapon": "bow", "element": "wind", "ai": "balanced", "move": 3, "range": 3}
+    },
+    {
+      "id": "BOSS_CHEN_LANG",
+      "name": "Chen Lang",
+      "team": "enemy",
+      "class": "boss_knight",
+      "boss": true,
+      "boss_profile": {
+        "title": "Flying Cavalry Commander",
+        "phase_thresholds": [0.65, 0.30],
+        "phase_names": ["Flying Vanguard", "Reckless Charge", "Last Gambit"],
+        "phase_behaviors": [
+          {
+            "phase": 1,
+            "hp_range": "100%-65%",
+            "special_skills": [],
+            "note": "Standard attacks + evasion stance every 3 turns"
+          },
+          {
+            "phase": 2,
+            "hp_range": "64%-30%",
+            "special_skills": ["thrust_charge"],
+            "speed_bonus": 4,
+            "note": "Unlocks thrust_charge (straight-line 3-tile pierce). Speed +4."
+          },
+          {
+            "phase": 3,
+            "hp_range": "29%-0%",
+            "special_skills": ["thrust_charge", "cavalry_finisher"],
+            "stat_bonus_percent": 15,
+            "reinforce_trigger_override": 10,
+            "note": "All stats +15%. Reinforcements triggered at turn 10 (early) if not yet triggered. Unlocks cavalry_finisher (small-AoE)."
+          }
+        ],
+        "phase_damage_multiplier": 1.5,
+        "checkpoint_retained_hp_ratio": 0.15,
+        "hint": "Break Chen Lang below 65% HP to reach phase 2. Focus him before reinforcements arrive at turn 12.",
+        "chen_lang_enraged": {
+          "condition": "narrative_choice == assault",
+          "effect": "speed_plus_2_phase1_only"
+        }
+      },
+      "hp": 130,
+      "position": {"x": 16, "y": 10},
+      "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+      "tactics": {"weapon": "spear", "element": "earth", "ai": "boss_knight", "move": 3, "range": 2},
+      "reward": {"tier": "boss", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+    },
+    {
+      "id": "E10",
+      "name": "Flying Cavalry Guard",
+      "team": "enemy",
+      "class": "basic_knight",
+      "hp": "TODO: balance pass",
+      "position": {"x": 14, "y": 10},
+      "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+      "tactics": {"weapon": "spear", "element": "earth", "ai": "defensive", "move": 3, "range": 2},
+      "reward": {"tier": "elite", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+    },
+    {
+      "id": "E11",
+      "name": "Flying Cavalry Guard",
+      "team": "enemy",
+      "class": "basic_knight",
+      "hp": "TODO: balance pass",
+      "position": {"x": 15, "y": 12},
+      "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+      "tactics": {"weapon": "spear", "element": "earth", "ai": "defensive", "move": 3, "range": 2},
+      "reward": {"tier": "elite", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+    },
+    {
+      "id": "E12",
+      "name": "Flying Cavalry Archer",
+      "team": "enemy",
+      "class": "basic_archer",
+      "hp": "TODO: balance pass",
+      "position": {"x": 13, "y": 8},
+      "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+      "tactics": {"weapon": "bow", "element": "wind", "ai": "support", "move": 3, "range": 3},
+      "reward": {"tier": "normal", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+    }
+  ],
+  "reinforcements": [
+    {
+      "id": "REINFORCE_A",
+      "name": "Flying Cavalry Soldier",
+      "team": "enemy",
+      "class": "basic_knight",
+      "hp": "TODO: balance pass",
+      "spawn_x": 18,
+      "spawn_y": 9,
+      "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+      "tactics": {"weapon": "spear", "element": "earth", "ai": "aggressive", "move": 3, "range": 2},
+      "reward": {"tier": "normal", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+    },
+    {
+      "id": "REINFORCE_B",
+      "name": "Flying Cavalry Soldier",
+      "team": "enemy",
+      "class": "basic_knight",
+      "hp": "TODO: balance pass",
+      "spawn_x": 18,
+      "spawn_y": 11,
+      "stats": {"str": "TODO: balance pass", "agi": "TODO: carry-forward"},
+      "tactics": {"weapon": "spear", "element": "earth", "ai": "aggressive", "move": 3, "range": 2},
+      "reward": {"tier": "normal", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+    }
+  ],
+  "reinforcement_trigger": {
+    "default_turn": 12,
+    "phase3_early_turn": 10,
+    "note": "Reinforcements spawn at turn 12 by default. If Boss enters phase 3 before turn 10, reinforcements trigger at turn 10 instead. Reinforcements do not affect victory condition — defeating the Boss ends the battle.",
+    "spawn_side": "right"
+  },
+  "reserves": [
+    {"id": "R1", "name": "Cleric", "class": "basic_cleric", "stats": {"str": "TODO: carry-forward", "agi": "TODO: carry-forward"}, "status": "available"},
+    {"id": "R4", "name": "Mage",   "class": "basic_mage",   "stats": {"str": "TODO: carry-forward", "agi": "TODO: carry-forward"}, "status": "available"},
+    {"id": "R3", "name": "Lancer", "class": "basic_knight", "stats": {"str": 20, "agi": 16}, "status": "departed", "reason": "chapter_2_exit"}
+  ]
+}

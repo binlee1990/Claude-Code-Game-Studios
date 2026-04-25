@@ -68,6 +68,14 @@ func clear_pending_loaded_data() -> void:
 func get_current_slot() -> int:
 	return _current_slot
 
+## Read-only preview of a save slot. Does NOT modify _current_slot or emit signals.
+## Returns null if the slot file does not exist or cannot be loaded.
+func peek_save(slot: int) -> SaveData:
+	var path := SAVE_DIR + "save_%d.tres" % slot
+	if not FileAccess.file_exists(path):
+		return null
+	return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE) as SaveData
+
 func _create_save_data() -> SaveData:
 	var save_data := SaveData.new()
 	save_data.timestamp = Time.get_unix_time_from_system()

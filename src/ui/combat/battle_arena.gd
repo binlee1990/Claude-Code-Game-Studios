@@ -10,6 +10,7 @@ const BattleDefinitionLoader := preload("res://src/ui/combat/battle_definition_l
 const BattleDifficultyProfile := preload("res://src/ui/combat/battle_difficulty_profile.gd")
 const SRPGAudioBusScript := preload("res://src/ui/audio/srpg_audio_bus.gd")
 const SRPGLocalizationScript := preload("res://src/core/localization/srpg_localization.gd")
+const HintBarScript := preload("res://src/ui/common/hint_bar.gd")
 
 const GRID_SIZE := 15
 const CELL_SIZE := 64
@@ -113,6 +114,9 @@ var _boss_label: Label
 var _result_label: Label
 var _camera_state_label: Label
 var _auto_button: Button
+var _auto_badge_label: Label
+var _speed_badge_label: Label
+var _hint_bar: Control
 var _menu_layer: CanvasLayer
 var _menu_panel: Panel
 var _menu_content_label: Label
@@ -136,6 +140,21 @@ func _ready() -> void:
 		_load_default_battle()
 
 	_refresh_all()
+	# AUDIO-P0-08: 战斗 BGM
+	_setup_battle_bgm()
+
+func _setup_battle_bgm() -> void:
+	var stream: AudioStream = load("res://assets/audio/bgm/battle_bgm.ogg")
+	if stream == null:
+		return
+	if stream is AudioStreamOggVorbis:
+		(stream as AudioStreamOggVorbis).loop = true
+	var player := AudioStreamPlayer.new()
+	player.name = "BattleBGM"
+	player.stream = stream
+	player.volume_db = -12.0
+	player.autoplay = true
+	add_child(player)
 
 func _process(delta: float) -> void:
 	if not _turn_sequence_running:
@@ -303,6 +322,20 @@ func _build_top_bar() -> void:
 		_top_bar.add_child(button)
 		if button.text.begins_with("Auto"):
 			_auto_button = button
+
+	# UI-P0-02: Auto 状态徽章（[Auto] 红 / [手动] 绿），字号 14pt
+	# _auto_button 已在上方 button_specs 循环中正确赋值，此处仅新增徽章 label
+	_auto_badge_label = Label.new()
+	_auto_badge_label.name = "AutoBadgeLabel"
+	_auto_badge_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_auto_badge_label.custom_minimum_size = Vector2(68, 0)
+	SRPGTheme.apply_label(_auto_badge_label, SRPGTheme.PAPER, 14)
+	_top_bar.add_child(_auto_badge_label)
+	# 速度档位标签（1x/2x/3x）
+	_speed_badge_label = Label.new()
+	_speed_badge_label.name = "SpeedBadgeLabel"
+	SRPGTheme.apply_label(_speed_badge_label, SRPGTheme.PAPER_MUTED, 14)
+	_top_bar.add_child(_speed_badge_label)
 
 	_camera_state_label = Label.new()
 	SRPGTheme.apply_label(_camera_state_label, SRPGTheme.PAPER_MUTED, 13)
@@ -1782,12 +1815,39 @@ func _refresh_turn_display() -> void:
 	for unit in order:
 		if not _combat.is_unit_alive(unit):
 			continue
+		# UI-P0-03: 每个立牌用 VBoxContainer 包含名称行 + 迷你 HP 条
+		var card := VBoxContainer.new()
+		card.add_theme_constant_override("separation", 1)
 		var lbl := Label.new()
 		var prefix := ">" if unit == current else " "
 		var team_tag := "[P]" if _combat.get_unit_team(unit) == CombatSystem.Team.PLAYER else "[E]"
 		lbl.text = "%s %s %s HP:%d" % [prefix, team_tag, unit.display_name, _combat.get_unit_hp(unit)]
 		SRPGTheme.apply_label(lbl, SRPGTheme.GOLD if unit == current else SRPGTheme.PAPER, 14)
-		_turn_list.add_child(lbl)
+		card.add_child(lbl)
+		# 迷你 HP 条：4px 高，颜色按 HP% 三段着色
+		var hp_bar := ProgressBar.new()
+		hp_bar.custom_minimum_size = Vector2(0, 4)
+		hp_bar.show_percentage = false
+		hp_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var unit_data: Dictionary = _combat._combat_units[unit]
+		var max_hp: int = int(unit_data.get("max_hp", 1))
+		var cur_hp: int = _combat.get_unit_hp(unit)
+		hp_bar.max_value = max(max_hp, 1)
+		hp_bar.value = cur_hp
+		var hp_pct: float = float(cur_hp) / float(max(max_hp, 1))
+		var bar_color: Color
+		if hp_pct > 0.5:
+			bar_color = SRPGTheme.JADE
+		elif hp_pct > 0.25:
+			bar_color = Color(0.85, 0.75, 0.15, 1.0)
+		else:
+			bar_color = SRPGTheme.VERMILION
+		var bar_bg := SRPGTheme.button_style(Color(0.08, 0.07, 0.07, 0.90), Color(0.22, 0.19, 0.15, 0.70), 1)
+		var bar_fill := SRPGTheme.button_style(bar_color, Color(bar_color.r, bar_color.g, bar_color.b, 0.90), 1)
+		hp_bar.add_theme_stylebox_override("background", bar_bg)
+		hp_bar.add_theme_stylebox_override("fill", bar_fill)
+		card.add_child(hp_bar)
+		_turn_list.add_child(card)
 
 func _clear_highlights() -> void:
 	for pos in _cells.keys():
@@ -1896,6 +1956,18 @@ func _refresh_auto_button() -> void:
 	var enabled := _auto_battle_controller.is_enabled()
 	_auto_button.text = "Auto ON (B)" if enabled else "Auto OFF (B)"
 	SRPGTheme.apply_button(_auto_button, enabled, false, true)
+	# UI-P0-02: 更新 Auto 状态徽章文字与颜色
+	if _auto_badge_label != null:
+		if enabled:
+			_auto_badge_label.text = "[Auto]"
+			_auto_badge_label.add_theme_color_override("font_color", SRPGTheme.VERMILION)
+		else:
+			_auto_badge_label.text = "[手动]"
+			_auto_badge_label.add_theme_color_override("font_color", SRPGTheme.JADE)
+	# UI-P0-02: 更新速度档位标签（1x/2x/3x）
+	if _speed_badge_label != null:
+		var tier_label: String = "%dx" % int(_speed_controller.get_animation_multiplier())
+		_speed_badge_label.text = tier_label
 
 func _refresh_action_bar() -> void:
 	if _turn_sequence_running or _phase in [VSPhase.ANIMATING, VSPhase.ENEMY_TURN, VSPhase.BATTLE_END]:

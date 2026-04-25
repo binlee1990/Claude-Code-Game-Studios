@@ -4,6 +4,7 @@ extends Control
 const SRPGTheme := preload("res://src/ui/theme/srpg_theme.gd")
 const InkBackdrop := preload("res://src/ui/theme/ink_backdrop.gd")
 const SRPGLocalizationScript := preload("res://src/core/localization/srpg_localization.gd")
+const HintBarScript := preload("res://src/ui/common/hint_bar.gd")
 const BATTLE_SCENE_PATH := "res://src/ui/combat/battle_arena.tscn"
 
 @onready var start_button: Button = $VBox/StartButton
@@ -23,8 +24,23 @@ func _ready() -> void:
 	# 检查是否有存档
 	continue_button.disabled = not SaveManager.has_save(1)
 	_refresh_status_label()
+	# AUDIO-P0-07: 主菜单 BGM
+	_setup_bgm()
 	if OS.get_cmdline_args().has("--srpg-playthrough-smoke"):
 		call_deferred("_run_packaged_playthrough_smoke")
+
+func _setup_bgm() -> void:
+	var stream: AudioStream = load("res://assets/audio/bgm/main_menu_bgm.ogg")
+	if stream == null:
+		return
+	if stream is AudioStreamOggVorbis:
+		(stream as AudioStreamOggVorbis).loop = true
+	var player := AudioStreamPlayer.new()
+	player.name = "MainMenuBGM"
+	player.stream = stream
+	player.volume_db = -10.0
+	player.autoplay = true
+	add_child(player)
 
 func _on_start_pressed() -> void:
 	# 开始新游戏
@@ -70,7 +86,7 @@ func _build_visuals() -> void:
 
 	var title := Label.new()
 	title.text = SRPGLocalizationScript.translate("game.title")
-	SRPGTheme.apply_label(title, SRPGTheme.WHITE, 56)
+	SRPGTheme.apply_label(title, SRPGTheme.WHITE, 56, true)
 	title_stack.add_child(title)
 
 	var subtitle := Label.new()
@@ -125,13 +141,40 @@ func _build_visuals() -> void:
 	SRPGTheme.apply_label(_status_label, SRPGTheme.PAPER_MUTED, 14)
 	vbox.add_child(_status_label)
 
+	# UI-P0-04: 底部按键提示条
+	var hint_bar: Control = HintBarScript.new()
+	hint_bar.name = "HintBar"
+	add_child(hint_bar)
+	hint_bar.set_hints([
+		{"key": "↑↓",    "action": "选择"},
+		{"key": "Enter",  "action": "确认"},
+		{"key": "Esc",    "action": "退出确认"},
+		{"key": "手柄A",  "action": "确认"},
+		{"key": "手柄B",  "action": "返回"},
+	])
+
 func _refresh_status_label() -> void:
 	if _status_label == null:
 		return
 	if continue_button.disabled:
-		_status_label.text = "没有检测到 1 号存档。开始游戏会进入第一章教程战。"
+		_status_label.text = "暂无存档"
+		return
+	var save_data: SaveData = SaveManager.peek_save(1)
+	if save_data == null:
+		_status_label.text = "暂无存档"
+		return
+	var progress: Dictionary = save_data.story_progress
+	var chapter: int = int(progress.get("chapter", 1))
+	var battle_id: String = String(progress.get("current_battle", ""))
+	var ts: int = save_data.timestamp
+	var save_time: String = "——"
+	if ts > 0:
+		var dt: Dictionary = Time.get_datetime_dict_from_unix_time(ts)
+		save_time = "%02d:%02d" % [int(dt.get("hour", 0)), int(dt.get("minute", 0))]
+	if battle_id.is_empty():
+		_status_label.text = "第 %d 章 · 上次保存 %s" % [chapter, save_time]
 	else:
-		_status_label.text = "检测到 1 号存档，可以继续第一章进度。"
+		_status_label.text = "第 %d 章 · %s · 上次保存 %s" % [chapter, battle_id, save_time]
 
 func _run_packaged_playthrough_smoke() -> void:
 	var result := _execute_packaged_playthrough_smoke()

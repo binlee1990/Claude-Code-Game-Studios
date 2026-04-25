@@ -26,7 +26,17 @@ Implements the three-layer tactical system on a 2.5D isometric grid (15x15 to 25
 | Section C.4 | Terrain types: normal, grass, water, sand, mud, highland, obstacle | ADR-001 |
 | Section D.1 | Crush + restraint stacking: max 2.25x multiplier | ADR-001 |
 
-> Note: TR-IDs not yet registered in registry. Run `/architecture-review` to populate.
+## TR-IDs
+
+本 epic 实现以下技术需求（详见 `production/registries/tr-registry.yaml`）：
+
+| Story | TR-ID | Requirement |
+|-------|-------|-------------|
+| story-001-terrain-data-model | TR-tactical-001 | Terrain data model: 7 terrain types with movement cost, de... |
+| story-002-weapon-triangle | TR-tactical-002 | Weapon triangle: sword>axe>spear>sword with 1.5x damage mu... |
+| story-003-height-advantage | TR-tactical-003 | Height advantage: 3 levels, range +/-1 and hit +/-10% per... |
+| story-004-elemental-interactions | TR-tactical-004 | Elemental interactions: fire/oil burn, water/electric chai... |
+| story-005-save-load-integration | TR-tactical-005 | Tactical state round-trip through save/load |
 
 ## Stories
 

@@ -26,7 +26,15 @@ Implements party composition and roster management: players maintain a roster of
 | Core Rules | Narrative departure: characters leave based on story events | ADR-001, ADR-003 |
 | Core Rules | Character recall: departed characters can return via specific quests | ADR-003 |
 
-> Note: TR-IDs not yet registered in registry. Run `/architecture-review` to populate.
+## TR-IDs
+
+本 epic 实现以下技术需求（详见 `production/registries/tr-registry.yaml`）：
+
+| Story | TR-ID | Requirement |
+|-------|-------|-------------|
+| story-001-party-composition | TR-char-001 | Party composition: max 4 deployed characters per battle,... |
+| story-002-departure-recall | TR-char-002 | Departure and recall: narrative-driven character leave/re... |
+| story-003-save-load-integration | TR-char-003 | Character management state round-trip through save/load |
 
 ## Stories
 

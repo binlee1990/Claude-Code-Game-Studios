@@ -28,7 +28,19 @@ Implements the speed-sequence turn-based combat framework: all units act in AGI-
 | Core Rules | Speed-up mode (accelerated animations/timers) | ADR-001 |
 | Core Rules | Turn flow: start -> actions -> end -> next unit | ADR-001, ADR-002 |
 
-> Note: TR-IDs not yet registered in registry. Run `/architecture-review` to populate.
+## TR-IDs
+
+本 epic 实现以下技术需求（详见 `production/registries/tr-registry.yaml`）：
+
+| Story | TR-ID | Requirement |
+|-------|-------|-------------|
+| story-001-turn-order-speed-sequence | TR-turn-001 | Speed-sequence ordering: all units sorted by AGI descendin... |
+| story-002-action-system | TR-turn-002 | Action system: per-turn budget of move + skill/attack or s... |
+| story-003-movement-system | TR-turn-003 | Movement system: grid-based pathfinding with terrain cost... |
+| story-004-combat-flow-state-machine | TR-turn-004 | Combat flow state machine: IDLE->INIT->PLAYER_TURN->EXECUT... |
+| story-005-auto-battle-mode | TR-turn-005 | Auto-battle mode: AI controls player units using same deci... |
+| story-006-speed-up-mode | TR-turn-006 | Speed-up mode: 1x/2x/3x animation and timer acceleration |
+| story-007-save-load-integration | TR-turn-007 | Turn-based state round-trip through save/load |
 
 ## Stories
 

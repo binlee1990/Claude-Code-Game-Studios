@@ -28,7 +28,19 @@ Implements the proficiency-driven skill growth framework: skills gain proficienc
 | Section C.6 | Per-class skill list (12 classes, 12 unique skills) | ADR-001 |
 | Section D.3 | Damage formula: base * level_mult * trait_mult * (1 + attr_bonus) | ADR-001 |
 
-> Note: TR-IDs not yet registered in registry. Run `/architecture-review` to populate.
+## TR-IDs
+
+本 epic 实现以下技术需求（详见 `production/registries/tr-registry.yaml`）：
+
+| Story | TR-ID | Requirement |
+|-------|-------|-------------|
+| story-001-skill-data-model | TR-skill-001 | Skill data model: classification (normal/class, active/pas... |
+| story-002-proficiency-leveling | TR-skill-002 | Proficiency system: gained per battle, level-up at base_co... |
+| story-003-rank-system | TR-skill-003 | Rank system: Basic(10)/Intermediate(20)/Advanced(30)/Maste... |
+| story-004-trait-selection | TR-skill-004 | Trait selection at levels 10/20/30: choose 1 of 2-3 perman... |
+| story-005-skill-damage-calculation | TR-skill-005 | Skill damage formula: base * level_mult * trait_mult * (1... |
+| story-006-class-skills | TR-skill-006 | Class-specific skills: 12 classes x 12 unique skills, unlo... |
+| story-007-save-load-integration | TR-skill-007 | Skill state round-trip through save/load (levels, profici... |
 
 ## Stories
 

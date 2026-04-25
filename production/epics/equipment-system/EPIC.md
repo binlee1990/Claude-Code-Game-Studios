@@ -27,7 +27,19 @@ Implements the ARPG-inspired equipment framework: random affix generation (1-4 a
 | Core Rules | Decomposition: convert equipment to materials | ADR-001 |
 | Core Rules | Set bonuses: collect matching pieces for activated effects | ADR-001, ADR-003 |
 
-> Note: TR-IDs not yet registered in registry. Run `/architecture-review` to populate.
+## TR-IDs
+
+本 epic 实现以下技术需求（详见 `production/registries/tr-registry.yaml`）：
+
+| Story | TR-ID | Requirement |
+|-------|-------|-------------|
+| story-001-equipment-data-model | TR-equip-001 | Equipment data model: 5 quality tiers (White/Green/Blue/Pu... |
+| story-002-affix-generation | TR-equip-002 | Affix generation: 1-4 random affixes based on quality tier |
+| story-003-enhancement-system | TR-equip-003 | Enhancement: safe zone +1~+5 guaranteed, risk zone +6+ wit... |
+| story-004-set-bonus-system | TR-equip-004 | Set bonus system: collect matching pieces for activated st... |
+| story-005-equipment-decomposition | TR-equip-005 | Equipment decomposition: convert equipment to crafting mat... |
+| story-006-final-attribute-calculation | TR-equip-006 | Final attribute calculation: base + growth + class bonus +... |
+| story-007-save-load-integration | TR-equip-007 | Equipment state round-trip through save/load (inventory, l... |
 
 ## Stories
 

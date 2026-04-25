@@ -1,9 +1,9 @@
 # Control Manifest
 
-> Manifest Version: 2026-04-23-v1
-> Generated From: ADR-001 (Event Architecture), ADR-002 (Scene Management), ADR-003 (Save System)
+> Manifest Version: 2026-04-26-v2
+> Generated From: ADR-001 (Event Architecture), ADR-002 (Scene Management), ADR-003 (Save System), ADR-004 (Combat System), ADR-005 (AI Behavior), ADR-006 (Attribute Data Model)
 > Status: Active
-> Coverage: Foundation Layer (3/3 ADRs)
+> Coverage: Foundation Layer (3/3 ADRs) + Gameplay Layer (3/3 ADRs)
 
 ---
 
@@ -105,6 +105,100 @@
 
 ---
 
+## Gameplay Layer
+
+### Combat System (ADR-004)
+
+#### Required
+
+| ID | Rule | Source |
+|----|------|--------|
+| CB-R01 | 伤害计算必须在单帧内完成，禁止任何异步操作 | ADR-004 Constraints |
+| CB-R02 | 战斗流程必须通过 CombatStateMachine 管理，不得绕过状态机直接跳转 | ADR-004 Decision |
+| CB-R03 | 行动顺序必须按 AGI 降序排列，AGI 相同时随机决定先后 | ADR-004 Requirements |
+| CB-R04 | 伤害计算管线必须按顺序叠加：base → 克制修正 → 元素修正 → 高低差修正 | ADR-004 Decision |
+| CB-R05 | 战斗信号（battle_started / battle_ended 等）必须通过 GameEvents 发出 | ADR-004 + ADR-001 |
+| CB-R06 | 战术子系统（TacticalResolver）必须作为独立模块注入，不得内嵌于 DamageCalculator | ADR-004 Decision |
+| CB-R07 | 自动战斗模式必须复用 AIDecisionEngine，不得独立实现决策逻辑 | ADR-004 + ADR-005 |
+| CB-R08 | 战斗结算必须在 CombatStateMachine 进入 BATTLE_ENDED 状态后触发 | ADR-004 Decision |
+
+#### Forbidden
+
+| ID | Rule | Source |
+|----|------|--------|
+| CB-F01 | 战斗进行中（PLAYER_TURN / ENEMY_TURN / EXECUTING 状态）禁止执行存档操作 | ADR-004 Constraints + ADR-003 |
+| CB-F02 | 禁止在伤害计算中使用 await / 协程 / 信号等待 | ADR-004 Constraints |
+| CB-F03 | 禁止 UI 层节点直接调用 CombatSystem 方法（须通过信号） | ADR-004 + ADR-002 |
+| CB-F04 | 禁止在 _process() 中连接战斗信号 | ADR-001 Validation |
+
+#### Guardrails
+
+| ID | Rule | Budget | Source |
+|----|------|--------|--------|
+| CB-G01 | 单次行动结算耗时 < 1ms | <1ms | ADR-004 Performance |
+| CB-G02 | 单次伤害计算耗时 < 0.1ms | <0.1ms | ADR-004 Performance |
+| CB-G03 | 克制/元素叠加最终倍率不得超过 2.25x（需边界值测试覆盖） | — | ADR-004 Risks |
+
+---
+
+### AI Behavior (ADR-005)
+
+#### Required
+
+| ID | Rule | Source |
+|----|------|--------|
+| AI-R01 | 每个 AI 类型必须有独立配置文件（JSON/Resource），禁止硬编码行为权重 | ADR-005 Decision |
+| AI-R02 | AI 决策必须通过三层架构（TacticalLayer → StrategyLayer → ExecutionLayer）执行 | ADR-005 Decision |
+| AI-R03 | 威胁值计算必须使用标准公式：damage_potential×1.0 + proximity×0.5 + hp_threat×0.3 + role_affinity×0.2 | ADR-005 Decision |
+| AI-R04 | Boss AI 阶段切换必须在 HP 阈值（70% / 50%）触发，且在一帧内完成 | ADR-005 Decision |
+| AI-R05 | AI 配置文件通过 AIConfigLoader 加载，禁止直接 load() 散落在决策代码中 | ADR-005 Decision |
+
+#### Forbidden
+
+| ID | Rule | Source |
+|----|------|--------|
+| AI-F01 | 禁止硬编码 AI 行为权重或目标优先级数值 | ADR-005 Alternative 2 |
+| AI-F02 | 禁止 AI 决策使用 await / 多帧分散计算 | ADR-005 Constraints |
+
+#### Guardrails
+
+| ID | Rule | Budget | Source |
+|----|------|--------|--------|
+| AI-G01 | 单单位 AI 决策（含三层评估）耗时 < 5ms | <5ms | ADR-005 Performance |
+| AI-G02 | Boss 阶段切换检查耗时 < 0.1ms | <0.1ms | ADR-005 Performance |
+| AI-G03 | 配置文件命名遵循 `ai_[type]_config.json` 规范，CI 校验格式合法性 | — | ADR-005 Risks |
+
+---
+
+### Attribute Data Model (ADR-006)
+
+#### Required
+
+| ID | Rule | Source |
+|----|------|--------|
+| AT-R01 | 属性值（V）范围严格限定为整数 [0, 999]；潜质（P）枚举限定为 [E=1, D=2, C=3, B=4, A=5, S=6] | ADR-006 Constraints |
+| AT-R02 | 属性数据必须封装为 AttributeData（Resource 子类），禁止以裸 Dictionary 传递 | ADR-006 Decision |
+| AT-R03 | 成长公式固定为 V_new = V_old + P_current，禁止在第一周目引入 RNG | ADR-006 Constraints |
+| AT-R04 | 果子使用、壁障突破、门槛奖励必须通过属性系统接口触发，并发出对应 GameEvents 信号 | ADR-006 Decision |
+| AT-R05 | 属性数据必须通过 ADR-003 存档层（UnitSaveData）持久化，不得自行写入文件 | ADR-006 + ADR-003 |
+| AT-R06 | 属性碾压检查（crush_check）必须在 DamageCalculator 调用前完成，结果作为倍率传入 | ADR-006 Decision |
+
+#### Forbidden
+
+| ID | Rule | Source |
+|----|------|--------|
+| AT-F01 | 下游系统（战斗、装备、技能、AI）禁止直接修改 AttributeData.values / potentials，必须通过属性系统提供的接口 | ADR-006 Constraints |
+| AT-F02 | 禁止在 AttributeData 中存储任何逻辑代码引用或回调函数 | ADR-006 + ADR-003 |
+
+#### Guardrails
+
+| ID | Rule | Budget | Source |
+|----|------|--------|--------|
+| AT-G01 | 属性查询耗时 < 0.01ms（Dictionary lookup） | <0.01ms | ADR-006 Performance |
+| AT-G02 | 升级成长计算（9 维）耗时 < 0.1ms | <0.1ms | ADR-006 Performance |
+
+---
+
 ## Cross-Layer Rules
 
 以下规则涉及多个 ADR 的交互:
@@ -135,6 +229,7 @@
 | Version | Date | Changes |
 |---------|------|---------|
 | 2026-04-23-v1 | 2026-04-23 | Initial manifest from ADR-001/002/003 |
+| 2026-04-26-v2 | 2026-04-26 | Added Gameplay Layer: Combat System (ADR-004), AI Behavior (ADR-005), Attribute Data Model (ADR-006) |
 
 ---
 
@@ -143,4 +238,7 @@
 - `docs/architecture/ADR-001-event-architecture.md`
 - `docs/architecture/ADR-002-scene-management.md`
 - `docs/architecture/ADR-003-save-system.md`
+- `docs/architecture/ADR-004-combat-system.md`
+- `docs/architecture/ADR-005-ai-behavior.md`
+- `docs/architecture/ADR-006-attribute-data-model.md`
 - `docs/architecture/architecture-traceability.md`

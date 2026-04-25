@@ -27,7 +27,15 @@ Implements the unified UI layer for all game interfaces: battle HUD (HP/MP bars,
 | Core Rules | Resource display: gold, materials, rare items in top bar | ADR-001 |
 | Core Rules | Keyboard navigation: all menus accessible without mouse | ADR-001 |
 
-> Note: TR-IDs not yet registered in registry. Run `/architecture-review` to populate.
+## TR-IDs
+
+本 epic 实现以下技术需求（详见 `production/registries/tr-registry.yaml`）：
+
+| Story | TR-ID | Requirement |
+|-------|-------|-------------|
+| story-001-battle-hud | TR-ui-001 | Battle HUD: HP/MP bars, skill cooldowns, turn order displ... |
+| story-002-resource-hud-menu-system | TR-ui-002 | Resource HUD and menu system: character panel, save/load,... |
+| story-003-save-load-integration | TR-ui-003 | UI state round-trip through save/load |
 
 ## Stories
 

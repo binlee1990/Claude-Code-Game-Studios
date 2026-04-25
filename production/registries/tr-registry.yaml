@@ -1,0 +1,699 @@
+# Technical Requirement ID Registry
+#
+# PURPOSE: Persistent, stable IDs for every GDD technical requirement.
+# Prevents TR-ID renumbering across /architecture-review runs, which would
+# break story references.
+#
+# RULES:
+#   - IDs are PERMANENT. Never renumber, never delete (use status: deprecated).
+#   - Add new entries only at the END of each system's list.
+#   - When a GDD requirement is reworded (same intent): update `requirement`
+#     text and add a `revised` date. The ID stays the same.
+#   - When a requirement is removed from the GDD: set status: deprecated.
+#   - When a requirement is split or replaced: set status: superseded-by with
+#     the new TR-ID(s).
+#
+# ID FORMAT: TR-[system-slug]-[NNN]
+#   system-slug = short slug matching the GDD system name
+#   NNN = three-digit zero-padded sequence per system, starting at 001
+#
+# STATUS VALUES: active | deprecated | superseded-by: TR-[system]-NNN
+
+version: 2
+last_updated: "2026-04-26"
+
+requirements:
+
+  # ── attribute-system (Epic: Complete, 7 stories) ──────────────────────
+
+  - id: TR-attr-001
+    system: attribute
+    gdd: design/gdd/attribute-growth-system.md
+    requirement: "9-attribute structure (5 normal STR/AGI/CON/INT/CHA + 4 hidden LUK/WIL/RES/SOU) with value V [0,999] and potential P [E-S]"
+    epic: production/epics/attribute-system/story-001-data-model-init.md
+    adr: ADR-006
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-attr-002
+    system: attribute
+    gdd: design/gdd/attribute-growth-system.md
+    requirement: "Per-level growth formula: V_new = V_old + P_current (deterministic, no RNG first playthrough)"
+    epic: production/epics/attribute-system/story-002-growth-formula.md
+    adr: ADR-006
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-attr-003
+    system: attribute
+    gdd: design/gdd/attribute-growth-system.md
+    requirement: "Fruit system: consume fruit to raise potential by 1 tier, capped at S"
+    epic: production/epics/attribute-system/story-003-fruit-system.md
+    adr: ADR-006
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-attr-004
+    system: attribute
+    gdd: design/gdd/attribute-growth-system.md
+    requirement: "Barrier breakthrough at thresholds (50/100/150) with resource cost and challenge stage"
+    epic: production/epics/attribute-system/story-004-barrier-breakthrough.md
+    adr: ADR-006
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-attr-005
+    system: attribute
+    gdd: design/gdd/attribute-growth-system.md
+    requirement: "Threshold rewards at attribute values 50/100/150 for normal attributes"
+    epic: production/epics/attribute-system/story-005-threshold-rewards.md
+    adr: ADR-006
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-attr-006
+    system: attribute
+    gdd: design/gdd/attribute-growth-system.md
+    requirement: "Crush mechanic: attribute gap > 30 triggers 1.5x damage + 20% defense reduction"
+    epic: production/epics/attribute-system/story-006-crush-mechanic.md
+    adr: ADR-006
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-attr-007
+    system: attribute
+    gdd: design/gdd/attribute-growth-system.md
+    requirement: "Attribute data round-trip through save/load with full fidelity"
+    epic: production/epics/attribute-system/story-007-save-load-integration.md
+    adr: ADR-003, ADR-006
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  # ── class-system (Epic: Complete, 6 stories) ─────────────────────────
+
+  - id: TR-class-001
+    system: class
+    gdd: design/gdd/class-system.md
+    requirement: "Three-tier class architecture: 6 basic + 6 advanced + 3 special classes with state machine transitions"
+    epic: production/epics/class-system/story-001-data-model-state-machine.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-class-002
+    system: class
+    gdd: design/gdd/class-system.md
+    requirement: "Unlock judgment: primary attr >= threshold AND secondary attr >= threshold AND class_exp >= 500"
+    epic: production/epics/class-system/story-002-unlock-judgment.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-class-003
+    system: class
+    gdd: design/gdd/class-system.md
+    requirement: "Class experience formula: floor(damage*0.02) + kill_bonus + battle_bonus"
+    epic: production/epics/class-system/story-003-experience-level.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-class-004
+    system: class
+    gdd: design/gdd/class-system.md
+    requirement: "Class change flow: preserve attributes, reset new class exp, apply stat bonuses immediately"
+    epic: production/epics/class-system/story-004-class-change-flow.md
+    adr: ADR-001, ADR-003
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-class-005
+    system: class
+    gdd: design/gdd/class-system.md
+    requirement: "Per-class stat bonus table applied to 9 attributes"
+    epic: production/epics/class-system/story-005-stat-bonuses.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-class-006
+    system: class
+    gdd: design/gdd/class-system.md
+    requirement: "Class state round-trip through save/load"
+    epic: production/epics/class-system/story-006-save-load-integration.md
+    adr: ADR-001, ADR-003
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  # ── resource-economy (Epic: Complete, 6 stories) ─────────────────────
+
+  - id: TR-resource-001
+    system: resource
+    gdd: design/gdd/resource-economy.md
+    requirement: "Dual-layer resource taxonomy: 4 common types + 5 rare types + 9 fruit subtypes with data model and inventory"
+    epic: production/epics/resource-economy/story-001-data-model-inventory.md
+    adr: ADR-001, ADR-003
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-resource-002
+    system: resource
+    gdd: design/gdd/resource-economy.md
+    requirement: "Gold and material acquisition formulas from combat rewards"
+    epic: production/epics/resource-economy/story-002-gold-material-acquisition.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-resource-003
+    system: resource
+    gdd: design/gdd/resource-economy.md
+    requirement: "Rare drops: fruit drop probability, protection symbol acquisition"
+    epic: production/epics/resource-economy/story-003-rare-drops.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-resource-004
+    system: resource
+    gdd: design/gdd/resource-economy.md
+    requirement: "Consumption costs: enhancement, fruit usage, barrier breakthrough resource deductions"
+    epic: production/epics/resource-economy/story-004-consumption-costs.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-resource-005
+    system: resource
+    gdd: design/gdd/resource-economy.md
+    requirement: "Enhancement system: safe zone +1~+5, risk zone +6+ with failure/downgrade and protection"
+    epic: production/epics/resource-economy/story-005-enhancement-system.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-resource-006
+    system: resource
+    gdd: design/gdd/resource-economy.md
+    requirement: "Resource state round-trip through save/load with stack limits"
+    epic: production/epics/resource-economy/story-006-save-load-integration.md
+    adr: ADR-001, ADR-003
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  # ── tactical-mechanism (Epic: Complete, 5 stories) ───────────────────
+
+  - id: TR-tactical-001
+    system: tactical
+    gdd: design/gdd/tactical-mechanism.md
+    requirement: "Terrain data model: 7 terrain types with movement cost, defense bonus, and element affinity"
+    epic: production/epics/tactical-mechanism/story-001-terrain-data-model.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-tactical-002
+    system: tactical
+    gdd: design/gdd/tactical-mechanism.md
+    requirement: "Weapon triangle: sword>axe>spear>sword with 1.5x damage multiplier"
+    epic: production/epics/tactical-mechanism/story-002-weapon-triangle.md
+    adr: ADR-001, ADR-004
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-tactical-003
+    system: tactical
+    gdd: design/gdd/tactical-mechanism.md
+    requirement: "Height advantage: 3 levels, range +/-1 and hit +/-10% per level difference"
+    epic: production/epics/tactical-mechanism/story-003-height-advantage.md
+    adr: ADR-001, ADR-004
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-tactical-004
+    system: tactical
+    gdd: design/gdd/tactical-mechanism.md
+    requirement: "Elemental interactions: fire/oil burn, water/electric chain, wind/fire spread, earth/water mud"
+    epic: production/epics/tactical-mechanism/story-004-elemental-interactions.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-tactical-005
+    system: tactical
+    gdd: design/gdd/tactical-mechanism.md
+    requirement: "Tactical state round-trip through save/load"
+    epic: production/epics/tactical-mechanism/story-005-save-load-integration.md
+    adr: ADR-001, ADR-003
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  # ── ai-system (Epic: Complete, 6 stories) ────────────────────────────
+
+  - id: TR-ai-001
+    system: ai
+    gdd: design/gdd/ai-system.md
+    requirement: "Threat/hate system: threat_score = damage_potential*1.0 + proximity*0.5 + hp_threat*0.3 + role_affinity*0.2"
+    epic: production/epics/ai-system/story-001-threat-hate-system.md
+    adr: ADR-005
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-ai-002
+    system: ai
+    gdd: design/gdd/ai-system.md
+    requirement: "4 AI types (aggressive/defensive/support/control) with configurable decision weights"
+    epic: production/epics/ai-system/story-002-ai-type-decision-weights.md
+    adr: ADR-005
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-ai-003
+    system: ai
+    gdd: design/gdd/ai-system.md
+    requirement: "Target and skill selection: highest threat -> lowest killable -> lowest HP priority"
+    epic: production/epics/ai-system/story-003-target-skill-selection.md
+    adr: ADR-005
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-ai-004
+    system: ai
+    gdd: design/gdd/ai-system.md
+    requirement: "Position scoring: terrain evaluation + height advantage + support adjacency"
+    epic: production/epics/ai-system/story-004-position-scoring.md
+    adr: ADR-005
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-ai-005
+    system: ai
+    gdd: design/gdd/ai-system.md
+    requirement: "Boss AI: phase switching at 70%/50% HP thresholds, enrage +30% damage in phase 3"
+    epic: production/epics/ai-system/story-005-boss-ai.md
+    adr: ADR-005
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-ai-006
+    system: ai
+    gdd: design/gdd/ai-system.md
+    requirement: "AI state round-trip through save/load"
+    epic: production/epics/ai-system/story-006-save-load-integration.md
+    adr: ADR-001, ADR-003, ADR-005
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  # ── skill-system (Epic: Complete, 7 stories) ─────────────────────────
+
+  - id: TR-skill-001
+    system: skill
+    gdd: design/gdd/skill-system.md
+    requirement: "Skill data model: classification (normal/class, active/passive), base stats, MP cost"
+    epic: production/epics/skill-system/story-001-skill-data-model.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-skill-002
+    system: skill
+    gdd: design/gdd/skill-system.md
+    requirement: "Proficiency system: gained per battle, level-up at base_cost * level^1.5"
+    epic: production/epics/skill-system/story-002-proficiency-leveling.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-skill-003
+    system: skill
+    gdd: design/gdd/skill-system.md
+    requirement: "Rank system: Basic(10)/Intermediate(20)/Advanced(30)/Master(99) with advancement challenges"
+    epic: production/epics/skill-system/story-003-rank-system.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-skill-004
+    system: skill
+    gdd: design/gdd/skill-system.md
+    requirement: "Trait selection at levels 10/20/30: choose 1 of 2-3 permanent specializations"
+    epic: production/epics/skill-system/story-004-trait-selection.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-skill-005
+    system: skill
+    gdd: design/gdd/skill-system.md
+    requirement: "Skill damage formula: base * level_mult * trait_mult * (1 + attr_bonus)"
+    epic: production/epics/skill-system/story-005-skill-damage-calculation.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-skill-006
+    system: skill
+    gdd: design/gdd/skill-system.md
+    requirement: "Class-specific skills: 12 classes x 12 unique skills, unlock on class change"
+    epic: production/epics/skill-system/story-006-class-skills.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-skill-007
+    system: skill
+    gdd: design/gdd/skill-system.md
+    requirement: "Skill state round-trip through save/load (levels, proficiency, selected traits)"
+    epic: production/epics/skill-system/story-007-save-load-integration.md
+    adr: ADR-001, ADR-003
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  # ── turn-based-mode (Epic: Complete, 7 stories) ──────────────────────
+
+  - id: TR-turn-001
+    system: turn
+    gdd: design/gdd/turn-based-mode.md
+    requirement: "Speed-sequence ordering: all units sorted by AGI descending, random tiebreak for equal AGI"
+    epic: production/epics/turn-based-mode/story-001-turn-order-speed-sequence.md
+    adr: ADR-001, ADR-004
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-turn-002
+    system: turn
+    gdd: design/gdd/turn-based-mode.md
+    requirement: "Action system: per-turn budget of move + skill/attack or standby"
+    epic: production/epics/turn-based-mode/story-002-action-system.md
+    adr: ADR-001, ADR-004
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-turn-003
+    system: turn
+    gdd: design/gdd/turn-based-mode.md
+    requirement: "Movement system: grid-based pathfinding with terrain cost and range"
+    epic: production/epics/turn-based-mode/story-003-movement-system.md
+    adr: ADR-001, ADR-004
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-turn-004
+    system: turn
+    gdd: design/gdd/turn-based-mode.md
+    requirement: "Combat flow state machine: IDLE->INIT->PLAYER_TURN->EXECUTING->CHECK_END->ENEMY_TURN->BATTLE_ENDED"
+    epic: production/epics/turn-based-mode/story-004-combat-flow-state-machine.md
+    adr: ADR-001, ADR-004
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-turn-005
+    system: turn
+    gdd: design/gdd/turn-based-mode.md
+    requirement: "Auto-battle mode: AI controls player units using same decision engine"
+    epic: production/epics/turn-based-mode/story-005-auto-battle-mode.md
+    adr: ADR-001, ADR-004, ADR-005
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-turn-006
+    system: turn
+    gdd: design/gdd/turn-based-mode.md
+    requirement: "Speed-up mode: 1x/2x/3x animation and timer acceleration"
+    epic: production/epics/turn-based-mode/story-006-speed-up-mode.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-turn-007
+    system: turn
+    gdd: design/gdd/turn-based-mode.md
+    requirement: "Turn-based state round-trip through save/load"
+    epic: production/epics/turn-based-mode/story-007-save-load-integration.md
+    adr: ADR-001, ADR-003
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  # ── equipment-system (Epic: Complete, 7 stories) ─────────────────────
+
+  - id: TR-equip-001
+    system: equipment
+    gdd: design/gdd/equipment-system.md
+    requirement: "Equipment data model: 5 quality tiers (White/Green/Blue/Purple/Gold) with 5 equipment slots"
+    epic: production/epics/equipment-system/story-001-equipment-data-model.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-equip-002
+    system: equipment
+    gdd: design/gdd/equipment-system.md
+    requirement: "Affix generation: 1-4 random affixes based on quality tier"
+    epic: production/epics/equipment-system/story-002-affix-generation.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-equip-003
+    system: equipment
+    gdd: design/gdd/equipment-system.md
+    requirement: "Enhancement: safe zone +1~+5 guaranteed, risk zone +6+ with failure chance and downgrade"
+    epic: production/epics/equipment-system/story-003-enhancement-system.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-equip-004
+    system: equipment
+    gdd: design/gdd/equipment-system.md
+    requirement: "Set bonus system: collect matching pieces for activated stat/effect bonuses"
+    epic: production/epics/equipment-system/story-004-set-bonus-system.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-equip-005
+    system: equipment
+    gdd: design/gdd/equipment-system.md
+    requirement: "Equipment decomposition: convert equipment to crafting materials"
+    epic: production/epics/equipment-system/story-005-equipment-decomposition.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-equip-006
+    system: equipment
+    gdd: design/gdd/equipment-system.md
+    requirement: "Final attribute calculation: base + growth + class bonus + equipment stats + set bonus"
+    epic: production/epics/equipment-system/story-006-final-attribute-calculation.md
+    adr: ADR-001, ADR-006
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-equip-007
+    system: equipment
+    gdd: design/gdd/equipment-system.md
+    requirement: "Equipment state round-trip through save/load (inventory, loadout, enhancement level)"
+    epic: production/epics/equipment-system/story-007-save-load-integration.md
+    adr: ADR-001, ADR-003
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  # ── battle-settlement (Epic: Complete, 5 stories) ────────────────────
+
+  - id: TR-settle-001
+    system: settlement
+    gdd: design/gdd/battle-settlement.md
+    requirement: "Settlement trigger: battle_ended signal initiates reward pipeline"
+    epic: production/epics/battle-settlement/story-001-settlement-trigger-flow.md
+    adr: ADR-001, ADR-004
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-settle-002
+    system: settlement
+    gdd: design/gdd/battle-settlement.md
+    requirement: "Experience distribution: performance-linked EXP based on damage, kills, enemy tier"
+    epic: production/epics/battle-settlement/story-002-experience-distribution.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-settle-003
+    system: settlement
+    gdd: design/gdd/battle-settlement.md
+    requirement: "Battle evaluation: S/A/B/C/D grade based on turns, losses, damage efficiency"
+    epic: production/epics/battle-settlement/story-003-battle-evaluation.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-settle-004
+    system: settlement
+    gdd: design/gdd/battle-settlement.md
+    requirement: "Material and equipment drops: gold, materials, rare items based on enemy loot tables"
+    epic: production/epics/battle-settlement/story-004-material-equipment-drops.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-settle-005
+    system: settlement
+    gdd: design/gdd/battle-settlement.md
+    requirement: "Settlement state round-trip through save/load (rewards, battle history)"
+    epic: production/epics/battle-settlement/story-005-save-load-integration.md
+    adr: ADR-001, ADR-003
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  # ── character-management (Epic: Complete, 3 stories) ─────────────────
+
+  - id: TR-char-001
+    system: character
+    gdd: design/gdd/character-management.md
+    requirement: "Party composition: max 4 deployed characters per battle, roster management"
+    epic: production/epics/character-management/story-001-party-composition.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-char-002
+    system: character
+    gdd: design/gdd/character-management.md
+    requirement: "Departure and recall: narrative-driven character leave/return with quest triggers"
+    epic: production/epics/character-management/story-002-departure-recall.md
+    adr: ADR-001, ADR-003
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-char-003
+    system: character
+    gdd: design/gdd/character-management.md
+    requirement: "Character management state round-trip through save/load"
+    epic: production/epics/character-management/story-003-save-load-integration.md
+    adr: ADR-001, ADR-003
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  # ── camera-map-system (Epic: Complete, 3 stories) ────────────────────
+
+  - id: TR-camera-001
+    system: camera
+    gdd: design/gdd/camera-map-system.md
+    requirement: "2.5D isometric camera at 45-degree oblique angle with 4 fixed rotation angles"
+    epic: production/epics/camera-map-system/story-001-isometric-camera.md
+    adr: ADR-002
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-camera-002
+    system: camera
+    gdd: design/gdd/camera-map-system.md
+    requirement: "Grid map rendering: square grid 15x15~25x25 with 3-level height differential terrain and overlay"
+    epic: production/epics/camera-map-system/story-002-grid-map-rendering.md
+    adr: ADR-002
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-camera-003
+    system: camera
+    gdd: design/gdd/camera-map-system.md
+    requirement: "Camera state round-trip through save/load"
+    epic: production/epics/camera-map-system/story-003-save-load-integration.md
+    adr: ADR-002, ADR-003
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  # ── ui-system (Epic: Complete, 3 stories) ────────────────────────────
+
+  - id: TR-ui-001
+    system: ui
+    gdd: design/gdd/ui-system.md
+    requirement: "Battle HUD: HP/MP bars, skill cooldowns, turn order display, action buttons"
+    epic: production/epics/ui-system/story-001-battle-hud.md
+    adr: ADR-001
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-ui-002
+    system: ui
+    gdd: design/gdd/ui-system.md
+    requirement: "Resource HUD and menu system: character panel, save/load, settings, keyboard navigation"
+    epic: production/epics/ui-system/story-002-resource-hud-menu-system.md
+    adr: ADR-001, ADR-002
+    created: "2026-04-26"
+    revised: ""
+    status: active
+
+  - id: TR-ui-003
+    system: ui
+    gdd: design/gdd/ui-system.md
+    requirement: "UI state round-trip through save/load"
+    epic: production/epics/ui-system/story-003-save-load-integration.md
+    adr: ADR-001, ADR-003
+    created: "2026-04-26"
+    revised: ""
+    status: active

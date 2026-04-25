@@ -1,0 +1,277 @@
+{
+  "definition_path": "res://src/ui/combat/battle_definitions/chapter_02_act_b.json",
+  "battle_id": "chapter_02_act_b",
+  "map_id": "village_road",
+  "chapter_id": 2,
+  "chapter_title": "Chapter 2: Village Road",
+  "map_size": 18,
+  "difficulty": 5,
+  "next_battle_definition_path": "res://src/ui/combat/battle_definitions/chapter_02_finale.json",
+  "difficulty_profile": {
+    "label": "Chapter 2 Act B",
+    "enemy_stat_multiplier": 1.15,
+    "exp_multiplier": 1.15,
+    "resource_multiplier": 1.0,
+    "ai_tier": "chapter_standard"
+  },
+  "completion_key": "chapter_02_act_b_complete",
+  "branch_variant": "__RESOLVED_AT_RUNTIME__",
+  "note": "branch_variant is set by the menu script reading progress_data.belief_branch. Values: 'mercy' (2A escort) or 'suppression' (2B suppression). This single file contains both variants.",
+  "settlement": {
+    "rng_seed": 202,
+    "reward_note": "Chapter 2 Act B complete. Route to Ch.2-3 unlocked."
+  },
+  "progress_on_start": {
+    "chapter": 2,
+    "current_battle": "chapter_02_act_b"
+  },
+  "progress_on_victory": {
+    "chapter": 2,
+    "current_battle": "chapter_02_act_b",
+    "chapter_02_act_b_complete": true
+  },
+  "terrain": [
+    {"x": 2,  "y": 2,  "type": "grass"},
+    {"x": 3,  "y": 2,  "type": "grass"},
+    {"x": 4,  "y": 2,  "type": "grass"},
+    {"x": 2,  "y": 3,  "type": "grass"},
+    {"x": 3,  "y": 3,  "type": "grass"},
+    {"x": 4,  "y": 3,  "type": "grass"},
+    {"note": "Above 3x3 block is the safe zone (top-left) for mercy variant"},
+    {"x": 8,  "y": 8,  "type": "obstacle"},
+    {"x": 9,  "y": 8,  "type": "obstacle"},
+    {"x": 10, "y": 9,  "type": "mud"},
+    {"x": 11, "y": 10, "type": "mud"},
+    {"x": 14, "y": 5,  "type": "water"},
+    {"x": 15, "y": 6,  "type": "water"}
+  ],
+  "inventory": [
+    {"resource": "gold",           "amount": "TODO: balance pass"},
+    {"resource": "basic_material", "amount": "TODO: balance pass"}
+  ],
+  "variants": {
+    "mercy": {
+      "objective": "Escort Wang Xiu to the safe zone, or defeat all pursuers.",
+      "briefing": "Wang Xiu must reach safety. Keep her alive — if she falls the mission can still be won, but at great cost.",
+      "victory_conditions": [
+        {"type": "npc_reach_zone", "unit_id": "NPC_WANG_XIU", "zone": "safe_zone", "belief_reward": {"ren": 12}},
+        {"type": "defeat_all_enemies", "belief_reward": {"ren": -8, "note": "only if wang_xiu_departed == true"}}
+      ],
+      "failure_conditions": [
+        {"type": "all_player_units_departed", "and": {"npc_in_zone": false}}
+      ],
+      "npc_wang_xiu": {
+        "id": "NPC_WANG_XIU",
+        "name": "Wang Xiu (Refugee Leader)",
+        "team": "friendly_npc",
+        "class": "civilian",
+        "hp": 30,
+        "position": {"x": 9, "y": 14},
+        "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+        "ai": {
+          "type": "escort_target",
+          "destination_zone": {"x_min": 2, "x_max": 4, "y_min": 2, "y_max": 4},
+          "move_per_turn": 1,
+          "cower_if_enemy_within": 2,
+          "note": "Wang Xiu uses A* pathfinding toward safe zone; stops if enemy within 2 tiles"
+        },
+        "guard_mechanic": {
+          "guard_transfer_ratio": 0.30,
+          "trigger": "adjacent_player_unit_present",
+          "adjacent_rule": "cardinal_only",
+          "note": "If a player unit occupies an orthogonally adjacent tile, incoming damage is split: 30% to guardian, 70% to Wang Xiu"
+        },
+        "departure_on_hp_zero": {
+          "sets_flag": "wang_xiu_departed",
+          "plays_cutscene": true,
+          "game_over": false
+        },
+        "controllable": false
+      },
+      "enemies": [
+        {
+          "id": "E4",
+          "name": "Pursuer Knight",
+          "team": "enemy",
+          "class": "basic_knight",
+          "hp": "TODO: balance pass",
+          "position": {"x": 16, "y": 10},
+          "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+          "tactics": {"weapon": "spear", "element": "earth", "ai": "aggressive", "move": 3, "range": 2},
+          "reward": {"tier": "normal", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+        },
+        {
+          "id": "E5",
+          "name": "Pursuer Knight",
+          "team": "enemy",
+          "class": "basic_knight",
+          "hp": "TODO: balance pass",
+          "position": {"x": 17, "y": 12},
+          "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+          "tactics": {"weapon": "spear", "element": "earth", "ai": "aggressive", "move": 3, "range": 2},
+          "reward": {"tier": "normal", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+        },
+        {
+          "id": "E6",
+          "name": "Pursuer Archer",
+          "team": "enemy",
+          "class": "basic_archer",
+          "hp": "TODO: balance pass",
+          "position": {"x": 15, "y": 8},
+          "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+          "tactics": {"weapon": "bow", "element": "wind", "ai": "support", "move": 3, "range": 3},
+          "reward": {"tier": "normal", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+        },
+        {
+          "id": "E7",
+          "name": "Pursuer Archer",
+          "team": "enemy",
+          "class": "basic_archer",
+          "hp": "TODO: balance pass",
+          "position": {"x": 16, "y": 14},
+          "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+          "tactics": {"weapon": "bow", "element": "wind", "ai": "support", "move": 3, "range": 3},
+          "reward": {"tier": "normal", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+        }
+      ]
+    },
+    "suppression": {
+      "objective": "Defeat all refugee remnants. Prevent more than 4 from escaping the map.",
+      "briefing": "The local lord's cavalry rides with you. Run down the refugee remnants before they scatter — but watch who lands the killing blows.",
+      "victory_conditions": [
+        {"type": "defeat_all_enemies"}
+      ],
+      "failure_conditions": [
+        {"type": "all_player_units_departed"},
+        {"type": "refugee_escape_count_exceeds", "limit": 4, "result": "partial_failure", "belief_penalty": {"yi": -5}, "note": "Not a Game Over — battle continues but triggers belief penalty on settlement"}
+      ],
+      "belief_settlement": {
+        "node_id": "B2-N2B",
+        "condition_a": {"trigger": "ally_npc_kills > player_kills", "belief_delta": {"yi": 10, "zhi": -5}},
+        "condition_b": {"trigger": "player_kills >= ally_npc_kills", "belief_delta": {"yi": 3, "zhi": 2}}
+      },
+      "ally_npcs": [
+        {
+          "id": "NPC_LORD_KNIGHT_A",
+          "name": "Lord's Knight",
+          "team": "friendly_npc",
+          "class": "basic_knight",
+          "hp": "TODO: balance pass",
+          "position": {"x": 6, "y": 6},
+          "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+          "ai": {"type": "aggressive", "priority": "nearest_enemy"},
+          "controllable": false,
+          "kill_counter": true
+        },
+        {
+          "id": "NPC_LORD_KNIGHT_B",
+          "name": "Lord's Knight",
+          "team": "friendly_npc",
+          "class": "basic_knight",
+          "hp": "TODO: balance pass",
+          "position": {"x": 7, "y": 5},
+          "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+          "ai": {"type": "aggressive", "priority": "nearest_enemy"},
+          "controllable": false,
+          "kill_counter": true
+        }
+      ],
+      "enemies": [
+        {
+          "id": "E4",
+          "name": "Refugee Warrior",
+          "team": "enemy",
+          "class": "basic_warrior",
+          "hp": "TODO: balance pass",
+          "position": {"x": 12, "y": 8},
+          "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+          "tactics": {"weapon": "sword", "element": "none", "ai": "flee", "move": 3, "range": 2},
+          "reward": {"tier": "normal", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+        },
+        {
+          "id": "E5",
+          "name": "Refugee Warrior",
+          "team": "enemy",
+          "class": "basic_warrior",
+          "hp": "TODO: balance pass",
+          "position": {"x": 13, "y": 10},
+          "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+          "tactics": {"weapon": "sword", "element": "none", "ai": "flee", "move": 3, "range": 2},
+          "reward": {"tier": "normal", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+        },
+        {
+          "id": "E6",
+          "name": "Refugee Warrior",
+          "team": "enemy",
+          "class": "basic_warrior",
+          "hp": "TODO: balance pass",
+          "position": {"x": 14, "y": 7},
+          "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+          "tactics": {"weapon": "sword", "element": "none", "ai": "flee", "move": 3, "range": 2},
+          "reward": {"tier": "normal", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+        },
+        {
+          "id": "E7",
+          "name": "Refugee Archer",
+          "team": "enemy",
+          "class": "basic_archer",
+          "hp": "TODO: balance pass",
+          "position": {"x": 15, "y": 11},
+          "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+          "tactics": {"weapon": "bow", "element": "wind", "ai": "flee", "move": 3, "range": 3},
+          "reward": {"tier": "normal", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+        },
+        {
+          "id": "E8",
+          "name": "Refugee Archer",
+          "team": "enemy",
+          "class": "basic_archer",
+          "hp": "TODO: balance pass",
+          "position": {"x": 16, "y": 9},
+          "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+          "tactics": {"weapon": "bow", "element": "wind", "ai": "flee", "move": 3, "range": 3},
+          "reward": {"tier": "normal", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+        },
+        {
+          "id": "E9",
+          "name": "Refugee Civilian",
+          "team": "enemy",
+          "class": "civilian",
+          "hp": "TODO: balance pass",
+          "position": {"x": 14, "y": 13},
+          "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+          "tactics": {"weapon": "none", "element": "none", "ai": "flee", "move": 3, "range": 0},
+          "reward": {"tier": "none", "base_gold": 0, "damage_dealt": 0},
+          "note": "Does not attack; counts toward escape limit if it reaches map edge"
+        }
+      ]
+    }
+  },
+  "units": [
+    {
+      "id": "P1",
+      "name": "Swordsman",
+      "team": "player",
+      "class": "basic_warrior",
+      "hp": "TODO: carry-forward from chapter_02_act_a save",
+      "position": {"x": 5, "y": 14},
+      "stats": {"str": "TODO: carry-forward", "agi": "TODO: carry-forward"},
+      "tactics": {"weapon": "sword", "element": "none", "ai": "balanced", "move": 3, "range": 2}
+    },
+    {
+      "id": "P2",
+      "name": "Archer",
+      "team": "player",
+      "class": "basic_archer",
+      "hp": "TODO: carry-forward from chapter_02_act_a save",
+      "position": {"x": 5, "y": 16},
+      "stats": {"str": "TODO: carry-forward", "agi": "TODO: carry-forward"},
+      "tactics": {"weapon": "bow", "element": "wind", "ai": "balanced", "move": 3, "range": 3}
+    }
+  ],
+  "reserves": [
+    {"id": "R1", "name": "Cleric", "class": "basic_cleric", "stats": {"str": "TODO: carry-forward", "agi": "TODO: carry-forward"}, "status": "available"},
+    {"id": "R4", "name": "Mage",   "class": "basic_mage",   "stats": {"str": "TODO: carry-forward", "agi": "TODO: carry-forward"}, "status": "available"},
+    {"id": "R3", "name": "Lancer", "class": "basic_knight", "stats": {"str": 20, "agi": 16}, "status": "departed", "reason": "chapter_2_exit"}
+  ]
+}

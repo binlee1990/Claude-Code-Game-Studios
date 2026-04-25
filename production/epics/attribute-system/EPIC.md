@@ -28,7 +28,19 @@ Implements the foundational attribute data layer for all characters: 5 normal at
 | Section C.5 | Threshold rewards at 50/100/150 for normal attributes | ADR-001 |
 | Section C.6 | Crush mechanic when attribute gap > 30 (1.5x damage, 20% defense reduction) | ADR-001 |
 
-> Note: TR-IDs not yet registered in registry. Run `/architecture-review` to populate.
+## TR-IDs
+
+本 epic 实现以下技术需求（详见 `production/registries/tr-registry.yaml`）：
+
+| Story | TR-ID | Requirement |
+|-------|-------|-------------|
+| story-001-data-model-init | TR-attr-001 | 9-attribute structure (5 normal STR/AGI/CON/INT/CHA + 4 hi... |
+| story-002-growth-formula | TR-attr-002 | Per-level growth formula: V_new = V_old + P_current (deter... |
+| story-003-fruit-system | TR-attr-003 | Fruit system: consume fruit to raise potential by 1 tier,... |
+| story-004-barrier-breakthrough | TR-attr-004 | Barrier breakthrough at thresholds (50/100/150) with resou... |
+| story-005-threshold-rewards | TR-attr-005 | Threshold rewards at attribute values 50/100/150 for norma... |
+| story-006-crush-mechanic | TR-attr-006 | Crush mechanic: attribute gap > 30 triggers 1.5x damage +... |
+| story-007-save-load-integration | TR-attr-007 | Attribute data round-trip through save/load with full fide... |
 
 ## Definition of Done
 

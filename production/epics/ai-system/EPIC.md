@@ -26,7 +26,18 @@ Implements the layered AI decision architecture: tactical layer (target selectio
 | Section C.4 | Target selection priority: highest threat -> lowest killable -> lowest HP | ADR-001 |
 | Section C.7 | Boss AI: phase switching at HP thresholds, enrage with +30% damage | ADR-001 |
 
-> Note: TR-IDs not yet registered in registry. Run `/architecture-review` to populate.
+## TR-IDs
+
+本 epic 实现以下技术需求（详见 `production/registries/tr-registry.yaml`）：
+
+| Story | TR-ID | Requirement |
+|-------|-------|-------------|
+| story-001-threat-hate-system | TR-ai-001 | Threat/hate system: threat_score = damage_potential*1.0 +... |
+| story-002-ai-type-decision-weights | TR-ai-002 | 4 AI types (aggressive/defensive/support/control) with con... |
+| story-003-target-skill-selection | TR-ai-003 | Target and skill selection: highest threat -> lowest killa... |
+| story-004-position-scoring | TR-ai-004 | Position scoring: terrain evaluation + height advantage +... |
+| story-005-boss-ai | TR-ai-005 | Boss AI: phase switching at 70%/50% HP thresholds, enrage... |
+| story-006-save-load-integration | TR-ai-006 | AI state round-trip through save/load |
 
 ## Stories
 

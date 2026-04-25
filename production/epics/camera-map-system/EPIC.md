@@ -26,7 +26,15 @@ Implements the 2.5D isometric camera and map rendering: 45-degree oblique view o
 | Core Rules | Height-differential terrain: 3 levels with visual distinction | ADR-001 |
 | Core Rules | Grid overlay for tactical readability | ADR-001 |
 
-> Note: TR-IDs not yet registered in registry. Run `/architecture-review` to populate.
+## TR-IDs
+
+本 epic 实现以下技术需求（详见 `production/registries/tr-registry.yaml`）：
+
+| Story | TR-ID | Requirement |
+|-------|-------|-------------|
+| story-001-isometric-camera | TR-camera-001 | 2.5D isometric camera at 45-degree oblique angle with 4 fi... |
+| story-002-grid-map-rendering | TR-camera-002 | Grid map rendering: square grid 15x15~25x25 with 3-level h... |
+| story-003-save-load-integration | TR-camera-003 | Camera state round-trip through save/load |
 
 ## Stories
 

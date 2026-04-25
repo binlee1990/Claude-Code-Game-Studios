@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed
+Accepted
 
 ## Date
 
@@ -166,3 +166,11 @@ threat_score = damage_potential × 1.0
 
 - ADR-001: 事件架构
 - ADR-004: Combat System (AI 接收行动接口)
+
+## Acceptance History
+
+| Field | Value |
+|-------|-------|
+| **Accepted on** | 2026-04-26 |
+| **Accepted via** | Sprint-002 governance closure |
+| **Reason** | 12 epic Complete 引用本 ADR，需消除合规绕过风险 |

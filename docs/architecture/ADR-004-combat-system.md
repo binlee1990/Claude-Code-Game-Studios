@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed
+Accepted
 
 ## Date
 
@@ -181,3 +181,11 @@ final_damage = base_damage × advantage_mod × element_mod × height_mod - targe
 - ADR-001: 事件架构 (GameEvents 战斗信号)
 - ADR-002: 场景管理 (BattleArena 场景)
 - ADR-005: AI Behavior System
+
+## Acceptance History
+
+| Field | Value |
+|-------|-------|
+| **Accepted on** | 2026-04-26 |
+| **Accepted via** | Sprint-002 governance closure |
+| **Reason** | 12 epic Complete 引用本 ADR，需消除合规绕过风险 |
