@@ -4,7 +4,7 @@
   "map_id": "village_road",
   "chapter_id": 2,
   "chapter_title": "Chapter 2: Village Road",
-  "map_size": 18,
+  "map_size": 20,
   "difficulty": 5,
   "next_battle_definition_path": "res://src/ui/combat/battle_definitions/chapter_02_finale.json",
   "difficulty_profile": {
@@ -67,6 +67,26 @@
       "position": {"x": 5, "y": 16},
       "stats": {"str": 22, "agi": 27},
       "tactics": {"weapon": "bow", "element": "wind", "ai": "balanced", "move": 3, "range": 3}
+    },
+    {
+      "id": "R1",
+      "name": "Cleric",
+      "team": "player",
+      "class": "basic_cleric",
+      "hp": 60,
+      "position": {"x": 4, "y": 15},
+      "stats": {"str": 14, "agi": 16},
+      "tactics": {"weapon": "magic", "element": "water", "ai": "support", "move": 3, "range": 3}
+    },
+    {
+      "id": "R4",
+      "name": "Mage",
+      "team": "player",
+      "class": "basic_mage",
+      "hp": 54,
+      "position": {"x": 4, "y": 17},
+      "stats": {"str": 13, "agi": 19},
+      "tactics": {"weapon": "magic", "element": "fire", "ai": "control", "move": 3, "range": 3}
     },
     {
       "id": "NPC_WANG_XIU",

@@ -20,6 +20,8 @@ static func resolve_team(value: String) -> int:
 		return CombatSystem.Team.PLAYER
 	if value == "enemy":
 		return CombatSystem.Team.ENEMY
+	if value in ["player_ally", "friendly_npc"]:
+		return CombatSystem.Team.PLAYER
 	return CombatSystem.Team.ENEMY
 
 ## Convert a resource id from a battle definition into a ResourceTypes id.

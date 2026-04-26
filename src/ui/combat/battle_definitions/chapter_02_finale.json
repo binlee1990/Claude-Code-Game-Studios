@@ -101,6 +101,26 @@
       "tactics": {"weapon": "bow", "element": "wind", "ai": "balanced", "move": 3, "range": 3}
     },
     {
+      "id": "R1",
+      "name": "Cleric",
+      "team": "player",
+      "class": "basic_cleric",
+      "hp": 62,
+      "position": {"x": 3, "y": 11},
+      "stats": {"str": 15, "agi": 17},
+      "tactics": {"weapon": "magic", "element": "water", "ai": "support", "move": 3, "range": 3}
+    },
+    {
+      "id": "R4",
+      "name": "Mage",
+      "team": "player",
+      "class": "basic_mage",
+      "hp": 56,
+      "position": {"x": 3, "y": 13},
+      "stats": {"str": 14, "agi": 20},
+      "tactics": {"weapon": "magic", "element": "fire", "ai": "control", "move": 3, "range": 3}
+    },
+    {
       "id": "BOSS_CHEN_LANG",
       "name": "Chen Lang",
       "team": "enemy",

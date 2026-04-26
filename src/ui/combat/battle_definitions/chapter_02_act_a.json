@@ -6,7 +6,7 @@
   "chapter_title": "Chapter 2: The Refugee Camp",
   "objective": "Defeat all enemy combatants.",
   "briefing": "The squad arrives at the refugee camp to find local militia clashing with refugees. Choose a side before the battle begins — your stance shapes the battlefield.",
-  "map_size": 18,
+  "map_size": 20,
   "difficulty": 4,
   "next_battle_definition_path": "res://src/ui/combat/battle_definitions/chapter_02_act_b.json",
   "difficulty_profile": {
@@ -89,6 +89,26 @@
       "position": {"x": 2, "y": 10},
       "stats": {"str": 21, "agi": 26},
       "tactics": {"weapon": "bow", "element": "wind", "ai": "balanced", "move": 3, "range": 3}
+    },
+    {
+      "id": "R1",
+      "name": "Cleric",
+      "team": "player",
+      "class": "basic_cleric",
+      "hp": 58,
+      "position": {"x": 3, "y": 9},
+      "stats": {"str": 14, "agi": 16},
+      "tactics": {"weapon": "magic", "element": "water", "ai": "support", "move": 3, "range": 3}
+    },
+    {
+      "id": "R4",
+      "name": "Mage",
+      "team": "player",
+      "class": "basic_mage",
+      "hp": 52,
+      "position": {"x": 3, "y": 11},
+      "stats": {"str": 13, "agi": 19},
+      "tactics": {"weapon": "magic", "element": "fire", "ai": "control", "move": 3, "range": 3}
     },
     {
       "id": "E1",
