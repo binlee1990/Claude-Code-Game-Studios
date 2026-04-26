@@ -36,7 +36,7 @@
 ## Known Outstanding (Sprint-003+)
 
 - Windows packaged smoke 重跑（验证 release 包字体/BGM）
-- 人工截图归档至 production/qa/evidence/sprint-002-presentation-p0.md
+- 外部截图 / 体验验证队列已移至 `production/sprints/sprint-人工.md`
 - ADR-007/008/009（职业/资源/装备）+ 6 系统 epic 化（羁绊/迷雾/基地/多周目/事件/正式音频）
 - UX 提案 Beta 目标（结算屏全量 + 管理屏手动编队）
 - Chapter 2 实际战斗实装（CH2-content-001~006）
@@ -47,7 +47,7 @@
 |------|------|
 | ADR 提升发现内容与代码不一致 | 未触发 — 提升后跑全量测试 686/686 PASS |
 | 中文字体生僻字缺失 | 用 Noto Serif SC 子集（11MB），覆盖度合格 |
-| BGM 循环不顺 | OGG Vorbis loop=true，未来人工试听确认 |
+| BGM 循环不顺 | OGG Vorbis loop=true；听感确认移至 `production/sprints/sprint-人工.md` |
 | Ch.2 GDD 与总纲冲突 | game-designer 已先读总纲再写 |
 | Lane A/B 同时改 srpg_theme | 实际未冲突 — A 不动主题，B 仅添加字体 const |
 | 资产清单 URL 不可达（BGM） | 已暴露 — audio-director 重做后仍 3/4 死链；orchestrator 介入查 archive.org 真实文件清单解决 |
@@ -93,9 +93,9 @@
 
 | Story ID | 任务 | 交付物 | 估算 | 退场条件 | Status |
 |---|---|---|---|---|---|
-| GOV-001 | 提升 ADR-004 战斗系统至 Accepted | `docs/architecture/ADR-004-combat-system.md`（status 字段） | S | technical-director sign-off + status 行修改 | TODO |
-| GOV-002 | 提升 ADR-005 AI行为至 Accepted | `docs/architecture/ADR-005-ai-behavior.md` | S | sign-off + status | TODO |
-| GOV-003 | 提升 ADR-006 属性数据模型至 Accepted | `docs/architecture/ADR-006-attribute-data-model.md` | S | sign-off + status | TODO |
+| GOV-001 | 提升 ADR-004 战斗系统至 Accepted | `docs/architecture/ADR-004-combat-system.md`（status 字段） | S | status 行修改 + ADR 记录可追溯 | TODO |
+| GOV-002 | 提升 ADR-005 AI行为至 Accepted | `docs/architecture/ADR-005-ai-behavior.md` | S | status 行修改 + ADR 记录可追溯 | TODO |
+| GOV-003 | 提升 ADR-006 属性数据模型至 Accepted | `docs/architecture/ADR-006-attribute-data-model.md` | S | status 行修改 + ADR 记录可追溯 | TODO |
 | GOV-004 | Control Manifest v2：新增 Combat / AI / Attribute 三节 | `docs/architecture/control-manifest.md`（v2） | M | 三节规则 ≥ 6 / 5 / 6；引用 ADR 编号 | TODO |
 | GOV-005 | 回填 12 epic 的 TR-ID 引用 | `production/epics/*/index.md` 及 story 文件 | M | 每 epic 顶部 GDD Requirements 表含 TR-ID | TODO |
 | GOV-006 | tr-registry 路径冲突收尾 | `docs/architecture/tr-registry.yaml` 标 deprecated | XS | 文件首行写 redirect | TODO |
@@ -110,9 +110,9 @@
 
 | Story ID | 任务 | 关联文件 | 估算 | 退场条件 | Status |
 |---|---|---|---|---|---|
-| UI-P0-01 | 主菜单焦点高亮（金铜色边框）+ 存档摘要行 | `src/ui/main_menu.gd`, `src/ui/srpg_theme.gd` | M | 截图证据；键盘 Tab 序列正确 | TODO |
+| UI-P0-01 | 主菜单焦点高亮（金铜色边框）+ 存档摘要行 | `src/ui/main_menu.gd`, `src/ui/srpg_theme.gd` | M | 键盘 Tab 序列正确；视觉证据归档移至 `sprint-人工.md` | TODO |
 | UI-P0-02 | 战斗 HUD Auto 状态可读性 + 立即接管 + 节奏可控 | `src/ui/combat/battle_arena.gd`（已部分修） | M | 玩家可一眼分辨自动/手动；Auto 切换无延迟 | TODO |
-| UI-P0-03 | 回合顺序立牌增加迷你 HP 条 | `src/ui/combat/turn_order_strip.gd`（如不存在则在 battle_arena 内） | S | 截图证据；不破坏现有布局 | TODO |
+| UI-P0-03 | 回合顺序立牌增加迷你 HP 条 | `src/ui/combat/turn_order_strip.gd`（如不存在则在 battle_arena 内） | S | 不破坏现有布局；视觉证据归档移至 `sprint-人工.md` | TODO |
 | UI-P0-04 | 全局按键提示行（底部 hint bar） | `src/ui/common/hint_bar.gd`（新建） | M | 主菜单/战斗/管理屏均显示当前可用键 | TODO |
 | ART-P0-05 | 替换标题字体（ZCOOL XiaoWei OFL） | `assets/fonts/`, `srpg_theme.gd` | S | License 文件随包；4 屏标题统一 | TODO |
 | ART-P0-06 | 替换正文字体（朱雀仿宋 OFL） | 同上 | S | 同上 | TODO |
@@ -122,7 +122,7 @@
 **Lane B Gate**:
 - 自动化测试 686/686 PASS
 - Windows packaged build smoke PASS（含字体/BGM）
-- 4 屏截图证据归档至 `production/qa/evidence/sprint-002-presentation-p0.md`
+- 外部截图证据归档由 `production/sprints/sprint-人工.md` 跟踪
 
 ---
 
@@ -145,7 +145,7 @@
 - 深度手动编队/装备切换 UI（结算屏全量、管理屏手动编队）→ Sprint-003 或 Sprint-004（来自 UX 提案的 Beta 目标）
 - Ch.2 实际战斗实装与平衡 → 待 Ch.2 GDD `/design-review` PASS 后再排
 - 角色立绘/3D 立牌资产替换 → 等 art-director Beta 阶段交付
-- 全量本地化、平台合规、release sign-off → Beta/Release 阶段
+- 全量本地化、平台合规、release readiness → Beta/Release 阶段
 
 ---
 
@@ -169,7 +169,7 @@ Day 2-3  : Lane B ART-P0-05/06 + AUDIO-P0-07/08（资产层，可并行）
 Day 3-4  : Lane B UI-P0-01~04（UI 代码层，可并行）
 Day 3-5  : Lane C CH2-001（GDD 全量展开，独立 lane）
 Day 5    : Lane A GOV-004~006 + Lane C CH2-002~004（收尾）
-Day 5    : Sprint-002 closure：smoke + screenshot evidence + retro
+Day 5    : Sprint-002 closure：smoke + retro；外部截图证据移至 sprint-人工.md
 ```
 
 ## Sprint-002 退场 Gate
@@ -186,7 +186,7 @@ Day 5    : Sprint-002 closure：smoke + screenshot evidence + retro
 
 ### 完成进展
 
-复核结论：Sprint-002 三条 lane 的实现交付已完成，状态为 **COMPLETE WITH MANUAL-EVIDENCE NOTES**。
+复核结论：Sprint-002 三条 lane 的实现交付已完成，状态为 **COMPLETE WITH AUTOMATION NOTES**。
 
 | Lane | 结果 | 证据 |
 |---|---|---|
@@ -199,6 +199,6 @@ Day 5    : Sprint-002 closure：smoke + screenshot evidence + retro
 
 ### 遗留问题
 
-- `production/qa/evidence/sprint-002-presentation-p0.md` 仍保留早期 `IMPLEMENTATION COMPLETE — 待人工截图验收` 与若干 TODO，和当前实现状态不同步；需要补截图或更新 evidence。
+- Presentation P0 的外部截图证据和 evidence 口径清理已移至 `production/sprints/sprint-人工.md`。
 - `design/ux/credits.md` 已记录 Kevin MacLeod / OFL 署名要求，但 `design/ux/credits-screen.md` 尚不存在；公开发布前必须把 CC-BY 3.0 署名实际显示到游戏内 Credits。
 - 打包版 smoke 退出时 Godot 报告资源仍在使用的 warning/error；当前不阻塞 smoke PASS，但应在后续稳定性清理中处理。

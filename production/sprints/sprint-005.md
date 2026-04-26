@@ -2,41 +2,41 @@
 
 > Version: v1.0 | Date: 2026-04-27 | Status: **COMPLETE**
 > Completed: 2026-04-27
-> Previous: sprint-004 COMPLETE WITH HUMAN-PLAYTEST NOTES（管理界面 Beta + 基地系统 MVP）
+> Previous: sprint-004 COMPLETE（管理界面 Beta + 基地系统 MVP；外部验证队列另行集中管理）
 > Control Manifest: 2026-04-26-v2（覆盖 ADR-001~007）
 > Review Mode: reframe-and-execute
 
 ## Sprint Goal
 
-在不依赖人工 playtest / 截图 sign-off 的前提下，关闭当前最靠近公开构建风险的缺口：
+在自动化与文档范围内关闭当前最靠近公开构建风险的缺口：
 
 1. 将 Sprint-004 新增 UI 与主流程 UI 的玩家可见文本纳入 `SRPGLocalization`
 2. 增加运行时语言切换与语言偏好持久化
 3. 增加可从游戏内访问的 Credits 入口，确保 CC-BY / OFL 署名义务可被玩家看到
 4. 修复高优先级规划漂移，为 Sprint-006 的 Ch.3 / Bond / Base 完整化提供清晰入口
 
-本 Sprint 的核心判断：Sprint 1-4 的非人工范围已经完成，Sprint 5 不应直接膨胀为 Ch.3 + Bond + Fog + Base 完整实现。先收束本地化、合规和文档权威，再进入下一章内容生产。
+本 Sprint 的核心判断：Sprint 1-4 的实现与自动化范围已经完成，Sprint 5 不应直接膨胀为 Ch.3 + Bond + Fog + Base 完整实现。先收束本地化、合规和文档权威，再进入下一章内容生产。
 
 ## Capacity
 
 - Total days: 5
 - Buffer (20%): 1 day
 - Available: 4 days
-- Sprint-004 velocity: UI + Logic 混合，8 个非人工任务完成，1 个人工 playtest backlog
+- Sprint-004 velocity: UI + Logic 混合，核心实现任务完成；外部验证队列另见 `production/sprints/sprint-人工.md`
 - Sprint-005 shape: UI/Integration + QA gate + planning repair
 
 ## 入场前提
 
 | 项 | 状态 |
 |---|---|
-| sprint-001 ~ sprint-004 非人工范围 | COMPLETE / COMPLETE WITH NOTES |
+| sprint-001 ~ sprint-004 实现与自动化范围 | COMPLETE / COMPLETE WITH NOTES |
 | stage.txt | Production |
 | localization epic | Planning，`production/epics/localization/EPIC.md` 已存在 |
 | `SRPGLocalization` | 已存在，但 key 覆盖很低，缺少运行时 locale 状态 |
 | Sprint-004 UI | 主菜单 / 管理界面 / 基地 MVP 已完成，存在大量硬编码玩家可见文本 |
 | Credits 资产清单 | `design/ux/credits.md` 已存在，标记为 public-facing build 必需 |
 | Credits screen spec | 缺失，`design/ux/credits-screen.md` 尚未创建 |
-| Ch.2 playtest 回流 | 人工 backlog，Sprint-005 不以此作为阻塞门槛 |
+| 外部验证队列 | 已集中至 `production/sprints/sprint-人工.md`，Sprint-005 不以此作为阻塞门槛 |
 | ADR-008 / ADR-009 | 尚未建立，不阻塞本 Sprint Must Have |
 
 ---
@@ -57,7 +57,7 @@
 
 | ID | Task | Agent/Owner | Est. Days | Dependencies | Acceptance Criteria |
 |----|------|-------------|-----------|-------------|-------------------|
-| GOV-001 | Sprint / Epic 权威状态同步 | producer | 0.5 | Sprint-001~004 revalidation | `production/epics/index.md` 与相关 story header 不再声称 Ch.2 / localization 的过期状态；Sprint-004 人工 backlog 明确保留 |
+| GOV-001 | Sprint / Epic 权威状态同步 | producer | 0.5 | Sprint-001~004 revalidation | `production/epics/index.md` 与相关 story header 不再声称 Ch.2 / localization 的过期状态；外部验证 backlog 指向集中队列 |
 | CH3-001 | Chapter 3 GDD skeleton / readiness brief | narrative-designer | 0.5 | Ch.2 已可自动化通过 | 创建 `design/gdd/chapter-03.md` 骨架，引用 `design/narrative/belief-branching.md` 的 B3-GATE 设计占位，不实现战斗 |
 | BOND-001 | Bond system epic readiness | producer + gameplay-programmer | 0.5 | `design/gdd/bond-system.md` | 创建 bond-system epic / story skeleton，明确与 Ch.3 特殊对白、基地酒馆、支援关系的边界 |
 | TECH-001 | 打包版 smoke 资源泄漏 triage | debugger | 0.5 | Sprint-004 packaged smoke PASS | 记录 `ObjectDB` / resources still in use 的来源；若 bounded 则修复，否则转入稳定性 backlog，不影响功能 PASS |
@@ -70,15 +70,14 @@
 | ADR-009 | 装备升级决策记录草稿 | architect | 0.25 | equipment-system GDD | 起草 ADR 或 decision brief，覆盖强化/附魔/分解是否进入 Beta |
 | BASE-FULL-001 | 基地完整版准备 brief | producer | 0.25 | `design/gdd/base-system.md` | 明确行动点、酒馆、情报室、基地升级进入 Sprint-006+ 的拆分方式 |
 | FOG-001 | Fog-of-war epic readiness | gameplay-programmer | 0.25 | `design/gdd/fog-of-war-system.md` | 输出 epic skeleton 或 backlog，暂不实现 |
-| DOC-001 | Sprint 1-4 证据状态轻量清理 | qa-lead | 0.25 | GOV-001 | 只修正文档状态漂移，不新增人工截图要求 |
+| DOC-001 | Sprint 1-4 证据状态轻量清理 | qa-lead | 0.25 | GOV-001 | 只修正文档状态漂移；外部验证证据移至集中队列 |
 
 ---
 
 ## Dependencies on External Factors
 
 - 不依赖新的美术、音乐、翻译供应商或第三方 API
-- 不依赖 Ch.2 人工 playtest 回流；该项继续作为 backlog 风险存在
-- 不依赖公开发布 sign-off；本 Sprint 只关闭可自动化处理的公开构建前置风险
+- 外部体验验证与发布签收不属于本 Sprint 自动化交付；由 `production/sprints/sprint-人工.md` 管理
 - 不引入新依赖；优先使用已有 Godot UI、SaveManager、测试框架
 - 如果 key parity 或 hardcoded string inventory 发现范围过大，优先完成主菜单、Credits、基地、管理界面、战斗结算入口，其他数据名进入明确 backlog
 
@@ -86,13 +85,12 @@
 
 ## 不在本 Sprint 范围（明确排除）
 
-- 人工 playtest、截图归档、人工视觉 sign-off
 - Chapter 3 战斗、地图、敌人、剧情正式实现
 - Bond / Fog-of-war / NG+ / Event / Audio 系统完整实现
 - 基地系统完整版（行动点、酒馆、情报室、基地升级）
 - 装备强化 / 附魔 / 分解 UI 的正式实现
 - 新语言包、自动翻译、CSV/JSON 外部导入导出、RTL 排版
-- 正式 public release sign-off
+- 正式 public release readiness
 
 ---
 
@@ -105,7 +103,7 @@
 | 当前语言系统缺少运行时状态 | LOC-002 / LOC-003 互相阻塞 | 先扩展 `SRPGLocalization.current_locale` / `set_locale`，再接 UI |
 | 数据名与 UI 文案边界不清 | key parity 测试误报或漏报 | 将 debug 字符串、resource id、数据表显示名分为不同类别 |
 | 打包版 smoke 有资源释放 warning/error | 可能掩盖退出稳定性问题 | TECH-001 只做 triage；除非修复很小，否则不阻塞 Must Have |
-| Ch.3 在无人工 playtest 下继续推进 | 设计假设可能偏离体验 | Sprint-005 只做 GDD skeleton 和 readiness，不做战斗实现 |
+| Ch.3 在体验数据不足时继续推进 | 设计假设可能偏离体验 | Sprint-005 只做 GDD skeleton 和 readiness，不做战斗实现；外部体验数据由集中队列回流 |
 
 ---
 
@@ -130,7 +128,6 @@ Day 5  : CH3-001 / BOND-001 readiness；若本地化门禁未绿，则改为 sta
 - [x] GUT 测试套件无 regression，并新增 localization / credits / locale persistence 覆盖
 - [x] 打包版 smoke 仍 PASS，且 Sprint-004 资源释放 warning 已修复
 - [x] `production/epics/index.md` 不再保留本 Sprint 可修复的高优先级状态漂移
-- [x] Sprint completion 不依赖人工 playtest、截图、人工 sign-off
 - [x] Sprint-006 handoff 明确列出 Ch.3 / Bond / Base full / Fog-of-war 的下一步范围
 
 ---
@@ -152,7 +149,7 @@ Day 5  : CH3-001 / BOND-001 readiness；若本地化门禁未绿，则改为 sta
 | ADR-009 | COMPLETE | `docs/architecture/ADR-009-equipment-upgrade-scope.md` |
 | BASE-FULL-001 | COMPLETE | `docs/active/base-full-readiness-brief.md` |
 | FOG-001 | COMPLETE | `production/epics/fog-of-war/EPIC.md` + story skeletons |
-| DOC-001 | COMPLETE | Sprint status/session/epic state repaired; human-only evidence remains explicitly deferred |
+| DOC-001 | COMPLETE | Sprint status/session/epic state repaired; external validation queue centralized in `production/sprints/sprint-人工.md` |
 
 ## Verification — 2026-04-27
 
@@ -178,8 +175,7 @@ Day 5  : CH3-001 / BOND-001 readiness；若本地化门禁未绿，则改为 sta
 
 ## Remaining Issues
 
-- Ch.2 human playtest remains backlog. Sprint-005 intentionally does not treat it as a blocker.
-- Sprint-004 screenshot/sign-off evidence remains human-only and is still deferred.
+- 外部体验验证、截图证据与发布签收队列已集中至 `production/sprints/sprint-人工.md`。
 - `ADR-008` and `ADR-009` are Draft. Accept them before implementing Base full economy sinks or equipment upgrade UI.
 - Full Chapter 3 combat, Bond runtime, Fog runtime, Base full, NG+, Event, and Audio systems remain Sprint-006+ work.
 - Credits legal attribution still preserves required license/proper-noun wording (Kevin MacLeod / Creative Commons / OFL names). Gameplay and menu-facing Chinese locale surfaces are localized.
@@ -213,3 +209,31 @@ Day 5  : CH3-001 / BOND-001 readiness；若本地化门禁未绿，则改为 sta
 3. Base full phase 1 → 行动点 + 情报室
 4. Fog-of-war MVP → 只接入需要该系统的章节地图
 5. ADR-008 / ADR-009 定稿后再进入资源经济与装备升级实现
+
+## Revalidation — 2026-04-27
+
+### 完成进展
+
+复核结论：Sprint-005 的 Must Have、Should Have 与 Nice to Have 文档/代码交付均已落地，状态为 **COMPLETE WITH SPRINT-006+ SCOPE NOTES**。
+
+| 复核项 | 结果 | 证据 |
+|---|---|---|
+| LOC-001 UI 字符串迁移与 key parity | 完成 | `src/core/localization/srpg_localization.gd` 扩展 catalog、`display_text()`、`current_locale` 与 parity helpers；`tests/unit/localization/localization_test.gd` 覆盖双语 key parity |
+| LOC-002 运行时语言切换 | 完成 | `src/ui/menu/main_menu.gd` 暴露 `LanguageButton` 并刷新主菜单/Credits 文案；`tests/integration/ui/main_menu_localization_credits_test.gd` 覆盖切换行为 |
+| LOC-003 语言偏好持久化 | 完成 | `src/core/save/save_data.gd` 有 `locale` 字段；`src/core/save/save_manager.gd` 有 `save_locale_preference()` / `load_locale_preference()` |
+| REL-001 游戏内 Credits | 完成 | `src/ui/menu/main_menu.gd` 暴露 `CreditsButton` / `CreditsLayer`；`design/ux/credits-screen.md` 记录 UI spec，Kevin MacLeod CC-BY 3.0 与 OFL 字体信息保留 |
+| REL-002 Credits / localization 门禁 | 完成 | `tests/unit/localization/localization_test.gd` 与 `tests/integration/ui/main_menu_localization_credits_test.gd` 覆盖 key parity、Credits route、署名文本 |
+| Sprint / Epic 权威状态 | 完成 | `production/sprint-status.yaml` 中 Sprint-005 条目均为 done；`production/epics/localization/EPIC.md` 标记 LOC-001~003 Complete |
+| Ch.3 / Bond / Base / Fog readiness | 完成 | `design/gdd/chapter-03.md`、`production/epics/bond-system/EPIC.md`、`docs/active/base-full-readiness-brief.md`、`production/epics/fog-of-war/EPIC.md` 均存在 |
+| ADR / smoke triage 文档 | 完成 | `docs/architecture/ADR-008-resource-economy-upgrade.md`、`docs/architecture/ADR-009-equipment-upgrade-scope.md`、`docs/active/sprint-005-packaged-smoke-resource-triage.md` 均存在 |
+| 自动化解析 | PASS | 2026-04-27 运行 `godot --headless --check-only project.godot`，退出码 0 |
+| 自动化测试入口 | PASS | 2026-04-27 运行 `godot --headless res://tests/test_runner.tscn`，退出码 0；当前仓库静态统计 817 个 `test_` 方法 |
+| Windows export | PASS | 2026-04-27 运行 `godot --headless --export-release "Windows Desktop" builds/windows/SRPG.exe`，退出码 0 |
+| 打包版冒烟 | PASS | 2026-04-27 运行 `builds/windows/SRPG.exe --headless --srpg-playthrough-smoke`，输出 `PACKAGED_PLAYTHROUGH_SMOKE PASS {"battle":"chapter_01_finale","camp_report_present":true,"management_tab":"equipment","success":true}` |
+
+### 遗留问题
+
+- 外部体验验证、截图证据与发布签收队列已集中至 `production/sprints/sprint-人工.md`。
+- `ADR-008` 与 `ADR-009` 仍为 Draft；在实现 Base full economy sinks 或 equipment upgrade UI 前需要先定稿/接受。
+- Chapter 3 正式战斗、Bond runtime、Fog runtime、Base full、NG+、Event、Audio 系统仍是 Sprint-006+ 范围。
+- Credits 法务署名中的 Kevin MacLeod / Creative Commons / OFL 专有名词应继续保持逐字可见，不应被普通本地化改写。

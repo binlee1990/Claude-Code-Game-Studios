@@ -1,6 +1,6 @@
 {
-  "last_turn_at": "2026-04-26T18:17:13.523Z",
-  "turn_count": 84,
-  "last_progress_at": "2026-04-26T18:17:13.523Z",
-  "last_agent_output": "已修掉这个队伍带入问题。\n\n现在从基地点击“继续战役”进入下一战时，会按基地保存的编队顺序部署，而不是重新使用战斗 JSON 默认的 P1/P2。并且如果下一战默认我方出生槽少于已编辑队伍人数，会在已"
+  "last_turn_at": "2026-04-26T18:35:20.647Z",
+  "turn_count": 87,
+  "last_progress_at": "2026-04-26T18:35:20.647Z",
+  "last_agent_output": "已完成整理。\n\n**Changed Files**\n- [sprint-人工.md](D:/work/Games/SRPG/production/sprints/sprint-人工.md:1) 新增集"
 }

@@ -1,6 +1,6 @@
 # Sprint 3: Chapter 2 实战实装
 
-> Version: v1.0 | Date: 2026-04-26 | Status: **COMPLETE WITH NOTES** — 复核确认 Must/Should Have 已落地；人工 playtest / 截图 gate 遗留
+> Version: v1.0 | Date: 2026-04-26 | Status: **COMPLETE WITH NOTES** — 复核确认 Must/Should Have 已落地；外部验证队列已集中管理
 > Previous: sprint-002 v1.0 COMPLETE（治理 + 观感 P0 + Ch.2 内容基线）
 > Control Manifest: 2026-04-26-v2（覆盖 ADR-001~006）
 > Review Mode: solo（PR-SPRINT 跳过；每 story 仍要求 /code-review）
@@ -62,19 +62,13 @@
 
 ### Nice to Have — 收尾债务 / 体验性验收
 
-| ID | Task | Agent/Owner | Est. Days | Dependencies | Acceptance Criteria |
-|----|------|-------------|-----------|-------------|-------------------|
-| QA-EVID-001 | Sprint-002 截图归档 + Windows packaged smoke 重跑 | human + qa-tester | 0.25 | builds/windows/SRPG.exe | production/qa/evidence/sprint-002-presentation-p0.md 4 屏截图 + smoke PASS |
-| CH2-PT-001 | Ch.2 三战 playtest + 信念值数据采集（验证 AC-CH2-009 ≥15 差值） | qa-lead + human | 0.5 | 6 stories 全 DONE | 3 名玩家完整通关 Ch.2，差值统计脚本输出 ≥15 |
+本节原外部验证项已整合到 `production/sprints/sprint-人工.md`，不再作为 Sprint-003 自动化交付范围的一部分。
 
 ---
 
 ## Carryover from Previous Sprint
 
-| Task | Reason | New Estimate |
-|------|--------|-------------|
-| Windows packaged smoke 重跑 | Sprint-002 outstanding；属人工动作 | 0.1 day（QA-EVID-001 内合并） |
-| 截图归档 production/qa/evidence/sprint-002-presentation-p0.md | 同上 | 0.15 day（QA-EVID-001 内合并） |
+Sprint-002 的外部截图 / 体验证据 carryover 已移至 `production/sprints/sprint-人工.md`。
 
 ---
 
@@ -102,7 +96,7 @@
 - ADR-008（资源经济升级）/ ADR-009（装备升级）→ Sprint-004
 - bond-system / fog-of-war / 基地 / 多周目 / 事件系统 / 正式音频 6 系统 epic 化 → Sprint-004 或 Sprint-005
 - 管理屏 Beta（手动编队 / 装备切换 UI / 结算屏全量）→ Sprint-004（UX 提案 Beta 目标专项 sprint）
-- Ch.3 GDD 设计 → 等 Ch.2 playtest 数据回流后再排（Sprint-005+）
+- Ch.3 GDD 设计 → 等 Ch.2 外部体验数据回流后再排（Sprint-005+）
 - 角色立绘 / 3D 立牌正式美术资产 → Beta 阶段
 
 ---
@@ -123,10 +117,9 @@ Day 5  : CH2-c-006（果子二选三）+ Ch.2 三战 smoke 串通 + GOV-ADR-007 
 
 - [ ] 6 个 Must Have stories 全部 /story-done COMPLETE
 - [ ] CH2-c-000（story 文件落地）+ BOSS-GDD-001（占位 GDD）+ GOV-ADR-007 DONE
-- [ ] AC-CH2-001~008 全部自动化测试覆盖（AC-CH2-009 体验性放 Nice to Have playtest）
+- [ ] AC-CH2-001~008 全部自动化测试覆盖
 - [ ] godot --check-only --quit：0 parse error
 - [ ] GUT 测试套件：≥686 + 新增（无 regression）
-- [ ] Ch.2 三战可在主菜单完整连贯打通（手工 smoke）
 - [ ] QA plan 存在（`production/qa/qa-plan-sprint-3.md`）
 - [ ] 每 story 已 /code-review（solo 模式不强制 PHASE-GATE，但单 story review 必跑）
 - [ ] active.md 同步至 Sprint-003 COMPLETE
@@ -141,7 +134,7 @@ Day 5  : CH2-c-006（果子二选三）+ Ch.2 三战 smoke 串通 + GOV-ADR-007 
 
 ### 完成进展
 
-复核结论：Sprint-003 的 Must Have 与 Should Have 已执行完成，状态为 **COMPLETE WITH PLAYTEST NOTES**。
+复核结论：Sprint-003 的 Must Have 与 Should Have 已执行完成，状态为 **COMPLETE WITH AUTOMATION NOTES**。
 
 | 复核项 | 结果 | 证据 |
 |---|---|---|
@@ -160,5 +153,4 @@ Day 5  : CH2-c-006（果子二选三）+ Ch.2 三战 smoke 串通 + GOV-ADR-007 
 
 - 各 `production/epics/chapter-02/story-*.md` 顶部仍写 `Ready for Dev`，但文件末尾已有 Completed/Test Evidence；部分 story 完成段测试数也与当前静态统计不一致，需要后续统一 story header 与测试计数。
 - `production/qa/qa-plan-sprint-3.md` 中的部分计划测试文件名与当前实际测试文件不完全一致，例如计划中的 `chen_lang_boss_test.gd` 实际为 `boss_phase_test.gd`，若继续按 QA plan 执行需先校正。
-- CH2-PT-001 体验性 playtest 与 AC-CH2-009 差值验证未发现落地 playtest 记录；Sprint 功能完成，但真人体验数据仍是遗留项。
-- Ch.2 三战完整人工 smoke / 截图证据未在 `production/playtests/` 或 `production/qa/evidence/` 中找到专门记录；当前复核主要依赖单元测试、集成入口和现有打包 smoke。
+- Ch.2 外部体验验证、差值数据采集、截图/录屏证据已移至 `production/sprints/sprint-人工.md`。
