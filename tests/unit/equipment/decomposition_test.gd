@@ -1,13 +1,15 @@
 extends Gut
 
+const InventoryScript := preload("res://src/core/resource/inventory.gd")
+
 var _unit: Unit
-var _inventory: Inventory
+var _inventory
 
 func before_each() -> void:
 	_unit = Unit.new()
 	_unit.name = "DecomposeUnit"
 	add_child(_unit)
-	_inventory = Inventory.new()
+	_inventory = InventoryScript.new()
 	_inventory.name = "Inventory"
 	add_child(_inventory)
 

@@ -117,6 +117,7 @@ compensated_exp = base_exp × exp_multiplier
 - **多周目系统**：难度倍率选择是新周目启动的一部分
 - **AI 系统**：高难度提升 AI 策略等级
 - **资源经济**：掉落倍率由难度决定
+- **HP系统**：敌人 max_hp 调用 `BattleDifficultyProfile.scale_enemy_hp(entry.hp, profile)` 应用倍率；玩家 max_hp 不受倍率影响（公式独立派生）
 
 ## Tuning Knobs
 

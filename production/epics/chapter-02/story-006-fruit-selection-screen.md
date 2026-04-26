@@ -130,9 +130,14 @@ progress_data.fruit_selection_done = true
 
 ## Completion Notes
 
-**Completed**: YYYY-MM-DD
-**Criteria**: X/X AC passing
+**Completed**: 2026-04-26
+**Criteria**: 3/3 AC passing
 **Deviations**: None
-**Test Evidence**: `tests/unit/chapter02/fruit_selection_test.gd` — N/N PASS
+**Test Evidence**: `tests/unit/chapter02/fruit_selection_test.gd` — 18/18 PASS
 **Code Review**: /code-review
-**Files Delivered**: (list files)
+**Files Delivered**:
+- `src/core/settlement/fruit_selection.gd` (new)
+- `src/ui/settlement/fruit_selection_screen.tscn` (modified)
+- `src/core/save/progress_data.gd` (modified — added `fruit_selection_done` field)
+- `tests/unit/chapter02/fruit_selection_test.gd` (new)
+- `tests/tests_manifest.txt` (modified)

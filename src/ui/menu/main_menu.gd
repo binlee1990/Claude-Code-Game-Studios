@@ -9,6 +9,7 @@ const BATTLE_SCENE_PATH := "res://src/ui/combat/battle_arena.tscn"
 
 @onready var start_button: Button = $VBox/StartButton
 @onready var continue_button: Button = $VBox/ContinueButton
+@onready var base_button: Button = $VBox/BaseButton
 @onready var settings_button: Button = $VBox/SettingsButton
 @onready var quit_button: Button = $VBox/QuitButton
 
@@ -19,6 +20,7 @@ func _ready() -> void:
 	_build_visuals()
 	start_button.pressed.connect(_on_start_pressed)
 	continue_button.pressed.connect(_on_continue_pressed)
+	base_button.pressed.connect(_on_base_pressed)
 	settings_button.pressed.connect(_on_settings_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)
 	_chapter2_button.pressed.connect(_on_chapter2_pressed)
@@ -32,6 +34,8 @@ func _ready() -> void:
 		call_deferred("_run_packaged_playthrough_smoke")
 
 func _setup_bgm() -> void:
+	if DisplayServer.get_name() == "headless":
+		return
 	var stream: AudioStream = load("res://assets/audio/bgm/main_menu_bgm.ogg")
 	if stream == null:
 		return
@@ -64,6 +68,9 @@ func _on_continue_pressed() -> void:
 	# 加载存档
 	SaveManager.load_game(1)
 	SceneManager.switch_scene("battle")
+
+func _on_base_pressed() -> void:
+	SceneManager.switch_scene("base")
 
 func _on_settings_pressed() -> void:
 	if _status_label != null:
@@ -142,10 +149,12 @@ func _build_visuals() -> void:
 
 	start_button.text = "开始游戏（Chapter 1）"
 	continue_button.text = "读取存档"
+	base_button.text = "基地"
 	settings_button.text = "设置"
 	quit_button.text = "退出"
 	SRPGTheme.apply_button(start_button, true)
 	SRPGTheme.apply_button(continue_button)
+	SRPGTheme.apply_button(base_button)
 	SRPGTheme.apply_button(settings_button)
 	SRPGTheme.apply_button(quit_button, false, true)
 

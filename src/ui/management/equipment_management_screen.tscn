@@ -1,0 +1,126 @@
+[gd_scene load_steps=2 format=3 uid="uid://equipment_management"]
+
+[ext_resource type="Script" path="res://src/ui/management/equipment_management.gd" id="1_equip_mgr"]
+
+[node name="EquipmentManagement" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_equip_mgr")
+
+[node name="HSplit" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="LeftPanel" type="Panel" parent="HSplit"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(280, 0)
+
+[node name="LeftContent" type="VBoxContainer" parent="HSplit/LeftPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="FilterRow" type="HBoxContainer" parent="HSplit/LeftPanel/LeftContent"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="AllBtn" type="Button" parent="HSplit/LeftPanel/LeftContent/FilterRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(60, 28)
+text = "All"
+
+[node name="WeaponBtn" type="Button" parent="HSplit/LeftPanel/LeftContent/FilterRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(72, 28)
+text = "Weapon"
+
+[node name="ArmorBtn" type="Button" parent="HSplit/LeftPanel/LeftContent/FilterRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(72, 28)
+text = "Armor"
+
+[node name="HelmetBtn" type="Button" parent="HSplit/LeftPanel/LeftContent/FilterRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(72, 28)
+text = "Helmet"
+
+[node name="LegsBtn" type="Button" parent="HSplit/LeftPanel/LeftContent/FilterRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(72, 28)
+text = "Legs"
+
+[node name="BootsBtn" type="Button" parent="HSplit/LeftPanel/LeftContent/FilterRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(72, 28)
+text = "Boots"
+
+[node name="AccBtn" type="Button" parent="HSplit/LeftPanel/LeftContent/FilterRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(72, 28)
+text = "Accessory"
+
+[node name="NameLabel" type="Label" parent="HSplit/LeftPanel/LeftContent"]
+layout_mode = 2
+text = "Character Name"
+
+[node name="StatsLabel" type="Label" parent="HSplit/LeftPanel/LeftContent"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "STR +0  AGI +0  CON +0  INT +0"
+
+[node name="Divider" type="Label" parent="HSplit/LeftPanel/LeftContent"]
+layout_mode = 2
+text = "--- Equipment ---"
+
+[node name="SlotsContainer" type="VBoxContainer" parent="HSplit/LeftPanel/LeftContent"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 6
+
+[node name="RightPanel" type="Panel" parent="HSplit"]
+layout_mode = 2
+size_flags_horizontal = 4
+custom_minimum_size = Vector2(360, 0)
+
+[node name="RightContent" type="VBoxContainer" parent="HSplit/RightPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="InvLabel" type="Label" parent="HSplit/RightPanel/RightContent"]
+layout_mode = 2
+text = "Inventory"
+
+[node name="HintLabel" type="Label" parent="HSplit/RightPanel/RightContent"]
+layout_mode = 2
+text = "Click item to equip"
+
+[node name="InvScroll" type="ScrollContainer" parent="HSplit/RightPanel/RightContent"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 2
+vertical_scroll_mode = 1
+
+[node name="InvGrid" type="GridContainer" parent="HSplit/RightPanel/RightContent/InvScroll"]
+layout_mode = 2
+columns = 3
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4

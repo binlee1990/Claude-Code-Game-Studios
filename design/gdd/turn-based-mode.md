@@ -264,6 +264,7 @@ movement_cost = terrain_cost × base_movement
 |--------|---------------|-------------------|
 | **战斗系统** | 数据消费者 | 回合制调用战斗系统执行伤害计算、状态更新等 |
 | **角色管理** | 数据消费者 | 回合制涉及角色HP、MP、状态管理 |
+| **HP系统** | 数据消费者 | 回合制在 register_unit 时调用 `unit.get_max_hp()` 派生玩家 max_hp（敌人仍走 battle_definition + difficulty 倍率） |
 
 ## Tuning Knobs
 

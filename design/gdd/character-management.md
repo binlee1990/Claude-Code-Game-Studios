@@ -121,6 +121,7 @@ roster_payload = Σ character_entry(unit_data, status, party_index, departure_me
 |--------|---------------|-------------------|
 | **属性与成长系统** | 硬依赖 | 角色管理使用属性数据；退场条件基于HP=0 |
 | **回合制模式** | 硬依赖 | 回合制模式调用角色管理进行编队控制 |
+| **HP系统** | 硬依赖 | 角色详情面板调用 `unit.get_max_hp()` 显示静态 HP（战外永远满血，HP=0 退场判定与战斗结束自动恢复保持一致） |
 
 ## Tuning Knobs
 

@@ -422,6 +422,7 @@ TRIGGER = (attribute_type ∈ {STR, AGI, CON, INT, CHA})
 | 羁绊系统 | 软依赖 | 角色属性快照 | 本系统 → 羁绊系统 |
 | 资源经济 | 软依赖 | 果子/壁障突破资源消耗定义 | 资源经济 → 本系统 |
 | 回合制模式 | 软依赖 | 角色等级上限设定 | 回合制模式 → 本系统 |
+| HP系统 | 硬依赖 | `get_effective_attribute(CON) → int` | 本系统 → HP系统 |
 
 ### 依赖说明
 

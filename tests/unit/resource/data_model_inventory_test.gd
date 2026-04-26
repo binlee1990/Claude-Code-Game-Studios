@@ -4,16 +4,22 @@
 
 extends Gut
 
-var _inventory: Inventory
+const InventoryScript := preload("res://src/core/resource/inventory.gd")
+
+var _inventory
 
 func before_each() -> void:
-	_inventory = Inventory.new()
-	_inventory.name = "Inventory"
-	add_child(_inventory)
+	_inventory = _new_inventory("Inventory")
 
 func after_each() -> void:
 	if is_instance_valid(_inventory):
 		_inventory.queue_free()
+
+func _new_inventory(node_name: String):
+	var inventory = InventoryScript.new()
+	inventory.name = node_name
+	add_child(inventory)
+	return inventory
 
 
 # Basic operations
@@ -147,9 +153,7 @@ func test_serialization_round_trip() -> void:
 	_inventory.add_resource(ResourceTypes.ResourceId.ACHIEVEMENT, 2500)
 
 	var data: Dictionary = _inventory.serialize()
-	var loaded := Inventory.new()
-	loaded.name = "LoadedInv"
-	add_child(loaded)
+	var loaded = _new_inventory("LoadedInv")
 	loaded.deserialize(data)
 
 	assert_eq(loaded.get_amount(ResourceTypes.ResourceId.GOLD), 5000)

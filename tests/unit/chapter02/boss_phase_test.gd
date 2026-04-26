@@ -50,6 +50,12 @@ func test_boss_defeated_at_zero_hp() -> void:
 	assert_eq(_boss.get_current_phase(), BossPhaseController.Phase.DEFEATED,
 		"HP=0 should trigger DEFEATED")
 
+func test_zero_max_hp_is_clamped_before_phase_ratio() -> void:
+	_boss.init(0, 1)
+	_boss.on_boss_hp_changed(0)
+	assert_eq(_boss.get_boss_max_hp(), 1)
+	assert_eq(_boss.get_current_phase(), BossPhaseController.Phase.DEFEATED)
+
 # --- Skip threshold: single hit crosses multiple phases ---
 
 func test_single_hit_crosses_two_phases() -> void:

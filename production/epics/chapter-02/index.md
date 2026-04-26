@@ -4,7 +4,7 @@
 > **GDD**: design/gdd/chapter-02.md
 > **Narrative Reference**: design/narrative/belief-branching.md
 > **Architecture Module**: Content / Combat
-> **Status**: Planning
+> **Status**: Content - Ready for Playtest
 > **Stories**: 6 stories created (placeholders — implement after GDD /design-review PASS)
 
 ## Overview
@@ -41,10 +41,10 @@
 | # | Story ID | 描述 | 类型 | Status | TR-ID |
 |---|----------|------|------|--------|-------|
 | 001 | CH2-c-001 | 章节路由与信念值分叉逻辑（Ch.2-1 结算后读取 belief_values，决定 act_b branch_variant） | Logic | Done | TR-ch2-001 |
-| 002 | CH2-c-002 | NPC 王秀护送 AI（A* 寻路 + 畏缩 + 安全区到达判定 + 退场剧情） | Logic | Ready | TR-ch2-002 |
+| 002 | CH2-c-002 | NPC 王秀护送 AI（A* 寻路 + 畏缩 + 安全区到达判定 + 退场剧情） | Logic | Done | TR-ch2-002 |
 | 003 | CH2-c-003 | 护卫姿态伤害分摊系统（触发条件、分摊公式、护卫单位受伤结算） | Logic | Done | TR-ch2-003 |
 | 004 | CH2-c-004 | 镇压战特殊结算（逃离计数、部分失败判定、豪强击杀计数对比） | Logic | Done | TR-ch2-004 |
-| 005 | CH2-c-005 | Boss·陈朗三阶段实装（阶段检查点、援军回合触发、阶段行为切换） | Logic | Ready | TR-ch2-005 |
+| 005 | CH2-c-005 | Boss·陈朗三阶段实装（阶段检查点、援军回合触发、阶段行为切换） | Logic | Done | TR-ch2-005 |
 | 006 | CH2-c-006 | 果子二选三结算界面（强制弹窗、选择写入库存、中断重载保护） | Logic | Done | TR-ch2-006 |
 
 ## Definition of Done

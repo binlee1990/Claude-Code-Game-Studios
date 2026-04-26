@@ -223,6 +223,28 @@ const CLASS_BONUSES: Dictionary = {
 	ClassID.SPC_SOVEREIGN:   [10,  5, 10, 10, 15,  5,  5,  5,  5],
 }
 
+## Per-class base HP (used by HpFormula). Reflects archetype durability.
+const CLASS_BASE_HP: Dictionary = {
+	ClassID.BASIC_WARRIOR:    40,
+	ClassID.BASIC_MAGE:       25,
+	ClassID.BASIC_ARCHER:     28,
+	ClassID.BASIC_ROGUE:      28,
+	ClassID.BASIC_CLERIC:     32,
+	ClassID.BASIC_KNIGHT:     50,
+	ClassID.ADV_SWORDMASTER:  45,
+	ClassID.ADV_BATTLEMAGE:   30,
+	ClassID.ADV_MARKSMAN:     32,
+	ClassID.ADV_ASSASSIN:     30,
+	ClassID.ADV_HIGHCLERIC:   38,
+	ClassID.ADV_PALADIN:      55,
+	ClassID.SPC_DRAGONKNIGHT: 60,
+	ClassID.SPC_NIGHTSHADE:   35,
+	ClassID.SPC_SOVEREIGN:    45,
+}
+
+static func get_class_base_hp(class_id: int) -> int:
+	return CLASS_BASE_HP.get(class_id, 30)
+
 static func get_tier(class_id: int) -> int:
 	return CLASS_DEFS[class_id]["tier"]
 

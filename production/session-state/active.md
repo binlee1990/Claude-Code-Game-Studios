@@ -3,11 +3,59 @@
 **Last Updated**: 2026-04-26
 
 ## Current Task
-**Sprint-003 LAUNCHED** — 主题：Chapter 2 实战实装。Plan 已写盘，待 /qa-plan sprint。
+**Sprint-004 COMPLETE** — 管理界面 Beta + 基地系统 MVP
 
-Active stage: Production. Sprint-002 COMPLETE（686/686 PASS，三 lane 全 DONE）。
+Active stage: Production. Sprint-004 COMPLETE（8 stories 全 DONE）。
 
-## Sprint-003 概要（2026-04-26 → 2026-05-01）
+## Sprint-004 最终状态
+
+| 类别 | 数量 | 状态 |
+|------|------|------|
+| Must Have | 5 | ✅ 全 DONE |
+| Should Have | 3 | ✅ 全 DONE |
+| Nice to Have | 2 | ✅ 1 DONE，1 待人工 |
+| godot --check-only | - | ✅ 0 parse error |
+
+### Sprint-004 交付物
+
+| Story | 新建/修改文件 |
+|-------|--------------|
+| MGMT-001 | character_management.gd, character_tab_bar.gd, character_management_screen.tscn |
+| MGMT-002 | equipment_management.gd, equipment_management_screen.tscn |
+| MGMT-003 | battle_arena.gd（Tab 整合） |
+| MGMT-004 | battle_arena.gd（存档集成） |
+| MGMT-005 | main_menu.gd/tscn, battle_arena.gd（基地入口） |
+| BASE-001 | base_hub.gd, base_hub.tscn |
+| BASE-002 | training_ground.gd |
+| BASE-003 | base_hub.gd（市集），Inventory 升为 Autoload |
+
+### 遗留（Nice to Have - 待人工）
+
+| Story | 状态 | 说明 |
+|-------|--------|------|
+| BASE-004 | ⏳ backlog | 需要人工执行 Ch.2 playtest 验证培养闭环 |
+
+---
+
+## Sprint-003 最终状态
+
+| 类别 | 数量 | 状态 |
+|------|------|------|
+| Must Have | 6 | ✅ 全 DONE |
+| Should Have | 3 | ✅ 全 DONE |
+| Nice to Have | 2 | ✅ 人工已标 DONE |
+| 测试新增 | 78 | ✅ 764/764 PASS |
+
+## Sprint-004 概要（2026-04-26 → 2026-05-01）
+
+- Plan: `production/sprints/sprint-004.md`（v1.0 COMPLETE）
+- Goal: 管理界面 Beta（角色+装备 UI）+ 基地系统 MVP（训练场+市集）
+
+---
+
+## Sprint-003 历史（参考）
+
+### Sprint-003 概要（2026-04-26 → 2026-05-01）
 
 - Plan: `production/sprints/sprint-003.md`（v1.0 PLANNING）
 - Status YAML: `production/sprint-status.yaml`

@@ -47,13 +47,13 @@ func load_config(config: Dictionary) -> void:
 	_reinforce_phase3_early_turn = config.get("reinforce_phase3_early_turn", 10)
 	_reinforcement_scheduled_turn = _reinforce_trigger_turn
 	if config.has("boss_max_hp"):
-		_boss_max_hp = config["boss_max_hp"]
+		_boss_max_hp = maxi(int(config["boss_max_hp"]), 1)
 		_boss_current_hp = _boss_max_hp
 
 ## Initialize with boss HP. Call before battle starts.
 func init(max_hp: int, start_turn: int = 1) -> void:
-	_boss_max_hp = max_hp
-	_boss_current_hp = max_hp
+	_boss_max_hp = maxi(max_hp, 1)
+	_boss_current_hp = _boss_max_hp
 	_current_turn = start_turn
 	_current_phase = Phase.PHASE_1
 	_checkpoints.clear()
@@ -64,7 +64,7 @@ func init(max_hp: int, start_turn: int = 1) -> void:
 ## Returns array of phase transitions that occurred (may be >1 if HP skips thresholds).
 func on_boss_hp_changed(new_hp: int) -> Array[Dictionary]:
 	_boss_current_hp = maxi(new_hp, 0)
-	var hp_pct: float = float(_boss_current_hp) / float(_boss_max_hp)
+	var hp_pct: float = float(_boss_current_hp) / float(maxi(_boss_max_hp, 1))
 	var transitions: Array[Dictionary] = []
 
 	# Check each threshold from current phase onward

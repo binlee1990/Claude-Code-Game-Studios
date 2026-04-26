@@ -131,6 +131,11 @@ func learn_skill(skill_id: StringName) -> bool:
 func get_skill(skill_id: StringName) -> SkillData:
 	return skill_component.get_skill(skill_id)
 
+## Get derived max HP via HpFormula.
+## Outside combat units are always treated as full HP — current HP is owned by combat_system.
+func get_max_hp() -> int:
+	return HpFormula.calculate_max_hp(self)
+
 ## Get effective attribute value (base + class bonus, suspended if below threshold)
 func get_effective_attribute(attr_type: int) -> int:
 	var base: int = attributes.get_value(attr_type)

@@ -137,9 +137,14 @@ else:
 
 ## Completion Notes
 
-**Completed**: YYYY-MM-DD
-**Criteria**: X/X AC passing
+**Completed**: 2026-04-26
+**Criteria**: 3/3 AC passing
 **Deviations**: None
-**Test Evidence**: `tests/unit/chapter02/suppression_settlement_test.gd` — N/N PASS
+**Test Evidence**: `tests/unit/chapter02/suppression_settlement_test.gd` — 8/8 PASS
 **Code Review**: /code-review
-**Files Delivered**: (list files)
+**Files Delivered**:
+- `src/core/settlement/suppression_battle_settlement.gd` (new)
+- `src/core/save/progress_data.gd` (modified — added `flee_count`, `player_kill_count`, `npc_kill_count` fields)
+- `assets/data/chapter_02_config.json` (modified — added `suppression_flee_limit=4`)
+- `tests/unit/chapter02/suppression_settlement_test.gd` (new)
+- `tests/tests_manifest.txt` (modified)

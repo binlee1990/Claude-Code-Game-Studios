@@ -1,10 +1,12 @@
 # Claude Code Game Studios -- Game Studio Agent Architecture
 
-**Remember**: Think in English, respond to user in Chinese.
+## 核心规则
 
-所有文档使用中文输出。
-
-- **必问协议**: 决策节点（Schema 字段取舍、实体建模边界、Cypher 建模方式、Phase 范围变更）一律调用 `AskUserQuestion`，至少 4 个选项，其中 1 个 "(Recommended)" 并附理由。不猜测、不默认。
+1. **语言**: 用英文思考，用中文回复。质量优先于速度——需求未明确前不急于动手。
+2. **决策**: 需要用户做决定时，用 `AskUserQuestion` 工具交互，至少提供4个选项，必须含一个推荐项并附理由。
+3. **风格**: 极简输出——直接给结果，不重复、不总结、不废话。
+4. **文档输出/生成**: 统一使用中文生成，必要时再转换为英文。
+5. **必问协议**: 决策节点（Schema 字段取舍、实体建模边界、Cypher 建模方式、Phase 范围变更）一律调用 `AskUserQuestion`，至少 4 个选项，其中 1 个 "(Recommended)" 并附理由。不猜测、不默认。
 
 Indie game development managed through 48 coordinated Claude Code subagents.
 Each agent owns a specific domain, enforcing separation of concerns and quality.

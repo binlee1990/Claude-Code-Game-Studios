@@ -114,7 +114,7 @@ func get_enhancement_cost(item_id: StringName) -> Dictionary:
 		return {}
 	return ResourceFormulas.calculate_enhancement_cost(100, item.enhancement_level)
 
-func attempt_enhancement(item_id: StringName, inventory: Inventory, use_protection: bool = false, rng_seed: int = 0) -> Dictionary:
+func attempt_enhancement(item_id: StringName, inventory, use_protection: bool = false, rng_seed: int = 0) -> Dictionary:
 	var item: EquipmentItem = get_item(item_id)
 	if item == null:
 		return {"success": false, "reason": "missing_item"}
@@ -137,7 +137,7 @@ func attempt_enhancement(item_id: StringName, inventory: Inventory, use_protecti
 	result["protection_consumed"] = protection_active
 	return result
 
-func decompose_item(item_id: StringName, inventory: Inventory = null, rng_seed: int = 0) -> Dictionary:
+func decompose_item(item_id: StringName, inventory = null, rng_seed: int = 0) -> Dictionary:
 	var item: EquipmentItem = get_item(item_id)
 	if item == null:
 		return {"success": false, "reason": "missing_item"}

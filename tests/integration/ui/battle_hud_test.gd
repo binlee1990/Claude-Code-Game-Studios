@@ -33,7 +33,7 @@ func test_health_change_reactively_updates_hp_bar() -> void:
 
 func test_resource_hud_updates_from_inventory_events() -> void:
 	var before_text: String = (_battle._resource_labels["gold"] as Label).text
-	_battle._inventory.add_resource(ResourceTypes.ResourceId.GOLD, 25)
+	Inventory.add_resource(ResourceTypes.ResourceId.GOLD, 25)
 	var after_text: String = (_battle._resource_labels["gold"] as Label).text
 	assert_ne(before_text, after_text)
 	assert_true(after_text.contains("525"), "Gold HUD should reflect inventory updates")

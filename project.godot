@@ -17,5 +17,6 @@ config/features=PackedStringArray("4.6", "Forward Plus")
 [autoload]
 
 GameEvents="*res://src/core/autoload/game_events.gd"
+Inventory="*res://src/core/resource/inventory.gd"
 SaveManager="*res://src/core/save/save_manager.gd"
 SceneManager="*res://src/core/scene/scene_manager.gd"

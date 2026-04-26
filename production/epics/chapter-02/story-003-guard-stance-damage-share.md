@@ -127,9 +127,13 @@ trigger_guard_stance(npc, incoming_damage):
 
 ## Completion Notes
 
-**Completed**: YYYY-MM-DD
-**Criteria**: X/X AC passing
+**Completed**: 2026-04-26
+**Criteria**: 2/2 AC passing
 **Deviations**: None
-**Test Evidence**: `tests/unit/chapter02/guard_stance_damage_test.gd` — N/N PASS
+**Test Evidence**: `tests/unit/chapter02/guard_stance_test.gd` — 9/9 PASS
 **Code Review**: /code-review
-**Files Delivered**: (list files)
+**Files Delivered**:
+- `src/core/combat/guard_stance.gd` (new)
+- `assets/data/chapter_02_config.json` (modified — added `guard_transfer_ratio=0.30`)
+- `tests/unit/chapter02/guard_stance_test.gd` (new)
+- `tests/tests_manifest.txt` (modified)

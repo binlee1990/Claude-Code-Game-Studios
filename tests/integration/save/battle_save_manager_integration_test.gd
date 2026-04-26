@@ -112,7 +112,7 @@ func test_save_manager_restores_chapter_one_settlement_rewards() -> void:
 
 	assert_true(restored._settlement_reward_summary.get("rewards_enabled", false), "Settlement summary should restore")
 	assert_true(int(restored._settlement_reward_summary.get("gold_awarded", 0)) > 0, "Saved settlement should keep gold reward")
-	assert_true(restored._inventory.get_amount(ResourceTypes.ResourceId.GOLD) > 500, "Rewarded inventory should restore")
+	assert_true(Inventory.get_amount(ResourceTypes.ResourceId.GOLD) > 500, "Rewarded inventory should restore")
 	assert_true(restored.get_story_progress().get("chapter_01_complete", false), "Victory story progress should restore")
 	restored._toggle_menu()
 	restored.set_active_menu_tab("settlement")

@@ -419,6 +419,7 @@ class_level = floor(E_c / CAP_c) + 1
 | **羁绊系统** | 无直接依赖 | 羁绊系统不直接依赖职业系统；但羁绊buff可能影响属性从而间接影响职业解锁 |
 | **回合制模式** | 无直接依赖 | 回合制模式不直接依赖职业系统；但职业影响AI行为模式 |
 | **UI系统** | 数据消费者 | UI系统渲染职业界面、解锁进度条、转职确认框；依赖本系统提供的数据结构 |
+| **HP系统** | 数据消费者 | 本系统提供 `CLASS_BASE_HP[class_id]` 与 `get_class_level()`；HP 公式据此计算 `class_base_hp + level × LEVEL_COEFFICIENT` |
 
 ### Dependency Details
 

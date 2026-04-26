@@ -98,13 +98,34 @@ func test_chapter_one_victory_updates_story_progress() -> void:
 	assert_true(int(summary.get("gold_awarded", 0)) > 0, "Victory should award gold")
 	assert_true(int(summary.get("materials_awarded", 0)) > 0, "Victory should award materials")
 	assert_true(int(summary.get("equipment_count", 0)) >= 1, "Boss victory should drop equipment")
-	assert_true(_battle._inventory.get_amount(ResourceTypes.ResourceId.GOLD) > 500, "Victory rewards should apply to inventory")
+	assert_true(Inventory.get_amount(ResourceTypes.ResourceId.GOLD) > 500, "Victory rewards should apply to inventory")
 	assert_true(actor.class_component.get_current_class_exp() > 0, "Victory EXP should apply to surviving player class progress")
 
 	_battle._toggle_menu()
 	_battle.set_active_menu_tab("settlement")
 	assert_true(_battle._menu_content_label.text.contains("Gold"), "Settlement tab should show reward details")
 	assert_true(_battle._menu_content_label.text.contains("Equipment"), "Settlement tab should show equipment details")
+
+func test_chapter_two_entry_loads_act_a_without_inventory_shadowing() -> void:
+	if is_instance_valid(_battle):
+		_battle.free()
+	var sd := SaveData.new()
+	sd.battle_state = {
+		"battle_definition_path": "res://src/ui/combat/battle_definitions/chapter_02_act_a.json",
+	}
+	sd.story_progress = {
+		"chapter": 2,
+		"current_battle": "chapter_02_act_a",
+		"chapter_02_started": true,
+	}
+	SaveManager._pending_loaded_data = sd
+	var scene: PackedScene = load("res://src/ui/combat/battle_arena.tscn")
+	_battle = scene.instantiate()
+	add_child(_battle)
+
+	assert_eq(_battle.get_battle_id(), "chapter_02_act_a")
+	assert_eq(_battle.get_story_progress().get("chapter", 0), 2)
+	assert_true(Inventory.get_amount(ResourceTypes.ResourceId.GOLD) >= 0, "Chapter 2 entry should use Inventory autoload without a local shadow")
 
 func test_campaign_advance_loads_follow_up_battle_and_camp_path() -> void:
 	_defeat_current_enemies()

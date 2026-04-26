@@ -307,6 +307,7 @@ new_enhancement_level = max(0, current_level - downgrade_penalty)
 | **战斗系统** | 数据消费者 | 战斗系统读取装备属性计算最终属性；装备词缀影响战斗数值 |
 | **基地系统** | 数据消费者 | 基地提供装备锻造功能 |
 | **羁绊系统** | 无直接依赖 | 羁绊buff可能影响装备选择 |
+| **HP系统** | 数据消费者 | HP 公式调用 `EquipmentComponent.get_stat_bonus("hp")` 聚合 AffixType.HP 词缀与 4 件套 hp 加成 |
 
 ## Tuning Knobs
 

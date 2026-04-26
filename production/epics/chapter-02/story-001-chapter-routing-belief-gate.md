@@ -132,9 +132,13 @@ belief_values.{ren|yi|zhi} = clamp(value, 0, 100)
 
 ## Completion Notes
 
-**Completed**: YYYY-MM-DD
-**Criteria**: X/X AC passing
+**Completed**: 2026-04-26
+**Criteria**: 5/5 AC passing
 **Deviations**: None
-**Test Evidence**: `tests/unit/chapter02/branch_gate_test.gd` — N/N PASS
+**Test Evidence**: `tests/unit/chapter02/branch_gate_test.gd` — 12/12 PASS
 **Code Review**: /code-review
-**Files Delivered**: (list files)
+**Files Delivered**:
+- `src/core/belief/belief_gate.gd` (new)
+- `src/core/save/progress_data.gd` (modified — added `belief_branch` field)
+- `tests/unit/chapter02/branch_gate_test.gd` (new)
+- `tests/tests_manifest.txt` (modified)

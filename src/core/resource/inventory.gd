@@ -1,4 +1,3 @@
-class_name Inventory
 extends Node
 
 ## Manages all囤积 (stockpilable) resources for the player.
@@ -9,7 +8,11 @@ signal resource_overflow(resource_type: int, discarded: int)
 var _resources: Dictionary = {}
 
 func _ready() -> void:
-	# Initialize all resources to 0
+	reset()
+
+## Reset all tracked resources to zero.
+func reset() -> void:
+	_resources.clear()
 	for res in ResourceTypes.all_resource_ids():
 		_resources[res] = 0
 
@@ -62,5 +65,6 @@ func serialize() -> Dictionary:
 
 ## Load from serialized data
 func deserialize(data: Dictionary) -> void:
+	reset()
 	for key in data:
 		_resources[int(key)] = data[key]

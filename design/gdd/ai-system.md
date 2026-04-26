@@ -327,6 +327,7 @@ ai_think_time = base_time + complexity_penalty
 | **战斗系统** | 数据消费者 | AI的攻击/治疗/移动指令由战斗系统执行 |
 | **关卡设计** | 数据消费者 | 关卡设计使用AI配置文件定义敌人行为 |
 | **难度系统** | 受影响方 | 难度倍率修改AI威胁权重和决策参数（见 difficulty-system.md） |
+| **HP系统** | 数据消费者 | 仇恨基础值 `100 / current_hp`、目标筛选"血量最低"、Boss 阶段阈值检查均以战斗内 HP 与 max_hp 为依据 |
 
 ### Dependency Details
 

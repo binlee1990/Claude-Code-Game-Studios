@@ -146,6 +146,7 @@ resource_cost = base_resource × (1 + attempts × 0.02)
 - **叙事系统**：Boss 作为叙事节点
 - **存档系统**：检查点保存
 - **音效系统**：Boss 专属音乐
+- **HP系统**：Boss max_hp 由 battle_definition 提供并经 difficulty 倍率，不走玩家派生公式；阶段切换阈值 (`boss_max_hp × phase_threshold`) 与 F2 血量保留 15% 均以战斗内 max_hp 为基准
 
 ## Tuning Knobs
 

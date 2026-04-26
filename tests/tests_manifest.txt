@@ -14,6 +14,7 @@ tests/integration/settlement/save_load_integration_test.gd
 tests/integration/tactical/tactical_integration_test.gd
 tests/integration/turn/save_load_integration_test.gd
 tests/integration/ui/battle_hud_test.gd
+tests/integration/ui/base_hub_test.gd
 tests/integration/ui/save_load_integration_test.gd
 tests/integration/test_turn_order_integration.gd
 tests/unit/ai/ai_type_weights_test.gd
@@ -73,3 +74,4 @@ tests/unit/chapter02/fruit_selection_test.gd
 tests/unit/chapter02/suppression_settlement_test.gd
 tests/unit/chapter02/boss_phase_test.gd
 tests/unit/chapter02/wang_xiu_ai_test.gd
+tests/unit/hp/hp_formula_test.gd

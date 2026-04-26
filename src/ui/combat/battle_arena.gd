@@ -11,6 +11,7 @@ const BattleDifficultyProfile := preload("res://src/ui/combat/battle_difficulty_
 const SRPGAudioBusScript := preload("res://src/ui/audio/srpg_audio_bus.gd")
 const SRPGLocalizationScript := preload("res://src/core/localization/srpg_localization.gd")
 const HintBarScript := preload("res://src/ui/common/hint_bar.gd")
+const CharacterTabBar := preload("res://src/ui/management/character_tab_bar.gd")
 
 const GRID_SIZE := 15
 const CELL_SIZE := 64
@@ -46,7 +47,6 @@ enum VSPhase { SELECT_UNIT, SELECT_MOVE, SELECT_TARGET, ANIMATING, ENEMY_TURN, B
 
 var _combat: CombatSystem
 var _actions: ActionSystem
-var _inventory: Inventory
 var _roster: CharacterRoster
 var _speed_controller: SpeedController
 var _auto_battle_controller: AutoBattleController
@@ -130,13 +130,16 @@ var _settlement_title_label: Label
 var _settlement_summary_label: Label
 var _settlement_next_label: Label
 var _settlement_continue_btn: Button
+var _settlement_base_btn: Button
 var _settlement_main_menu_btn: Button
 var _management_layer: CanvasLayer
 var _management_blocker: ColorRect
 var _management_panel: Panel
 var _management_title_label: Label
 var _management_content_label: Label
-var _management_buttons: Dictionary = {}
+var _management_tab_bar: CharacterTabBar
+var _character_screen: Control = null
+var _equipment_screen: Control = null
 var _is_chapter_transitioning: bool = false
 
 func _ready() -> void:
@@ -156,6 +159,8 @@ func _ready() -> void:
 	_setup_battle_bgm()
 
 func _setup_battle_bgm() -> void:
+	if DisplayServer.get_name() == "headless":
+		return
 	var stream: AudioStream = load("res://assets/audio/bgm/battle_bgm.ogg")
 	if stream == null:
 		return
@@ -549,27 +554,10 @@ func _build_management_overlay() -> void:
 	close_btn.pressed.connect(close_management_screen)
 	header.add_child(close_btn)
 
-	var tabs := HBoxContainer.new()
-	tabs.add_theme_constant_override("separation", 8)
-	layout.add_child(tabs)
-
-	var tab_specs := [
-		{"id": "rewards", "text": SRPGLocalizationScript.translate("management.rewards")},
-		{"id": "camp", "text": SRPGLocalizationScript.translate("management.camp")},
-		{"id": "party", "text": SRPGLocalizationScript.translate("management.party")},
-		{"id": "equipment", "text": SRPGLocalizationScript.translate("management.equipment")},
-	]
-	for spec in tab_specs:
-		var btn := Button.new()
-		btn.text = spec["text"]
-		btn.focus_mode = Control.FOCUS_ALL
-		SRPGTheme.apply_button(btn, false, false, true)
-		var tab_id := String(spec["id"])
-		btn.pressed.connect(func() -> void:
-			set_active_management_tab(tab_id)
-		)
-		tabs.add_child(btn)
-		_management_buttons[tab_id] = btn
+	_management_tab_bar = CharacterTabBar.new()
+	_management_tab_bar.initialize(["rewards", "camp", "party", "equipment", "character"])
+	_management_tab_bar.tab_selected.connect(_on_management_tab_selected)
+	layout.add_child(_management_tab_bar)
 
 	var actions := HBoxContainer.new()
 	actions.add_theme_constant_override("separation", 8)
@@ -610,6 +598,20 @@ func _build_management_overlay() -> void:
 	_management_content_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	SRPGTheme.apply_label(_management_content_label, SRPGTheme.PAPER, 16)
 	layout.add_child(_management_content_label)
+
+	# Instantiate equipment management screen (hidden by default, shown when equipment tab is active)
+	_equipment_screen = preload("res://src/ui/management/equipment_management_screen.tscn").instantiate()
+	_equipment_screen.visible = false
+	layout.add_child(_equipment_screen)
+
+	# Instantiate character management screen (hidden by default, shown when character/party tabs are active)
+	_character_screen = preload("res://src/ui/management/character_management_screen.tscn").instantiate()
+	_character_screen.visible = false
+	layout.add_child(_character_screen)
+
+	# Connect management screen change signals to auto-save (MGMT-004)
+	_character_screen.party_changed.connect(_on_management_party_changed)
+	_equipment_screen.equipment_changed.connect(_on_management_equipment_changed)
 
 	_set_management_overlay_visible(false)
 
@@ -667,6 +669,13 @@ func _build_settlement_overlay() -> void:
 	_settlement_continue_btn.pressed.connect(_on_settlement_continue_pressed)
 	actions.add_child(_settlement_continue_btn)
 
+	_settlement_base_btn = Button.new()
+	_settlement_base_btn.text = "Base"
+	_settlement_base_btn.focus_mode = Control.FOCUS_ALL
+	SRPGTheme.apply_button(_settlement_base_btn)
+	_settlement_base_btn.pressed.connect(_on_settlement_base_pressed)
+	actions.add_child(_settlement_base_btn)
+
 	_settlement_main_menu_btn = Button.new()
 	_settlement_main_menu_btn.text = "Return to Main Menu"
 	_settlement_main_menu_btn.focus_mode = Control.FOCUS_ALL
@@ -695,8 +704,6 @@ func _reset_runtime_systems() -> void:
 	add_child(_combat)
 	_actions = ActionSystem.new()
 	add_child(_actions)
-	_inventory = Inventory.new()
-	add_child(_inventory)
 	_roster = CharacterRoster.new()
 	add_child(_roster)
 	_speed_controller = SpeedController.new()
@@ -704,13 +711,7 @@ func _reset_runtime_systems() -> void:
 	_battle_history_log = BattleHistoryLog.new()
 	_combat.set_auto_battle_controller(_auto_battle_controller)
 
-	_inventory.resource_changed.connect(func(resource_type: int, old_amount: int, new_amount: int) -> void:
-		GameEvents.resource_changed.emit(resource_type, old_amount, new_amount)
-		_refresh_resource_hud()
-	)
-	_inventory.resource_overflow.connect(func(resource_type: int, discarded: int) -> void:
-		GameEvents.resource_overflow.emit(resource_type, discarded)
-	)
+	_bind_inventory_events()
 
 	_phase = VSPhase.SELECT_UNIT
 	_selected_unit = null
@@ -730,9 +731,22 @@ func _reset_runtime_systems() -> void:
 	_controlled_turn_timer = 0.0
 
 func _destroy_runtime_nodes() -> void:
-	for node in [_combat, _actions, _inventory, _roster]:
+	for node in [_combat, _actions, _roster]:
 		if is_instance_valid(node):
 			node.free()
+
+func _bind_inventory_events() -> void:
+	if not Inventory.resource_changed.is_connected(_on_inventory_resource_changed):
+		Inventory.resource_changed.connect(_on_inventory_resource_changed)
+	if not Inventory.resource_overflow.is_connected(_on_inventory_resource_overflow):
+		Inventory.resource_overflow.connect(_on_inventory_resource_overflow)
+
+func _on_inventory_resource_changed(resource_type: int, old_amount: int, new_amount: int) -> void:
+	GameEvents.resource_changed.emit(resource_type, old_amount, new_amount)
+	_refresh_resource_hud()
+
+func _on_inventory_resource_overflow(resource_type: int, discarded: int) -> void:
+	GameEvents.resource_overflow.emit(resource_type, discarded)
 
 func _apply_default_preferences() -> void:
 	_ui_preferences = _DEFAULT_UI_PREFERENCES.duplicate(true)
@@ -766,7 +780,7 @@ func _load_default_battle() -> void:
 	_load_battle_definition(DEFAULT_BATTLE_DEFINITION_PATH)
 	set_map_size(int(_battle_definition.get("map_size", DEFAULT_MAP_SIZE)))
 	_story_progress = _battle_definition.get("progress_on_start", {}).duplicate(true)
-	_seed_inventory_from_definition()
+	_seedInventory_from_definition()
 	_seed_units_from_definition()
 	_combat.start_battle(get_battle_id(), _get_map_id(), int(_battle_definition.get("difficulty", 1)))
 	_sync_phase_prompt()
@@ -897,14 +911,15 @@ func close_management_screen() -> void:
 	_refresh_action_bar()
 
 func set_active_management_tab(tab_name: String) -> void:
-	if not ["rewards", "camp", "party", "equipment"].has(tab_name):
+	if not ["rewards", "camp", "party", "equipment", "character"].has(tab_name):
 		tab_name = "rewards"
 	_active_management_tab = tab_name
-	for key in _management_buttons.keys():
-		SRPGTheme.apply_button(_management_buttons[key] as Button, key == tab_name, false, true)
+	if _management_tab_bar != null:
+		_management_tab_bar.set_active_tab(tab_name)
 	_refresh_management_content()
-	if _management_buttons.has(tab_name):
-		(_management_buttons[tab_name] as Button).grab_focus()
+
+func _on_management_tab_selected(tab_key: String) -> void:
+	set_active_management_tab(tab_key)
 
 func get_management_screen_state() -> Dictionary:
 	return {
@@ -1044,6 +1059,11 @@ func _on_settlement_continue_pressed() -> void:
 	_refresh_all()
 	call_deferred("_hide_settlement_and_transient_overlays")
 
+func _on_settlement_base_pressed() -> void:
+	_hide_settlement_and_transient_overlays()
+	SaveManager.clear_pending_loaded_data()
+	SceneManager.switch_scene("base")
+
 func _get_next_battle_definition_path() -> String:
 	var next_path: Variant = _battle_definition.get("next_battle_definition_path", "")
 	if typeof(next_path) != TYPE_STRING:
@@ -1065,11 +1085,11 @@ func _apply_loaded_save_data(save_data: SaveData) -> void:
 	apply_camera_preferences(save_data.camera_preferences)
 
 	if not save_data.inventory_state.is_empty():
-		_inventory.deserialize(save_data.inventory_state)
+		Inventory.deserialize(save_data.inventory_state)
 	elif not save_data.inventory_items.is_empty():
-		_restore_inventory_from_items(save_data.inventory_items)
+		_restoreInventory_from_items(save_data.inventory_items)
 	else:
-		_seed_inventory_from_definition()
+		_seedInventory_from_definition()
 
 	if not save_data.battle_history.is_empty():
 		_battle_history_log.deserialize(save_data.battle_history)
@@ -1118,32 +1138,42 @@ func _load_battle_from_state(state: Dictionary) -> void:
 	_restore_result_ui()
 	_sync_phase_prompt()
 
-func _seed_inventory_from_definition() -> void:
+func _seedInventory_from_definition() -> void:
+	Inventory.reset()
 	for entry in _battle_definition.get("inventory", []):
 		if typeof(entry) != TYPE_DICTIONARY:
 			continue
 		var resource_id := BattleDefinitionLoader.resolve_resource_id(String(entry.get("resource", "")))
-		_inventory.add_resource(resource_id, int(entry.get("amount", 0)))
+		Inventory.add_resource(resource_id, int(entry.get("amount", 0)))
 
 func _create_unit_from_definition(entry: Dictionary) -> Unit:
 	var position: Dictionary = entry.get("position", {})
 	var team := BattleDefinitionLoader.resolve_team(String(entry.get("team", "enemy")))
 	var is_player := team == CombatSystem.Team.PLAYER
-	var max_hp := int(entry.get("hp", 1))
 	var stats: Dictionary = entry.get("stats", {})
 	if not is_player:
-		max_hp = BattleDifficultyProfile.scale_enemy_hp(max_hp, _difficulty_profile)
 		stats = BattleDifficultyProfile.scale_enemy_stats(stats, _difficulty_profile)
-	var unit := _create_unit(
-		String(entry.get("id", "")),
-		String(entry.get("name", "Unit")),
-		is_player,
-		max_hp,
-		Vector2i(int(position.get("x", 0)), int(position.get("y", 0))),
-		stats
-	)
+
+	# Build node, apply stats, configure class & equipment BEFORE registering
+	# so player max_hp can be derived from HpFormula at registration time.
+	var unit := Unit.new()
+	unit.unit_id = StringName(entry.get("id", ""))
+	unit.display_name = String(entry.get("name", "Unit"))
+	add_child(unit)
+	_apply_unit_stats(unit, stats)
 	unit.configure_starting_class(BattleDefinitionLoader.resolve_class_id(String(entry.get("class", "basic_warrior"))))
 	_seed_equipment_from_definition(unit, entry.get("equipment", []))
+
+	# Players: derive max_hp from class + CON + level + equipment.
+	# Enemies: explicit hp from battle definition, scaled by difficulty.
+	var max_hp: int
+	if is_player:
+		max_hp = unit.get_max_hp()
+	else:
+		max_hp = BattleDifficultyProfile.scale_enemy_hp(int(entry.get("hp", 1)), _difficulty_profile)
+
+	var pos := Vector2i(int(position.get("x", 0)), int(position.get("y", 0)))
+	_register_unit(unit, team, max_hp, pos)
 	_register_tactical_profile_from_definition(unit, entry)
 	_register_boss_from_definition(unit, entry)
 	return unit
@@ -1294,24 +1324,6 @@ func _kill_unit_tween(tween_map: Dictionary, unit: Unit) -> void:
 	if tween != null and tween.is_valid():
 		tween.kill()
 	tween_map.erase(unit)
-
-func _create_unit(
-	id: String,
-	name: String,
-	is_player: bool,
-	hp: int,
-	pos: Vector2i,
-	stats: Dictionary = {}
-) -> Unit:
-	var unit := Unit.new()
-	unit.unit_id = id
-	unit.display_name = name
-	add_child(unit)
-	_apply_unit_stats(unit, stats)
-
-	var team := CombatSystem.Team.PLAYER if is_player else CombatSystem.Team.ENEMY
-	_register_unit(unit, team, hp, pos)
-	return unit
 
 func _restore_unit(entry: Dictionary) -> void:
 	var unit := Unit.new()
@@ -1524,12 +1536,12 @@ func capture_runtime_state() -> Dictionary:
 	_ui_preferences["last_menu_tab"] = _active_menu_tab
 	return {
 		"party_units": _capture_party_units(),
-		"inventory_items": _capture_inventory_items(),
+		"inventory_items": _captureInventory_items(),
 		"settings": _ui_preferences.duplicate(true),
 		"battle_state": _capture_battle_state(),
 		"camera_preferences": capture_camera_preferences(),
 		"ui_preferences": capture_ui_preferences(),
-		"inventory_state": _inventory.serialize(),
+		"inventory_state": Inventory.serialize(),
 		"battle_history": _battle_history_log.serialize(),
 		"story_progress": _story_progress.duplicate(true),
 	}
@@ -1605,11 +1617,11 @@ func _capture_party_units() -> Array:
 		return []
 	return _roster.get_data().get("characters", []).duplicate(true)
 
-func _capture_inventory_items() -> Array:
+func _captureInventory_items() -> Array:
 	var items: Array = []
-	if _inventory == null:
+	if Inventory == null:
 		return items
-	var snapshot: Dictionary = _inventory.serialize()
+	var snapshot: Dictionary = Inventory.serialize()
 	var resource_ids: Array = snapshot.keys()
 	resource_ids.sort()
 	for resource_id in resource_ids:
@@ -1634,13 +1646,13 @@ func _deserialize_position_map(source: Dictionary) -> Dictionary:
 		out[Vector2i(int(parts[0]), int(parts[1]))] = source[key]
 	return out
 
-func _restore_inventory_from_items(items: Array) -> void:
+func _restoreInventory_from_items(items: Array) -> void:
 	var snapshot: Dictionary = {}
 	for entry in items:
 		if typeof(entry) != TYPE_DICTIONARY:
 			continue
 		snapshot[int(entry.get("resource_type", -1))] = int(entry.get("amount", 0))
-	_inventory.deserialize(snapshot)
+	Inventory.deserialize(snapshot)
 
 func _restore_roster_from_save(save_data: SaveData) -> void:
 	if _roster == null:
@@ -2143,12 +2155,12 @@ func _refresh_status_panel() -> void:
 	_status_misc_label.text = "Team: %s | Phase: %s | View: Top-Down" % [team_name, VSPhase.keys()[_phase]]
 
 func _refresh_resource_hud() -> void:
-	if _inventory == null:
+	if Inventory == null:
 		return
-	_resource_labels["gold"].text = "Gold: %d" % _inventory.get_amount(ResourceTypes.ResourceId.GOLD)
-	_resource_labels["materials"].text = "Materials: %d" % _inventory.get_amount(ResourceTypes.ResourceId.BASIC_MATERIAL)
-	_resource_labels["fruit"].text = "Fruit: %d" % _inventory.get_amount(ResourceTypes.ResourceId.FRUIT_STR)
-	_resource_labels["protect"].text = "Protect: %d" % _inventory.get_amount(ResourceTypes.ResourceId.PROTECT_SYMBOL)
+	_resource_labels["gold"].text = "Gold: %d" % Inventory.get_amount(ResourceTypes.ResourceId.GOLD)
+	_resource_labels["materials"].text = "Materials: %d" % Inventory.get_amount(ResourceTypes.ResourceId.BASIC_MATERIAL)
+	_resource_labels["fruit"].text = "Fruit: %d" % Inventory.get_amount(ResourceTypes.ResourceId.FRUIT_STR)
+	_resource_labels["protect"].text = "Protect: %d" % Inventory.get_amount(ResourceTypes.ResourceId.PROTECT_SYMBOL)
 
 func _refresh_objective_label() -> void:
 	if _objective_label == null:
@@ -2248,11 +2260,11 @@ func _refresh_menu_content() -> void:
 			text = "Settlement\n%s" % _format_settlement_menu()
 		"inventory":
 			text = "Inventory\nGold: %d\nMaterials: %d\nSTR Fruit: %d\nProtect Symbols: %d\nSerialized entries: %d" % [
-				_inventory.get_amount(ResourceTypes.ResourceId.GOLD),
-				_inventory.get_amount(ResourceTypes.ResourceId.BASIC_MATERIAL),
-				_inventory.get_amount(ResourceTypes.ResourceId.FRUIT_STR),
-				_inventory.get_amount(ResourceTypes.ResourceId.PROTECT_SYMBOL),
-				_capture_inventory_items().size(),
+				Inventory.get_amount(ResourceTypes.ResourceId.GOLD),
+				Inventory.get_amount(ResourceTypes.ResourceId.BASIC_MATERIAL),
+				Inventory.get_amount(ResourceTypes.ResourceId.FRUIT_STR),
+				Inventory.get_amount(ResourceTypes.ResourceId.PROTECT_SYMBOL),
+				_captureInventory_items().size(),
 			]
 		"save":
 			text = "Save / Load\nChapter: %s\nObjective: %s\nDifficulty: %s\nStory Progress: %s\nCurrent Slot: %d\nPress F5 to save slot 1.\nPress F9 to load slot 1.\nContinue is now wired through SaveManager." % [
@@ -2277,19 +2289,60 @@ func _refresh_menu_content() -> void:
 func _refresh_management_content() -> void:
 	if _management_content_label == null:
 		return
-	var text := ""
+
+	# Hide all managed screens by default
+	if _equipment_screen != null:
+		_equipment_screen.visible = false
+	if _character_screen != null:
+		_character_screen.visible = false
+
 	match _active_management_tab:
-		"rewards":
-			text = _format_management_rewards()
-		"camp":
-			text = _format_management_camp()
-		"party":
-			text = _format_management_party()
+		"character", "party":
+			_management_content_label.text = _format_management_party()
+			_management_content_label.visible = false
+			if _character_screen != null:
+				_character_screen.visible = true
+				_refresh_character_screen()
 		"equipment":
-			text = _format_management_equipment()
+			_management_content_label.text = _format_management_equipment()
+			_management_content_label.visible = false
+			if _equipment_screen != null:
+				_equipment_screen.visible = true
+				_populate_equipment_screen()
+		"rewards":
+			_management_content_label.visible = true
+			_management_content_label.text = _format_management_rewards()
+		"camp":
+			_management_content_label.visible = true
+			_management_content_label.text = _format_management_camp()
 		_:
-			text = _format_management_rewards()
-	_management_content_label.text = text
+			_management_content_label.visible = true
+			_management_content_label.text = ""
+
+func _populate_equipment_screen() -> void:
+	if _equipment_screen == null or _roster == null:
+		return
+	var party: Array = _roster.get_party()
+	if party.is_empty():
+		return
+	var unit_id: String = String(party[0])
+	var unit: Unit = _roster.get_character(StringName(unit_id))
+	if unit != null and _equipment_screen.has_method("open_for_unit"):
+		_equipment_screen.open_for_unit(unit)
+
+func _refresh_character_screen() -> void:
+	if _character_screen == null or _roster == null:
+		return
+	if _character_screen.has_method("initialize"):
+		_character_screen.initialize(_roster)
+
+## Auto-save when party composition is changed via management screen (MGMT-004).
+func _on_management_party_changed(new_party: Array) -> void:
+	SaveManager.save_game(0)
+
+## Auto-save when equipment is equipped/unequipped via management screen (MGMT-004).
+func _on_management_equipment_changed(unit: Node, slot: int, old_item_id: StringName, new_item_id: StringName) -> void:
+	SaveManager.save_game(0)
 
 func _format_management_rewards() -> String:
 	var next_text := _get_next_battle_definition_path()
@@ -2304,10 +2357,10 @@ func _format_management_rewards() -> String:
 
 func _format_management_camp() -> String:
 	return "Recommended Camp / 推荐回营\nPlan: learn Defend, drill skills, add class unlock EXP, use STR fruit, enhance equipped gear.\n\nResources: Gold %d | Materials %d | STR Fruit %d | Protect %d\n\nLast Report:\n%s" % [
-		_inventory.get_amount(ResourceTypes.ResourceId.GOLD),
-		_inventory.get_amount(ResourceTypes.ResourceId.BASIC_MATERIAL),
-		_inventory.get_amount(ResourceTypes.ResourceId.FRUIT_STR),
-		_inventory.get_amount(ResourceTypes.ResourceId.PROTECT_SYMBOL),
+		Inventory.get_amount(ResourceTypes.ResourceId.GOLD),
+		Inventory.get_amount(ResourceTypes.ResourceId.BASIC_MATERIAL),
+		Inventory.get_amount(ResourceTypes.ResourceId.FRUIT_STR),
+		Inventory.get_amount(ResourceTypes.ResourceId.PROTECT_SYMBOL),
 		_last_camp_report,
 	]
 
@@ -3326,8 +3379,8 @@ func _apply_settlement_rewards(summary: Dictionary) -> void:
 		var unit := _find_unit_by_id(String(unit_id))
 		if unit != null and exp_per_unit > 0:
 			unit.class_component.add_class_exp(exp_per_unit)
-	_inventory.add_resource(ResourceTypes.ResourceId.GOLD, int(summary.get("gold_awarded", 0)))
-	_inventory.add_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, int(summary.get("materials_awarded", 0)))
+	Inventory.add_resource(ResourceTypes.ResourceId.GOLD, int(summary.get("gold_awarded", 0)))
+	Inventory.add_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, int(summary.get("materials_awarded", 0)))
 
 	var receiver := _get_first_surviving_player()
 	if receiver == null:
@@ -3441,7 +3494,7 @@ func _capture_campaign_carry_state() -> Dictionary:
 	carry_camera["grid_overlay_enabled"] = false
 	return {
 		"party_units": _capture_party_units(),
-		"inventory_state": _inventory.serialize(),
+		"inventory_state": Inventory.serialize(),
 		"battle_history": _battle_history_log.serialize(),
 		"story_progress": _story_progress.duplicate(true),
 		"ui_preferences": carry_ui,
@@ -3452,7 +3505,7 @@ func _capture_campaign_carry_state() -> Dictionary:
 func _start_campaign_battle(path: String, carry: Dictionary) -> void:
 	_hide_settlement_and_transient_overlays()
 	var carried_units: Dictionary = _index_carried_units(carry.get("party_units", []))
-	var carried_inventory: Dictionary = carry.get("inventory_state", {})
+	var carriedInventory: Dictionary = carry.get("inventory_state", {})
 	var carried_history: Dictionary = carry.get("battle_history", {})
 	var carried_story: Dictionary = carry.get("story_progress", {})
 	var carried_ui: Dictionary = carry.get("ui_preferences", {})
@@ -3469,10 +3522,10 @@ func _start_campaign_battle(path: String, carry: Dictionary) -> void:
 		_story_progress[key] = _battle_definition["progress_on_start"][key]
 
 	set_map_size(int(_battle_definition.get("map_size", DEFAULT_MAP_SIZE)))
-	if carried_inventory.is_empty():
-		_seed_inventory_from_definition()
+	if carriedInventory.is_empty():
+		_seedInventory_from_definition()
 	else:
-		_inventory.deserialize(carried_inventory)
+		Inventory.deserialize(carriedInventory)
 
 	var deployed_units: Array = []
 	for entry in _battle_definition.get("units", []):
@@ -3542,8 +3595,8 @@ func _get_party_units() -> Array:
 	return units
 
 func _apply_default_skill_training(unit: Unit, lines: Array[String]) -> void:
-	if _inventory.has_resource(ResourceTypes.ResourceId.GOLD, 80) and unit.learn_skill(&"defend"):
-		_inventory.remove_resource(ResourceTypes.ResourceId.GOLD, 80)
+	if Inventory.has_resource(ResourceTypes.ResourceId.GOLD, 80) and unit.learn_skill(&"defend"):
+		Inventory.remove_resource(ResourceTypes.ResourceId.GOLD, 80)
 		lines.append("%s learned Defend." % unit.display_name)
 	var skill_id := _get_first_trainable_skill_id(unit)
 	if skill_id != &"":
@@ -3567,8 +3620,8 @@ func _apply_default_class_drill(unit: Unit, lines: Array[String]) -> void:
 	var target_class := _get_recommended_advanced_class(unit.class_component.get_class_id())
 	if target_class < 0:
 		return
-	if _inventory.has_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, 2):
-		_inventory.remove_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, 2)
+	if Inventory.has_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, 2):
+		Inventory.remove_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, 2)
 		unit.class_component.add_class_unlock_exp(target_class, 140)
 		lines.append("%s gained %d %s unlock EXP." % [unit.display_name, 140, ClassNames.ClassID.keys()[target_class]])
 	if unit.class_component.get_state() == ClassNames.ClassState.BASIC_ACTIVE:
@@ -3578,10 +3631,10 @@ func _apply_default_class_drill(unit: Unit, lines: Array[String]) -> void:
 		lines.append("%s changed class to %s." % [unit.display_name, ClassNames.ClassID.keys()[target_class]])
 
 func _apply_default_attribute_training(unit: Unit, lines: Array[String]) -> void:
-	if not _inventory.has_resource(ResourceTypes.ResourceId.FRUIT_STR, 1):
+	if not Inventory.has_resource(ResourceTypes.ResourceId.FRUIT_STR, 1):
 		return
 	if unit.use_fruit(AttributeNames.Attribute.STR):
-		_inventory.remove_resource(ResourceTypes.ResourceId.FRUIT_STR, 1)
+		Inventory.remove_resource(ResourceTypes.ResourceId.FRUIT_STR, 1)
 		lines.append("%s used STR fruit." % unit.display_name)
 
 func _apply_default_equipment_enhancement(unit: Unit, lines: Array[String]) -> void:
@@ -3591,12 +3644,12 @@ func _apply_default_equipment_enhancement(unit: Unit, lines: Array[String]) -> v
 	var cost := unit.equipment_component.get_enhancement_cost(item.item_id)
 	if cost.is_empty():
 		return
-	if not _inventory.has_resource(ResourceTypes.ResourceId.GOLD, int(cost.get("gold", 0))):
+	if not Inventory.has_resource(ResourceTypes.ResourceId.GOLD, int(cost.get("gold", 0))):
 		return
-	if not _inventory.has_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, int(cost.get("materials", 0))):
+	if not Inventory.has_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, int(cost.get("materials", 0))):
 		return
-	var protected := _inventory.has_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, 1)
-	var result := unit.equipment_component.attempt_enhancement(item.item_id, _inventory, protected, 20260425)
+	var protected := Inventory.has_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, 1)
+	var result := unit.equipment_component.attempt_enhancement(item.item_id, Inventory, protected, 20260425)
 	lines.append("%s enhanced %s -> %s level %d." % [
 		unit.display_name,
 		item.name,

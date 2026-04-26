@@ -4,16 +4,22 @@
 
 extends Gut
 
-var _inventory: Inventory
+const InventoryScript := preload("res://src/core/resource/inventory.gd")
+
+var _inventory
 
 func before_each() -> void:
-	_inventory = Inventory.new()
-	_inventory.name = "Inventory"
-	add_child(_inventory)
+	_inventory = _new_inventory("Inventory")
 
 func after_each() -> void:
 	if is_instance_valid(_inventory):
 		_inventory.queue_free()
+
+func _new_inventory(node_name: String):
+	var inventory = InventoryScript.new()
+	inventory.name = node_name
+	add_child(inventory)
+	return inventory
 
 func _setup_complex_inventory() -> void:
 	_inventory.add_resource(ResourceTypes.ResourceId.GOLD, 5000)
@@ -32,9 +38,7 @@ func test_full_inventory_round_trip() -> void:
 	_setup_complex_inventory()
 	var data: Dictionary = _inventory.serialize()
 
-	var loaded := Inventory.new()
-	loaded.name = "Loaded"
-	add_child(loaded)
+	var loaded = _new_inventory("Loaded")
 	loaded.deserialize(data)
 
 	assert_eq(loaded.get_amount(ResourceTypes.ResourceId.GOLD), 5000)
@@ -53,9 +57,7 @@ func test_achievement_points_round_trip() -> void:
 	_inventory.add_resource(ResourceTypes.ResourceId.ACHIEVEMENT, 3500)
 	var data: Dictionary = _inventory.serialize()
 
-	var loaded := Inventory.new()
-	loaded.name = "Loaded"
-	add_child(loaded)
+	var loaded = _new_inventory("Loaded")
 	loaded.deserialize(data)
 	assert_eq(loaded.get_amount(ResourceTypes.ResourceId.ACHIEVEMENT), 3500)
 	loaded.queue_free()
@@ -64,9 +66,7 @@ func test_achievement_large_value() -> void:
 	_inventory.add_resource(ResourceTypes.ResourceId.ACHIEVEMENT, 9999999)
 	var data: Dictionary = _inventory.serialize()
 
-	var loaded := Inventory.new()
-	loaded.name = "Loaded"
-	add_child(loaded)
+	var loaded = _new_inventory("Loaded")
 	loaded.deserialize(data)
 	assert_eq(loaded.get_amount(ResourceTypes.ResourceId.ACHIEVEMENT), 9999999)
 	loaded.queue_free()
@@ -78,9 +78,7 @@ func test_no_overflow_after_load() -> void:
 	_inventory.add_resource(ResourceTypes.ResourceId.GOLD, 9999999)
 	var data: Dictionary = _inventory.serialize()
 
-	var loaded := Inventory.new()
-	loaded.name = "Loaded"
-	add_child(loaded)
+	var loaded = _new_inventory("Loaded")
 	loaded.deserialize(data)
 
 	# Try adding more — should be blocked
@@ -96,15 +94,11 @@ func test_double_round_trip() -> void:
 	_setup_complex_inventory()
 
 	var saved1: Dictionary = _inventory.serialize()
-	var loaded1 := Inventory.new()
-	loaded1.name = "L1"
-	add_child(loaded1)
+	var loaded1 = _new_inventory("L1")
 	loaded1.deserialize(saved1)
 
 	var saved2: Dictionary = loaded1.serialize()
-	var loaded2 := Inventory.new()
-	loaded2.name = "L2"
-	add_child(loaded2)
+	var loaded2 = _new_inventory("L2")
 	loaded2.deserialize(saved2)
 
 	# Compare all resources
@@ -128,9 +122,7 @@ func test_all_fruits_round_trip() -> void:
 		_inventory.add_resource(fruits[i], (i + 1) * 5)
 
 	var data: Dictionary = _inventory.serialize()
-	var loaded := Inventory.new()
-	loaded.name = "Loaded"
-	add_child(loaded)
+	var loaded = _new_inventory("Loaded")
 	loaded.deserialize(data)
 
 	for i in fruits.size():

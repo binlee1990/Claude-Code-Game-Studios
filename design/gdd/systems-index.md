@@ -40,6 +40,7 @@
 | 21 | 多周目系统 | Meta | Alpha | Designed | design/gdd/new-game-plus-system.md | 战斗结算、角色管理 |
 | 22 | 事件系统 | Narrative | Alpha | Designed | design/gdd/event-system.md | 世界观/叙事、角色管理 |
 | 23 | 音效/音乐 | Presentation | Alpha | Designed | design/gdd/audio-system.md | 回合制模式、Boss战 |
+| 24 | HP系统 | Core | MVP | Approved | design/gdd/hp-system.md | 属性与成长系统、职业系统、装备系统 |
 
 ---
 
@@ -160,11 +161,11 @@
 
 | Metric | Count |
 |--------|-------|
-| Total systems identified | 23 |
-| Design docs started | 23 |
-| Design docs reviewed | 23 (cross-review 2026-04-22, blockers fixed 2026-04-23) |
-| Design docs approved | 0 |
-| MVP systems designed | 12/12 |
+| Total systems identified | 24 |
+| Design docs started | 24 |
+| Design docs reviewed | 24 (cross-review 2026-04-22, blockers fixed 2026-04-23; HP系统 reviewed 2026-04-26 — APPROVED) |
+| Design docs approved | 1 (HP系统) |
+| MVP systems designed | 13/13 |
 | Vertical Slice systems designed | 4/4 |
 | Alpha systems designed | 4/4 |
 

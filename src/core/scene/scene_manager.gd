@@ -3,7 +3,8 @@ extends Node
 
 const SCENES := {
 	"main_menu": "res://src/ui/menu/main_menu.tscn",
-	"battle": "res://src/ui/combat/battle_arena.tscn"
+	"battle": "res://src/ui/combat/battle_arena.tscn",
+	"base": "res://src/ui/base/base_hub.tscn"
 }
 
 func switch_scene(scene_key: String) -> void:
