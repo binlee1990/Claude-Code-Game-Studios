@@ -32,3 +32,29 @@ func test_base_hub_resource_rows_update_by_name() -> void:
 	assert_ne(material_row, null, "Material row should be findable by name")
 	assert_true((gold_row.get_child(1) as Label).text.contains("500"))
 	assert_true((material_row.get_child(1) as Label).text.contains("12"))
+
+func test_training_ground_skill_row_uses_godot4_offsets() -> void:
+	var training = _base.find_child("TrainingGround", true, false)
+	assert_ne(training, null, "Training ground should be embedded in the base hub")
+	training.call("_add_skill_row", {
+		"name": "Regression Slash",
+		"level": 3,
+		"proficiency": 40,
+		"max_proficiency": 100,
+		"rank": SkillDefinitions.Rank.BASIC,
+	})
+
+	var fill := _find_first_color_rect(training)
+	assert_ne(fill, null, "Skill proficiency fill should be created")
+	assert_eq(fill.offset_top, 1.0)
+	assert_eq(fill.offset_right, -2.0)
+	assert_eq(fill.offset_bottom, -1.0)
+
+func _find_first_color_rect(node: Node) -> ColorRect:
+	if node is ColorRect:
+		return node as ColorRect
+	for child in node.get_children():
+		var found := _find_first_color_rect(child)
+		if found != null:
+			return found
+	return null

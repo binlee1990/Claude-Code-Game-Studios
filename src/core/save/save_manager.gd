@@ -18,6 +18,8 @@ func save_game(slot: int) -> bool:
 	var save_data := _create_save_data()
 
 	var path := SAVE_DIR + "save_%d.tres" % slot
+	_remove_save_file(path)
+
 	var result := ResourceSaver.save(save_data, path)
 	if result != OK:
 		return false
@@ -75,6 +77,10 @@ func peek_save(slot: int) -> SaveData:
 	if not FileAccess.file_exists(path):
 		return null
 	return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE) as SaveData
+
+func _remove_save_file(path: String) -> void:
+	if FileAccess.file_exists(path):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
 
 func _create_save_data() -> SaveData:
 	var save_data := SaveData.new()

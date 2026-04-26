@@ -262,9 +262,9 @@ func _add_skill_row(skill_data: Dictionary) -> void:
 	bar_fill.custom_minimum_size = Vector2(400.0 * fill_ratio, 14.0)
 	bar_fill.color = SRPGTheme.JADE
 	bar_fill.anchor_right = 1.0
-	bar_fill.margin_right = -2.0
-	bar_fill.margin_top = 1.0
-	bar_fill.margin_bottom = -1.0
+	bar_fill.offset_right = -2.0
+	bar_fill.offset_top = 1.0
+	bar_fill.offset_bottom = -1.0
 	bar_bg.add_child(bar_fill)
 
 	var prof_lbl := Label.new()

@@ -9,6 +9,7 @@ const CharacterRosterScript = preload("res://src/core/character/character_roster
 var _battle
 
 func before_each() -> void:
+	_remove_test_save()
 	SaveManager.clear_pending_loaded_data()
 	var scene: PackedScene = load("res://src/ui/combat/battle_arena.tscn")
 	_battle = scene.instantiate()
@@ -18,9 +19,15 @@ func after_each() -> void:
 	SaveManager.clear_pending_loaded_data()
 	if is_instance_valid(_battle):
 		_battle.queue_free()
+	_remove_test_save()
+
+func _remove_test_save() -> void:
 	var absolute_path: String = ProjectSettings.globalize_path("user://saves/save_%d.tres" % TEST_SLOT)
 	if FileAccess.file_exists("user://saves/save_%d.tres" % TEST_SLOT):
 		DirAccess.remove_absolute(absolute_path)
+	var temp_absolute_path: String = ProjectSettings.globalize_path("user://saves/save_%d.tmp.tres" % TEST_SLOT)
+	if FileAccess.file_exists("user://saves/save_%d.tmp.tres" % TEST_SLOT):
+		DirAccess.remove_absolute(temp_absolute_path)
 
 func test_save_manager_restores_formal_battle_runtime_state() -> void:
 	var enemy: Unit = _first_enemy(_battle)
