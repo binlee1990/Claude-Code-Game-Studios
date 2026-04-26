@@ -3,9 +3,12 @@
 
 extends Gut
 
+const SRPGLocalizationScript := preload("res://src/core/localization/srpg_localization.gd")
+
 var _battle
 
 func before_each() -> void:
+	SRPGLocalizationScript.set_locale(SRPGLocalizationScript.DEFAULT_LOCALE)
 	SaveManager.clear_pending_loaded_data()
 	var scene: PackedScene = load("res://src/ui/combat/battle_arena.tscn")
 	_battle = scene.instantiate()
@@ -13,6 +16,7 @@ func before_each() -> void:
 
 func after_each() -> void:
 	SaveManager.clear_pending_loaded_data()
+	SRPGLocalizationScript.set_locale(SRPGLocalizationScript.DEFAULT_LOCALE)
 	if is_instance_valid(_battle):
 		_battle.queue_free()
 
@@ -22,9 +26,9 @@ func test_formal_battle_scene_uses_playable_vertical_slice_controller() -> void:
 	var actor: Unit = _battle._combat.get_current_actor()
 	assert_ne(actor, null, "Formal battle scene should create a current actor")
 	assert_eq(_battle._combat.get_unit_team(actor), CombatSystem.Team.PLAYER, "Formal battle entry should be immediately controllable")
-	assert_true(_battle._info_label.text.begins_with("Your turn:"), "Formal battle scene should expose the same playable prompt as the prototype")
+	assert_true(_battle._info_label.text.begins_with("我方回合："), "Formal battle scene should expose the same playable prompt as the prototype")
 	assert_eq(_battle.get_battle_id(), "chapter_01_tutorial", "Formal battle scene should now load the first content slice")
-	assert_true(_battle.get_objective_text().contains("Defeat both raiders"), "Formal battle scene should expose a Chapter 1 objective")
+	assert_true(_battle.get_objective_text().contains("击败两名袭击者"), "Formal battle scene should expose a Chapter 1 objective")
 
 func test_chapter_one_applies_tutorial_difficulty_profile() -> void:
 	var profile: Dictionary = _battle.get_difficulty_profile()
@@ -34,7 +38,7 @@ func test_chapter_one_applies_tutorial_difficulty_profile() -> void:
 	assert_ne(dark_knight, null, "Tutorial enemy should exist")
 	assert_eq(_battle._combat._combat_units[dark_knight]["max_hp"], 49, "Enemy HP should be scaled by the difficulty profile")
 	assert_eq(dark_knight.get_attribute(AttributeNames.Attribute.STR), 14, "Enemy attributes should be scaled by the difficulty profile")
-	assert_true(_battle._objective_label.text.contains("First Playthrough Tutorial"), "Objective HUD should expose the active difficulty curve")
+	assert_true(_battle._objective_label.text.contains("首次游玩教学"), "Objective HUD should expose the active difficulty curve")
 
 func test_formal_battle_uses_tactical_profiles_and_terrain() -> void:
 	var swordsman: Unit = _find_unit("P1")
@@ -74,7 +78,7 @@ func test_tutorial_boss_phase_checkpoint_updates_below_half_hp() -> void:
 	assert_eq(boss_state.get("boss_id", ""), "E1", "Tutorial boss should expose a runtime boss id")
 	assert_eq(boss_state.get("phase", 0), 2, "Boss should switch phase below the configured 50% threshold")
 	assert_eq(boss_state.get("checkpoint_phase", 0), 2, "Boss phase switch should store a checkpoint phase")
-	assert_true(_battle._boss_label.text.contains("Broken Guard"), "Boss HUD should show the active phase")
+	assert_true(_battle._boss_label.text.contains("破防"), "Boss HUD should show the active phase")
 	assert_eq(_battle.get_story_progress().get("boss_phase", 0), 2, "Story progress should record the boss phase checkpoint")
 
 func test_chapter_one_victory_updates_story_progress() -> void:
@@ -103,8 +107,8 @@ func test_chapter_one_victory_updates_story_progress() -> void:
 
 	_battle._toggle_menu()
 	_battle.set_active_menu_tab("settlement")
-	assert_true(_battle._menu_content_label.text.contains("Gold"), "Settlement tab should show reward details")
-	assert_true(_battle._menu_content_label.text.contains("Equipment"), "Settlement tab should show equipment details")
+	assert_true(_battle._menu_content_label.text.contains("金币"), "Settlement tab should show reward details")
+	assert_true(_battle._menu_content_label.text.contains("装备"), "Settlement tab should show equipment details")
 
 func test_chapter_two_entry_loads_act_a_without_inventory_shadowing() -> void:
 	if is_instance_valid(_battle):
@@ -133,7 +137,7 @@ func test_campaign_advance_loads_follow_up_battle_and_camp_path() -> void:
 	assert_true(_battle.advance_to_next_battle(), "Cleared tutorial battle should advance to the follow-up encounter")
 	assert_eq(_battle.get_battle_id(), "chapter_01_crossroads", "Campaign advance should load the second Chapter 1 battle")
 	assert_eq(_battle.get_story_progress().get("current_battle", ""), "chapter_01_crossroads", "Story progress should switch to the follow-up battle")
-	assert_true(_battle.get_campaign_state().get("camp_report", "").contains("learned Defend"), "Default camp plan should train baseline skills")
+	assert_true(_battle.get_campaign_state().get("camp_report", "").contains("学会了防御"), "Default camp plan should train baseline skills")
 	assert_ne(_find_unit("E4"), null, "Follow-up battle should load the second encounter boss")
 	assert_eq(
 		int(_battle._map_terrain.get(Vector2i(9, 8), -1)),
@@ -149,7 +153,7 @@ func test_chapter_one_three_battle_campaign_reaches_finale_and_completion() -> v
 	assert_true(_battle.advance_to_next_battle(), "Crossroads should advance to the finale")
 
 	assert_eq(_battle.get_battle_id(), "chapter_01_finale", "Campaign should load the third Chapter 1 battle")
-	assert_true(_battle.get_briefing_text().contains("watchtower"), "Finale should expose narrative pacing text")
+	assert_true(_battle.get_briefing_text().contains("望楼"), "Finale should expose narrative pacing text")
 	assert_ne(_find_unit("R2"), null, "Finale should deploy the reserve Rogue as a pacing escalation")
 	assert_ne(_find_unit("E6"), null, "Finale should load the gate commander boss")
 	assert_eq(int(_battle._map_terrain.get(Vector2i(10, 7), -1)), TerrainTypes.Terrain.WATER_PUDDLE, "Finale should include tactical terrain")

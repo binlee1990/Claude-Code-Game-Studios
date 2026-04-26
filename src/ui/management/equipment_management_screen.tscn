@@ -41,50 +41,50 @@ theme_override_constants/separation = 4
 [node name="AllBtn" type="Button" parent="HSplit/LeftPanel/LeftContent/FilterRow"]
 layout_mode = 2
 custom_minimum_size = Vector2(60, 28)
-text = "All"
+text = "全部"
 
 [node name="WeaponBtn" type="Button" parent="HSplit/LeftPanel/LeftContent/FilterRow"]
 layout_mode = 2
 custom_minimum_size = Vector2(72, 28)
-text = "Weapon"
+text = "武器"
 
 [node name="ArmorBtn" type="Button" parent="HSplit/LeftPanel/LeftContent/FilterRow"]
 layout_mode = 2
 custom_minimum_size = Vector2(72, 28)
-text = "Armor"
+text = "护甲"
 
 [node name="HelmetBtn" type="Button" parent="HSplit/LeftPanel/LeftContent/FilterRow"]
 layout_mode = 2
 custom_minimum_size = Vector2(72, 28)
-text = "Helmet"
+text = "头盔"
 
 [node name="LegsBtn" type="Button" parent="HSplit/LeftPanel/LeftContent/FilterRow"]
 layout_mode = 2
 custom_minimum_size = Vector2(72, 28)
-text = "Legs"
+text = "腿甲"
 
 [node name="BootsBtn" type="Button" parent="HSplit/LeftPanel/LeftContent/FilterRow"]
 layout_mode = 2
 custom_minimum_size = Vector2(72, 28)
-text = "Boots"
+text = "靴子"
 
 [node name="AccBtn" type="Button" parent="HSplit/LeftPanel/LeftContent/FilterRow"]
 layout_mode = 2
 custom_minimum_size = Vector2(72, 28)
-text = "Accessory"
+text = "饰品"
 
 [node name="NameLabel" type="Label" parent="HSplit/LeftPanel/LeftContent"]
 layout_mode = 2
-text = "Character Name"
+text = "角色名"
 
 [node name="StatsLabel" type="Label" parent="HSplit/LeftPanel/LeftContent"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "STR +0  AGI +0  CON +0  INT +0"
+text = "力量 +0  敏捷 +0  体力 +0  智力 +0"
 
 [node name="Divider" type="Label" parent="HSplit/LeftPanel/LeftContent"]
 layout_mode = 2
-text = "--- Equipment ---"
+text = "--- 装备 ---"
 
 [node name="SlotsContainer" type="VBoxContainer" parent="HSplit/LeftPanel/LeftContent"]
 layout_mode = 2
@@ -107,11 +107,11 @@ theme_override_constants/separation = 8
 
 [node name="InvLabel" type="Label" parent="HSplit/RightPanel/RightContent"]
 layout_mode = 2
-text = "Inventory"
+text = "背包"
 
 [node name="HintLabel" type="Label" parent="HSplit/RightPanel/RightContent"]
 layout_mode = 2
-text = "Click item to equip"
+text = "点击物品装备"
 
 [node name="InvScroll" type="ScrollContainer" parent="HSplit/RightPanel/RightContent"]
 layout_mode = 2

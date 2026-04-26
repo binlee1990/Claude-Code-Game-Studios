@@ -10,17 +10,18 @@ signal equipment_changed(unit: Unit, slot: int, old_item_id: StringName, new_ite
 
 const SRPGTheme := preload("res://src/ui/theme/srpg_theme.gd")
 const CharacterTabBar := preload("res://src/ui/management/character_tab_bar.gd")
+const SRPGLocalizationScript := preload("res://src/core/localization/srpg_localization.gd")
 
 enum Tab { CHARACTER, PARTY, EQUIPMENT, SKILLS }
 const TAB_KEYS: Array[String] = ["character", "party", "equipment", "skills"]
 const DETAIL_ATTRIBUTE_KEYS: Array[String] = ["STR", "AGI", "CON", "INT", "CHA", "LUK"]
-const SLOT_LABELS: Dictionary = {
-	EquipmentDefinitions.Slot.WEAPON: "武器",
-	EquipmentDefinitions.Slot.ARMOR: "护甲",
-	EquipmentDefinitions.Slot.HELMET: "头盔",
-	EquipmentDefinitions.Slot.LEGS: "腿甲",
-	EquipmentDefinitions.Slot.BOOTS: "靴子",
-	EquipmentDefinitions.Slot.ACCESSORY: "饰品",
+const SLOT_LABEL_KEYS: Dictionary = {
+	EquipmentDefinitions.Slot.WEAPON: "management.slot.weapon",
+	EquipmentDefinitions.Slot.ARMOR: "management.slot.armor",
+	EquipmentDefinitions.Slot.HELMET: "management.slot.helmet",
+	EquipmentDefinitions.Slot.LEGS: "management.slot.legs",
+	EquipmentDefinitions.Slot.BOOTS: "management.slot.boots",
+	EquipmentDefinitions.Slot.ACCESSORY: "management.slot.accessory",
 }
 const SLOT_ORDER: Array[int] = [
 	EquipmentDefinitions.Slot.WEAPON,
@@ -177,7 +178,7 @@ func _create_left_panel(parent: Control) -> Panel:
 
 	# Party slots label
 	var party_title := Label.new()
-	party_title.text = "编队 (最多4人)"
+	party_title.text = _tr("management.party_title")
 	SRPGTheme.apply_label_scaled(party_title, _ui_scale, SRPGTheme.PAPER_MUTED, 14)
 	vbox.add_child(party_title)
 
@@ -196,7 +197,7 @@ func _create_left_panel(parent: Control) -> Panel:
 	vbox.add_child(_action_bar)
 
 	_confirm_button = Button.new()
-	_confirm_button.text = "确认编队"
+	_confirm_button.text = _tr("management.confirm_party")
 	_confirm_button.focus_mode = Control.FOCUS_ALL
 	SRPGTheme.apply_button_scaled(_confirm_button, _ui_scale, false, false, true)
 	_confirm_button.pressed.connect(_on_confirm_party_pressed)
@@ -248,7 +249,7 @@ func _create_right_panel(parent: Control) -> Panel:
 
 	# Close button
 	_close_button = Button.new()
-	_close_button.text = "关闭"
+	_close_button.text = _tr("management.close")
 	_close_button.focus_mode = Control.FOCUS_ALL
 	SRPGTheme.apply_button_scaled(_close_button, _ui_scale, false, false, true)
 	_close_button.pressed.connect(_on_close_pressed)
@@ -275,7 +276,7 @@ func _create_right_panel(parent: Control) -> Panel:
 
 	# Attributes
 	var attr_title := Label.new()
-	attr_title.text = "属性"
+	attr_title.text = _tr("management.attributes")
 	SRPGTheme.apply_label_scaled(attr_title, _ui_scale, SRPGTheme.PAPER_MUTED, 14)
 	_detail_container.add_child(attr_title)
 
@@ -294,7 +295,7 @@ func _create_right_panel(parent: Control) -> Panel:
 
 	# Skills
 	var skill_title := Label.new()
-	skill_title.text = "技能"
+	skill_title.text = _tr("management.skills")
 	SRPGTheme.apply_label_scaled(skill_title, _ui_scale, SRPGTheme.PAPER_MUTED, 14)
 	_detail_container.add_child(skill_title)
 
@@ -303,7 +304,7 @@ func _create_right_panel(parent: Control) -> Panel:
 
 	# Equipment
 	var equip_title := Label.new()
-	equip_title.text = "装备"
+	equip_title.text = _tr("management.equipment")
 	SRPGTheme.apply_label_scaled(equip_title, _ui_scale, SRPGTheme.PAPER_MUTED, 14)
 	_detail_container.add_child(equip_title)
 
@@ -328,7 +329,7 @@ func _build_hint_bar() -> void:
 	add_child(bar)
 
 	var hint_label := Label.new()
-	hint_label.text = "点击角色查看详情 | 点击编队槽位添加/移除角色 | Enter 确认 | Esc 关闭"
+	hint_label.text = _tr("management.hint")
 	hint_label.set_anchors_preset(Control.PRESET_FULL_RECT)
 	hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hint_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -366,7 +367,7 @@ func _refresh_roster_list() -> void:
 	var departed := _roster.get_departed_ids()
 	if not departed.is_empty():
 		var info := Label.new()
-		info.text = "已退场: %d 人" % departed.size()
+		info.text = _tr("management.departed_count") % departed.size()
 		SRPGTheme.apply_label_scaled(info, _ui_scale, SRPGTheme.VERMILION, 12)
 		_roster_list.add_child(info)
 
@@ -403,7 +404,7 @@ func _create_roster_item(unit: Unit) -> Button:
 
 	# Name
 	var name_lbl := Label.new()
-	name_lbl.text = unit.display_name
+	name_lbl.text = _display_text(unit.display_name)
 	SRPGTheme.apply_label_scaled(name_lbl, _ui_scale, SRPGTheme.PAPER, 15)
 	name_lbl.custom_minimum_size = Vector2(_scaled(120.0), 0)
 	hbox.add_child(name_lbl)
@@ -411,7 +412,7 @@ func _create_roster_item(unit: Unit) -> Button:
 	# Class
 	var class_lbl := Label.new()
 	var class_name_str: String = ClassNames.ClassID.keys()[unit.class_component.get_class_id()]
-	class_lbl.text = class_name_str
+	class_lbl.text = _display_text(class_name_str)
 	SRPGTheme.apply_label_scaled(class_lbl, _ui_scale, SRPGTheme.GOLD, 13)
 	hbox.add_child(class_lbl)
 
@@ -420,20 +421,20 @@ func _create_roster_item(unit: Unit) -> Button:
 	var status_lbl := Label.new()
 	match status:
 		CharacterRoster.Status.DEPLOYED:
-			status_lbl.text = "[上场]"
+			status_lbl.text = _tr("management.status_deployed")
 			SRPGTheme.apply_label_scaled(status_lbl, _ui_scale, SRPGTheme.JADE, 12)
 		CharacterRoster.Status.AVAILABLE:
-			status_lbl.text = "[备用]"
+			status_lbl.text = _tr("management.status_available")
 			SRPGTheme.apply_label_scaled(status_lbl, _ui_scale, SRPGTheme.PAPER_MUTED, 12)
 		_:
-			status_lbl.text = "[退场]"
+			status_lbl.text = _tr("management.status_departed")
 			SRPGTheme.apply_label_scaled(status_lbl, _ui_scale, SRPGTheme.VERMILION, 12)
 	hbox.add_child(status_lbl)
 
 	# HP (derived via HpFormula; units are full HP outside combat)
 	var hp_lbl := Label.new()
 	var max_hp: int = unit.get_max_hp()
-	hp_lbl.text = "HP %d/%d" % [max_hp, max_hp]
+	hp_lbl.text = "%s %d/%d" % [_tr("common.hp"), max_hp, max_hp]
 	SRPGTheme.apply_label_scaled(hp_lbl, _ui_scale, SRPGTheme.PAPER, 13)
 	hbox.add_child(hp_lbl)
 
@@ -450,10 +451,10 @@ func _refresh_party_slots() -> void:
 			var unit_id: StringName = StringName(_pending_party[i])
 			var unit: Unit = _roster.get_character(unit_id)
 			if unit != null:
-				label.text = unit.display_name
+				label.text = _display_text(unit.display_name)
 				SRPGTheme.apply_label_scaled(label, _ui_scale, SRPGTheme.WHITE, 14)
 				continue
-		label.text = "(空)"
+		label.text = _tr("common.empty_slot")
 		SRPGTheme.apply_label_scaled(label, _ui_scale, SRPGTheme.PAPER_MUTED, 13)
 
 func _refresh_detail() -> void:
@@ -467,17 +468,17 @@ func _refresh_detail() -> void:
 		return
 
 	_set_detail_visible(true)
-	_detail_name_label.text = unit.display_name
-	_detail_class_label.text = ClassNames.ClassID.keys()[unit.class_component.get_class_id()]
+	_detail_name_label.text = _display_text(unit.display_name)
+	_detail_class_label.text = _display_text(String(ClassNames.ClassID.keys()[unit.class_component.get_class_id()]))
 
 	var max_hp: int = unit.get_max_hp()
-	_detail_hp_label.text = "HP: %d / %d" % [max_hp, max_hp]
+	_detail_hp_label.text = "%s: %d / %d" % [_tr("common.hp"), max_hp, max_hp]
 
 	# Refresh attributes
 	for attr_name in DETAIL_ATTRIBUTE_KEYS:
 		var attr_val: int = unit.get_effective_attribute(AttributeNames.Attribute[attr_name])
 		if _detail_attr_labels.has(attr_name):
-			_detail_attr_labels[attr_name].text = "%s: %d" % [attr_name, attr_val]
+			_detail_attr_labels[attr_name].text = "%s: %d" % [_display_text(attr_name), attr_val]
 
 	# Refresh skills
 	for child in _detail_skill_list.get_children():
@@ -499,7 +500,7 @@ func _refresh_equipment_actions(unit: Unit) -> void:
 		return
 
 	var equipped_title := Label.new()
-	equipped_title.text = "当前装备"
+	equipped_title.text = _tr("management.current_equipment")
 	SRPGTheme.apply_label_scaled(equipped_title, _ui_scale, SRPGTheme.GOLD, 13, true)
 	_detail_equip_list.add_child(equipped_title)
 
@@ -507,7 +508,7 @@ func _refresh_equipment_actions(unit: Unit) -> void:
 		_detail_equip_list.add_child(_create_equipped_slot_row(unit, slot))
 
 	var inventory_title := Label.new()
-	inventory_title.text = "可装备物品"
+	inventory_title.text = _tr("management.available_items")
 	SRPGTheme.apply_label_scaled(inventory_title, _ui_scale, SRPGTheme.GOLD, 13, true)
 	_detail_equip_list.add_child(inventory_title)
 
@@ -524,7 +525,7 @@ func _refresh_equipment_actions(unit: Unit) -> void:
 
 	if available_count == 0:
 		var empty_label := Label.new()
-		empty_label.text = "没有可装备物品"
+		empty_label.text = _tr("management.no_available_items")
 		SRPGTheme.apply_label_scaled(empty_label, _ui_scale, SRPGTheme.PAPER_MUTED, 13)
 		_detail_equip_list.add_child(empty_label)
 
@@ -533,20 +534,20 @@ func _create_equipped_slot_row(unit: Unit, slot: int) -> HBoxContainer:
 	row.add_theme_constant_override("separation", int(_scaled(8.0)))
 
 	var slot_lbl := Label.new()
-	slot_lbl.text = SLOT_LABELS.get(slot, "装备")
+	slot_lbl.text = _slot_label(slot)
 	slot_lbl.custom_minimum_size = Vector2(_scaled(58.0), 0.0)
 	SRPGTheme.apply_label_scaled(slot_lbl, _ui_scale, SRPGTheme.PAPER_MUTED, 13)
 	row.add_child(slot_lbl)
 
 	var item := unit.equipment_component.get_equipped_item(slot)
 	var item_lbl := Label.new()
-	item_lbl.text = _format_equipment_name(item) if item != null else "(空)"
+	item_lbl.text = _format_equipment_name(item) if item != null else _tr("common.empty_slot")
 	item_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	SRPGTheme.apply_label_scaled(item_lbl, _ui_scale, SRPGTheme.PAPER, 13)
 	row.add_child(item_lbl)
 
 	var off_btn := Button.new()
-	off_btn.text = "卸下"
+	off_btn.text = _tr("management.unequip")
 	off_btn.disabled = item == null
 	off_btn.focus_mode = Control.FOCUS_ALL
 	off_btn.custom_minimum_size = _scaled_vec2(64.0, 28.0)
@@ -561,13 +562,13 @@ func _create_inventory_item_row(unit: Unit, item: EquipmentItem) -> HBoxContaine
 	row.add_theme_constant_override("separation", int(_scaled(8.0)))
 
 	var name_lbl := Label.new()
-	name_lbl.text = "%s  [%s]" % [_format_equipment_name(item), SLOT_LABELS.get(item.slot, "装备")]
+	name_lbl.text = "%s  [%s]" % [_format_equipment_name(item), _slot_label(item.slot)]
 	name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	SRPGTheme.apply_label_scaled(name_lbl, _ui_scale, SRPGTheme.PAPER, 13)
 	row.add_child(name_lbl)
 
 	var equip_btn := Button.new()
-	equip_btn.text = "装备"
+	equip_btn.text = _tr("management.equip")
 	equip_btn.focus_mode = Control.FOCUS_ALL
 	equip_btn.custom_minimum_size = _scaled_vec2(64.0, 28.0)
 	equip_btn.pressed.connect(_on_equip_item_pressed.bind(unit.unit_id, item.item_id))
@@ -588,17 +589,17 @@ func _get_equipped_item_ids(unit: Unit) -> Dictionary:
 
 func _format_equipment_name(item: EquipmentItem) -> String:
 	if item == null:
-		return "(空)"
+		return _tr("common.empty_slot")
 	if item.name != "":
-		return item.name
-	return String(item.item_id)
+		return _display_text(item.name)
+	return _display_text(String(item.item_id))
 
 func _get_skill_display_name(skill: SkillData) -> String:
 	if skill == null:
-		return "Unknown Skill"
+		return _tr("training.unknown_skill")
 	if skill.name != "":
-		return skill.name
-	return String(skill.skill_id)
+		return _display_text(skill.name)
+	return _display_text(String(skill.skill_id))
 
 ## Tab selection handler.
 func _on_tab_selected(tab_key: String) -> void:
@@ -685,3 +686,12 @@ func _input(event: InputEvent) -> void:
 		elif event.keycode == KEY_ENTER or event.keycode == KEY_KP_ENTER:
 			_on_confirm_party_pressed()
 			get_viewport().set_input_as_handled()
+
+func _slot_label(slot: int) -> String:
+	return _tr(String(SLOT_LABEL_KEYS.get(slot, "management.slot.generic")))
+
+func _tr(key: String) -> String:
+	return SRPGLocalizationScript.translate(key)
+
+func _display_text(value: String) -> String:
+	return SRPGLocalizationScript.display_text(value)

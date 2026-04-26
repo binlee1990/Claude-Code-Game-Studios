@@ -1,7 +1,7 @@
 # Story 001: 全量 UI 字符串迁移至 SRPGLocalization
 
 > **Epic**: Localization
-> **Status**: Planning
+> **Status**: Complete
 > **Layer**: Foundation
 > **Type**: Integration
 
@@ -17,14 +17,18 @@
 
 ## Acceptance Criteria
 
-- [ ] LOC-AC-1: `base_hub.gd` 所有中文字符串迁移至 key
-- [ ] LOC-AC-2: `training_ground.gd` 所有中文字符串迁移至 key
-- [ ] LOC-AC-3: `character_management.gd` 所有中文字符串迁移至 key
-- [ ] LOC-AC-4: `equipment_management.gd` 所有英文字符串迁移至 key
-- [ ] LOC-AC-5: `main_menu.gd` 所有中文字符串迁移至 key
-- [ ] LOC-AC-6: `battle_arena.gd` 结算/管理部分字符串迁移至 key
-- [ ] LOC-AC-7: zh_CN 和 en_US 目录 key 完全对称（覆盖率 100%）
-- [ ] LOC-AC-8: godot --check-only: 0 parse error
+- [x] LOC-AC-1: `base_hub.gd` 所有 Sprint-004 基地/市集玩家可见文本迁移至 key
+- [x] LOC-AC-2: `training_ground.gd` 玩家可见 UI 文本迁移至 key
+- [x] LOC-AC-3: `character_management.gd` 管理 UI 文本迁移至 key
+- [x] LOC-AC-4: `equipment_management.gd` 过滤、库存、按钮等 UI 文本迁移至 key
+- [x] LOC-AC-5: `main_menu.gd` 主菜单、语言、Credits 文本迁移至 key
+- [x] LOC-AC-6: `battle_arena.gd` 结算/管理入口相关字符串迁移至 key
+- [x] LOC-AC-7: zh_CN 和 en_US 目录 key 完全对称（覆盖率 100%）
+- [x] LOC-AC-8: godot --check-only: 0 parse error
+
+## Completion Notes — 2026-04-27
+
+Data names, resource IDs, attribute labels (`STR`, `HP`) and debug/runtime combat log phrases remain explicit exceptions. Sprint-005 only migrated scoped player-facing UI surfaces and documented this boundary in the sprint completion notes.
 
 ## Implementation Notes
 

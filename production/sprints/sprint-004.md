@@ -134,3 +134,33 @@ Day 5  : Nice to Have 截图归档 + playtest 回流分析 + Sprint-004 收尾
 2. **存档是粘合剂**：管理界面和基地的状态变化必须通过已有的 SaveManager / ProgressData
 3. **Tab 切换不丢失状态**：进入管理界面 → 切换 Tab → 返回，数据不变
 4. **数据驱动**：训练场熟练度、市集价格 均从 GDD 定义的常量读取，不硬编码
+
+---
+
+## Revalidation — 2026-04-27
+
+### 完成进展
+
+复核结论：Sprint-004 的 Must Have 与 Should Have 已执行完成，状态为 **COMPLETE WITH HUMAN-PLAYTEST NOTES**。
+
+| 复核项 | 结果 | 证据 |
+|---|---|---|
+| MGMT-001 角色管理 UI | 完成 | `src/ui/management/character_management.gd`、`character_management_screen.tscn`；`tests/integration/ui/character_management_test.gd` |
+| MGMT-002 装备管理 UI | 完成 | `src/ui/management/equipment_management.gd`、`equipment_management_screen.tscn`；装备切换测试在 `character_management_test.gd` 覆盖 |
+| MGMT-003 Tab 整合 | 完成 | `src/ui/management/character_tab_bar.gd`，`battle_arena.gd` 管理 overlay 支持 rewards/camp/party/equipment/character |
+| MGMT-004 存档集成 | 完成 | `battle_arena.gd` 管理界面变更触发自动保存；`tests/integration/save/battle_save_manager_integration_test.gd` 覆盖 management screen state |
+| MGMT-005 基地入口 | 完成 | `main_menu.gd` / `main_menu.tscn` 有 Base 按钮；`battle_arena.gd` 结算 overlay 有 Base 按钮并切到 `SceneManager.switch_scene("base")` |
+| BASE-001 基地主界面 | 完成 | `src/ui/base/base_hub.gd`、`base_hub.tscn`；`tests/integration/ui/base_hub_test.gd` |
+| BASE-002 训练场 MVP | 完成 | `src/ui/base/training_ground.gd`；`base_hub_test.gd` 覆盖训练场布局与训练交互 |
+| BASE-003 市集 MVP | 完成 | `base_hub.gd` 覆盖 market tab、buy/sell 价格与购买流 |
+| Sprint status | 完成 8/9 | `production/sprint-status.yaml` 中 MGMT-001~006 与 BASE-001~003 为 done，BASE-004 为 backlog |
+| 自动化解析 | PASS | 2026-04-27 运行 `godot --headless --check-only project.godot`，退出码 0 |
+| 自动化测试入口 | PASS | 2026-04-27 运行 `godot --headless res://tests/test_runner.tscn`，退出码 0；当前仓库静态统计 805 个 `test_` 方法 |
+| 打包版冒烟 | PASS | 2026-04-27 运行 `builds/windows/SRPG.exe --headless --srpg-playthrough-smoke`，输出 `PACKAGED_PLAYTHROUGH_SMOKE PASS` |
+
+### 遗留问题
+
+- `BASE-004` 仍为 backlog，需要人工 Ch.2 playtest 回流，验证培养闭环是否真正缓解卡关。
+- `production/qa/evidence/sprint-004-management-base-evidence.md` 仍标记 `PENDING`，截图清单和 sign-off 未完成；功能测试覆盖存在，但人工视觉证据未闭合。
+- 当前打包版 smoke 主要覆盖 Chapter 1 + management equipment 路径，不等同于完整基地路径人工 smoke；基地入口、训练场、市集依赖集成测试覆盖。
+- 打包版 smoke 退出时 Godot 报告资源仍在使用的 warning/error；当前不阻塞 smoke PASS，但应在后续稳定性清理中处理。

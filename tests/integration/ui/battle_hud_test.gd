@@ -8,6 +8,7 @@ const SRPGLocalizationScript := preload("res://src/core/localization/srpg_locali
 var _battle
 
 func before_each() -> void:
+	SRPGLocalizationScript.set_locale(SRPGLocalizationScript.DEFAULT_LOCALE)
 	SaveManager.clear_pending_loaded_data()
 	var scene: PackedScene = load("res://src/ui/combat/battle_arena.tscn")
 	_battle = scene.instantiate()
@@ -15,13 +16,14 @@ func before_each() -> void:
 
 func after_each() -> void:
 	SaveManager.clear_pending_loaded_data()
+	SRPGLocalizationScript.set_locale(SRPGLocalizationScript.DEFAULT_LOCALE)
 	if is_instance_valid(_battle):
 		_battle.queue_free()
 
 func test_battle_hud_builds_turn_order_actions_and_status() -> void:
 	assert_true(_battle._turn_list.get_child_count() >= 4, "Turn order list should show the battle roster")
 	assert_eq(_battle._action_bar.get_child_count(), 5, "Action bar should expose move, attack, skill, standby, and end turn")
-	assert_true(_battle._status_name_label.text.begins_with("Unit:"), "Status panel should show the focused unit")
+	assert_true(_battle._status_name_label.text.begins_with("单位："), "Status panel should show the focused unit")
 
 func test_health_change_reactively_updates_hp_bar() -> void:
 	var enemy: Unit = _first_enemy()
@@ -42,7 +44,7 @@ func test_menu_tabs_and_visibility_toggle() -> void:
 	_battle._toggle_menu()
 	assert_true(_battle._menu_layer.visible, "Menu overlay should open")
 	_battle.set_active_menu_tab("inventory")
-	assert_true(_battle._menu_content_label.text.begins_with("Inventory"))
+	assert_true(_battle._menu_content_label.text.begins_with("背包"))
 	_battle._toggle_menu()
 	assert_false(_battle._menu_layer.visible, "Menu overlay should close")
 
@@ -50,31 +52,31 @@ func test_save_tab_exposes_story_and_difficulty() -> void:
 	_battle._toggle_menu()
 	_battle.set_active_menu_tab("save")
 	assert_true(_battle._menu_content_label.text.contains("chapter_01_tutorial"), "Save tab should show story progress")
-	assert_true(_battle._menu_content_label.text.contains("First Playthrough Tutorial"), "Save tab should show the active difficulty profile")
+	assert_true(_battle._menu_content_label.text.contains("首次游玩教学"), "Save tab should show the active difficulty profile")
 
 func test_campaign_camp_and_tactics_tabs_expose_production_systems() -> void:
 	_battle._toggle_menu()
 	_battle.set_active_menu_tab("campaign")
 	assert_true(_battle._menu_content_label.text.contains("chapter_01_tutorial"), "Campaign tab should show the active battle")
 	assert_true(_battle._menu_content_label.text.contains("chapter_01_crossroads"), "Campaign tab should show the configured next battle")
-	assert_true(_battle._menu_content_label.text.contains("Story"), "Campaign tab should show story state")
+	assert_true(_battle._menu_content_label.text.contains("剧情"), "Campaign tab should show story state")
 	_battle.set_active_menu_tab("camp")
-	assert_true(_battle._menu_content_label.text.contains("Default Plan"), "Camp tab should show the default recommended plan")
+	assert_true(_battle._menu_content_label.text.contains("默认计划"), "Camp tab should show the default recommended plan")
 	_battle.set_active_menu_tab("tactics")
-	assert_true(_battle._menu_content_label.text.contains("SWORD"), "Tactics tab should show tactical profiles")
+	assert_true(_battle._menu_content_label.text.contains("移动"), "Tactics tab should show tactical profiles")
 
 func test_independent_management_screen_exposes_rewards_camp_party_and_equipment() -> void:
 	_battle.open_management_screen("rewards")
 	var state: Dictionary = _battle.get_management_screen_state()
 	assert_true(state.get("visible", false), "Management screen should open independently from the menu overlay")
-	assert_true(String(state.get("content", "")).contains("Rewards"), "Rewards management tab should show settlement context")
+	assert_true(String(state.get("content", "")).contains("战果"), "Rewards management tab should show settlement context")
 
 	_battle.set_active_management_tab("camp")
-	assert_true(String(_battle.get_management_screen_state().get("content", "")).contains("Recommended Camp"), "Camp management tab should show the recommended plan")
+	assert_true(String(_battle.get_management_screen_state().get("content", "")).contains("推荐回营"), "Camp management tab should show the recommended plan")
 	_battle.set_active_management_tab("party")
-	assert_true(String(_battle.get_management_screen_state().get("content", "")).contains("Party Management"), "Party management tab should show roster details")
+	assert_true(String(_battle.get_management_screen_state().get("content", "")).contains("队伍编成"), "Party management tab should show roster details")
 	_battle.set_active_management_tab("equipment")
-	assert_true(String(_battle.get_management_screen_state().get("content", "")).contains("Equipment Management"), "Equipment management tab should show gear details")
+	assert_true(String(_battle.get_management_screen_state().get("content", "")).contains("装备管理"), "Equipment management tab should show gear details")
 	_battle.close_management_screen()
 	assert_false(_battle.get_management_screen_state().get("visible", true), "Management screen should close")
 
@@ -91,24 +93,36 @@ func test_localization_catalog_and_audio_cues_are_wired() -> void:
 func test_equipment_and_roster_tabs_expose_player_systems() -> void:
 	_battle._toggle_menu()
 	_battle.set_active_menu_tab("equipment")
-	assert_true(_battle._menu_content_label.text.contains("Bronze Sword"), "Equipment tab should show equipped player gear")
-	assert_true(_battle._menu_content_label.text.contains("Scout Dagger"), "Equipment tab should show reserve gear")
+	assert_true(_battle._menu_content_label.text.contains("青铜剑"), "Equipment tab should show equipped player gear")
+	assert_true(_battle._menu_content_label.text.contains("斥候匕首"), "Equipment tab should show reserve gear")
 	_battle.set_active_menu_tab("roster")
-	assert_true(_battle._menu_content_label.text.contains("Party:"), "Roster tab should show party state")
-	assert_true(_battle._menu_content_label.text.contains("Departed:"), "Roster tab should show departed state")
+	assert_true(_battle._menu_content_label.text.contains("队伍："), "Roster tab should show party state")
+	assert_true(_battle._menu_content_label.text.contains("退场："), "Roster tab should show departed state")
+
+func test_chinese_locale_localizes_battle_hud_and_data_driven_names() -> void:
+	assert_true(_battle._info_label.text.contains("我方回合"), "Turn prompt should use zh_CN copy")
+	assert_true(_battle._objective_label.text.contains("首次游玩教学"), "Difficulty label should be localized")
+	assert_true(_battle._objective_label.text.contains("击败两名袭击者"), "Objective text should be localized")
+	assert_false(_battle._objective_label.text.contains("First Playthrough Tutorial"))
+	assert_false(_battle._info_label.text.contains("Your turn"))
+
+	_battle._toggle_menu()
+	_battle.set_active_menu_tab("equipment")
+	assert_true(_battle._menu_content_label.text.contains("青铜剑"), "Equipment names should be localized")
+	assert_false(_battle._menu_content_label.text.contains("Bronze Sword"))
 
 func test_boss_tab_exposes_phase_and_checkpoint_state() -> void:
 	_battle._toggle_menu()
 	_battle.set_active_menu_tab("boss")
-	assert_true(_battle._menu_content_label.text.contains("Raider Captain"), "Boss tab should show the active boss")
-	assert_true(_battle._menu_content_label.text.contains("Guarded Stance"), "Boss tab should show the active phase")
-	assert_true(_battle._menu_content_label.text.contains("Checkpoint"), "Boss tab should show checkpoint state")
+	assert_true(_battle._menu_content_label.text.contains("袭击队长"), "Boss tab should show the active boss")
+	assert_true(_battle._menu_content_label.text.contains("守备架势"), "Boss tab should show the active phase")
+	assert_true(_battle._menu_content_label.text.contains("检查点"), "Boss tab should show checkpoint state")
 
 func test_settlement_tab_exposes_empty_state_before_battle_end() -> void:
 	_battle._toggle_menu()
 	_battle.set_active_menu_tab("settlement")
 	assert_true(
-		_battle._menu_content_label.text.contains("No settlement result yet"),
+		_battle._menu_content_label.text.contains("暂无结算结果"),
 		"Settlement tab should explain that rewards are generated after battle end"
 	)
 

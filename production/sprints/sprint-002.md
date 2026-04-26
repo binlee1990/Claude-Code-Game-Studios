@@ -179,3 +179,26 @@ Day 5    : Sprint-002 closure：smoke + screenshot evidence + retro
 - [ ] Lane C：4 项全 DONE，Ch.2 epic 出现在 index
 - [ ] active.md 同步更新
 - [ ] `/sprint-status` 输出 Sprint-002 COMPLETE
+
+---
+
+## Revalidation — 2026-04-27
+
+### 完成进展
+
+复核结论：Sprint-002 三条 lane 的实现交付已完成，状态为 **COMPLETE WITH MANUAL-EVIDENCE NOTES**。
+
+| Lane | 结果 | 证据 |
+|---|---|---|
+| A 治理闭环 | 完成 | ADR-004/005/006 已 Accepted；`docs/architecture/control-manifest.md` 覆盖 ADR-001~006；`docs/architecture/tr-registry.yaml` 已标 deprecated |
+| B 观感 P0 | 完成 | 字体与 BGM 文件及 `.import` 已存在；`srpg_theme.gd` 预加载 `TITLE_FONT` / `BODY_FONT`；`main_menu.gd` / `battle_arena.gd` 加载并 loop BGM；`hint_bar.gd` 存在 |
+| C Ch.2 内容基线 | 完成 | `design/gdd/chapter-02.md`、`design/narrative/belief-branching.md`、`chapter_02_*.json`、`production/epics/chapter-02/index.md` 均已落地 |
+| 自动化解析 | PASS | 2026-04-27 运行 `godot --headless --check-only project.godot`，退出码 0 |
+| 自动化测试入口 | PASS | 2026-04-27 运行 `godot --headless res://tests/test_runner.tscn`，退出码 0；当前仓库静态统计 805 个 `test_` 方法 |
+| 打包版冒烟 | PASS | 2026-04-27 运行 `builds/windows/SRPG.exe --headless --srpg-playthrough-smoke`，输出 `PACKAGED_PLAYTHROUGH_SMOKE PASS`；验证字体/BGM `.import` 能随 PCK 打包 |
+
+### 遗留问题
+
+- `production/qa/evidence/sprint-002-presentation-p0.md` 仍保留早期 `IMPLEMENTATION COMPLETE — 待人工截图验收` 与若干 TODO，和当前实现状态不同步；需要补截图或更新 evidence。
+- `design/ux/credits.md` 已记录 Kevin MacLeod / OFL 署名要求，但 `design/ux/credits-screen.md` 尚不存在；公开发布前必须把 CC-BY 3.0 署名实际显示到游戏内 Credits。
+- 打包版 smoke 退出时 Godot 报告资源仍在使用的 warning/error；当前不阻塞 smoke PASS，但应在后续稳定性清理中处理。

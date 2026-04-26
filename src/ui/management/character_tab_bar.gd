@@ -8,6 +8,7 @@ extends HBoxContainer
 signal tab_selected(tab_key: String)
 
 const SRPGTheme := preload("res://src/ui/theme/srpg_theme.gd")
+const SRPGLocalizationScript := preload("res://src/core/localization/srpg_localization.gd")
 
 var _tab_buttons: Dictionary = {}
 var _active_tab: String = ""
@@ -51,13 +52,17 @@ func get_active_tab() -> String:
 func _get_tab_label(key: String) -> String:
 	match key:
 		"character":
-			return "角色"
+			return SRPGLocalizationScript.translate("management.character")
 		"party":
-			return "编队"
+			return SRPGLocalizationScript.translate("management.party")
 		"equipment":
-			return "装备"
+			return SRPGLocalizationScript.translate("management.equipment")
 		"skills":
-			return "技能"
+			return SRPGLocalizationScript.translate("management.skills")
+		"rewards":
+			return SRPGLocalizationScript.translate("management.rewards")
+		"camp":
+			return SRPGLocalizationScript.translate("management.camp")
 		_:
 			return key
 

@@ -1,11 +1,49 @@
 # Session State
 
-**Last Updated**: 2026-04-26
+**Last Updated**: 2026-04-27
 
 ## Current Task
-**Sprint-004 COMPLETE** — 管理界面 Beta + 基地系统 MVP
+**Sprint-005 COMPLETE** — 本地化 + Credits 合规 + Ch.3/Bond/Base/Fog readiness
 
-Active stage: Production. Sprint-004 COMPLETE（8 stories 全 DONE）。
+Active stage: Production. Sprint-005 COMPLETE（14 个非人工任务全 DONE）。人工 playtest、截图、人工 sign-off 继续不作为 Sprint-005 完成门槛。
+
+## Sprint-005 最终状态
+
+| 类别 | 数量 | 状态 |
+|------|------|------|
+| Must Have | 5 | ✅ 全 DONE |
+| Should Have | 4 | ✅ 全 DONE |
+| Nice to Have | 5 | ✅ 全 DONE |
+| godot --check-only | - | ✅ 0 parse error |
+| GUT test runner | - | ✅ 退出码 0 |
+| Packaged smoke | - | ✅ PASS，无 ObjectDB/resource leak warning |
+
+### Sprint-005 交付物
+
+| Story | 新建/修改文件 |
+|-------|--------------|
+| LOC-001 | `src/core/localization/srpg_localization.gd`，基地/训练/管理/战斗管理入口文案迁移 |
+| LOC-002 | `src/ui/menu/main_menu.gd` 语言切换按钮与即时刷新 |
+| LOC-003 | `src/core/save/save_data.gd` / `save_manager.gd` locale 持久化 |
+| REL-001 | 主菜单 Credits overlay + `design/ux/credits-screen.md` |
+| REL-002 | localization / Credits tests + manifest |
+| GOV-001 | `production/epics/index.md`、localization epic/story 状态同步 |
+| CH3-001 | `design/gdd/chapter-03.md` skeleton |
+| BOND-001 | `production/epics/bond-system/` readiness epic |
+| TECH-001 | packaged smoke BGM resource leak 修复 + triage doc |
+| ADR-008/009 | resource economy / equipment upgrade draft ADRs |
+| BASE-FULL-001 | `docs/active/base-full-readiness-brief.md` |
+| FOG-001 | `production/epics/fog-of-war/` readiness epic |
+
+### Sprint-005 遗留
+
+| 项 | 状态 | 说明 |
+|---|---|---|
+| Ch.2 human playtest | backlog | 仍需人工验证培养闭环体验，但不阻塞非人工完成 |
+| Sprint-004 screenshots/sign-off | backlog | 仍为人工视觉证据，不阻塞 Sprint-005 |
+| ADR-008/009 | Draft | 下一步实现前需正式接受 |
+
+---
 
 ## Sprint-004 最终状态
 

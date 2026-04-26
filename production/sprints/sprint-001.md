@@ -101,3 +101,25 @@ Sprint 完成时，Vertical Slice 必须满足:
 | ADR-002 | 场景管理（地图/战斗切换） |
 | ADR-003 | 存档系统（存档集成 stories） |
 | Control Manifest | docs/architecture/control-manifest.md (v2026-04-23-v1) |
+
+---
+
+## Revalidation — 2026-04-27
+
+### 完成进展
+
+复核结论：Sprint-001 按「Vertical Slice 可玩闭环」口径已执行完成，状态为 **COMPLETE WITH PRODUCT-SCOPE NOTES**。
+
+| 复核项 | 结果 | 证据 |
+|---|---|---|
+| 核心战斗闭环 | 完成 | `production/qa/evidence/chapter-01-complete-release-evidence.md` 记录 Chapter 1 正式路径、结算、管理屏、保存/读取均 PASS |
+| 自动化解析 | PASS | 2026-04-27 运行 `godot --headless --check-only project.godot`，退出码 0 |
+| 自动化测试入口 | PASS | 2026-04-27 运行 `godot --headless res://tests/test_runner.tscn`，退出码 0；当前仓库静态统计 805 个 `test_` 方法 |
+| 打包版冒烟 | PASS | 2026-04-27 运行 `builds/windows/SRPG.exe --headless --srpg-playthrough-smoke`，输出 `PACKAGED_PLAYTHROUGH_SMOKE PASS` |
+| 试玩/视觉验收 | PASS WITH NOTES | `production/playtests/playtest-2026-04-24-visual-signoff.md`、`production/playtests/playtest-2026-04-25-fun-validation-rerun.md` |
+
+### 遗留问题
+
+- 原始 AC 写的是「斜45度 + 网格」，但当前实际交付为 2D top-down fallback 网格；`production/epics/camera-map-system/story-001-isometric-camera.md` 仍标记 Deferred，`story-003-save-load-integration.md` 也记录 rotation persistence deferred。
+- UI / resource / battle HUD 证据文档仍有 manual walkthrough pending 口径；功能可用，但不是最终 release 视觉签收。
+- 打包版 smoke 退出时 Godot 报告资源仍在使用的 warning/error；当前不阻塞 smoke PASS，但应在后续稳定性清理中处理。

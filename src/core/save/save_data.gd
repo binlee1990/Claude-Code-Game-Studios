@@ -7,6 +7,7 @@ extends Resource
 @export var version: int = 1
 @export var timestamp: int = 0
 @export var playtime: int = 0
+@export var locale: String = ""
 
 @export var party_units: Array = []
 @export var inventory_items: Array = []
@@ -25,6 +26,7 @@ func serialize() -> Dictionary:
 		"version": version,
 		"timestamp": timestamp,
 		"playtime": playtime,
+		"locale": locale,
 		"party_units": party_units,
 		"inventory_items": inventory_items,
 		"story_progress": story_progress,
@@ -43,6 +45,7 @@ static func deserialize(data: Dictionary) -> SaveData:
 	sd.version = data.get("version", 1)
 	sd.timestamp = data.get("timestamp", 0)
 	sd.playtime = data.get("playtime", 0)
+	sd.locale = data.get("locale", "")
 	sd.party_units = data.get("party_units", [])
 	sd.inventory_items = data.get("inventory_items", [])
 	sd.story_progress = data.get("story_progress", {})

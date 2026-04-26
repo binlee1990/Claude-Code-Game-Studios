@@ -1,7 +1,10 @@
 # Autoload: SaveManager
 extends Node
 
+const SRPGLocalizationScript := preload("res://src/core/localization/srpg_localization.gd")
+
 const SAVE_DIR := "user://saves/"
+const SETTINGS_PATH := SAVE_DIR + "settings.tres"
 const MAX_SLOTS := 8
 
 var _current_slot: int = -1
@@ -15,7 +18,7 @@ func save_game(slot: int) -> bool:
 	if slot < 0 or slot > MAX_SLOTS:
 		return false
 
-	var save_data := _create_save_data()
+	var save_data := _create_save_data(slot)
 
 	var path := SAVE_DIR + "save_%d.tres" % slot
 	_remove_save_file(path)
@@ -42,6 +45,7 @@ func load_game(slot: int) -> bool:
 	if save_data == null:
 		return false
 
+	_apply_locale_from_save_data(save_data)
 	_pending_loaded_data = save_data
 	_current_slot = slot
 	GameEvents.game_loaded.emit(slot)
@@ -78,17 +82,52 @@ func peek_save(slot: int) -> SaveData:
 		return null
 	return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE) as SaveData
 
+## Persist the language preference outside combat/base save-state providers.
+func save_locale_preference(locale: String) -> bool:
+	if not SRPGLocalizationScript.is_supported_locale(locale):
+		return false
+	var settings_data := _load_settings_data()
+	settings_data.locale = locale
+	settings_data.timestamp = Time.get_unix_time_from_system()
+	settings_data.settings["locale"] = locale
+	var result := ResourceSaver.save(settings_data, SETTINGS_PATH)
+	if result != OK:
+		return false
+	SRPGLocalizationScript.set_locale(locale)
+	return true
+
+## Resolve the best available locale preference without mutating save slots.
+func load_locale_preference() -> String:
+	var settings_data := _load_settings_data(false)
+	if settings_data != null:
+		var settings_locale := _locale_from_save_data(settings_data)
+		if settings_locale != "":
+			return settings_locale
+	var current_slot := get_current_slot()
+	if current_slot >= 0:
+		var current_save := peek_save(current_slot)
+		var current_locale := _locale_from_save_data(current_save)
+		if current_locale != "":
+			return current_locale
+	var slot_one := peek_save(1)
+	var slot_one_locale := _locale_from_save_data(slot_one)
+	if slot_one_locale != "":
+		return slot_one_locale
+	return SRPGLocalizationScript.DEFAULT_LOCALE
+
 func _remove_save_file(path: String) -> void:
 	if FileAccess.file_exists(path):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
 
-func _create_save_data() -> SaveData:
+func _create_save_data(slot: int) -> SaveData:
 	var save_data := SaveData.new()
 	save_data.timestamp = Time.get_unix_time_from_system()
+	save_data.locale = SRPGLocalizationScript.get_locale()
 
 	var snapshot := _capture_runtime_from_best_provider()
 	var provider: Node = snapshot.get("provider", null)
 	save_data.current_scene_key = _infer_scene_key(provider)
+	var previous_save := peek_save(slot)
 
 	var runtime: Dictionary = snapshot.get("runtime", {})
 	if not runtime.is_empty():
@@ -101,8 +140,56 @@ func _create_save_data() -> SaveData:
 		save_data.inventory_state = runtime.get("inventory_state", {})
 		save_data.battle_history = runtime.get("battle_history", {})
 		save_data.story_progress = runtime.get("story_progress", {})
+	if previous_save != null:
+		_preserve_campaign_state(save_data, previous_save)
 
+	save_data.settings["locale"] = SRPGLocalizationScript.get_locale()
 	return save_data
+
+func _preserve_campaign_state(save_data: SaveData, previous_save: SaveData) -> void:
+	var lacks_battle_state := save_data.battle_state.is_empty()
+	if lacks_battle_state:
+		save_data.battle_state = previous_save.battle_state.duplicate(true)
+	if lacks_battle_state and save_data.story_progress.is_empty():
+		save_data.story_progress = previous_save.story_progress.duplicate(true)
+	if lacks_battle_state and save_data.camera_preferences.is_empty():
+		save_data.camera_preferences = previous_save.camera_preferences.duplicate(true)
+	if lacks_battle_state and save_data.battle_history.is_empty():
+		save_data.battle_history = previous_save.battle_history.duplicate(true)
+	if save_data.current_scene_key.is_empty():
+		save_data.current_scene_key = previous_save.current_scene_key
+
+	if save_data.ui_preferences.is_empty():
+		save_data.ui_preferences = previous_save.ui_preferences.duplicate(true)
+
+	var merged_settings := previous_save.settings.duplicate(true)
+	for key in save_data.settings.keys():
+		merged_settings[key] = save_data.settings[key]
+	save_data.settings = merged_settings
+
+func _load_settings_data(create_if_missing: bool = true) -> SaveData:
+	if FileAccess.file_exists(SETTINGS_PATH):
+		var loaded := ResourceLoader.load(SETTINGS_PATH, "", ResourceLoader.CACHE_MODE_IGNORE) as SaveData
+		if loaded != null:
+			return loaded
+	if not create_if_missing:
+		return null
+	return SaveData.new()
+
+func _apply_locale_from_save_data(save_data: SaveData) -> void:
+	var locale := _locale_from_save_data(save_data)
+	if locale != "":
+		SRPGLocalizationScript.set_locale(locale)
+
+func _locale_from_save_data(save_data: SaveData) -> String:
+	if save_data == null:
+		return ""
+	if save_data.locale != "" and SRPGLocalizationScript.is_supported_locale(save_data.locale):
+		return save_data.locale
+	var settings_locale := String(save_data.settings.get("locale", ""))
+	if settings_locale != "" and SRPGLocalizationScript.is_supported_locale(settings_locale):
+		return settings_locale
+	return ""
 
 func _capture_runtime_from_best_provider() -> Dictionary:
 	var best_provider: Node = null

@@ -1,7 +1,7 @@
 # Story 003: 语言偏好持久化 + 运行时切换
 
 > **Epic**: Localization
-> **Status**: Planning
+> **Status**: Complete
 > **Layer**: Foundation
 > **Type**: Integration
 
@@ -14,9 +14,13 @@
 
 ## Acceptance Criteria
 
-- [ ] LOC-AC-12: 语言偏好保存到 SaveData（新增 `locale` 字段）
-- [ ] LOC-AC-13: 游戏启动时从存档读取语言偏好，回退到 DEFAULT_LOCALE
-- [ ] LOC-AC-14: 切换语言后自动存档
+- [x] LOC-AC-12: 语言偏好保存到 SaveData（新增 `locale` 字段）和 settings payload
+- [x] LOC-AC-13: 主菜单启动时从 settings/save 读取语言偏好，回退到 DEFAULT_LOCALE
+- [x] LOC-AC-14: 切换语言后自动保存 locale preference
+
+## Completion Notes — 2026-04-27
+
+`SaveManager.save_locale_preference()` writes `user://saves/settings.tres` so language choice can persist even when no battle save exists. `load_game()` also restores locale from SaveData when available.
 
 ## Implementation Notes
 

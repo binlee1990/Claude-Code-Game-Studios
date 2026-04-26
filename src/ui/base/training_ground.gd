@@ -5,6 +5,7 @@ extends Control
 ## BASE-002: Players can view character skill proficiency
 
 const SRPGTheme := preload("res://src/ui/theme/srpg_theme.gd")
+const SRPGLocalizationScript := preload("res://src/core/localization/srpg_localization.gd")
 
 signal closed()
 signal training_changed(unit_id: StringName, skill_id: StringName, result: Dictionary)
@@ -98,7 +99,7 @@ func _create_character_panel(parent: Control) -> Panel:
 	panel.add_child(vbox)
 
 	var title := Label.new()
-	title.text = "角色列表"
+	title.text = _tr("training.character_list")
 	SRPGTheme.apply_label_scaled(title, _ui_scale, SRPGTheme.GOLD, 18, true)
 	vbox.add_child(title)
 
@@ -133,7 +134,7 @@ func _create_skill_detail_panel(parent: Control) -> Panel:
 	panel.add_child(vbox)
 
 	var title := Label.new()
-	title.text = "技能熟练度"
+	title.text = _tr("training.skill_proficiency")
 	SRPGTheme.apply_label_scaled(title, _ui_scale, SRPGTheme.GOLD, 18, true)
 	vbox.add_child(title)
 
@@ -143,7 +144,7 @@ func _create_skill_detail_panel(parent: Control) -> Panel:
 	vbox.add_child(info_row)
 
 	_detail_name_label = Label.new()
-	_detail_name_label.text = "选择角色"
+	_detail_name_label.text = _tr("training.select_character")
 	SRPGTheme.apply_label_scaled(_detail_name_label, _ui_scale, SRPGTheme.WHITE, 18, true)
 	info_row.add_child(_detail_name_label)
 
@@ -163,7 +164,7 @@ func _create_skill_detail_panel(parent: Control) -> Panel:
 	# Empty state placeholder
 	var empty_label := Label.new()
 	empty_label.name = "EmptyLabel"
-	empty_label.text = "点击左侧角色查看技能熟练度"
+	empty_label.text = _tr("training.empty_hint")
 	empty_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	empty_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	empty_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -183,7 +184,7 @@ func _build_hint_bar() -> void:
 	add_child(bar)
 
 	var hint_label := Label.new()
-	hint_label.text = "点击角色查看其技能熟练度 | 训练按钮提升熟练度 | Esc 返回"
+	hint_label.text = _tr("training.hint")
 	hint_label.set_anchors_preset(Control.PRESET_FULL_RECT)
 	hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hint_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -258,7 +259,7 @@ func _create_character_button_for_unit(unit: Unit, index: int) -> Button:
 	btn.add_child(hbox)
 
 	var name_lbl := Label.new()
-	name_lbl.text = unit.display_name
+	name_lbl.text = _display_text(unit.display_name)
 	name_lbl.custom_minimum_size = Vector2(_scaled(120.0), 0.0)
 	SRPGTheme.apply_label_scaled(name_lbl, _ui_scale, SRPGTheme.PAPER, 14)
 	hbox.add_child(name_lbl)
@@ -281,7 +282,7 @@ func _create_character_button(unit_data: Dictionary, index: int) -> Button:
 	btn.add_child(hbox)
 
 	var name_lbl := Label.new()
-	name_lbl.text = unit_data.get("display_name", "Unknown")
+	name_lbl.text = _display_text(String(unit_data.get("display_name", _tr("common.unknown"))))
 	name_lbl.custom_minimum_size = Vector2(_scaled(120.0), 0.0)
 	SRPGTheme.apply_label_scaled(name_lbl, _ui_scale, SRPGTheme.PAPER, 14)
 	hbox.add_child(name_lbl)
@@ -303,7 +304,7 @@ func _refresh_skill_detail() -> void:
 			_refresh_roster_skill_detail()
 			return
 		var empty_label := Label.new()
-		empty_label.text = "点击左侧角色查看技能熟练度"
+		empty_label.text = _tr("training.empty_hint")
 		empty_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		empty_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		empty_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -312,7 +313,7 @@ func _refresh_skill_detail() -> void:
 		return
 
 	var unit_data: Dictionary = _roster_data[_selected_unit_index]
-	_detail_name_label.text = unit_data.get("display_name", "Unknown")
+	_detail_name_label.text = _display_text(String(unit_data.get("display_name", _tr("common.unknown"))))
 
 	_detail_class_label.text = _get_class_name(_get_class_id_from_unit_data(unit_data))
 
@@ -327,13 +328,13 @@ func _refresh_roster_skill_detail() -> void:
 	var unit := _get_selected_unit()
 	if unit == null:
 		return
-	_detail_name_label.text = unit.display_name
+	_detail_name_label.text = _display_text(unit.display_name)
 	_detail_class_label.text = _get_class_name(unit.class_component.get_class_id())
 
 	var skills: Array = unit.skill_component.get_all_skills()
 	if skills.is_empty():
 		var empty_label := Label.new()
-		empty_label.text = "该角色尚未学习技能"
+		empty_label.text = _tr("training.no_skills")
 		empty_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		empty_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		empty_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -346,7 +347,7 @@ func _refresh_roster_skill_detail() -> void:
 			_add_skill_row((skill as SkillData).serialize())
 
 func _add_skill_row(skill_data: Dictionary) -> void:
-	var skill_name: String = skill_data.get("name", "Unknown Skill")
+	var skill_name: String = _display_text(String(skill_data.get("name", _tr("training.unknown_skill"))))
 	var skill_id := StringName(skill_data.get("skill_id", ""))
 	var level: int = skill_data.get("level", 1)
 	var proficiency: int = skill_data.get("proficiency", 0)
@@ -369,13 +370,13 @@ func _add_skill_row(skill_data: Dictionary) -> void:
 	name_row.add_child(name_lbl)
 
 	var level_lbl := Label.new()
-	level_lbl.text = "Lv.%d" % level
+	level_lbl.text = "%s%d" % [_display_text("Lv."), level]
 	SRPGTheme.apply_label_scaled(level_lbl, _ui_scale, SRPGTheme.JADE, 14)
 	name_row.add_child(level_lbl)
 
 	var train_btn := Button.new()
 	train_btn.name = "TrainButton_%s" % String(skill_id)
-	train_btn.text = "训练 +10"
+	train_btn.text = _tr("training.train_plus")
 	train_btn.disabled = _roster == null or skill_id == &""
 	train_btn.focus_mode = Control.FOCUS_ALL
 	train_btn.pressed.connect(_on_train_skill_pressed.bind(skill_id))
@@ -410,8 +411,8 @@ func _add_skill_row(skill_data: Dictionary) -> void:
 
 	# Rank info
 	var rank_lbl := Label.new()
-	var rank_str: String = SkillDefinitions.Rank.keys()[rank] if rank < SkillDefinitions.Rank.size() else "UNKNOWN"
-	rank_lbl.text = "Rank: %s" % rank_str
+	var rank_str: String = _display_text(String(SkillDefinitions.Rank.keys()[rank])) if rank < SkillDefinitions.Rank.size() else _tr("common.unknown")
+	rank_lbl.text = _tr("training.rank") % rank_str
 	SRPGTheme.apply_label_scaled(rank_lbl, _ui_scale, SRPGTheme.GOLD, 12)
 	container.add_child(rank_lbl)
 
@@ -432,8 +433,8 @@ func _get_class_id_from_unit_data(unit_data: Dictionary) -> int:
 func _get_class_name(class_id: int) -> String:
 	var class_names: Array = ClassNames.ClassID.keys()
 	if class_id < 0 or class_id >= class_names.size():
-		return "Unknown"
-	return class_names[class_id]
+		return _tr("training.unknown_class")
+	return _display_text(String(class_names[class_id]))
 
 func _get_save_slot() -> int:
 	var current_slot := SaveManager.get_current_slot()
@@ -458,3 +459,9 @@ func _input(event: InputEvent) -> void:
 		if event.keycode == KEY_ESCAPE:
 			closed.emit()
 			get_viewport().set_input_as_handled()
+
+func _tr(key: String) -> String:
+	return SRPGLocalizationScript.translate(key)
+
+func _display_text(value: String) -> String:
+	return SRPGLocalizationScript.display_text(value)

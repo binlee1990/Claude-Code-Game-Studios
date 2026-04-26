@@ -6,6 +6,7 @@ var _roster: CharacterRoster
 var _screen: CharacterManagement
 
 func before_each() -> void:
+	SRPGLocalization.set_locale(SRPGLocalization.DEFAULT_LOCALE)
 	_roster = CharacterRoster.new()
 	_roster.name = "Roster"
 	add_child(_roster)
@@ -96,12 +97,12 @@ func test_equipment_detail_buttons_equip_and_unequip_items() -> void:
 	add_child(_screen)
 	_screen.call("_on_roster_item_selected", &"leader")
 
-	var equip_button := _find_button_by_text(_screen, "装备", true)
+	var equip_button := _find_button_by_text(_screen, SRPGLocalization.translate("management.equip"), true)
 	assert_ne(equip_button, null, "Unequipped inventory items should expose an equip button")
 	equip_button.pressed.emit()
 	assert_eq(unit.equipment_component.get_equipped_item(EquipmentDefinitions.Slot.WEAPON).item_id, &"iron_sword")
 
-	var unequip_button := _find_button_by_text(_screen, "卸下", true)
+	var unequip_button := _find_button_by_text(_screen, SRPGLocalization.translate("management.unequip"), true)
 	assert_ne(unequip_button, null, "Equipped slots should expose an unequip button")
 	unequip_button.pressed.emit()
 	assert_eq(unit.equipment_component.get_equipped_item(EquipmentDefinitions.Slot.WEAPON), null)

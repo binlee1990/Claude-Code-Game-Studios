@@ -2,8 +2,9 @@
 
 > **Layer**: Foundation
 > **GDD**: `design/gdd/localization-system.md`
-> **Status**: Planning
+> **Status**: Complete
 > **Created**: 2026-04-26
+> **Completed**: 2026-04-27
 
 ## 目标
 
@@ -21,11 +22,19 @@
 
 ## Stories
 
-| ID | 标题 | 类型 | Est. | Dependencies |
-|----|------|------|------|-------------|
-| LOC-001 | 全量 UI 字符串迁移至 SRPGLocalization | Integration | 1d | SRPGLocalization 存在 |
-| LOC-002 | 语言切换 UI（主菜单） | UI | 0.25d | LOC-001 |
-| LOC-003 | 语言偏好持久化 + 运行时切换 | Integration | 0.25d | LOC-001 + SaveManager |
+| ID | 标题 | 类型 | Est. | Dependencies | Status |
+|----|------|------|------|-------------|--------|
+| LOC-001 | 全量 UI 字符串迁移至 SRPGLocalization | Integration | 1d | SRPGLocalization 存在 | Complete |
+| LOC-002 | 语言切换 UI（主菜单） | UI | 0.25d | LOC-001 | Complete |
+| LOC-003 | 语言偏好持久化 + 运行时切换 | Integration | 0.25d | LOC-001 + SaveManager | Complete |
+
+## 完成证据
+
+- `SRPGLocalization` 增加 `current_locale`、`set_locale()`、catalog parity helpers。
+- 主菜单提供 `LanguageButton` 和 `CreditsButton`。
+- `SaveData.locale` 与 `SaveManager.save_locale_preference()` / `load_locale_preference()` 已接入。
+- `tests/unit/localization/localization_test.gd` 覆盖 key parity、运行时 locale、SaveData locale。
+- `tests/integration/ui/main_menu_localization_credits_test.gd` 覆盖语言切换、偏好持久化和 Credits route。
 
 ## 范围外
 

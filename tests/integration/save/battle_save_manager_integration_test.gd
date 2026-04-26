@@ -5,10 +5,12 @@ extends Gut
 
 const TEST_SLOT := 7
 const CharacterRosterScript = preload("res://src/core/character/character_roster.gd")
+const SRPGLocalizationScript := preload("res://src/core/localization/srpg_localization.gd")
 
 var _battle
 
 func before_each() -> void:
+	SRPGLocalizationScript.set_locale(SRPGLocalizationScript.DEFAULT_LOCALE)
 	_remove_test_save()
 	SaveManager.clear_pending_loaded_data()
 	var scene: PackedScene = load("res://src/ui/combat/battle_arena.tscn")
@@ -17,6 +19,7 @@ func before_each() -> void:
 
 func after_each() -> void:
 	SaveManager.clear_pending_loaded_data()
+	SRPGLocalizationScript.set_locale(SRPGLocalizationScript.DEFAULT_LOCALE)
 	if is_instance_valid(_battle):
 		_battle.queue_free()
 	_remove_test_save()
@@ -80,7 +83,7 @@ func test_save_manager_restores_management_screen_state() -> void:
 
 	assert_true(restored.get_management_screen_state().get("visible", false), "Management screen visibility should restore")
 	assert_eq(restored.get_management_screen_state().get("tab", ""), "equipment", "Management screen tab should restore")
-	assert_true(String(restored.get_management_screen_state().get("content", "")).contains("Equipment Management"), "Restored management screen should render content")
+	assert_true(String(restored.get_management_screen_state().get("content", "")).contains("装备管理"), "Restored management screen should render content")
 	restored.queue_free()
 
 func test_save_manager_writes_party_units_and_inventory_items_to_save_data() -> void:
@@ -123,7 +126,7 @@ func test_save_manager_restores_chapter_one_settlement_rewards() -> void:
 	assert_true(restored.get_story_progress().get("chapter_01_complete", false), "Victory story progress should restore")
 	restored._toggle_menu()
 	restored.set_active_menu_tab("settlement")
-	assert_true(restored._menu_content_label.text.contains("Equipment"), "Restored settlement tab should show reward details")
+	assert_true(restored._menu_content_label.text.contains("装备"), "Restored settlement tab should show reward details")
 	restored.queue_free()
 
 func test_save_manager_restores_campaign_follow_up_state() -> void:
@@ -145,9 +148,31 @@ func test_save_manager_restores_campaign_follow_up_state() -> void:
 
 	assert_eq(restored.get_battle_id(), "chapter_01_crossroads", "SaveManager should restore the active follow-up battle definition")
 	assert_eq(restored.get_story_progress().get("current_battle", ""), "chapter_01_crossroads", "Campaign story progress should restore")
-	assert_true(restored.get_campaign_state().get("camp_report", "").contains("Defend"), "Camp report should restore")
+	assert_true(restored.get_campaign_state().get("camp_report", "").contains("防御"), "Camp report should restore")
 	assert_ne(_find_unit_by_id(restored, "E4"), null, "Follow-up battle units should restore")
 	assert_eq(int(restored._map_terrain.get(Vector2i(9, 8), -1)), TerrainTypes.Terrain.WATER_PUDDLE, "Follow-up tactical terrain should restore")
+	restored.queue_free()
+
+func test_base_resume_flag_advances_cleared_tutorial_to_next_battle() -> void:
+	var actor: Unit = _battle._combat.get_current_actor()
+	for unit in _battle._unit_cells.keys():
+		if _battle._combat.get_unit_team(unit) == CombatSystem.Team.ENEMY:
+			_battle._combat.apply_damage(unit, 999, actor)
+	_battle._check_battle_end()
+	_battle._ui_preferences["advance_after_base"] = true
+	assert_true(SaveManager.save_game(TEST_SLOT), "Base resume flag should save with cleared battle state")
+
+	_battle.queue_free()
+	_battle = null
+
+	assert_true(SaveManager.load_game(TEST_SLOT), "Saved base resume slot should load")
+	var scene: PackedScene = load("res://src/ui/combat/battle_arena.tscn")
+	var restored = scene.instantiate()
+	add_child(restored)
+
+	assert_eq(restored.get_battle_id(), "chapter_01_crossroads", "Base resume should enter the next Chapter 1 battle")
+	assert_eq(restored.get_story_progress().get("current_battle", ""), "chapter_01_crossroads", "Story progress should advance with the battle")
+	assert_false(restored._ui_preferences.has("advance_after_base"), "One-shot base resume flag should be consumed")
 	restored.queue_free()
 
 func _first_enemy(battle) -> Unit:

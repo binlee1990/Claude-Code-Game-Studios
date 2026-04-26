@@ -7,6 +7,7 @@ extends Control
 const SRPGTheme := preload("res://src/ui/theme/srpg_theme.gd")
 const InkBackdrop := preload("res://src/ui/theme/ink_backdrop.gd")
 const HintBarScript := preload("res://src/ui/common/hint_bar.gd")
+const SRPGLocalizationScript := preload("res://src/core/localization/srpg_localization.gd")
 
 const TAB_TRAINING: int = 0
 const TAB_MARKET: int = 1
@@ -14,6 +15,9 @@ const TAB_MANAGEMENT: int = 2
 const DESIGN_VIEWPORT_SIZE := Vector2(1280.0, 720.0)
 const MIN_UI_SCALE: float = 1.0
 const MAX_UI_SCALE: float = 1.3
+const _SCENE_KEY := "base"
+const _BATTLE_END_PHASE := 5
+const _CHAPTER_01_TO_CHAPTER_02_PATH := "res://src/ui/combat/battle_definitions/chapter_02_act_a.json"
 const TrainingGroundScript := preload("res://src/ui/base/training_ground.gd")
 const CharacterManagementScene := preload("res://src/ui/management/character_management_screen.tscn")
 
@@ -22,7 +26,10 @@ var _training_ground: Control = null
 var _roster: CharacterRoster = null
 var _character_screen: CharacterManagement = null
 var _management_empty_label: Label = null
+var _continue_campaign_btn: Button = null
+var _campaign_status_label: Label = null
 var _ui_scale: float = 1.0
+var _advance_after_base_requested: bool = false
 
 var _base_level: int = 1
 var _gold: int = 0
@@ -44,16 +51,17 @@ var _market_selected_id: int = -1
 var _market_selected_price: int = 0
 
 const MARKET_ITEMS: Array[Dictionary] = [
-	{"id": ResourceTypes.ResourceId.BASIC_MATERIAL, "name": "基础材料", "buy": 50, "sell": 25},
-	{"id": ResourceTypes.ResourceId.FRUIT_STR, "name": "力量果实", "buy": 200, "sell": 100},
-	{"id": ResourceTypes.ResourceId.FRUIT_AGI, "name": "敏捷果实", "buy": 200, "sell": 100},
-	{"id": ResourceTypes.ResourceId.FRUIT_CON, "name": "体力果实", "buy": 200, "sell": 100},
-	{"id": ResourceTypes.ResourceId.FRUIT_INT, "name": "智力果实", "buy": 200, "sell": 100},
-	{"id": ResourceTypes.ResourceId.FRUIT_CHA, "name": "魅力果实", "buy": 200, "sell": 100},
-	{"id": ResourceTypes.ResourceId.PROTECT_SYMBOL, "name": "保护符", "buy": 500, "sell": 250},
+	{"id": ResourceTypes.ResourceId.BASIC_MATERIAL, "name_key": "market.item.basic_material", "buy": 50, "sell": 25},
+	{"id": ResourceTypes.ResourceId.FRUIT_STR, "name_key": "market.item.fruit_str", "buy": 200, "sell": 100},
+	{"id": ResourceTypes.ResourceId.FRUIT_AGI, "name_key": "market.item.fruit_agi", "buy": 200, "sell": 100},
+	{"id": ResourceTypes.ResourceId.FRUIT_CON, "name_key": "market.item.fruit_con", "buy": 200, "sell": 100},
+	{"id": ResourceTypes.ResourceId.FRUIT_INT, "name_key": "market.item.fruit_int", "buy": 200, "sell": 100},
+	{"id": ResourceTypes.ResourceId.FRUIT_CHA, "name_key": "market.item.fruit_cha", "buy": 200, "sell": 100},
+	{"id": ResourceTypes.ResourceId.PROTECT_SYMBOL, "name_key": "market.item.protect_symbol", "buy": 500, "sell": 250},
 ]
 
 func _ready() -> void:
+	add_to_group("save_state_provider")
 	_ui_scale = _calculate_ui_scale()
 	_load_inventory_from_save()
 	_build_visuals()
@@ -102,6 +110,8 @@ func _clear_visuals() -> void:
 	_roster = null
 	_character_screen = null
 	_management_empty_label = null
+	_continue_campaign_btn = null
+	_campaign_status_label = null
 	_market_item_list = null
 	_market_item_count_ref = null
 	_market_selected_label_ref = null
@@ -150,17 +160,17 @@ func _build_visuals() -> void:
 	# Tab 1: 训练场
 	var training_panel := _create_training_tab()
 	_tab_container.add_child(training_panel)
-	_tab_container.set_tab_title(TAB_TRAINING, "训练场")
+	_tab_container.set_tab_title(TAB_TRAINING, _tr("base.tab.training"))
 
 	# Tab 2: 市集
 	var market_panel := _create_market_tab()
 	_tab_container.add_child(market_panel)
-	_tab_container.set_tab_title(TAB_MARKET, "市集")
+	_tab_container.set_tab_title(TAB_MARKET, _tr("base.tab.market"))
 
 	# Tab 3: 管理
 	var management_panel := _create_management_tab()
 	_tab_container.add_child(management_panel)
-	_tab_container.set_tab_title(TAB_MANAGEMENT, "管理")
+	_tab_container.set_tab_title(TAB_MANAGEMENT, _tr("base.tab.management"))
 
 	# 设置 Tab 切换信号
 	_tab_container.tab_changed.connect(_on_tab_changed)
@@ -187,13 +197,13 @@ func _create_info_panel() -> Panel:
 
 	# 标题
 	var title := Label.new()
-	title.text = "基地"
+	title.text = _tr("base.title")
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	SRPGTheme.apply_label_scaled(title, _ui_scale, SRPGTheme.GOLD, 22, true)
 	vbox.add_child(title)
 
 	# 等级
-	var level_row := _create_info_row("等级", "Lv.%d" % _base_level)
+	var level_row := _create_info_row(_tr("base.level"), "%s%d" % [_display_text("Lv."), _base_level])
 	vbox.add_child(level_row)
 
 	# 分隔线
@@ -203,15 +213,15 @@ func _create_info_panel() -> Panel:
 
 	# 资源区域
 	var resource_title := Label.new()
-	resource_title.text = "资源"
+	resource_title.text = _tr("base.resources")
 	SRPGTheme.apply_label_scaled(resource_title, _ui_scale, SRPGTheme.PAPER_MUTED, 14)
 	vbox.add_child(resource_title)
 
-	var gold_row := _create_info_row("金币", "%d" % _gold, SRPGTheme.GOLD)
+	var gold_row := _create_info_row(_tr("base.gold"), "%d" % _gold, SRPGTheme.GOLD)
 	gold_row.name = "GoldRow"
 	vbox.add_child(gold_row)
 
-	var mat_row := _create_info_row("材料", "%d" % _materials, SRPGTheme.JADE)
+	var mat_row := _create_info_row(_tr("base.materials"), "%d" % _materials, SRPGTheme.JADE)
 	mat_row.name = "MaterialRow"
 	vbox.add_child(mat_row)
 
@@ -222,21 +232,40 @@ func _create_info_panel() -> Panel:
 
 	# 行动点
 	var ap_title := Label.new()
-	ap_title.text = "行动点"
+	ap_title.text = _tr("base.action_points")
 	SRPGTheme.apply_label_scaled(ap_title, _ui_scale, SRPGTheme.PAPER_MUTED, 14)
 	vbox.add_child(ap_title)
 
-	var ap_row := _create_info_row("剩余", "%d / %d" % [_action_points, _max_action_points], SRPGTheme.CYAN)
+	var ap_row := _create_info_row(_tr("base.remaining"), "%d / %d" % [_action_points, _max_action_points], SRPGTheme.CYAN)
 	vbox.add_child(ap_row)
+
+	var campaign_sep := HSeparator.new()
+	campaign_sep.add_theme_constant_override("separation", int(_scaled(8.0)))
+	vbox.add_child(campaign_sep)
+
+	_campaign_status_label = Label.new()
+	_campaign_status_label.name = "CampaignStatusLabel"
+	_campaign_status_label.text = _get_campaign_status_text()
+	_campaign_status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	SRPGTheme.apply_label_scaled(_campaign_status_label, _ui_scale, SRPGTheme.PAPER_MUTED, 13)
+	vbox.add_child(_campaign_status_label)
 
 	# 添加弹性空间
 	var spacer := Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	vbox.add_child(spacer)
 
+	_continue_campaign_btn = Button.new()
+	_continue_campaign_btn.name = "ContinueCampaignButton"
+	_continue_campaign_btn.text = _tr("base.continue_campaign")
+	_continue_campaign_btn.disabled = not can_continue_campaign()
+	_continue_campaign_btn.pressed.connect(_on_continue_campaign_pressed)
+	SRPGTheme.apply_button_scaled(_continue_campaign_btn, _ui_scale, true)
+	vbox.add_child(_continue_campaign_btn)
+
 	# 返回按钮
 	var back_btn := Button.new()
-	back_btn.text = "返回主菜单"
+	back_btn.text = _tr("base.back_main_menu")
 	back_btn.pressed.connect(_on_back_pressed)
 	SRPGTheme.apply_button_scaled(back_btn, _ui_scale)
 	vbox.add_child(back_btn)
@@ -342,7 +371,7 @@ func _create_market_tab() -> Panel:
 	_market_item_count_ref.offset_bottom = -_scaled(8.0)
 	_market_item_count_ref.offset_left = _scaled(8.0)
 	_market_item_count_ref.offset_right = -_scaled(8.0)
-	_market_item_count_ref.text = "持有: 0"
+	_market_item_count_ref.text = _tr("market.holding_count") % 0
 	SRPGTheme.apply_label_scaled(_market_item_count_ref, _ui_scale, SRPGTheme.PAPER_MUTED, 12)
 	item_panel.add_child(_market_item_count_ref)
 
@@ -371,7 +400,7 @@ func _create_market_tab() -> Panel:
 
 	var buy_btn := Button.new()
 	buy_btn.name = "BuyButton"
-	buy_btn.text = "买入"
+	buy_btn.text = _tr("market.buy")
 	buy_btn.pressed.connect(_set_trade_mode.bind(true))
 	SRPGTheme.apply_button_scaled(buy_btn, _ui_scale, true)
 	buy_btn.custom_minimum_size = _scaled_vec2(96.0, 40.0)
@@ -379,7 +408,7 @@ func _create_market_tab() -> Panel:
 
 	var sell_btn := Button.new()
 	sell_btn.name = "SellButton"
-	sell_btn.text = "卖出"
+	sell_btn.text = _tr("market.sell")
 	sell_btn.pressed.connect(_set_trade_mode.bind(false))
 	SRPGTheme.apply_button_scaled(sell_btn, _ui_scale)
 	sell_btn.custom_minimum_size = _scaled_vec2(96.0, 40.0)
@@ -387,13 +416,13 @@ func _create_market_tab() -> Panel:
 
 	# Selected item info
 	var selected_title := Label.new()
-	selected_title.text = "选择物品"
+	selected_title.text = _tr("market.select_item")
 	SRPGTheme.apply_label_scaled(selected_title, _ui_scale, SRPGTheme.GOLD, 16, true)
 	trade_vbox.add_child(selected_title)
 
 	_market_selected_label_ref = Label.new()
 	_market_selected_label_ref.name = "SelectedLabel"
-	_market_selected_label_ref.text = "请从左侧选择物品"
+	_market_selected_label_ref.text = _tr("market.select_prompt")
 	_market_selected_label_ref.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	SRPGTheme.apply_label_scaled(_market_selected_label_ref, _ui_scale, SRPGTheme.PAPER, 14)
 	trade_vbox.add_child(_market_selected_label_ref)
@@ -404,7 +433,7 @@ func _create_market_tab() -> Panel:
 	trade_vbox.add_child(qty_hbox)
 
 	var qty_lbl := Label.new()
-	qty_lbl.text = "数量:"
+	qty_lbl.text = _tr("market.quantity")
 	SRPGTheme.apply_label_scaled(qty_lbl, _ui_scale, SRPGTheme.PAPER_MUTED, 14)
 	qty_hbox.add_child(qty_lbl)
 
@@ -420,14 +449,14 @@ func _create_market_tab() -> Panel:
 	# Total price
 	_market_total_label_ref = Label.new()
 	_market_total_label_ref.name = "TotalLabel"
-	_market_total_label_ref.text = "总价: 0 金"
+	_market_total_label_ref.text = _tr("market.total_zero")
 	SRPGTheme.apply_label_scaled(_market_total_label_ref, _ui_scale, SRPGTheme.GOLD, 16)
 	trade_vbox.add_child(_market_total_label_ref)
 
 	# Confirm button
 	_market_confirm_btn_ref = Button.new()
 	_market_confirm_btn_ref.name = "ConfirmButton"
-	_market_confirm_btn_ref.text = "确认交易"
+	_market_confirm_btn_ref.text = _tr("market.confirm")
 	_market_confirm_btn_ref.disabled = true
 	_market_confirm_btn_ref.pressed.connect(_on_market_confirm)
 	SRPGTheme.apply_button_scaled(_market_confirm_btn_ref, _ui_scale, true)
@@ -463,7 +492,7 @@ func _create_market_tab() -> Panel:
 	inventory_panel.add_child(inventory_vbox)
 
 	var inventory_title := Label.new()
-	inventory_title.text = "背包"
+	inventory_title.text = _tr("market.inventory")
 	SRPGTheme.apply_label_scaled(inventory_title, _ui_scale, SRPGTheme.GOLD, 16, true)
 	inventory_vbox.add_child(inventory_title)
 
@@ -504,7 +533,7 @@ func _create_management_tab() -> Panel:
 
 	if _roster == null or _roster.get_roster_size() == 0:
 		_management_empty_label = Label.new()
-		_management_empty_label.text = "请先开始游戏并存档，才能管理角色"
+		_management_empty_label.text = _tr("base.no_roster")
 		_management_empty_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		_management_empty_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		_management_empty_label.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -571,16 +600,82 @@ func _get_save_slot() -> int:
 		return current_slot
 	return 1
 
+func get_scene_key() -> String:
+	return _SCENE_KEY
+
+func can_continue_campaign() -> bool:
+	var save_data := _get_current_save()
+	if save_data == null:
+		return false
+	var path := String(save_data.battle_state.get("battle_definition_path", ""))
+	return not path.is_empty()
+
+func _get_current_save() -> SaveData:
+	return SaveManager.peek_save(_get_save_slot())
+
+func _get_campaign_status_text() -> String:
+	var save_data := _get_current_save()
+	if save_data == null or save_data.battle_state.is_empty():
+		return _tr("base.no_campaign_resume")
+	if _should_advance_saved_battle_after_base(save_data):
+		return _tr("base.next_ready") % _get_next_battle_title(save_data)
+	return _tr("base.resume_ready") % _get_saved_battle_title(save_data)
+
+func _get_saved_battle_title(save_data: SaveData) -> String:
+	var path := String(save_data.battle_state.get("battle_definition_path", ""))
+	var definition := _load_definition_preview(path)
+	var fallback := String(save_data.story_progress.get("current_battle", save_data.battle_state.get("battle_id", "")))
+	return _display_text(String(definition.get("chapter_title", fallback)))
+
+func _get_next_battle_title(save_data: SaveData) -> String:
+	var path := _get_next_battle_path_for_save(save_data)
+	var definition := _load_definition_preview(path)
+	if definition.has("chapter_title"):
+		return _display_text(String(definition.get("chapter_title", "")))
+	return _display_text(path.get_file().trim_suffix(".json").capitalize())
+
+func _get_next_battle_path_for_save(save_data: SaveData) -> String:
+	var current_path := String(save_data.battle_state.get("battle_definition_path", ""))
+	var definition := _load_definition_preview(current_path)
+	var next_path_variant: Variant = definition.get("next_battle_definition_path", "")
+	if typeof(next_path_variant) == TYPE_STRING and String(next_path_variant).strip_edges() != "":
+		return String(next_path_variant).strip_edges()
+	if String(save_data.battle_state.get("battle_id", "")) == "chapter_01_finale":
+		return _CHAPTER_01_TO_CHAPTER_02_PATH
+	return ""
+
+func _load_definition_preview(path: String) -> Dictionary:
+	if path.is_empty() or not FileAccess.file_exists(path):
+		return {}
+	var file := FileAccess.open(path, FileAccess.READ)
+	if file == null:
+		return {}
+	var parsed: Variant = JSON.parse_string(file.get_as_text())
+	if typeof(parsed) != TYPE_DICTIONARY:
+		return {}
+	return parsed
+
+func _should_advance_saved_battle_after_base(save_data: SaveData = null) -> bool:
+	if save_data == null:
+		save_data = _get_current_save()
+	if save_data == null:
+		return false
+	var state := save_data.battle_state
+	if int(state.get("phase", -1)) != _BATTLE_END_PHASE:
+		return false
+	var summary: Dictionary = state.get("settlement_reward_summary", {})
+	return bool(summary.get("rewards_enabled", false))
+
 func _populate_market_items() -> void:
 	if _market_item_list == null:
 		return
 	for item_def in MARKET_ITEMS:
-		var item_name: String = item_def.get("name", "Unknown")
+		var item_name: String = _get_market_item_name(item_def)
 		var buy_price: int = item_def.get("buy", 0)
 		var sell_price: int = item_def.get("sell", 0)
 		var btn := Button.new()
-		btn.name = "Item_%s" % item_name
-		btn.text = "%s  买%d / 卖%d" % [item_name, buy_price, sell_price]
+		btn.name = "Item_%s" % item_def.get("id", -1)
+		btn.text = _tr("market.price_pair") % [item_name, buy_price, sell_price]
 		btn.pressed.connect(_select_market_item.bind(item_def))
 		SRPGTheme.apply_button_scaled(btn, _ui_scale, false, false, true)
 		btn.custom_minimum_size = _scaled_vec2(240.0, 44.0)
@@ -610,22 +705,22 @@ func _update_market_item_list() -> void:
 	for item_def in MARKET_ITEMS:
 		if idx < _market_item_list.get_child_count():
 			var btn: Button = _market_item_list.get_child(idx)
-			var item_name: String = item_def.get("name", "Unknown")
+			var item_name: String = _get_market_item_name(item_def)
 			var buy_price: int = item_def.get("buy", 0)
 			var sell_price: int = item_def.get("sell", 0)
-			btn.text = "%s  买%d / 卖%d" % [item_name, buy_price, sell_price]
+			btn.text = _tr("market.price_pair") % [item_name, buy_price, sell_price]
 		idx += 1
 
 func _update_market_ui() -> void:
 	if _market_selected_label_ref == null:
 		return
 	if _market_selected_id < 0:
-		_market_selected_label_ref.text = "请从左侧选择物品"
-		_market_total_label_ref.text = "总价: 0 金"
+		_market_selected_label_ref.text = _tr("market.select_prompt")
+		_market_total_label_ref.text = _tr("market.total_zero")
 		_market_confirm_btn_ref.disabled = true
 		_market_msg_label_ref.text = ""
 		if _market_item_count_ref != null:
-			_market_item_count_ref.text = "持有: 0"
+			_market_item_count_ref.text = _tr("market.holding_count") % 0
 		return
 
 	var item_name: String = ""
@@ -633,7 +728,7 @@ func _update_market_ui() -> void:
 	var player_amount: int = 0
 	for item_def in MARKET_ITEMS:
 		if item_def.get("id", -1) == _market_selected_id:
-			item_name = item_def.get("name", "Unknown")
+			item_name = _get_market_item_name(item_def)
 			price = _get_market_price_for_mode(item_def, _market_is_buying)
 			player_amount = Inventory.get_amount(_market_selected_id)
 			break
@@ -641,16 +736,16 @@ func _update_market_ui() -> void:
 	_market_selected_price = price
 	var qty: int = int(_market_qty_spinbox_ref.value)
 	var total: int = price * qty
-	var mode_text := "买入" if _market_is_buying else "卖出"
+	var mode_text := _tr("market.buy") if _market_is_buying else _tr("market.sell")
 
-	_market_selected_label_ref.text = "%s\n%s单价: %d 金\n持有: %d" % [item_name, mode_text, price, player_amount]
-	_market_total_label_ref.text = "总价: %d 金" % total
+	_market_selected_label_ref.text = _tr("market.unit_price") % [item_name, mode_text, price, player_amount]
+	_market_total_label_ref.text = _tr("market.total") % total
 
 	if _market_is_buying:
 		var can_buy: bool = Inventory.has_resource(ResourceTypes.ResourceId.GOLD, total)
 		_market_confirm_btn_ref.disabled = not can_buy
 		if not can_buy:
-			_market_msg_label_ref.text = "金币不足"
+			_market_msg_label_ref.text = _tr("market.gold_insufficient")
 			SRPGTheme.apply_label_scaled(_market_msg_label_ref, _ui_scale, SRPGTheme.VERMILION, 14)
 		else:
 			_market_msg_label_ref.text = ""
@@ -658,13 +753,13 @@ func _update_market_ui() -> void:
 		var can_sell: bool = player_amount >= qty
 		_market_confirm_btn_ref.disabled = not can_sell
 		if not can_sell:
-			_market_msg_label_ref.text = "持有数量不足"
+			_market_msg_label_ref.text = _tr("market.item_insufficient")
 			SRPGTheme.apply_label_scaled(_market_msg_label_ref, _ui_scale, SRPGTheme.VERMILION, 14)
 		else:
 			_market_msg_label_ref.text = ""
 
 	if _market_item_count_ref != null:
-		_market_item_count_ref.text = "持有: %d" % player_amount
+		_market_item_count_ref.text = _tr("market.holding_count") % player_amount
 
 func _on_quantity_changed(_value: float) -> void:
 	_update_market_ui()
@@ -681,21 +776,21 @@ func _on_market_confirm() -> void:
 		if Inventory.has_resource(ResourceTypes.ResourceId.GOLD, total):
 			Inventory.remove_resource(ResourceTypes.ResourceId.GOLD, total)
 			Inventory.add_resource(_market_selected_id, qty)
-			_market_msg_label_ref.text = "购买成功!"
+			_market_msg_label_ref.text = _tr("market.buy_success")
 			SRPGTheme.apply_label_scaled(_market_msg_label_ref, _ui_scale, SRPGTheme.JADE, 14)
 			transaction_succeeded = true
 		else:
-			_market_msg_label_ref.text = "金币不足"
+			_market_msg_label_ref.text = _tr("market.gold_insufficient")
 			SRPGTheme.apply_label_scaled(_market_msg_label_ref, _ui_scale, SRPGTheme.VERMILION, 14)
 	else:
 		if Inventory.has_resource(_market_selected_id, qty):
 			Inventory.remove_resource(_market_selected_id, qty)
 			Inventory.add_resource(ResourceTypes.ResourceId.GOLD, total)
-			_market_msg_label_ref.text = "出售成功!"
+			_market_msg_label_ref.text = _tr("market.sell_success")
 			SRPGTheme.apply_label_scaled(_market_msg_label_ref, _ui_scale, SRPGTheme.JADE, 14)
 			transaction_succeeded = true
 		else:
-			_market_msg_label_ref.text = "持有数量不足"
+			_market_msg_label_ref.text = _tr("market.item_insufficient")
 			SRPGTheme.apply_label_scaled(_market_msg_label_ref, _ui_scale, SRPGTheme.VERMILION, 14)
 
 	_update_resource_display()
@@ -737,7 +832,7 @@ func _refresh_market_inventory() -> void:
 
 	if shown == 0:
 		var empty_label := Label.new()
-		empty_label.text = "背包为空"
+		empty_label.text = _tr("market.inventory_empty")
 		empty_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		SRPGTheme.apply_label_scaled(empty_label, _ui_scale, SRPGTheme.PAPER_MUTED, 13)
 		_market_inventory_list.add_child(empty_label)
@@ -761,8 +856,9 @@ func _setup_hint_bar() -> void:
 	var hint_bar: Control = get_node_or_null("HintBar")
 	if hint_bar != null and hint_bar.has_method("set_hints"):
 		hint_bar.set_hints([
-			{"key": "Tab",    "action": "切换功能区"},
-			{"key": "Esc",    "action": "返回主菜单"},
+			{"key": "Tab",    "action": _tr("base.hint.switch")},
+			{"key": "Enter",  "action": _tr("base.hint.continue")},
+			{"key": "Esc",    "action": _tr("base.back_main_menu")},
 		])
 
 func _on_tab_changed(tab_index: int) -> void:
@@ -777,6 +873,27 @@ func _on_back_pressed() -> void:
 		_roster.queue_free()
 		_roster = null
 	SceneManager.switch_scene("main_menu")
+
+func _on_continue_campaign_pressed() -> void:
+	if not can_continue_campaign():
+		_set_campaign_status(_tr("base.no_campaign_resume"))
+		return
+	var slot := _get_save_slot()
+	_advance_after_base_requested = _should_advance_saved_battle_after_base()
+	if not SaveManager.save_game(slot):
+		_advance_after_base_requested = false
+		_set_campaign_status(_tr("base.continue_save_failed"))
+		return
+	if not SaveManager.load_game(slot):
+		_advance_after_base_requested = false
+		_set_campaign_status(_tr("base.continue_load_failed"))
+		return
+	_advance_after_base_requested = false
+	SceneManager.switch_scene("battle")
+
+func _set_campaign_status(text: String) -> void:
+	if _campaign_status_label != null:
+		_campaign_status_label.text = text
 
 func _on_training_closed() -> void:
 	pass
@@ -807,7 +924,32 @@ func capture_runtime_state() -> Dictionary:
 		"party_units": [],
 		"inventory_items": _capture_inventory_items(),
 		"inventory_state": Inventory.serialize(),
+		"settings": {
+			"locale": SRPGLocalizationScript.get_locale(),
+		},
+		"ui_preferences": _capture_base_ui_preferences(),
 	}
 	if _roster != null:
 		result["party_units"] = _roster.get_data().get("characters", [])
 	return result
+
+func _capture_base_ui_preferences() -> Dictionary:
+	var data: Dictionary = {}
+	var save_data := _get_current_save()
+	if save_data != null:
+		data = save_data.ui_preferences.duplicate(true)
+	data["locale"] = SRPGLocalizationScript.get_locale()
+	if _advance_after_base_requested:
+		data["advance_after_base"] = true
+	else:
+		data.erase("advance_after_base")
+	return data
+
+func _get_market_item_name(item_def: Dictionary) -> String:
+	return _tr(String(item_def.get("name_key", "")))
+
+func _tr(key: String) -> String:
+	return SRPGLocalizationScript.translate(key)
+
+func _display_text(value: String) -> String:
+	return SRPGLocalizationScript.display_text(value)

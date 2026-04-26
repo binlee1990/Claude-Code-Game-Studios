@@ -1,6 +1,6 @@
 # Epics Index
 
-Last Updated: 2026-04-23
+Last Updated: 2026-04-27
 Engine: Godot 4.6.2
 
 | Epic | Layer | System | GDD | Stories | Status |
@@ -17,19 +17,22 @@ Engine: Godot 4.6.2
 | battle-settlement | Feature | 战斗结算 | battle-settlement.md | 5 stories (4 Logic, 1 Integration) | Complete |
 | camera-map-system | Presentation | 视角与地图 | camera-map-system.md | 3 stories (2 Visual/Feel, 1 Integration) | Complete |
 | ui-system | Presentation | UI系统 | ui-system.md | 3 stories (2 UI, 1 Integration) | Complete |
-| chapter-02 | Content | Ch.2 内容 | chapter-02.md | 6 stories (placeholder) | Planning |
-| localization | Foundation | 多语言管理 | localization-system.md | 3 stories (1 Integration, 1 UI, 1 Integration) | Planning |
+| chapter-02 | Content | Ch.2 内容 | chapter-02.md | 6 stories (Logic) | Complete / Ready for Playtest |
+| localization | Foundation | 多语言管理 | localization-system.md | 3 stories (1 Integration, 1 UI, 1 Integration) | Complete |
+| bond-system | Feature | 羁绊系统 MVP | bond-system.md | 4 stories (readiness skeleton) | Ready for Sprint-006 Planning |
+| fog-of-war | Feature | 战争迷雾 MVP | fog-of-war-system.md | 4 stories (readiness skeleton) | Ready for Sprint-006+ Planning |
 
 ## Summary
 
 - **Core**: 7 epics (attribute, class, resource, tactical, AI, skill, turn-based)
-- **Feature**: 3 epics (equipment, character, battle-settlement)
+- **Feature**: 5 epics (equipment, character, battle-settlement, bond-system, fog-of-war)
 - **Presentation**: 2 epics (camera-map, UI)
 - **Foundation**: 1 epic (localization)
 - **Content**: 1 epic (chapter-02)
 
 ## Known Gaps
 
-- TR Registry empty — run `/architecture-review` to populate TR-IDs
-- Control manifest does not exist — stories auto-pass manifest check
-- Foundation layer systems have no GDDs — cannot create epics until designed
+- Sprint-004 `BASE-004` human Ch.2 playtest remains backlog; non-human scope is complete.
+- Sprint-004 screenshot/sign-off evidence remains human-only and is not a Sprint-005 blocker.
+- ADR-008 and ADR-009 are Draft; accept them before implementing Base full economy sinks or equipment upgrade UI.
+- Bond and fog-of-war are readiness epics only; runtime implementation is deferred to Sprint-006+.

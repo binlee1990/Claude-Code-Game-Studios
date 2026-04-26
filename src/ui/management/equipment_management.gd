@@ -11,14 +11,15 @@ signal equipment_changed(unit: Node, slot: int, old_item_id: StringName, new_ite
 const SRPGTheme := preload("res://src/ui/theme/srpg_theme.gd")
 const EquipmentDefinitions := preload("res://src/core/equipment/equipment_definitions.gd")
 const EquipmentItem := preload("res://src/core/equipment/equipment_item.gd")
+const SRPGLocalizationScript := preload("res://src/core/localization/srpg_localization.gd")
 
-const SLOT_LABELS: Dictionary = {
-	EquipmentDefinitions.Slot.WEAPON: "Weapon",
-	EquipmentDefinitions.Slot.ARMOR: "Armor",
-	EquipmentDefinitions.Slot.HELMET: "Helmet",
-	EquipmentDefinitions.Slot.LEGS: "Legs",
-	EquipmentDefinitions.Slot.BOOTS: "Boots",
-	EquipmentDefinitions.Slot.ACCESSORY: "Accessory",
+const SLOT_LABEL_KEYS: Dictionary = {
+	EquipmentDefinitions.Slot.WEAPON: "management.slot.weapon",
+	EquipmentDefinitions.Slot.ARMOR: "management.slot.armor",
+	EquipmentDefinitions.Slot.HELMET: "management.slot.helmet",
+	EquipmentDefinitions.Slot.LEGS: "management.slot.legs",
+	EquipmentDefinitions.Slot.BOOTS: "management.slot.boots",
+	EquipmentDefinitions.Slot.ACCESSORY: "management.slot.accessory",
 }
 
 const QUALITY_COLORS: Dictionary = {
@@ -50,9 +51,51 @@ var _slot_item_labels: Dictionary = {}  # slot -> Label
 var _slot_buttons: Dictionary = {}  # slot -> Button
 var _inventory_buttons: Dictionary = {}  # item_id -> Button
 var _filter_buttons: Dictionary = {}  # slot -> Button
+var _all_filter_button: Button = null
+var _name_label: Label = null
+var _divider_label: Label = null
+var _inventory_label: Label = null
+var _hint_label: Label = null
 
 func _ready() -> void:
+	_bind_scene_nodes()
+	_refresh_locale_text()
 	visible = false
+
+func _bind_scene_nodes() -> void:
+	_slot_container = get_node_or_null("HSplit/LeftPanel/LeftContent/SlotsContainer") as VBoxContainer
+	_inventory_grid = get_node_or_null("HSplit/RightPanel/RightContent/InvScroll/InvGrid") as GridContainer
+	_name_label = get_node_or_null("HSplit/LeftPanel/LeftContent/NameLabel") as Label
+	var stats_label := get_node_or_null("HSplit/LeftPanel/LeftContent/StatsLabel") as Label
+	if stats_label != null:
+		_stat_labels[0] = stats_label
+	_divider_label = get_node_or_null("HSplit/LeftPanel/LeftContent/Divider") as Label
+	_inventory_label = get_node_or_null("HSplit/RightPanel/RightContent/InvLabel") as Label
+	_hint_label = get_node_or_null("HSplit/RightPanel/RightContent/HintLabel") as Label
+	_all_filter_button = get_node_or_null("HSplit/LeftPanel/LeftContent/FilterRow/AllBtn") as Button
+	if _all_filter_button != null:
+		var all_callable := Callable(self, "_set_filter").bind(-1)
+		if not _all_filter_button.pressed.is_connected(all_callable):
+			_all_filter_button.pressed.connect(all_callable)
+	var filter_node_names := {
+		EquipmentDefinitions.Slot.WEAPON: "WeaponBtn",
+		EquipmentDefinitions.Slot.ARMOR: "ArmorBtn",
+		EquipmentDefinitions.Slot.HELMET: "HelmetBtn",
+		EquipmentDefinitions.Slot.LEGS: "LegsBtn",
+		EquipmentDefinitions.Slot.BOOTS: "BootsBtn",
+		EquipmentDefinitions.Slot.ACCESSORY: "AccBtn",
+	}
+	for slot in filter_node_names:
+		var btn := get_node_or_null("HSplit/LeftPanel/LeftContent/FilterRow/%s" % filter_node_names[slot]) as Button
+		if btn == null:
+			continue
+		var callable := Callable(self, "_set_filter").bind(slot)
+		if not btn.pressed.is_connected(callable):
+			btn.pressed.connect(callable)
+		_filter_buttons[slot] = btn
+	if _slot_container != null and _slot_container.get_child_count() == 0:
+		for slot in SLOT_ORDER:
+			_slot_container.add_child(_build_slot_row(slot))
 
 ## Open equipment management for a specific unit.
 func open_for_unit(unit: Node) -> void:
@@ -60,6 +103,8 @@ func open_for_unit(unit: Node) -> void:
 	if _unit == null:
 		return
 	_equipment_component = (_unit as Unit).equipment_component if _unit is Unit else null
+	if _name_label != null:
+		_name_label.text = _display_text(_unit.display_name)
 	_refresh_all()
 	visible = true
 
@@ -93,7 +138,7 @@ func build_left_panel(parent: Control) -> void:
 	content.add_child(filter_row)
 
 	var all_btn := Button.new()
-	all_btn.text = "All"
+	all_btn.text = _tr("management.filter.all")
 	all_btn.custom_minimum_size = Vector2(60, 28)
 	all_btn.pressed.connect(func() -> void: _set_filter(-1))
 	SRPGTheme.apply_button(all_btn, false, false, true)
@@ -101,7 +146,7 @@ func build_left_panel(parent: Control) -> void:
 
 	for slot in SLOT_ORDER:
 		var btn := Button.new()
-		btn.text = SLOT_LABELS[slot]
+		btn.text = _slot_label(slot)
 		btn.custom_minimum_size = Vector2(72, 28)
 		btn.pressed.connect(func(s=slot) -> void: _set_filter(s))
 		SRPGTheme.apply_button(btn, false, false, true)
@@ -110,7 +155,7 @@ func build_left_panel(parent: Control) -> void:
 
 	# Character name header
 	var name_label := Label.new()
-	name_label.text = _unit.display_name if _unit != null else ""
+	name_label.text = _display_text(_unit.display_name) if _unit != null else ""
 	SRPGTheme.apply_label(name_label, SRPGTheme.WHITE, 18, true)
 	content.add_child(name_label)
 
@@ -124,7 +169,7 @@ func build_left_panel(parent: Control) -> void:
 
 	# Divider
 	var divider := Label.new()
-	divider.text = "--- Equipment ---"
+	divider.text = _tr("management.divider.equipment")
 	SRPGTheme.apply_label(divider, SRPGTheme.GOLD, 13)
 	content.add_child(divider)
 
@@ -144,7 +189,7 @@ func _build_slot_row(slot: int) -> HBoxContainer:
 
 	# Slot name label
 	var slot_label := Label.new()
-	slot_label.text = SLOT_LABELS[slot]
+	slot_label.text = _slot_label(slot)
 	slot_label.custom_minimum_size = Vector2(80, 0)
 	SRPGTheme.apply_label(slot_label, SRPGTheme.PAPER_MUTED, 13)
 	row.add_child(slot_label)
@@ -158,7 +203,7 @@ func _build_slot_row(slot: int) -> HBoxContainer:
 
 	# Unequip button
 	var unequip_btn := Button.new()
-	unequip_btn.text = "Off"
+	unequip_btn.text = _tr("management.off")
 	unequip_btn.custom_minimum_size = Vector2(40, 28)
 	unequip_btn.focus_mode = Control.FOCUS_ALL
 	unequip_btn.pressed.connect(func() -> void: _unequip_slot(slot))
@@ -176,12 +221,12 @@ func build_right_panel(parent: Control) -> void:
 	parent.add_child(vbox)
 
 	var inv_label := Label.new()
-	inv_label.text = "Inventory"
+	inv_label.text = _tr("management.inventory")
 	SRPGTheme.apply_label(inv_label, SRPGTheme.WHITE, 16, true)
 	vbox.add_child(inv_label)
 
 	var hint_label := Label.new()
-	hint_label.text = "Click item to equip"
+	hint_label.text = _tr("management.inventory_hint")
 	hint_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	SRPGTheme.apply_label(hint_label, SRPGTheme.PAPER_MUTED, 12)
 	vbox.add_child(hint_label)
@@ -233,7 +278,16 @@ func _refresh_stat_panel() -> void:
 		var agi_bonus: int = eq.get_equipment_bonus(2)  # AttributeNames.Attribute.AGI
 		var con_bonus: int = eq.get_equipment_bonus(3)  # AttributeNames.Attribute.CON
 		var int_bonus: int = eq.get_equipment_bonus(4)  # AttributeNames.Attribute.INT
-		stats_text = "STR %+d  AGI %+d  CON %+d  INT %+d" % [str_bonus, agi_bonus, con_bonus, int_bonus]
+		stats_text = "%s %+d  %s %+d  %s %+d  %s %+d" % [
+			_display_text("STR"),
+			str_bonus,
+			_display_text("AGI"),
+			agi_bonus,
+			_display_text("CON"),
+			con_bonus,
+			_display_text("INT"),
+			int_bonus,
+		]
 		_stat_labels[0].text = stats_text
 
 	# Slot items
@@ -246,12 +300,12 @@ func _refresh_stat_panel() -> void:
 		if item != null:
 			var quality_color: Color = QUALITY_COLORS.get(item.quality, SRPGTheme.PAPER)
 			var enh_text := " +%d" % item.enhancement_level if item.enhancement_level > 0 else ""
-			var set_text := " [%s]" % _get_set_name(item.set_id) if item.set_id != EquipmentDefinitions.NO_SET else ""
-			label.text = "%s%s%s" % [item.name, enh_text, set_text]
+			var set_text := " [%s]" % _display_text(_get_set_name(item.set_id)) if item.set_id != EquipmentDefinitions.NO_SET else ""
+			label.text = "%s%s%s" % [_display_text(item.name), enh_text, set_text]
 			label.add_theme_color_override("font_color", quality_color)
 			btn.disabled = false
 		else:
-			label.text = "(empty)"
+			label.text = _tr("management.empty_item")
 			label.add_theme_color_override("font_color", SRPGTheme.DISABLED_TEXT)
 			btn.disabled = true
 
@@ -312,7 +366,7 @@ func _build_item_button(item: EquipmentItem) -> Button:
 	btn.add_child(vbox)
 
 	var name_lbl := Label.new()
-	name_lbl.text = item.name
+	name_lbl.text = _display_text(item.name)
 	name_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	name_lbl.add_theme_color_override("font_color", quality_color)
@@ -320,7 +374,7 @@ func _build_item_button(item: EquipmentItem) -> Button:
 	vbox.add_child(name_lbl)
 
 	var slot_lbl := Label.new()
-	slot_lbl.text = SLOT_LABELS[item.slot]
+	slot_lbl.text = _slot_label(item.slot)
 	slot_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	slot_lbl.add_theme_color_override("font_color", SRPGTheme.PAPER_MUTED)
 	slot_lbl.add_theme_font_size_override("font_size", 10)
@@ -338,3 +392,24 @@ func _build_item_button(item: EquipmentItem) -> Button:
 	SRPGTheme.apply_button(btn, false, false, true)
 
 	return btn
+
+func _refresh_locale_text() -> void:
+	if _all_filter_button != null:
+		_all_filter_button.text = _tr("management.filter.all")
+	for slot in _filter_buttons:
+		(_filter_buttons[slot] as Button).text = _slot_label(slot)
+	if _divider_label != null:
+		_divider_label.text = _tr("management.divider.equipment")
+	if _inventory_label != null:
+		_inventory_label.text = _tr("management.inventory")
+	if _hint_label != null:
+		_hint_label.text = _tr("management.inventory_hint")
+
+func _slot_label(slot: int) -> String:
+	return _tr(String(SLOT_LABEL_KEYS.get(slot, "management.slot.generic")))
+
+func _tr(key: String) -> String:
+	return SRPGLocalizationScript.translate(key)
+
+func _display_text(value: String) -> String:
+	return SRPGLocalizationScript.display_text(value)

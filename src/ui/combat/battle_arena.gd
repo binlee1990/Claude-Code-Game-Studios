@@ -36,6 +36,7 @@ const _DEFAULT_UI_PREFERENCES := {
 	"bgm_volume": 70,
 	"screen_mode": "windowed",
 	"last_menu_tab": "character",
+	"locale": "zh_CN",
 }
 const _DEFAULT_CAMERA_PREFERENCES := {
 	"rotation_index": 0,
@@ -159,7 +160,7 @@ func _ready() -> void:
 	_setup_battle_bgm()
 
 func _setup_battle_bgm() -> void:
-	if DisplayServer.get_name() == "headless":
+	if DisplayServer.get_name() == "headless" or OS.get_cmdline_args().has("--srpg-playthrough-smoke"):
 		return
 	var stream: AudioStream = load("res://assets/audio/bgm/battle_bgm.ogg")
 	if stream == null:
@@ -238,7 +239,7 @@ func _build_ui() -> void:
 	right_plate.add_child(right_panel)
 
 	var turn_label := Label.new()
-	turn_label.text = "Turn Order / 出手序"
+	turn_label.text = _tr("battle.turn_order")
 	SRPGTheme.apply_label(turn_label, SRPGTheme.GOLD, 16)
 	right_panel.add_child(turn_label)
 
@@ -247,7 +248,7 @@ func _build_ui() -> void:
 	right_panel.add_child(_turn_list)
 
 	var status_title := Label.new()
-	status_title.text = "Status / 身法"
+	status_title.text = _tr("battle.status")
 	SRPGTheme.apply_label(status_title, SRPGTheme.GOLD, 16)
 	right_panel.add_child(status_title)
 
@@ -270,7 +271,7 @@ func _build_ui() -> void:
 	status_panel.add_child(_status_misc_label)
 
 	_info_label = Label.new()
-	_info_label.text = "Loading battle..."
+	_info_label.text = _tr("battle.loading")
 	_info_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	SRPGTheme.apply_label(_info_label, SRPGTheme.WHITE, 15)
 	right_panel.add_child(_info_label)
@@ -309,7 +310,7 @@ func _build_ui() -> void:
 
 func _build_top_bar() -> void:
 	var title := Label.new()
-	title.text = SRPGLocalizationScript.translate("game.title")
+	title.text = _tr("game.title")
 	SRPGTheme.apply_label(title, SRPGTheme.WHITE, 20)
 	_top_bar.add_child(title)
 
@@ -317,29 +318,35 @@ func _build_top_bar() -> void:
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_top_bar.add_child(spacer)
 
-	for resource_name in ["Gold", "Materials", "Fruit", "Protect"]:
+	var resource_specs := [
+		{"id": "gold", "label": _tr("battle.resource.gold")},
+		{"id": "materials", "label": _tr("battle.resource.materials")},
+		{"id": "fruit", "label": _tr("battle.resource.fruit")},
+		{"id": "protect", "label": _tr("battle.resource.protect")},
+	]
+	for resource_spec in resource_specs:
 		var label := Label.new()
-		label.text = "%s: 0" % resource_name
+		label.text = "%s: 0" % String(resource_spec["label"])
 		SRPGTheme.apply_label(label, SRPGTheme.PAPER, 14)
 		_top_bar.add_child(label)
-		_resource_labels[resource_name.to_lower()] = label
+		_resource_labels[String(resource_spec["id"])] = label
 
 	var button_specs := [
-		{"text": "Grid (G)", "cb": func() -> void: set_grid_overlay_enabled(not _grid_overlay_enabled)},
-		{"text": "Map", "cb": _cycle_map_size},
-		{"text": "Speed", "cb": _cycle_speed_tier},
-		{"text": "Auto OFF (B)", "cb": _toggle_auto_battle},
-		{"text": "Manage", "cb": func() -> void: open_management_screen("rewards")},
-		{"text": "Menu (Esc)", "cb": _toggle_menu},
+		{"id": "grid", "text": _tr("battle.grid"), "cb": func() -> void: set_grid_overlay_enabled(not _grid_overlay_enabled)},
+		{"id": "map", "text": _tr("battle.map"), "cb": _cycle_map_size},
+		{"id": "speed", "text": _tr("battle.speed"), "cb": _cycle_speed_tier},
+		{"id": "auto", "text": _tr("battle.auto_off"), "cb": _toggle_auto_battle},
+		{"id": "manage", "text": _tr("menu.manage"), "cb": func() -> void: open_management_screen("rewards")},
+		{"id": "menu", "text": _tr("battle.menu"), "cb": _toggle_menu},
 	]
 	for spec in button_specs:
 		var button := Button.new()
 		button.text = spec["text"]
 		button.focus_mode = Control.FOCUS_ALL
-		SRPGTheme.apply_button(button, button.text.begins_with("Auto"), false, true)
+		SRPGTheme.apply_button(button, String(spec["id"]) == "auto", false, true)
 		button.pressed.connect(spec["cb"])
 		_top_bar.add_child(button)
-		if button.text.begins_with("Auto"):
+		if String(spec["id"]) == "auto":
 			_auto_button = button
 
 	# UI-P0-02: Auto 状态徽章（[Auto] 红 / [手动] 绿），字号 14pt
@@ -362,11 +369,11 @@ func _build_top_bar() -> void:
 
 func _build_action_bar() -> void:
 	var action_specs := [
-		{"id": "move", "text": "Move (1)", "cb": _on_action_move},
-		{"id": "attack", "text": "Attack (2)", "cb": _on_action_attack},
-		{"id": "skill", "text": "Skill (5)", "cb": _on_action_skill},
-		{"id": "standby", "text": "Standby (3)", "cb": _on_action_standby},
-		{"id": "end_turn", "text": "End Turn (4)", "cb": _on_action_end_turn},
+		{"id": "move", "text": _tr("battle.move"), "cb": _on_action_move},
+		{"id": "attack", "text": _tr("battle.attack"), "cb": _on_action_attack},
+		{"id": "skill", "text": _tr("battle.skill"), "cb": _on_action_skill},
+		{"id": "standby", "text": _tr("battle.standby"), "cb": _on_action_standby},
+		{"id": "end_turn", "text": _tr("battle.end_turn"), "cb": _on_action_end_turn},
 	]
 	var buttons: Array = []
 	for spec in action_specs:
@@ -415,17 +422,17 @@ func _build_menu_overlay() -> void:
 	content.add_child(tabs)
 
 	var tab_specs := [
-		{"id": "character", "text": "Character"},
-		{"id": "campaign", "text": "Campaign"},
-		{"id": "camp", "text": "Camp"},
-		{"id": "equipment", "text": "Equipment"},
-		{"id": "roster", "text": "Roster"},
-		{"id": "tactics", "text": "Tactics"},
-		{"id": "boss", "text": "Boss"},
-		{"id": "settlement", "text": "Settlement"},
-		{"id": "inventory", "text": "Inventory"},
-		{"id": "save", "text": "Save/Load"},
-		{"id": "settings", "text": "Settings"},
+		{"id": "character", "text": _tr("menu.character")},
+		{"id": "campaign", "text": _tr("menu.campaign")},
+		{"id": "camp", "text": _tr("menu.camp")},
+		{"id": "equipment", "text": _tr("menu.equipment")},
+		{"id": "roster", "text": _tr("menu.roster")},
+		{"id": "tactics", "text": _tr("menu.tactics")},
+		{"id": "boss", "text": _tr("menu.boss")},
+		{"id": "settlement", "text": _tr("menu.settlement")},
+		{"id": "inventory", "text": _tr("menu.inventory")},
+		{"id": "save", "text": _tr("menu.save")},
+		{"id": "settings", "text": _tr("menu.settings")},
 	]
 	var buttons: Array = []
 	for spec in tab_specs:
@@ -452,7 +459,7 @@ func _build_menu_overlay() -> void:
 	menu_actions.add_theme_constant_override("separation", 8)
 	content.add_child(menu_actions)
 	var save_btn := Button.new()
-	save_btn.text = "Save Slot 1 (F5)"
+	save_btn.text = _tr("battle.save_slot")
 	save_btn.focus_mode = Control.FOCUS_ALL
 	SRPGTheme.apply_button(save_btn, true, false, true)
 	save_btn.pressed.connect(func() -> void:
@@ -461,7 +468,7 @@ func _build_menu_overlay() -> void:
 	menu_actions.add_child(save_btn)
 
 	var load_btn := Button.new()
-	load_btn.text = "Load Slot 1 (F9)"
+	load_btn.text = _tr("battle.load_slot")
 	load_btn.focus_mode = Control.FOCUS_ALL
 	SRPGTheme.apply_button(load_btn, false, false, true)
 	load_btn.pressed.connect(func() -> void:
@@ -470,7 +477,7 @@ func _build_menu_overlay() -> void:
 	menu_actions.add_child(load_btn)
 
 	var camp_btn := Button.new()
-	camp_btn.text = "Auto Camp"
+	camp_btn.text = _tr("battle.auto_camp")
 	camp_btn.focus_mode = Control.FOCUS_ALL
 	SRPGTheme.apply_button(camp_btn, false, false, true)
 	camp_btn.pressed.connect(func() -> void:
@@ -479,7 +486,7 @@ func _build_menu_overlay() -> void:
 	menu_actions.add_child(camp_btn)
 
 	var manage_btn := Button.new()
-	manage_btn.text = SRPGLocalizationScript.translate("menu.manage")
+	manage_btn.text = _tr("menu.manage")
 	manage_btn.focus_mode = Control.FOCUS_ALL
 	SRPGTheme.apply_button(manage_btn, true, false, true)
 	manage_btn.pressed.connect(func() -> void:
@@ -488,7 +495,7 @@ func _build_menu_overlay() -> void:
 	menu_actions.add_child(manage_btn)
 
 	var next_btn := Button.new()
-	next_btn.text = "Next Battle"
+	next_btn.text = _tr("battle.next_battle")
 	next_btn.focus_mode = Control.FOCUS_ALL
 	SRPGTheme.apply_button(next_btn, false, false, true)
 	next_btn.pressed.connect(func() -> void:
@@ -497,7 +504,7 @@ func _build_menu_overlay() -> void:
 	menu_actions.add_child(next_btn)
 
 	var main_menu_btn := Button.new()
-	main_menu_btn.text = "Main Menu"
+	main_menu_btn.text = _tr("battle.main_menu")
 	main_menu_btn.focus_mode = Control.FOCUS_ALL
 	SRPGTheme.apply_button(main_menu_btn, false, true, true)
 	main_menu_btn.pressed.connect(_return_to_main_menu)
@@ -542,13 +549,13 @@ func _build_management_overlay() -> void:
 	layout.add_child(header)
 
 	_management_title_label = Label.new()
-	_management_title_label.text = SRPGLocalizationScript.translate("management.title")
+	_management_title_label.text = _tr("management.title")
 	_management_title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	SRPGTheme.apply_label(_management_title_label, SRPGTheme.WHITE, 24)
 	header.add_child(_management_title_label)
 
 	var close_btn := Button.new()
-	close_btn.text = SRPGLocalizationScript.translate("management.close")
+	close_btn.text = _tr("management.close")
 	close_btn.focus_mode = Control.FOCUS_ALL
 	SRPGTheme.apply_button(close_btn, false, true, true)
 	close_btn.pressed.connect(close_management_screen)
@@ -564,7 +571,7 @@ func _build_management_overlay() -> void:
 	layout.add_child(actions)
 
 	var run_camp_btn := Button.new()
-	run_camp_btn.text = "Run Recommended Camp"
+	run_camp_btn.text = _tr("battle.run_camp")
 	run_camp_btn.focus_mode = Control.FOCUS_ALL
 	SRPGTheme.apply_button(run_camp_btn, true, false, true)
 	run_camp_btn.pressed.connect(func() -> void:
@@ -574,7 +581,7 @@ func _build_management_overlay() -> void:
 	actions.add_child(run_camp_btn)
 
 	var advance_btn := Button.new()
-	advance_btn.text = "Advance Battle"
+	advance_btn.text = _tr("battle.advance_battle")
 	advance_btn.focus_mode = Control.FOCUS_ALL
 	SRPGTheme.apply_button(advance_btn, false, false, true)
 	advance_btn.pressed.connect(func() -> void:
@@ -584,7 +591,7 @@ func _build_management_overlay() -> void:
 	actions.add_child(advance_btn)
 
 	var save_btn := Button.new()
-	save_btn.text = "Save Slot 1"
+	save_btn.text = _tr("battle.save_slot_short")
 	save_btn.focus_mode = Control.FOCUS_ALL
 	SRPGTheme.apply_button(save_btn, false, false, true)
 	save_btn.pressed.connect(func() -> void:
@@ -663,21 +670,21 @@ func _build_settlement_overlay() -> void:
 	content.add_child(actions)
 
 	_settlement_continue_btn = Button.new()
-	_settlement_continue_btn.text = "Continue"
+	_settlement_continue_btn.text = _tr("battle.settlement.continue")
 	_settlement_continue_btn.focus_mode = Control.FOCUS_ALL
 	SRPGTheme.apply_button(_settlement_continue_btn, true, false, true)
 	_settlement_continue_btn.pressed.connect(_on_settlement_continue_pressed)
 	actions.add_child(_settlement_continue_btn)
 
 	_settlement_base_btn = Button.new()
-	_settlement_base_btn.text = "Base"
+	_settlement_base_btn.text = _tr("battle.settlement.base")
 	_settlement_base_btn.focus_mode = Control.FOCUS_ALL
 	SRPGTheme.apply_button(_settlement_base_btn)
 	_settlement_base_btn.pressed.connect(_on_settlement_base_pressed)
 	actions.add_child(_settlement_base_btn)
 
 	_settlement_main_menu_btn = Button.new()
-	_settlement_main_menu_btn.text = "Return to Main Menu"
+	_settlement_main_menu_btn.text = _tr("battle.settlement.return")
 	_settlement_main_menu_btn.focus_mode = Control.FOCUS_ALL
 	SRPGTheme.apply_button(_settlement_main_menu_btn, false, true, true)
 	_settlement_main_menu_btn.pressed.connect(_return_to_main_menu)
@@ -814,7 +821,7 @@ func get_story_progress() -> Dictionary:
 
 ## Return the active battle objective shown to players.
 func get_objective_text() -> String:
-	return String(_battle_definition.get("objective", "Defeat all enemies."))
+	return _display_text(String(_battle_definition.get("objective", "Defeat all enemies.")))
 
 ## Return the active runtime difficulty profile.
 func get_difficulty_profile() -> Dictionary:
@@ -827,7 +834,7 @@ func get_boss_state() -> Dictionary:
 		return {}
 	var state: Dictionary = _boss_states.get(boss, {}).duplicate(true)
 	state["boss_id"] = String(boss.unit_id)
-	state["title"] = String(_boss_profiles.get(boss, {}).get("title", boss.display_name))
+	state["title"] = _display_text(String(_boss_profiles.get(boss, {}).get("title", boss.display_name)))
 	return state
 
 func _get_map_id() -> String:
@@ -837,10 +844,10 @@ func _get_battle_definition_path() -> String:
 	return String(_battle_definition.get("definition_path", DEFAULT_BATTLE_DEFINITION_PATH))
 
 func _get_chapter_title() -> String:
-	return String(_battle_definition.get("chapter_title", "Chapter 1"))
+	return _display_text(String(_battle_definition.get("chapter_title", "Chapter 1")))
 
 func _get_difficulty_summary() -> String:
-	return BattleDifficultyProfile.format_summary(_difficulty_profile)
+	return _difficulty_summary_text()
 
 ## Return the active campaign state used by menus and tests.
 func get_campaign_state() -> Dictionary:
@@ -856,7 +863,7 @@ func get_campaign_state() -> Dictionary:
 
 ## Return the active narrative briefing for campaign pacing screens.
 func get_briefing_text() -> String:
-	return String(_battle_definition.get("briefing", "No briefing available."))
+	return _display_text(String(_battle_definition.get("briefing", "No briefing available.")))
 
 func _set_menu_overlay_visible(is_visible: bool) -> void:
 	if _menu_layer != null:
@@ -952,12 +959,12 @@ func run_default_camp_plan() -> Dictionary:
 func advance_to_next_battle() -> bool:
 	var next_path := _get_next_battle_definition_path()
 	if next_path == "":
-		_info_label.text = "No next battle is configured."
+		_info_label.text = _tr("battle.prompt.no_next_configured")
 		_play_ui_cue("error")
 		_refresh_menu_content()
 		return false
 	if _phase != VSPhase.BATTLE_END or not bool(_settlement_reward_summary.get("rewards_enabled", false)):
-		_info_label.text = "Clear the current battle before advancing."
+		_info_label.text = _tr("battle.prompt.clear_before_advance")
 		_play_ui_cue("error")
 		_refresh_menu_content()
 		return false
@@ -966,7 +973,7 @@ func advance_to_next_battle() -> bool:
 		_apply_default_camp_plan()
 		carry = _capture_campaign_carry_state()
 	_start_campaign_battle(next_path, carry)
-	_info_label.text = "Campaign advanced to %s." % get_battle_id()
+	_info_label.text = _tr("battle.prompt.campaign_advanced") % get_battle_id()
 	_play_ui_cue("camp")
 	_refresh_all()
 	return true
@@ -999,14 +1006,14 @@ func _show_settlement_overlay() -> void:
 		_auto_battle_controller.set_enabled(false)
 	var next_path := _get_settlement_next_battle_path()
 	var can_continue := next_path != ""
-	var title := "Victory Settlement" if bool(_settlement_reward_summary.get("rewards_enabled", false)) else "Defeat Settlement"
+	var title := _tr("battle.settlement.victory") if bool(_settlement_reward_summary.get("rewards_enabled", false)) else _tr("battle.settlement.defeat")
 	_settlement_title_label.text = "%s - %s" % [title, get_battle_id()]
 	_settlement_summary_label.text = _format_settlement_menu()
 	if can_continue:
-		_settlement_next_label.text = "Next chapter available: %s" % _get_settlement_next_battle_title(next_path)
+		_settlement_next_label.text = _tr("battle.settlement.next") % _display_text(_get_settlement_next_battle_title(next_path))
 	else:
-		_settlement_next_label.text = "No next battle is linked for this encounter."
-	_settlement_continue_btn.text = "Continue Chapter"
+		_settlement_next_label.text = _tr("battle.settlement.no_next")
+	_settlement_continue_btn.text = _tr("battle.settlement.continue_chapter")
 	_settlement_continue_btn.disabled = not can_continue
 	if _settlement_continue_btn != null:
 		SRPGTheme.apply_button(_settlement_continue_btn, can_continue, false, true)
@@ -1029,19 +1036,19 @@ func _on_settlement_continue_pressed() -> void:
 	var next_path: String = _get_settlement_next_battle_path()
 	if next_path == "":
 		if _battle_definition.has("chapter_completion_key"):
-			_settlement_next_label.text = "Chapter Complete! Returning to main menu..."
-			_info_label.text = "Chapter complete. Save recorded."
+			_settlement_next_label.text = _tr("battle.settlement.chapter_complete")
+			_info_label.text = _tr("battle.prompt.chapter_complete")
 			_play_ui_cue("victory")
 			SaveManager.save_game(1)
 			_is_chapter_transitioning = true
 			call_deferred("_return_to_main_menu")
 			return
-		_info_label.text = "No next battle is linked."
+		_info_label.text = _tr("battle.prompt.no_next_linked")
 		_play_ui_cue("error")
-		_settlement_next_label.text = "No next chapter is linked for this encounter."
+		_settlement_next_label.text = _tr("battle.prompt.no_next_chapter")
 		return
 	if _phase != VSPhase.BATTLE_END or not bool(_settlement_reward_summary.get("rewards_enabled", false)):
-		_info_label.text = "Clear the current battle before advancing."
+		_info_label.text = _tr("battle.prompt.clear_before_advance")
 		_play_ui_cue("error")
 		return
 	_is_chapter_transitioning = true
@@ -1054,7 +1061,7 @@ func _on_settlement_continue_pressed() -> void:
 		_apply_default_camp_plan()
 		carry = _capture_campaign_carry_state()
 	_start_campaign_battle(next_path, carry)
-	_info_label.text = "Campaign advanced to %s." % get_battle_id()
+	_info_label.text = _tr("battle.prompt.campaign_advanced") % get_battle_id()
 	_play_ui_cue("camp")
 	_refresh_all()
 	call_deferred("_hide_settlement_and_transient_overlays")
@@ -1105,6 +1112,10 @@ func _apply_loaded_save_data(save_data: SaveData) -> void:
 		set_map_size(int(_battle_definition.get("map_size", DEFAULT_MAP_SIZE)))
 		_seed_units_from_definition()
 		_combat.start_battle(get_battle_id(), _get_map_id(), int(_battle_definition.get("difficulty", 1)))
+
+	if bool(save_data.ui_preferences.get("advance_after_base", false)):
+		_ui_preferences.erase("advance_after_base")
+		_on_settlement_continue_pressed()
 
 func _load_battle_from_state(state: Dictionary) -> void:
 	var restored_map_size: int = state.get("map_size", DEFAULT_MAP_SIZE)
@@ -1407,7 +1418,7 @@ func _create_unit_visual_nodes(unit: Unit, max_hp: int) -> void:
 	_hp_bars[unit] = hp_bar
 
 	var lbl := Label.new()
-	lbl.text = unit.display_name
+	lbl.text = _unit_display_name(unit)
 	lbl.add_theme_font_size_override("font_size", 11)
 	lbl.add_theme_color_override("font_color", SRPGTheme.WHITE)
 	lbl.add_theme_color_override("font_shadow_color", Color(0.0, 0.0, 0.0, 0.80))
@@ -1538,6 +1549,7 @@ func is_grid_overlay_enabled() -> bool:
 ## Capture the current scene state for SaveManager persistence.
 func capture_runtime_state() -> Dictionary:
 	_ui_preferences["last_menu_tab"] = _active_menu_tab
+	_ui_preferences["locale"] = SRPGLocalizationScript.get_locale()
 	return {
 		"party_units": _capture_party_units(),
 		"inventory_items": _captureInventory_items(),
@@ -1575,12 +1587,16 @@ func capture_ui_preferences() -> Dictionary:
 	data["menu_open"] = _menu_open
 	data["management_open"] = _is_management_overlay_visible()
 	data["management_tab"] = _active_management_tab
+	data["locale"] = SRPGLocalizationScript.get_locale()
 	return data
 
 ## Apply a UI preference payload to the current scene.
 func apply_ui_preferences(data: Dictionary) -> void:
 	if data.is_empty():
 		return
+	var locale := String(data.get("locale", ""))
+	if locale != "":
+		SRPGLocalizationScript.set_locale(locale)
 	for key in data:
 		_ui_preferences[key] = data[key]
 	_active_menu_tab = String(_ui_preferences.get("last_menu_tab", _active_menu_tab))
@@ -1852,6 +1868,22 @@ func _update_cell_color(pos: Vector2i, override_color: Color = Color.TRANSPARENT
 		terrain_label.modulate = Color(0.92, 0.84, 0.66, label_alpha)
 
 func _terrain_short_name(terrain: int) -> String:
+	if SRPGLocalizationScript.get_locale() == "zh_CN":
+		match terrain:
+			TerrainTypes.Terrain.GRASS:
+				return "草"
+			TerrainTypes.Terrain.WATER_PUDDLE:
+				return "水"
+			TerrainTypes.Terrain.SAND:
+				return "沙"
+			TerrainTypes.Terrain.MUD:
+				return "泥"
+			TerrainTypes.Terrain.HIGHLAND:
+				return "高"
+			TerrainTypes.Terrain.OBSTACLE:
+				return "障"
+			_:
+				return "平"
 	match terrain:
 		TerrainTypes.Terrain.GRASS:
 			return "Gr"
@@ -2061,7 +2093,7 @@ func _refresh_turn_display() -> void:
 		var lbl := Label.new()
 		var prefix := ">" if unit == current else " "
 		var team_tag := "[P]" if _combat.get_unit_team(unit) == CombatSystem.Team.PLAYER else "[E]"
-		lbl.text = "%s %s %s HP:%d" % [prefix, team_tag, unit.display_name, _combat.get_unit_hp(unit)]
+		lbl.text = "%s %s %s %s:%d" % [prefix, team_tag, _unit_display_name(unit), _tr("common.hp"), _combat.get_unit_hp(unit)]
 		SRPGTheme.apply_label(lbl, SRPGTheme.GOLD if unit == current else SRPGTheme.PAPER, 14)
 		card.add_child(lbl)
 		# 迷你 HP 条：4px 高，颜色按 HP% 三段着色
@@ -2146,32 +2178,32 @@ func _update_unit_position(unit: Unit, pos: Vector2i, animate: bool = false) -> 
 func _refresh_status_panel() -> void:
 	var focus_unit: Unit = _selected_unit if _selected_unit != null else _combat.get_current_actor()
 	if focus_unit == null:
-		_status_name_label.text = "Unit: —"
-		_status_hp_label.text = "HP: —"
-		_status_mp_label.text = "MP: —"
-		_status_misc_label.text = "Phase: %s" % VSPhase.keys()[_phase]
+		_status_name_label.text = _tr("battle.status.unit") % "—"
+		_status_hp_label.text = "%s: —" % _tr("common.hp")
+		_status_mp_label.text = "%s: —" % _tr("common.mp")
+		_status_misc_label.text = _tr("battle.status.phase") % _phase_display_name(_phase)
 		return
 
-	_status_name_label.text = "Unit: %s" % focus_unit.display_name
-	_status_hp_label.text = "HP: %d" % _combat.get_unit_hp(focus_unit)
-	_status_mp_label.text = "MP: %d / %d" % [_actions.get_current_mp(focus_unit), _actions.get_max_mp(focus_unit)]
-	var team_name := "Player" if _combat.get_unit_team(focus_unit) == CombatSystem.Team.PLAYER else "Enemy"
-	_status_misc_label.text = "Team: %s | Phase: %s | View: Top-Down" % [team_name, VSPhase.keys()[_phase]]
+	_status_name_label.text = _tr("battle.status.unit") % _unit_display_name(focus_unit)
+	_status_hp_label.text = "%s: %d" % [_tr("common.hp"), _combat.get_unit_hp(focus_unit)]
+	_status_mp_label.text = "%s: %d / %d" % [_tr("common.mp"), _actions.get_current_mp(focus_unit), _actions.get_max_mp(focus_unit)]
+	var team_name := _team_display_name(_combat.get_unit_team(focus_unit))
+	_status_misc_label.text = _tr("battle.status.team_phase_view") % [team_name, _phase_display_name(_phase)]
 
 func _refresh_resource_hud() -> void:
 	if Inventory == null:
 		return
-	_resource_labels["gold"].text = "Gold: %d" % Inventory.get_amount(ResourceTypes.ResourceId.GOLD)
-	_resource_labels["materials"].text = "Materials: %d" % Inventory.get_amount(ResourceTypes.ResourceId.BASIC_MATERIAL)
-	_resource_labels["fruit"].text = "Fruit: %d" % Inventory.get_amount(ResourceTypes.ResourceId.FRUIT_STR)
-	_resource_labels["protect"].text = "Protect: %d" % Inventory.get_amount(ResourceTypes.ResourceId.PROTECT_SYMBOL)
+	_resource_labels["gold"].text = "%s: %d" % [_tr("battle.resource.gold"), Inventory.get_amount(ResourceTypes.ResourceId.GOLD)]
+	_resource_labels["materials"].text = "%s: %d" % [_tr("battle.resource.materials"), Inventory.get_amount(ResourceTypes.ResourceId.BASIC_MATERIAL)]
+	_resource_labels["fruit"].text = "%s: %d" % [_tr("battle.resource.fruit"), Inventory.get_amount(ResourceTypes.ResourceId.FRUIT_STR)]
+	_resource_labels["protect"].text = "%s: %d" % [_tr("battle.resource.protect"), Inventory.get_amount(ResourceTypes.ResourceId.PROTECT_SYMBOL)]
 
 func _refresh_objective_label() -> void:
 	if _objective_label == null:
 		return
 	var completion_key := String(_battle_definition.get("completion_key", "chapter_01_complete"))
-	var state := "Complete" if bool(_story_progress.get(completion_key, false)) else "Active"
-	_objective_label.text = "%s\nObjective: %s\nDifficulty: %s\nProgress: %s" % [
+	var state := _tr("battle.progress.complete") if bool(_story_progress.get(completion_key, false)) else _tr("battle.progress.active")
+	_objective_label.text = _tr("battle.objective_block") % [
 		_get_chapter_title(),
 		get_objective_text(),
 		_get_difficulty_summary(),
@@ -2179,14 +2211,14 @@ func _refresh_objective_label() -> void:
 	]
 
 func _refresh_camera_status() -> void:
-	_camera_state_label.text = "%s | %s | View Top-Down | Grid %s | Map %d×%d | Speed x%d | Auto %s" % [
+	_camera_state_label.text = _tr("battle.camera_status") % [
 		_get_chapter_title(),
-		String(_difficulty_profile.get("label", "Fixed Curve")),
-		"ON" if _grid_overlay_enabled else "OFF",
+		_display_text(String(_difficulty_profile.get("label", "Fixed Curve"))),
+		_tr("battle.toggle.on") if _grid_overlay_enabled else _tr("battle.toggle.off"),
 		_map_size,
 		_map_size,
 		int(_speed_controller.get_animation_multiplier()),
-		"ON" if _auto_battle_controller.is_enabled() else "OFF",
+		_tr("battle.toggle.on") if _auto_battle_controller.is_enabled() else _tr("battle.toggle.off"),
 	]
 	_refresh_auto_button()
 
@@ -2194,12 +2226,12 @@ func _refresh_auto_button() -> void:
 	if _auto_button == null:
 		return
 	var enabled := _auto_battle_controller.is_enabled()
-	_auto_button.text = "Auto ON (B)" if enabled else "Auto OFF (B)"
+	_auto_button.text = _tr("battle.auto_on") if enabled else _tr("battle.auto_off")
 	SRPGTheme.apply_button(_auto_button, enabled, false, true)
 	# UI-P0-02: 更新 Auto 状态徽章文字与颜色
 	if _auto_badge_label != null:
 		if enabled:
-			_auto_badge_label.text = "[Auto]"
+			_auto_badge_label.text = "[%s]" % _display_text("Auto-battle")
 			_auto_badge_label.add_theme_color_override("font_color", SRPGTheme.VERMILION)
 		else:
 			_auto_badge_label.text = "[手动]"
@@ -2232,16 +2264,16 @@ func _refresh_menu_content() -> void:
 		"character":
 			var actor: Unit = _selected_unit if _selected_unit != null else _combat.get_current_actor()
 			if actor == null:
-				text = "No active character."
+				text = _tr("battle.no_active_character")
 			else:
-				text = "Character\nName: %s\nHP: %d\nMP: %d/%d\nSTR: %d\nAGI: %d\nClass: %s\nSkills: %s\nParty: %s\nReserve: %d | Departed: %d\nEquipment: %s" % [
-					actor.display_name,
+				text = _tr("battle.menu.character_block") % [
+					_unit_display_name(actor),
 					_combat.get_unit_hp(actor),
 					_actions.get_current_mp(actor),
 					_actions.get_max_mp(actor),
 					actor.get_effective_attribute(AttributeNames.Attribute.STR),
 					actor.get_effective_attribute(AttributeNames.Attribute.AGI),
-					ClassNames.ClassID.keys()[actor.class_component.get_class_id()],
+					_class_display_name(actor.class_component.get_class_id()),
 					_format_skill_summary(actor),
 					", ".join(_stringify_name_array(_roster.get_party())),
 					_roster.get_reserve_ids().size(),
@@ -2249,21 +2281,21 @@ func _refresh_menu_content() -> void:
 					_format_equipment_summary(actor),
 				]
 		"campaign":
-			text = "Campaign\n%s" % _format_campaign_menu()
+			text = "%s\n%s" % [_tr("menu.campaign"), _format_campaign_menu()]
 		"camp":
-			text = "Camp\n%s" % _format_camp_menu()
+			text = "%s\n%s" % [_tr("menu.camp"), _format_camp_menu()]
 		"equipment":
-			text = "Equipment\n%s" % _format_equipment_menu()
+			text = "%s\n%s" % [_tr("menu.equipment"), _format_equipment_menu()]
 		"roster":
-			text = "Roster\n%s" % _format_roster_menu()
+			text = "%s\n%s" % [_tr("menu.roster"), _format_roster_menu()]
 		"tactics":
-			text = "Tactics\n%s" % _format_tactics_menu()
+			text = "%s\n%s" % [_tr("menu.tactics"), _format_tactics_menu()]
 		"boss":
-			text = "Boss\n%s" % _format_boss_menu()
+			text = "%s\n%s" % [_tr("menu.boss"), _format_boss_menu()]
 		"settlement":
-			text = "Settlement\n%s" % _format_settlement_menu()
+			text = "%s\n%s" % [_tr("menu.settlement"), _format_settlement_menu()]
 		"inventory":
-			text = "Inventory\nGold: %d\nMaterials: %d\nSTR Fruit: %d\nProtect Symbols: %d\nSerialized entries: %d" % [
+			text = _tr("battle.menu.inventory_block") % [
 				Inventory.get_amount(ResourceTypes.ResourceId.GOLD),
 				Inventory.get_amount(ResourceTypes.ResourceId.BASIC_MATERIAL),
 				Inventory.get_amount(ResourceTypes.ResourceId.FRUIT_STR),
@@ -2271,7 +2303,7 @@ func _refresh_menu_content() -> void:
 				_captureInventory_items().size(),
 			]
 		"save":
-			text = "Save / Load\nChapter: %s\nObjective: %s\nDifficulty: %s\nStory Progress: %s\nCurrent Slot: %d\nPress F5 to save slot 1.\nPress F9 to load slot 1.\nContinue is now wired through SaveManager." % [
+			text = _tr("battle.menu.save_block") % [
 				_get_chapter_title(),
 				get_objective_text(),
 				_get_difficulty_summary(),
@@ -2279,15 +2311,15 @@ func _refresh_menu_content() -> void:
 				SaveManager.get_current_slot(),
 			]
 		"settings":
-			text = "Settings\nMaster Volume: %d\nSFX Volume: %d\nBGM Volume: %d\nScreen Mode: %s\nLast Menu Tab: %s" % [
+			text = _tr("battle.menu.settings_block") % [
 				_ui_preferences.get("master_volume", 70),
 				_ui_preferences.get("sfx_volume", 70),
 				_ui_preferences.get("bgm_volume", 70),
-				_ui_preferences.get("screen_mode", "windowed"),
-				_ui_preferences.get("last_menu_tab", "character"),
+				_display_text(String(_ui_preferences.get("screen_mode", "windowed"))),
+				_display_text(String(_ui_preferences.get("last_menu_tab", "character"))),
 			]
 		_:
-			text = "Unknown menu tab."
+			text = _tr("battle.menu.unknown_tab")
 	_menu_content_label.text = text
 
 func _refresh_management_content() -> void:
@@ -2351,21 +2383,21 @@ func _on_management_equipment_changed(unit: Node, slot: int, old_item_id: String
 func _format_management_rewards() -> String:
 	var next_text := _get_next_battle_definition_path()
 	if next_text == "":
-		next_text = "Chapter 1 route secured; no further battle configured in this slice."
-	return "Rewards / 战果\n%s\n\nCurrent Battle: %s\nBriefing: %s\nNext: %s" % [
+		next_text = _tr("battle.management.rewards_fallback")
+	return _tr("battle.management.rewards_block") % [
 		_format_settlement_menu(),
 		get_battle_id(),
 		get_briefing_text(),
-		next_text,
+		_display_text(next_text),
 	]
 
 func _format_management_camp() -> String:
-	return "Recommended Camp / 推荐回营\nPlan: learn Defend, drill skills, add class unlock EXP, use STR fruit, enhance equipped gear.\n\nResources: Gold %d | Materials %d | STR Fruit %d | Protect %d\n\nLast Report:\n%s" % [
+	return _tr("battle.management.camp_block") % [
 		Inventory.get_amount(ResourceTypes.ResourceId.GOLD),
 		Inventory.get_amount(ResourceTypes.ResourceId.BASIC_MATERIAL),
 		Inventory.get_amount(ResourceTypes.ResourceId.FRUIT_STR),
 		Inventory.get_amount(ResourceTypes.ResourceId.PROTECT_SYMBOL),
-		_last_camp_report,
+		_display_text(_last_camp_report),
 	]
 
 func _format_management_party() -> String:
@@ -2374,10 +2406,13 @@ func _format_management_party() -> String:
 		var unit: Unit = _roster.get_character(StringName(unit_id_variant))
 		if unit == null:
 			continue
-		lines.append("DEPLOYED %s | %s | STR %d | AGI %d | %s" % [
-			unit.display_name,
-			ClassNames.ClassID.keys()[unit.class_component.get_class_id()],
+		lines.append("%s %s | %s | %s %d | %s %d | %s" % [
+			_tr("management.status_deployed"),
+			_unit_display_name(unit),
+			_class_display_name(unit.class_component.get_class_id()),
+			_display_text("STR"),
 			unit.get_effective_attribute(AttributeNames.Attribute.STR),
+			_display_text("AGI"),
 			unit.get_effective_attribute(AttributeNames.Attribute.AGI),
 			_format_skill_summary(unit),
 		])
@@ -2385,16 +2420,17 @@ func _format_management_party() -> String:
 		var unit: Unit = _roster.get_character(StringName(unit_id_variant))
 		if unit == null:
 			continue
-		lines.append("RESERVE %s | %s | %s" % [
-			unit.display_name,
-			ClassNames.ClassID.keys()[unit.class_component.get_class_id()],
+		lines.append("%s %s | %s | %s" % [
+			_tr("management.status_available"),
+			_unit_display_name(unit),
+			_class_display_name(unit.class_component.get_class_id()),
 			_format_equipment_summary(unit),
 		])
 	for unit_id_variant in _roster.get_departed_ids():
-		lines.append("DEPARTED %s" % String(unit_id_variant))
+		lines.append("%s %s" % [_tr("management.status_departed"), String(unit_id_variant)])
 	if lines.is_empty():
-		lines.append("No roster data available.")
-	return "Party Management / 队伍编成\nRecommended roster is locked during active combat; campaign definitions can deploy reserves between battles.\n\n%s" % "\n".join(lines)
+		lines.append(_tr("battle.no_active_character"))
+	return _tr("battle.management.party_header") % "\n".join(lines)
 
 func _format_management_equipment() -> String:
 	var lines: Array[String] = []
@@ -2402,15 +2438,18 @@ func _format_management_equipment() -> String:
 		var unit: Unit = _roster.get_character(StringName(unit_id_variant))
 		if unit == null:
 			continue
-		lines.append("%s\n  Equipped: %s\n  Bonus STR: +%d | Bonus AGI: +%d" % [
-			unit.display_name,
+		lines.append("%s\n  %s: %s\n  %s: +%d | %s: +%d" % [
+			_unit_display_name(unit),
+			_display_text("Equipped"),
 			_format_equipment_summary(unit),
+			_display_text("Bonus STR"),
 			unit.get_equipment_bonus(AttributeNames.Attribute.STR),
+			_display_text("Bonus AGI"),
 			unit.get_equipment_bonus(AttributeNames.Attribute.AGI),
 		])
 	if lines.is_empty():
-		lines.append("No equipped party items.")
-	return "Equipment Management / 装备管理\nRecommended enhancement uses the first equipped item when resources allow.\n\n%s" % "\n".join(lines)
+		lines.append(_tr("battle.equipment.empty"))
+	return _tr("battle.management.equipment_header") % "\n".join(lines)
 
 func _format_equipment_summary(unit: Unit) -> String:
 	var parts: Array[String] = []
@@ -2418,18 +2457,19 @@ func _format_equipment_summary(unit: Unit) -> String:
 		var item: EquipmentItem = unit.equipment_component.get_equipped_item(slot)
 		if item == null:
 			continue
-		parts.append(item.name if item.name != "" else String(item.item_id))
+		var item_name := item.name if item.name != "" else String(item.item_id)
+		parts.append(_display_text(item_name))
 	if parts.is_empty():
-		return "None"
+		return _tr("common.none")
 	return ", ".join(parts)
 
 func _format_skill_summary(unit: Unit) -> String:
 	var parts: Array[String] = []
 	for skill_data in unit.skill_component.get_all_skills():
 		var skill: SkillData = skill_data
-		parts.append("%s MP:%d CD:%d" % [skill.name, skill.mp_cost, skill.cooldown_remaining])
+		parts.append("%s %s:%d %s:%d" % [_skill_display_name(skill.name), _tr("common.mp"), skill.mp_cost, _display_text("CD"), skill.cooldown_remaining])
 	if parts.is_empty():
-		return "None"
+		return _tr("common.none")
 	return ", ".join(parts)
 
 func _get_tactical_profile(unit: Unit) -> Dictionary:
@@ -2445,21 +2485,21 @@ func _format_tactical_profile(unit: Unit) -> String:
 	var profile := _get_tactical_profile(unit)
 	var pos: Vector2i = _unit_cells.get(unit, Vector2i(-1, -1))
 	var terrain := int(_map_terrain.get(pos, TerrainTypes.Terrain.NORMAL))
-	return "%s: %s/%s | Move %d | Range %d | Tile %s H%d" % [
-		unit.display_name,
-		TacticalFormulas.WeaponType.keys()[int(profile.get("weapon_type", 0))],
-		TacticalFormulas.Element.keys()[int(profile.get("element", 0))],
+	return _tr("battle.tactics_profile") % [
+		_unit_display_name(unit),
+		_display_text(String(TacticalFormulas.WeaponType.keys()[int(profile.get("weapon_type", 0))])),
+		_display_text(String(TacticalFormulas.Element.keys()[int(profile.get("element", 0))])),
 		int(profile.get("move", 3)),
 		int(profile.get("attack_range", 2)),
-		TerrainTypes.Terrain.keys()[terrain],
+		_display_text(String(TerrainTypes.Terrain.keys()[terrain])),
 		int(_map_heights.get(pos, TerrainTypes.HEIGHT_PLAIN)),
 	]
 
 func _format_campaign_menu() -> String:
 	var next_path := _get_next_battle_definition_path()
-	var next_text := next_path if next_path != "" else "None"
-	var state := "Battle cleared" if _phase == VSPhase.BATTLE_END and bool(_settlement_reward_summary.get("rewards_enabled", false)) else "In battle"
-	return "Current: %s\nMap: %s\nState: %s\nNext: %s\nStory: %s" % [
+	var next_text := next_path if next_path != "" else _tr("common.none")
+	var state := _tr("battle.campaign.cleared") if _phase == VSPhase.BATTLE_END and bool(_settlement_reward_summary.get("rewards_enabled", false)) else _tr("battle.campaign.in_battle")
+	return _tr("battle.campaign_block") % [
 		get_battle_id(),
 		_get_map_id(),
 		state,
@@ -2468,14 +2508,14 @@ func _format_campaign_menu() -> String:
 	]
 
 func _format_camp_menu() -> String:
-	return "Default Plan: train class progress, learn baseline skills, use available fruit, and enhance equipped gear when resources allow.\nLast Report:\n%s" % _last_camp_report
+	return _tr("battle.camp_block") % _display_text(_last_camp_report)
 
 func _format_tactics_menu() -> String:
 	var lines: Array[String] = []
 	for unit in _unit_cells.keys():
 		lines.append(_format_tactical_profile(unit))
 	if lines.is_empty():
-		return "No tactical profiles loaded."
+		return _tr("battle.tactics_empty")
 	return "\n".join(lines)
 
 func _format_equipment_menu() -> String:
@@ -2484,62 +2524,62 @@ func _format_equipment_menu() -> String:
 		var unit: Unit = _roster.get_character(StringName(unit_id_variant))
 		if unit == null:
 			continue
-		lines.append("%s: %s" % [unit.display_name, _format_equipment_summary(unit)])
+		lines.append("%s: %s" % [_unit_display_name(unit), _format_equipment_summary(unit)])
 	for unit_id_variant in _roster.get_reserve_ids():
 		var unit: Unit = _roster.get_character(StringName(unit_id_variant))
 		if unit == null:
 			continue
 		var equipment := _format_equipment_summary(unit)
-		if equipment != "None":
-			lines.append("Reserve %s: %s" % [unit.display_name, equipment])
+		if equipment != _tr("common.none"):
+			lines.append(_tr("battle.equipment.reserve") % [_unit_display_name(unit), equipment])
 	if lines.is_empty():
-		return "No equipment tracked."
+		return _tr("battle.equipment.empty")
 	return "\n".join(lines)
 
 func _format_roster_menu() -> String:
 	var party_names := _stringify_name_array(_roster.get_party())
 	var reserve_names := _stringify_name_array(_roster.get_reserve_ids())
 	var departed_names := _stringify_name_array(_roster.get_departed_ids())
-	return "Party: %s\nReserve: %s\nDeparted: %s" % [
-		", ".join(party_names) if not party_names.is_empty() else "None",
-		", ".join(reserve_names) if not reserve_names.is_empty() else "None",
-		", ".join(departed_names) if not departed_names.is_empty() else "None",
+	return _tr("battle.roster_block") % [
+		", ".join(party_names) if not party_names.is_empty() else _tr("common.none"),
+		", ".join(reserve_names) if not reserve_names.is_empty() else _tr("common.none"),
+		", ".join(departed_names) if not departed_names.is_empty() else _tr("common.none"),
 	]
 
 func _format_boss_menu() -> String:
 	var boss := _get_primary_boss_unit()
 	if boss == null:
-		return "No boss in this battle."
+		return _tr("battle.boss.none")
 	var profile: Dictionary = _boss_profiles.get(boss, {})
 	var state: Dictionary = _boss_states.get(boss, {})
 	var max_hp: int = _combat._combat_units[boss]["max_hp"]
 	var hp: int = _combat.get_unit_hp(boss)
 	var phase := int(state.get("phase", 1))
-	return "%s\nPhase: %d - %s\nHP: %d/%d\nCheckpoint: Phase %d at %d HP\nHint: %s" % [
-		String(profile.get("title", boss.display_name)),
+	return _tr("battle.boss.block") % [
+		_display_text(String(profile.get("title", boss.display_name))),
 		phase,
 		_get_boss_phase_name(profile, phase),
 		hp,
 		max_hp,
 		int(state.get("checkpoint_phase", phase)),
 		int(state.get("checkpoint_hp", hp)),
-		String(profile.get("hint", "None")),
+		_display_text(String(profile.get("hint", "None"))),
 	]
 
 func _format_settlement_menu() -> String:
 	if _settlement_reward_summary.is_empty():
-		return "No settlement result yet. Win or lose the battle to generate rewards."
+		return _tr("battle.settlement.empty")
 	var equipment_names: Array[String] = []
 	for name in _settlement_reward_summary.get("equipment_names", []):
-		equipment_names.append(String(name))
-	var note: String = String(_settlement_reward_summary.get("note", ""))
-	return "Result: %s\nRating: %s\nEXP per survivor: %d\nGold: +%d\nMaterials: +%d\nEquipment: %s\nPlayer damage taken: %d\nPlayer deaths: %d\n%s" % [
-		String(_settlement_reward_summary.get("result", "Unknown")),
-		_rating_name(int(_settlement_reward_summary.get("rating", BattleEvaluation.Rating.NORMAL))),
+		equipment_names.append(_display_text(String(name)))
+	var note: String = _display_text(String(_settlement_reward_summary.get("note", "")))
+	return _tr("battle.settlement.summary") % [
+		_display_text(String(_settlement_reward_summary.get("result", "Unknown"))),
+		_display_text(_rating_name(int(_settlement_reward_summary.get("rating", BattleEvaluation.Rating.NORMAL)))),
 		int(_settlement_reward_summary.get("exp_per_unit", 0)),
 		int(_settlement_reward_summary.get("gold_awarded", 0)),
 		int(_settlement_reward_summary.get("materials_awarded", 0)),
-		", ".join(equipment_names) if not equipment_names.is_empty() else "None",
+		", ".join(equipment_names) if not equipment_names.is_empty() else _tr("common.none"),
 		int(_settlement_reward_summary.get("player_damage_taken", 0)),
 		int(_settlement_reward_summary.get("player_deaths", 0)),
 		note,
@@ -2555,8 +2595,8 @@ func _get_boss_phase_name(profile: Dictionary, phase: int) -> String:
 	var phase_names: Array = profile.get("phase_names", [])
 	var index := maxi(phase - 1, 0)
 	if index < phase_names.size():
-		return String(phase_names[index])
-	return "Phase %d" % phase
+		return _display_text(String(phase_names[index]))
+	return "%s %d" % [_display_text("Phase"), phase]
 
 func _refresh_boss_label() -> void:
 	if _boss_label == null:
@@ -2571,10 +2611,10 @@ func _refresh_boss_label() -> void:
 	var state: Dictionary = _boss_states.get(boss, {})
 	var phase := int(state.get("phase", 1))
 	if not _combat.is_unit_alive(boss):
-		_boss_label.text = "Boss: %s\nDefeated" % String(profile.get("title", boss.display_name))
+		_boss_label.text = _tr("battle.boss.defeated") % _display_text(String(profile.get("title", boss.display_name)))
 		return
-	_boss_label.text = "Boss: %s\nPhase %d: %s\nHP: %d/%d" % [
-		String(profile.get("title", boss.display_name)),
+	_boss_label.text = _tr("battle.boss.label") % [
+		_display_text(String(profile.get("title", boss.display_name))),
 		phase,
 		_get_boss_phase_name(profile, phase),
 		_combat.get_unit_hp(boss),
@@ -2588,17 +2628,17 @@ func _stringify_name_array(unit_ids: Array) -> Array[String]:
 		if unit == null:
 			names.append(String(unit_id_variant))
 		else:
-			names.append(unit.display_name)
+			names.append(_unit_display_name(unit))
 	return names
 
 func _restore_result_ui() -> void:
 	_result_label.visible = false
 	if _combat.get_result() == CombatSystem.CombatResult.VICTORY:
-		_result_label.text = "VICTORY!"
+		_result_label.text = _tr("battle.result.victory")
 		_result_label.modulate = Color(0.2, 0.8, 0.3)
 		_result_label.visible = true
 	elif _combat.get_result() == CombatSystem.CombatResult.DEFEAT:
-		_result_label.text = "DEFEAT..."
+		_result_label.text = _tr("battle.result.defeat")
 		_result_label.modulate = Color(0.9, 0.2, 0.2)
 		_result_label.visible = true
 
@@ -2608,12 +2648,12 @@ func _sync_phase_prompt() -> void:
 	if _phase == VSPhase.BATTLE_END:
 		return
 	if actor == null:
-		_info_label.text = "Battle state restored."
+		_info_label.text = _tr("battle.prompt.restored")
 		return
 	if _combat.get_unit_team(actor) == CombatSystem.Team.ENEMY:
-		_info_label.text = "Enemy turn: %s" % actor.display_name
+		_info_label.text = _tr("battle.prompt.enemy_turn") % _unit_display_name(actor)
 	else:
-		_info_label.text = "Your turn: Click %s or use the action bar." % actor.display_name
+		_info_label.text = _tr("battle.prompt.player_turn") % _unit_display_name(actor)
 
 func _build_unit_id_map() -> Dictionary:
 	var out: Dictionary = {}
@@ -2638,7 +2678,7 @@ func _cycle_map_size() -> void:
 	var idx: int = MAP_SIZE_OPTIONS.find(_map_size)
 	idx = (idx + 1) % MAP_SIZE_OPTIONS.size()
 	set_map_size(MAP_SIZE_OPTIONS[idx])
-	_info_label.text = "Map size changed to %d×%d." % [_map_size, _map_size]
+	_info_label.text = _tr("battle.prompt.map_size") % [_map_size, _map_size]
 
 func _cycle_speed_tier() -> void:
 	var next_tier: int = (_speed_controller.get_tier() + 1) % 3
@@ -2647,19 +2687,19 @@ func _cycle_speed_tier() -> void:
 
 func _toggle_auto_battle() -> void:
 	if _phase == VSPhase.BATTLE_END:
-		_info_label.text = "Auto-battle is paused at battle end."
+		_info_label.text = _tr("battle.prompt.auto_end")
 		return
 	if _is_settlement_overlay_visible():
-		_info_label.text = "Auto-battle is paused during settlement."
+		_info_label.text = _tr("battle.prompt.auto_settlement")
 		return
 	_auto_battle_controller.set_enabled(not _auto_battle_controller.is_enabled())
 	_refresh_camera_status()
 	_refresh_action_bar()
 	if _auto_battle_controller.is_enabled():
 		if not _try_start_auto_current_turn():
-			_info_label.text = "Auto-battle enabled. It will control player units when their turns are ready."
+			_info_label.text = _tr("battle.prompt.auto_enabled")
 	else:
-		_info_label.text = "Auto-battle disabled. Player control restored."
+		_info_label.text = _tr("battle.prompt.auto_disabled")
 
 func _toggle_menu() -> void:
 	_menu_open = not _menu_open
@@ -2676,27 +2716,70 @@ func _toggle_menu() -> void:
 
 func _save_to_slot(slot: int) -> void:
 	if SaveManager.save_game(slot):
-		_info_label.text = "Saved to slot %d." % slot
+		_info_label.text = _tr("battle.prompt.saved") % slot
 		_play_ui_cue("save")
 	else:
-		_info_label.text = "Save failed for slot %d." % slot
+		_info_label.text = _tr("battle.prompt.save_failed") % slot
 		_play_ui_cue("error")
 
 func _load_from_slot(slot: int) -> void:
 	if not SaveManager.load_game(slot):
-		_info_label.text = "No save in slot %d." % slot
+		_info_label.text = _tr("battle.prompt.no_save") % slot
 		_play_ui_cue("error")
 		return
 	var save_data: SaveData = SaveManager.consume_pending_loaded_data()
 	_reset_runtime_systems()
 	_apply_loaded_save_data(save_data)
 	_refresh_all()
-	_info_label.text = "Loaded slot %d." % slot
+	_info_label.text = _tr("battle.prompt.loaded") % slot
 	_play_ui_cue("save")
 
 func _return_to_main_menu() -> void:
 	SaveManager.clear_pending_loaded_data()
 	SceneManager.switch_scene("main_menu")
+
+func _tr(key: String) -> String:
+	return SRPGLocalizationScript.translate(key)
+
+func _display_text(value: String) -> String:
+	return SRPGLocalizationScript.display_text(value)
+
+func _unit_display_name(unit: Unit) -> String:
+	if unit == null:
+		return _tr("common.unknown")
+	return _display_text(unit.display_name)
+
+func _class_display_name(class_id: int) -> String:
+	var keys := ClassNames.ClassID.keys()
+	if class_id < 0 or class_id >= keys.size():
+		return _tr("common.unknown")
+	return _display_text(String(keys[class_id]))
+
+func _skill_display_name(skill_name: String) -> String:
+	return _display_text(skill_name)
+
+func _skill_id_display_name(skill_id: StringName) -> String:
+	return _skill_display_name(SkillDefinitions.get_skill_name(skill_id))
+
+func _phase_display_name(phase: int) -> String:
+	var keys := VSPhase.keys()
+	if phase < 0 or phase >= keys.size():
+		return _tr("common.unknown")
+	return _display_text(String(keys[phase]))
+
+func _team_display_name(team: int) -> String:
+	return _tr("battle.team.player") if team == CombatSystem.Team.PLAYER else _tr("battle.team.enemy")
+
+func _difficulty_summary_text() -> String:
+	var label := _display_text(String(_difficulty_profile.get("label", BattleDifficultyProfile.DEFAULT_LABEL)))
+	if SRPGLocalizationScript.get_locale() == "zh_CN":
+		return "%s | 敌方 %.1fx | 经验 %.1fx | 资源 %.1fx" % [
+			label,
+			float(_difficulty_profile.get("enemy_stat_multiplier", 1.0)),
+			float(_difficulty_profile.get("exp_multiplier", 1.0)),
+			float(_difficulty_profile.get("resource_multiplier", 1.0)),
+		]
+	return BattleDifficultyProfile.format_summary(_difficulty_profile)
 
 # --- Input ---
 
@@ -2777,7 +2860,7 @@ func _select_unit(unit: Unit) -> void:
 	_move_range = _get_move_range(unit)
 	_highlight_cells(_move_range, Color(SRPGTheme.JADE.r, SRPGTheme.JADE.g, SRPGTheme.JADE.b, 0.72))
 	_phase = VSPhase.SELECT_MOVE
-	_info_label.text = "%s selected. Click a highlighted tile to move, or press 2 to attack." % unit.display_name
+	_info_label.text = _tr("battle.prompt.selected") % _unit_display_name(unit)
 	_refresh_all_units()
 	_refresh_action_bar()
 
@@ -2785,7 +2868,7 @@ func _do_move(target_pos: Vector2i) -> void:
 	_move_unit_to_cell(_selected_unit, target_pos)
 	_clear_highlights()
 	_move_range.clear()
-	_info_label.text = "%s moved. Press 2 to attack or 3 to standby." % _selected_unit.display_name
+	_info_label.text = _tr("battle.prompt.moved") % _unit_display_name(_selected_unit)
 	_phase = VSPhase.SELECT_TARGET
 	_attack_range = _get_attack_range(_selected_unit)
 	_highlight_cells(_attack_range, Color(SRPGTheme.VERMILION.r, SRPGTheme.VERMILION.g, SRPGTheme.VERMILION.b, 0.78))
@@ -2805,12 +2888,12 @@ func _do_skill(target_pos: Vector2i) -> void:
 	var skill_id: StringName = _targeting_skill_id
 	var skill: SkillData = _selected_unit.skill_component.get_skill(skill_id)
 	if skill == null:
-		_info_label.text = "Skill unavailable."
+		_info_label.text = _tr("battle.prompt.skill_unavailable")
 		_targeting_skill_id = &""
 		_refresh_action_bar()
 		return
 	if not _actions.execute_action(_selected_unit, ActionSystem.ActionType.SKILL, skill.mp_cost):
-		_info_label.text = "%s does not have enough MP for %s." % [_selected_unit.display_name, skill.name]
+		_info_label.text = _tr("battle.prompt.not_enough_mp") % [_unit_display_name(_selected_unit), _skill_display_name(skill.name)]
 		_targeting_skill_id = &""
 		_refresh_action_bar()
 		return
@@ -2819,7 +2902,7 @@ func _do_skill(target_pos: Vector2i) -> void:
 	var applied_damage: int = _combat.apply_damage(target, damage, _selected_unit)
 	_selected_unit.skill_component.use_skill(skill_id, [target])
 	_show_damage_number(target_pos, applied_damage)
-	_info_label.text = "%s used %s for %d damage." % [_selected_unit.display_name, skill.name, applied_damage]
+	_info_label.text = _tr("battle.prompt.skill_damage") % [_unit_display_name(_selected_unit), _skill_display_name(skill.name), applied_damage]
 	_clear_highlights()
 	_attack_range.clear()
 	_targeting_skill_id = &""
@@ -2839,7 +2922,7 @@ func _on_action_attack() -> void:
 		_phase = VSPhase.SELECT_TARGET
 		_attack_range = _get_attack_range(_selected_unit)
 		_highlight_cells(_attack_range, Color(SRPGTheme.VERMILION.r, SRPGTheme.VERMILION.g, SRPGTheme.VERMILION.b, 0.78))
-		_info_label.text = "%s: Click a highlighted enemy tile to attack." % _selected_unit.display_name
+		_info_label.text = _tr("battle.prompt.attack_target") % _unit_display_name(_selected_unit)
 		_refresh_action_bar()
 
 func _on_action_skill() -> void:
@@ -2854,7 +2937,7 @@ func _on_action_skill() -> void:
 	_phase = VSPhase.SELECT_TARGET
 	_attack_range = _get_attack_range(actor)
 	_highlight_cells(_attack_range, Color(SRPGTheme.GOLD.r, SRPGTheme.GOLD.g, SRPGTheme.GOLD.b, 0.86))
-	_info_label.text = "%s: choose a target for %s." % [actor.display_name, SkillDefinitions.get_skill_name(_targeting_skill_id)]
+	_info_label.text = _tr("battle.prompt.skill_target") % [_unit_display_name(actor), _skill_id_display_name(_targeting_skill_id)]
 	_refresh_all_units()
 	_refresh_action_bar()
 
@@ -2901,7 +2984,7 @@ func _process_next_turn() -> void:
 
 	if _combat.get_unit_team(actor) == CombatSystem.Team.ENEMY:
 		_phase = VSPhase.ENEMY_TURN
-		_info_label.text = "Enemy turn: %s" % actor.display_name
+		_info_label.text = _tr("battle.prompt.enemy_turn") % _unit_display_name(actor)
 		_refresh_turn_display()
 		_refresh_all_units()
 		_queue_controlled_turn(actor, CombatSystem.Team.PLAYER, 15.0, 8.0, "Enemy")
@@ -2909,14 +2992,14 @@ func _process_next_turn() -> void:
 
 	if _auto_battle_controller.should_auto_control(actor):
 		_phase = VSPhase.ANIMATING
-		_info_label.text = "Auto-battle: %s" % actor.display_name
+		_info_label.text = _tr("battle.prompt.auto_actor") % _unit_display_name(actor)
 		_refresh_turn_display()
 		_refresh_all_units()
 		_queue_controlled_turn(actor, CombatSystem.Team.ENEMY, 20.0, 10.0, "Auto-battle")
 		return
 
 	_phase = VSPhase.SELECT_UNIT
-	_info_label.text = "Your turn: Click %s or use the action bar." % actor.display_name
+	_info_label.text = _tr("battle.prompt.player_turn") % _unit_display_name(actor)
 	_refresh_turn_display()
 	_refresh_all_units()
 	_refresh_action_bar()
@@ -3012,25 +3095,25 @@ func _advance_controlled_turn_step() -> void:
 			_finish_controlled_turn()
 
 func _begin_controlled_turn_step(actor: Unit) -> void:
-	var label: String = _controlled_turn_plan.get("label", "Auto-battle")
+	var label: String = _display_text(String(_controlled_turn_plan.get("label", "Auto-battle")))
 	var target_team: int = _controlled_turn_plan.get("target_team", CombatSystem.Team.ENEMY)
 	_move_range = _get_move_range(actor)
 	var target: Unit = _choose_ai_target(actor, target_team, float(_controlled_turn_plan.get("attack_value", 20.0)), _move_range)
 	_controlled_turn_plan["target"] = target
 	_highlight_cells(_move_range, Color(SRPGTheme.JADE.r, SRPGTheme.JADE.g, SRPGTheme.JADE.b, 0.72))
 	if target == null:
-		_info_label.text = "%s: %s has no available target." % [label, actor.display_name]
+		_info_label.text = _tr("battle.prompt.no_target") % [label, _unit_display_name(actor)]
 		_controlled_turn_plan["step"] = 3
 	else:
 		var best_pos: Vector2i = _choose_best_ai_position(actor, target, _move_range)
 		_controlled_turn_plan["best_pos"] = best_pos
-		_info_label.text = "%s: %s chooses a move." % [label, actor.display_name]
+		_info_label.text = _tr("battle.prompt.chooses_move") % [label, _unit_display_name(actor)]
 		_controlled_turn_plan["step"] = 1
 	_refresh_all_units()
 	_schedule_controlled_turn_step()
 
 func _move_controlled_turn_actor(actor: Unit) -> void:
-	var label: String = _controlled_turn_plan.get("label", "Auto-battle")
+	var label: String = _display_text(String(_controlled_turn_plan.get("label", "Auto-battle")))
 	var target: Unit = _controlled_turn_plan.get("target")
 	var actor_pos: Vector2i = _unit_cells.get(actor, Vector2i(-1, -1))
 	var best_pos: Vector2i = _controlled_turn_plan.get("best_pos", actor_pos)
@@ -3039,11 +3122,11 @@ func _move_controlled_turn_actor(actor: Unit) -> void:
 	if best_pos != actor_pos:
 		_move_unit_to_cell(actor, best_pos)
 		if target != null:
-			_info_label.text = "%s: %s moves toward %s." % [label, actor.display_name, target.display_name]
+			_info_label.text = _tr("battle.prompt.moves_toward") % [label, _unit_display_name(actor), _unit_display_name(target)]
 		else:
-			_info_label.text = "%s: %s moves." % [label, actor.display_name]
+			_info_label.text = _tr("battle.prompt.moves") % [label, _unit_display_name(actor)]
 	else:
-		_info_label.text = "%s: %s holds position." % [label, actor.display_name]
+		_info_label.text = _tr("battle.prompt.holds") % [label, _unit_display_name(actor)]
 	_attack_range = _get_attack_range(actor)
 	_highlight_cells(_attack_range, Color(SRPGTheme.VERMILION.r, SRPGTheme.VERMILION.g, SRPGTheme.VERMILION.b, 0.78))
 	_controlled_turn_plan["step"] = 2
@@ -3051,7 +3134,7 @@ func _move_controlled_turn_actor(actor: Unit) -> void:
 	_schedule_controlled_turn_step()
 
 func _attack_controlled_turn_target(actor: Unit) -> void:
-	var label: String = _controlled_turn_plan.get("label", "Auto-battle")
+	var label: String = _display_text(String(_controlled_turn_plan.get("label", "Auto-battle")))
 	var target: Unit = _controlled_turn_plan.get("target")
 	_clear_highlights()
 	_attack_range.clear()
@@ -3066,9 +3149,9 @@ func _attack_controlled_turn_target(actor: Unit) -> void:
 		if target_pos.x >= 0:
 			_highlight_cells([target_pos], Color(SRPGTheme.GOLD.r, SRPGTheme.GOLD.g, SRPGTheme.GOLD.b, 0.90))
 			_show_damage_number(target_pos, damage)
-		_info_label.text = "%s: %s attacks %s for %d damage." % [label, actor.display_name, target.display_name, damage]
+		_info_label.text = _tr("battle.prompt.attacks") % [label, _unit_display_name(actor), _unit_display_name(target), damage]
 	else:
-		_info_label.text = "%s: %s ends turn without an attack." % [label, actor.display_name]
+		_info_label.text = _tr("battle.prompt.ends_no_attack") % [label, _unit_display_name(actor)]
 	_controlled_turn_plan["step"] = 3
 	_refresh_all_units()
 	_schedule_controlled_turn_step()
@@ -3509,6 +3592,7 @@ func _capture_campaign_carry_state() -> Dictionary:
 func _start_campaign_battle(path: String, carry: Dictionary) -> void:
 	_hide_settlement_and_transient_overlays()
 	var carried_units: Dictionary = _index_carried_units(carry.get("party_units", []))
+	var carried_party_ids: Array[String] = _ordered_carried_party_ids(carry.get("party_units", []))
 	var carriedInventory: Dictionary = carry.get("inventory_state", {})
 	var carried_history: Dictionary = carry.get("battle_history", {})
 	var carried_story: Dictionary = carry.get("story_progress", {})
@@ -3532,15 +3616,41 @@ func _start_campaign_battle(path: String, carry: Dictionary) -> void:
 		Inventory.deserialize(carriedInventory)
 
 	var deployed_units: Array = []
+	var player_spawn_entries: Array[Dictionary] = []
+	var player_spawn_index := 0
 	for entry in _battle_definition.get("units", []):
 		if typeof(entry) != TYPE_DICTIONARY:
 			continue
+		var team := BattleDefinitionLoader.resolve_team(String(entry.get("team", "enemy")))
+		if team == CombatSystem.Team.PLAYER:
+			player_spawn_entries.append((entry as Dictionary).duplicate(true))
 		var unit := _create_unit_from_definition(entry)
-		if carried_units.has(String(unit.unit_id)):
-			_apply_carried_unit_state(unit, carried_units[String(unit.unit_id)])
-		if unit != null and _combat.get_unit_team(unit) == CombatSystem.Team.PLAYER:
+		if unit == null:
+			continue
+		if team == CombatSystem.Team.PLAYER:
+			var party_payload: Dictionary = {}
+			if player_spawn_index < carried_party_ids.size():
+				party_payload = carried_units.get(String(carried_party_ids[player_spawn_index]), {})
+			if party_payload.is_empty() and carried_units.has(String(unit.unit_id)):
+				party_payload = carried_units[String(unit.unit_id)]
+			if not party_payload.is_empty():
+				_apply_carried_unit_state(unit, party_payload)
+				_reset_registered_unit_for_new_battle(unit)
 			deployed_units.append(unit)
-	_seed_roster_from_definition(deployed_units)
+			player_spawn_index += 1
+		elif carried_units.has(String(unit.unit_id)):
+			_apply_carried_unit_state(unit, carried_units[String(unit.unit_id)])
+	player_spawn_index = _spawn_extra_carried_party_units(
+		carried_party_ids,
+		player_spawn_index,
+		carried_units,
+		player_spawn_entries,
+		deployed_units
+	)
+	if carry.get("party_units", []).is_empty():
+		_seed_roster_from_definition(deployed_units)
+	else:
+		_seed_roster_from_carried_units(carry.get("party_units", []), deployed_units)
 	if not carried_history.is_empty():
 		_battle_history_log.deserialize(carried_history)
 	if not carried_ui.is_empty():
@@ -3568,12 +3678,111 @@ func _index_carried_units(entries: Array) -> Dictionary:
 		out[unit_id] = unit_payload
 	return out
 
+func _ordered_carried_party_ids(entries: Array) -> Array[String]:
+	var rows: Array[Dictionary] = []
+	var fallback_index := 1000
+	for entry in entries:
+		if typeof(entry) != TYPE_DICTIONARY:
+			continue
+		var unit_payload: Dictionary = entry.get("unit", {})
+		var unit_id := String(unit_payload.get("unit_id", ""))
+		if unit_id == "":
+			continue
+		var party_index := int(entry.get("party_index", -1))
+		if party_index < 0 and int(entry.get("status", CharacterRoster.Status.AVAILABLE)) != CharacterRoster.Status.DEPLOYED:
+			continue
+		if party_index < 0:
+			party_index = fallback_index
+			fallback_index += 1
+		rows.append({"index": party_index, "unit_id": unit_id})
+	rows.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		return int(a["index"]) < int(b["index"])
+	)
+	var ordered: Array[String] = []
+	for row in rows:
+		ordered.append(String(row["unit_id"]))
+	return ordered
+
+func _spawn_extra_carried_party_units(
+	carried_party_ids: Array[String],
+	start_index: int,
+	carried_units: Dictionary,
+	player_spawn_entries: Array[Dictionary],
+	deployed_units: Array
+) -> int:
+	if player_spawn_entries.is_empty():
+		return start_index
+	var party_index: int = start_index
+	while party_index < mini(carried_party_ids.size(), CharacterRoster.MAX_DEPLOYED):
+		var party_id := String(carried_party_ids[party_index])
+		var payload: Dictionary = carried_units.get(party_id, {})
+		if payload.is_empty():
+			party_index += 1
+			continue
+		var template: Dictionary = player_spawn_entries[party_index % player_spawn_entries.size()].duplicate(true)
+		var spawn_pos: Vector2i = _find_extra_player_spawn_position(party_index, player_spawn_entries)
+		template["position"] = {"x": spawn_pos.x, "y": spawn_pos.y}
+		var unit: Unit = _create_unit_from_definition(template)
+		if unit != null:
+			_apply_carried_unit_state(unit, payload)
+			_reset_registered_unit_for_new_battle(unit)
+			deployed_units.append(unit)
+		party_index += 1
+	return party_index
+
+func _find_extra_player_spawn_position(slot_index: int, player_spawn_entries: Array[Dictionary]) -> Vector2i:
+	var template_index: int = slot_index % player_spawn_entries.size()
+	var position: Dictionary = player_spawn_entries[template_index].get("position", {})
+	var base_pos := Vector2i(int(position.get("x", 0)), int(position.get("y", 0)))
+	var offsets: Array[Vector2i] = [
+		Vector2i(0, 1),
+		Vector2i(1, 0),
+		Vector2i(0, -1),
+		Vector2i(-1, 0),
+		Vector2i(1, 1),
+		Vector2i(-1, 1),
+		Vector2i(1, -1),
+		Vector2i(-1, -1),
+		Vector2i(2, 0),
+		Vector2i(0, 2),
+		Vector2i(-2, 0),
+		Vector2i(0, -2),
+	]
+	for offset in offsets:
+		var candidate: Vector2i = base_pos + offset
+		if _is_available_spawn_cell(candidate):
+			return candidate
+	return base_pos
+
+func _is_available_spawn_cell(pos: Vector2i) -> bool:
+	if pos.x < 0 or pos.y < 0 or pos.x >= _map_size or pos.y >= _map_size:
+		return false
+	return not _grid_units.has(pos)
+
+func _seed_roster_from_carried_units(entries: Array, deployed_units: Array) -> void:
+	var existing_units: Dictionary = {}
+	for unit in deployed_units:
+		if unit is Unit:
+			existing_units[(unit as Unit).unit_id] = unit
+	_roster.load_data({
+		"characters": entries,
+		"battle_active": _phase != VSPhase.BATTLE_END,
+	}, existing_units)
+
 func _apply_carried_unit_state(unit: Unit, payload: Dictionary) -> void:
 	if unit == null or payload.is_empty():
 		return
 	unit.deserialize(payload)
 	if _unit_labels.has(unit):
-		(_unit_labels[unit] as Label).text = unit.display_name
+		(_unit_labels[unit] as Label).text = _unit_display_name(unit)
+
+func _reset_registered_unit_for_new_battle(unit: Unit) -> void:
+	if unit == null or not _combat._combat_units.has(unit):
+		return
+	var max_hp := unit.get_max_hp()
+	_combat._combat_units[unit]["hp"] = max_hp
+	_combat._combat_units[unit]["max_hp"] = max_hp
+	_combat._combat_units[unit]["is_alive"] = true
 
 func _apply_default_camp_plan() -> Dictionary:
 	var lines: Array[String] = []
@@ -3584,7 +3793,7 @@ func _apply_default_camp_plan() -> Dictionary:
 		_apply_default_attribute_training(unit, lines)
 		_apply_default_equipment_enhancement(unit, lines)
 	if lines.is_empty():
-		lines.append("No eligible camp actions; resources or unlock conditions are insufficient.")
+		lines.append(_tr("battle.camp.no_actions"))
 	_story_progress["last_camp_battle"] = get_battle_id()
 	_story_progress["camp_actions_total"] = int(_story_progress.get("camp_actions_total", 0)) + lines.size()
 	_last_camp_report = "\n".join(lines)
@@ -3601,7 +3810,7 @@ func _get_party_units() -> Array:
 func _apply_default_skill_training(unit: Unit, lines: Array[String]) -> void:
 	if Inventory.has_resource(ResourceTypes.ResourceId.GOLD, 80) and unit.learn_skill(&"defend"):
 		Inventory.remove_resource(ResourceTypes.ResourceId.GOLD, 80)
-		lines.append("%s learned Defend." % unit.display_name)
+		lines.append(_tr("battle.camp.learned_defend") % _unit_display_name(unit))
 	var skill_id := _get_first_trainable_skill_id(unit)
 	if skill_id != &"":
 		var result := unit.skill_component.apply_battle_proficiency(skill_id, 90)
@@ -3610,7 +3819,7 @@ func _apply_default_skill_training(unit: Unit, lines: Array[String]) -> void:
 			if not traits.is_empty():
 				unit.skill_component.select_trait(skill_id, int(trigger.get("level", 0)), String(traits[0].get("trait_id", "")))
 		if int(result.get("gained", 0)) > 0:
-			lines.append("%s drilled %s (+%d proficiency)." % [unit.display_name, SkillDefinitions.get_skill_name(skill_id), int(result.get("gained", 0))])
+			lines.append(_tr("battle.camp.drilled_skill") % [_unit_display_name(unit), _skill_id_display_name(skill_id), int(result.get("gained", 0))])
 
 func _get_first_trainable_skill_id(unit: Unit) -> StringName:
 	for skill_data in unit.skill_component.get_all_skills():
@@ -3627,19 +3836,19 @@ func _apply_default_class_drill(unit: Unit, lines: Array[String]) -> void:
 	if Inventory.has_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, 2):
 		Inventory.remove_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, 2)
 		unit.class_component.add_class_unlock_exp(target_class, 140)
-		lines.append("%s gained %d %s unlock EXP." % [unit.display_name, 140, ClassNames.ClassID.keys()[target_class]])
+		lines.append(_tr("battle.camp.unlock_exp") % [_unit_display_name(unit), 140, _class_display_name(target_class)])
 	if unit.class_component.get_state() == ClassNames.ClassState.BASIC_ACTIVE:
 		unit.class_component.try_unlock_advanced()
 	var result := unit.execute_class_change(target_class)
 	if bool(result.get("success", false)):
-		lines.append("%s changed class to %s." % [unit.display_name, ClassNames.ClassID.keys()[target_class]])
+		lines.append(_tr("battle.camp.changed_class") % [_unit_display_name(unit), _class_display_name(target_class)])
 
 func _apply_default_attribute_training(unit: Unit, lines: Array[String]) -> void:
 	if not Inventory.has_resource(ResourceTypes.ResourceId.FRUIT_STR, 1):
 		return
 	if unit.use_fruit(AttributeNames.Attribute.STR):
 		Inventory.remove_resource(ResourceTypes.ResourceId.FRUIT_STR, 1)
-		lines.append("%s used STR fruit." % unit.display_name)
+		lines.append(_tr("battle.camp.used_str_fruit") % _unit_display_name(unit))
 
 func _apply_default_equipment_enhancement(unit: Unit, lines: Array[String]) -> void:
 	var item := _get_first_equipped_item(unit)
@@ -3654,10 +3863,10 @@ func _apply_default_equipment_enhancement(unit: Unit, lines: Array[String]) -> v
 		return
 	var protected := Inventory.has_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, 1)
 	var result := unit.equipment_component.attempt_enhancement(item.item_id, Inventory, protected, 20260425)
-	lines.append("%s enhanced %s -> %s level %d." % [
-		unit.display_name,
-		item.name,
-		String(result.get("result", "attempted")),
+	lines.append(_tr("battle.camp.enhanced") % [
+		_unit_display_name(unit),
+		_display_text(item.name),
+		_display_text(String(result.get("result", "attempted"))),
 		int(result.get("new_level", item.enhancement_level)),
 	])
 
@@ -3689,18 +3898,18 @@ func _check_battle_end() -> void:
 	var result := _combat.check_end_conditions()
 	if result == CombatSystem.CombatResult.VICTORY:
 		_phase = VSPhase.BATTLE_END
-		_result_label.text = "VICTORY!"
+		_result_label.text = _tr("battle.result.victory")
 		_result_label.modulate = Color(0.2, 0.8, 0.3)
 		_result_label.visible = true
-		_info_label.text = "Battle won! All enemies defeated."
+		_info_label.text = _tr("battle.prompt.battle_won")
 		_play_ui_cue("victory")
 		_finalize_battle_result(SettlementResult.SettlementType.VICTORY, BattleEvaluation.Rating.PERFECT)
 	elif result == CombatSystem.CombatResult.DEFEAT:
 		_phase = VSPhase.BATTLE_END
-		_result_label.text = "DEFEAT..."
+		_result_label.text = _tr("battle.result.defeat")
 		_result_label.modulate = Color(0.9, 0.2, 0.2)
 		_result_label.visible = true
-		_info_label.text = "All allies defeated."
+		_info_label.text = _tr("battle.prompt.allies_defeated")
 		_play_ui_cue("error")
 		_finalize_battle_result(SettlementResult.SettlementType.DEFEAT, BattleEvaluation.Rating.FAIL)
 	_refresh_action_bar()
@@ -3727,9 +3936,9 @@ func _finalize_battle_result(result_type: int, rating: int) -> void:
 		"timestamp": Time.get_unix_time_from_system(),
 	})
 	if _result_label.visible:
-		_result_label.text = "%s\n%s\nEXP +%d | Gold +%d | Materials +%d" % [
-			"VICTORY!" if result_type == SettlementResult.SettlementType.VICTORY else "DEFEAT...",
-			_rating_name(int(_settlement_reward_summary.get("rating", rating))),
+		_result_label.text = _tr("battle.result.summary") % [
+			_tr("battle.result.victory") if result_type == SettlementResult.SettlementType.VICTORY else _tr("battle.result.defeat"),
+			_display_text(_rating_name(int(_settlement_reward_summary.get("rating", rating)))),
 			int(_settlement_reward_summary.get("exp_per_unit", 0)),
 			int(_settlement_reward_summary.get("gold_awarded", 0)),
 			int(_settlement_reward_summary.get("materials_awarded", 0)),
@@ -3802,8 +4011,8 @@ func _update_boss_phase(unit: Unit, new_hp: int) -> void:
 		"hp": maxi(1, new_hp),
 		"retained_hp_ratio": float(profile.get("checkpoint_retained_hp_ratio", 0.15)),
 	}
-	_info_label.text = "%s shifts to %s. Checkpoint saved." % [
-		String(profile.get("title", unit.display_name)),
+	_info_label.text = _tr("battle.prompt.boss_shift") % [
+		_display_text(String(profile.get("title", unit.display_name))),
 		_get_boss_phase_name(profile, phase),
 	]
 

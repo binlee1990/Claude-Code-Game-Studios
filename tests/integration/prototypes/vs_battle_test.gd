@@ -3,9 +3,12 @@
 
 extends Gut
 
+const SRPGLocalizationScript := preload("res://src/core/localization/srpg_localization.gd")
+
 var _battle
 
 func before_each() -> void:
+	SRPGLocalizationScript.set_locale(SRPGLocalizationScript.DEFAULT_LOCALE)
 	SaveManager.clear_pending_loaded_data()
 	var scene: PackedScene = load("res://prototypes/vertical-slice/vs_battle.tscn")
 	_battle = scene.instantiate()
@@ -13,6 +16,7 @@ func before_each() -> void:
 
 func after_each() -> void:
 	SaveManager.clear_pending_loaded_data()
+	SRPGLocalizationScript.set_locale(SRPGLocalizationScript.DEFAULT_LOCALE)
 	if is_instance_valid(_battle):
 		_battle.queue_free()
 
@@ -20,7 +24,7 @@ func test_initial_battle_state_is_immediately_playable() -> void:
 	var actor: Unit = _battle._combat.get_current_actor()
 	assert_eq(_battle._phase, _battle.VSPhase.SELECT_UNIT, "Prototype should wait on a player turn")
 	assert_eq(_battle._combat.get_unit_team(actor), CombatSystem.Team.PLAYER, "Initial controllable actor should belong to the player")
-	assert_true(_battle._info_label.text.begins_with("Your turn:"), "Prompt should identify the active player unit")
+	assert_true(_battle._info_label.text.begins_with("我方回合："), "Prompt should identify the active player unit")
 
 func test_click_input_selects_active_unit_and_moves_it() -> void:
 	var actor: Unit = _battle._combat.get_current_actor()
@@ -83,7 +87,7 @@ func test_auto_toggle_immediately_starts_controlled_turn() -> void:
 	assert_true(_battle._turn_sequence_running, "Auto toggle should immediately start the current player turn")
 	assert_eq(_battle._phase, _battle.VSPhase.ANIMATING, "Auto turn should enter controlled presentation")
 	assert_eq(_battle._selected_unit, actor, "Auto turn should select the current actor without a manual Move click")
-	assert_true(_battle._info_label.text.contains("chooses a move"), "Prompt should show that auto is acting now")
+	assert_true(_battle._info_label.text.contains("正在选择移动"), "Prompt should show that auto is acting now")
 
 func test_auto_controlled_turn_moves_and_attacks_without_manual_input() -> void:
 	var actor: Unit = _battle._combat.get_current_actor()

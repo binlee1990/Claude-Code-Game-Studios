@@ -1,6 +1,6 @@
 # Sprint 3: Chapter 2 实战实装
 
-> Version: v1.0 | Date: 2026-04-26 | Status: **PLANNING** — 接受 Plan，QA plan 待生成
+> Version: v1.0 | Date: 2026-04-26 | Status: **COMPLETE WITH NOTES** — 复核确认 Must/Should Have 已落地；人工 playtest / 截图 gate 遗留
 > Previous: sprint-002 v1.0 COMPLETE（治理 + 观感 P0 + Ch.2 内容基线）
 > Control Manifest: 2026-04-26-v2（覆盖 ADR-001~006）
 > Review Mode: solo（PR-SPRINT 跳过；每 story 仍要求 /code-review）
@@ -134,3 +134,31 @@ Day 5  : CH2-c-006（果子二选三）+ Ch.2 三战 smoke 串通 + GOV-ADR-007 
 - [ ] 设计文档：sprint 期间若发现 GDD 与实现差异，先改 GDD 再改代码（GDD 为权威源）
 
 > **Scope check:** 本 Sprint 仅落地 chapter-02 epic 已有的 6 stories + 治理收尾 + 风险占位 GDD，无超出 epic 原范围的新增。如后续要追加新 story，请运行 `/scope-check chapter-02`。
+
+---
+
+## Revalidation — 2026-04-27
+
+### 完成进展
+
+复核结论：Sprint-003 的 Must Have 与 Should Have 已执行完成，状态为 **COMPLETE WITH PLAYTEST NOTES**。
+
+| 复核项 | 结果 | 证据 |
+|---|---|---|
+| CH2-c-000 story 文件落地 | 完成 | `production/epics/chapter-02/story-001` ~ `story-006` 已存在，epic index 中 6 条均为 Done |
+| CH2-c-001 B2-GATE | 完成 | `src/core/belief/belief_system.gd`、`belief_gate.gd`；`tests/unit/chapter02/branch_gate_test.gd` 12 个测试，`belief_system_test.gd` 12 个测试 |
+| CH2-c-002 王秀 AI | 完成 | `src/core/ai/wang_xiu_ai.gd`；`tests/unit/chapter02/wang_xiu_ai_test.gd` 19 个测试 |
+| CH2-c-003 护卫姿态 | 完成 | `src/core/combat/guard_stance.gd`；`tests/unit/chapter02/guard_stance_test.gd` 9 个测试 |
+| CH2-c-004 镇压战结算 | 完成 | `src/core/settlement/suppression_battle_settlement.gd`；`tests/unit/chapter02/suppression_settlement_test.gd` 8 个测试 |
+| CH2-c-005 Boss 三阶段 | 完成 | `src/core/combat/boss_phase_controller.gd`；`tests/unit/chapter02/boss_phase_test.gd` 19 个测试 |
+| CH2-c-006 果子二选三 | 完成 | `src/core/settlement/fruit_selection.gd`；`tests/unit/chapter02/fruit_selection_test.gd` 12 个测试 |
+| 治理收尾 | 完成 | `design/gdd/boss-system.md` 存在；`docs/architecture/ADR-007-belief-branch-system.md` 存在 |
+| 自动化解析 | PASS | 2026-04-27 运行 `godot --headless --check-only project.godot`，退出码 0 |
+| 自动化测试入口 | PASS | 2026-04-27 运行 `godot --headless res://tests/test_runner.tscn`，退出码 0；当前仓库静态统计 805 个 `test_` 方法 |
+
+### 遗留问题
+
+- 各 `production/epics/chapter-02/story-*.md` 顶部仍写 `Ready for Dev`，但文件末尾已有 Completed/Test Evidence；部分 story 完成段测试数也与当前静态统计不一致，需要后续统一 story header 与测试计数。
+- `production/qa/qa-plan-sprint-3.md` 中的部分计划测试文件名与当前实际测试文件不完全一致，例如计划中的 `chen_lang_boss_test.gd` 实际为 `boss_phase_test.gd`，若继续按 QA plan 执行需先校正。
+- CH2-PT-001 体验性 playtest 与 AC-CH2-009 差值验证未发现落地 playtest 记录；Sprint 功能完成，但真人体验数据仍是遗留项。
+- Ch.2 三战完整人工 smoke / 截图证据未在 `production/playtests/` 或 `production/qa/evidence/` 中找到专门记录；当前复核主要依赖单元测试、集成入口和现有打包 smoke。

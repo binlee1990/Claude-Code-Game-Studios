@@ -15,12 +15,26 @@ const BATTLE_SCENE_PATH := "res://src/ui/combat/battle_arena.tscn"
 
 var _status_label: Label
 var _chapter2_button: Button
+var _language_button: Button
+var _credits_button: Button
+var _eyebrow_label: Label
+var _title_label: Label
+var _subtitle_label: Label
+var _seal_label: Label
+var _hint_bar: Control
+var _credits_layer: CanvasLayer
+var _credits_title_label: Label
+var _credits_body_label: Label
+var _credits_close_button: Button
 
 func _ready() -> void:
+	SRPGLocalizationScript.set_locale(SaveManager.load_locale_preference())
 	_build_visuals()
 	start_button.pressed.connect(_on_start_pressed)
 	continue_button.pressed.connect(_on_continue_pressed)
 	base_button.pressed.connect(_on_base_pressed)
+	_language_button.pressed.connect(_on_language_pressed)
+	_credits_button.pressed.connect(_on_credits_pressed)
 	settings_button.pressed.connect(_on_settings_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)
 	_chapter2_button.pressed.connect(_on_chapter2_pressed)
@@ -34,7 +48,7 @@ func _ready() -> void:
 		call_deferred("_run_packaged_playthrough_smoke")
 
 func _setup_bgm() -> void:
-	if DisplayServer.get_name() == "headless":
+	if DisplayServer.get_name() == "headless" or OS.get_cmdline_args().has("--srpg-playthrough-smoke"):
 		return
 	var stream: AudioStream = load("res://assets/audio/bgm/main_menu_bgm.ogg")
 	if stream == null:
@@ -74,7 +88,17 @@ func _on_base_pressed() -> void:
 
 func _on_settings_pressed() -> void:
 	if _status_label != null:
-		_status_label.text = "设置会在下一阶段展开。当前版本已支持战斗内菜单与存档。"
+		_status_label.text = _tr("main.settings_status")
+
+func _on_language_pressed() -> void:
+	var next_locale := SRPGLocalizationScript.ENGLISH_LOCALE
+	if SRPGLocalizationScript.get_locale() == SRPGLocalizationScript.ENGLISH_LOCALE:
+		next_locale = SRPGLocalizationScript.DEFAULT_LOCALE
+	if SaveManager.save_locale_preference(next_locale):
+		_refresh_locale_text()
+
+func _on_credits_pressed() -> void:
+	_set_credits_visible(true)
 
 func _on_quit_pressed() -> void:
 	get_tree().quit()
@@ -100,27 +124,23 @@ func _build_visuals() -> void:
 	title_stack.add_theme_constant_override("separation", 10)
 	add_child(title_stack)
 
-	var eyebrow := Label.new()
-	eyebrow.text = "SRPG VERTICAL SLICE"
-	SRPGTheme.apply_label(eyebrow, SRPGTheme.GOLD, 15)
-	title_stack.add_child(eyebrow)
+	_eyebrow_label = Label.new()
+	SRPGTheme.apply_label(_eyebrow_label, SRPGTheme.GOLD, 15)
+	title_stack.add_child(_eyebrow_label)
 
-	var title := Label.new()
-	title.text = SRPGLocalizationScript.translate("game.title")
-	SRPGTheme.apply_label(title, SRPGTheme.WHITE, 56, true)
-	title_stack.add_child(title)
+	_title_label = Label.new()
+	SRPGTheme.apply_label(_title_label, SRPGTheme.WHITE, 56, true)
+	title_stack.add_child(_title_label)
 
-	var subtitle := Label.new()
-	subtitle.text = SRPGLocalizationScript.translate("main.subtitle")
-	subtitle.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	SRPGTheme.apply_label(subtitle, SRPGTheme.PAPER, 20)
-	title_stack.add_child(subtitle)
+	_subtitle_label = Label.new()
+	_subtitle_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	SRPGTheme.apply_label(_subtitle_label, SRPGTheme.PAPER, 20)
+	title_stack.add_child(_subtitle_label)
 
-	var seal := Label.new()
-	seal.text = SRPGLocalizationScript.translate("main.seal")
-	seal.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	SRPGTheme.apply_label(seal, SRPGTheme.PAPER_MUTED, 16)
-	title_stack.add_child(seal)
+	_seal_label = Label.new()
+	_seal_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	SRPGTheme.apply_label(_seal_label, SRPGTheme.PAPER_MUTED, 16)
+	title_stack.add_child(_seal_label)
 
 	var menu_plate := Panel.new()
 	menu_plate.name = "MenuPlate"
@@ -147,11 +167,6 @@ func _build_visuals() -> void:
 	vbox.offset_bottom = 0.0
 	vbox.add_theme_constant_override("separation", 12)
 
-	start_button.text = "开始游戏（Chapter 1）"
-	continue_button.text = "读取存档"
-	base_button.text = "基地"
-	settings_button.text = "设置"
-	quit_button.text = "退出"
 	SRPGTheme.apply_button(start_button, true)
 	SRPGTheme.apply_button(continue_button)
 	SRPGTheme.apply_button(base_button)
@@ -160,10 +175,21 @@ func _build_visuals() -> void:
 
 	_chapter2_button = Button.new()
 	_chapter2_button.name = "Chapter2Button"
-	_chapter2_button.text = "开始游戏（Chapter 2）"
 	SRPGTheme.apply_button(_chapter2_button)
 	vbox.add_child(_chapter2_button)
 	vbox.move_child(_chapter2_button, 1)
+
+	_language_button = Button.new()
+	_language_button.name = "LanguageButton"
+	SRPGTheme.apply_button(_language_button)
+	vbox.add_child(_language_button)
+	vbox.move_child(_language_button, vbox.get_child_count() - 2)
+
+	_credits_button = Button.new()
+	_credits_button.name = "CreditsButton"
+	SRPGTheme.apply_button(_credits_button)
+	vbox.add_child(_credits_button)
+	vbox.move_child(_credits_button, vbox.get_child_count() - 2)
 
 	_status_label = Label.new()
 	_status_label.name = "SaveStatusLabel"
@@ -172,26 +198,130 @@ func _build_visuals() -> void:
 	vbox.add_child(_status_label)
 
 	# UI-P0-04: 底部按键提示条
-	var hint_bar: Control = HintBarScript.new()
-	hint_bar.name = "HintBar"
-	add_child(hint_bar)
-	hint_bar.set_hints([
-		{"key": "↑↓",    "action": "选择"},
-		{"key": "Enter",  "action": "确认"},
-		{"key": "Esc",    "action": "退出确认"},
-		{"key": "手柄A",  "action": "确认"},
-		{"key": "手柄B",  "action": "返回"},
-	])
+	_hint_bar = HintBarScript.new()
+	_hint_bar.name = "HintBar"
+	add_child(_hint_bar)
+
+	_build_credits_overlay()
+	_refresh_locale_text()
+
+func _refresh_locale_text() -> void:
+	if _eyebrow_label != null:
+		_eyebrow_label.text = _tr("main.eyebrow")
+	if _title_label != null:
+		_title_label.text = _tr("game.title")
+	if _subtitle_label != null:
+		_subtitle_label.text = _tr("main.subtitle")
+	if _seal_label != null:
+		_seal_label.text = _tr("main.seal")
+	start_button.text = _tr("main.start_ch1")
+	continue_button.text = _tr("main.continue")
+	base_button.text = _tr("main.base")
+	if _language_button != null:
+		_language_button.text = _tr("main.language") % SRPGLocalizationScript.locale_label()
+	if _credits_button != null:
+		_credits_button.text = _tr("main.credits")
+	settings_button.text = _tr("main.settings")
+	quit_button.text = _tr("main.quit")
+	if _chapter2_button != null:
+		_chapter2_button.text = _tr("main.start_ch2")
+	if _hint_bar != null and _hint_bar.has_method("set_hints"):
+		_hint_bar.set_hints([
+			{"key": "↑↓",    "action": _tr("main.hint.select")},
+			{"key": "Enter",  "action": _tr("main.hint.confirm")},
+			{"key": "Esc",    "action": _tr("main.hint.exit")},
+			{"key": "手柄A",  "action": _tr("main.hint.confirm")},
+			{"key": "手柄B",  "action": _tr("main.hint.back")},
+		])
+	if _credits_title_label != null:
+		_credits_title_label.text = _tr("credits.title")
+	if _credits_body_label != null:
+		_credits_body_label.text = get_credits_text()
+	if _credits_close_button != null:
+		_credits_close_button.text = _tr("credits.close")
+	_refresh_status_label()
+
+func _build_credits_overlay() -> void:
+	_credits_layer = CanvasLayer.new()
+	_credits_layer.name = "CreditsLayer"
+	_credits_layer.layer = 30
+	add_child(_credits_layer)
+
+	var blocker := ColorRect.new()
+	blocker.name = "CreditsBlocker"
+	blocker.set_anchors_preset(Control.PRESET_FULL_RECT)
+	blocker.color = Color(0.0, 0.0, 0.0, 0.72)
+	_credits_layer.add_child(blocker)
+
+	var panel := Panel.new()
+	panel.name = "CreditsPanel"
+	panel.set_anchors_preset(Control.PRESET_CENTER)
+	panel.custom_minimum_size = Vector2(640, 460)
+	panel.position = Vector2(-320, -230)
+	SRPGTheme.apply_panel(panel, Color(0.078, 0.068, 0.063, 0.98), SRPGTheme.GOLD)
+	_credits_layer.add_child(panel)
+
+	var content := VBoxContainer.new()
+	content.set_anchors_preset(Control.PRESET_FULL_RECT)
+	content.offset_left = 18
+	content.offset_top = 18
+	content.offset_right = -18
+	content.offset_bottom = -18
+	content.add_theme_constant_override("separation", 12)
+	panel.add_child(content)
+
+	_credits_title_label = Label.new()
+	_credits_title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	SRPGTheme.apply_label(_credits_title_label, SRPGTheme.WHITE, 26, true)
+	content.add_child(_credits_title_label)
+
+	var scroll := ScrollContainer.new()
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	content.add_child(scroll)
+
+	_credits_body_label = Label.new()
+	_credits_body_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	SRPGTheme.apply_label(_credits_body_label, SRPGTheme.PAPER, 15)
+	scroll.add_child(_credits_body_label)
+
+	_credits_close_button = Button.new()
+	_credits_close_button.name = "CreditsCloseButton"
+	_credits_close_button.pressed.connect(func() -> void:
+		_set_credits_visible(false)
+	)
+	SRPGTheme.apply_button(_credits_close_button, false, true, true)
+	content.add_child(_credits_close_button)
+	_set_credits_visible(false)
+
+func _set_credits_visible(is_visible: bool) -> void:
+	if _credits_layer != null:
+		_credits_layer.visible = is_visible
+		if is_visible and _credits_close_button != null:
+			_credits_close_button.grab_focus()
+
+func get_credits_text() -> String:
+	return "%s\n\n%s\n%s\n\n%s\n%s\n\n%s" % [
+		_tr("credits.studio"),
+		_tr("credits.music_heading"),
+		_tr("credits.required_music"),
+		_tr("credits.font_heading"),
+		_tr("credits.fonts"),
+		_tr("credits.special_thanks"),
+	]
+
+func _tr(key: String) -> String:
+	return SRPGLocalizationScript.translate(key)
 
 func _refresh_status_label() -> void:
 	if _status_label == null:
 		return
 	if continue_button.disabled:
-		_status_label.text = "暂无存档"
+		_status_label.text = _tr("main.no_save")
 		return
 	var save_data: SaveData = SaveManager.peek_save(1)
 	if save_data == null:
-		_status_label.text = "暂无存档"
+		_status_label.text = _tr("main.no_save")
 		return
 	var progress: Dictionary = save_data.story_progress
 	var chapter: int = int(progress.get("chapter", 1))
@@ -202,9 +332,9 @@ func _refresh_status_label() -> void:
 		var dt: Dictionary = Time.get_datetime_dict_from_unix_time(ts)
 		save_time = "%02d:%02d" % [int(dt.get("hour", 0)), int(dt.get("minute", 0))]
 	if battle_id.is_empty():
-		_status_label.text = "第 %d 章 · 上次保存 %s" % [chapter, save_time]
+		_status_label.text = _tr("main.save_status") % [chapter, save_time]
 	else:
-		_status_label.text = "第 %d 章 · %s · 上次保存 %s" % [chapter, battle_id, save_time]
+		_status_label.text = _tr("main.save_status_battle") % [chapter, battle_id, save_time]
 
 func _run_packaged_playthrough_smoke() -> void:
 	var result := _execute_packaged_playthrough_smoke()

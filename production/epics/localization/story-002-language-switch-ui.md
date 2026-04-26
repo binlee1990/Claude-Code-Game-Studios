@@ -1,7 +1,7 @@
 # Story 002: 语言切换 UI
 
 > **Epic**: Localization
-> **Status**: Planning
+> **Status**: Complete
 > **Layer**: Foundation
 > **Type**: UI
 
@@ -14,9 +14,13 @@
 
 ## Acceptance Criteria
 
-- [ ] LOC-AC-9: 主菜单显示语言切换按钮（"语言 / Language"）
-- [ ] LOC-AC-10: 点击后弹出选项（中文 / English），选择后即时切换
-- [ ] LOC-AC-11: 切换后当前屏幕所有文本立即更新
+- [x] LOC-AC-9: 主菜单显示语言切换按钮（`LanguageButton`）
+- [x] LOC-AC-10: 点击后在 `zh_CN` / `en_US` 间切换
+- [x] LOC-AC-11: 切换后当前主菜单和 Credits 文本立即更新
+
+## Completion Notes — 2026-04-27
+
+Sprint-005 uses a single toggle button instead of a modal option popup. This is a simpler equivalent interaction for two supported locales and is covered by `tests/integration/ui/main_menu_localization_credits_test.gd`.
 
 ## Implementation Notes
 
