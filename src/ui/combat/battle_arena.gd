@@ -743,6 +743,20 @@ func _apply_default_preferences() -> void:
 	_menu_open = false
 	_active_menu_tab = _ui_preferences["last_menu_tab"]
 
+func _seed_units_from_definition() -> void:
+	var deployed_units: Array = []
+	for entry in _battle_definition.get("units", []):
+		if typeof(entry) != TYPE_DICTIONARY:
+			continue
+		var unit := _create_unit_from_definition(entry)
+		if unit != null and _combat.get_unit_team(unit) == CombatSystem.Team.PLAYER:
+			deployed_units.append(unit)
+	_seed_roster_from_definition(deployed_units)
+	var all_units: Array = _unit_cells.keys()
+	_actions.initialize(all_units, _build_default_mp_config(all_units))
+	_speed_controller.deserialize({"tier": SpeedController.SpeedTier.NORMAL})
+	_auto_battle_controller.deserialize({"enabled": false})
+
 func _load_default_battle() -> void:
 	_apply_default_preferences()
 	_hide_settlement_and_transient_overlays()
@@ -753,21 +767,8 @@ func _load_default_battle() -> void:
 	set_map_size(int(_battle_definition.get("map_size", DEFAULT_MAP_SIZE)))
 	_story_progress = _battle_definition.get("progress_on_start", {}).duplicate(true)
 	_seed_inventory_from_definition()
-
-	var deployed_units: Array = []
-	for entry in _battle_definition.get("units", []):
-		if typeof(entry) != TYPE_DICTIONARY:
-			continue
-		var unit := _create_unit_from_definition(entry)
-		if unit != null and _combat.get_unit_team(unit) == CombatSystem.Team.PLAYER:
-			deployed_units.append(unit)
-	_seed_roster_from_definition(deployed_units)
-
-	var all_units: Array = _unit_cells.keys()
+	_seed_units_from_definition()
 	_combat.start_battle(get_battle_id(), _get_map_id(), int(_battle_definition.get("difficulty", 1)))
-	_actions.initialize(all_units, _build_default_mp_config(all_units))
-	_speed_controller.deserialize({"tier": SpeedController.SpeedTier.NORMAL})
-	_auto_battle_controller.deserialize({"enabled": false})
 	_sync_phase_prompt()
 
 func _load_battle_definition(path: String) -> void:
@@ -1065,8 +1066,13 @@ func _apply_loaded_save_data(save_data: SaveData) -> void:
 	if not save_data.battle_history.is_empty():
 		_battle_history_log.deserialize(save_data.battle_history)
 
-	_load_battle_from_state(save_data.battle_state)
-	_restore_roster_from_save(save_data)
+	if save_data.battle_state.has("units") and not save_data.battle_state["units"].is_empty():
+		_load_battle_from_state(save_data.battle_state)
+		_restore_roster_from_save(save_data)
+	else:
+		set_map_size(int(_battle_definition.get("map_size", DEFAULT_MAP_SIZE)))
+		_seed_units_from_definition()
+		_combat.start_battle(get_battle_id(), _get_map_id(), int(_battle_definition.get("difficulty", 1)))
 
 func _load_battle_from_state(state: Dictionary) -> void:
 	var restored_map_size: int = state.get("map_size", DEFAULT_MAP_SIZE)
