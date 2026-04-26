@@ -3,18 +3,69 @@
 **Last Updated**: 2026-04-26
 
 ## Current Task
-**Sprint-002 ALL LANES COMPLETE** — A 治理 + B 观感 P0（含 ART/AUDIO） + C Ch.2 全部 DONE。
+**Sprint-003 LAUNCHED** — 主题：Chapter 2 实战实装。Plan 已写盘，待 /qa-plan sprint。
 
-Active stage: Production (post-vertical-slice). Last gate: Pre-Production → Production PASS WITH CONCERNS.
+Active stage: Production. Sprint-002 COMPLETE（686/686 PASS，三 lane 全 DONE）。
 
-Quality gates passed:
-- godot --check-only --quit: 0 parse error
-- GUT 测试 686/686 PASS（0 fail / 0 regression）
-- License 合规：OFL 字体 + CC-BY 3.0 BGM + 强制 attribution 已写入 design/ux/credits.md
-- Hooks ERROR 修复：所有 hook 命令统一改为 `$CLAUDE_PROJECT_DIR` 绝对路径
+## Sprint-003 概要（2026-04-26 → 2026-05-01）
 
-Next: 人工动作（截图归档 + Windows packaged smoke 重跑）+ Sprint-003 准备
-（建议主题：内容扩展 Ch.3 + 管理屏 Beta 目标 + ADR-007/008/009）。
+- Plan: `production/sprints/sprint-003.md`（v1.0 PLANNING）
+- Status YAML: `production/sprint-status.yaml`
+- Goal: 把 Ch.2 从 GDD/JSON skeleton 推进到玩家可玩的三战完整内容
+- Capacity: 5 天 / 6 Must Have + 3 Should Have + 2 Nice to Have
+
+| 优先级 | Story IDs |
+|---|---|
+| Must Have | CH2-c-001 章节路由+B2-GATE / CH2-c-002 王秀护送 AI / CH2-c-003 护卫姿态分摊 / CH2-c-004 镇压战结算 / CH2-c-005 Boss 三阶段+检查点+援军 / CH2-c-006 果子二选三 |
+| Should Have | CH2-c-000 story 文件落地 / BOSS-GDD-001 占位 GDD / GOV-ADR-007 信念值 ADR |
+| Nice to Have | QA-EVID-001 Sprint-002 收尾 / CH2-PT-001 Ch.2 playtest |
+
+## 关键风险
+
+1. CH2-c-002 王秀 A* + 畏缩 AI 调参（HIGH/HIGH）→ Day 1 优先做独立 stories，AI 集中第 2-4 天
+2. boss-system GDD 缺失（MED/MED）→ BOSS-GDD-001 是 CH2-c-005 硬前置
+3. chapter-02 epic stories 仅 placeholder（HIGH/HIGH）→ CH2-c-000 第 1 天首先完成
+
+## Day 1 完成（2026-04-26）
+
+| Story | 交付物 | 测试 |
+|--------|--------|------|
+| CH2-c-000 | 6 个 story-*.md 文件 | N/A |
+| BOSS-GDD-001 | 确认 boss-system.md 存在，F2 公式澄清 | N/A |
+| CH2-c-001 | belief_system.gd / belief_gate.gd | 24 tests → 710/710 PASS |
+| CH2-c-003 | guard_stance.gd | 9 tests → 731/710 PASS |
+| CH2-c-006 | fruit_selection.gd | 12 tests → 731/710 PASS |
+
+## Day 2 完成（2026-04-26）
+
+| Story | 交付物 | 测试 |
+|--------|--------|------|
+| CH2-c-004 | suppression_battle_settlement.gd | 8 tests → 739/739 PASS |
+| GOV-ADR-007 | ADR-007-belief-branch-system.md (Accepted) | N/A |
+
+**测试基线**: 739/739 PASS（含原有 686）
+
+## Day 3 完成（2026-04-26）
+
+| Story | 交付物 | 测试 |
+|--------|--------|------|
+| CH2-c-005 | boss_phase_controller.gd | 20 tests → 757/757 PASS |
+| CH2-c-002 | wang_xiu_ai.gd + game_events 新增 npc_departed signal | 19 tests → 776/776 PASS |
+
+**测试基线**: 776/776 PASS（含原有 686）
+
+**Sprint 进度**: 9/11 done（6 Must Have + 3 Should Have）
+**剩余 Nice to Have**: QA-EVID-001（需手动截图）/ CH2-PT-001（需实际游玩）
+
+## 下一步
+
+- ⏳ Day 3：CH2-c-002 王秀 AI（A* + 畏缩）/ CH2-c-005 Boss 检查点逻辑准备
+- ⏳ Day 4：CH2-c-005（Boss 三阶段 + 援军刷新）
+- ⏳ Day 5：Ch.2 smoke + Nice to Have
+
+## Sprint-002 已完成（参考）
+
+详见下方 Sprint-002 历史段。已 outstanding 项已纳入 Sprint-003 Nice to Have（QA-EVID-001）。
 
 ## Sprint-002 Lane C — COMPLETE 2026-04-26
 

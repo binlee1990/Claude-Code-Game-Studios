@@ -66,3 +66,10 @@ tests/unit/turn/combat_flow_test.gd
 tests/unit/turn/movement_system_test.gd
 tests/unit/turn/speed_up_mode_test.gd
 tests/unit/turn/turn_order_test.gd
+tests/unit/chapter02/belief_system_test.gd
+tests/unit/chapter02/branch_gate_test.gd
+tests/unit/chapter02/guard_stance_test.gd
+tests/unit/chapter02/fruit_selection_test.gd
+tests/unit/chapter02/suppression_settlement_test.gd
+tests/unit/chapter02/boss_phase_test.gd
+tests/unit/chapter02/wang_xiu_ai_test.gd

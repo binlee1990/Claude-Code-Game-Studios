@@ -33,7 +33,9 @@ signal resource_overflow(resource_type: int, discarded: int)                    
 signal auto_battle_toggled(enabled: bool)             ## Auto-battle mode was turned on or off
 signal manual_override_activated(unit: Node)           ## Player took manual control of a unit for this turn
 signal speed_tier_changed(old_tier: int, new_tier: int)  ## Combat speed tier (SpeedController.SpeedTier) changed
+signal npc_departed(unit_id: String, battle_id: String)  ## NPC left battle (e.g. Wang Xiu K.O.)
 signal settlement_triggered(result: SettlementResult)  ## Battle settlement was triggered (Story BS-001)
+signal belief_changed(belief: int, delta: int, applied: int, new_value: int)  ## Belief value changed (ren/yi/zhi)
 
 
 func _init() -> void:
