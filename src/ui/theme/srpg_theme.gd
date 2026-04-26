@@ -75,10 +75,29 @@ static func apply_button(button: Button, accent: bool = false, danger: bool = fa
 	button.add_theme_font_override("font", BODY_FONT)
 	button.custom_minimum_size = Vector2(96.0, 34.0 if compact else 44.0)
 
+static func scale_size(value: float, scale: float) -> float:
+	var safe_scale: float = maxf(scale, 0.1)
+	return float(int(round(value * safe_scale)))
+
+static func scale_font_size(size: int, scale: float) -> int:
+	var safe_scale: float = maxf(scale, 0.1)
+	return maxi(1, int(round(float(size) * safe_scale)))
+
+static func apply_button_scaled(button: Button, scale: float, accent: bool = false, danger: bool = false, compact: bool = false) -> void:
+	apply_button(button, accent, danger, compact)
+	button.add_theme_font_size_override("font_size", scale_font_size(15 if compact else 18, scale))
+	button.custom_minimum_size = Vector2(
+		scale_size(96.0, scale),
+		scale_size(34.0 if compact else 44.0, scale)
+	)
+
 static func apply_label(label: Label, color: Color = PAPER, size: int = 16, is_title: bool = false) -> void:
 	label.add_theme_color_override("font_color", color)
 	label.add_theme_font_size_override("font_size", size)
 	label.add_theme_font_override("font", TITLE_FONT if is_title else BODY_FONT)
+
+static func apply_label_scaled(label: Label, scale: float, color: Color = PAPER, size: int = 16, is_title: bool = false) -> void:
+	apply_label(label, color, scale_font_size(size, scale), is_title)
 
 static func apply_panel(panel_node: Control, bg: Color = INK_PANEL, border: Color = GOLD) -> void:
 	panel_node.add_theme_stylebox_override("panel", panel(bg, Color(border.r, border.g, border.b, 0.68)))

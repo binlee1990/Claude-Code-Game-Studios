@@ -18,13 +18,15 @@ Engine: Godot 4.6.2
 | camera-map-system | Presentation | 视角与地图 | camera-map-system.md | 3 stories (2 Visual/Feel, 1 Integration) | Complete |
 | ui-system | Presentation | UI系统 | ui-system.md | 3 stories (2 UI, 1 Integration) | Complete |
 | chapter-02 | Content | Ch.2 内容 | chapter-02.md | 6 stories (placeholder) | Planning |
+| localization | Foundation | 多语言管理 | localization-system.md | 3 stories (1 Integration, 1 UI, 1 Integration) | Planning |
 
 ## Summary
 
 - **Core**: 7 epics (attribute, class, resource, tactical, AI, skill, turn-based)
 - **Feature**: 3 epics (equipment, character, battle-settlement)
 - **Presentation**: 2 epics (camera-map, UI)
-- **Foundation**: 0 epics (存档系统, 美术风格, 世界观/叙事 — no GDDs yet)
+- **Foundation**: 1 epic (localization)
+- **Content**: 1 epic (chapter-02)
 
 ## Known Gaps
 

@@ -1060,6 +1060,10 @@ func _on_settlement_continue_pressed() -> void:
 	call_deferred("_hide_settlement_and_transient_overlays")
 
 func _on_settlement_base_pressed() -> void:
+	var slot := SaveManager.get_current_slot()
+	if slot < 0:
+		slot = 1
+	SaveManager.save_game(slot)
 	_hide_settlement_and_transient_overlays()
 	SaveManager.clear_pending_loaded_data()
 	SceneManager.switch_scene("base")
