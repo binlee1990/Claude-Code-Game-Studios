@@ -1013,6 +1013,14 @@ func _on_settlement_continue_pressed() -> void:
 		return
 	var next_path: String = _get_settlement_next_battle_path()
 	if next_path == "":
+		if _battle_definition.has("chapter_completion_key"):
+			_settlement_next_label.text = "Chapter Complete! Returning to main menu..."
+			_info_label.text = "Chapter complete. Save recorded."
+			_play_ui_cue("victory")
+			SaveManager.save_game(1)
+			_is_chapter_transitioning = true
+			call_deferred("_return_to_main_menu")
+			return
 		_info_label.text = "No next battle is linked."
 		_play_ui_cue("error")
 		_settlement_next_label.text = "No next chapter is linked for this encounter."
