@@ -18,7 +18,6 @@
   },
   "completion_key": "chapter_02_act_a_complete",
   "belief_branch_check": {
-    "note": "TODO: branch routing — read after settlement; if (yi - max(ren, zhi)) >= branch_threshold route act_b to suppression variant, else mercy variant",
     "branch_threshold": 5,
     "output_key": "belief_branch"
   },
@@ -55,20 +54,20 @@
     "chapter_02_act_a_complete": true
   },
   "terrain": [
-    {"x": 3,  "y": 3,  "type": "highland"},
-    {"x": 4,  "y": 3,  "type": "highland"},
-    {"x": 5,  "y": 4,  "type": "highland"},
-    {"x": 9,  "y": 9,  "type": "grass"},
-    {"x": 10, "y": 9,  "type": "grass"},
+    {"x": 3,  "y": 3, "type": "highland"},
+    {"x": 4,  "y": 3, "type": "highland"},
+    {"x": 5,  "y": 4, "type": "highland"},
+    {"x": 9,  "y": 9, "type": "grass"},
+    {"x": 10, "y": 9, "type": "grass"},
     {"x": 11, "y": 10, "type": "mud"},
     {"x": 12, "y": 10, "type": "mud"},
-    {"x": 14, "y": 6,  "type": "water"},
-    {"x": 15, "y": 7,  "type": "water"}
+    {"x": 14, "y": 6, "type": "water"},
+    {"x": 15, "y": 7, "type": "water"}
   ],
   "inventory": [
-    {"resource": "gold",           "amount": "TODO: balance pass"},
-    {"resource": "basic_material", "amount": "TODO: balance pass"},
-    {"resource": "fruit_str",      "amount": "TODO: balance pass"}
+    {"resource": "gold", "amount": 200},
+    {"resource": "basic_material", "amount": 15},
+    {"resource": "fruit_str", "amount": 2}
   ],
   "units": [
     {
@@ -76,9 +75,9 @@
       "name": "Swordsman",
       "team": "player",
       "class": "basic_warrior",
-      "hp": "TODO: carry-forward from chapter_01_finale save",
+      "hp": 95,
       "position": {"x": 2, "y": 8},
-      "stats": {"str": "TODO: carry-forward", "agi": "TODO: carry-forward"},
+      "stats": {"str": 28, "agi": 25},
       "tactics": {"weapon": "sword", "element": "none", "ai": "balanced", "move": 3, "range": 2}
     },
     {
@@ -86,9 +85,9 @@
       "name": "Archer",
       "team": "player",
       "class": "basic_archer",
-      "hp": "TODO: carry-forward from chapter_01_finale save",
+      "hp": 72,
       "position": {"x": 2, "y": 10},
-      "stats": {"str": "TODO: carry-forward", "agi": "TODO: carry-forward"},
+      "stats": {"str": 21, "agi": 26},
       "tactics": {"weapon": "bow", "element": "wind", "ai": "balanced", "move": 3, "range": 3}
     },
     {
@@ -97,46 +96,44 @@
       "team": "enemy",
       "class": "basic_knight",
       "boss": false,
-      "hp": "TODO: balance pass",
+      "hp": 85,
       "position": {"x": 14, "y": 8},
-      "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+      "stats": {"str": 23, "agi": 15},
       "tactics": {"weapon": "spear", "element": "earth", "ai": "aggressive", "move": 3, "range": 2},
-      "reward": {"tier": "elite", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"},
-      "note": "disperse choice: flips to neutral (removed from enemy list); shelter choice: remains enemy"
+      "reward": {"tier": "elite", "base_gold": 120, "damage_dealt": 500}
     },
     {
       "id": "E2a",
       "name": "Militia Soldier",
       "team": "enemy",
       "class": "basic_warrior",
-      "hp": "TODO: balance pass",
+      "hp": 72,
       "position": {"x": 13, "y": 7},
-      "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+      "stats": {"str": 20, "agi": 14},
       "tactics": {"weapon": "sword", "element": "none", "ai": "aggressive", "move": 3, "range": 2},
-      "reward": {"tier": "normal", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+      "reward": {"tier": "normal", "base_gold": 70, "damage_dealt": 300}
     },
     {
       "id": "E2b",
       "name": "Militia Soldier",
       "team": "enemy",
       "class": "basic_warrior",
-      "hp": "TODO: balance pass",
+      "hp": 72,
       "position": {"x": 15, "y": 9},
-      "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+      "stats": {"str": 20, "agi": 14},
       "tactics": {"weapon": "sword", "element": "none", "ai": "aggressive", "move": 3, "range": 2},
-      "reward": {"tier": "normal", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+      "reward": {"tier": "normal", "base_gold": 70, "damage_dealt": 300}
     },
     {
       "id": "E3",
       "name": "Watchtower Archer",
       "team": "enemy",
       "class": "basic_archer",
-      "hp": "TODO: balance pass",
+      "hp": 60,
       "position": {"x": 5, "y": 4},
-      "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+      "stats": {"str": 19, "agi": 17},
       "tactics": {"weapon": "bow", "element": "wind", "ai": "support", "move": 3, "range": 3},
-      "reward": {"tier": "normal", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"},
-      "note": "positioned on highland — gains height advantage"
+      "reward": {"tier": "normal", "base_gold": 65, "damage_dealt": 280}
     }
   ],
   "conditional_units": [
@@ -145,18 +142,17 @@
       "name": "Liu Meng (Refugee Guard)",
       "team": "player_ally",
       "class": "basic_warrior",
-      "hp": "TODO: balance pass",
+      "hp": 65,
       "position": {"x": 4, "y": 12},
-      "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+      "stats": {"str": 20, "agi": 18},
       "tactics": {"weapon": "sword", "element": "none", "ai": "balanced", "move": 3, "range": 2},
       "spawn_condition": "narrative_choice == shelter",
-      "controllable": true,
-      "note": "Only added if player chose shelter option in narrative_choice"
+      "controllable": true
     }
   ],
   "reserves": [
-    {"id": "R1", "name": "Cleric",  "class": "basic_cleric", "stats": {"str": "TODO: carry-forward", "agi": "TODO: carry-forward"}, "status": "available"},
-    {"id": "R4", "name": "Mage",    "class": "basic_mage",   "stats": {"str": "TODO: carry-forward", "agi": "TODO: carry-forward"}, "status": "available"},
-    {"id": "R3", "name": "Lancer",  "class": "basic_knight", "stats": {"str": 20, "agi": 16}, "status": "departed", "reason": "chapter_2_exit"}
+    {"id": "R1", "name": "Cleric", "class": "basic_cleric", "stats": {"str": 14, "agi": 16}, "status": "available"},
+    {"id": "R4", "name": "Mage", "class": "basic_mage", "stats": {"str": 13, "agi": 19}, "status": "available"},
+    {"id": "R3", "name": "Lancer", "class": "basic_knight", "stats": {"str": 20, "agi": 16}, "status": "departed", "reason": "chapter_2_exit"}
   ]
 }

@@ -26,8 +26,7 @@
         "id": "persuade",
         "label": "喊话劝降",
         "belief_delta": {"ren": 6, "yi": -3},
-        "effects": ["chen_lang_extra_dialogue"],
-        "note": "If bond_level(R3) >= B: 20% chance triggers special reaction line (fixed RNG, seed tied to save)"
+        "effects": ["chen_lang_extra_dialogue"]
       },
       {
         "id": "assault",
@@ -39,12 +38,11 @@
   },
   "settlement": {
     "rng_seed": 203,
-    "reward_note": "Chapter 2 complete. Fruit selection screen triggers on victory. Base system initial access unlocked.",
+    "reward_note": "Chapter 2 complete. Fruit selection screen triggers on victory.",
     "fruit_selection": {
       "pool": ["fruit_str", "fruit_agi", "fruit_int"],
       "choose_count": 2,
-      "completion_flag": "fruit_selection_done",
-      "note": "Player must select exactly 2 of 3. UI is mandatory (cannot be dismissed). If save interrupted before selection, re-presents on next load."
+      "completion_flag": "fruit_selection_done"
     }
   },
   "progress_on_start": {
@@ -59,15 +57,15 @@
     "chapter_02_complete": true
   },
   "terrain": [
-    {"x": 6,  "y": 4,  "type": "highland"},
-    {"x": 7,  "y": 4,  "type": "highland"},
-    {"x": 8,  "y": 5,  "type": "highland"},
-    {"x": 9,  "y": 5,  "type": "highland"},
-    {"x": 10, "y": 6,  "type": "highland"},
+    {"x": 6,  "y": 4, "type": "highland"},
+    {"x": 7,  "y": 4, "type": "highland"},
+    {"x": 8,  "y": 5, "type": "highland"},
+    {"x": 9,  "y": 5, "type": "highland"},
+    {"x": 10, "y": 6, "type": "highland"},
     {"x": 9,  "y": 10, "type": "water"},
     {"x": 10, "y": 10, "type": "water"},
-    {"x": 11, "y": 10, "type": "obstacle"},
-    {"x": 11, "y": 11, "type": "water"},
+    {"x": 11, "y": 11, "type": "obstacle"},
+    {"x": 11, "y": 10, "type": "water"},
     {"x": 12, "y": 11, "type": "water"},
     {"x": 14, "y": 8,  "type": "obstacle"},
     {"x": 14, "y": 9,  "type": "obstacle"},
@@ -75,12 +73,11 @@
     {"x": 16, "y": 7,  "type": "obstacle"}
   ],
   "inventory": [
-    {"resource": "gold",           "amount": "TODO: balance pass"},
-    {"resource": "basic_material", "amount": "TODO: balance pass"},
-    {"resource": "fruit_str",      "amount": 1},
-    {"resource": "fruit_agi",      "amount": 1},
-    {"resource": "fruit_int",      "amount": 1},
-    {"note": "fruit amounts are fixed at 1 each — player selects 2 of 3 in post-battle fruit_selection screen"}
+    {"resource": "gold", "amount": 400},
+    {"resource": "basic_material", "amount": 25},
+    {"resource": "fruit_str", "amount": 1},
+    {"resource": "fruit_agi", "amount": 1},
+    {"resource": "fruit_int", "amount": 1}
   ],
   "units": [
     {
@@ -88,9 +85,9 @@
       "name": "Swordsman",
       "team": "player",
       "class": "basic_warrior",
-      "hp": "TODO: carry-forward from chapter_02_act_b save",
+      "hp": 100,
       "position": {"x": 2, "y": 10},
-      "stats": {"str": "TODO: carry-forward", "agi": "TODO: carry-forward"},
+      "stats": {"str": 30, "agi": 27},
       "tactics": {"weapon": "sword", "element": "none", "ai": "balanced", "move": 3, "range": 2}
     },
     {
@@ -98,9 +95,9 @@
       "name": "Archer",
       "team": "player",
       "class": "basic_archer",
-      "hp": "TODO: carry-forward from chapter_02_act_b save",
+      "hp": 78,
       "position": {"x": 2, "y": 12},
-      "stats": {"str": "TODO: carry-forward", "agi": "TODO: carry-forward"},
+      "stats": {"str": 23, "agi": 28},
       "tactics": {"weapon": "bow", "element": "wind", "ai": "balanced", "move": 3, "range": 3}
     },
     {
@@ -117,71 +114,64 @@
           {
             "phase": 1,
             "hp_range": "100%-65%",
-            "special_skills": [],
-            "note": "Standard attacks + evasion stance every 3 turns"
+            "special_skills": []
           },
           {
             "phase": 2,
             "hp_range": "64%-30%",
             "special_skills": ["thrust_charge"],
-            "speed_bonus": 4,
-            "note": "Unlocks thrust_charge (straight-line 3-tile pierce). Speed +4."
+            "speed_bonus": 4
           },
           {
             "phase": 3,
             "hp_range": "29%-0%",
             "special_skills": ["thrust_charge", "cavalry_finisher"],
             "stat_bonus_percent": 15,
-            "reinforce_trigger_override": 10,
-            "note": "All stats +15%. Reinforcements triggered at turn 10 (early) if not yet triggered. Unlocks cavalry_finisher (small-AoE)."
+            "reinforce_trigger_override": 10
           }
         ],
         "phase_damage_multiplier": 1.5,
         "checkpoint_retained_hp_ratio": 0.15,
-        "hint": "Break Chen Lang below 65% HP to reach phase 2. Focus him before reinforcements arrive at turn 12.",
-        "chen_lang_enraged": {
-          "condition": "narrative_choice == assault",
-          "effect": "speed_plus_2_phase1_only"
-        }
+        "hint": "Break Chen Lang below 65% HP to reach phase 2. Focus him before reinforcements arrive at turn 12."
       },
       "hp": 130,
       "position": {"x": 16, "y": 10},
-      "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+      "stats": {"str": 28, "agi": 18},
       "tactics": {"weapon": "spear", "element": "earth", "ai": "boss_knight", "move": 3, "range": 2},
-      "reward": {"tier": "boss", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+      "reward": {"tier": "boss", "base_gold": 300, "damage_dealt": 1500}
     },
     {
       "id": "E10",
       "name": "Flying Cavalry Guard",
       "team": "enemy",
       "class": "basic_knight",
-      "hp": "TODO: balance pass",
+      "hp": 85,
       "position": {"x": 14, "y": 10},
-      "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+      "stats": {"str": 24, "agi": 16},
       "tactics": {"weapon": "spear", "element": "earth", "ai": "defensive", "move": 3, "range": 2},
-      "reward": {"tier": "elite", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+      "reward": {"tier": "elite", "base_gold": 100, "damage_dealt": 450}
     },
     {
       "id": "E11",
       "name": "Flying Cavalry Guard",
       "team": "enemy",
       "class": "basic_knight",
-      "hp": "TODO: balance pass",
+      "hp": 85,
       "position": {"x": 15, "y": 12},
-      "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+      "stats": {"str": 24, "agi": 16},
       "tactics": {"weapon": "spear", "element": "earth", "ai": "defensive", "move": 3, "range": 2},
-      "reward": {"tier": "elite", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+      "reward": {"tier": "elite", "base_gold": 100, "damage_dealt": 450}
     },
     {
       "id": "E12",
       "name": "Flying Cavalry Archer",
       "team": "enemy",
       "class": "basic_archer",
-      "hp": "TODO: balance pass",
+      "hp": 65,
       "position": {"x": 13, "y": 8},
-      "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+      "stats": {"str": 20, "agi": 19},
       "tactics": {"weapon": "bow", "element": "wind", "ai": "support", "move": 3, "range": 3},
-      "reward": {"tier": "normal", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+      "reward": {"tier": "normal", "base_gold": 75, "damage_dealt": 320}
     }
   ],
   "reinforcements": [
@@ -190,35 +180,34 @@
       "name": "Flying Cavalry Soldier",
       "team": "enemy",
       "class": "basic_knight",
-      "hp": "TODO: balance pass",
+      "hp": 75,
       "spawn_x": 18,
       "spawn_y": 9,
-      "stats": {"str": "TODO: balance pass", "agi": "TODO: balance pass"},
+      "stats": {"str": 22, "agi": 16},
       "tactics": {"weapon": "spear", "element": "earth", "ai": "aggressive", "move": 3, "range": 2},
-      "reward": {"tier": "normal", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+      "reward": {"tier": "normal", "base_gold": 80, "damage_dealt": 350}
     },
     {
       "id": "REINFORCE_B",
       "name": "Flying Cavalry Soldier",
       "team": "enemy",
       "class": "basic_knight",
-      "hp": "TODO: balance pass",
+      "hp": 75,
       "spawn_x": 18,
       "spawn_y": 11,
-      "stats": {"str": "TODO: balance pass", "agi": "TODO: carry-forward"},
+      "stats": {"str": 22, "agi": 16},
       "tactics": {"weapon": "spear", "element": "earth", "ai": "aggressive", "move": 3, "range": 2},
-      "reward": {"tier": "normal", "base_gold": "TODO: balance pass", "damage_dealt": "TODO: balance pass"}
+      "reward": {"tier": "normal", "base_gold": 80, "damage_dealt": 350}
     }
   ],
   "reinforcement_trigger": {
     "default_turn": 12,
     "phase3_early_turn": 10,
-    "note": "Reinforcements spawn at turn 12 by default. If Boss enters phase 3 before turn 10, reinforcements trigger at turn 10 instead. Reinforcements do not affect victory condition — defeating the Boss ends the battle.",
     "spawn_side": "right"
   },
   "reserves": [
-    {"id": "R1", "name": "Cleric", "class": "basic_cleric", "stats": {"str": "TODO: carry-forward", "agi": "TODO: carry-forward"}, "status": "available"},
-    {"id": "R4", "name": "Mage",   "class": "basic_mage",   "stats": {"str": "TODO: carry-forward", "agi": "TODO: carry-forward"}, "status": "available"},
+    {"id": "R1", "name": "Cleric", "class": "basic_cleric", "stats": {"str": 14, "agi": 16}, "status": "available"},
+    {"id": "R4", "name": "Mage", "class": "basic_mage", "stats": {"str": 13, "agi": 19}, "status": "available"},
     {"id": "R3", "name": "Lancer", "class": "basic_knight", "stats": {"str": 20, "agi": 16}, "status": "departed", "reason": "chapter_2_exit"}
   ]
 }

@@ -13,6 +13,7 @@ const BATTLE_SCENE_PATH := "res://src/ui/combat/battle_arena.tscn"
 @onready var quit_button: Button = $VBox/QuitButton
 
 var _status_label: Label
+var _chapter2_button: Button
 
 func _ready() -> void:
 	_build_visuals()
@@ -20,6 +21,7 @@ func _ready() -> void:
 	continue_button.pressed.connect(_on_continue_pressed)
 	settings_button.pressed.connect(_on_settings_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)
+	_chapter2_button.pressed.connect(_on_chapter2_pressed)
 
 	# 检查是否有存档
 	continue_button.disabled = not SaveManager.has_save(1)
@@ -43,7 +45,19 @@ func _setup_bgm() -> void:
 	add_child(player)
 
 func _on_start_pressed() -> void:
-	# 开始新游戏
+	SceneManager.switch_scene("battle")
+
+func _on_chapter2_pressed() -> void:
+	var sd := SaveData.new()
+	sd.battle_state = {
+		"battle_definition_path": "res://src/ui/combat/battle_definitions/chapter_02_act_a.json"
+	}
+	sd.story_progress = {
+		"chapter": 2,
+		"current_battle": "chapter_02_act_a",
+		"chapter_02_started": true,
+	}
+	SaveManager._pending_loaded_data = sd
 	SceneManager.switch_scene("battle")
 
 func _on_continue_pressed() -> void:
@@ -80,7 +94,7 @@ func _build_visuals() -> void:
 	add_child(title_stack)
 
 	var eyebrow := Label.new()
-	eyebrow.text = "CHAPTER 1 BUILD"
+	eyebrow.text = "SRPG VERTICAL SLICE"
 	SRPGTheme.apply_label(eyebrow, SRPGTheme.GOLD, 15)
 	title_stack.add_child(eyebrow)
 
@@ -126,7 +140,7 @@ func _build_visuals() -> void:
 	vbox.offset_bottom = 0.0
 	vbox.add_theme_constant_override("separation", 12)
 
-	start_button.text = "开始游戏"
+	start_button.text = "开始游戏（Chapter 1）"
 	continue_button.text = "读取存档"
 	settings_button.text = "设置"
 	quit_button.text = "退出"
@@ -134,6 +148,13 @@ func _build_visuals() -> void:
 	SRPGTheme.apply_button(continue_button)
 	SRPGTheme.apply_button(settings_button)
 	SRPGTheme.apply_button(quit_button, false, true)
+
+	_chapter2_button = Button.new()
+	_chapter2_button.name = "Chapter2Button"
+	_chapter2_button.text = "开始游戏（Chapter 2）"
+	SRPGTheme.apply_button(_chapter2_button)
+	vbox.add_child(_chapter2_button)
+	vbox.move_child(_chapter2_button, 1)
 
 	_status_label = Label.new()
 	_status_label.name = "SaveStatusLabel"
