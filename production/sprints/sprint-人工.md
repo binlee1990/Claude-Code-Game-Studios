@@ -38,6 +38,15 @@
 | MAN-DONE-001 | Sprint-001 visual / fun validation | PASS WITH NOTES / PASS WITH PRODUCT-SCOPE NOTES | `production/playtests/playtest-2026-04-24-visual-signoff.md`、`production/playtests/playtest-2026-04-25-fun-validation-rerun.md` |
 | MAN-DONE-002 | Sprint-002 ADR governance sign-off | DONE | ADR-004/005/006 已 Accepted；`docs/architecture/control-manifest.md` 覆盖 ADR-001~006 |
 
+## Sprint-007 截图候选补充
+
+以下为 Sprint-007 自动化已 PASS 后的人工证据候选，不新增 release-blocking 项：
+
+| 目标人工项 | 候选截图 / 录屏路径 | 说明 |
+|---|---|---|
+| MAN-002 | Base Tavern unlocked/locked state、Base Upgrade Lv1→Lv2、Tavern conversation completed/AP -1、Management equipment +6 risk-zone prompt/+7 result | 覆盖 Sprint-007 Base/Bond/Equipment 新 UI 面 |
+| MAN-004 | Ch.3 battle 1 first turn、Ch.3 victory settlement、Ch.3 post-victory base handoff | 作为 Ch.2→Ch.3 过渡参考，不替代 Ch.2 三战 playtest |
+
 ## 执行约束
 
 - 每个人工任务开始前先确认对应自动化 gate 已通过，避免用人工时间排查可自动发现的问题。

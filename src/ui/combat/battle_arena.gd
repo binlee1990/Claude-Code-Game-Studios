@@ -1093,6 +1093,10 @@ func _apply_loaded_save_data(save_data: SaveData) -> void:
 	_story_progress = save_data.story_progress.duplicate(true)
 	if _story_progress.is_empty():
 		_story_progress = _battle_definition.get("progress_on_start", {}).duplicate(true)
+	elif not (save_data.battle_state.has("units") and not save_data.battle_state["units"].is_empty()):
+		for key in _battle_definition.get("progress_on_start", {}):
+			if not _story_progress.has(key):
+				_story_progress[key] = _battle_definition["progress_on_start"][key]
 	apply_ui_preferences(save_data.ui_preferences)
 	apply_camera_preferences(save_data.camera_preferences)
 
@@ -1291,6 +1295,8 @@ func _normalize_equipment_definition(item_def: Dictionary) -> Dictionary:
 		"name": String(item_def.get("name", "Equipment")),
 		"slot": BattleDefinitionLoader.resolve_equipment_slot(String(item_def.get("slot", "weapon"))),
 		"quality": BattleDefinitionLoader.resolve_equipment_quality(String(item_def.get("quality", "white"))),
+		"enhancement_level": int(item_def.get("enhancement_level", 0)),
+		"set_id": int(item_def.get("set_id", EquipmentDefinitions.NO_SET)),
 		"affixes": affixes,
 	}
 
@@ -3856,6 +3862,10 @@ func _apply_default_attribute_training(unit: Unit, lines: Array[String]) -> void
 func _apply_default_equipment_enhancement(unit: Unit, lines: Array[String]) -> void:
 	var item := _get_first_equipped_item(unit)
 	if item == null:
+		return
+	if item.enhancement_level >= 10:
+		return
+	if item.enhancement_level >= 5 and not Inventory.has_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, 1):
 		return
 	var cost := unit.equipment_component.get_enhancement_cost(item.item_id)
 	if cost.is_empty():

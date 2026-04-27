@@ -1,6 +1,6 @@
 # Architecture Document
 
-> 版本: v0.1 | 日期: 2026-04-20 | 状态: 初稿
+> 版本: v0.2 | 日期: 2026-04-27 | 状态: Sprint-007 对齐
 
 ---
 
@@ -79,6 +79,7 @@ signal skill_learned(unit_id: int, skill_id: String)
 # 装备事件
 signal item_equipped(unit_id: int, item_id: String, slot: String, previous_item: String)
 signal item_unequipped(unit_id: int, item_id: String, slot: String)
+signal equipment_enhanced(item_id: String, level: int, success: bool)
 
 # 羁绊事件
 signal bond_level_up(unit_id: int, partner_id: int, old_level: int, new_level: int)

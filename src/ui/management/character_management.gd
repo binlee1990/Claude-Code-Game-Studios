@@ -32,6 +32,7 @@ const SLOT_ORDER: Array[int] = [
 	EquipmentDefinitions.Slot.BOOTS,
 	EquipmentDefinitions.Slot.ACCESSORY,
 ]
+const SPRINT_007_MAX_ENHANCEMENT_LEVEL: int = 10
 
 var _roster: CharacterRoster
 var _selected_unit_id: StringName = &""
@@ -59,6 +60,7 @@ var _action_bar: HBoxContainer
 var _confirm_button: Button
 var _ui_scale: float = 1.0
 var _bond_registry: BondRegistry = BondRegistry.new()
+var _enhancement_rng_seed: int = 0
 
 # Pending party changes before confirm
 var _pending_party: Array = []
@@ -655,23 +657,42 @@ func _format_equipped_slot_text(unit: Unit, item: EquipmentItem) -> String:
 	if item.enhancement_level > 0:
 		base += " +%d" % item.enhancement_level
 	var cost := unit.equipment_component.get_enhancement_cost(item.item_id, Inventory)
-	if item.enhancement_level >= 5:
-		return "%s | %s" % [base, _tr("management.enhance_risk_locked")]
+	if item.enhancement_level >= _max_supported_enhancement_level(item):
+		return "%s | %s" % [base, _tr("management.enhance_sprint_cap")]
 	if cost.is_empty():
 		return base
 	var shortage := unit.equipment_component.get_enhancement_shortage(item.item_id, Inventory)
 	if shortage.is_empty():
+		if item.enhancement_level >= 5:
+			var protect_state := _tr("management.enhance_protection_ready")
+			if not Inventory.has_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, 1):
+				protect_state = _tr("management.enhance_no_protection")
+			return "%s | %s" % [
+				base,
+				_tr("management.enhance_risk_cost") % [
+					item.enhancement_level + 1,
+					int(round(EquipmentDefinitions.get_success_rate(item.enhancement_level) * 100.0)),
+					int(cost.get("gold", 0)),
+					int(cost.get("materials", 0)),
+					protect_state,
+				],
+			]
 		return "%s | %s" % [base, _tr("management.enhance_cost") % [int(cost.get("gold", 0)), int(cost.get("materials", 0))]]
 	return "%s | %s" % [base, _tr("management.enhance_shortage") % [int(shortage.get("gold", 0)), int(shortage.get("materials", 0))]]
 
 func _is_enhance_disabled(unit: Unit, item: EquipmentItem) -> bool:
 	if unit == null or item == null:
 		return true
-	if item.enhancement_level >= 5:
+	if item.enhancement_level >= _max_supported_enhancement_level(item):
 		return true
-	if item.enhancement_level >= item.get_enhancement_cap():
+	if item.enhancement_level >= 5 and not Inventory.has_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, 1):
 		return true
 	return not unit.equipment_component.get_enhancement_shortage(item.item_id, Inventory).is_empty()
+
+func _max_supported_enhancement_level(item: EquipmentItem) -> int:
+	if item == null:
+		return 0
+	return mini(item.get_enhancement_cap(), SPRINT_007_MAX_ENHANCEMENT_LEVEL)
 
 func _get_skill_display_name(skill: SkillData) -> String:
 	if skill == null:
@@ -756,16 +777,26 @@ func _on_enhance_item_pressed(unit_id: StringName, item_id: StringName, slot: in
 	var item: EquipmentItem = unit.equipment_component.get_item(item_id)
 	if item == null:
 		return
-	if item.enhancement_level >= 5:
-		_set_hint_text(_tr("management.enhance_risk_locked"))
+	if item.enhancement_level >= _max_supported_enhancement_level(item):
+		_set_hint_text(_tr("management.enhance_sprint_cap"))
+		return
+	var use_protection := item.enhancement_level >= 5
+	if use_protection and not Inventory.has_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, 1):
+		_set_hint_text(_tr("management.enhance_protection_required"))
 		return
 	var shortage := unit.equipment_component.get_enhancement_shortage(item_id, Inventory)
 	if not shortage.is_empty():
 		_set_hint_text(_tr("management.enhance_shortage") % [int(shortage.get("gold", 0)), int(shortage.get("materials", 0))])
 		return
-	var result: Dictionary = unit.equipment_component.attempt_enhancement(item_id, Inventory, false, 20260427)
+	var result: Dictionary = unit.equipment_component.attempt_enhancement(item_id, Inventory, use_protection, _enhancement_rng_seed)
 	if bool(result.get("success", false)):
 		_set_hint_text(_tr("management.enhance_success") % int(result.get("new_level", item.enhancement_level)))
+		equipment_changed.emit(unit, slot, item_id, item_id)
+	elif String(result.get("result", "")) == "protected":
+		_set_hint_text(_tr("management.enhance_protected") % int(result.get("new_level", item.enhancement_level)))
+		equipment_changed.emit(unit, slot, item_id, item_id)
+	elif String(result.get("result", "")) == "downgraded":
+		_set_hint_text(_tr("management.enhance_downgraded") % int(result.get("new_level", item.enhancement_level)))
 		equipment_changed.emit(unit, slot, item_id, item_id)
 	else:
 		_set_hint_text(_tr("management.enhance_failed") % _display_text(String(result.get("reason", result.get("result", "failed")))))

@@ -45,10 +45,10 @@ func test_enhancement_cost_plus0_to_1() -> void:
 	assert_eq(cost["gold"], 100, "100 * 1 = 100")
 	assert_eq(cost["materials"], 5)
 
-func test_enhancement_cost_plus9_to_10() -> void:
+func test_enhancement_cost_plus9_to_10_uses_risk_zone_table() -> void:
 	var cost: Dictionary = ResourceFormulas.calculate_enhancement_cost(100, 9)
-	assert_eq(cost["gold"], 1000, "100 * 10 = 1000")
-	assert_eq(cost["materials"], 50, "5 * 10 = 50")
+	assert_eq(cost["gold"], 3000, "GDD risk-zone +10 cost")
+	assert_eq(cost["materials"], 90, "GDD risk-zone +10 material cost")
 
 func test_enhancement_deducts_resources() -> void:
 	_inventory.add_resource(ResourceTypes.ResourceId.GOLD, 1000)

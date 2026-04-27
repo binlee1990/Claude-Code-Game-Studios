@@ -16,6 +16,7 @@ tests/integration/tactical/tactical_integration_test.gd
 tests/integration/turn/save_load_integration_test.gd
 tests/integration/ui/battle_hud_test.gd
 tests/integration/ui/base_hub_test.gd
+tests/integration/ui/character_management_test.gd
 tests/integration/ui/main_menu_localization_credits_test.gd
 tests/integration/ui/save_load_integration_test.gd
 tests/integration/test_turn_order_integration.gd
@@ -31,6 +32,7 @@ tests/unit/attributes/fruit_system_test.gd
 tests/unit/attributes/growth_formula_test.gd
 tests/unit/attributes/threshold_rewards_test.gd
 tests/unit/base/action_points_test.gd
+tests/unit/base/base_upgrade_model_test.gd
 tests/unit/bond/bond_data_model_test.gd
 tests/unit/class/class_change_test.gd
 tests/unit/class/experience_level_test.gd

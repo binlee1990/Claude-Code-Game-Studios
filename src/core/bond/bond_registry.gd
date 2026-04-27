@@ -169,8 +169,12 @@ func _pair_from_key(pair_key: String) -> Dictionary:
 	var ids := pair_key.split("::")
 	if ids.size() != 2:
 		return {}
+	var normalized_key := make_pair_key(String(ids[0]), String(ids[1]))
+	if normalized_key == "":
+		return {}
+	var normalized_ids := normalized_key.split("::")
 	return {
-		"pair_key": pair_key,
-		"unit_a": String(ids[0]),
-		"unit_b": String(ids[1]),
+		"pair_key": normalized_key,
+		"unit_a": String(normalized_ids[0]),
+		"unit_b": String(normalized_ids[1]),
 	}

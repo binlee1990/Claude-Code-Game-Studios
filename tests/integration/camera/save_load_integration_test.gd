@@ -8,6 +8,7 @@ const TEST_SLOT := 6
 var _battle
 
 func before_each() -> void:
+	_remove_test_save()
 	SaveManager.clear_pending_loaded_data()
 	var scene: PackedScene = load("res://src/ui/combat/battle_arena.tscn")
 	_battle = scene.instantiate()
@@ -17,6 +18,9 @@ func after_each() -> void:
 	SaveManager.clear_pending_loaded_data()
 	if is_instance_valid(_battle):
 		_battle.queue_free()
+	_remove_test_save()
+
+func _remove_test_save() -> void:
 	var relative_path := "user://saves/save_%d.tres" % TEST_SLOT
 	if FileAccess.file_exists(relative_path):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(relative_path))

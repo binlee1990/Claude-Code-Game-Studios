@@ -31,16 +31,18 @@ func _remove_test_save() -> void:
 	if FileAccess.file_exists(relative_path):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(relative_path))
 
-func test_base_hub_builds_training_and_market_tabs() -> void:
+func test_base_hub_builds_training_market_tavern_upgrade_intel_and_management_tabs() -> void:
 	var tabs := _base.find_child("TabContainer", true, false) as TabContainer
 	assert_ne(tabs, null, "Base hub should expose a TabContainer")
 	assert_true(tabs.tabs_visible, "Godot 4.6 TabContainer uses tabs_visible")
 	assert_eq(tabs.size_flags_horizontal, Control.SIZE_EXPAND_FILL, "Tab area should expand when the viewport grows")
-	assert_eq(tabs.get_child_count(), 4, "Base hub should expose training, market, intel, and management tabs")
+	assert_eq(tabs.get_child_count(), 6, "Base hub should expose training, market, tavern, upgrade, intel, and management tabs")
 	assert_eq(tabs.get_tab_title(0), "训练场")
 	assert_eq(tabs.get_tab_title(1), "市集")
-	assert_eq(tabs.get_tab_title(2), "情报室")
-	assert_eq(tabs.get_tab_title(3), "管理")
+	assert_eq(tabs.get_tab_title(2), "酒馆")
+	assert_eq(tabs.get_tab_title(3), "升级")
+	assert_eq(tabs.get_tab_title(4), "情报室")
+	assert_eq(tabs.get_tab_title(5), "管理")
 
 func test_base_hub_exposes_continue_campaign_for_cleared_battle_save() -> void:
 	_write_cleared_tutorial_save()
@@ -143,7 +145,7 @@ func test_intel_tab_shows_current_and_next_battle_without_spending_ap() -> void:
 	_recreate_base()
 
 	var tabs := _base.find_child("TabContainer", true, false) as TabContainer
-	tabs.current_tab = 2
+	tabs.current_tab = 4
 	var briefing := _base.find_child("IntelBriefingLabel", true, false) as Label
 	var next := _base.find_child("IntelNextLabel", true, false) as Label
 	var ap_note := _base.find_child("IntelApLabel", true, false) as Label
@@ -176,10 +178,55 @@ func test_base_training_consumes_action_point_and_saves() -> void:
 	var ap_row = _base.find_child("ActionPointRow", true, false)
 	assert_true((ap_row.get_child(1) as Label).text.contains("4 / 5"))
 
+	var item_button := _base.find_child("Item_%s" % ResourceTypes.ResourceId.BASIC_MATERIAL, true, false) as Button
+	assert_ne(item_button, null)
 	_base.call("_set_trade_mode", false)
 
 	assert_true(item_button.text.contains("买50"), "Sell mode should not make the item look like its price mutated")
 	assert_true(item_button.text.contains("卖25"))
+
+func test_base_upgrade_consumes_resources_unlocks_tavern_and_saves() -> void:
+	Inventory.add_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, 8)
+
+	var result: Dictionary = _base.upgrade_base()
+
+	assert_true(result.get("success", false), "Base level 1 should upgrade when the configured cost is available")
+	assert_eq(Inventory.get_amount(ResourceTypes.ResourceId.GOLD), 0)
+	assert_eq(Inventory.get_amount(ResourceTypes.ResourceId.BASIC_MATERIAL), 0)
+	assert_eq(int(result.get("to_level", 0)), 2)
+	assert_true((result.get("state", {}) as Dictionary).get("unlocks", []).has("tavern"))
+	var saved := SaveManager.peek_save(TEST_SLOT)
+	assert_ne(saved, null)
+	assert_eq(int(saved.story_progress.get("base_upgrade", {}).get("level", 0)), 2)
+	assert_true(saved.story_progress.get("base_upgrade", {}).get("unlocks", []).has("tavern"))
+
+func test_tavern_dialogue_consumes_ap_and_adds_affinity() -> void:
+	_write_base_save({
+		"chapter": 3,
+		"current_battle": "chapter_03_act_a",
+		"base_upgrade": {"level": 2, "unlocks": ["tavern"]},
+		"base_action_points": {"current_points": 5, "max_points": 5, "chapter_id": 3},
+	})
+	_recreate_base()
+
+	var result: Dictionary = _base.trigger_tavern_conversation("P1_P2_ch3_tavern_001")
+
+	assert_true(result.get("success", false), "Unlocked tavern should allow the Chapter 3 support conversation")
+	assert_eq(int(result.get("ap_remaining", -1)), 4)
+	var saved := SaveManager.peek_save(TEST_SLOT)
+	assert_ne(saved, null)
+	var ap_state: Dictionary = saved.story_progress.get("base_action_points", {})
+	assert_eq(int(ap_state.get("current_points", -1)), 4)
+	var bond_levels: Dictionary = saved.story_progress.get("bond_levels", {})
+	assert_true(bond_levels.has("P1::P2"))
+	assert_eq(int((bond_levels["P1::P2"] as Dictionary).get("affinity", 0)), 20)
+	assert_true(saved.story_progress.get("completed_tavern_conversations", []).has("P1_P2_ch3_tavern_001"))
+
+func test_tavern_dialogue_is_locked_before_base_upgrade() -> void:
+	var result: Dictionary = _base.trigger_tavern_conversation("P1_P2_ch3_tavern_001")
+
+	assert_false(result.get("success", true))
+	assert_eq(result.get("reason", ""), "locked")
 
 func test_training_ground_skill_row_uses_godot4_offsets() -> void:
 	var training = _base.find_child("TrainingGround", true, false)
@@ -298,6 +345,15 @@ func _recreate_base() -> void:
 	var scene: PackedScene = load("res://src/ui/base/base_hub.tscn")
 	_base = scene.instantiate()
 	add_child(_base)
+
+func _write_base_save(story_progress: Dictionary) -> void:
+	var save_data := SaveData.new()
+	save_data.timestamp = Time.get_unix_time_from_system()
+	save_data.locale = SRPGLocalization.get_locale()
+	save_data.current_scene_key = "base"
+	save_data.inventory_state = Inventory.serialize()
+	save_data.story_progress = story_progress.duplicate(true)
+	assert_eq(ResourceSaver.save(save_data, "user://saves/save_%d.tres" % TEST_SLOT), OK)
 
 func _write_cleared_tutorial_save() -> void:
 	var scene: PackedScene = load("res://src/ui/combat/battle_arena.tscn")

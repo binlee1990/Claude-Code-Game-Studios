@@ -76,6 +76,21 @@ func test_risk_zone_rates_follow_expected_curve() -> void:
 	assert_eq(EquipmentDefinitions.get_success_rate(9), 0.30)
 	assert_true(EquipmentDefinitions.get_success_rate(9) < EquipmentDefinitions.get_success_rate(5))
 
+func test_risk_zone_costs_follow_gdd_table() -> void:
+	_add_weapon(5)
+	var plus_six_cost: Dictionary = _unit.equipment_component.get_enhancement_cost(&"test_blade", _inventory)
+	assert_eq(plus_six_cost["gold"], 1000)
+	assert_eq(plus_six_cost["materials"], 30)
+
+	_unit.equipment_component.get_item(&"test_blade").enhancement_level = 9
+	var plus_ten_cost: Dictionary = _unit.equipment_component.get_enhancement_cost(&"test_blade", _inventory)
+	assert_eq(plus_ten_cost["gold"], 3000)
+	assert_eq(plus_ten_cost["materials"], 90)
+
+func test_resource_formula_success_rates_match_equipment_definitions() -> void:
+	for level in range(5, 10):
+		assert_eq(ResourceFormulas.get_enhancement_success_rate(level), EquipmentDefinitions.get_success_rate(level))
+
 func test_failure_without_protection_downgrades_by_five() -> void:
 	_add_weapon(7)
 	for seed in range(1, 400):

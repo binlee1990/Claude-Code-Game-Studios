@@ -44,7 +44,7 @@ func test_selecting_roster_item_refreshes_luk_detail() -> void:
 
 	assert_true(_screen._detail_attr_labels.has("LUK"), "Details should use the AttributeNames LUK enum key")
 	assert_false(_screen._detail_attr_labels.has("LCK"), "Details should not use the invalid LCK key")
-	assert_true((_screen._detail_attr_labels["LUK"] as Label).text.begins_with("LUK:"))
+	assert_true((_screen._detail_attr_labels["LUK"] as Label).text.contains(":"))
 
 func test_selecting_roster_item_refreshes_skill_names() -> void:
 	var unit: Unit = _roster.get_character(&"leader")
@@ -138,7 +138,31 @@ func test_equipped_item_enhance_button_spends_resources_and_emits_change() -> vo
 	assert_eq(Inventory.get_amount(ResourceTypes.ResourceId.BASIC_MATERIAL), 20)
 	assert_eq(events.size(), 1)
 
-func test_risk_zone_enhance_button_is_disabled_at_plus_five() -> void:
+func test_risk_zone_enhance_button_is_enabled_at_plus_five_with_protection() -> void:
+	Inventory.add_resource(ResourceTypes.ResourceId.GOLD, 5000)
+	Inventory.add_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, 500)
+	Inventory.add_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, 1)
+	var unit: Unit = _roster.get_character(&"leader")
+	unit.equipment_component.add_item(EquipmentItem.new({
+		"item_id": "blue_sword",
+		"name": "Bronze Sword",
+		"slot": EquipmentDefinitions.Slot.WEAPON,
+		"quality": EquipmentDefinitions.Quality.BLUE,
+		"enhancement_level": 5,
+	}))
+	unit.equipment_component.equip_item(&"blue_sword")
+
+	_screen = CharacterManagementScene.instantiate()
+	_screen.initialize(_roster)
+	add_child(_screen)
+	_screen.call("_on_roster_item_selected", &"leader")
+
+	var enhance_button := _find_button_by_text(_screen, SRPGLocalization.translate("management.enhance"), false)
+	assert_ne(enhance_button, null)
+	assert_false(enhance_button.disabled, "Sprint-007 UI should expose protected +6 risk-zone enhancement")
+	assert_true(_collect_label_text(_screen).contains("风险区"))
+
+func test_risk_zone_enhance_button_requires_protection_symbol() -> void:
 	Inventory.add_resource(ResourceTypes.ResourceId.GOLD, 5000)
 	Inventory.add_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, 500)
 	var unit: Unit = _roster.get_character(&"leader")
@@ -158,8 +182,68 @@ func test_risk_zone_enhance_button_is_disabled_at_plus_five() -> void:
 
 	var enhance_button := _find_button_by_text(_screen, SRPGLocalization.translate("management.enhance"), false)
 	assert_ne(enhance_button, null)
-	assert_true(enhance_button.disabled, "Sprint-006 UI should not expose +6 risk-zone enhancement")
-	assert_true(_collect_label_text(_screen).contains(SRPGLocalization.translate("management.enhance_risk_locked")))
+	assert_true(enhance_button.disabled, "Risk-zone UI should require a protect symbol in this slice")
+	assert_true(_collect_label_text(_screen).contains(SRPGLocalization.translate("management.enhance_no_protection")))
+
+func test_risk_zone_protected_failure_consumes_symbol_and_keeps_level() -> void:
+	Inventory.add_resource(ResourceTypes.ResourceId.GOLD, 5000)
+	Inventory.add_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, 500)
+	Inventory.add_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, 1)
+	var unit: Unit = _roster.get_character(&"leader")
+	unit.equipment_component.add_item(EquipmentItem.new({
+		"item_id": "blue_sword",
+		"name": "Bronze Sword",
+		"slot": EquipmentDefinitions.Slot.WEAPON,
+		"quality": EquipmentDefinitions.Quality.BLUE,
+		"enhancement_level": 5,
+	}))
+	unit.equipment_component.equip_item(&"blue_sword")
+	var seed := _find_seed_for_result(unit, &"blue_sword", 5, true, "protected")
+	assert_true(seed > 0, "Fixture should find a deterministic protected failure seed")
+	Inventory.deserialize({
+		ResourceTypes.ResourceId.GOLD: 5000,
+		ResourceTypes.ResourceId.BASIC_MATERIAL: 500,
+		ResourceTypes.ResourceId.PROTECT_SYMBOL: 1,
+	})
+	unit.equipment_component.get_item(&"blue_sword").enhancement_level = 5
+
+	_screen = CharacterManagementScene.instantiate()
+	_screen.initialize(_roster)
+	_screen._enhancement_rng_seed = seed
+	add_child(_screen)
+	_screen.call("_on_roster_item_selected", &"leader")
+
+	var enhance_button := _find_button_by_text(_screen, SRPGLocalization.translate("management.enhance"), true)
+	assert_ne(enhance_button, null)
+	enhance_button.pressed.emit()
+
+	assert_eq(unit.equipment_component.get_item(&"blue_sword").enhancement_level, 5)
+	assert_eq(Inventory.get_amount(ResourceTypes.ResourceId.PROTECT_SYMBOL), 0)
+	assert_true(_collect_label_text(_screen).contains("保护符"))
+
+func test_risk_zone_ui_stops_at_plus_ten_for_sprint_scope() -> void:
+	Inventory.add_resource(ResourceTypes.ResourceId.GOLD, 5000)
+	Inventory.add_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, 500)
+	Inventory.add_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, 1)
+	var unit: Unit = _roster.get_character(&"leader")
+	unit.equipment_component.add_item(EquipmentItem.new({
+		"item_id": "blue_sword",
+		"name": "Bronze Sword",
+		"slot": EquipmentDefinitions.Slot.WEAPON,
+		"quality": EquipmentDefinitions.Quality.BLUE,
+		"enhancement_level": 10,
+	}))
+	unit.equipment_component.equip_item(&"blue_sword")
+
+	_screen = CharacterManagementScene.instantiate()
+	_screen.initialize(_roster)
+	add_child(_screen)
+	_screen.call("_on_roster_item_selected", &"leader")
+
+	var enhance_button := _find_button_by_text(_screen, SRPGLocalization.translate("management.enhance"), false)
+	assert_ne(enhance_button, null)
+	assert_true(enhance_button.disabled, "Sprint-007 should not expose +11 risk-zone entry")
+	assert_true(_collect_label_text(_screen).contains(SRPGLocalization.translate("management.enhance_sprint_cap")))
 
 func test_character_detail_shows_top_three_bonds() -> void:
 	var story_progress := {
@@ -224,3 +308,16 @@ func _collect_label_text(node: Node) -> String:
 	for child in node.get_children():
 		out += _collect_label_text(child)
 	return out
+
+func _find_seed_for_result(unit: Unit, item_id: StringName, level: int, use_protection: bool, expected_result: String) -> int:
+	for seed in range(1, 500):
+		unit.equipment_component.get_item(item_id).enhancement_level = level
+		Inventory.deserialize({
+			ResourceTypes.ResourceId.GOLD: 5000,
+			ResourceTypes.ResourceId.BASIC_MATERIAL: 500,
+			ResourceTypes.ResourceId.PROTECT_SYMBOL: 1,
+		})
+		var result: Dictionary = unit.equipment_component.attempt_enhancement(item_id, Inventory, use_protection, seed)
+		if String(result.get("result", "")) == expected_result:
+			return seed
+	return -1

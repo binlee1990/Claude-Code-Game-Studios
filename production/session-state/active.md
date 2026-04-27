@@ -524,3 +524,6 @@ Status: **COMPLETE** (v1.0 — 2026-04-26)
 - TR registry: version 2 → 3, 8 行 adr 字段补登
 - Report: docs/architecture/architecture-review-2026-04-27.md
 - Follow-ups: F-1 GameEvents 登记 equipment_enhanced（Sprint-006 实现期）/ F-2 强化 UI AccessKit 验收 / F-3 下次 full review 对齐 architecture.md
+## Session Extract — /qa-plan sprint-007 + dev-story kickoff 2026-04-27
+
+Generated `production/qa/qa-plan-sprint-7.md` with QA conditions for all 11 Sprint-007 stories/tasks. Started Sprint-007 dev-story cadence by completing `CH3-EPIC-001`: created `production/epics/chapter-03/EPIC.md`, four Chapter 03 story skeletons, Base Tavern/Upgrade Sprint-007 stories, Equipment risk-zone stories, and TR registry entries for the new Sprint-007 requirements. Next pickup: `/dev-story production/epics/chapter-03/story-001-battle-1-implementation.md`.

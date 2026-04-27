@@ -1,7 +1,7 @@
 # Control Manifest
 
-> Manifest Version: 2026-04-26-v2
-> Generated From: ADR-001 (Event Architecture), ADR-002 (Scene Management), ADR-003 (Save System), ADR-004 (Combat System), ADR-005 (AI Behavior), ADR-006 (Attribute Data Model)
+> Manifest Version: 2026-04-27-v3
+> Generated From: ADR-001 (Event Architecture), ADR-002 (Scene Management), ADR-003 (Save System), ADR-004 (Combat System), ADR-005 (AI Behavior), ADR-006 (Attribute Data Model), ADR-008 (Resource Economy Upgrade), ADR-009 (Equipment Upgrade Scope)
 > Status: Active
 > Coverage: Foundation Layer (3/3 ADRs) + Gameplay Layer (3/3 ADRs)
 
@@ -230,6 +230,7 @@
 |---------|------|---------|
 | 2026-04-23-v1 | 2026-04-23 | Initial manifest from ADR-001/002/003 |
 | 2026-04-26-v2 | 2026-04-26 | Added Gameplay Layer: Combat System (ADR-004), AI Behavior (ADR-005), Attribute Data Model (ADR-006) |
+| 2026-04-27-v3 | 2026-04-27 | Registered ADR-001 `equipment_enhanced(item_id, level, success)` follow-up and acknowledged ADR-008/009 as active Sprint-007 scope constraints |
 
 ---
 

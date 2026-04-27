@@ -130,6 +130,7 @@ signal skill_forgotten(unit_id: int, skill_id: String)
 # 装备相关
 signal item_equipped(unit_id: int, item_id: String, slot: String, previous_item: String)
 signal item_unequipped(unit_id: int, item_id: String, slot: String)
+signal equipment_enhanced(item_id: String, level: int, success: bool)
 
 # 羁绊相关
 signal bond_level_up(unit_id: int, partner_id: int, old_level: int, new_level: int)

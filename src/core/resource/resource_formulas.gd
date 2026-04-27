@@ -27,8 +27,31 @@ const DROP_RATE_HIDDEN_BOSS_RARE: float = 1.0
 const DROP_RATE_HELL_RARE: float = 0.20
 const DROP_RATE_HELL_PROTECT: float = 0.02
 
+const RISK_ZONE_ENHANCEMENT_COSTS: Dictionary = {
+	5: {"gold": 1000, "materials": 30},
+	6: {"gold": 1200, "materials": 36},
+	7: {"gold": 1500, "materials": 45},
+	8: {"gold": 2000, "materials": 60},
+	9: {"gold": 3000, "materials": 90},
+}
+
+const RISK_ZONE_SUCCESS_RATES: Dictionary = {
+	5: 0.70,
+	6: 0.60,
+	7: 0.50,
+	8: 0.40,
+	9: 0.30,
+	10: 0.25,
+	11: 0.20,
+	12: 0.15,
+	13: 0.10,
+	14: 0.05,
+}
+
 ## Enhancement cost formula (GDD D.4)
 static func calculate_enhancement_cost(base_cost: int, current_level: int) -> Dictionary:
+	if RISK_ZONE_ENHANCEMENT_COSTS.has(current_level):
+		return RISK_ZONE_ENHANCEMENT_COSTS[current_level].duplicate()
 	var target_level: int = current_level + 1
 	return {
 		"gold": base_cost * target_level,
@@ -39,7 +62,7 @@ static func calculate_enhancement_cost(base_cost: int, current_level: int) -> Di
 static func get_enhancement_success_rate(current_level: int) -> float:
 	if current_level < 5:
 		return 1.0  # Safe zone +1 to +5
-	return 1.0 - 0.3 - (current_level - 5) * 0.05  # 30% at +6, +5% per level
+	return RISK_ZONE_SUCCESS_RATES.get(current_level, 0.05)
 
 ## Check if fruit drops for a given battle type
 static func check_fruit_drop(is_boss: bool, rng_seed: int = 0) -> bool:

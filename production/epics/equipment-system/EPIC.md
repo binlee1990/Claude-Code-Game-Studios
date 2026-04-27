@@ -3,8 +3,8 @@
 > **Layer**: Feature
 > **GDD**: design/gdd/equipment-system.md
 > **Architecture Module**: Equipment
-> **Status**: Complete
-> **Stories**: 10 stories
+> **Status**: Complete / Sprint-007 Risk-Zone Extension Complete
+> **Stories**: 12 stories
 
 ## Overview
 
@@ -43,6 +43,8 @@ Implements the ARPG-inspired equipment framework: random affix generation (1-4 a
 | story-008-enhancement-ui-mvp | TR-equip-008 | Equipment enhancement UI exposes equipped-item +1~+5 flow |
 | story-009-enhancement-cost-source | TR-equip-009 | Enhancement costs and shortage/failure feedback use resource economy ownership |
 | story-010-enhancement-round-trip | TR-equip-010 | Enhancement result feedback and +5 round-trip persistence |
+| story-011-risk-zone-enhancement | TR-equip-011 | Equipment enhancement UI supports +6 through +10 risk-zone behavior |
+| story-012-risk-zone-round-trip | TR-equip-012 | Risk-zone enhancement state and protection symbols round-trip through save/load |
 
 ## Stories
 
@@ -58,6 +60,8 @@ Implements the ARPG-inspired equipment framework: random affix generation (1-4 a
 | 008 | Enhancement UI MVP | UI + Integration | Complete | ADR-008, ADR-009 |
 | 009 | Enhancement Cost Source + Failure Feedback | Logic + Integration | Complete | ADR-008, ADR-009 |
 | 010 | Enhancement Round-Trip + Failure UI | UI + Integration | Complete | ADR-003, ADR-009 |
+| 011 | Equipment +6 Risk-Zone Enhancement | Logic + UI + Integration | Complete | ADR-008, ADR-009 |
+| 012 | Risk-Zone Round-Trip Tests | Save/Load Integration | Complete | ADR-003, ADR-009 |
 
 ## Definition of Done
 
@@ -76,6 +80,13 @@ Sprint-006 reopened and completed a narrow player-facing upgrade slice without c
 2. `story-009-enhancement-cost-source.md` keeps costs and shortage checks owned by resource economy.
 3. `story-010-enhancement-round-trip.md` closes feedback and persistence polish.
 
+## Sprint-007 Extension
+
+Sprint-007 completed the risk-zone behavior already described by the GDD and ADR-009:
+
+1. `story-011-risk-zone-enhancement.md` exposes +6 through +10 risk-zone enhancement, failure downgrade, and protection symbol behavior.
+2. `story-012-risk-zone-round-trip.md` hardens save/load for risk-zone levels and protection symbol consumption.
+
 ## Next Step
 
-Sprint-007+ may implement +6 risk-zone UI, affix reroll, decomposition UI, or set crafting as separate scoped stories.
+Sprint-007 evidence: `tests/unit/equipment/enhancement_test.gd`, `tests/integration/ui/character_management_test.gd`, and `tests/integration/equipment/save_load_integration_test.gd`.

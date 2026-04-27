@@ -19,7 +19,7 @@
 #
 # STATUS VALUES: active | deprecated | superseded-by: TR-[system]-NNN
 
-version: 3
+version: 4
 last_updated: "2026-04-27"
 
 requirements:
@@ -802,6 +802,92 @@ requirements:
     requirement: "Base upgrade cost data table owns Lv1 to Lv5 upgrade costs for future Base Upgrade UI"
     epic: production/epics/resource-economy/story-007-base-upgrade-cost-config.md
     adr: ADR-003, ADR-008
+    created: "2026-04-27"
+    revised: ""
+    status: active
+
+  # ── chapter-03 Sprint-007 content stories ───────────────────────────
+
+  - id: TR-ch3-001
+    system: chapter-03
+    gdd: design/gdd/chapter-03.md
+    requirement: "Chapter 3 battle 1 is playable with battle data, unit composition, Ch.2 influence point, boot test, and victory path"
+    epic: production/epics/chapter-03/story-001-battle-1-implementation.md
+    adr: ADR-001, ADR-003, ADR-004
+    created: "2026-04-27"
+    revised: ""
+    status: active
+
+  - id: TR-ch3-002
+    system: chapter-03
+    gdd: design/gdd/chapter-03.md
+    requirement: "Chapter 3 battle 2 consumes battle 1 pressure inputs and records B3-N2 belief scoring"
+    epic: production/epics/chapter-03/story-002-battle-2-pressure-scoring.md
+    adr: ADR-001, ADR-003, ADR-004
+    created: "2026-04-27"
+    revised: ""
+    status: active
+
+  - id: TR-ch3-003
+    system: chapter-03
+    gdd: design/gdd/chapter-03.md
+    requirement: "B3-GATE evaluates dominant belief route, margin, soft-lock candidate, fallback, and save/load state"
+    epic: production/epics/chapter-03/story-003-b3-gate-soft-lock.md
+    adr: ADR-001, ADR-003
+    created: "2026-04-27"
+    revised: ""
+    status: active
+
+  - id: TR-ch3-004
+    system: chapter-03
+    gdd: design/gdd/chapter-03.md
+    requirement: "Chapter 3 finale selects route-specific variants from B3-GATE state with deterministic fallback"
+    epic: production/epics/chapter-03/story-004-finale-route-variant.md
+    adr: ADR-001, ADR-003, ADR-004
+    created: "2026-04-27"
+    revised: ""
+    status: active
+
+  # ── base-system Sprint-007 extension stories ────────────────────────
+
+  - id: TR-base-003
+    system: base
+    gdd: design/gdd/base-system.md
+    requirement: "Base Hub Tavern tab can display locked, empty, and available support conversation states for Bond dialogue"
+    epic: production/epics/base-system/story-003-tavern-tab.md
+    adr: ADR-001, ADR-002, ADR-003, ADR-008
+    created: "2026-04-27"
+    revised: ""
+    status: active
+
+  - id: TR-base-004
+    system: base
+    gdd: design/gdd/base-system.md
+    requirement: "Base Upgrade tab reads upgrade cost data, previews shortages, applies unlocks, and persists base level"
+    epic: production/epics/base-system/story-004-upgrade-tab.md
+    adr: ADR-003, ADR-008
+    created: "2026-04-27"
+    revised: ""
+    status: active
+
+  # ── equipment-system Sprint-007 risk-zone stories ───────────────────
+
+  - id: TR-equip-011
+    system: equipment
+    gdd: design/gdd/equipment-system.md
+    requirement: "Equipment enhancement UI supports +6 through +10 risk-zone success, failure downgrade, protection symbol, and localized feedback"
+    epic: production/epics/equipment-system/story-011-risk-zone-enhancement.md
+    adr: ADR-001, ADR-003, ADR-008, ADR-009
+    created: "2026-04-27"
+    revised: ""
+    status: active
+
+  - id: TR-equip-012
+    system: equipment
+    gdd: design/gdd/equipment-system.md
+    requirement: "Risk-zone enhancement levels, failure downgrades, and protection symbol consumption round-trip through save/load"
+    epic: production/epics/equipment-system/story-012-risk-zone-round-trip.md
+    adr: ADR-003, ADR-009
     created: "2026-04-27"
     revised: ""
     status: active

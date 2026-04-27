@@ -2,17 +2,17 @@
 
 > **Layer**: Feature
 > **GDD**: `design/gdd/base-system.md`
-> **Status**: Complete
+> **Status**: Sprint-007 Phase 1 Complete
 > **Created**: 2026-04-27
 > **Sprint Source**: Sprint-006 / Base Phase 1
 
 ## Goal
 
-Turn the Sprint-004 Base MVP into the first bounded "base full" slice: action points for pacing and an Intel Room read-only briefing. This epic container exists so Sprint-006 story files have a stable parent path.
+Turn the Sprint-004 Base MVP into the first bounded "base full" slice: action points for pacing, an Intel Room read-only briefing, and Sprint-007 player-facing Tavern/Upgrade extensions.
 
 ## Scope Boundary
 
-Sprint-006 includes Action Points and Intel Room only. Tavern, base upgrade UI, world map, base visual upgrades, and release sign-off remain out of scope.
+Sprint-006 included Action Points and Intel Room only. Sprint-007 adds Tavern and Base Upgrade UI. World map, base visual upgrades, and release sign-off remain out of scope.
 
 ## Governing References
 
@@ -29,6 +29,8 @@ Sprint-006 includes Action Points and Intel Room only. Tavern, base upgrade UI, 
 |---|---|---|---|---|
 | BASE-AP-001 | Action Point model + save | Logic + Integration + UI | Must Have | Complete |
 | BASE-INTEL-001 | Intel Room read-only briefing | UI + Config/Data | Should Have | Complete |
+| BASE-TAVERN-001 | Base Tavern tab | UI + Integration | Must Have | Complete |
+| BASE-UPGRADE-001 | Base Upgrade tab | Logic + UI + Config/Data | Must Have | Complete |
 
 ## MVP Acceptance Criteria
 
@@ -36,14 +38,14 @@ Sprint-006 includes Action Points and Intel Room only. Tavern, base upgrade UI, 
 - Training consumes AP; market remains AP-free.
 - Base UI displays the current AP value.
 - Intel Room can show current chapter briefing and next battle preview without consuming AP.
+- Tavern tab can list available conversations when unlocked.
+- Upgrade tab consumes the data-owned base upgrade cost table and persists level/unlocks.
 
 ## Out of Scope
 
-- Tavern and Bond dialogue execution
-- Base upgrade UI and upgrade purchase flow
 - Full world map exploration
 - Base visual upgrade stages
 
 ## Next Step
 
-Sprint-007 can add Tavern and Base Upgrade UI on top of `ActionPoints` and the read-only Intel tab.
+Sprint-007 delivered Tavern + Upgrade with `tests/unit/base/base_upgrade_model_test.gd` and `tests/integration/ui/base_hub_test.gd` coverage.

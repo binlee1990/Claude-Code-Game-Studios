@@ -16,6 +16,7 @@ const BASE_SCENE_PATH := "res://src/ui/base/base_hub.tscn"
 
 var _status_label: Label
 var _chapter2_button: Button
+var _chapter3_button: Button
 var _language_button: Button
 var _credits_button: Button
 var _eyebrow_label: Label
@@ -39,6 +40,7 @@ func _ready() -> void:
 	settings_button.pressed.connect(_on_settings_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)
 	_chapter2_button.pressed.connect(_on_chapter2_pressed)
+	_chapter3_button.pressed.connect(_on_chapter3_pressed)
 
 	# 检查是否有存档
 	continue_button.disabled = not SaveManager.has_save(1)
@@ -75,6 +77,22 @@ func _on_chapter2_pressed() -> void:
 		"chapter": 2,
 		"current_battle": "chapter_02_act_a",
 		"chapter_02_started": true,
+	}
+	SaveManager._pending_loaded_data = sd
+	SceneManager.switch_scene("battle")
+
+func _on_chapter3_pressed() -> void:
+	var sd := SaveData.new()
+	sd.battle_state = {
+		"battle_definition_path": "res://src/ui/combat/battle_definitions/chapter_03_act_a.json"
+	}
+	sd.story_progress = {
+		"chapter": 3,
+		"current_battle": "chapter_03_act_a",
+		"chapter_03_started": true,
+		"chapter_03_intro_routed": true,
+		"chapter_02_influence_applied": true,
+		"b3_gate_placeholder": true,
 	}
 	SaveManager._pending_loaded_data = sd
 	SceneManager.switch_scene("battle")
@@ -180,6 +198,12 @@ func _build_visuals() -> void:
 	vbox.add_child(_chapter2_button)
 	vbox.move_child(_chapter2_button, 1)
 
+	_chapter3_button = Button.new()
+	_chapter3_button.name = "Chapter3Button"
+	SRPGTheme.apply_button(_chapter3_button)
+	vbox.add_child(_chapter3_button)
+	vbox.move_child(_chapter3_button, 2)
+
 	_language_button = Button.new()
 	_language_button.name = "LanguageButton"
 	SRPGTheme.apply_button(_language_button)
@@ -226,6 +250,8 @@ func _refresh_locale_text() -> void:
 	quit_button.text = _tr("main.quit")
 	if _chapter2_button != null:
 		_chapter2_button.text = _tr("main.start_ch2")
+	if _chapter3_button != null:
+		_chapter3_button.text = _tr("main.start_ch3")
 	if _hint_bar != null and _hint_bar.has_method("set_hints"):
 		_hint_bar.set_hints([
 			{"key": "↑↓",    "action": _tr("main.hint.select")},
@@ -397,9 +423,14 @@ func _execute_packaged_playthrough_smoke() -> Dictionary:
 		"base_enhanced_level": int(base_result.get("enhancement_level", 0)),
 	}
 	restored.queue_free()
-	var save_path := "user://saves/save_6.tres"
-	if FileAccess.file_exists(save_path):
-		DirAccess.remove_absolute(ProjectSettings.globalize_path(save_path))
+	if not restored_ok:
+		_smoke_cleanup_save()
+		return report
+	var chapter3_result := _smoke_run_chapter_three_smoke(scene)
+	for key in chapter3_result:
+		report[key] = chapter3_result[key]
+	report["success"] = restored_ok and bool(chapter3_result.get("success", false))
+	_smoke_cleanup_save()
 	return report
 
 func _smoke_clear_and_advance(battle, expected_next_battle: String) -> bool:
@@ -430,6 +461,123 @@ func _smoke_has_bond_growth(battle) -> bool:
 		if int(pair.get("affinity", 0)) > 0:
 			return true
 	return false
+
+func _smoke_run_chapter_three_smoke(scene: PackedScene) -> Dictionary:
+	var ch3: VSBattle = _smoke_start_battle_from_definition(scene, "res://src/ui/combat/battle_definitions/chapter_03_act_a.json", {
+		"chapter": 3,
+		"current_battle": "chapter_03_act_a",
+		"chapter_03_intro_routed": true,
+	})
+	if ch3 == null:
+		return {"success": false, "reason": "chapter3_instantiate_failed"}
+	if ch3.get_battle_id() != "chapter_03_act_a":
+		var wrong_battle: String = ch3.get_battle_id()
+		ch3.queue_free()
+		return {"success": false, "reason": "chapter3_wrong_battle", "chapter3_battle": wrong_battle}
+	_smoke_defeat_current_enemies(ch3)
+	if not SaveManager.save_game(6):
+		ch3.queue_free()
+		return {"success": false, "reason": "chapter3_victory_save_failed"}
+	ch3.queue_free()
+	var base_result := _smoke_run_chapter_three_base_loop()
+	if not bool(base_result.get("success", false)):
+		return base_result
+	return {
+		"success": true,
+		"chapter3_battle": "chapter_03_act_a",
+		"chapter3_victory": true,
+		"tavern_affinity": int(base_result.get("tavern_affinity", 0)),
+		"chapter3_base_level": int(base_result.get("base_level", 0)),
+		"risk_enhanced_level": int(base_result.get("risk_enhanced_level", 0)),
+	}
+
+func _smoke_start_battle_from_definition(scene: PackedScene, path: String, story_progress: Dictionary) -> VSBattle:
+	SaveManager.clear_pending_loaded_data()
+	var sd := SaveData.new()
+	sd.battle_state = {
+		"battle_definition_path": path,
+	}
+	sd.story_progress = story_progress.duplicate(true)
+	SaveManager._pending_loaded_data = sd
+	var battle := scene.instantiate() as VSBattle
+	add_child(battle)
+	return battle
+
+func _smoke_run_chapter_three_base_loop() -> Dictionary:
+	var base_scene: PackedScene = load(BASE_SCENE_PATH)
+	if base_scene == null:
+		return {"success": false, "reason": "missing_base_scene"}
+	var base = base_scene.instantiate()
+	add_child(base)
+	Inventory.add_resource(ResourceTypes.ResourceId.GOLD, 10000)
+	Inventory.add_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, 1000)
+	Inventory.add_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, 5)
+	var upgrade_result: Dictionary = base.upgrade_base()
+	if not bool(upgrade_result.get("success", false)):
+		base.queue_free()
+		return {"success": false, "reason": "chapter3_base_upgrade_failed", "upgrade": upgrade_result}
+	var tavern_result: Dictionary = base.trigger_tavern_conversation("P1_P2_ch3_tavern_001")
+	if not bool(tavern_result.get("success", false)):
+		base.queue_free()
+		return {"success": false, "reason": "chapter3_tavern_failed", "tavern": tavern_result}
+	var risk_result := _smoke_run_risk_enhancement_to_plus_seven(base)
+	if not bool(risk_result.get("success", false)):
+		base.queue_free()
+		return risk_result
+	if not SaveManager.save_game(6):
+		base.queue_free()
+		return {"success": false, "reason": "chapter3_base_save_failed"}
+	base.queue_free()
+	return {
+		"success": true,
+		"base_level": 2,
+		"tavern_affinity": int(tavern_result.get("new_affinity", 20)),
+		"risk_enhanced_level": int(risk_result.get("risk_enhanced_level", 0)),
+	}
+
+func _smoke_run_risk_enhancement_to_plus_seven(base) -> Dictionary:
+	var character_screen = base._character_screen
+	var roster: CharacterRoster = base._roster
+	if character_screen == null or roster == null or roster.get_party().is_empty():
+		return {"success": false, "reason": "chapter3_management_missing"}
+	var unit: Unit = roster.get_character(StringName(roster.get_party()[0]))
+	var item := _smoke_first_equipped_item(unit)
+	if unit == null or item == null:
+		return {"success": false, "reason": "chapter3_risk_item_missing"}
+	while item.enhancement_level < 7:
+		var seed := _smoke_find_seed_for_enhancement_result(unit, item, "success", true)
+		if seed <= 0:
+			return {"success": false, "reason": "chapter3_risk_seed_missing", "level": item.enhancement_level}
+		character_screen._enhancement_rng_seed = seed
+		character_screen.call("_on_roster_item_selected", unit.unit_id)
+		var enhance_btn := _smoke_find_enhance_button(character_screen)
+		if enhance_btn == null or enhance_btn.disabled:
+			return {"success": false, "reason": "chapter3_risk_button_unavailable", "level": item.enhancement_level}
+		enhance_btn.pressed.emit()
+		item = _smoke_first_equipped_item(unit)
+		if item == null:
+			return {"success": false, "reason": "chapter3_risk_item_lost"}
+	return {"success": true, "risk_enhanced_level": item.enhancement_level}
+
+func _smoke_find_seed_for_enhancement_result(unit: Unit, item: EquipmentItem, expected_result: String, use_protection: bool) -> int:
+	var starting_level := item.enhancement_level
+	var inventory_snapshot := Inventory.serialize()
+	for seed in range(1, 500):
+		item.enhancement_level = starting_level
+		Inventory.deserialize(inventory_snapshot)
+		var result: Dictionary = unit.equipment_component.attempt_enhancement(item.item_id, Inventory, use_protection, seed)
+		if String(result.get("result", "")) == expected_result:
+			item.enhancement_level = starting_level
+			Inventory.deserialize(inventory_snapshot)
+			return seed
+	item.enhancement_level = starting_level
+	Inventory.deserialize(inventory_snapshot)
+	return -1
+
+func _smoke_cleanup_save() -> void:
+	var save_path := "user://saves/save_6.tres"
+	if FileAccess.file_exists(save_path):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(save_path))
 
 func _smoke_run_base_enhancement() -> Dictionary:
 	var base_scene: PackedScene = load(BASE_SCENE_PATH)

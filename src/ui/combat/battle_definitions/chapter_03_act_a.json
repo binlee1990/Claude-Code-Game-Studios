@@ -1,0 +1,249 @@
+{
+  "definition_path": "res://src/ui/combat/battle_definitions/chapter_03_act_a.json",
+  "battle_id": "chapter_03_act_a",
+  "map_id": "camp_eve_outer_ward_18x18",
+  "chapter_id": 3,
+  "chapter_title": "Chapter 3: Camp Eve",
+  "objective": "Defeat the camp raiders before the civilians are overrun.",
+  "briefing": "The road from the Flying Cavalry pass opens into a tense camp. Chapter 2 choices are acknowledged here, while the B3 gate remains a placeholder for the next slice.",
+  "map_size": 20,
+  "difficulty": 7,
+  "next_battle_definition_path": "",
+  "difficulty_profile": {
+    "label": "Chapter 3 Act A",
+    "enemy_stat_multiplier": 1.05,
+    "exp_multiplier": 1.25,
+    "resource_multiplier": 1.25,
+    "ai_tier": "chapter_3_intro"
+  },
+  "completion_key": "chapter_03_act_a_complete",
+  "chapter_completion_key": "chapter_03_battle_1_complete",
+  "narrative_choice": {
+    "node_id": "B3-N1",
+    "prompt": "营地前夜，你先处理哪条线索？",
+    "runtime_branching": false,
+    "placeholder_for": "B3-GATE",
+    "options": [
+      {
+        "id": "protect_civilians",
+        "label": "稳住营民",
+        "belief_delta": {"ren": 4},
+        "effects": ["b3_gate_placeholder_civilian_support"]
+      },
+      {
+        "id": "hunt_raiders",
+        "label": "追查袭击者",
+        "belief_delta": {"yi": 4},
+        "effects": ["b3_gate_placeholder_raider_pressure"]
+      }
+    ]
+  },
+  "settlement": {
+    "rng_seed": 301,
+    "reward_note": "Chapter 3 Battle 1 complete. B3-GATE runtime branching is intentionally deferred.",
+    "equipment": ["blue"]
+  },
+  "progress_on_start": {
+    "chapter": 3,
+    "current_battle": "chapter_03_act_a",
+    "chapter_03_started": true,
+    "chapter_03_intro_routed": true,
+    "chapter_02_influence_applied": true,
+    "b3_gate_placeholder": true
+  },
+  "progress_on_victory": {
+    "chapter": 3,
+    "current_battle": "chapter_03_act_a",
+    "chapter_03_act_a_complete": true,
+    "chapter_03_battle_1_complete": true,
+    "b3_gate_placeholder": true
+  },
+  "terrain": [
+    {"x": 5, "y": 5, "type": "highland"},
+    {"x": 6, "y": 5, "type": "highland"},
+    {"x": 7, "y": 6, "type": "highland"},
+    {"x": 8, "y": 6, "type": "highland"},
+    {"x": 3, "y": 12, "type": "water"},
+    {"x": 4, "y": 12, "type": "water"},
+    {"x": 5, "y": 13, "type": "water"},
+    {"x": 10, "y": 9, "type": "obstacle"},
+    {"x": 10, "y": 10, "type": "obstacle"},
+    {"x": 11, "y": 10, "type": "obstacle"},
+    {"x": 13, "y": 4, "type": "obstacle"},
+    {"x": 14, "y": 4, "type": "obstacle"},
+    {"x": 15, "y": 5, "type": "obstacle"},
+    {"x": 15, "y": 14, "type": "mud"},
+    {"x": 16, "y": 14, "type": "mud"}
+  ],
+  "inventory": [
+    {"resource": "gold", "amount": 1200},
+    {"resource": "basic_material", "amount": 60},
+    {"resource": "protect_symbol", "amount": 2},
+    {"resource": "fruit_str", "amount": 1}
+  ],
+  "units": [
+    {
+      "id": "P1",
+      "name": "Swordsman",
+      "team": "player",
+      "class": "basic_warrior",
+      "hp": 112,
+      "position": {"x": 2, "y": 9},
+      "stats": {"str": 34, "agi": 28},
+      "tactics": {"weapon": "sword", "element": "none", "ai": "balanced", "move": 3, "range": 2},
+      "equipment": [
+        {
+          "item_id": "chapter_03_blue_sword",
+          "name": "Camp Eve Sword",
+          "slot": "weapon",
+          "quality": "blue",
+          "enhancement_level": 5,
+          "affixes": [{"type": "str", "attribute": "str", "value": 10}]
+        }
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "Archer",
+      "team": "player",
+      "class": "basic_archer",
+      "hp": 84,
+      "position": {"x": 2, "y": 11},
+      "stats": {"str": 25, "agi": 31},
+      "tactics": {"weapon": "bow", "element": "wind", "ai": "balanced", "move": 3, "range": 3},
+      "equipment": [
+        {
+          "item_id": "chapter_03_longbow",
+          "name": "Camp Longbow",
+          "slot": "weapon",
+          "quality": "green",
+          "enhancement_level": 3,
+          "affixes": [{"type": "agi", "attribute": "agi", "value": 6}]
+        }
+      ]
+    },
+    {
+      "id": "R1",
+      "name": "Cleric",
+      "team": "player",
+      "class": "basic_cleric",
+      "hp": 70,
+      "position": {"x": 3, "y": 10},
+      "stats": {"str": 16, "agi": 19},
+      "tactics": {"weapon": "magic", "element": "water", "ai": "support", "move": 3, "range": 3}
+    },
+    {
+      "id": "R4",
+      "name": "Mage",
+      "team": "player",
+      "class": "basic_mage",
+      "hp": 62,
+      "position": {"x": 3, "y": 12},
+      "stats": {"str": 15, "agi": 22},
+      "tactics": {"weapon": "magic", "element": "fire", "ai": "control", "move": 3, "range": 3}
+    },
+    {
+      "id": "CIV1",
+      "name": "Camp Civilian",
+      "team": "friendly_npc",
+      "class": "basic_cleric",
+      "hp": 38,
+      "position": {"x": 7, "y": 12},
+      "stats": {"str": 8, "agi": 12},
+      "tactics": {"weapon": "none", "element": "none", "ai": "defensive", "move": 2, "range": 1}
+    },
+    {
+      "id": "CIV2",
+      "name": "Camp Civilian",
+      "team": "friendly_npc",
+      "class": "basic_cleric",
+      "hp": 38,
+      "position": {"x": 8, "y": 13},
+      "stats": {"str": 8, "agi": 12},
+      "tactics": {"weapon": "none", "element": "none", "ai": "defensive", "move": 2, "range": 1}
+    },
+    {
+      "id": "GUIDE",
+      "name": "Local Guide",
+      "team": "friendly_npc",
+      "class": "basic_rogue",
+      "hp": 48,
+      "position": {"x": 6, "y": 11},
+      "stats": {"str": 14, "agi": 20},
+      "tactics": {"weapon": "dagger", "element": "none", "ai": "defensive", "move": 3, "range": 1}
+    },
+    {
+      "id": "BOSS_CAMP_CAPTAIN",
+      "name": "Camp Captain",
+      "team": "enemy",
+      "class": "boss_knight",
+      "boss": true,
+      "boss_profile": {
+        "title": "Camp Raider Captain",
+        "phase_thresholds": [0.60, 0.25],
+        "phase_names": ["Opening", "Enraged", "Last Stand"],
+        "phase_behaviors": [
+          {"phase": 1, "hp_range": "100%-60%", "special_skills": []},
+          {"phase": 2, "hp_range": "59%-25%", "special_skills": ["thrust_charge"], "speed_bonus": 3},
+          {"phase": 3, "hp_range": "24%-0%", "special_skills": ["thrust_charge"], "stat_bonus_percent": 10}
+        ],
+        "phase_damage_multiplier": 1.2,
+        "checkpoint_retained_hp_ratio": 0.15,
+        "hint": "Use the ridge to break the captain before raiders reach the camp line."
+      },
+      "hp": 105,
+      "position": {"x": 15, "y": 9},
+      "stats": {"str": 27, "agi": 17},
+      "tactics": {"weapon": "axe", "element": "earth", "ai": "boss_knight", "move": 3, "range": 1},
+      "reward": {"tier": "boss", "base_gold": 320, "damage_dealt": 1500}
+    },
+    {
+      "id": "E13",
+      "name": "Camp Raider",
+      "team": "enemy",
+      "class": "basic_warrior",
+      "hp": 70,
+      "position": {"x": 14, "y": 7},
+      "stats": {"str": 21, "agi": 15},
+      "tactics": {"weapon": "axe", "element": "earth", "ai": "aggressive", "move": 3, "range": 1},
+      "reward": {"tier": "elite", "base_gold": 100, "damage_dealt": 450}
+    },
+    {
+      "id": "E14",
+      "name": "Camp Raider",
+      "team": "enemy",
+      "class": "basic_warrior",
+      "hp": 68,
+      "position": {"x": 15, "y": 12},
+      "stats": {"str": 20, "agi": 15},
+      "tactics": {"weapon": "axe", "element": "earth", "ai": "aggressive", "move": 3, "range": 1},
+      "reward": {"tier": "normal", "base_gold": 90, "damage_dealt": 400}
+    },
+    {
+      "id": "E15",
+      "name": "Camp Bow Sentry",
+      "team": "enemy",
+      "class": "basic_archer",
+      "hp": 58,
+      "position": {"x": 13, "y": 5},
+      "stats": {"str": 18, "agi": 18},
+      "tactics": {"weapon": "bow", "element": "wind", "ai": "support", "move": 3, "range": 3},
+      "reward": {"tier": "normal", "base_gold": 80, "damage_dealt": 320}
+    },
+    {
+      "id": "E16",
+      "name": "Camp Torch Adept",
+      "team": "enemy",
+      "class": "basic_mage",
+      "hp": 52,
+      "position": {"x": 16, "y": 13},
+      "stats": {"str": 16, "agi": 17},
+      "tactics": {"weapon": "magic", "element": "fire", "ai": "control", "move": 3, "range": 3},
+      "reward": {"tier": "normal", "base_gold": 85, "damage_dealt": 350}
+    }
+  ],
+  "reserves": [
+    {"id": "R2", "name": "Rogue", "class": "basic_rogue", "stats": {"str": 18, "agi": 24}, "status": "available"},
+    {"id": "R3", "name": "Lancer", "class": "basic_knight", "stats": {"str": 22, "agi": 16}, "status": "available"}
+  ]
+}

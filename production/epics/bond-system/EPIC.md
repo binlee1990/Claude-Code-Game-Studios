@@ -2,7 +2,7 @@
 
 > **Layer**: Feature
 > **GDD**: `design/gdd/bond-system.md`
-> **Status**: Sprint-006 MVP Complete
+> **Status**: Sprint-007 Tavern MVP Complete
 > **Created**: 2026-04-27
 > **Sprint Source**: Sprint-005 / BOND-001
 
@@ -20,7 +20,7 @@ Sprint-006 implements the bounded MVP: pair-keyed bond data, combat affinity gai
 |---|---|---|---|---|---|
 | BOND-DATA-001 | Bond data model + save payload | Logic + Integration | 0.5d | SaveData / `design/gdd/bond-system.md` | Complete |
 | BOND-EVT-001 | Affinity gain event hooks | Integration | 0.5d | BOND-DATA-001 / GameEvents / battle settlement | Complete |
-| BOND-003 | Base tavern dialogue trigger MVP | UI/Integration | 0.5d | Base full phase 1 | Ready |
+| BOND-003 | Base tavern dialogue trigger MVP | UI/Integration | 0.5d | Base full phase 1 | Complete |
 | BOND-UI-001 | Character detail bond summary | UI + Integration | 0.25d | BOND-DATA-001 / Character management UI | Complete |
 
 ## TR-IDs
@@ -49,4 +49,4 @@ Sprint-006 implements the bounded MVP: pair-keyed bond data, combat affinity gai
 
 ## Sprint-006 Handoff
 
-Completion evidence: `src/core/bond/bond_registry.gd`, `GameEvents.bond_level_up`, `tests/unit/bond/bond_data_model_test.gd`, `tests/integration/bond/affinity_event_hooks_test.gd`, and character detail coverage in `tests/integration/ui/character_management_test.gd`. Sprint-007 should start BOND-003 Tavern dialogue on top of this payload.
+Completion evidence: `src/core/bond/bond_registry.gd`, `GameEvents.bond_level_up`, `tests/unit/bond/bond_data_model_test.gd`, `tests/integration/bond/affinity_event_hooks_test.gd`, character detail coverage in `tests/integration/ui/character_management_test.gd`, and Sprint-007 Tavern coverage in `tests/integration/ui/base_hub_test.gd`.

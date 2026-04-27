@@ -131,6 +131,40 @@ func test_chapter_two_entry_loads_act_a_without_inventory_shadowing() -> void:
 	assert_eq(_battle.get_story_progress().get("chapter", 0), 2)
 	assert_true(Inventory.get_amount(ResourceTypes.ResourceId.GOLD) >= 0, "Chapter 2 entry should use Inventory autoload without a local shadow")
 
+func test_chapter_three_entry_loads_battle_one_with_gate_placeholder() -> void:
+	_load_battle_definition_path("res://src/ui/combat/battle_definitions/chapter_03_act_a.json", {
+		"chapter": 3,
+		"current_battle": "chapter_03_act_a",
+	})
+
+	assert_eq(_battle.get_battle_id(), "chapter_03_act_a")
+	assert_eq(_battle.get_story_progress().get("chapter", 0), 3)
+	assert_true(_battle.get_story_progress().get("b3_gate_placeholder", false), "Battle 1 should carry the B3-GATE placeholder without runtime branching")
+	assert_true(_battle.get_objective_text().contains("营地"), "Chapter 3 battle objective should be visible")
+	assert_eq(_battle.get_map_size(), 20, "Ch.3 battle uses the repo-supported 20x20 renderer while staging an 18x18 layout region")
+	assert_true(_count_units_for_team(CombatSystem.Team.ENEMY) >= 5, "Ch.3 battle should boot with at least five enemy combatants")
+	assert_ne(_find_unit("CIV1"), null, "Ch.3 battle should seed civilian pressure actors")
+	var swordsman := _find_unit("P1")
+	assert_ne(swordsman, null)
+	var sword: EquipmentItem = swordsman.equipment_component.get_equipped_item(EquipmentDefinitions.Slot.WEAPON)
+	assert_ne(sword, null)
+	assert_eq(sword.enhancement_level, 5, "Ch.3 battle should seed a +5 item for +6 risk-zone entry")
+	assert_true(Inventory.get_amount(ResourceTypes.ResourceId.PROTECT_SYMBOL) >= 2)
+
+func test_chapter_two_finale_routes_to_chapter_three_battle_one() -> void:
+	_load_battle_definition_path("res://src/ui/combat/battle_definitions/chapter_02_finale.json", {
+		"chapter": 2,
+		"current_battle": "chapter_02_finale",
+		"chapter_02_complete": true,
+	})
+
+	_defeat_current_enemies()
+
+	assert_true(_battle.advance_to_next_battle(), "Chapter 2 finale should now route into Chapter 3 battle 1")
+	assert_eq(_battle.get_battle_id(), "chapter_03_act_a")
+	assert_eq(_battle.get_story_progress().get("current_battle", ""), "chapter_03_act_a")
+	assert_true(_battle.get_story_progress().get("chapter_02_influence_applied", false))
+
 func test_campaign_advance_loads_follow_up_battle_and_camp_path() -> void:
 	_defeat_current_enemies()
 
@@ -179,3 +213,23 @@ func _defeat_current_enemies() -> void:
 	for enemy in enemies:
 		_battle._combat.apply_damage(enemy, 999, actor)
 	_battle._check_battle_end()
+
+func _load_battle_definition_path(path: String, story_progress: Dictionary) -> void:
+	if is_instance_valid(_battle):
+		_battle.free()
+	var sd := SaveData.new()
+	sd.battle_state = {
+		"battle_definition_path": path,
+	}
+	sd.story_progress = story_progress.duplicate(true)
+	SaveManager._pending_loaded_data = sd
+	var scene: PackedScene = load("res://src/ui/combat/battle_arena.tscn")
+	_battle = scene.instantiate()
+	add_child(_battle)
+
+func _count_units_for_team(team: int) -> int:
+	var count := 0
+	for unit in _battle._unit_cells.keys():
+		if _battle._combat.get_unit_team(unit) == team:
+			count += 1
+	return count

@@ -9,11 +9,15 @@ const InkBackdrop := preload("res://src/ui/theme/ink_backdrop.gd")
 const HintBarScript := preload("res://src/ui/common/hint_bar.gd")
 const SRPGLocalizationScript := preload("res://src/core/localization/srpg_localization.gd")
 const ActionPoints := preload("res://src/core/base/action_points.gd")
+const BaseUpgradeModel := preload("res://src/core/base/base_upgrade_model.gd")
+const BondRegistry := preload("res://src/core/bond/bond_registry.gd")
 
 const TAB_TRAINING: int = 0
 const TAB_MARKET: int = 1
-const TAB_INTEL: int = 2
-const TAB_MANAGEMENT: int = 3
+const TAB_TAVERN: int = 2
+const TAB_UPGRADE: int = 3
+const TAB_INTEL: int = 4
+const TAB_MANAGEMENT: int = 5
 const DESIGN_VIEWPORT_SIZE := Vector2(1280.0, 720.0)
 const MIN_UI_SCALE: float = 1.0
 const MAX_UI_SCALE: float = 1.3
@@ -22,6 +26,17 @@ const _BATTLE_END_PHASE := 5
 const _CHAPTER_01_TO_CHAPTER_02_PATH := "res://src/ui/combat/battle_definitions/chapter_02_act_a.json"
 const TrainingGroundScript := preload("res://src/ui/base/training_ground.gd")
 const CharacterManagementScene := preload("res://src/ui/management/character_management_screen.tscn")
+const SUPPORT_CONVERSATIONS: Array[Dictionary] = [
+	{
+		"id": "P1_P2_ch3_tavern_001",
+		"unit_a": "P1",
+		"unit_b": "P2",
+		"chapter": 3,
+		"affinity": 20,
+		"bond_type": "comrade",
+		"title": "Camp Eve",
+	},
+]
 
 @onready var _tab_container: TabContainer
 var _training_ground: Control = null
@@ -39,6 +54,15 @@ var _materials: int = 0
 var _action_points: int = 5
 var _max_action_points: int = 5
 var _action_point_model: ActionPoints = ActionPoints.new()
+var _story_progress: Dictionary = {}
+var _base_upgrade_model: BaseUpgradeModel = BaseUpgradeModel.new()
+var _base_upgrade_state: Dictionary = BaseUpgradeModel.default_state()
+var _tavern_list_ref: VBoxContainer = null
+var _tavern_msg_label_ref: Label = null
+var _upgrade_status_label_ref: Label = null
+var _upgrade_cost_label_ref: Label = null
+var _upgrade_unlocks_label_ref: Label = null
+var _upgrade_confirm_btn_ref: Button = null
 
 # Market state
 var _market_item_list: VBoxContainer = null
@@ -66,8 +90,11 @@ const MARKET_ITEMS: Array[Dictionary] = [
 func _ready() -> void:
 	add_to_group("save_state_provider")
 	_ui_scale = _calculate_ui_scale()
+	_base_upgrade_model.load_config()
+	_load_story_progress_from_save()
 	_load_inventory_from_save()
 	_load_action_points_from_save()
+	_load_base_upgrade_from_story()
 	_build_visuals()
 	_setup_hint_bar()
 	_update_resource_display()
@@ -124,6 +151,12 @@ func _clear_visuals() -> void:
 	_market_msg_label_ref = null
 	_market_qty_spinbox_ref = null
 	_market_inventory_list = null
+	_tavern_list_ref = null
+	_tavern_msg_label_ref = null
+	_upgrade_status_label_ref = null
+	_upgrade_cost_label_ref = null
+	_upgrade_unlocks_label_ref = null
+	_upgrade_confirm_btn_ref = null
 
 func _build_visuals() -> void:
 	_load_roster_from_save()
@@ -171,12 +204,22 @@ func _build_visuals() -> void:
 	_tab_container.add_child(market_panel)
 	_tab_container.set_tab_title(TAB_MARKET, _tr("base.tab.market"))
 
-	# Tab 3: 管理
+	# Tab 3: 酒馆
+	var tavern_panel := _create_tavern_tab()
+	_tab_container.add_child(tavern_panel)
+	_tab_container.set_tab_title(TAB_TAVERN, _tr("base.tab.tavern"))
+
+	# Tab 4: 基地升级
+	var upgrade_panel := _create_upgrade_tab()
+	_tab_container.add_child(upgrade_panel)
+	_tab_container.set_tab_title(TAB_UPGRADE, _tr("base.tab.upgrade"))
+
+	# Tab 5: 情报
 	var intel_panel := _create_intel_tab()
 	_tab_container.add_child(intel_panel)
 	_tab_container.set_tab_title(TAB_INTEL, _tr("base.tab.intel"))
 
-	# Tab 4: 管理
+	# Tab 6: 管理
 	var management_panel := _create_management_tab()
 	_tab_container.add_child(management_panel)
 	_tab_container.set_tab_title(TAB_MANAGEMENT, _tr("base.tab.management"))
@@ -213,6 +256,7 @@ func _create_info_panel() -> Panel:
 
 	# 等级
 	var level_row := _create_info_row(_tr("base.level"), "%s%d" % [_display_text("Lv."), _base_level])
+	level_row.name = "BaseLevelRow"
 	vbox.add_child(level_row)
 
 	# 分隔线
@@ -331,6 +375,129 @@ func _create_training_tab() -> Panel:
 		_training_ground.training_changed.connect(_on_training_changed)
 	panel.add_child(_training_ground)
 
+	return panel
+
+func _create_tavern_tab() -> Panel:
+	var panel := Panel.new()
+	panel.name = "TavernTab"
+	panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+	panel.offset_left = _scaled(8.0)
+	panel.offset_top = _scaled(8.0)
+	panel.offset_right = -_scaled(8.0)
+	panel.offset_bottom = -_scaled(8.0)
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+
+	var content_panel := Panel.new()
+	content_panel.name = "TavernPanel"
+	content_panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+	content_panel.offset_left = _scaled(12.0)
+	content_panel.offset_top = _scaled(12.0)
+	content_panel.offset_right = -_scaled(12.0)
+	content_panel.offset_bottom = -_scaled(12.0)
+	SRPGTheme.apply_panel(content_panel, SRPGTheme.INK_PANEL, SRPGTheme.GOLD)
+	panel.add_child(content_panel)
+
+	var vbox := VBoxContainer.new()
+	vbox.set_anchors_preset(Control.PRESET_FULL_RECT)
+	vbox.offset_left = _scaled(16.0)
+	vbox.offset_top = _scaled(16.0)
+	vbox.offset_right = -_scaled(16.0)
+	vbox.offset_bottom = -_scaled(16.0)
+	vbox.add_theme_constant_override("separation", int(_scaled(12.0)))
+	content_panel.add_child(vbox)
+
+	var title := Label.new()
+	title.name = "TavernTitleLabel"
+	title.text = _tr("base.tavern.title")
+	SRPGTheme.apply_label_scaled(title, _ui_scale, SRPGTheme.GOLD, 20, true)
+	vbox.add_child(title)
+
+	_tavern_msg_label_ref = Label.new()
+	_tavern_msg_label_ref.name = "TavernMessageLabel"
+	_tavern_msg_label_ref.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	SRPGTheme.apply_label_scaled(_tavern_msg_label_ref, _ui_scale, SRPGTheme.PAPER_MUTED, 14)
+	vbox.add_child(_tavern_msg_label_ref)
+
+	var scroll := ScrollContainer.new()
+	scroll.name = "TavernScroll"
+	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	vbox.add_child(scroll)
+
+	_tavern_list_ref = VBoxContainer.new()
+	_tavern_list_ref.name = "TavernConversationList"
+	_tavern_list_ref.add_theme_constant_override("separation", int(_scaled(8.0)))
+	scroll.add_child(_tavern_list_ref)
+	_refresh_tavern_tab()
+	return panel
+
+func _create_upgrade_tab() -> Panel:
+	var panel := Panel.new()
+	panel.name = "UpgradeTab"
+	panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+	panel.offset_left = _scaled(8.0)
+	panel.offset_top = _scaled(8.0)
+	panel.offset_right = -_scaled(8.0)
+	panel.offset_bottom = -_scaled(8.0)
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+
+	var content_panel := Panel.new()
+	content_panel.name = "UpgradePanel"
+	content_panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+	content_panel.offset_left = _scaled(12.0)
+	content_panel.offset_top = _scaled(12.0)
+	content_panel.offset_right = -_scaled(12.0)
+	content_panel.offset_bottom = -_scaled(12.0)
+	SRPGTheme.apply_panel(content_panel, SRPGTheme.INK_PANEL, SRPGTheme.JADE)
+	panel.add_child(content_panel)
+
+	var vbox := VBoxContainer.new()
+	vbox.set_anchors_preset(Control.PRESET_FULL_RECT)
+	vbox.offset_left = _scaled(16.0)
+	vbox.offset_top = _scaled(16.0)
+	vbox.offset_right = -_scaled(16.0)
+	vbox.offset_bottom = -_scaled(16.0)
+	vbox.add_theme_constant_override("separation", int(_scaled(12.0)))
+	content_panel.add_child(vbox)
+
+	var title := Label.new()
+	title.name = "UpgradeTitleLabel"
+	title.text = _tr("base.upgrade.title")
+	SRPGTheme.apply_label_scaled(title, _ui_scale, SRPGTheme.GOLD, 20, true)
+	vbox.add_child(title)
+
+	_upgrade_status_label_ref = Label.new()
+	_upgrade_status_label_ref.name = "UpgradeStatusLabel"
+	_upgrade_status_label_ref.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	SRPGTheme.apply_label_scaled(_upgrade_status_label_ref, _ui_scale, SRPGTheme.PAPER, 15)
+	vbox.add_child(_upgrade_status_label_ref)
+
+	_upgrade_cost_label_ref = Label.new()
+	_upgrade_cost_label_ref.name = "UpgradeCostLabel"
+	_upgrade_cost_label_ref.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	SRPGTheme.apply_label_scaled(_upgrade_cost_label_ref, _ui_scale, SRPGTheme.PAPER_MUTED, 14)
+	vbox.add_child(_upgrade_cost_label_ref)
+
+	_upgrade_unlocks_label_ref = Label.new()
+	_upgrade_unlocks_label_ref.name = "UpgradeUnlocksLabel"
+	_upgrade_unlocks_label_ref.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	SRPGTheme.apply_label_scaled(_upgrade_unlocks_label_ref, _ui_scale, SRPGTheme.JADE, 14)
+	vbox.add_child(_upgrade_unlocks_label_ref)
+
+	var spacer := Control.new()
+	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	vbox.add_child(spacer)
+
+	_upgrade_confirm_btn_ref = Button.new()
+	_upgrade_confirm_btn_ref.name = "UpgradeConfirmButton"
+	_upgrade_confirm_btn_ref.text = _tr("base.upgrade.confirm")
+	_upgrade_confirm_btn_ref.pressed.connect(_on_upgrade_pressed)
+	SRPGTheme.apply_button_scaled(_upgrade_confirm_btn_ref, _ui_scale, true)
+	vbox.add_child(_upgrade_confirm_btn_ref)
+	_refresh_upgrade_tab()
 	return panel
 
 func _create_intel_tab() -> Panel:
@@ -628,8 +795,7 @@ func _create_management_tab() -> Panel:
 	panel.add_child(_character_screen)
 	_character_screen.initialize(_roster)
 	if _character_screen.has_method("set_story_progress"):
-		var save_data := _get_current_save()
-		_character_screen.set_story_progress(save_data.story_progress if save_data != null else {})
+		_character_screen.set_story_progress(_story_progress)
 	_character_screen.party_changed.connect(_on_management_party_changed)
 	if _character_screen.has_signal("equipment_changed"):
 		_character_screen.equipment_changed.connect(_on_management_equipment_changed)
@@ -671,21 +837,28 @@ func _load_roster_from_save() -> void:
 	add_child(_roster)
 	_roster.load_data({"characters": save_data.party_units})
 
-func _load_action_points_from_save() -> void:
+func _load_story_progress_from_save() -> void:
 	var save_data: SaveData = SaveManager.peek_save(_get_save_slot())
-	if save_data == null:
+	_story_progress = save_data.story_progress.duplicate(true) if save_data != null else {}
+
+func _load_action_points_from_save() -> void:
+	if _story_progress.is_empty():
 		_action_point_model.reset_for_chapter(1)
 		_sync_action_point_fields()
 		return
-	var story: Dictionary = save_data.story_progress
-	var chapter_id := int(story.get("chapter", 1))
-	var payload: Dictionary = story.get("base_action_points", {})
+	var chapter_id := int(_story_progress.get("chapter", 1))
+	var payload: Dictionary = _story_progress.get("base_action_points", {})
 	if payload.is_empty():
 		_action_point_model.reset_for_chapter(chapter_id)
 	else:
 		_action_point_model.deserialize(payload)
 		_action_point_model.ensure_chapter(chapter_id)
 	_sync_action_point_fields()
+
+func _load_base_upgrade_from_story() -> void:
+	var raw_state: Dictionary = _story_progress.get("base_upgrade", BaseUpgradeModel.default_state())
+	_base_upgrade_state = _base_upgrade_model.normalize_state(raw_state)
+	_base_level = int(_base_upgrade_state.get("level", 1))
 
 func _sync_action_point_fields() -> void:
 	_action_points = _action_point_model.current_points
@@ -787,6 +960,162 @@ func _should_advance_saved_battle_after_base(save_data: SaveData = null) -> bool
 		return false
 	var summary: Dictionary = state.get("settlement_reward_summary", {})
 	return bool(summary.get("rewards_enabled", false))
+
+func _refresh_tavern_tab() -> void:
+	if _tavern_list_ref == null:
+		return
+	for child in _tavern_list_ref.get_children():
+		child.queue_free()
+	if not _base_upgrade_model.is_unlocked(_base_upgrade_state, "tavern"):
+		_tavern_msg_label_ref.text = _tr("base.tavern.locked")
+		return
+	_tavern_msg_label_ref.text = _tr("base.tavern.ap_cost")
+	var conversations := _available_tavern_conversations()
+	if conversations.is_empty():
+		var empty_label := Label.new()
+		empty_label.text = _tr("base.tavern.empty")
+		SRPGTheme.apply_label_scaled(empty_label, _ui_scale, SRPGTheme.PAPER_MUTED, 14)
+		_tavern_list_ref.add_child(empty_label)
+		return
+	for conversation in conversations:
+		_tavern_list_ref.add_child(_create_tavern_conversation_row(conversation))
+
+func _create_tavern_conversation_row(conversation: Dictionary) -> HBoxContainer:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", int(_scaled(8.0)))
+	var title := Label.new()
+	title.text = "%s / %s - %s" % [
+		_display_text(String(conversation.get("unit_a", ""))),
+		_display_text(String(conversation.get("unit_b", ""))),
+		_display_text(String(conversation.get("title", ""))),
+	]
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	SRPGTheme.apply_label_scaled(title, _ui_scale, SRPGTheme.PAPER, 14)
+	row.add_child(title)
+
+	var is_complete := _completed_tavern_conversations().has(String(conversation.get("id", "")))
+	var btn := Button.new()
+	btn.name = "TavernConversation_%s" % String(conversation.get("id", ""))
+	btn.text = _tr("base.tavern.completed") if is_complete else _tr("base.tavern.trigger")
+	btn.disabled = is_complete or not _action_point_model.can_spend(1)
+	btn.custom_minimum_size = _scaled_vec2(96.0, 32.0)
+	btn.pressed.connect(_on_tavern_conversation_pressed.bind(String(conversation.get("id", ""))))
+	SRPGTheme.apply_button_scaled(btn, _ui_scale, not btn.disabled, false, true)
+	row.add_child(btn)
+	return row
+
+func _available_tavern_conversations() -> Array[Dictionary]:
+	var chapter_id := int(_story_progress.get("chapter", 1))
+	var rows: Array[Dictionary] = []
+	for conversation in SUPPORT_CONVERSATIONS:
+		if int(conversation.get("chapter", 1)) <= chapter_id:
+			rows.append(conversation.duplicate(true))
+	return rows
+
+func _completed_tavern_conversations() -> Array:
+	var completed: Variant = _story_progress.get("completed_tavern_conversations", [])
+	if typeof(completed) == TYPE_ARRAY:
+		return (completed as Array).duplicate()
+	return []
+
+func _on_tavern_conversation_pressed(conversation_id: String) -> void:
+	trigger_tavern_conversation(conversation_id)
+
+func trigger_tavern_conversation(conversation_id: String) -> Dictionary:
+	if not _base_upgrade_model.is_unlocked(_base_upgrade_state, "tavern"):
+		return {"success": false, "reason": "locked"}
+	var conversation := _find_tavern_conversation(conversation_id)
+	if conversation.is_empty():
+		return {"success": false, "reason": "missing_conversation"}
+	var completed := _completed_tavern_conversations()
+	if completed.has(conversation_id):
+		return {"success": false, "reason": "already_completed"}
+	if not _action_point_model.spend(1):
+		if _tavern_msg_label_ref != null:
+			_tavern_msg_label_ref.text = _tr("base.tavern.no_ap")
+		return {"success": false, "reason": "no_ap"}
+	var registry := BondRegistry.load_from_story_progress(_story_progress)
+	var affinity := int(conversation.get("affinity", 0))
+	var result := registry.add_affinity(
+		String(conversation.get("unit_a", "")),
+		String(conversation.get("unit_b", "")),
+		affinity,
+		String(conversation.get("bond_type", BondRegistry.DEFAULT_BOND_TYPE)),
+		conversation_id
+	)
+	_story_progress = registry.save_to_story_progress(_story_progress)
+	completed.append(conversation_id)
+	_story_progress["completed_tavern_conversations"] = completed
+	_sync_action_point_fields()
+	if _tavern_msg_label_ref != null:
+		_tavern_msg_label_ref.text = _tr("base.tavern.success") % [
+			_display_text(String(conversation.get("unit_a", ""))),
+			_display_text(String(conversation.get("unit_b", ""))),
+			affinity,
+		]
+	_refresh_tavern_tab()
+	SaveManager.save_game(_get_save_slot())
+	result["ap_remaining"] = _action_point_model.current_points
+	return result
+
+func _find_tavern_conversation(conversation_id: String) -> Dictionary:
+	for conversation in SUPPORT_CONVERSATIONS:
+		if String(conversation.get("id", "")) == conversation_id:
+			return conversation.duplicate(true)
+	return {}
+
+func _refresh_upgrade_tab() -> void:
+	if _upgrade_status_label_ref == null:
+		return
+	_base_upgrade_state = _base_upgrade_model.normalize_state(_base_upgrade_state)
+	_base_level = int(_base_upgrade_state.get("level", 1))
+	_set_info_row_value("BaseLevelRow", "%s%d" % [_display_text("Lv."), _base_level])
+	_upgrade_status_label_ref.text = "%s%d" % [_display_text("Lv."), _base_level]
+	var entry := _base_upgrade_model.get_entry_for_level(_base_level)
+	if entry.is_empty():
+		_upgrade_cost_label_ref.text = _tr("base.upgrade.max")
+		_upgrade_unlocks_label_ref.text = ""
+		_upgrade_confirm_btn_ref.disabled = true
+		return
+	var cost := _base_upgrade_model.get_cost_for_level(_base_level)
+	_upgrade_cost_label_ref.text = _tr("base.upgrade.cost") % [
+		int(entry.get("to_level", _base_level + 1)),
+		int(cost.get("gold", 0)),
+		int(cost.get("basic_material", 0)),
+		int(cost.get("rare_material", 0)),
+	]
+	var unlocks: Array[String] = []
+	for raw_unlock in entry.get("unlocks", []):
+		unlocks.append(String(raw_unlock))
+	_upgrade_unlocks_label_ref.text = _tr("base.upgrade.unlocks") % ", ".join(unlocks)
+	var shortage := _base_upgrade_model.get_shortage(_base_level, Inventory)
+	_upgrade_confirm_btn_ref.disabled = not shortage.is_empty()
+	if not shortage.is_empty():
+		_upgrade_status_label_ref.text = _tr("base.upgrade.shortage") % [
+			int(shortage.get("gold", 0)),
+			int(shortage.get("basic_material", 0)),
+			int(shortage.get("rare_material", 0)),
+		]
+
+func _on_upgrade_pressed() -> void:
+	var result := upgrade_base()
+	if _upgrade_status_label_ref != null and bool(result.get("success", false)):
+		_upgrade_status_label_ref.text = _tr("base.upgrade.success") % int(result.get("to_level", _base_level))
+
+func upgrade_base() -> Dictionary:
+	var result := _base_upgrade_model.apply_upgrade(_base_upgrade_state, Inventory)
+	if not bool(result.get("success", false)):
+		_refresh_upgrade_tab()
+		return result
+	_base_upgrade_state = result.get("state", _base_upgrade_state)
+	_base_level = int(_base_upgrade_state.get("level", 1))
+	_story_progress["base_upgrade"] = _base_upgrade_state.duplicate(true)
+	_update_resource_display()
+	_refresh_upgrade_tab()
+	_refresh_tavern_tab()
+	SaveManager.save_game(_get_save_slot())
+	return result
 
 func _populate_market_items() -> void:
 	if _market_item_list == null:
@@ -966,6 +1295,10 @@ func _update_resource_display() -> void:
 	_set_info_row_value("MaterialRow", "%d" % _materials)
 	_sync_action_point_fields()
 	_refresh_market_inventory()
+	if _upgrade_confirm_btn_ref != null:
+		_refresh_upgrade_tab()
+	if _tavern_list_ref != null:
+		_refresh_tavern_tab()
 
 func _set_info_row_value(row_name: String, text: String) -> void:
 	var row := find_child(row_name, true, false)
@@ -990,6 +1323,10 @@ func _on_tab_changed(tab_index: int) -> void:
 		_update_market_item_list()
 		_update_market_ui()
 		_refresh_market_inventory()
+	elif tab_index == TAB_TAVERN:
+		_refresh_tavern_tab()
+	elif tab_index == TAB_UPGRADE:
+		_refresh_upgrade_tab()
 
 func _on_back_pressed() -> void:
 	if _roster != null and is_instance_valid(_roster):
@@ -1059,12 +1396,11 @@ func capture_runtime_state() -> Dictionary:
 	return result
 
 func _capture_story_progress() -> Dictionary:
-	var data: Dictionary = {}
-	var save_data := _get_current_save()
-	if save_data != null:
-		data = save_data.story_progress.duplicate(true)
+	var data: Dictionary = _story_progress.duplicate(true)
 	_action_point_model.ensure_chapter(int(data.get("chapter", _action_point_model.chapter_id)))
 	data["base_action_points"] = _action_point_model.serialize()
+	_base_upgrade_state = _base_upgrade_model.normalize_state(_base_upgrade_state)
+	data["base_upgrade"] = _base_upgrade_state.duplicate(true)
 	return data
 
 func _capture_base_ui_preferences() -> Dictionary:
