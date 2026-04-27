@@ -1,0 +1,161 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1777307655750,
+  "projectRoot": "D:\\work\\Games\\SRPG_MINI",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "docs",
+      "src"
+    ],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "CCGS Skill Testing Framework": {
+      "path": "CCGS Skill Testing Framework",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1777307655728,
+      "keyFiles": [
+        "catalog.yaml",
+        "CLAUDE.md",
+        "quality-rubric.md",
+        "README.md"
+      ]
+    },
+    "design": {
+      "path": "design",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1777307655728,
+      "keyFiles": [
+        "CLAUDE.md"
+      ]
+    },
+    "docs": {
+      "path": "docs",
+      "purpose": "Documentation",
+      "fileCount": 3,
+      "lastAccessed": 1777307655729,
+      "keyFiles": [
+        "CLAUDE.md",
+        "COLLABORATIVE-DESIGN-PRINCIPLE.md",
+        "WORKFLOW-GUIDE.md"
+      ]
+    },
+    "production": {
+      "path": "production",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1777307655729,
+      "keyFiles": []
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 2,
+      "lastAccessed": 1777307655729,
+      "keyFiles": [
+        "CLAUDE.md"
+      ]
+    },
+    "docs\\examples": {
+      "path": "docs\\examples",
+      "purpose": "Example code",
+      "fileCount": 11,
+      "lastAccessed": 1777307655730,
+      "keyFiles": [
+        "README.md",
+        "reverse-document-workflow-example.md",
+        "session-adopt-brownfield.md"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "CLAUDE.md",
+      "accessCount": 2,
+      "lastAccessed": 1777310151880,
+      "type": "file"
+    },
+    {
+      "path": "docs\\engine-reference\\godot\\VERSION.md",
+      "accessCount": 2,
+      "lastAccessed": 1777310155423,
+      "type": "file"
+    },
+    {
+      "path": ".claude\\docs\\technical-preferences.md",
+      "accessCount": 2,
+      "lastAccessed": 1777310198551,
+      "type": "file"
+    },
+    {
+      "path": ".claude\\docs\\templates\\game-concept.md",
+      "accessCount": 1,
+      "lastAccessed": 1777309687373,
+      "type": "file"
+    },
+    {
+      "path": "design\\gdd\\game-concept.md",
+      "accessCount": 1,
+      "lastAccessed": 1777309859968,
+      "type": "file"
+    },
+    {
+      "path": ".claude/agents",
+      "accessCount": 1,
+      "lastAccessed": 1777310076262,
+      "type": "directory"
+    },
+    {
+      "path": "design\\art\\art-bible.md",
+      "accessCount": 1,
+      "lastAccessed": 1777310660867,
+      "type": "file"
+    },
+    {
+      "path": ".claude\\docs\\templates\\systems-index.md",
+      "accessCount": 1,
+      "lastAccessed": 1777310782010,
+      "type": "file"
+    },
+    {
+      "path": "design\\gdd\\systems-index.md",
+      "accessCount": 1,
+      "lastAccessed": 1777311012207,
+      "type": "file"
+    },
+    {
+      "path": "production\\session-state\\active.md",
+      "accessCount": 1,
+      "lastAccessed": 1777311055771,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

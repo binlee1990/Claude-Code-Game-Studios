@@ -5,44 +5,48 @@
 
 ## Engine & Language
 
-- **Engine**: [TO BE CONFIGURED — run /setup-engine]
-- **Language**: [TO BE CONFIGURED]
-- **Rendering**: [TO BE CONFIGURED]
-- **Physics**: [TO BE CONFIGURED]
+- **Engine**: Godot 4.6.2-stable
+- **Language**: GDScript
+- **Rendering**: Forward+ (default for D3D12 on Windows in 4.6)
+- **Physics**: Jolt (default in 4.6) — note: 4.6 made Jolt the default, replacing Godot Physics
 
 ## Input & Platform
 
 <!-- Written by /setup-engine. Read by /ux-design, /ux-review, /test-setup, /team-ui, and /dev-story -->
 <!-- to scope interaction specs, test helpers, and implementation to the correct input methods. -->
 
-- **Target Platforms**: [TO BE CONFIGURED — e.g., PC, Console, Mobile, Web]
-- **Input Methods**: [TO BE CONFIGURED — e.g., Keyboard/Mouse, Gamepad, Touch, Mixed]
-- **Primary Input**: [TO BE CONFIGURED — the dominant input for this game]
-- **Gamepad Support**: [TO BE CONFIGURED — Full / Partial / None]
-- **Touch Support**: [TO BE CONFIGURED — Full / Partial / None]
-- **Platform Notes**: [TO BE CONFIGURED — any platform-specific UX constraints]
+- **Target Platforms**: PC (Windows; Linux/macOS untested)
+- **Input Methods**: Keyboard/Mouse
+- **Primary Input**: Mouse
+- **Gamepad Support**: None (MVP). InputMap will define abstract actions (`select`, `cancel`, `confirm`, `end_turn`) so future gamepad support is binding-only — no logic refactor.
+- **Touch Support**: None
+- **Platform Notes**: PC-only at MVP. UI may assume hover/click. Do NOT gate logic on hover-only interactions if cross-platform expansion is considered later.
 
 ## Naming Conventions
 
-- **Classes**: [TO BE CONFIGURED]
-- **Variables**: [TO BE CONFIGURED]
-- **Signals/Events**: [TO BE CONFIGURED]
-- **Files**: [TO BE CONFIGURED]
-- **Scenes/Prefabs**: [TO BE CONFIGURED]
-- **Constants**: [TO BE CONFIGURED]
+- **Classes**: PascalCase (e.g., `PlayerUnit`, `GridMap`)
+- **Variables**: snake_case (e.g., `move_speed`, `current_hp`)
+- **Signals/Events**: snake_case past tense (e.g., `health_changed`, `turn_ended`)
+- **Files**: snake_case matching class (e.g., `player_unit.gd`)
+- **Scenes/Prefabs**: PascalCase matching root node (e.g., `PlayerUnit.tscn`)
+- **Constants**: UPPER_SNAKE_CASE (e.g., `MAX_HEALTH`, `GRID_TILE_SIZE`)
 
 ## Performance Budgets
 
-- **Target Framerate**: [TO BE CONFIGURED]
-- **Frame Budget**: [TO BE CONFIGURED]
-- **Draw Calls**: [TO BE CONFIGURED]
-- **Memory Ceiling**: [TO BE CONFIGURED]
+- **Target Framerate**: 60fps
+- **Frame Budget**: 16.6ms
+- **Draw Calls**: < 500 (Godot 4.6 D3D12 default; SRPG turn-based load is well below this)
+- **Memory Ceiling**: 512 MB (placeholder — revisit if/when content layer expands beyond MVP)
 
 ## Testing
 
-- **Framework**: [TO BE CONFIGURED]
-- **Minimum Coverage**: [TO BE CONFIGURED]
-- **Required Tests**: Balance formulas, gameplay systems, networking (if applicable)
+- **Framework**: GdUnit4
+- **Minimum Coverage**: Not enforced at MVP. Raise after architecture stabilizes (post-`/architecture-review`).
+- **Required Tests**:
+  - BFS move-range computation (Module 4)
+  - Damage formula `max(ATK - DEF, 1)` (Module 5)
+  - Turn rotation state machine (Module 3)
+  - Victory/defeat condition checks (Module 7)
 
 ## Forbidden Patterns
 
@@ -52,7 +56,7 @@
 ## Allowed Libraries / Addons
 
 <!-- Add approved third-party dependencies here -->
-- [None configured yet — add as dependencies are approved]
+- **GdUnit4** — testing framework (introduced at engine setup, 2026-04-28)
 
 ## Architecture Decisions Log
 
@@ -65,12 +69,12 @@
 <!-- Read by /code-review, /architecture-decision, /architecture-review, and team skills -->
 <!-- to know which specialist to spawn for engine-specific validation. -->
 
-- **Primary**: [TO BE CONFIGURED — run /setup-engine]
-- **Language/Code Specialist**: [TO BE CONFIGURED]
-- **Shader Specialist**: [TO BE CONFIGURED]
-- **UI Specialist**: [TO BE CONFIGURED]
-- **Additional Specialists**: [TO BE CONFIGURED]
-- **Routing Notes**: [TO BE CONFIGURED]
+- **Primary**: godot-specialist
+- **Language/Code Specialist**: godot-gdscript-specialist (all .gd files)
+- **Shader Specialist**: godot-shader-specialist (.gdshader files, VisualShader resources)
+- **UI Specialist**: godot-specialist (no dedicated UI specialist — primary covers all UI)
+- **Additional Specialists**: godot-gdextension-specialist (GDExtension / native C++ bindings only — not expected at MVP)
+- **Routing Notes**: Invoke primary for architecture decisions, ADR validation, and cross-cutting code review. Invoke GDScript specialist for code quality, signal architecture, static typing enforcement, and GDScript idioms. Invoke shader specialist only when shaders are introduced (post-MVP — Programmer Art Functional anchor uses flat colors, no custom shaders). Invoke GDExtension specialist only if native extensions are explicitly required.
 
 ### File Extension Routing
 
@@ -79,9 +83,9 @@
 
 | File Extension / Type | Specialist to Spawn |
 |-----------------------|---------------------|
-| Game code (primary language) | [TO BE CONFIGURED] |
-| Shader / material files | [TO BE CONFIGURED] |
-| UI / screen files | [TO BE CONFIGURED] |
-| Scene / prefab / level files | [TO BE CONFIGURED] |
-| Native extension / plugin files | [TO BE CONFIGURED] |
-| General architecture review | Primary |
+| Game code (.gd files) | godot-gdscript-specialist |
+| Shader / material files (.gdshader, VisualShader) | godot-shader-specialist |
+| UI / screen files (Control nodes, CanvasLayer) | godot-specialist |
+| Scene / prefab / level files (.tscn, .tres) | godot-specialist |
+| Native extension / plugin files (.gdextension, C++) | godot-gdextension-specialist |
+| General architecture review | godot-specialist |

@@ -2,11 +2,12 @@
 
 | Field | Value |
 |-------|-------|
-| **Engine Version** | Godot 4.6 |
+| **Engine Version** | Godot 4.6.2-stable (Steam build 71f334935) |
 | **Release Date** | January 2026 |
-| **Project Pinned** | 2026-02-12 |
-| **Last Docs Verified** | 2026-02-12 |
+| **Project Pinned** | 2026-04-28 |
+| **Last Docs Verified** | 2026-04-28 |
 | **LLM Knowledge Cutoff** | May 2025 |
+| **Local Binary** | `G:\SteamLibrary\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe` |
 
 ## Knowledge Gap Warning
 
