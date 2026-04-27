@@ -6,6 +6,7 @@ extends Control
 
 const SRPGTheme := preload("res://src/ui/theme/srpg_theme.gd")
 const SRPGLocalizationScript := preload("res://src/core/localization/srpg_localization.gd")
+const ActionPoints := preload("res://src/core/base/action_points.gd")
 
 signal closed()
 signal training_changed(unit_id: StringName, skill_id: StringName, result: Dictionary)
@@ -23,6 +24,7 @@ var _detail_class_label: Label
 var _skill_list: VBoxContainer
 var _hint_bar: Control
 var _ui_scale: float = 1.0
+var _action_points: ActionPoints = null
 
 func _ready() -> void:
 	_build_ui()
@@ -35,6 +37,11 @@ func initialize(roster: CharacterRoster) -> void:
 	_selected_unit_index = -1
 	if _character_list != null:
 		_refresh()
+
+func set_action_points(action_points: ActionPoints) -> void:
+	_action_points = action_points
+	if _character_list != null:
+		_refresh_skill_detail()
 
 func set_ui_scale(scale: float) -> void:
 	_ui_scale = clampf(scale, 1.0, 1.3)
@@ -377,7 +384,7 @@ func _add_skill_row(skill_data: Dictionary) -> void:
 	var train_btn := Button.new()
 	train_btn.name = "TrainButton_%s" % String(skill_id)
 	train_btn.text = _tr("training.train_plus")
-	train_btn.disabled = _roster == null or skill_id == &""
+	train_btn.disabled = _roster == null or skill_id == &"" or _is_training_unavailable()
 	train_btn.focus_mode = Control.FOCUS_ALL
 	train_btn.pressed.connect(_on_train_skill_pressed.bind(skill_id))
 	SRPGTheme.apply_button_scaled(train_btn, _ui_scale, false, false, true)
@@ -450,9 +457,27 @@ func _on_train_skill_pressed(skill_id: StringName) -> void:
 	var unit := _get_selected_unit()
 	if unit == null or unit.skill_component == null:
 		return
+	if _action_points != null and not _action_points.spend(1):
+		_set_hint_text(_tr("base.ap_insufficient"))
+		_refresh_skill_detail()
+		return
 	var result: Dictionary = unit.skill_component.apply_battle_proficiency(skill_id, 10)
+	if _action_points != null:
+		result["action_points"] = _action_points.serialize()
 	training_changed.emit(unit.unit_id, skill_id, result)
 	_refresh_skill_detail()
+
+func _is_training_unavailable() -> bool:
+	return _action_points != null and not _action_points.can_spend(1)
+
+func _set_hint_text(text: String) -> void:
+	var bar := find_child("HintBar", true, false)
+	if bar == null:
+		return
+	for child in bar.get_children():
+		if child is Label:
+			(child as Label).text = text
+			return
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:

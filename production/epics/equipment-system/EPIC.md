@@ -4,7 +4,7 @@
 > **GDD**: design/gdd/equipment-system.md
 > **Architecture Module**: Equipment
 > **Status**: Complete
-> **Stories**: 7 stories created (6 Logic, 1 Integration)
+> **Stories**: 10 stories
 
 ## Overview
 
@@ -40,6 +40,9 @@ Implements the ARPG-inspired equipment framework: random affix generation (1-4 a
 | story-005-equipment-decomposition | TR-equip-005 | Equipment decomposition: convert equipment to crafting mat... |
 | story-006-final-attribute-calculation | TR-equip-006 | Final attribute calculation: base + growth + class bonus +... |
 | story-007-save-load-integration | TR-equip-007 | Equipment state round-trip through save/load (inventory, l... |
+| story-008-enhancement-ui-mvp | TR-equip-008 | Equipment enhancement UI exposes equipped-item +1~+5 flow |
+| story-009-enhancement-cost-source | TR-equip-009 | Enhancement costs and shortage/failure feedback use resource economy ownership |
+| story-010-enhancement-round-trip | TR-equip-010 | Enhancement result feedback and +5 round-trip persistence |
 
 ## Stories
 
@@ -52,6 +55,9 @@ Implements the ARPG-inspired equipment framework: random affix generation (1-4 a
 | 005 | Equipment Decomposition | Logic | Complete | ADR-001 |
 | 006 | Final Attribute Calculation | Logic | Complete | ADR-001 |
 | 007 | Equipment Save/Load Integration | Integration | Complete | ADR-001, ADR-003 |
+| 008 | Enhancement UI MVP | UI + Integration | Complete | ADR-008, ADR-009 |
+| 009 | Enhancement Cost Source + Failure Feedback | Logic + Integration | Complete | ADR-008, ADR-009 |
+| 010 | Enhancement Round-Trip + Failure UI | UI + Integration | Complete | ADR-003, ADR-009 |
 
 ## Definition of Done
 
@@ -62,6 +68,14 @@ This epic is complete when:
 - Enhancement success/failure and protection symbol logic are unit-tested
 - Equipment stat bonuses correctly merge with class bonuses in final attribute calculation
 
+## Sprint-006 Extension
+
+Sprint-006 reopened and completed a narrow player-facing upgrade slice without changing the completed equipment core:
+
+1. `story-008-enhancement-ui-mvp.md` exposes existing enhancement logic for equipped items only.
+2. `story-009-enhancement-cost-source.md` keeps costs and shortage checks owned by resource economy.
+3. `story-010-enhancement-round-trip.md` closes feedback and persistence polish.
+
 ## Next Step
 
-Epic complete. Next ordered execution item is `production/epics/character-management/`.
+Sprint-007+ may implement +6 risk-zone UI, affix reroll, decomposition UI, or set crafting as separate scoped stories.

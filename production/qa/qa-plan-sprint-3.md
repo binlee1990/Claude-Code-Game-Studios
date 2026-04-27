@@ -10,6 +10,28 @@
 
 ---
 
+## Revalidation Update — 2026-04-27
+
+This section is the current authoritative mapping for already-implemented Sprint-003 tests. The original plan below is preserved as planning history; where file names differ, use this table.
+
+| Story | Current status | Actual blocking automated evidence | Notes |
+|---|---|---|---|
+| CH2-c-001 章节路由 + B2-GATE | COMPLETE | `tests/unit/chapter02/branch_gate_test.gd`; `tests/unit/chapter02/belief_system_test.gd` | Covers route selection, exact threshold, `mercy_default`, clamp, and save data persistence |
+| CH2-c-002 王秀护送 AI | COMPLETE | `tests/unit/chapter02/wang_xiu_ai_test.gd` | Planned `wang_xiu_save_load_test.gd` was not created; persistence is covered through story progress/save integration elsewhere |
+| CH2-c-003 护卫姿态分摊 | COMPLETE | `tests/unit/chapter02/guard_stance_test.gd` | Actual file name is `guard_stance_test.gd`, not `guard_stance_damage_test.gd` |
+| CH2-c-004 镇压战结算 | COMPLETE | `tests/unit/chapter02/suppression_settlement_test.gd` | Planned integration split was collapsed into current unit-level settlement coverage |
+| CH2-c-005 Boss 三阶段 + 检查点 | COMPLETE | `tests/unit/chapter02/boss_phase_test.gd` | Actual file name is `boss_phase_test.gd`, not `chen_lang_boss_test.gd`; includes phase, reinforcements, checkpoint HP/state |
+| CH2-c-006 果子二选三 | COMPLETE | `tests/unit/chapter02/fruit_selection_test.gd` | Actual implementation is unit-level model coverage; UI walkthrough remains external/manual if needed |
+| Sprint-003 closure | COMPLETE WITH AUTOMATION NOTES | `godot --headless --check-only project.godot`; `godot --headless res://tests/test_runner.tscn` | Human Ch.2 playtest and belief-delta data collection remain `MAN-004` in `production/sprints/sprint-人工.md` |
+
+### Source Gaps Resolved / Remaining
+
+- Resolved: `production/epics/chapter-02/story-001.md` through `story-006.md` now exist.
+- Remaining documentation cleanup: story file headers may still say `Ready for Dev` while completion evidence exists later in the file.
+- Remaining advisory evidence: Ch.2 full playtest, route/delta data, screenshots, and recordings are managed by `MAN-004`, not this automation QA plan.
+
+---
+
 ## Test Summary
 
 | Story | 主类 | Automated Test Required | Manual Verification Required |

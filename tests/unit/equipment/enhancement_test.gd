@@ -36,6 +36,41 @@ func test_safe_zone_enhancement_always_succeeds() -> void:
 	assert_true(result["success"])
 	assert_eq(result["new_level"], 4)
 
+func test_enhancement_cost_uses_inventory_peek_cost() -> void:
+	_add_weapon(2)
+	var cost: Dictionary = _unit.equipment_component.get_enhancement_cost(&"test_blade", _inventory)
+
+	assert_eq(cost["gold"], 300)
+	assert_eq(cost["materials"], 15)
+
+func test_enhancement_shortage_reports_exact_missing_resources() -> void:
+	_add_weapon(4)
+	_inventory.deserialize({
+		ResourceTypes.ResourceId.GOLD: 200,
+		ResourceTypes.ResourceId.BASIC_MATERIAL: 3,
+	})
+
+	var shortage: Dictionary = _unit.equipment_component.get_enhancement_shortage(&"test_blade", _inventory)
+
+	assert_eq(shortage["gold"], 300)
+	assert_eq(shortage["materials"], 22)
+
+func test_equipment_enhanced_signal_emits_after_attempt() -> void:
+	_add_weapon(0)
+	var events: Array = []
+	var handler := func(item_id: String, level: int, success: bool) -> void:
+		events.append({"item_id": item_id, "level": level, "success": success})
+	GameEvents.equipment_enhanced.connect(handler)
+
+	var result: Dictionary = _unit.equipment_component.attempt_enhancement(&"test_blade", _inventory, false, 10)
+
+	GameEvents.equipment_enhanced.disconnect(handler)
+	assert_true(result["success"])
+	assert_eq(events.size(), 1)
+	assert_eq(events[0]["item_id"], "test_blade")
+	assert_eq(events[0]["level"], 1)
+	assert_true(events[0]["success"])
+
 func test_risk_zone_rates_follow_expected_curve() -> void:
 	assert_eq(EquipmentDefinitions.get_success_rate(5), 0.70)
 	assert_eq(EquipmentDefinitions.get_success_rate(9), 0.30)

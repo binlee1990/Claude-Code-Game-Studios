@@ -7,6 +7,7 @@ var _screen: CharacterManagement
 
 func before_each() -> void:
 	SRPGLocalization.set_locale(SRPGLocalization.DEFAULT_LOCALE)
+	Inventory.reset()
 	_roster = CharacterRoster.new()
 	_roster.name = "Roster"
 	add_child(_roster)
@@ -21,6 +22,7 @@ func after_each() -> void:
 		_screen.queue_free()
 	if is_instance_valid(_roster):
 		_roster.queue_free()
+	Inventory.reset()
 
 func test_initialize_before_entering_tree_refreshes_after_ready() -> void:
 	_screen = CharacterManagementScene.instantiate()
@@ -107,6 +109,77 @@ func test_equipment_detail_buttons_equip_and_unequip_items() -> void:
 	unequip_button.pressed.emit()
 	assert_eq(unit.equipment_component.get_equipped_item(EquipmentDefinitions.Slot.WEAPON), null)
 
+func test_equipped_item_enhance_button_spends_resources_and_emits_change() -> void:
+	Inventory.add_resource(ResourceTypes.ResourceId.GOLD, 500)
+	Inventory.add_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, 25)
+	var unit: Unit = _roster.get_character(&"leader")
+	unit.equipment_component.add_item(EquipmentItem.new({
+		"item_id": "bronze_sword",
+		"name": "Bronze Sword",
+		"slot": EquipmentDefinitions.Slot.WEAPON,
+	}))
+	unit.equipment_component.equip_item(&"bronze_sword")
+	var events: Array = []
+
+	_screen = CharacterManagementScene.instantiate()
+	_screen.initialize(_roster)
+	_screen.equipment_changed.connect(func(changed_unit: Unit, slot: int, old_item_id: StringName, new_item_id: StringName) -> void:
+		events.append({"unit": changed_unit, "slot": slot, "old": old_item_id, "new": new_item_id})
+	)
+	add_child(_screen)
+	_screen.call("_on_roster_item_selected", &"leader")
+
+	var enhance_button := _find_button_by_text(_screen, SRPGLocalization.translate("management.enhance"), true)
+	assert_ne(enhance_button, null, "Equipped safe-zone items should expose an enhancement button")
+	enhance_button.pressed.emit()
+
+	assert_eq(unit.equipment_component.get_item(&"bronze_sword").enhancement_level, 1)
+	assert_eq(Inventory.get_amount(ResourceTypes.ResourceId.GOLD), 400)
+	assert_eq(Inventory.get_amount(ResourceTypes.ResourceId.BASIC_MATERIAL), 20)
+	assert_eq(events.size(), 1)
+
+func test_risk_zone_enhance_button_is_disabled_at_plus_five() -> void:
+	Inventory.add_resource(ResourceTypes.ResourceId.GOLD, 5000)
+	Inventory.add_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, 500)
+	var unit: Unit = _roster.get_character(&"leader")
+	unit.equipment_component.add_item(EquipmentItem.new({
+		"item_id": "blue_sword",
+		"name": "Bronze Sword",
+		"slot": EquipmentDefinitions.Slot.WEAPON,
+		"quality": EquipmentDefinitions.Quality.BLUE,
+		"enhancement_level": 5,
+	}))
+	unit.equipment_component.equip_item(&"blue_sword")
+
+	_screen = CharacterManagementScene.instantiate()
+	_screen.initialize(_roster)
+	add_child(_screen)
+	_screen.call("_on_roster_item_selected", &"leader")
+
+	var enhance_button := _find_button_by_text(_screen, SRPGLocalization.translate("management.enhance"), false)
+	assert_ne(enhance_button, null)
+	assert_true(enhance_button.disabled, "Sprint-006 UI should not expose +6 risk-zone enhancement")
+	assert_true(_collect_label_text(_screen).contains(SRPGLocalization.translate("management.enhance_risk_locked")))
+
+func test_character_detail_shows_top_three_bonds() -> void:
+	var story_progress := {
+		"bond_levels": {
+			"leader::cleric": {"unit_a": "leader", "unit_b": "cleric", "affinity": 210, "rank": "B", "bond_type": "comrade"},
+			"archer::leader": {"unit_a": "archer", "unit_b": "leader", "affinity": 80, "rank": "C", "bond_type": "comrade"},
+		}
+	}
+	_screen = CharacterManagementScene.instantiate()
+	_screen.initialize(_roster)
+	_screen.set_story_progress(story_progress)
+	add_child(_screen)
+	_screen.call("_on_roster_item_selected", &"leader")
+
+	var text := _collect_label_text(_screen)
+	assert_true(text.contains("cleric"))
+	assert_true(text.contains("archer"))
+	assert_true(text.contains("战友"))
+	assert_true(text.contains("210"))
+
 func test_management_screen_uses_full_rect_responsive_root() -> void:
 	_screen = CharacterManagementScene.instantiate()
 	_screen.set_ui_scale(1.3)
@@ -143,3 +216,11 @@ func _find_button_by_text(node: Node, text: String, enabled_only: bool = false) 
 		if found != null:
 			return found
 	return null
+
+func _collect_label_text(node: Node) -> String:
+	var out := ""
+	if node is Label:
+		out += (node as Label).text + "\n"
+	for child in node.get_children():
+		out += _collect_label_text(child)
+	return out

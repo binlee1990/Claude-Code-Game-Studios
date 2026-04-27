@@ -36,10 +36,11 @@ func test_base_hub_builds_training_and_market_tabs() -> void:
 	assert_ne(tabs, null, "Base hub should expose a TabContainer")
 	assert_true(tabs.tabs_visible, "Godot 4.6 TabContainer uses tabs_visible")
 	assert_eq(tabs.size_flags_horizontal, Control.SIZE_EXPAND_FILL, "Tab area should expand when the viewport grows")
-	assert_eq(tabs.get_child_count(), 3, "Base hub should expose training, market, and management tabs")
+	assert_eq(tabs.get_child_count(), 4, "Base hub should expose training, market, intel, and management tabs")
 	assert_eq(tabs.get_tab_title(0), "训练场")
 	assert_eq(tabs.get_tab_title(1), "市集")
-	assert_eq(tabs.get_tab_title(2), "管理")
+	assert_eq(tabs.get_tab_title(2), "情报室")
+	assert_eq(tabs.get_tab_title(3), "管理")
 
 func test_base_hub_exposes_continue_campaign_for_cleared_battle_save() -> void:
 	_write_cleared_tutorial_save()
@@ -137,6 +138,44 @@ func test_market_item_list_keeps_buy_and_sell_prices_visible() -> void:
 	assert_true(item_button.text.contains("买50"))
 	assert_true(item_button.text.contains("卖25"))
 
+func test_intel_tab_shows_current_and_next_battle_without_spending_ap() -> void:
+	_write_cleared_tutorial_save()
+	_recreate_base()
+
+	var tabs := _base.find_child("TabContainer", true, false) as TabContainer
+	tabs.current_tab = 2
+	var briefing := _base.find_child("IntelBriefingLabel", true, false) as Label
+	var next := _base.find_child("IntelNextLabel", true, false) as Label
+	var ap_note := _base.find_child("IntelApLabel", true, false) as Label
+
+	assert_ne(briefing, null)
+	assert_ne(next, null)
+	assert_ne(ap_note, null)
+	assert_true(briefing.text.contains("简报"))
+	assert_true(next.text.contains("下一战"))
+	assert_true(ap_note.text.contains("不消耗行动点"))
+
+func test_base_training_consumes_action_point_and_saves() -> void:
+	_write_cleared_tutorial_save()
+	_recreate_base()
+
+	var training := _base.find_child("TrainingGround", true, false) as TrainingGround
+	assert_ne(training, null)
+	training.call("_on_character_selected", 0)
+	var train_button := _find_first_train_button(training)
+	assert_ne(train_button, null)
+	assert_false(train_button.disabled)
+
+	train_button.pressed.emit()
+
+	var saved := SaveManager.peek_save(TEST_SLOT)
+	assert_ne(saved, null)
+	var ap_state: Dictionary = saved.story_progress.get("base_action_points", {})
+	assert_eq(ap_state.get("current_points", -1), 4)
+	assert_eq(ap_state.get("max_points", -1), 5)
+	var ap_row = _base.find_child("ActionPointRow", true, false)
+	assert_true((ap_row.get_child(1) as Label).text.contains("4 / 5"))
+
 	_base.call("_set_trade_mode", false)
 
 	assert_true(item_button.text.contains("买50"), "Sell mode should not make the item look like its price mutated")
@@ -232,6 +271,15 @@ func _find_first_color_rect(node: Node) -> ColorRect:
 		return node as ColorRect
 	for child in node.get_children():
 		var found := _find_first_color_rect(child)
+		if found != null:
+			return found
+	return null
+
+func _find_first_train_button(node: Node) -> Button:
+	if node is Button and String(node.name).begins_with("TrainButton_"):
+		return node as Button
+	for child in node.get_children():
+		var found := _find_first_train_button(child)
 		if found != null:
 			return found
 	return null

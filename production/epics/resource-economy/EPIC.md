@@ -3,8 +3,8 @@
 > **Layer**: Core
 > **GDD**: design/gdd/resource-economy.md
 > **Architecture Module**: Resource
-> **Status**: Ready
-> **Stories**: 6 stories created (5 Logic, 1 Integration)
+> **Status**: Complete
+> **Stories**: 7 stories
 
 ## Overview
 
@@ -39,17 +39,19 @@ Implements the dual-layer resource framework: an abundant common layer (gold, ba
 | story-004-consumption-costs | TR-resource-004 | Consumption costs: enhancement, fruit usage, barrier break... |
 | story-005-enhancement-system | TR-resource-005 | Enhancement system: safe zone +1~+5, risk zone +6+ with fa... |
 | story-006-save-load-integration | TR-resource-006 | Resource state round-trip through save/load with stack lim... |
+| story-007-base-upgrade-cost-config | TR-resource-007 | Base upgrade cost data table for future upgrade UI |
 
 ## Stories
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | Data Model & Inventory | Logic | Ready | ADR-001, ADR-003 |
-| 002 | Gold & Material Acquisition | Logic | Ready | ADR-001 |
-| 003 | Rare Resource Drops | Logic | Ready | ADR-001 |
-| 004 | Resource Consumption & Costs | Logic | Ready | ADR-001 |
-| 005 | Enhancement System | Logic | Ready | ADR-001 |
-| 006 | Resource Save/Load Integration | Integration | Ready | ADR-001, ADR-003 |
+| 001 | Data Model & Inventory | Logic | Complete | ADR-001, ADR-003 |
+| 002 | Gold & Material Acquisition | Logic | Complete | ADR-001 |
+| 003 | Rare Resource Drops | Logic | Complete | ADR-001 |
+| 004 | Resource Consumption & Costs | Logic | Complete | ADR-001 |
+| 005 | Enhancement System | Logic | Complete | ADR-001 |
+| 006 | Resource Save/Load Integration | Integration | Complete | ADR-001, ADR-003 |
+| 007 | Base Upgrade Cost Config | Config/Data | Complete | ADR-008 |
 
 ## Definition of Done
 
@@ -62,4 +64,4 @@ This epic is complete when:
 
 ## Next Step
 
-Run `/story-readiness production/epics/resource-economy/story-001-data-model-inventory.md` then `/dev-story` to begin implementation.
+Future Base Upgrade UI should consume `assets/data/economy/base-upgrade-costs.json` rather than hardcoding upgrade prices in UI code.

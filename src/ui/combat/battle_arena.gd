@@ -12,6 +12,7 @@ const SRPGAudioBusScript := preload("res://src/ui/audio/srpg_audio_bus.gd")
 const SRPGLocalizationScript := preload("res://src/core/localization/srpg_localization.gd")
 const HintBarScript := preload("res://src/ui/common/hint_bar.gd")
 const CharacterTabBar := preload("res://src/ui/management/character_tab_bar.gd")
+const BondRegistry := preload("res://src/core/bond/bond_registry.gd")
 
 const GRID_SIZE := 15
 const CELL_SIZE := 64
@@ -2371,6 +2372,8 @@ func _refresh_character_screen() -> void:
 		return
 	if _character_screen.has_method("initialize"):
 		_character_screen.initialize(_roster)
+	if _character_screen.has_method("set_story_progress"):
+		_character_screen.set_story_progress(_story_progress)
 
 ## Auto-save when party composition is changed via management screen (MGMT-004).
 func _on_management_party_changed(new_party: Array) -> void:
@@ -3924,6 +3927,7 @@ func _finalize_battle_result(result_type: int, rating: int) -> void:
 	if result_type == SettlementResult.SettlementType.VICTORY:
 		for key in _battle_definition.get("progress_on_victory", {}):
 			_story_progress[key] = _battle_definition["progress_on_victory"][key]
+		_apply_battle_affinity_rewards()
 	_battle_history_log.append_battle({
 		"battle_id": get_battle_id(),
 		"result_type": result_type,
@@ -4018,3 +4022,26 @@ func _update_boss_phase(unit: Unit, new_hp: int) -> void:
 
 func _on_resource_changed(resource_type: int, old_amount: int, new_amount: int) -> void:
 	_refresh_resource_hud()
+
+func _apply_battle_affinity_rewards() -> void:
+	if _roster == null:
+		return
+	var party := _roster.get_party()
+	if party.size() < 2:
+		return
+	var first_unit := _roster.get_character(StringName(party[0]))
+	var second_unit := _roster.get_character(StringName(party[1]))
+	if first_unit == null or second_unit == null:
+		return
+	var registry := BondRegistry.load_from_story_progress(_story_progress)
+	var result := registry.add_affinity(
+		String(first_unit.unit_id),
+		String(second_unit.unit_id),
+		5,
+		BondRegistry.DEFAULT_BOND_TYPE,
+		"battle_settlement:%s" % get_battle_id()
+	)
+	if not bool(result.get("success", false)):
+		return
+	_story_progress = registry.save_to_story_progress(_story_progress)
+	_story_progress["bond_events_total"] = int(_story_progress.get("bond_events_total", 0)) + 1

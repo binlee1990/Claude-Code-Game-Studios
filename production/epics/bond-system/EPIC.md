@@ -2,7 +2,7 @@
 
 > **Layer**: Feature
 > **GDD**: `design/gdd/bond-system.md`
-> **Status**: Ready for Sprint-006 Planning
+> **Status**: Sprint-006 MVP Complete
 > **Created**: 2026-04-27
 > **Sprint Source**: Sprint-005 / BOND-001
 
@@ -12,16 +12,25 @@ Create the smallest implementation slice of the designed bond system that can su
 
 ## Scope Boundary
 
-This epic is readiness only. Sprint-005 does not implement bond runtime logic.
+Sprint-006 implements the bounded MVP: pair-keyed bond data, combat affinity gain, save payload, and character detail summary. Tavern dialogue, combo skills, and network graph remain future work.
 
 ## Stories
 
 | ID | Title | Type | Est. | Dependencies | Status |
 |---|---|---|---|---|---|
-| BOND-001 | Bond data model + save payload | Logic | 0.5d | SaveData / `design/gdd/bond-system.md` | Ready |
-| BOND-002 | Affinity gain event hooks | Integration | 0.5d | GameEvents / battle settlement | Ready |
+| BOND-DATA-001 | Bond data model + save payload | Logic + Integration | 0.5d | SaveData / `design/gdd/bond-system.md` | Complete |
+| BOND-EVT-001 | Affinity gain event hooks | Integration | 0.5d | BOND-DATA-001 / GameEvents / battle settlement | Complete |
 | BOND-003 | Base tavern dialogue trigger MVP | UI/Integration | 0.5d | Base full phase 1 | Ready |
-| BOND-004 | Character detail bond summary | UI | 0.25d | Character management UI | Ready |
+| BOND-UI-001 | Character detail bond summary | UI + Integration | 0.25d | BOND-DATA-001 / Character management UI | Complete |
+
+## TR-IDs
+
+| Story | TR-ID | Requirement |
+|---|---|---|
+| story-001-data-model-save | TR-bond-001 | Bond pair data model and SaveData payload |
+| story-002-affinity-event-hooks | TR-bond-002 | Deterministic affinity gain event hooks |
+| story-003-base-tavern-dialogue | TR-bond-003 | Future tavern dialogue trigger |
+| story-004-character-summary | TR-bond-004 | Character detail Bond summary |
 
 ## MVP Acceptance Criteria
 
@@ -40,4 +49,4 @@ This epic is readiness only. Sprint-005 does not implement bond runtime logic.
 
 ## Sprint-006 Handoff
 
-Start with BOND-001 and BOND-002 if Ch.3 GDD requires character-pair conditions. Delay BOND-003 until Base full phase 1 defines tavern UI ownership.
+Completion evidence: `src/core/bond/bond_registry.gd`, `GameEvents.bond_level_up`, `tests/unit/bond/bond_data_model_test.gd`, `tests/integration/bond/affinity_event_hooks_test.gd`, and character detail coverage in `tests/integration/ui/character_management_test.gd`. Sprint-007 should start BOND-003 Tavern dialogue on top of this payload.

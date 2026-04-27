@@ -11,6 +11,7 @@ signal equipment_changed(unit: Unit, slot: int, old_item_id: StringName, new_ite
 const SRPGTheme := preload("res://src/ui/theme/srpg_theme.gd")
 const CharacterTabBar := preload("res://src/ui/management/character_tab_bar.gd")
 const SRPGLocalizationScript := preload("res://src/core/localization/srpg_localization.gd")
+const BondRegistry := preload("res://src/core/bond/bond_registry.gd")
 
 enum Tab { CHARACTER, PARTY, EQUIPMENT, SKILLS }
 const TAB_KEYS: Array[String] = ["character", "party", "equipment", "skills"]
@@ -49,6 +50,7 @@ var _detail_hp_label: Label
 var _detail_attr_labels: Dictionary
 var _detail_skill_list: VBoxContainer
 var _detail_equip_list: VBoxContainer
+var _detail_bond_list: VBoxContainer
 var _party_labels: Array[Label] = []
 var _slot_buttons: Array[Button] = []
 var _hint_bar: Control
@@ -56,6 +58,7 @@ var _close_button: Button
 var _action_bar: HBoxContainer
 var _confirm_button: Button
 var _ui_scale: float = 1.0
+var _bond_registry: BondRegistry = BondRegistry.new()
 
 # Pending party changes before confirm
 var _pending_party: Array = []
@@ -71,6 +74,11 @@ func initialize(roster: CharacterRoster) -> void:
 	_pending_party = _roster.get_party().duplicate() if _roster != null else []
 	if _is_ui_ready():
 		_refresh_all()
+
+func set_story_progress(story_progress: Dictionary) -> void:
+	_bond_registry = BondRegistry.load_from_story_progress(story_progress)
+	if _is_ui_ready():
+		_refresh_detail()
 
 func set_ui_scale(scale: float) -> void:
 	_ui_scale = clampf(scale, 1.0, 1.3)
@@ -99,6 +107,7 @@ func _rebuild_ui() -> void:
 	_detail_attr_labels.clear()
 	_detail_skill_list = null
 	_detail_equip_list = null
+	_detail_bond_list = null
 	_party_labels.clear()
 	_slot_buttons.clear()
 	_hint_bar = null
@@ -302,6 +311,14 @@ func _create_right_panel(parent: Control) -> Panel:
 	_detail_skill_list = VBoxContainer.new()
 	_detail_container.add_child(_detail_skill_list)
 
+	var bond_title := Label.new()
+	bond_title.text = _tr("management.bonds")
+	SRPGTheme.apply_label_scaled(bond_title, _ui_scale, SRPGTheme.PAPER_MUTED, 14)
+	_detail_container.add_child(bond_title)
+
+	_detail_bond_list = VBoxContainer.new()
+	_detail_container.add_child(_detail_bond_list)
+
 	# Equipment
 	var equip_title := Label.new()
 	equip_title.text = _tr("management.equipment")
@@ -490,10 +507,36 @@ func _refresh_detail() -> void:
 		SRPGTheme.apply_label_scaled(lbl, _ui_scale, SRPGTheme.PAPER, 13)
 		_detail_skill_list.add_child(lbl)
 
+	_refresh_bond_summary(unit)
+
 	# Refresh equipment
 	for child in _detail_equip_list.get_children():
 		child.queue_free()
 	_refresh_equipment_actions(unit)
+
+func _refresh_bond_summary(unit: Unit) -> void:
+	if _detail_bond_list == null:
+		return
+	for child in _detail_bond_list.get_children():
+		child.queue_free()
+	var rows := _bond_registry.top_bonds_for_unit(unit.unit_id, 3) if _bond_registry != null else []
+	if rows.is_empty():
+		var empty_label := Label.new()
+		empty_label.text = _tr("management.bonds_empty")
+		SRPGTheme.apply_label_scaled(empty_label, _ui_scale, SRPGTheme.PAPER_MUTED, 13)
+		_detail_bond_list.add_child(empty_label)
+		return
+	for pair in rows:
+		var partner_id := String(pair.get("unit_b", "")) if String(pair.get("unit_a", "")) == String(unit.unit_id) else String(pair.get("unit_a", ""))
+		var lbl := Label.new()
+		lbl.text = _tr("management.bond_row") % [
+			_display_text(partner_id),
+			_display_text(String(pair.get("rank", "None"))),
+			_display_text(String(pair.get("bond_type", "comrade"))),
+			int(pair.get("affinity", 0)),
+		]
+		SRPGTheme.apply_label_scaled(lbl, _ui_scale, SRPGTheme.PAPER, 13)
+		_detail_bond_list.add_child(lbl)
 
 func _refresh_equipment_actions(unit: Unit) -> void:
 	if unit == null or unit.equipment_component == null:
@@ -541,10 +584,21 @@ func _create_equipped_slot_row(unit: Unit, slot: int) -> HBoxContainer:
 
 	var item := unit.equipment_component.get_equipped_item(slot)
 	var item_lbl := Label.new()
-	item_lbl.text = _format_equipment_name(item) if item != null else _tr("common.empty_slot")
+	item_lbl.text = _format_equipped_slot_text(unit, item)
 	item_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	item_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	SRPGTheme.apply_label_scaled(item_lbl, _ui_scale, SRPGTheme.PAPER, 13)
 	row.add_child(item_lbl)
+
+	var enhance_btn := Button.new()
+	enhance_btn.text = _tr("management.enhance")
+	enhance_btn.disabled = item == null or _is_enhance_disabled(unit, item)
+	enhance_btn.focus_mode = Control.FOCUS_ALL
+	enhance_btn.custom_minimum_size = _scaled_vec2(72.0, 28.0)
+	if item != null:
+		enhance_btn.pressed.connect(_on_enhance_item_pressed.bind(unit.unit_id, item.item_id, slot))
+	SRPGTheme.apply_button_scaled(enhance_btn, _ui_scale, false, false, true)
+	row.add_child(enhance_btn)
 
 	var off_btn := Button.new()
 	off_btn.text = _tr("management.unequip")
@@ -593,6 +647,31 @@ func _format_equipment_name(item: EquipmentItem) -> String:
 	if item.name != "":
 		return _display_text(item.name)
 	return _display_text(String(item.item_id))
+
+func _format_equipped_slot_text(unit: Unit, item: EquipmentItem) -> String:
+	if item == null:
+		return _tr("common.empty_slot")
+	var base := _format_equipment_name(item)
+	if item.enhancement_level > 0:
+		base += " +%d" % item.enhancement_level
+	var cost := unit.equipment_component.get_enhancement_cost(item.item_id, Inventory)
+	if item.enhancement_level >= 5:
+		return "%s | %s" % [base, _tr("management.enhance_risk_locked")]
+	if cost.is_empty():
+		return base
+	var shortage := unit.equipment_component.get_enhancement_shortage(item.item_id, Inventory)
+	if shortage.is_empty():
+		return "%s | %s" % [base, _tr("management.enhance_cost") % [int(cost.get("gold", 0)), int(cost.get("materials", 0))]]
+	return "%s | %s" % [base, _tr("management.enhance_shortage") % [int(shortage.get("gold", 0)), int(shortage.get("materials", 0))]]
+
+func _is_enhance_disabled(unit: Unit, item: EquipmentItem) -> bool:
+	if unit == null or item == null:
+		return true
+	if item.enhancement_level >= 5:
+		return true
+	if item.enhancement_level >= item.get_enhancement_cap():
+		return true
+	return not unit.equipment_component.get_enhancement_shortage(item.item_id, Inventory).is_empty()
 
 func _get_skill_display_name(skill: SkillData) -> String:
 	if skill == null:
@@ -667,6 +746,38 @@ func _on_equip_item_pressed(unit_id: StringName, item_id: StringName) -> void:
 	var old_item_id := StringName(result.get("replaced_item_id", ""))
 	equipment_changed.emit(unit, item.slot, old_item_id, item_id)
 	_refresh_detail()
+
+func _on_enhance_item_pressed(unit_id: StringName, item_id: StringName, slot: int) -> void:
+	if _roster == null:
+		return
+	var unit: Unit = _roster.get_character(unit_id)
+	if unit == null or unit.equipment_component == null:
+		return
+	var item: EquipmentItem = unit.equipment_component.get_item(item_id)
+	if item == null:
+		return
+	if item.enhancement_level >= 5:
+		_set_hint_text(_tr("management.enhance_risk_locked"))
+		return
+	var shortage := unit.equipment_component.get_enhancement_shortage(item_id, Inventory)
+	if not shortage.is_empty():
+		_set_hint_text(_tr("management.enhance_shortage") % [int(shortage.get("gold", 0)), int(shortage.get("materials", 0))])
+		return
+	var result: Dictionary = unit.equipment_component.attempt_enhancement(item_id, Inventory, false, 20260427)
+	if bool(result.get("success", false)):
+		_set_hint_text(_tr("management.enhance_success") % int(result.get("new_level", item.enhancement_level)))
+		equipment_changed.emit(unit, slot, item_id, item_id)
+	else:
+		_set_hint_text(_tr("management.enhance_failed") % _display_text(String(result.get("reason", result.get("result", "failed")))))
+	_refresh_detail()
+
+func _set_hint_text(text: String) -> void:
+	if _hint_bar == null:
+		return
+	for child in _hint_bar.get_children():
+		if child is Label:
+			(child as Label).text = text
+			return
 
 ## Close button handler.
 func _on_close_pressed() -> void:

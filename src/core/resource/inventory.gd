@@ -59,6 +59,23 @@ func remove_resource(resource_type: int, amount: int) -> bool:
 func has_resource(resource_type: int, amount: int) -> bool:
 	return get_amount(resource_type) >= amount
 
+## Preview the resource cost for an enhancement attempt at current_level.
+func peek_cost(current_level: int, base_cost: int = 100) -> Dictionary:
+	return ResourceFormulas.calculate_enhancement_cost(base_cost, current_level)
+
+func can_pay_cost(cost: Dictionary) -> bool:
+	return get_cost_shortage(cost).is_empty()
+
+func get_cost_shortage(cost: Dictionary) -> Dictionary:
+	var shortage := {}
+	var required_gold := int(cost.get("gold", 0))
+	var required_materials := int(cost.get("materials", 0))
+	if required_gold > get_amount(ResourceTypes.ResourceId.GOLD):
+		shortage["gold"] = required_gold - get_amount(ResourceTypes.ResourceId.GOLD)
+	if required_materials > get_amount(ResourceTypes.ResourceId.BASIC_MATERIAL):
+		shortage["materials"] = required_materials - get_amount(ResourceTypes.ResourceId.BASIC_MATERIAL)
+	return shortage
+
 ## Serialize inventory data
 func serialize() -> Dictionary:
 	return _resources.duplicate()

@@ -1,5 +1,6 @@
 tests/integration/ai/ai_integration_test.gd
 tests/integration/attributes/save_load_integration_test.gd
+tests/integration/bond/affinity_event_hooks_test.gd
 tests/integration/camera/battle_camera_map_test.gd
 tests/integration/camera/save_load_integration_test.gd
 tests/integration/class/save_load_integration_test.gd
@@ -29,6 +30,8 @@ tests/unit/attributes/data_model_init_test.gd
 tests/unit/attributes/fruit_system_test.gd
 tests/unit/attributes/growth_formula_test.gd
 tests/unit/attributes/threshold_rewards_test.gd
+tests/unit/base/action_points_test.gd
+tests/unit/bond/bond_data_model_test.gd
 tests/unit/class/class_change_test.gd
 tests/unit/class/experience_level_test.gd
 tests/unit/class/stat_bonuses_test.gd

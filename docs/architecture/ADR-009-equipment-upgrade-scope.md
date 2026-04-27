@@ -1,6 +1,6 @@
 # ADR-009: Equipment Upgrade Scope
 
-> **Status**: Draft
+> **Status**: Accepted
 > **Date**: 2026-04-27
 > **Author**: technical-planner
 > **Systems Affected**: Equipment System, Resource Economy, Character Management, Base
@@ -53,3 +53,29 @@ Affix rerolling, decomposition UI, set crafting, and sockets remain outside the 
 - Unit tests for enhancement cost and result remain green.
 - UI test equips or enhances a deterministic item.
 - Save/load integration confirms enhancement level persists.
+
+---
+
+## ADR Dependencies
+
+- **ADR-008** (Resource Economy Upgrade Scope): 强化消耗的资源数量与失败补偿来源
+- **ADR-003** (Save System): 强化等级 / 词缀状态持久化
+- **ADR-001** (Event Architecture): `equipment_enhanced(item_id, level, success)` 信号
+
+---
+
+## Engine Compatibility
+
+| Engine | Godot 4.6.2 |
+|--------|-------------|
+| `Resource` 子类 EquipmentItem | ✓ |
+| `Control` + `GridContainer` 强化 UI | ✓ |
+| Save/load 保留枚举状态（按 ADR-003 schema 推荐做 round-trip 校验） | ✓ |
+
+---
+
+## GDD Requirements Addressed
+
+- `design/gdd/equipment-system.md` — TR-equip-003（强化安全/风险区）
+- `design/gdd/equipment-system.md` — TR-equip-006（最终属性合成纳入强化结果）
+- `design/gdd/equipment-system.md` — TR-equip-007（强化等级 round-trip）

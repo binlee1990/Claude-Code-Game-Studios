@@ -19,8 +19,8 @@
 #
 # STATUS VALUES: active | deprecated | superseded-by: TR-[system]-NNN
 
-version: 2
-last_updated: "2026-04-26"
+version: 3
+last_updated: "2026-04-27"
 
 requirements:
 
@@ -165,9 +165,9 @@ requirements:
     gdd: design/gdd/resource-economy.md
     requirement: "Dual-layer resource taxonomy: 4 common types + 5 rare types + 9 fruit subtypes with data model and inventory"
     epic: production/epics/resource-economy/story-001-data-model-inventory.md
-    adr: ADR-001, ADR-003
+    adr: ADR-001, ADR-003, ADR-008
     created: "2026-04-26"
-    revised: ""
+    revised: "2026-04-27"
     status: active
 
   - id: TR-resource-002
@@ -175,9 +175,9 @@ requirements:
     gdd: design/gdd/resource-economy.md
     requirement: "Gold and material acquisition formulas from combat rewards"
     epic: production/epics/resource-economy/story-002-gold-material-acquisition.md
-    adr: ADR-001
+    adr: ADR-001, ADR-008
     created: "2026-04-26"
-    revised: ""
+    revised: "2026-04-27"
     status: active
 
   - id: TR-resource-003
@@ -185,9 +185,9 @@ requirements:
     gdd: design/gdd/resource-economy.md
     requirement: "Rare drops: fruit drop probability, protection symbol acquisition"
     epic: production/epics/resource-economy/story-003-rare-drops.md
-    adr: ADR-001
+    adr: ADR-001, ADR-008
     created: "2026-04-26"
-    revised: ""
+    revised: "2026-04-27"
     status: active
 
   - id: TR-resource-004
@@ -195,9 +195,9 @@ requirements:
     gdd: design/gdd/resource-economy.md
     requirement: "Consumption costs: enhancement, fruit usage, barrier breakthrough resource deductions"
     epic: production/epics/resource-economy/story-004-consumption-costs.md
-    adr: ADR-001
+    adr: ADR-001, ADR-008
     created: "2026-04-26"
-    revised: ""
+    revised: "2026-04-27"
     status: active
 
   - id: TR-resource-005
@@ -205,9 +205,9 @@ requirements:
     gdd: design/gdd/resource-economy.md
     requirement: "Enhancement system: safe zone +1~+5, risk zone +6+ with failure/downgrade and protection"
     epic: production/epics/resource-economy/story-005-enhancement-system.md
-    adr: ADR-001
+    adr: ADR-001, ADR-008, ADR-009
     created: "2026-04-26"
-    revised: ""
+    revised: "2026-04-27"
     status: active
 
   - id: TR-resource-006
@@ -215,9 +215,9 @@ requirements:
     gdd: design/gdd/resource-economy.md
     requirement: "Resource state round-trip through save/load with stack limits"
     epic: production/epics/resource-economy/story-006-save-load-integration.md
-    adr: ADR-001, ADR-003
+    adr: ADR-001, ADR-003, ADR-008
     created: "2026-04-26"
-    revised: ""
+    revised: "2026-04-27"
     status: active
 
   # ── tactical-mechanism (Epic: Complete, 5 stories) ───────────────────
@@ -505,9 +505,9 @@ requirements:
     gdd: design/gdd/equipment-system.md
     requirement: "Enhancement: safe zone +1~+5 guaranteed, risk zone +6+ with failure chance and downgrade"
     epic: production/epics/equipment-system/story-003-enhancement-system.md
-    adr: ADR-001
+    adr: ADR-001, ADR-009
     created: "2026-04-26"
-    revised: ""
+    revised: "2026-04-27"
     status: active
 
   - id: TR-equip-004
@@ -535,9 +535,9 @@ requirements:
     gdd: design/gdd/equipment-system.md
     requirement: "Final attribute calculation: base + growth + class bonus + equipment stats + set bonus"
     epic: production/epics/equipment-system/story-006-final-attribute-calculation.md
-    adr: ADR-001, ADR-006
+    adr: ADR-001, ADR-006, ADR-009
     created: "2026-04-26"
-    revised: ""
+    revised: "2026-04-27"
     status: active
 
   - id: TR-equip-007
@@ -545,9 +545,9 @@ requirements:
     gdd: design/gdd/equipment-system.md
     requirement: "Equipment state round-trip through save/load (inventory, loadout, enhancement level)"
     epic: production/epics/equipment-system/story-007-save-load-integration.md
-    adr: ADR-001, ADR-003
+    adr: ADR-001, ADR-003, ADR-009
     created: "2026-04-26"
-    revised: ""
+    revised: "2026-04-27"
     status: active
 
   # ── battle-settlement (Epic: Complete, 5 stories) ────────────────────
@@ -695,5 +695,113 @@ requirements:
     epic: production/epics/ui-system/story-003-save-load-integration.md
     adr: ADR-001, ADR-003
     created: "2026-04-26"
+    revised: ""
+    status: active
+
+  # ── bond-system (Sprint-006 MVP stories) ─────────────────────────────
+
+  - id: TR-bond-001
+    system: bond
+    gdd: design/gdd/bond-system.md
+    requirement: "Bond pair data model persists affinity, support rank, and bond type through SaveData"
+    epic: production/epics/bond-system/story-001-data-model-save.md
+    adr: ADR-001, ADR-003
+    created: "2026-04-27"
+    revised: ""
+    status: active
+
+  - id: TR-bond-002
+    system: bond
+    gdd: design/gdd/bond-system.md
+    requirement: "At least one deterministic event hook can add affinity and emit threshold-crossing bond events"
+    epic: production/epics/bond-system/story-002-affinity-event-hooks.md
+    adr: ADR-001, ADR-003, ADR-004
+    created: "2026-04-27"
+    revised: ""
+    status: active
+
+  - id: TR-bond-003
+    system: bond
+    gdd: design/gdd/bond-system.md
+    requirement: "Base tavern can trigger available support conversations and record completion"
+    epic: production/epics/bond-system/story-003-base-tavern-dialogue.md
+    adr: ADR-001, ADR-003
+    created: "2026-04-27"
+    revised: ""
+    status: active
+
+  - id: TR-bond-004
+    system: bond
+    gdd: design/gdd/bond-system.md
+    requirement: "Character management displays a compact read-only Bond summary for selected units"
+    epic: production/epics/bond-system/story-004-character-summary.md
+    adr: ADR-001, ADR-002
+    created: "2026-04-27"
+    revised: ""
+    status: active
+
+  # ── equipment-system Sprint-006 extension stories ───────────────────
+
+  - id: TR-equip-008
+    system: equipment
+    gdd: design/gdd/equipment-system.md
+    requirement: "Equipment enhancement UI exposes equipped-item +1 to +5 safe-zone enhancement without opening full forge scope"
+    epic: production/epics/equipment-system/story-008-enhancement-ui-mvp.md
+    adr: ADR-001, ADR-002, ADR-003, ADR-008, ADR-009
+    created: "2026-04-27"
+    revised: ""
+    status: active
+
+  - id: TR-equip-009
+    system: equipment
+    gdd: design/gdd/equipment-system.md
+    requirement: "Enhancement costs and shortage/failure feedback use resource economy ownership rather than UI literals"
+    epic: production/epics/equipment-system/story-009-enhancement-cost-source.md
+    adr: ADR-001, ADR-008, ADR-009
+    created: "2026-04-27"
+    revised: ""
+    status: active
+
+  - id: TR-equip-010
+    system: equipment
+    gdd: design/gdd/equipment-system.md
+    requirement: "Enhancement feedback and +5 equipped-item round-trip persistence are verified through UI/save integration"
+    epic: production/epics/equipment-system/story-010-enhancement-round-trip.md
+    adr: ADR-001, ADR-002, ADR-003, ADR-009
+    created: "2026-04-27"
+    revised: ""
+    status: active
+
+  # ── base-system Sprint-006 phase 1 stories ──────────────────────────
+
+  - id: TR-base-001
+    system: base
+    gdd: design/gdd/base-system.md
+    requirement: "Base action points reset per chapter, gate training, remain market-free, and persist through save/load"
+    epic: production/epics/base-system/story-001-action-points-save.md
+    adr: ADR-001, ADR-003, ADR-008
+    created: "2026-04-27"
+    revised: ""
+    status: active
+
+  - id: TR-base-002
+    system: base
+    gdd: design/gdd/base-system.md
+    requirement: "Intel Room provides read-only current chapter briefing and next battle preview without consuming action points"
+    epic: production/epics/base-system/story-002-intel-room-readonly.md
+    adr: ADR-001, ADR-002, ADR-008
+    created: "2026-04-27"
+    revised: ""
+    status: active
+
+  # ── resource-economy Sprint-006 config extension ────────────────────
+
+  - id: TR-resource-007
+    system: resource
+    gdd: design/gdd/base-system.md
+    requirement: "Base upgrade cost data table owns Lv1 to Lv5 upgrade costs for future Base Upgrade UI"
+    epic: production/epics/resource-economy/story-007-base-upgrade-cost-config.md
+    adr: ADR-003, ADR-008
+    created: "2026-04-27"
     revised: ""
     status: active

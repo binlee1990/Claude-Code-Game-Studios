@@ -19,6 +19,7 @@ signal skill_cooldown_ready(user: Node, skill_id: String)            ## Skill of
 signal skill_learned(unit: Node, skill_id: String)                   ## Skill learned or unlocked
 signal item_equipped(unit: Node, slot: int, item_id: String)         ## Equipment slot now points at item_id
 signal item_unequipped(unit: Node, slot: int, item_id: String)       ## Equipment item removed from slot
+signal equipment_enhanced(item_id: String, level: int, success: bool) ## Enhancement attempt resolved for an item
 signal party_composition_changed(old_party: Array, new_party: Array) ## Deployment order changed outside battle
 signal character_departed(unit_id: String, departure_type: String, reason: String) ## Character left active roster
 signal character_recalled(unit_id: String)                            ## Character returned to active roster
@@ -36,6 +37,7 @@ signal speed_tier_changed(old_tier: int, new_tier: int)  ## Combat speed tier (S
 signal npc_departed(unit_id: String, battle_id: String)  ## NPC left battle (e.g. Wang Xiu K.O.)
 signal settlement_triggered(result: SettlementResult)  ## Battle settlement was triggered (Story BS-001)
 signal belief_changed(belief: int, delta: int, applied: int, new_value: int)  ## Belief value changed (ren/yi/zhi)
+signal bond_level_up(pair_key: String, old_rank: String, new_rank: String, affinity: int) ## Bond pair crossed a support threshold
 
 
 func _init() -> void:

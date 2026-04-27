@@ -6,6 +6,7 @@ const InkBackdrop := preload("res://src/ui/theme/ink_backdrop.gd")
 const SRPGLocalizationScript := preload("res://src/core/localization/srpg_localization.gd")
 const HintBarScript := preload("res://src/ui/common/hint_bar.gd")
 const BATTLE_SCENE_PATH := "res://src/ui/combat/battle_arena.tscn"
+const BASE_SCENE_PATH := "res://src/ui/base/base_hub.tscn"
 
 @onready var start_button: Button = $VBox/StartButton
 @onready var continue_button: Button = $VBox/ContinueButton
@@ -354,10 +355,24 @@ func _execute_packaged_playthrough_smoke() -> Dictionary:
 	add_child(battle)
 	if battle.get_battle_id() != "chapter_01_tutorial":
 		return {"success": false, "reason": "wrong_start_battle", "battle": battle.get_battle_id()}
-	if not _smoke_clear_and_advance(battle, "chapter_01_crossroads"):
-		return {"success": false, "reason": "failed_to_reach_crossroads", "battle": battle.get_battle_id()}
+	_smoke_defeat_current_enemies(battle)
+	if not _smoke_has_bond_growth(battle):
+		return {"success": false, "reason": "bond_growth_missing", "story": battle.get_story_progress()}
+	if not SaveManager.save_game(6):
+		return {"success": false, "reason": "pre_base_save_failed"}
+	battle.queue_free()
+	battle = null
+	var base_result := _smoke_run_base_enhancement()
+	if not bool(base_result.get("success", false)):
+		return base_result
+	if not SaveManager.load_game(6):
+		return {"success": false, "reason": "post_base_load_failed"}
+	battle = scene.instantiate()
+	add_child(battle)
+	if battle.get_battle_id() != "chapter_01_crossroads":
+		return {"success": false, "reason": "failed_to_reach_crossroads_from_base", "battle": battle.get_battle_id()}
 	if not _smoke_clear_and_advance(battle, "chapter_01_finale"):
-		return {"success": false, "reason": "failed_to_reach_finale", "battle": battle.get_battle_id()}
+		return {"success": false, "reason": "failed_to_reach_crossroads", "battle": battle.get_battle_id()}
 	battle.open_management_screen("equipment")
 	var management_state: Dictionary = battle.get_management_screen_state()
 	if not bool(management_state.get("visible", false)):
@@ -378,6 +393,8 @@ func _execute_packaged_playthrough_smoke() -> Dictionary:
 		"battle": restored.get_battle_id(),
 		"management_tab": restored.get_management_screen_state().get("tab", ""),
 		"camp_report_present": String(restored.get_campaign_state().get("camp_report", "")) != "",
+		"bond_growth_present": _smoke_has_bond_growth(restored),
+		"base_enhanced_level": int(base_result.get("enhancement_level", 0)),
 	}
 	restored.queue_free()
 	var save_path := "user://saves/save_6.tres"
@@ -400,3 +417,77 @@ func _smoke_defeat_current_enemies(battle) -> void:
 	for enemy in enemies:
 		battle._combat.apply_damage(enemy, 999, actor)
 	battle._check_battle_end()
+
+func _smoke_has_bond_growth(battle) -> bool:
+	if battle == null:
+		return false
+	var progress: Dictionary = battle.get_story_progress()
+	var bond_levels: Dictionary = progress.get("bond_levels", {})
+	if bond_levels.is_empty():
+		return false
+	for pair_key in bond_levels:
+		var pair: Dictionary = bond_levels[pair_key]
+		if int(pair.get("affinity", 0)) > 0:
+			return true
+	return false
+
+func _smoke_run_base_enhancement() -> Dictionary:
+	var base_scene: PackedScene = load(BASE_SCENE_PATH)
+	if base_scene == null:
+		return {"success": false, "reason": "missing_base_scene"}
+	var base = base_scene.instantiate()
+	add_child(base)
+	Inventory.add_resource(ResourceTypes.ResourceId.GOLD, 5000)
+	Inventory.add_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, 500)
+	var character_screen = base._character_screen
+	if character_screen == null:
+		base.queue_free()
+		return {"success": false, "reason": "base_character_screen_missing"}
+	var roster: CharacterRoster = base._roster
+	if roster == null or roster.get_party().is_empty():
+		base.queue_free()
+		return {"success": false, "reason": "base_roster_missing"}
+	var unit: Unit = roster.get_character(StringName(roster.get_party()[0]))
+	var item := _smoke_first_equipped_item(unit)
+	if unit == null or item == null:
+		base.queue_free()
+		return {"success": false, "reason": "base_equipped_item_missing"}
+	for _i in range(5):
+		character_screen.call("_on_roster_item_selected", unit.unit_id)
+		var enhance_btn := _smoke_find_enhance_button(character_screen)
+		if enhance_btn == null or enhance_btn.disabled:
+			base.queue_free()
+			return {
+				"success": false,
+				"reason": "base_enhance_button_unavailable",
+				"level": item.enhancement_level,
+			}
+		enhance_btn.pressed.emit()
+	item = _smoke_first_equipped_item(unit)
+	if item == null or item.enhancement_level != 5:
+		base.queue_free()
+		return {"success": false, "reason": "base_enhance_not_plus_five", "level": item.enhancement_level if item != null else -1}
+	base._advance_after_base_requested = true
+	if not SaveManager.save_game(6):
+		base.queue_free()
+		return {"success": false, "reason": "base_save_failed"}
+	base.queue_free()
+	return {"success": true, "enhancement_level": item.enhancement_level}
+
+func _smoke_first_equipped_item(unit: Unit) -> EquipmentItem:
+	if unit == null or unit.equipment_component == null:
+		return null
+	for slot in unit.equipment_component.get_loadout():
+		var item: EquipmentItem = unit.equipment_component.get_equipped_item(slot)
+		if item != null:
+			return item
+	return null
+
+func _smoke_find_enhance_button(node: Node) -> Button:
+	if node is Button and (node as Button).text == _tr("management.enhance"):
+		return node as Button
+	for child in node.get_children():
+		var found := _smoke_find_enhance_button(child)
+		if found != null:
+			return found
+	return null

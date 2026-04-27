@@ -8,10 +8,12 @@ const SRPGTheme := preload("res://src/ui/theme/srpg_theme.gd")
 const InkBackdrop := preload("res://src/ui/theme/ink_backdrop.gd")
 const HintBarScript := preload("res://src/ui/common/hint_bar.gd")
 const SRPGLocalizationScript := preload("res://src/core/localization/srpg_localization.gd")
+const ActionPoints := preload("res://src/core/base/action_points.gd")
 
 const TAB_TRAINING: int = 0
 const TAB_MARKET: int = 1
-const TAB_MANAGEMENT: int = 2
+const TAB_INTEL: int = 2
+const TAB_MANAGEMENT: int = 3
 const DESIGN_VIEWPORT_SIZE := Vector2(1280.0, 720.0)
 const MIN_UI_SCALE: float = 1.0
 const MAX_UI_SCALE: float = 1.3
@@ -36,6 +38,7 @@ var _gold: int = 0
 var _materials: int = 0
 var _action_points: int = 5
 var _max_action_points: int = 5
+var _action_point_model: ActionPoints = ActionPoints.new()
 
 # Market state
 var _market_item_list: VBoxContainer = null
@@ -64,6 +67,7 @@ func _ready() -> void:
 	add_to_group("save_state_provider")
 	_ui_scale = _calculate_ui_scale()
 	_load_inventory_from_save()
+	_load_action_points_from_save()
 	_build_visuals()
 	_setup_hint_bar()
 	_update_resource_display()
@@ -168,6 +172,11 @@ func _build_visuals() -> void:
 	_tab_container.set_tab_title(TAB_MARKET, _tr("base.tab.market"))
 
 	# Tab 3: 管理
+	var intel_panel := _create_intel_tab()
+	_tab_container.add_child(intel_panel)
+	_tab_container.set_tab_title(TAB_INTEL, _tr("base.tab.intel"))
+
+	# Tab 4: 管理
 	var management_panel := _create_management_tab()
 	_tab_container.add_child(management_panel)
 	_tab_container.set_tab_title(TAB_MANAGEMENT, _tr("base.tab.management"))
@@ -237,6 +246,7 @@ func _create_info_panel() -> Panel:
 	vbox.add_child(ap_title)
 
 	var ap_row := _create_info_row(_tr("base.remaining"), "%d / %d" % [_action_points, _max_action_points], SRPGTheme.CYAN)
+	ap_row.name = "ActionPointRow"
 	vbox.add_child(ap_row)
 
 	var campaign_sep := HSeparator.new()
@@ -314,10 +324,74 @@ func _create_training_tab() -> Panel:
 	_training_ground.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	if _training_ground.has_method("initialize"):
 		_training_ground.initialize(_roster)
+	if _training_ground.has_method("set_action_points"):
+		_training_ground.set_action_points(_action_point_model)
 	_training_ground.closed.connect(_on_training_closed)
 	if _training_ground.has_signal("training_changed"):
 		_training_ground.training_changed.connect(_on_training_changed)
 	panel.add_child(_training_ground)
+
+	return panel
+
+func _create_intel_tab() -> Panel:
+	var panel := Panel.new()
+	panel.name = "IntelTab"
+	panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+	panel.offset_left = _scaled(8.0)
+	panel.offset_top = _scaled(8.0)
+	panel.offset_right = -_scaled(8.0)
+	panel.offset_bottom = -_scaled(8.0)
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+
+	var content_panel := Panel.new()
+	content_panel.name = "IntelPanel"
+	content_panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+	content_panel.offset_left = _scaled(12.0)
+	content_panel.offset_top = _scaled(12.0)
+	content_panel.offset_right = -_scaled(12.0)
+	content_panel.offset_bottom = -_scaled(12.0)
+	SRPGTheme.apply_panel(content_panel, SRPGTheme.INK_PANEL, SRPGTheme.JADE)
+	panel.add_child(content_panel)
+
+	var vbox := VBoxContainer.new()
+	vbox.set_anchors_preset(Control.PRESET_FULL_RECT)
+	vbox.offset_left = _scaled(16.0)
+	vbox.offset_top = _scaled(16.0)
+	vbox.offset_right = -_scaled(16.0)
+	vbox.offset_bottom = -_scaled(16.0)
+	vbox.add_theme_constant_override("separation", int(_scaled(12.0)))
+	content_panel.add_child(vbox)
+
+	var title := Label.new()
+	title.name = "IntelTitleLabel"
+	title.text = _tr("base.intel.title")
+	SRPGTheme.apply_label_scaled(title, _ui_scale, SRPGTheme.GOLD, 20, true)
+	vbox.add_child(title)
+
+	var briefing := Label.new()
+	briefing.name = "IntelBriefingLabel"
+	briefing.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	briefing.text = _format_intel_briefing()
+	SRPGTheme.apply_label_scaled(briefing, _ui_scale, SRPGTheme.PAPER, 15)
+	vbox.add_child(briefing)
+
+	var next := Label.new()
+	next.name = "IntelNextLabel"
+	next.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	next.text = _format_intel_next_preview()
+	SRPGTheme.apply_label_scaled(next, _ui_scale, SRPGTheme.PAPER_MUTED, 14)
+	vbox.add_child(next)
+
+	var spacer := Control.new()
+	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	vbox.add_child(spacer)
+
+	var ap_note := Label.new()
+	ap_note.name = "IntelApLabel"
+	ap_note.text = _tr("base.intel.no_ap")
+	SRPGTheme.apply_label_scaled(ap_note, _ui_scale, SRPGTheme.JADE, 13)
+	vbox.add_child(ap_note)
 
 	return panel
 
@@ -553,6 +627,9 @@ func _create_management_tab() -> Panel:
 	_character_screen.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	panel.add_child(_character_screen)
 	_character_screen.initialize(_roster)
+	if _character_screen.has_method("set_story_progress"):
+		var save_data := _get_current_save()
+		_character_screen.set_story_progress(save_data.story_progress if save_data != null else {})
 	_character_screen.party_changed.connect(_on_management_party_changed)
 	if _character_screen.has_signal("equipment_changed"):
 		_character_screen.equipment_changed.connect(_on_management_equipment_changed)
@@ -593,6 +670,27 @@ func _load_roster_from_save() -> void:
 	_roster = CharacterRoster.new()
 	add_child(_roster)
 	_roster.load_data({"characters": save_data.party_units})
+
+func _load_action_points_from_save() -> void:
+	var save_data: SaveData = SaveManager.peek_save(_get_save_slot())
+	if save_data == null:
+		_action_point_model.reset_for_chapter(1)
+		_sync_action_point_fields()
+		return
+	var story: Dictionary = save_data.story_progress
+	var chapter_id := int(story.get("chapter", 1))
+	var payload: Dictionary = story.get("base_action_points", {})
+	if payload.is_empty():
+		_action_point_model.reset_for_chapter(chapter_id)
+	else:
+		_action_point_model.deserialize(payload)
+		_action_point_model.ensure_chapter(chapter_id)
+	_sync_action_point_fields()
+
+func _sync_action_point_fields() -> void:
+	_action_points = _action_point_model.current_points
+	_max_action_points = _action_point_model.max_points
+	_set_info_row_value("ActionPointRow", "%d / %d" % [_action_points, _max_action_points])
 
 func _get_save_slot() -> int:
 	var current_slot := SaveManager.get_current_slot()
@@ -654,6 +752,30 @@ func _load_definition_preview(path: String) -> Dictionary:
 	if typeof(parsed) != TYPE_DICTIONARY:
 		return {}
 	return parsed
+
+func _format_intel_briefing() -> String:
+	var save_data := _get_current_save()
+	if save_data == null:
+		return _tr("base.no_campaign_resume")
+	var path := String(save_data.battle_state.get("battle_definition_path", ""))
+	var definition := _load_definition_preview(path)
+	var title := _display_text(String(definition.get("chapter_title", save_data.story_progress.get("current_battle", ""))))
+	var briefing := _display_text(String(definition.get("briefing", "No briefing available.")))
+	var objective := _display_text(String(definition.get("objective", "")))
+	return _tr("base.intel.briefing") % [title, briefing, objective]
+
+func _format_intel_next_preview() -> String:
+	var save_data := _get_current_save()
+	if save_data == null:
+		return _tr("base.intel.no_next")
+	var next_path := _get_next_battle_path_for_save(save_data)
+	if next_path == "":
+		return _tr("base.intel.no_next")
+	var definition := _load_definition_preview(next_path)
+	var title := _display_text(String(definition.get("chapter_title", next_path.get_file().trim_suffix(".json").capitalize())))
+	var objective := _display_text(String(definition.get("objective", "")))
+	var briefing := _display_text(String(definition.get("briefing", "No briefing available.")))
+	return _tr("base.intel.next") % [title, objective, briefing]
 
 func _should_advance_saved_battle_after_base(save_data: SaveData = null) -> bool:
 	if save_data == null:
@@ -842,6 +964,7 @@ func _update_resource_display() -> void:
 	_materials = Inventory.get_amount(ResourceTypes.ResourceId.BASIC_MATERIAL)
 	_set_info_row_value("GoldRow", "%d" % _gold)
 	_set_info_row_value("MaterialRow", "%d" % _materials)
+	_sync_action_point_fields()
 	_refresh_market_inventory()
 
 func _set_info_row_value(row_name: String, text: String) -> void:
@@ -905,6 +1028,7 @@ func _on_management_equipment_changed(_unit: Unit, _slot: int, _old_item_id: Str
 	SaveManager.save_game(_get_save_slot())
 
 func _on_training_changed(_unit_id: StringName, _skill_id: StringName, _result: Dictionary) -> void:
+	_sync_action_point_fields()
 	SaveManager.save_game(_get_save_slot())
 
 func _capture_inventory_items() -> Array:
@@ -924,6 +1048,7 @@ func capture_runtime_state() -> Dictionary:
 		"party_units": [],
 		"inventory_items": _capture_inventory_items(),
 		"inventory_state": Inventory.serialize(),
+		"story_progress": _capture_story_progress(),
 		"settings": {
 			"locale": SRPGLocalizationScript.get_locale(),
 		},
@@ -932,6 +1057,15 @@ func capture_runtime_state() -> Dictionary:
 	if _roster != null:
 		result["party_units"] = _roster.get_data().get("characters", [])
 	return result
+
+func _capture_story_progress() -> Dictionary:
+	var data: Dictionary = {}
+	var save_data := _get_current_save()
+	if save_data != null:
+		data = save_data.story_progress.duplicate(true)
+	_action_point_model.ensure_chapter(int(data.get("chapter", _action_point_model.chapter_id)))
+	data["base_action_points"] = _action_point_model.serialize()
+	return data
 
 func _capture_base_ui_preferences() -> Dictionary:
 	var data: Dictionary = {}

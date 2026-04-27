@@ -3,9 +3,35 @@
 **Last Updated**: 2026-04-27
 
 ## Current Task
-**Sprint-005 COMPLETE** — 本地化 + Credits 合规 + Ch.3/Bond/Base/Fog readiness
+**Sprint-006 COMPLETE** — Bond MVP + Equipment Enhancement + Base Phase 1
 
-Active stage: Production. Sprint-005 COMPLETE（14 个非人工任务全 DONE）。人工 playtest、截图、人工 sign-off 继续不作为 Sprint-005 完成门槛。
+Active stage: Production. Sprint-006 COMPLETE（Must / Should / Nice 全部 DONE）。人工 playtest、截图、public release sign-off 仍由 `production/sprints/sprint-人工.md` 管理，不作为 Sprint-006 自动化完成门槛。
+
+## Sprint-006 最终状态
+
+| 类别 | 数量 | 状态 |
+|------|------|------|
+| Must Have | 5 | ✅ 全 DONE |
+| Should Have | 4 | ✅ 全 DONE |
+| Nice to Have | 3 | ✅ 全 DONE |
+| godot --check-only | - | ✅ 退出码 0 |
+| GUT test runner | - | ✅ 退出码 0 |
+| Windows export | - | ✅ 退出码 0 |
+| Packaged smoke | - | ✅ PASS，含 Bond/Base/装备强化 +5 |
+
+### Sprint-006 交付物
+
+| Area | 新建/修改文件 |
+|------|--------------|
+| Bond MVP | `src/core/bond/bond_registry.gd`, `src/core/autoload/game_events.gd`, `src/ui/combat/battle_arena.gd`, `src/ui/management/character_management.gd` |
+| Equipment enhancement | `src/core/resource/inventory.gd`, `src/core/equipment/equipment_component.gd`, `src/ui/management/character_management.gd`, `src/ui/menu/main_menu.gd` |
+| Base Phase 1 | `src/core/base/action_points.gd`, `src/ui/base/base_hub.gd`, `src/ui/base/training_ground.gd` |
+| Data / Design | `assets/data/economy/base-upgrade-costs.json`, `design/gdd/chapter-03.md` |
+| Tests | `tests/unit/bond/bond_data_model_test.gd`, `tests/integration/bond/affinity_event_hooks_test.gd`, `tests/unit/base/action_points_test.gd`, extended equipment/base/character UI tests |
+
+### Sprint-006 验证
+
+`PACKAGED_PLAYTHROUGH_SMOKE PASS {"base_enhanced_level":5,"battle":"chapter_01_finale","bond_growth_present":true,"camp_report_present":true,"management_tab":"equipment","success":true}`
 
 ## Sprint-005 最终状态
 
@@ -41,7 +67,7 @@ Active stage: Production. Sprint-005 COMPLETE（14 个非人工任务全 DONE）
 |---|---|---|
 | Ch.2 human playtest | backlog | 仍需人工验证培养闭环体验，但不阻塞非人工完成 |
 | Sprint-004 screenshots/sign-off | backlog | 仍为人工视觉证据，不阻塞 Sprint-005 |
-| ADR-008/009 | Draft | 下一步实现前需正式接受 |
+| ADR-008/009 | Accepted (2026-04-27) | 三节齐全，Sprint-006 base/equipment upgrade 实现门禁解除 |
 
 ---
 
@@ -482,3 +508,19 @@ Status: **COMPLETE** (v1.0 — 2026-04-26)
 - CHECKPOINT REACHED: autonomous Logic/Integration completion ceiling
 - Total new tests in this session: 106 (all PASS); pre-existing 17 failures unchanged
 - Total new source files: 7 (speed_controller, settlement_result, settlement_trigger, experience_distribution, battle_evaluation, drop_calculator, battle_history_log)
+
+## Session Extract — /architecture-review 2026-04-27
+- Verdict: CONCERNS（已修复）
+- Mode: 增量审查（ADR-008/009）
+- Requirements: 13 increment TR — 8 covered after sync, 0 partial, 0 gap
+- New TR-IDs registered: None（仅同步既有 TR 的 adr 字段）
+- ADRs touched: ADR-008（§Dependencies / §Engine / §GDD reqs 修订）；ADR-009（无修订）
+- Cross-ADR conflicts found: 3 — 全部已修
+  - C-1 信号重复（inventory_changed vs resource_changed/item_acquired）→ 改为复用既有信号
+  - C-2 Dependencies 节歧义 → 拆 Depends On / Enables
+  - C-3 TR ID 命名错误 TR-econ → TR-resource
+- Engine compat: PASS（无 deprecated / post-cutoff API、无 Jolt/D3D12 影响）
+- GDD revision flags: None
+- TR registry: version 2 → 3, 8 行 adr 字段补登
+- Report: docs/architecture/architecture-review-2026-04-27.md
+- Follow-ups: F-1 GameEvents 登记 equipment_enhanced（Sprint-006 实现期）/ F-2 强化 UI AccessKit 验收 / F-3 下次 full review 对齐 architecture.md

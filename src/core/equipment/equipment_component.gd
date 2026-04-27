@@ -108,11 +108,28 @@ func get_bonus_snapshot() -> Dictionary:
 func calculate_final_attribute(attr_type: int, base_value: int, class_bonus: int, barrier_bonus: int = 0) -> int:
 	return base_value + class_bonus + get_equipment_bonus(attr_type) + barrier_bonus
 
-func get_enhancement_cost(item_id: StringName) -> Dictionary:
+func get_enhancement_cost(item_id: StringName, inventory = null) -> Dictionary:
 	var item: EquipmentItem = get_item(item_id)
 	if item == null:
 		return {}
+	if inventory != null and inventory.has_method("peek_cost"):
+		return inventory.peek_cost(item.enhancement_level)
 	return ResourceFormulas.calculate_enhancement_cost(100, item.enhancement_level)
+
+func get_enhancement_shortage(item_id: StringName, inventory) -> Dictionary:
+	if inventory == null:
+		return {"inventory": 1}
+	var cost := get_enhancement_cost(item_id, inventory)
+	if cost.is_empty():
+		return {}
+	if inventory.has_method("get_cost_shortage"):
+		return inventory.get_cost_shortage(cost)
+	var shortage := {}
+	if not inventory.has_resource(ResourceTypes.ResourceId.GOLD, int(cost.get("gold", 0))):
+		shortage["gold"] = int(cost.get("gold", 0)) - inventory.get_amount(ResourceTypes.ResourceId.GOLD)
+	if not inventory.has_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, int(cost.get("materials", 0))):
+		shortage["materials"] = int(cost.get("materials", 0)) - inventory.get_amount(ResourceTypes.ResourceId.BASIC_MATERIAL)
+	return shortage
 
 func attempt_enhancement(item_id: StringName, inventory, use_protection: bool = false, rng_seed: int = 0) -> Dictionary:
 	var item: EquipmentItem = get_item(item_id)
@@ -122,7 +139,7 @@ func attempt_enhancement(item_id: StringName, inventory, use_protection: bool = 
 		return {"success": false, "reason": "missing_inventory"}
 	if item.enhancement_level >= item.get_enhancement_cap():
 		return {"success": false, "reason": "at_cap"}
-	var cost: Dictionary = get_enhancement_cost(item_id)
+	var cost: Dictionary = get_enhancement_cost(item_id, inventory)
 	if not inventory.has_resource(ResourceTypes.ResourceId.GOLD, cost["gold"]):
 		return {"success": false, "reason": "insufficient_gold", "cost": cost}
 	if not inventory.has_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, cost["materials"]):
@@ -135,6 +152,7 @@ func attempt_enhancement(item_id: StringName, inventory, use_protection: bool = 
 	var result: Dictionary = _resolve_enhancement(item, protection_active, rng_seed)
 	result["cost"] = cost
 	result["protection_consumed"] = protection_active
+	GameEvents.equipment_enhanced.emit(String(item_id), int(result.get("new_level", item.enhancement_level)), bool(result.get("success", false)))
 	return result
 
 func decompose_item(item_id: StringName, inventory = null, rng_seed: int = 0) -> Dictionary:
