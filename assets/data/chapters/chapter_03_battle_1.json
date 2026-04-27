@@ -1,0 +1,20 @@
+{
+  "chapter_id": 3,
+  "battle_id": "battle_1",
+  "battle_id_ref": "chapter_03_act_a",
+  "definition_path": "res://src/ui/combat/battle_definitions/chapter_03_act_a.json",
+  "chapter_title": "Chapter 3: Camp Eve",
+  "schema_version": 1,
+  "source_gdd": "design/gdd/chapter-03.md",
+  "source_adr": "docs/architecture/ADR-007-belief-branch-system.md",
+  "note": "Chapter 3 battle 1 chapter-level content manifest. Battle definitions (map, units, terrain, settlement, narrative_choice) live in src/ui/combat/battle_definitions/chapter_03_act_a.json per the established schema used by all chapters. This file provides the chapter-data index entry expected by the Sprint-007 plan and is referenced by production/epics/chapter-03/EPIC.md.",
+  "b3_gate_status": "placeholder",
+  "b3_gate_note": "B3-GATE runtime branching is intentionally deferred to Sprint-008. The narrative_choice node B3-N1 is defined in the battle definition with runtime_branching=false.",
+  "dependencies": {
+    "gdd": "design/gdd/chapter-03.md",
+    "belief_branching": "design/narrative/belief-branching.md",
+    "epic": "production/epics/chapter-03/EPIC.md"
+  },
+  "sprint": "sprint-007",
+  "implemented": "2026-04-27"
+}

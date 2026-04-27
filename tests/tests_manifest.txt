@@ -44,6 +44,7 @@ tests/unit/character/party_composition_test.gd
 tests/unit/equipment/affix_generation_test.gd
 tests/unit/equipment/decomposition_test.gd
 tests/unit/equipment/enhancement_test.gd
+tests/unit/equipment/equipment_risk_test.gd
 tests/unit/equipment/equipment_data_model_test.gd
 tests/unit/equipment/final_attribute_test.gd
 tests/unit/equipment/set_bonus_test.gd

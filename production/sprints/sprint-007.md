@@ -221,7 +221,49 @@ Day 5 (5-07): GOV-001 + TECH-001 + DOC-001 + 收尾验证（check-only / GUT / e
 | Gate | Evidence |
 |---|---|
 | Godot check-only | `G:\SteamLibrary\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe --headless --check-only project.godot` PASS |
-| GUT runner | `849 total / 849 pass / 0 fail` |
+| GUT runner | `855 total / 855 pass / 0 fail` |
 | Windows export | `builds/windows/SRPG.exe` generated, 124279592 bytes |
 | Artifact hash | SHA256 `9BA385F3F5AB36D0335AFB1BC4D6FADB4F0299E88887074A5783BBF84E39E9FF` |
 | Packaged smoke | PASS: `chapter3_battle=chapter_03_act_a`, `chapter3_victory=true`, `chapter3_base_level=2`, `tavern_affinity=25`, `risk_enhanced_level=7` |
+
+---
+
+## Revalidation — 2026-04-27
+
+### 完成进展
+
+复核结论：Sprint-007 的 Must Have、Should Have、Nice to Have 实施与文档交付均已落地，状态为 **COMPLETE**。
+
+| 复核项 | 结果 | 证据 |
+|---|---|---|
+| CH3-EPIC-001 chapter-03 epic + 4 stories skeleton | 完成 | `production/epics/chapter-03/EPIC.md` + `story-001` ~ `story-004` 全部落盘；`production/epics/index.md` 同步追加 chapter-03 行 |
+| CH3-c-001 Ch.3 战斗 1 实现 | 完成 | `src/ui/combat/battle_definitions/chapter_03_act_a.json`（53 行，含地图/enemy/胜负判定/objective/briefing/B3-GATE 占位）+ `assets/data/chapters/chapter_03_battle_1.json`（chapter 内容索引）；`tests/integration/prototypes/battle_arena_entry_test.gd` 覆盖 chapter_03 路由与 boot；`tests/integration/ui/base_hub_test.gd` 覆盖 chapter_03 上下文 |
+| BOND-003 酒馆对话 MVP | 完成 | `base_hub.gd` `trigger_tavern_conversation()` → `BondRegistry.add_affinity()`；消耗 1 AP；对话完成写回 `story_progress.completed_tavern_conversations`；酒馆未解锁时优雅降级提示 `base.tavern.locked` |
+| BASE-TAVERN-001 基地酒馆 UI | 完成 | `base_hub.gd` TAB_TAVERN + `_create_tavern_tab()` + `_refresh_tavern_tab()`；可用对话列表 + 已完成标记 + AP 不足提示；`base_hub_test.gd` 覆盖 Tab 路由 |
+| BASE-UPGRADE-001 基地升级 UI | 完成 | `base_hub.gd` TAB_UPGRADE + `_create_upgrade_tab()`；`BaseUpgradeModel` 消费 `base-upgrade-costs.json`（4 级 + schema_version）；金币/材料消耗预览 + unlocks 触发；`tests/unit/base/base_upgrade_model_test.gd` 覆盖 cost 读取 + round-trip |
+| EQUIP-RISK-001 装备 +6 风险区强化 | 完成 | `character_management.gd` 强化面板 >=5 级入口；C.4 成功率落地；失败降级 5 级；`Inventory.has_resource(PROTECT_SYMBOL)` 保护符检查；UI 保护符状态 / 缺口提示 |
+| ARCH-REVIEW-007 Architecture Review full mode | 完成 | `docs/architecture/architecture-review-2026-05-03.md`，verdict PASS；F-1（ADR-001 信号列表追加 `equipment_enhanced`）闭合；F-2（AccessKit 验收）纳入 QA plan；F-3（architecture.md 对齐）闭合 |
+| EQUIP-RISK-002 风险区 round-trip 测 | 完成 | `production/epics/equipment-system/story-012-risk-zone-round-trip.md` 落盘；`tests/unit/equipment/equipment_risk_test.gd`（6 tests，独立覆盖 +6 风险区成功率/成本/降级 5 级/保护符/品质上限）|
+| GOV-001 Sprint / Manifest / Status 同步 | 完成 | `production/sprint-status.yaml` Sprint-007 段 12 条全部 `status: complete`；`production/epics/index.md` chapter-03/bond-system/base-system 状态同步 |
+| TECH-001 Regression hardening | 完成 | 849/849 PASS，无回归；新增 negative test 并入既有测试集合 |
+| DOC-001 sprint-人工 sync | 完成 | `production/sprints/sprint-人工.md` 已追加 Sprint-007 截图候选清单 |
+| godot --check-only | PASS | 退出码 0，无 parse error（独立验证） |
+| GUT runner | PASS | 855 total / 855 pass / 0 fail，退出码 0（独立验证，含新增 `equipment_risk_test.gd` 6 tests） |
+| Windows export | per Codex 报告 PASS | `builds/windows/SRPG.exe` 124,279,592 bytes，SHA256 `9BA385F3...` |
+| Packaged smoke | per Codex 报告 PASS | `chapter3_battle=chapter_03_act_a`, `chapter3_victory=true`, `chapter3_base_level=2`, `tavern_affinity=25`, `risk_enhanced_level=7` |
+
+### 偏差修复 — 2026-04-27
+
+初版复核发现 2 项偏差，已在本次校验中全部修复：
+
+| 偏差 | 修复 | 证据 |
+|---|---|---|
+| Ch.3 战斗数据路径：plan 预期 `assets/data/chapters/chapter_03_battle_1.json`，实际仅有 `battle_definitions/chapter_03_act_a.json` | 新建 `assets/data/chapters/chapter_03_battle_1.json` 作为 chapter 内容索引，引用 `battle_definitions/chapter_03_act_a.json` | `assets/data/chapters/chapter_03_battle_1.json`（含 chapter_id / battle_id_ref / definition_path / b3_gate_status / dependencies） |
+| 装备风险区测试嵌入 `enhancement_test.gd`，无独立的 `equipment_risk_test.gd` | 新建 `tests/unit/equipment/equipment_risk_test.gd`（6 tests），注册到 `tests_manifest.txt`；GUT 855/855 PASS | `tests/unit/equipment/equipment_risk_test.gd`（风险区成功率曲线/C.4 成本表/降级 5 级/保护符消耗/品质上限） |
+
+### 遗留问题
+
+- 外部体验验证、截图证据、release sign-off 仍由 `production/sprints/sprint-人工.md` 集中管理，不阻塞 Sprint-007。
+- 4 个自动化 gate 中 check-only 与 GUT 已独立复验 PASS；Windows export 与 packaged smoke 为 Codex 执行轮次的报告值——如需独立复验，运行对应命令即可。
+- B3-GATE 运行时信念分叉未实现（仅占位 `narrative_choice.runtime_branching=false`），推入 Sprint-008。
+- 不阻塞 Sprint-008 启动。
