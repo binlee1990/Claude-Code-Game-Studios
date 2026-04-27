@@ -2,13 +2,13 @@
 
 > **Layer**: Feature
 > **GDD**: `design/gdd/fog-of-war-system.md`
-> **Status**: Ready for Sprint-006+ Planning
+> **Status**: Sprint-008 GDD Complete / Ready for Sprint-009 MVP
 > **Created**: 2026-04-27
 > **Sprint Source**: Sprint-005 / FOG-001
 
 ## Goal
 
-Prepare a bounded fog-of-war implementation path for future chapter maps that require night battle, ambush, or scouting gameplay. Sprint-005 creates readiness artifacts only.
+Prepare a bounded fog-of-war implementation path for future chapter maps that require night battle, ambush, or scouting gameplay. Sprint-008 refines the MVP-ready data, reveal, unit, rendering, and test rules.
 
 ## Stories
 
@@ -18,6 +18,7 @@ Prepare a bounded fog-of-war implementation path for future chapter maps that re
 | FOG-002 | Fog rendering overlay MVP | UI/Visual | 0.5d | battle grid renderer | Ready |
 | FOG-003 | Unit visibility integration | Integration | 0.5d | AI / combat targeting | Ready |
 | FOG-004 | Save/load fog state | Integration | 0.25d | SaveData battle_state | Ready |
+| FOG-GDD | Fog-of-war GDD refinement | Design | 0.5d | Sprint-008 | Complete |
 
 ## MVP Acceptance Criteria
 
@@ -37,3 +38,7 @@ Prepare a bounded fog-of-war implementation path for future chapter maps that re
 ## Sprint-006+ Handoff
 
 Do not implement this epic until a specific chapter map needs fog. The first implementation should be map-opt-in, not global.
+
+## Sprint-008 Handoff
+
+`design/gdd/fog-of-war-system.md` now defines the Sprint-009 MVP entry point: map-opt-in `fog.enabled`, unknown/explored/visible cell states, reveal triggers, player/NPC/enemy unit rules, overlay expectations, battle_state save scope, and test gates.

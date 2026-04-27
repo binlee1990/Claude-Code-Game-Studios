@@ -62,8 +62,47 @@ func save_to_save_data(data: SaveData) -> void:
 		"zhi": _values[BeliefType.ZHI],
 	}
 
+static func narrative_choice_uses_runtime_branching(narrative_choice: Dictionary) -> bool:
+	return bool(narrative_choice.get("runtime_branching", false))
+
+static func apply_runtime_narrative_choice(story_progress: Dictionary, narrative_choice: Dictionary, option_id: String = "") -> Dictionary:
+	if not narrative_choice_uses_runtime_branching(narrative_choice):
+		return {"success": false, "reason": "runtime_branching_disabled"}
+	var node_id := String(narrative_choice.get("node_id", ""))
+	if node_id == "":
+		return {"success": false, "reason": "missing_node_id"}
+	var selected_option_id := option_id
+	if selected_option_id == "":
+		selected_option_id = String(narrative_choice.get("default_option_id", ""))
+	var option := _find_runtime_option(narrative_choice.get("options", []), selected_option_id)
+	if option.is_empty():
+		return {"success": false, "reason": "missing_option", "node_id": node_id}
+
+	var values: Dictionary = story_progress.get("belief_values", {}).duplicate(true)
+	for key in ["ren", "yi", "zhi"]:
+		values[key] = clampi(int(values.get(key, 0)) + int(option.get("belief_delta", {}).get(key, 0)), BELIEF_MIN, BELIEF_MAX)
+	story_progress["belief_values"] = values
+
+	var choices: Dictionary = story_progress.get("narrative_choices", {}).duplicate(true)
+	choices[node_id] = String(option.get("id", selected_option_id))
+	story_progress["narrative_choices"] = choices
+	return {
+		"success": true,
+		"node_id": node_id,
+		"option_id": String(option.get("id", selected_option_id)),
+		"belief_values": values,
+	}
+
 ## Resets all belief values to 0. Used for new game.
 func reset() -> void:
 	_values[BeliefType.REN] = 0
 	_values[BeliefType.YI]  = 0
 	_values[BeliefType.ZHI] = 0
+
+static func _find_runtime_option(options: Array, option_id: String) -> Dictionary:
+	for option in options:
+		if typeof(option) != TYPE_DICTIONARY:
+			continue
+		if String(option.get("id", "")) == option_id:
+			return option
+	return {}

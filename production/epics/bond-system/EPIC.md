@@ -2,7 +2,7 @@
 
 > **Layer**: Feature
 > **GDD**: `design/gdd/bond-system.md`
-> **Status**: Sprint-007 Tavern MVP Complete
+> **Status**: Sprint-008 Combo GDD Complete
 > **Created**: 2026-04-27
 > **Sprint Source**: Sprint-005 / BOND-001
 
@@ -12,7 +12,7 @@ Create the smallest implementation slice of the designed bond system that can su
 
 ## Scope Boundary
 
-Sprint-006 implements the bounded MVP: pair-keyed bond data, combat affinity gain, save payload, and character detail summary. Tavern dialogue, combo skills, and network graph remain future work.
+Sprint-006 implements the bounded MVP: pair-keyed bond data, combat affinity gain, save payload, and character detail summary. Sprint-007 adds tavern dialogue. Sprint-008 completes combo-skill design only; combo-skill runtime and network graph remain future work.
 
 ## Stories
 
@@ -22,6 +22,7 @@ Sprint-006 implements the bounded MVP: pair-keyed bond data, combat affinity gai
 | BOND-EVT-001 | Affinity gain event hooks | Integration | 0.5d | BOND-DATA-001 / GameEvents / battle settlement | Complete |
 | BOND-003 | Base tavern dialogue trigger MVP | UI/Integration | 0.5d | Base full phase 1 | Complete |
 | BOND-UI-001 | Character detail bond summary | UI + Integration | 0.25d | BOND-DATA-001 / Character management UI | Complete |
+| BOND-COMBO-DESIGN | Combo skill GDD refinement | Design | 0.5d | Bond GDD / Sprint-008 | Complete |
 
 ## TR-IDs
 
@@ -50,3 +51,7 @@ Sprint-006 implements the bounded MVP: pair-keyed bond data, combat affinity gai
 ## Sprint-006 Handoff
 
 Completion evidence: `src/core/bond/bond_registry.gd`, `GameEvents.bond_level_up`, `tests/unit/bond/bond_data_model_test.gd`, `tests/integration/bond/affinity_event_hooks_test.gd`, character detail coverage in `tests/integration/ui/character_management_test.gd`, and Sprint-007 Tavern coverage in `tests/integration/ui/base_hub_test.gd`.
+
+## Sprint-008 Handoff
+
+Combo-skill trigger conditions, effect types, rank gates, cooldown scope, and failure feedback are specified in `design/gdd/bond-system.md`. Runtime implementation is intentionally deferred to Sprint-009.

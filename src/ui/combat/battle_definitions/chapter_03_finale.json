@@ -1,0 +1,173 @@
+{
+  "definition_path": "res://src/ui/combat/battle_definitions/chapter_03_finale.json",
+  "battle_id": "chapter_03_finale",
+  "map_id": "camp_eve_command_20x20",
+  "chapter_id": 3,
+  "chapter_title": "Chapter 3: Camp Eve Finale",
+  "objective": "Defeat Commander Yan and secure the camp command tent.",
+  "briefing": "The B3-GATE route determines which pressure line appears around the final boss.",
+  "map_size": 20,
+  "difficulty": 9,
+  "next_battle_definition_path": "",
+  "difficulty_profile": {
+    "label": "Chapter 3 Finale",
+    "enemy_stat_multiplier": 1.12,
+    "exp_multiplier": 1.30,
+    "resource_multiplier": 1.30,
+    "ai_tier": "chapter_3_finale"
+  },
+  "completion_key": "chapter_03_finale_complete",
+  "chapter_completion_key": "chapter_03_complete",
+  "settlement": {
+    "rng_seed": 303,
+    "reward_note": "Chapter 3 complete. B3-GATE route is preserved for the Chapter 4 handoff.",
+    "equipment": ["purple"]
+  },
+  "progress_on_start": {
+    "chapter": 3,
+    "current_battle": "chapter_03_finale",
+    "chapter_03_finale_started": true
+  },
+  "progress_on_victory": {
+    "chapter": 3,
+    "current_battle": "chapter_03_finale",
+    "chapter_03_finale_complete": true,
+    "chapter_03_complete": true
+  },
+  "route_variants": {
+    "ren": {
+      "variant_id": "civilian_evacuation",
+      "objective": "Defeat Commander Yan while protecting the evacuation lane.",
+      "briefing": "Your mercy route has rallied civilians, but the enemy now pressures the evacuation lane.",
+      "enemy_units": [
+        {"id": "REN_PURSUER", "name": "Civilian Pursuer", "team": "enemy", "class": "basic_rogue", "hp": 66, "position": {"x": 16, "y": 15}, "stats": {"str": 20, "agi": 24}, "tactics": {"weapon": "dagger", "element": "none", "ai": "aggressive", "move": 4, "range": 1}, "reward": {"tier": "normal", "base_gold": 90, "damage_dealt": 330}}
+      ]
+    },
+    "yi": {
+      "variant_id": "boss_guard",
+      "objective": "Break Commander Yan's elite guard and defeat the boss.",
+      "briefing": "Your order route draws the command guard into a direct clash around the boss.",
+      "enemy_units": [
+        {"id": "YI_GUARD", "name": "Command Guard", "team": "enemy", "class": "basic_knight", "hp": 86, "position": {"x": 15, "y": 10}, "stats": {"str": 25, "agi": 18}, "tactics": {"weapon": "spear", "element": "earth", "ai": "defensive", "move": 3, "range": 2}, "reward": {"tier": "elite", "base_gold": 125, "damage_dealt": 520}}
+      ]
+    },
+    "zhi": {
+      "variant_id": "mechanist_pressure",
+      "objective": "Use the command-tent mechanisms to defeat Commander Yan before the turn pressure peaks.",
+      "briefing": "Your strategy route exposes mechanisms near the command tent, but the turn pressure is tighter.",
+      "enemy_units": [
+        {"id": "ZHI_MECHANIST", "name": "Camp Mechanist", "team": "enemy", "class": "basic_mage", "hp": 62, "position": {"x": 16, "y": 12}, "stats": {"str": 18, "agi": 19}, "tactics": {"weapon": "magic", "element": "electric", "ai": "control", "move": 3, "range": 3}, "reward": {"tier": "normal", "base_gold": 105, "damage_dealt": 360}}
+      ]
+    }
+  },
+  "terrain": [
+    {"x": 7, "y": 6, "type": "highland"},
+    {"x": 8, "y": 6, "type": "highland"},
+    {"x": 9, "y": 7, "type": "highland"},
+    {"x": 10, "y": 10, "type": "obstacle"},
+    {"x": 11, "y": 10, "type": "obstacle"},
+    {"x": 12, "y": 11, "type": "obstacle"},
+    {"x": 4, "y": 15, "type": "water"},
+    {"x": 5, "y": 15, "type": "water"},
+    {"x": 16, "y": 6, "type": "mud"},
+    {"x": 17, "y": 6, "type": "mud"}
+  ],
+  "inventory": [
+    {"resource": "gold", "amount": 1500},
+    {"resource": "basic_material", "amount": 100},
+    {"resource": "protect_symbol", "amount": 3}
+  ],
+  "units": [
+    {
+      "id": "P1",
+      "name": "Swordsman",
+      "team": "player",
+      "class": "basic_warrior",
+      "hp": 124,
+      "position": {"x": 2, "y": 10},
+      "stats": {"str": 38, "agi": 30},
+      "tactics": {"weapon": "sword", "element": "none", "ai": "balanced", "move": 3, "range": 2}
+    },
+    {
+      "id": "P2",
+      "name": "Archer",
+      "team": "player",
+      "class": "basic_archer",
+      "hp": 92,
+      "position": {"x": 2, "y": 12},
+      "stats": {"str": 27, "agi": 33},
+      "tactics": {"weapon": "bow", "element": "wind", "ai": "balanced", "move": 3, "range": 3}
+    },
+    {
+      "id": "R1",
+      "name": "Cleric",
+      "team": "player",
+      "class": "basic_cleric",
+      "hp": 76,
+      "position": {"x": 3, "y": 11},
+      "stats": {"str": 17, "agi": 21},
+      "tactics": {"weapon": "magic", "element": "water", "ai": "support", "move": 3, "range": 3}
+    },
+    {
+      "id": "R4",
+      "name": "Mage",
+      "team": "player",
+      "class": "basic_mage",
+      "hp": 68,
+      "position": {"x": 3, "y": 13},
+      "stats": {"str": 17, "agi": 24},
+      "tactics": {"weapon": "magic", "element": "fire", "ai": "control", "move": 3, "range": 3}
+    },
+    {
+      "id": "BOSS_YAN",
+      "name": "Commander Yan",
+      "team": "enemy",
+      "class": "boss_knight",
+      "boss": true,
+      "boss_profile": {
+        "title": "Camp Eve Commander",
+        "phase_thresholds": [0.60, 0.25],
+        "phase_names": ["Command Line", "Iron Order", "Broken Standard"],
+        "phase_behaviors": [
+          {"phase": 1, "hp_range": "100%-60%", "special_skills": []},
+          {"phase": 2, "hp_range": "59%-25%", "special_skills": ["shield_bash"], "speed_bonus": 3},
+          {"phase": 3, "hp_range": "24%-0%", "special_skills": ["shield_bash", "imperial_edict"], "stat_bonus_percent": 15}
+        ],
+        "phase_damage_multiplier": 1.35,
+        "checkpoint_retained_hp_ratio": 0.15,
+        "hint": "Break Commander Yan below 60% and 25% HP to trigger all three finale phases."
+      },
+      "hp": 135,
+      "position": {"x": 17, "y": 10},
+      "stats": {"str": 30, "agi": 20},
+      "tactics": {"weapon": "spear", "element": "earth", "ai": "boss_knight", "move": 3, "range": 2},
+      "reward": {"tier": "boss", "base_gold": 420, "damage_dealt": 1800}
+    },
+    {
+      "id": "E31",
+      "name": "Command Archer",
+      "team": "enemy",
+      "class": "basic_archer",
+      "hp": 68,
+      "position": {"x": 14, "y": 8},
+      "stats": {"str": 20, "agi": 21},
+      "tactics": {"weapon": "bow", "element": "wind", "ai": "support", "move": 3, "range": 3},
+      "reward": {"tier": "normal", "base_gold": 95, "damage_dealt": 350}
+    },
+    {
+      "id": "E32",
+      "name": "Command Linebreaker",
+      "team": "enemy",
+      "class": "basic_warrior",
+      "hp": 82,
+      "position": {"x": 14, "y": 12},
+      "stats": {"str": 25, "agi": 17},
+      "tactics": {"weapon": "axe", "element": "none", "ai": "aggressive", "move": 3, "range": 1},
+      "reward": {"tier": "elite", "base_gold": 120, "damage_dealt": 470}
+    }
+  ],
+  "reserves": [
+    {"id": "R2", "name": "Rogue", "class": "basic_rogue", "stats": {"str": 20, "agi": 27}, "status": "available"},
+    {"id": "R3", "name": "Lancer", "class": "basic_knight", "stats": {"str": 23, "agi": 18}, "status": "available"}
+  ]
+}

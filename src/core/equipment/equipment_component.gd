@@ -168,6 +168,49 @@ func decompose_item(item_id: StringName, inventory = null, rng_seed: int = 0) ->
 	rewards["success"] = true
 	return rewards
 
+func get_reroll_cost(item_id: StringName) -> Dictionary:
+	var item: EquipmentItem = get_item(item_id)
+	if item == null:
+		return {}
+	return ResourceFormulas.calculate_affix_reroll_cost(item.quality)
+
+func get_reroll_shortage(item_id: StringName, inventory) -> Dictionary:
+	if inventory == null:
+		return {"inventory": 1}
+	var cost := get_reroll_cost(item_id)
+	if cost.is_empty():
+		return {}
+	var shortage := {}
+	if not inventory.has_resource(ResourceTypes.ResourceId.GOLD, int(cost.get("gold", 0))):
+		shortage["gold"] = int(cost.get("gold", 0)) - inventory.get_amount(ResourceTypes.ResourceId.GOLD)
+	if not inventory.has_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, int(cost.get("materials", 0))):
+		shortage["materials"] = int(cost.get("materials", 0)) - inventory.get_amount(ResourceTypes.ResourceId.BASIC_MATERIAL)
+	return shortage
+
+func reroll_affix(item_id: StringName, affix_index: int, inventory, rng_seed: int = 0) -> Dictionary:
+	var item: EquipmentItem = get_item(item_id)
+	if item == null:
+		return {"success": false, "reason": "missing_item"}
+	if affix_index < 0 or affix_index >= item.affixes.size():
+		return {"success": false, "reason": "missing_affix"}
+	if inventory == null:
+		return {"success": false, "reason": "missing_inventory"}
+	var cost := get_reroll_cost(item_id)
+	if not get_reroll_shortage(item_id, inventory).is_empty():
+		return {"success": false, "reason": "insufficient_resources", "cost": cost}
+	inventory.remove_resource(ResourceTypes.ResourceId.GOLD, int(cost.get("gold", 0)))
+	inventory.remove_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, int(cost.get("materials", 0)))
+	var old_affix: Dictionary = (item.affixes[affix_index] as Dictionary).duplicate(true)
+	var new_affix := EquipmentAffixGenerator.generate_affix(item.quality, -1, rng_seed)
+	item.affixes[affix_index] = new_affix
+	return {
+		"success": true,
+		"cost": cost,
+		"old_affix": old_affix,
+		"new_affix": new_affix,
+		"enhancement_level": item.enhancement_level,
+	}
+
 func get_data() -> Dictionary:
 	var items: Array = []
 	for item_id in _items:

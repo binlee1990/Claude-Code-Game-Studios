@@ -1,8 +1,8 @@
 # 战争迷雾系统
 
-> **Status**: Designed (pending review)
+> **Status**: Designed / Sprint-008 MVP-ready spec complete
 > **Author**: binlee1990 + agents
-> **Last Updated**: 2026-04-22
+> **Last Updated**: 2026-04-27
 > **Implements Pillar**: 系统互锁（迷雾与侦察兵职业、战术地形互锁）
 
 ## Overview
@@ -58,6 +58,22 @@ vision_range = base_vision + agility_modifier + class_modifier
 - 敌人 AI 在迷雾中正常执行策略，不受迷雾影响（敌人"知道"地图布局）
 - 迷雾中的敌人攻击不可见目标时，命中率 -20%（盲射惩罚）
 - 敌人进入玩家视野时触发"发现"动画和音效
+
+**Sprint-008 MVP 实施规格（GDD-only，代码实现推至 Sprint-009）**
+
+| 维度 | MVP 规则 |
+|------|----------|
+| 启用方式 | 战斗定义显式设置 `fog.enabled=true` 才启用；未设置时完全保持现有全图可见行为。 |
+| 数据状态 | 每格保存 `unknown`、`explored`、`visible` 三态；`visible` 每回合/移动后重算，`explored` 持久到本场战斗结束。 |
+| Reveal 时机 | 战斗开始、玩家单位移动完成、召唤/增援落地、光源效果创建或过期时重算。 |
+| Unit 规则 | 玩家单位贡献视野；友方 NPC 可按 `contributes_vision` 开关贡献；敌方默认不揭示玩家视野。 |
+| 地形规则 | 高地提供 +1；遮挡物和墙体先不做 line-of-sight 裁剪，作为 post-MVP story。 |
+| 敌人显示 | 敌人在 `visible` 格显示并可被指向；在 `explored`/`unknown` 格隐藏且不可作为普通目标选择。 |
+| SaveData | MVP 默认不跨战斗保存 fog；中途存档可把 `explored_cells` 写入 battle_state。 |
+| UI 反馈 | Battle HUD 显示本关存在迷雾；格子 overlay 使用三态颜色，不新增 minimap。 |
+| 测试门槛 | Unit 覆盖视野半径/侦察兵加成/状态转换；integration 覆盖 fog off 不改变旧战斗。 |
+
+Sprint-009 实现应先落地 map-opt-in 数据模型和隐藏敌人渲染，不先做高级光源、minimap、AI 视野公平化或性能专项。
 
 ### States and Transitions
 

@@ -1,25 +1,25 @@
-# Story CH3-c-002: Ch.3 Battle 2 Pressure and Scoring Skeleton
+# Story CH3-c-002: Ch.3 Battle 2 Pressure and Scoring
 
 > **Epic**: Chapter 03 Content
-> **Status**: Backlog
+> **Status**: Complete
 > **Layer**: Content
 > **Type**: Content + Integration
-> **Priority**: Future
-> **Sprint**: Sprint-008 Candidate
+> **Priority**: Must Have
+> **Sprint**: Sprint-008
 > **TR-ID**: TR-ch3-002
 
 ## Context
 
 **GDD**: `design/gdd/chapter-03.md` §3.3
-**QA plan**: `production/qa/qa-plan-sprint-7.md`
+**QA plan**: `production/qa/qa-plan-sprint-8.md`
 
-This skeleton captures the second Chapter 3 battle handoff. It is intentionally not in Sprint-007 implementation scope.
+This story implements the second Chapter 3 battle handoff: prior Ch.3-1 outcomes shape pressure inputs, B3-N2 scoring writes belief deltas, and victory routes into B3-GATE/finale progression.
 
 ## Acceptance Criteria
 
-- [ ] Ch.3 battle 2 data consumes Ch.3-1 results as pressure inputs.
-- [ ] Beacon defense objective can be represented by battle data or a small controller.
-- [ ] B3-N2 behavior scoring can produce ren/yi/zhi deltas.
+- [x] Ch.3 battle 2 data consumes Ch.3-1 results as pressure inputs.
+- [x] Beacon defense objective can be represented by battle data or a small controller.
+- [x] B3-N2 behavior scoring can produce ren/yi/zhi deltas.
 
 ## QA Test Conditions
 
@@ -29,8 +29,11 @@ This skeleton captures the second Chapter 3 battle handoff. It is intentionally 
 
 ## Test Evidence
 
-Future integration test for Ch.3 battle 2 boot, objective, and scoring.
+- `src/ui/combat/battle_definitions/chapter_03_act_b.json`
+- `src/core/chapter03/chapter_03_pressure_model.gd`
+- `tests/unit/chapter03/battle_2_pressure_test.gd`
+- `tests/integration/prototypes/chapter_03_battle_2_entry_test.gd`
 
 ## Next Step
 
-Keep backlog until CH3-c-001 is complete and Sprint-008 scope is selected.
+Closed in Sprint-008. Follow-up runtime systems should use the same battle-definition pressure metadata instead of hardcoding Ch.3-only rules in UI code.

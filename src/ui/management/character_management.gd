@@ -61,6 +61,8 @@ var _confirm_button: Button
 var _ui_scale: float = 1.0
 var _bond_registry: BondRegistry = BondRegistry.new()
 var _enhancement_rng_seed: int = 0
+var _decompose_rng_seed: int = 0
+var _reroll_rng_seed: int = 0
 
 # Pending party changes before confirm
 var _pending_party: Array = []
@@ -602,6 +604,26 @@ func _create_equipped_slot_row(unit: Unit, slot: int) -> HBoxContainer:
 	SRPGTheme.apply_button_scaled(enhance_btn, _ui_scale, false, false, true)
 	row.add_child(enhance_btn)
 
+	var reroll_btn := Button.new()
+	reroll_btn.text = _tr("management.reroll")
+	reroll_btn.disabled = item == null or _is_reroll_disabled(unit, item)
+	reroll_btn.focus_mode = Control.FOCUS_ALL
+	reroll_btn.custom_minimum_size = _scaled_vec2(66.0, 28.0)
+	if item != null:
+		reroll_btn.pressed.connect(_on_reroll_item_pressed.bind(unit.unit_id, item.item_id, slot))
+	SRPGTheme.apply_button_scaled(reroll_btn, _ui_scale, false, false, true)
+	row.add_child(reroll_btn)
+
+	var decompose_btn := Button.new()
+	decompose_btn.text = _tr("management.decompose")
+	decompose_btn.disabled = item == null
+	decompose_btn.focus_mode = Control.FOCUS_ALL
+	decompose_btn.custom_minimum_size = _scaled_vec2(66.0, 28.0)
+	if item != null:
+		decompose_btn.pressed.connect(_on_decompose_item_pressed.bind(unit.unit_id, item.item_id, slot))
+	SRPGTheme.apply_button_scaled(decompose_btn, _ui_scale, false, false, true)
+	row.add_child(decompose_btn)
+
 	var off_btn := Button.new()
 	off_btn.text = _tr("management.unequip")
 	off_btn.disabled = item == null
@@ -631,6 +653,23 @@ func _create_inventory_item_row(unit: Unit, item: EquipmentItem) -> HBoxContaine
 	SRPGTheme.apply_button_scaled(equip_btn, _ui_scale, false, false, true)
 	row.add_child(equip_btn)
 
+	var reroll_btn := Button.new()
+	reroll_btn.text = _tr("management.reroll")
+	reroll_btn.disabled = _is_reroll_disabled(unit, item)
+	reroll_btn.focus_mode = Control.FOCUS_ALL
+	reroll_btn.custom_minimum_size = _scaled_vec2(66.0, 28.0)
+	reroll_btn.pressed.connect(_on_reroll_item_pressed.bind(unit.unit_id, item.item_id, item.slot))
+	SRPGTheme.apply_button_scaled(reroll_btn, _ui_scale, false, false, true)
+	row.add_child(reroll_btn)
+
+	var decompose_btn := Button.new()
+	decompose_btn.text = _tr("management.decompose")
+	decompose_btn.focus_mode = Control.FOCUS_ALL
+	decompose_btn.custom_minimum_size = _scaled_vec2(66.0, 28.0)
+	decompose_btn.pressed.connect(_on_decompose_item_pressed.bind(unit.unit_id, item.item_id, item.slot))
+	SRPGTheme.apply_button_scaled(decompose_btn, _ui_scale, false, false, true)
+	row.add_child(decompose_btn)
+
 	return row
 
 func _get_equipped_item_ids(unit: Unit) -> Dictionary:
@@ -656,6 +695,9 @@ func _format_equipped_slot_text(unit: Unit, item: EquipmentItem) -> String:
 	var base := _format_equipment_name(item)
 	if item.enhancement_level > 0:
 		base += " +%d" % item.enhancement_level
+	var affix_text := _format_affix_summary(item)
+	if affix_text != "":
+		base += " | %s" % affix_text
 	var cost := unit.equipment_component.get_enhancement_cost(item.item_id, Inventory)
 	if item.enhancement_level >= _max_supported_enhancement_level(item):
 		return "%s | %s" % [base, _tr("management.enhance_sprint_cap")]
@@ -688,6 +730,27 @@ func _is_enhance_disabled(unit: Unit, item: EquipmentItem) -> bool:
 	if item.enhancement_level >= 5 and not Inventory.has_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, 1):
 		return true
 	return not unit.equipment_component.get_enhancement_shortage(item.item_id, Inventory).is_empty()
+
+func _is_reroll_disabled(unit: Unit, item: EquipmentItem) -> bool:
+	if unit == null or item == null:
+		return true
+	if item.affixes.is_empty():
+		return true
+	return not unit.equipment_component.get_reroll_shortage(item.item_id, Inventory).is_empty()
+
+func _format_affix_summary(item: EquipmentItem) -> String:
+	if item == null or item.affixes.is_empty():
+		return ""
+	var parts: Array[String] = []
+	for affix in item.affixes:
+		parts.append("%s +%d" % [_display_text(_affix_label(int(affix.get("type", EquipmentDefinitions.AffixType.STR)))), int(affix.get("value", 0))])
+	return ", ".join(parts)
+
+func _affix_label(affix_type: int) -> String:
+	var keys := EquipmentDefinitions.AffixType.keys()
+	if affix_type < 0 or affix_type >= keys.size():
+		return "STR"
+	return String(keys[affix_type])
 
 func _max_supported_enhancement_level(item: EquipmentItem) -> int:
 	if item == null:
@@ -800,6 +863,44 @@ func _on_enhance_item_pressed(unit_id: StringName, item_id: StringName, slot: in
 		equipment_changed.emit(unit, slot, item_id, item_id)
 	else:
 		_set_hint_text(_tr("management.enhance_failed") % _display_text(String(result.get("reason", result.get("result", "failed")))))
+	_refresh_detail()
+
+func _on_decompose_item_pressed(unit_id: StringName, item_id: StringName, slot: int) -> void:
+	if _roster == null:
+		return
+	var unit: Unit = _roster.get_character(unit_id)
+	if unit == null or unit.equipment_component == null:
+		return
+	var result: Dictionary = unit.equipment_component.decompose_item(item_id, Inventory, _decompose_rng_seed)
+	if not bool(result.get("success", false)):
+		_set_hint_text(_tr("management.decompose_failed") % _display_text(String(result.get("reason", "failed"))))
+		return
+	_set_hint_text(_tr("management.decompose_success") % [int(result.get("basic_materials", 0)), int(result.get("rare_materials", 0))])
+	equipment_changed.emit(unit, slot, item_id, &"")
+	_refresh_detail()
+
+func _on_reroll_item_pressed(unit_id: StringName, item_id: StringName, slot: int) -> void:
+	if _roster == null:
+		return
+	var unit: Unit = _roster.get_character(unit_id)
+	if unit == null or unit.equipment_component == null:
+		return
+	var item: EquipmentItem = unit.equipment_component.get_item(item_id)
+	if item == null:
+		return
+	if item.affixes.is_empty():
+		_set_hint_text(_tr("management.reroll_no_affix"))
+		return
+	var shortage := unit.equipment_component.get_reroll_shortage(item_id, Inventory)
+	if not shortage.is_empty():
+		_set_hint_text(_tr("management.reroll_shortage") % [int(shortage.get("gold", 0)), int(shortage.get("materials", 0))])
+		return
+	var result: Dictionary = unit.equipment_component.reroll_affix(item_id, 0, Inventory, _reroll_rng_seed)
+	if not bool(result.get("success", false)):
+		_set_hint_text(_tr("management.reroll_failed") % _display_text(String(result.get("reason", "failed"))))
+		return
+	_set_hint_text(_tr("management.reroll_success") % _format_affix_summary(item))
+	equipment_changed.emit(unit, slot, item_id, item_id)
 	_refresh_detail()
 
 func _set_hint_text(text: String) -> void:

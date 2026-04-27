@@ -13,6 +13,8 @@ const SRPGLocalizationScript := preload("res://src/core/localization/srpg_locali
 const HintBarScript := preload("res://src/ui/common/hint_bar.gd")
 const CharacterTabBar := preload("res://src/ui/management/character_tab_bar.gd")
 const BondRegistry := preload("res://src/core/bond/bond_registry.gd")
+const B3GateEvaluator := preload("res://src/core/belief/b3_gate_evaluator.gd")
+const Chapter03PressureModel := preload("res://src/core/chapter03/chapter_03_pressure_model.gd")
 
 const GRID_SIZE := 15
 const CELL_SIZE := 64
@@ -84,6 +86,8 @@ var _difficulty_profile: Dictionary = {}
 var _boss_profiles: Dictionary = {}
 var _boss_states: Dictionary = {}
 var _story_progress: Dictionary = {}
+var _chapter3_pressure_state: Dictionary = {}
+var _chapter3_finale_variant_state: Dictionary = {}
 var _settlement_reward_summary: Dictionary = {}
 var _player_damage_taken: int = 0
 var _player_deaths: int = 0
@@ -728,6 +732,8 @@ func _reset_runtime_systems() -> void:
 	_attack_range.clear()
 	_boss_profiles.clear()
 	_boss_states.clear()
+	_chapter3_pressure_state.clear()
+	_chapter3_finale_variant_state.clear()
 	_settlement_reward_summary.clear()
 	_unit_tactical_profiles.clear()
 	_last_camp_report = "No camp actions yet."
@@ -788,6 +794,7 @@ func _load_default_battle() -> void:
 	_load_battle_definition(DEFAULT_BATTLE_DEFINITION_PATH)
 	set_map_size(int(_battle_definition.get("map_size", DEFAULT_MAP_SIZE)))
 	_story_progress = _battle_definition.get("progress_on_start", {}).duplicate(true)
+	_prepare_chapter3_battle_context()
 	_seedInventory_from_definition()
 	_seed_units_from_definition()
 	_combat.start_battle(get_battle_id(), _get_map_id(), int(_battle_definition.get("difficulty", 1)))
@@ -857,10 +864,76 @@ func get_campaign_state() -> Dictionary:
 		"battle_definition_path": _get_battle_definition_path(),
 		"next_battle_definition_path": _get_next_battle_definition_path(),
 		"story_progress": _story_progress.duplicate(true),
+		"chapter3_pressure": _chapter3_pressure_state.duplicate(true),
+		"chapter3_finale_variant": _chapter3_finale_variant_state.duplicate(true),
 		"camp_report": _last_camp_report,
 		"briefing": get_briefing_text(),
 		"chapter_complete": bool(_story_progress.get("chapter_01_complete", false)),
 	}
+
+func get_chapter3_pressure_state() -> Dictionary:
+	return _chapter3_pressure_state.duplicate(true)
+
+func get_chapter3_finale_variant_state() -> Dictionary:
+	return _chapter3_finale_variant_state.duplicate(true)
+
+func _prepare_chapter3_battle_context(apply_runtime_choice: bool = true) -> void:
+	if apply_runtime_choice:
+		_apply_runtime_narrative_choice_once()
+	_chapter3_pressure_state = Chapter03PressureModel.evaluate_pressure(_story_progress, _battle_definition.get("pressure", {}))
+	if get_battle_id() == "chapter_03_finale":
+		_apply_chapter3_finale_variant_to_definition()
+	else:
+		_chapter3_finale_variant_state.clear()
+
+func _apply_runtime_narrative_choice_once() -> void:
+	var narrative_choice: Dictionary = _battle_definition.get("narrative_choice", {})
+	if not BeliefSystem.narrative_choice_uses_runtime_branching(narrative_choice):
+		return
+	var node_id := String(narrative_choice.get("node_id", ""))
+	if node_id == "":
+		return
+	var applied: Dictionary = _story_progress.get("runtime_choices_applied", {}).duplicate(true)
+	if bool(applied.get(node_id, false)):
+		return
+	var choices: Dictionary = _story_progress.get("narrative_choices", {})
+	var option_id := String(choices.get(node_id, narrative_choice.get("default_option_id", "")))
+	var result := BeliefSystem.apply_runtime_narrative_choice(_story_progress, narrative_choice, option_id)
+	if bool(result.get("success", false)):
+		applied[node_id] = true
+		_story_progress["runtime_choices_applied"] = applied
+
+func _apply_chapter3_pressure_to_enemy_stats(stats: Dictionary) -> Dictionary:
+	if get_battle_id() != "chapter_03_act_b":
+		return stats
+	var bonus := int(_chapter3_pressure_state.get("enemy_morale_bonus", 0))
+	if bonus <= 0:
+		return stats
+	var adjusted := stats.duplicate(true)
+	adjusted["str"] = int(adjusted.get("str", 0)) + bonus
+	adjusted["agi"] = int(adjusted.get("agi", 0)) + bonus
+	return adjusted
+
+func _apply_chapter3_finale_variant_to_definition() -> void:
+	var variants: Dictionary = _battle_definition.get("route_variants", {})
+	var route := B3GateEvaluator.get_persisted_route(_story_progress)
+	var variant: Dictionary = variants.get(route, variants.get(B3GateEvaluator.FALLBACK_ROUTE, {}))
+	_chapter3_finale_variant_state = {
+		"dominant_route": route,
+		"variant_id": String(variant.get("variant_id", route)),
+		"fallback_used": not variants.has(route),
+	}
+	_story_progress["chapter_03_finale_variant"] = _chapter3_finale_variant_state["variant_id"]
+	if variant.has("objective"):
+		_battle_definition["objective"] = String(variant["objective"])
+	if variant.has("briefing"):
+		_battle_definition["briefing"] = String(variant["briefing"])
+	if variant.has("enemy_units"):
+		var units: Array = _battle_definition.get("units", []).duplicate(true)
+		for enemy in variant.get("enemy_units", []):
+			if typeof(enemy) == TYPE_DICTIONARY:
+				units.append((enemy as Dictionary).duplicate(true))
+		_battle_definition["units"] = units
 
 ## Return the active narrative briefing for campaign pacing screens.
 func get_briefing_text() -> String:
@@ -1099,6 +1172,7 @@ func _apply_loaded_save_data(save_data: SaveData) -> void:
 				_story_progress[key] = _battle_definition["progress_on_start"][key]
 	apply_ui_preferences(save_data.ui_preferences)
 	apply_camera_preferences(save_data.camera_preferences)
+	_prepare_chapter3_battle_context(not (save_data.battle_state.has("units") and not save_data.battle_state["units"].is_empty()))
 
 	if not save_data.inventory_state.is_empty():
 		Inventory.deserialize(save_data.inventory_state)
@@ -1173,6 +1247,7 @@ func _create_unit_from_definition(entry: Dictionary) -> Unit:
 	var stats: Dictionary = entry.get("stats", {})
 	if not is_player:
 		stats = BattleDifficultyProfile.scale_enemy_stats(stats, _difficulty_profile)
+		stats = _apply_chapter3_pressure_to_enemy_stats(stats)
 
 	# Build node, apply stats, configure class & equipment BEFORE registering
 	# so player max_hp can be derived from HpFormula at registration time.
@@ -3617,6 +3692,7 @@ func _start_campaign_battle(path: String, carry: Dictionary) -> void:
 		_story_progress[key] = carried_story[key]
 	for key in _battle_definition.get("progress_on_start", {}):
 		_story_progress[key] = _battle_definition["progress_on_start"][key]
+	_prepare_chapter3_battle_context()
 
 	set_map_size(int(_battle_definition.get("map_size", DEFAULT_MAP_SIZE)))
 	if carriedInventory.is_empty():
@@ -3937,6 +4013,7 @@ func _finalize_battle_result(result_type: int, rating: int) -> void:
 	if result_type == SettlementResult.SettlementType.VICTORY:
 		for key in _battle_definition.get("progress_on_victory", {}):
 			_story_progress[key] = _battle_definition["progress_on_victory"][key]
+		_apply_chapter3_victory_progress()
 		_apply_battle_affinity_rewards()
 	_battle_history_log.append_battle({
 		"battle_id": get_battle_id(),
@@ -3965,6 +4042,17 @@ func _finalize_battle_result(result_type: int, rating: int) -> void:
 	_refresh_management_content()
 	var winner: Node = _combat.get_current_actor()
 	GameEvents.combat_ended.emit(winner)
+
+func _apply_chapter3_victory_progress() -> void:
+	match get_battle_id():
+		"chapter_03_act_b":
+			Chapter03PressureModel.apply_behavior_scoring(_story_progress, _battle_definition.get("behavior_scoring", {}))
+			var gate_result := B3GateEvaluator.evaluate_and_persist(_story_progress, "chapter_03_act_b")
+			_story_progress["b3_gate_summary"] = "%s:%d" % [String(gate_result.get("dominant_route", "zhi")), int(gate_result.get("margin", 0))]
+		"chapter_03_finale":
+			_story_progress["chapter_03_complete"] = true
+		_:
+			return
 
 # --- Signal handlers ---
 

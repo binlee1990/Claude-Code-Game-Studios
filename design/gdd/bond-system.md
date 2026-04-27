@@ -1,8 +1,8 @@
 # 羁绊系统
 
-> **Status**: Designed (pending review)
+> **Status**: Designed / Sprint-008 combo-skill spec complete
 > **Author**: binlee1990 + agents
-> **Last Updated**: 2026-04-22
+> **Last Updated**: 2026-04-27
 > **Implements Pillar**: 系统互锁（羁绊在策略和情感两个层面提供回报）
 
 ## Overview
@@ -63,6 +63,21 @@
 | 师徒 | 技能传授 | 角色临时获得搭档的一项技能（持续 3 回合） | 5 回合 |
 | 宿敌 | 竞争觉醒 | 一方受击后另一方获得 +30% 攻击，持续 2 回合 | 4 回合 |
 | 恋人 | 誓约守护 | 搭档受到致命伤害时，自动替挡一次（消耗自身 30% HP） | 每场战斗 1 次 |
+
+**Sprint-008 组合技实施规格（GDD-only，代码实现推至 Sprint-009）**
+
+| 维度 | 规则 |
+|------|------|
+| 解锁门槛 | 双方羁绊等级达到 A；S 级只强化数值或冷却，不解锁新机制。 |
+| 参战门槛 | 双方均在当前战斗中存活、未撤退、未被控制，且本回合至少一方未行动。 |
+| 距离门槛 | 主动型组合技要求曼哈顿距离 ≤3；反应型组合技使用事件触发者与搭档距离 ≤5。 |
+| 消耗 | 主动型消耗双方行动点；反应型消耗触发角色的反应次数，若搭档本回合已行动则效果减半。 |
+| 冷却记录 | 冷却按 pair key + skill id 存储在 battle_state，不写入永久 SaveData。 |
+| 效果类型 | 伤害型（协力一击）、临时技能型（技能传授）、增益型（竞争觉醒）、防护型（誓约守护）。 |
+| AI 使用 | Sprint-009 MVP 仅玩家可主动触发；敌方/AI 羁绊组合技需单独 story。 |
+| 失败反馈 | 任一门槛不满足时按钮禁用并显示短文本原因，不消耗行动点或冷却。 |
+
+Sprint-009 实现时应复用现有 BondRegistry pair key、battle unit id、cooldown/status-effect 管线，不在 `architecture.md` 里提前声明未落地的 `trigger_combo_skill` 公共接口。
 
 **规则 5 — 羁绊上限与策略**
 

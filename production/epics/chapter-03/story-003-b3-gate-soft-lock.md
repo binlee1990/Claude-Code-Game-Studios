@@ -1,26 +1,26 @@
-# Story CH3-c-003: B3-GATE Soft-Lock Evaluator Skeleton
+# Story CH3-c-003: B3-GATE Soft-Lock Evaluator
 
 > **Epic**: Chapter 03 Content
-> **Status**: Backlog
+> **Status**: Complete
 > **Layer**: Content
 > **Type**: Logic + Save/Load
-> **Priority**: Future
-> **Sprint**: Sprint-008 Candidate
+> **Priority**: Must Have
+> **Sprint**: Sprint-008
 > **TR-ID**: TR-ch3-003
 
 ## Context
 
 **GDD**: `design/gdd/chapter-03.md` §3.4, §4 F1
-**QA plan**: `production/qa/qa-plan-sprint-7.md`
+**QA plan**: `production/qa/qa-plan-sprint-8.md`
 
 B3-GATE evaluates the dominant belief route after Ch.3 battle 2 and records only a soft-lock candidate.
 
 ## Acceptance Criteria
 
-- [ ] Dominant route is the max of ren/yi/zhi.
-- [ ] `soft_lock_candidate` is true only when the dominant value leads the second value by at least 20.
-- [ ] Missing or tied values fallback to `zhi` without hard-locking the player.
-- [ ] Result persists in `story_progress.b3_gate`.
+- [x] Dominant route is the max of ren/yi/zhi.
+- [x] `soft_lock_candidate` is true only when the dominant value leads the second value by at least 20.
+- [x] Missing or tied values fallback to `zhi` without hard-locking the player.
+- [x] Result persists in `story_progress.b3_gate`.
 
 ## QA Test Conditions
 
@@ -31,8 +31,12 @@ B3-GATE evaluates the dominant belief route after Ch.3 battle 2 and records only
 
 ## Test Evidence
 
-Future unit test for gate formula plus save/load integration.
+- `src/core/belief/b3_gate_evaluator.gd`
+- `src/core/belief/belief_system.gd`
+- `src/ui/combat/battle_arena.gd`
+- `tests/unit/chapter03/b3_gate_evaluator_test.gd`
+- `tests/integration/chapter03/b3_gate_persistence_test.gd`
 
 ## Next Step
 
-Keep backlog until Ch.3 battle 2 scoring exists.
+Closed in Sprint-008. The evaluator records a soft-lock candidate only; it does not remove player agency or implement hard-lock routing.

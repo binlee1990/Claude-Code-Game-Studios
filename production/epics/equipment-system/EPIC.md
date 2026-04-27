@@ -3,8 +3,8 @@
 > **Layer**: Feature
 > **GDD**: design/gdd/equipment-system.md
 > **Architecture Module**: Equipment
-> **Status**: Complete / Sprint-007 Risk-Zone Extension Complete
-> **Stories**: 12 stories
+> **Status**: Complete / Sprint-008 Decompose-Reroll UI Complete
+> **Stories**: 13 stories
 
 ## Overview
 
@@ -45,6 +45,7 @@ Implements the ARPG-inspired equipment framework: random affix generation (1-4 a
 | story-010-enhancement-round-trip | TR-equip-010 | Enhancement result feedback and +5 round-trip persistence |
 | story-011-risk-zone-enhancement | TR-equip-011 | Equipment enhancement UI supports +6 through +10 risk-zone behavior |
 | story-012-risk-zone-round-trip | TR-equip-012 | Risk-zone enhancement state and protection symbols round-trip through save/load |
+| story-013-decomp-reroll-ui | TR-equip-013 | Decomposition and single-affix reroll UI with resource persistence |
 
 ## Stories
 
@@ -62,6 +63,7 @@ Implements the ARPG-inspired equipment framework: random affix generation (1-4 a
 | 010 | Enhancement Round-Trip + Failure UI | UI + Integration | Complete | ADR-003, ADR-009 |
 | 011 | Equipment +6 Risk-Zone Enhancement | Logic + UI + Integration | Complete | ADR-008, ADR-009 |
 | 012 | Risk-Zone Round-Trip Tests | Save/Load Integration | Complete | ADR-003, ADR-009 |
+| 013 | Decompose and Affix Reroll UI | UI + Integration | Complete | ADR-003, ADR-008, ADR-009 |
 
 ## Definition of Done
 
@@ -87,6 +89,14 @@ Sprint-007 completed the risk-zone behavior already described by the GDD and ADR
 1. `story-011-risk-zone-enhancement.md` exposes +6 through +10 risk-zone enhancement, failure downgrade, and protection symbol behavior.
 2. `story-012-risk-zone-round-trip.md` hardens save/load for risk-zone levels and protection symbol consumption.
 
+## Sprint-008 Extension
+
+Sprint-008 completed the remaining player-facing equipment management loop inside the existing character-management equipment tab:
+
+1. `story-013-decomp-reroll-ui.md` exposes decomposition and single-affix reroll actions.
+2. Resource costs stay owned by `ResourceFormulas`; equipment mutation stays owned by `EquipmentComponent`.
+3. UI integration coverage verifies item removal, reroll persistence, shortage handling, and enhancement-level preservation.
+
 ## Next Step
 
-Sprint-007 evidence: `tests/unit/equipment/enhancement_test.gd`, `tests/integration/ui/character_management_test.gd`, and `tests/integration/equipment/save_load_integration_test.gd`.
+Sprint-008 evidence: `tests/unit/equipment/decomp_reroll_test.gd`, `tests/integration/equipment/decomp_reroll_ui_test.gd`, `src/ui/management/character_management.gd`, and `src/core/equipment/equipment_component.gd`.

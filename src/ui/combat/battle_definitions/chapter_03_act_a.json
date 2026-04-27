@@ -8,7 +8,7 @@
   "briefing": "The road from the Flying Cavalry pass opens into a tense camp. Chapter 2 choices are acknowledged here, while the B3 gate remains a placeholder for the next slice.",
   "map_size": 20,
   "difficulty": 7,
-  "next_battle_definition_path": "",
+  "next_battle_definition_path": "res://src/ui/combat/battle_definitions/chapter_03_act_b.json",
   "difficulty_profile": {
     "label": "Chapter 3 Act A",
     "enemy_stat_multiplier": 1.05,
@@ -21,26 +21,32 @@
   "narrative_choice": {
     "node_id": "B3-N1",
     "prompt": "营地前夜，你先处理哪条线索？",
-    "runtime_branching": false,
-    "placeholder_for": "B3-GATE",
+    "runtime_branching": true,
+    "default_option_id": "protect_civilians",
     "options": [
       {
         "id": "protect_civilians",
         "label": "稳住营民",
-        "belief_delta": {"ren": 4},
-        "effects": ["b3_gate_placeholder_civilian_support"]
+        "belief_delta": {"ren": 10, "yi": -2, "zhi": 2},
+        "effects": ["civilian_morale_plus_1", "e4_acts_early"]
       },
       {
         "id": "hunt_raiders",
         "label": "追查袭击者",
-        "belief_delta": {"yi": 4},
-        "effects": ["b3_gate_placeholder_raider_pressure"]
+        "belief_delta": {"yi": 10, "ren": -3, "zhi": 1},
+        "effects": ["captain_exposed", "civilian_ai_conservative"]
+      },
+      {
+        "id": "cut_supply",
+        "label": "烧毁补给",
+        "belief_delta": {"zhi": 10, "ren": 1, "yi": -2},
+        "effects": ["supply_interaction_seeded"]
       }
     ]
   },
   "settlement": {
     "rng_seed": 301,
-    "reward_note": "Chapter 3 Battle 1 complete. B3-GATE runtime branching is intentionally deferred.",
+    "reward_note": "Chapter 3 Battle 1 complete. B3-N1 stance recorded for the pressure battle.",
     "equipment": ["blue"]
   },
   "progress_on_start": {
@@ -56,7 +62,9 @@
     "current_battle": "chapter_03_act_a",
     "chapter_03_act_a_complete": true,
     "chapter_03_battle_1_complete": true,
-    "b3_gate_placeholder": true
+    "chapter_03_battle_1_civilians_rescued": 3,
+    "chapter_03_act_a_e1_defeated_in_6_turns": true,
+    "b3_gate_placeholder": false
   },
   "terrain": [
     {"x": 5, "y": 5, "type": "highland"},

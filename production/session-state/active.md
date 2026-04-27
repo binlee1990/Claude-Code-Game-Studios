@@ -3,9 +3,54 @@
 **Last Updated**: 2026-04-27
 
 ## Current Task
-**Sprint-006 COMPLETE** — Bond MVP + Equipment Enhancement + Base Phase 1
+**Sprint-008 COMPLETE** — Ch.3 内容完成 + 装备养成收口
 
-Active stage: Production. Sprint-006 COMPLETE（Must / Should / Nice 全部 DONE）。人工 playtest、截图、public release sign-off 仍由 `production/sprints/sprint-人工.md` 管理，不作为 Sprint-006 自动化完成门槛。
+Active stage: Production. Sprint-008 COMPLETE（Must / Should / Nice 全部 DONE）。
+
+## Sprint-008 最终状态
+
+| 类别 | 数量 | 状态 |
+|------|------|------|
+| Must Have | 6 | ✅ 全 DONE |
+| Should Have | 2 | ✅ 全 DONE |
+| Nice to Have | 2 | ✅ 全 DONE |
+| godot --check-only | - | ✅ 退出码 0 |
+| GUT runner | - | ✅ 879/879 PASS |
+| Windows export | - | ✅ 退出码 0 |
+| Packaged smoke | - | ✅ PASS，含 Ch.3 Battle 2/B3-GATE/Finale/decomp/reroll |
+
+### Sprint-008 交付物
+
+| Area | 新建/修改文件 |
+|------|--------------|
+| Ch.3 Battle 2 | `src/ui/combat/battle_definitions/chapter_03_act_b.json`, `tests/unit/chapter03/battle_2_pressure_test.gd`, `tests/integration/prototypes/chapter_03_battle_2_entry_test.gd` |
+| B3-GATE | `src/core/belief/b3_gate_evaluator.gd`, `tests/unit/chapter03/b3_gate_evaluator_test.gd`, `tests/integration/chapter03/b3_gate_persistence_test.gd` |
+| Ch.3 Finale | `src/ui/combat/battle_definitions/chapter_03_finale.json`, `tests/unit/chapter03/finale_route_variant_test.gd`, `tests/integration/chapter03/finale_boot_test.gd` |
+| Equipment UI | `character_management.gd` decomp/reroll panels, `tests/unit/equipment/decomp_reroll_test.gd`, `tests/integration/equipment/decomp_reroll_ui_test.gd` |
+| Architecture | `docs/architecture/architecture.md` §8 ADR 001~009, §5 Base/Ch.3 data flows |
+| Design | `design/gdd/bond-system.md` combo skills, `design/gdd/fog-of-war-system.md` |
+
+### Sprint-008 验证
+
+`879/879 PASS`, chapter_03 全三战 + B3-GATE + equipment UI 全闭环，Ch.3 可玩路径完整。
+
+## Sprint-007 最终状态
+
+| 类别 | 数量 | 状态 |
+|------|------|------|
+| Must Have | 5+2 | ✅ 全 DONE |
+| Should Have | 3 | ✅ 全 DONE |
+| Nice to Have | 1 | ✅ 全 DONE |
+| godot --check-only | - | ✅ 退出码 0 |
+| GUT runner | - | ✅ 855/855 PASS |
+| Windows export | - | ✅ 退出码 0 |
+| Packaged smoke | - | ✅ PASS |
+
+<!-- STATUS -->
+Epic: Production
+Feature: Sprint-008 Complete
+Task: Sprint-009 Planning
+<!-- /STATUS -->
 
 ## Sprint-006 最终状态
 

@@ -482,13 +482,54 @@ func _smoke_run_chapter_three_smoke(scene: PackedScene) -> Dictionary:
 	var base_result := _smoke_run_chapter_three_base_loop()
 	if not bool(base_result.get("success", false)):
 		return base_result
+	var saved_after_base := SaveManager.peek_save(6)
+	if saved_after_base == null:
+		return {"success": false, "reason": "chapter3_post_base_save_missing"}
+	var act_b: VSBattle = _smoke_start_battle_from_definition(
+		scene,
+		"res://src/ui/combat/battle_definitions/chapter_03_act_b.json",
+		saved_after_base.story_progress
+	)
+	if act_b == null or act_b.get_battle_id() != "chapter_03_act_b":
+		var actual_battle := act_b.get_battle_id() if act_b != null else ""
+		if act_b != null:
+			act_b.queue_free()
+		return {"success": false, "reason": "chapter3_act_b_start_failed", "battle": actual_battle}
+	_smoke_defeat_current_enemies(act_b)
+	var b3_gate: Dictionary = act_b.get_story_progress().get("b3_gate", {})
+	if String(b3_gate.get("dominant_route", "")) == "":
+		act_b.queue_free()
+		return {"success": false, "reason": "chapter3_b3_gate_missing"}
+	if not act_b.advance_to_next_battle():
+		act_b.queue_free()
+		return {"success": false, "reason": "chapter3_finale_advance_failed"}
+	if act_b.get_battle_id() != "chapter_03_finale":
+		var wrong_finale := act_b.get_battle_id()
+		act_b.queue_free()
+		return {"success": false, "reason": "chapter3_finale_wrong_battle", "battle": wrong_finale}
+	var boss_phase_result := _smoke_trigger_finale_boss_phases(act_b)
+	if not bool(boss_phase_result.get("success", false)):
+		act_b.queue_free()
+		return boss_phase_result
+	_smoke_defeat_current_enemies(act_b)
+	var final_progress: Dictionary = act_b.get_story_progress()
+	var finale_variant: Dictionary = act_b.get_chapter3_finale_variant_state()
+	act_b.queue_free()
 	return {
 		"success": true,
 		"chapter3_battle": "chapter_03_act_a",
 		"chapter3_victory": true,
+		"chapter3_act_b": true,
+		"b3_gate_route": String(b3_gate.get("dominant_route", "")),
+		"chapter3_finale": true,
+		"finale_variant": String(finale_variant.get("variant_id", "")),
+		"finale_boss_phase": int(boss_phase_result.get("boss_phase", 0)),
+		"chapter3_complete": bool(final_progress.get("chapter_03_complete", false)),
 		"tavern_affinity": int(base_result.get("tavern_affinity", 0)),
 		"chapter3_base_level": int(base_result.get("base_level", 0)),
 		"risk_enhanced_level": int(base_result.get("risk_enhanced_level", 0)),
+		"decompose_materials": int(base_result.get("decompose_materials", 0)),
+		"reroll_preserved_level": int(base_result.get("reroll_preserved_level", 0)),
 	}
 
 func _smoke_start_battle_from_definition(scene: PackedScene, path: String, story_progress: Dictionary) -> VSBattle:
@@ -524,6 +565,10 @@ func _smoke_run_chapter_three_base_loop() -> Dictionary:
 	if not bool(risk_result.get("success", false)):
 		base.queue_free()
 		return risk_result
+	var decomp_reroll_result := _smoke_run_decomp_reroll(base)
+	if not bool(decomp_reroll_result.get("success", false)):
+		base.queue_free()
+		return decomp_reroll_result
 	if not SaveManager.save_game(6):
 		base.queue_free()
 		return {"success": false, "reason": "chapter3_base_save_failed"}
@@ -533,7 +578,44 @@ func _smoke_run_chapter_three_base_loop() -> Dictionary:
 		"base_level": 2,
 		"tavern_affinity": int(tavern_result.get("new_affinity", 20)),
 		"risk_enhanced_level": int(risk_result.get("risk_enhanced_level", 0)),
+		"decompose_materials": int(decomp_reroll_result.get("decompose_materials", 0)),
+		"reroll_preserved_level": int(decomp_reroll_result.get("reroll_preserved_level", 0)),
 	}
+
+func _smoke_run_decomp_reroll(base) -> Dictionary:
+	var character_screen = base._character_screen
+	var roster: CharacterRoster = base._roster
+	if character_screen == null or roster == null or roster.get_party().is_empty():
+		return {"success": false, "reason": "chapter3_decomp_reroll_management_missing"}
+	var unit: Unit = roster.get_character(StringName(roster.get_party()[0]))
+	if unit == null:
+		return {"success": false, "reason": "chapter3_decomp_reroll_unit_missing"}
+	var item := _smoke_first_equipped_item(unit)
+	if item == null:
+		return {"success": false, "reason": "chapter3_reroll_item_missing"}
+	var starting_level := item.enhancement_level
+	character_screen._reroll_rng_seed = 202608
+	character_screen.call("_on_roster_item_selected", unit.unit_id)
+	character_screen.call("_on_reroll_item_pressed", unit.unit_id, item.item_id, item.slot)
+	if item.enhancement_level != starting_level:
+		return {"success": false, "reason": "chapter3_reroll_changed_enhancement", "level": item.enhancement_level}
+	var spare := EquipmentItem.new({
+		"item_id": "smoke_spare_decompose",
+		"name": "Smoke Spare Blade",
+		"slot": EquipmentDefinitions.Slot.WEAPON,
+		"quality": EquipmentDefinitions.Quality.BLUE,
+		"affixes": [EquipmentAffixGenerator.generate_affix(EquipmentDefinitions.Quality.BLUE, EquipmentDefinitions.AffixType.STR, 19)],
+	})
+	unit.equipment_component.add_item(spare)
+	var before_materials := Inventory.get_amount(ResourceTypes.ResourceId.BASIC_MATERIAL)
+	character_screen._decompose_rng_seed = 1
+	character_screen.call("_on_decompose_item_pressed", unit.unit_id, spare.item_id, spare.slot)
+	if unit.equipment_component.get_item(spare.item_id) != null:
+		return {"success": false, "reason": "chapter3_decompose_item_remaining"}
+	var material_gain := Inventory.get_amount(ResourceTypes.ResourceId.BASIC_MATERIAL) - before_materials
+	if material_gain <= 0:
+		return {"success": false, "reason": "chapter3_decompose_no_material_gain"}
+	return {"success": true, "decompose_materials": material_gain, "reroll_preserved_level": item.enhancement_level}
 
 func _smoke_run_risk_enhancement_to_plus_seven(base) -> Dictionary:
 	var character_screen = base._character_screen
@@ -573,6 +655,26 @@ func _smoke_find_seed_for_enhancement_result(unit: Unit, item: EquipmentItem, ex
 	item.enhancement_level = starting_level
 	Inventory.deserialize(inventory_snapshot)
 	return -1
+
+func _smoke_trigger_finale_boss_phases(battle: VSBattle) -> Dictionary:
+	var boss := _smoke_find_unit(battle, "BOSS_YAN")
+	var actor: Unit = battle._combat.get_current_actor()
+	if boss == null or actor == null:
+		return {"success": false, "reason": "chapter3_finale_boss_missing"}
+	battle._combat.apply_damage(boss, 80, actor)
+	if int(battle.get_boss_state().get("phase", 0)) < 2:
+		return {"success": false, "reason": "chapter3_finale_phase2_missing", "state": battle.get_boss_state()}
+	battle._combat.apply_damage(boss, 40, actor)
+	var phase := int(battle.get_boss_state().get("phase", 0))
+	if phase < 3:
+		return {"success": false, "reason": "chapter3_finale_phase3_missing", "state": battle.get_boss_state()}
+	return {"success": true, "boss_phase": phase}
+
+func _smoke_find_unit(battle: VSBattle, unit_id: String) -> Unit:
+	for unit in battle._unit_cells.keys():
+		if String(unit.unit_id) == unit_id:
+			return unit
+	return null
 
 func _smoke_cleanup_save() -> void:
 	var save_path := "user://saves/save_6.tres"

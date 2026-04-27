@@ -1,6 +1,6 @@
 # Architecture Document
 
-> 版本: v0.2 | 日期: 2026-04-27 | 状态: Sprint-007 对齐
+> 版本: v0.3 | 日期: 2026-04-27 | 状态: Sprint-008 对齐
 
 ---
 
@@ -192,7 +192,10 @@ func equip_item(unit: UnitData, item: ItemData, slot: String) -> ItemData:
 func enhance_item(item: ItemData, level: int) -> bool:
     ...
 
-func reforge_item(item: ItemData, material: MaterialData) -> bool:
+func decompose_item(item: ItemData) -> Dictionary:
+    ...
+
+func reroll_affix(item: ItemData, affix_index: int) -> Dictionary:
     ...
 ```
 
@@ -207,9 +210,6 @@ const BOND_TYPES := ["comrade", "master", "rival", "lover"]
 const BOND_LEVELS := ["C", "B", "A", "S"]
 
 func increase_bond(unit_id: int, partner_id: int, bond_type: String, amount: int) -> void:
-    ...
-
-func trigger_combo_skill(unit_id: int, partner_id: int) -> SkillData:
     ...
 ```
 
@@ -236,6 +236,32 @@ Input → InputManager → GameEvents → CombatSystem → GameEvents → HUD/Ef
 GameEvents → SaveManager → SaveData → ResourceSaver → user://saves/
 ```
 
+### 5.3 基地数据流
+
+```
+BaseHub → CharacterRoster / Inventory / BondRegistry / BaseUpgradeModel → SaveManager
+```
+
+基地场景是战斗间隙的整备入口。训练、市场、酒馆、基地升级和角色管理都写入同一份 `SaveData`：
+
+1. `BaseHub` 从当前存档恢复 `party_units`、`inventory_state`、`story_progress` 和基地升级状态。
+2. Tavern 通过 `BondRegistry` 写回 `story_progress.bond_levels`。
+3. Upgrade 通过 `BaseUpgradeModel` 读取成本并写回 `story_progress.base_upgrade`。
+4. Management 通过 `CharacterManagement` 修改队伍、装备强化、分解和词缀 reroll，并由 `SaveManager` 保存。
+
+### 5.4 Ch.3 内容管线
+
+```
+battle_definitions/*.json → BattleArena → Chapter03PressureModel / B3GateEvaluator → story_progress → next battle
+```
+
+Chapter 3 仍采用数据驱动战斗定义：
+
+1. `chapter_03_act_a.json` 记录 B3-N1 runtime choice，并把结果写入 `story_progress.belief_values`。
+2. `chapter_03_act_b.json` 使用 `Chapter03PressureModel` 读取 Ch.3-1 救援结果，计算敌方士气与信标目标状态；胜利后运行 B3-N2 行为计分。
+3. `B3GateEvaluator` 在 Ch.3-2 胜利后写入 `story_progress.b3_gate`，只标记 soft-lock candidate，不 hard lock。
+4. `chapter_03_finale.json` 根据 `b3_gate.dominant_route` 选择 Finale 变体，并复用现有 Boss 阶段处理。
+
 ---
 
 ## 6. 技术约束
@@ -260,5 +286,11 @@ GameEvents → SaveManager → SaveData → ResourceSaver → user://saves/
 - ADR-001: 事件架构
 - ADR-002: 场景管理架构
 - ADR-003: 存档系统架构
+- ADR-004: 战斗系统架构
+- ADR-005: AI 行为架构
+- ADR-006: 属性数据模型
+- ADR-007: 信念分支系统
+- ADR-008: 资源经济与升级
+- ADR-009: 装备升级范围
 - 设计/gdd/systems-index.md
 - 技术偏好/.claude/docs/technical-preferences.md

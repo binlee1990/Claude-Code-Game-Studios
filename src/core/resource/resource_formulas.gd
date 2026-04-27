@@ -48,6 +48,14 @@ const RISK_ZONE_SUCCESS_RATES: Dictionary = {
 	14: 0.05,
 }
 
+const AFFIX_REROLL_COSTS: Dictionary = {
+	EquipmentDefinitions.Quality.WHITE: {"gold": 250, "materials": 5},
+	EquipmentDefinitions.Quality.GREEN: {"gold": 400, "materials": 8},
+	EquipmentDefinitions.Quality.BLUE: {"gold": 650, "materials": 12},
+	EquipmentDefinitions.Quality.PURPLE: {"gold": 1000, "materials": 20},
+	EquipmentDefinitions.Quality.GOLD: {"gold": 1500, "materials": 30},
+}
+
 ## Enhancement cost formula (GDD D.4)
 static func calculate_enhancement_cost(base_cost: int, current_level: int) -> Dictionary:
 	if RISK_ZONE_ENHANCEMENT_COSTS.has(current_level):
@@ -63,6 +71,9 @@ static func get_enhancement_success_rate(current_level: int) -> float:
 	if current_level < 5:
 		return 1.0  # Safe zone +1 to +5
 	return RISK_ZONE_SUCCESS_RATES.get(current_level, 0.05)
+
+static func calculate_affix_reroll_cost(quality: int) -> Dictionary:
+	return AFFIX_REROLL_COSTS.get(quality, AFFIX_REROLL_COSTS[EquipmentDefinitions.Quality.WHITE]).duplicate()
 
 ## Check if fruit drops for a given battle type
 static func check_fruit_drop(is_boss: bool, rng_seed: int = 0) -> bool:

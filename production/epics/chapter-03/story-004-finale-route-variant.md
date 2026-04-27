@@ -1,26 +1,26 @@
-# Story CH3-c-004: Ch.3 Finale Route Variant Skeleton
+# Story CH3-c-004: Ch.3 Finale Route Variant
 
 > **Epic**: Chapter 03 Content
-> **Status**: Backlog
+> **Status**: Complete
 > **Layer**: Content
 > **Type**: Content + Integration
-> **Priority**: Future
-> **Sprint**: Sprint-008 Candidate
+> **Priority**: Should Have
+> **Sprint**: Sprint-008
 > **TR-ID**: TR-ch3-004
 
 ## Context
 
 **GDD**: `design/gdd/chapter-03.md` §3.5
-**QA plan**: `production/qa/qa-plan-sprint-7.md`
+**QA plan**: `production/qa/qa-plan-sprint-8.md`
 
-This skeleton captures the finale battle variants driven by B3-GATE. It is not a Sprint-007 implementation target.
+This story implements the finale battle variants driven by B3-GATE and reuses the existing boss phase controller pattern for a three-phase Chapter 3 boss.
 
 ## Acceptance Criteria
 
-- [ ] Finale battle reads B3-GATE dominant route.
-- [ ] Ren route changes civilian evacuation pressure.
-- [ ] Yi route changes boss guard/elite pressure.
-- [ ] Zhi route changes interactable mechanisms and turn pressure.
+- [x] Finale battle reads B3-GATE dominant route.
+- [x] Ren route changes civilian evacuation pressure.
+- [x] Yi route changes boss guard/elite pressure.
+- [x] Zhi route changes interactable mechanisms and turn pressure.
 
 ## QA Test Conditions
 
@@ -31,8 +31,11 @@ This skeleton captures the finale battle variants driven by B3-GATE. It is not a
 
 ## Test Evidence
 
-Future integration tests for route variant selection and finale boot.
+- `src/ui/combat/battle_definitions/chapter_03_finale.json`
+- `src/ui/combat/battle_arena.gd`
+- `tests/unit/chapter03/finale_route_variant_test.gd`
+- `tests/integration/chapter03/finale_boot_test.gd`
 
 ## Next Step
 
-Keep backlog until B3-GATE evaluator is complete.
+Closed in Sprint-008. Future finale polish can add authored art/audio without changing the B3-GATE route schema.

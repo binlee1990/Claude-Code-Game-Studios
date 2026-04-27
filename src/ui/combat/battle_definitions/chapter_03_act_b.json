@@ -1,0 +1,228 @@
+{
+  "definition_path": "res://src/ui/combat/battle_definitions/chapter_03_act_b.json",
+  "battle_id": "chapter_03_act_b",
+  "map_id": "camp_eve_signal_pass_20x20",
+  "chapter_id": 3,
+  "chapter_title": "Chapter 3: Signal Pass",
+  "objective": "Advance to the pass beacon and hold it for 2 turns.",
+  "briefing": "The camp path narrows into a signal pass. Civilian rescue results and the opening stance now shape enemy morale before the B3-GATE check.",
+  "map_size": 20,
+  "difficulty": 8,
+  "next_battle_definition_path": "res://src/ui/combat/battle_definitions/chapter_03_finale.json",
+  "difficulty_profile": {
+    "label": "Chapter 3 Act B",
+    "enemy_stat_multiplier": 1.10,
+    "exp_multiplier": 1.25,
+    "resource_multiplier": 1.25,
+    "ai_tier": "chapter_3_pressure"
+  },
+  "completion_key": "chapter_03_act_b_complete",
+  "pressure": {
+    "civilian_rescued_key": "chapter_03_battle_1_civilians_rescued",
+    "e1_defeated_key": "chapter_03_act_a_e1_defeated_in_6_turns",
+    "min_civilians_for_neutral": 2,
+    "neutral_civilian_rescued_count": 2,
+    "beacon_turns_required": 2
+  },
+  "victory_objective": {
+    "type": "hold_beacon",
+    "beacon_id": "PASS_BEACON",
+    "turns_required": 2,
+    "fallback": "defeat_all_enemies"
+  },
+  "behavior_scoring": {
+    "total_civilians": 3,
+    "all_civilians_ren": 6,
+    "fast_clear_turn": 8,
+    "fast_clear_yi": 6,
+    "supply_interaction_zhi": 6,
+    "civilian_death_ren_penalty": 5,
+    "civilian_death_yi_bonus": 2,
+    "default_clear_turn": 8,
+    "default_supply_interactions": 1
+  },
+  "narrative_choice": {
+    "node_id": "B3-N2",
+    "runtime_branching": true,
+    "default_option_id": "secure_beacon",
+    "prompt": "关隘信标即将点燃，你优先落实哪项战果？",
+    "options": [
+      {
+        "id": "rescue_all",
+        "label": "清点并护送全部平民",
+        "belief_delta": {"ren": 6},
+        "effects": ["ren_finale_variant_seed"]
+      },
+      {
+        "id": "secure_beacon",
+        "label": "快速控制信标",
+        "belief_delta": {"yi": 6},
+        "effects": ["yi_finale_variant_seed"]
+      },
+      {
+        "id": "read_terrain",
+        "label": "用补给和地形拆敌阵",
+        "belief_delta": {"zhi": 6},
+        "effects": ["zhi_finale_variant_seed"]
+      }
+    ]
+  },
+  "settlement": {
+    "rng_seed": 302,
+    "reward_note": "Chapter 3 Battle 2 complete. B3-GATE soft-lock state is evaluated on victory.",
+    "equipment": ["blue", "purple"]
+  },
+  "progress_on_start": {
+    "chapter": 3,
+    "current_battle": "chapter_03_act_b",
+    "chapter_03_act_b_started": true
+  },
+  "progress_on_victory": {
+    "chapter": 3,
+    "current_battle": "chapter_03_act_b",
+    "chapter_03_act_b_complete": true,
+    "chapter_03_battle_2_complete": true,
+    "chapter_03_act_b_civilians_rescued": 3,
+    "chapter_03_act_b_clear_turn": 8,
+    "chapter_03_act_b_supply_interactions": 1
+  },
+  "terrain": [
+    {"x": 4, "y": 4, "type": "highland"},
+    {"x": 5, "y": 4, "type": "highland"},
+    {"x": 6, "y": 5, "type": "highland"},
+    {"x": 8, "y": 9, "type": "mud"},
+    {"x": 9, "y": 9, "type": "mud"},
+    {"x": 10, "y": 10, "type": "mud"},
+    {"x": 12, "y": 7, "type": "obstacle"},
+    {"x": 13, "y": 7, "type": "obstacle"},
+    {"x": 14, "y": 8, "type": "obstacle"},
+    {"x": 15, "y": 15, "type": "water"},
+    {"x": 16, "y": 15, "type": "water"}
+  ],
+  "inventory": [
+    {"resource": "gold", "amount": 1300},
+    {"resource": "basic_material", "amount": 80},
+    {"resource": "protect_symbol", "amount": 2}
+  ],
+  "units": [
+    {
+      "id": "P1",
+      "name": "Swordsman",
+      "team": "player",
+      "class": "basic_warrior",
+      "hp": 118,
+      "position": {"x": 2, "y": 10},
+      "stats": {"str": 36, "agi": 29},
+      "tactics": {"weapon": "sword", "element": "none", "ai": "balanced", "move": 3, "range": 2}
+    },
+    {
+      "id": "P2",
+      "name": "Archer",
+      "team": "player",
+      "class": "basic_archer",
+      "hp": 88,
+      "position": {"x": 2, "y": 12},
+      "stats": {"str": 26, "agi": 32},
+      "tactics": {"weapon": "bow", "element": "wind", "ai": "balanced", "move": 3, "range": 3}
+    },
+    {
+      "id": "R1",
+      "name": "Cleric",
+      "team": "player",
+      "class": "basic_cleric",
+      "hp": 72,
+      "position": {"x": 3, "y": 11},
+      "stats": {"str": 16, "agi": 20},
+      "tactics": {"weapon": "magic", "element": "water", "ai": "support", "move": 3, "range": 3}
+    },
+    {
+      "id": "R2",
+      "name": "Rogue",
+      "team": "player",
+      "class": "basic_rogue",
+      "hp": 74,
+      "position": {"x": 3, "y": 13},
+      "stats": {"str": 19, "agi": 26},
+      "tactics": {"weapon": "dagger", "element": "none", "ai": "balanced", "move": 4, "range": 1}
+    },
+    {
+      "id": "PASS_BEACON",
+      "name": "Pass Beacon",
+      "team": "friendly_npc",
+      "class": "basic_cleric",
+      "hp": 999,
+      "position": {"x": 15, "y": 10},
+      "stats": {"str": 1, "agi": 1},
+      "tactics": {"weapon": "none", "element": "none", "ai": "defensive", "move": 0, "range": 1},
+      "controllable": false
+    },
+    {
+      "id": "E21",
+      "name": "Signal Spear Guard",
+      "team": "enemy",
+      "class": "basic_knight",
+      "hp": 82,
+      "position": {"x": 14, "y": 10},
+      "stats": {"str": 23, "agi": 17},
+      "tactics": {"weapon": "spear", "element": "earth", "ai": "defensive", "move": 3, "range": 2},
+      "reward": {"tier": "elite", "base_gold": 110, "damage_dealt": 460}
+    },
+    {
+      "id": "E22",
+      "name": "Signal Bow Sentry",
+      "team": "enemy",
+      "class": "basic_archer",
+      "hp": 64,
+      "position": {"x": 16, "y": 8},
+      "stats": {"str": 19, "agi": 20},
+      "tactics": {"weapon": "bow", "element": "wind", "ai": "support", "move": 3, "range": 3},
+      "reward": {"tier": "normal", "base_gold": 90, "damage_dealt": 330}
+    },
+    {
+      "id": "E23",
+      "name": "Signal Axe Linebreaker",
+      "team": "enemy",
+      "class": "basic_warrior",
+      "hp": 76,
+      "position": {"x": 13, "y": 12},
+      "stats": {"str": 24, "agi": 16},
+      "tactics": {"weapon": "axe", "element": "none", "ai": "aggressive", "move": 3, "range": 1},
+      "reward": {"tier": "normal", "base_gold": 95, "damage_dealt": 390}
+    },
+    {
+      "id": "E24",
+      "name": "Signal Torch Adept",
+      "team": "enemy",
+      "class": "basic_mage",
+      "hp": 58,
+      "position": {"x": 17, "y": 12},
+      "stats": {"str": 17, "agi": 18},
+      "tactics": {"weapon": "magic", "element": "fire", "ai": "control", "move": 3, "range": 3},
+      "reward": {"tier": "normal", "base_gold": 90, "damage_dealt": 350}
+    },
+    {
+      "id": "E25",
+      "name": "Signal Reinforcement Captain",
+      "team": "enemy",
+      "class": "basic_knight",
+      "hp": 92,
+      "position": {"x": 18, "y": 10},
+      "stats": {"str": 25, "agi": 18},
+      "tactics": {"weapon": "spear", "element": "earth", "ai": "aggressive", "move": 3, "range": 2},
+      "reward": {"tier": "elite", "base_gold": 120, "damage_dealt": 520}
+    }
+  ],
+  "reinforcements": [
+    {"id": "B2_REINFORCE_A", "name": "Signal Soldier", "team": "enemy", "class": "basic_warrior", "hp": 62, "spawn_x": 19, "spawn_y": 9, "stats": {"str": 19, "agi": 15}, "tactics": {"weapon": "axe", "element": "none", "ai": "aggressive", "move": 3, "range": 1}},
+    {"id": "B2_REINFORCE_B", "name": "Signal Soldier", "team": "enemy", "class": "basic_warrior", "hp": 62, "spawn_x": 19, "spawn_y": 11, "stats": {"str": 19, "agi": 15}, "tactics": {"weapon": "axe", "element": "none", "ai": "aggressive", "move": 3, "range": 1}}
+  ],
+  "reinforcement_trigger": {
+    "default_turn": 6,
+    "pressure_slot": "enemy_morale_bonus",
+    "spawn_side": "right"
+  },
+  "reserves": [
+    {"id": "R3", "name": "Lancer", "class": "basic_knight", "stats": {"str": 22, "agi": 17}, "status": "available"},
+    {"id": "R4", "name": "Mage", "class": "basic_mage", "stats": {"str": 16, "agi": 23}, "status": "available"}
+  ]
+}

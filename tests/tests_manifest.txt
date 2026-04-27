@@ -6,8 +6,12 @@ tests/integration/camera/save_load_integration_test.gd
 tests/integration/class/save_load_integration_test.gd
 tests/integration/character/save_load_integration_test.gd
 tests/integration/equipment/save_load_integration_test.gd
+tests/integration/equipment/decomp_reroll_ui_test.gd
+tests/integration/chapter03/b3_gate_persistence_test.gd
+tests/integration/chapter03/finale_boot_test.gd
 tests/integration/skill/save_load_integration_test.gd
 tests/integration/prototypes/battle_arena_entry_test.gd
+tests/integration/prototypes/chapter_03_battle_2_entry_test.gd
 tests/integration/prototypes/vs_battle_test.gd
 tests/integration/resource/save_load_integration_test.gd
 tests/integration/save/battle_save_manager_integration_test.gd
@@ -42,6 +46,7 @@ tests/unit/class/unlock_judgment_test.gd
 tests/unit/character/departure_recall_test.gd
 tests/unit/character/party_composition_test.gd
 tests/unit/equipment/affix_generation_test.gd
+tests/unit/equipment/decomp_reroll_test.gd
 tests/unit/equipment/decomposition_test.gd
 tests/unit/equipment/enhancement_test.gd
 tests/unit/equipment/equipment_risk_test.gd
@@ -81,5 +86,8 @@ tests/unit/chapter02/fruit_selection_test.gd
 tests/unit/chapter02/suppression_settlement_test.gd
 tests/unit/chapter02/boss_phase_test.gd
 tests/unit/chapter02/wang_xiu_ai_test.gd
+tests/unit/chapter03/battle_2_pressure_test.gd
+tests/unit/chapter03/b3_gate_evaluator_test.gd
+tests/unit/chapter03/finale_route_variant_test.gd
 tests/unit/hp/hp_formula_test.gd
 tests/unit/localization/localization_test.gd
