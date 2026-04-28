@@ -106,29 +106,20 @@ items: []
 #   output_range[min, max], added
 # Optional: expression (the actual formula), notes
 
-formulas: []
-
-# Example:
-#
-# formulas:
-#   - name: damage_formula
-#     status: active
-#     source: design/gdd/combat.md
-#     referenced_by:
-#       - design/gdd/combat.md
-#       - design/gdd/progression.md   # progression GDD scales attack variable
-#     variables:
-#       - attack
-#       - defense
-#       - crit_chance
-#       - crit_multiplier
-#     output_range: [0, 999]
-#     expression: "max(0, attack - defense) * (1 + crit_chance * crit_multiplier)"
-#     notes: "Output feeds into health-system damage intake. Min is 0 (armour
-#       can absorb all damage). Max is uncapped in formula but tuning knob
-#       damage_cap in combat.md clamps at 999."
-#     added: 2026-03-26
-#     revised: ""
+formulas:
+  - name: damage_formula
+    status: active
+    source: design/gdd/attack.md
+    referenced_by:
+      - design/gdd/attack.md
+    variables:
+      - atk
+      - def
+    output_range: [1, 8]
+    expression: "max(atk - def, 1)"
+    notes: "MVP stat caps produce [1, 8] range. Floor at 1 guarantees progress even when ATK ≤ DEF. HTK = ceil(hp / damage) for design-side sanity checking."
+    added: 2026-04-29
+    revised: ""
 
 
 # ─── CONSTANTS ───────────────────────────────────────────────────────────────
@@ -165,9 +156,30 @@ constants:
     source: design/gdd/turn.md
     referenced_by:
       - design/gdd/turn.md
+      - design/gdd/attack.md
     value: 30
     unit: turns
     range: [1, 99]
+    added: 2026-04-29
+    revised: ""
+
+  - name: damage_floor
+    status: active
+    source: design/gdd/attack.md
+    referenced_by:
+      - design/gdd/attack.md
+    value: 1
+    unit: minimum_damage
+    added: 2026-04-29
+    revised: ""
+
+  - name: rng_metric
+    status: active
+    source: design/gdd/attack.md
+    referenced_by:
+      - design/gdd/attack.md
+    value: manhattan
+    unit: distance_metric
     added: 2026-04-29
     revised: ""
 

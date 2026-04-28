@@ -3,14 +3,14 @@
 > Living checkpoint. Updated after each significant milestone.
 > Read this file first after any compaction, crash, or `/clear`.
 
-**Last Updated**: 2026-04-28
+**Last Updated**: 2026-04-29
 **Project Stage**: Pre-Production / Concept → Systems Design
 
 ---
 
 ## Current Task
 
-Systems decomposition complete. Next milestone: author MVP system GDDs in design order.
+Turn, Movement, Attack GDDs complete. Next: Victory (Order 6) or AI (Order 7).
 
 ## Status
 
@@ -19,7 +19,17 @@ Systems decomposition complete. Next milestone: author MVP system GDDs in design
 - ✅ `/setup-engine` — Godot 4.6.2-stable / GDScript / GdUnit4 testing / Performance budgets default
 - ✅ `/art-bible` — `design/art/art-bible.md` (Programmer Art Functional, 4 sections + 5 N/A)
 - ✅ `/map-systems` — `design/gdd/systems-index.md` (8 MVP systems + 8 pre-registered Tier 2/3)
-- 🟡 Next: `/design-system map` (Order 1, Foundation, S effort)
+- 🟡 Next: `/design-system victory` (Order 6, Gameplay, S effort, depends on Unit)
+- 🟢 Also ready: `/design-system ai` (Order 7, Gameplay, M, depends on Turn+Movement+Attack — all three now Designed)
+
+## Attack GDD Summary
+
+- **File**: `design/gdd/attack.md` (570 lines)
+- **Sections**: All 8 required + Visual/Audio + UI + Open Questions
+- **Key decisions**: Manhattan distance for range; auto-enter targeting after move; direct attack from SELECTED allowed; floor=1 guarantee; no counter-attack (reserved signal)
+- **Registry**: `damage_formula`, `damage_floor`, `rng_metric` registered; `turn_cap` referenced_by updated
+- **Map GDD erratum flagged**: `get_neighbors()` for Attack replaced by Manhattan + `get_unit_at()`
+- **Unit GDD update needed**: state machine table needs SELECTED → ACTED path added
 
 ## Key Decisions Made
 
@@ -44,7 +54,7 @@ Systems decomposition complete. Next milestone: author MVP system GDDs in design
 
 - Q1 (from game-concept): turn-cap value — data-driven from day 1 (Pillar 1) confirmed; specific N to be set in Turn System GDD
 - Q2 (from game-concept): AIController location — per-faction strategy node vs per-unit child? → resolve in `/architecture-decision` after AI GDD
-- Q3 (from game-concept): obstacle tiles in TileMap layer vs separate occupancy layer? → resolve in Map GDD
+- Q3 (from game-concept): obstacle tiles → RESOLVED in Map GDD: same TileMapLayer, different atlas cell; blocked/obstacle distinct states provisioned for future LOS
 
 ## Next Steps (in order)
 
