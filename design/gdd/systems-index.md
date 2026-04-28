@@ -21,10 +21,10 @@ SRPG_MINI is a generic tactics RPG skeleton: 8 orthogonal systems that together 
 
 | # | System Name | Category | Priority | Status | Design Doc | Depends On |
 |---|-------------|----------|----------|--------|------------|------------|
-| 1 | Map / Coordinates | Core | MVP | Not Started | — | (none) |
-| 2 | Unit *(includes Faction enum at MVP)* | Core | MVP | Not Started | — | Map |
-| 3 | Turn System | Core | MVP | Not Started | — | Unit |
-| 4 | Movement | Gameplay | MVP | Not Started | — | Map, Unit |
+| 1 | Map / Coordinates | Core | MVP | Designed | `design/gdd/map.md` | (none) |
+| 2 | Unit *(includes Faction enum at MVP)* | Core | MVP | Designed | `design/gdd/unit.md` | Map |
+| 3 | Turn System | Core | MVP | Designed | `design/gdd/turn.md` | Unit |
+| 4 | Movement | Gameplay | MVP | Designed | `design/gdd/movement.md` | Map, Unit |
 | 5 | Attack | Gameplay | MVP | Not Started | — | Map, Unit |
 | 6 | Victory | Gameplay | MVP | Not Started | — | Unit |
 | 7 | AI *(AIController interface + NullAI default)* | Gameplay | MVP | Not Started | — | Turn System, Movement, Attack |
@@ -143,10 +143,10 @@ The dependency graph is a DAG with maximum depth 5 (Map → Unit → Turn System
 | Total systems identified (MVP) | 8 |
 | Total systems pre-registered (Tier 2) | 4 |
 | Total systems pre-registered (Tier 3) | 4 |
-| Design docs started | 0 |
+| Design docs started | 4 |
 | Design docs reviewed | 0 |
 | Design docs approved | 0 |
-| MVP systems designed | 0 / 8 |
+| MVP systems designed | 4 / 8 |
 | Tier 2 systems designed | 0 / 4 |
 
 ---

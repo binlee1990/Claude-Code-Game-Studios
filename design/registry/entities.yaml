@@ -37,7 +37,7 @@
 #   Each entry: name, status, source, referenced_by[], attributes{}, added, revised
 
 version: 1
-last_updated: ""
+last_updated: "2026-04-29"
 
 # ─── ENTITIES ────────────────────────────────────────────────────────────────
 # Named game-world objects: enemies, NPCs, characters, factions, bosses.
@@ -139,7 +139,37 @@ formulas: []
 #
 # Required fields: name, status, source, referenced_by, value, unit, added
 
-constants: []
+constants:
+  - name: TILE_SIZE
+    status: active
+    source: design/gdd/map.md
+    referenced_by:
+      - design/gdd/map.md
+    value: 64
+    unit: pixels
+    added: 2026-04-29
+    revised: ""
+
+  - name: NEIGHBOR_OFFSETS
+    status: active
+    source: design/gdd/map.md
+    referenced_by:
+      - design/gdd/map.md
+    value: [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    unit: grid_offset
+    added: 2026-04-29
+    revised: ""
+
+  - name: turn_cap
+    status: active
+    source: design/gdd/turn.md
+    referenced_by:
+      - design/gdd/turn.md
+    value: 30
+    unit: turns
+    range: [1, 99]
+    added: 2026-04-29
+    revised: ""
 
 # Example:
 #
