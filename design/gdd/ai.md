@@ -88,7 +88,7 @@ Turn System 收到空 ActionList 时：所有 ENEMY 单位的 `has_acted_this_tu
 7. **执行模型**: Turn System 遍历 ActionList，对每个 `ActionPlan` 执行：
 
 ```
-1. 验证 unit.has_acted_this_turn == false 且 unit.is_alive == true（否则跳过）
+1. 验证 unit.has_acted_this_turn == false 且 unit.is_alive == true 且 unit.faction == active_faction（否则跳过）
 2. 若 move_target != unit.grid_position：调用 Map.move_unit(unit, unit.grid_position, move_target)
    - 失败（瓦片占用/不可通行）→ push_warning，跳过攻击，设置 has_acted = true，continue
 3. 若 attack_target != null 且 attack_target.is_alive：调用 AttackResolver.execute_attack(unit, attack_target)
@@ -233,7 +233,7 @@ AI 不感知 Turn System 的 `current_state` 枚举。它仅响应 `take_turn()`
 
 ### Turn 纵深防御缺口
 
-- **If AI 错误地将 PLAYER 单位放入 ActionList**: AI GDD R1 要求 `unit ∈ units`（Turn 传入的是 ENEMY 单位）。但 Turn 的执行循环 step 1 只检查 `has_acted` 和 `is_alive`，**不检查 `unit.faction == active_faction`**。若此缺口被触发，Turn 会在 ENEMY 阶段执行 PLAYER 单位的动作。→ 建议在 Turn GDD 执行循环中增加 faction 守卫。AI GDD 标记此缺口。
+- **If AI 错误地将 PLAYER 单位放入 ActionList**: AI GDD R1 要求 `unit ∈ units`（Turn 传入的是 ENEMY 单位）。Turn 的执行循环 step 1 已增加 `unit.faction == active_faction` 守卫（2026-04-30 修复 —— `/review-all-gdds` 阻塞项）。若此缺口被绕过，Turn 会在 ENEMY 阶段执行 PLAYER 单位的动作 → 纵深防御守卫拒绝执行。
 
 ### BasicAI 预留 (Tier 2)
 
@@ -421,7 +421,7 @@ GIVEN WorldState A with _occupancy_snapshot = {(0,0): E1, (0,1): E2}, WHEN B = A
 
 - **OQ1 — AIController 接口原型时机**: Game Concept R5 要求"原型两次再提交"—— scaffold NullAI + BasicAI stub 以证明接口容纳两种互不相同的行为而不修改 Turn。→ 应在 AI GDD 锁定后、Turn System 实现前执行 `/prototype ai-controller`。
 
-- **OQ2 — Turn 执行循环的 faction 守卫缺口**: Edge Cases 标记了 Turn 执行循环不检查 `unit.faction == active_faction` 的缺口。→ Turn GDD 应在执行循环中添加 faction 守卫，或显式决定将责任完全置于 AI 侧（R1）。建议在 `/consistency-check` 后更新 Turn GDD。
+- **OQ2 — Turn 执行循环的 faction 守卫缺口**: Edge Cases 标记了 Turn 执行循环不检查 `unit.faction == active_faction` 的缺口。→ **已解决（2026-04-30）**：AI GDD Rule 7 step 1 已增加 `unit.faction == active_faction` 守卫；Turn GDD Interactions AI 行已添加注记。
 
 - **OQ3 — BasicAI GDD 归属**: Core Rule 10 定义了 BasicAI 的行为规约（用于验证接口正确性）。完整的 BasicAI GDD 属于 Tier 2—— 需要细化顺序编排、tiebreaker 规则、障碍物地图上的移动策略。→ 在 MVP 完成后，`/design-system basic-ai` 作为 Tier 2 第一个系统。
 

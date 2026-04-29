@@ -159,7 +159,7 @@ Manhattan 距离公式定义为：
 
 **Example:** 单位在 (5, 5)，目标在 (5, 9)，在开阔地形上通过 4 步向东移动到达 → `path_length = 4`。
 
-> **归属说明**：Manhattan 距离公式（F2）作为工具函数归属于 Movement 系统，但"Manhattan 距离"概念也被 Attack 系统所使用（目标射程验证）。Attack GDD 可以引用此公式或定义自己的射程计算 —— 由 Attack GDD 编写时确定该公式的最终归属。Movement GDD 在此定义 F2 用于路径排除目的。
+> **归属说明**：Manhattan 距离公式（F2）归属于 Movement 系统。Attack 系统（Attack GDD F2）引用此公式用于射程验证，不重定义。Movement GDD 拥有公式定义；Attack GDD 是消费者。
 
 ## Edge Cases
 

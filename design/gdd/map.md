@@ -65,10 +65,11 @@ Map / Coordinates 系统不服务于直接的玩家情感 —— 而这正是它
 |---|---|---|
 | **Unit** | `grid_to_world()` —— 将 unit 场景节点放置到瓦片中心 | Map → Unit |
 | **Movement** | `is_walkable(coord)`、`get_neighbors(coord)` —— BFS 前沿扩展；`place_unit()` / `remove_unit()` —— 占用写入 | Map ↔ Movement |
-| **Attack** | `get_neighbors(coord)` —— 射程环计算；`get_unit_at(coord)` —— 目标验证 | Map → Attack |
+| **Attack** | `get_unit_at(coord)` —— 目标验证（射程基于 Manhattan 距离，非 BFS 邻域展开） | Map → Attack |
+| **AI** | `get_neighbors(coord)`、`is_walkable(coord)`、`get_unit_at(coord)` —— 通过 `WorldState.map` 间接访问，用于 BFS 和占用查询（Tier 2） | Map → AI（间接） |
 | **UI / Input** | `world_to_grid()` —— 点击→瓦片解析；`grid_to_world()` —— 高亮覆盖层放置；瓦片状态查询 —— 颜色选择 | Map → UI |
 
-Map 不向 Attack 或 UI 暴露写入接口 —— 这些系统是只读消费者。
+Map 不向 Attack、AI 或 UI 暴露写入接口 —— 这些系统是只读消费者。
 
 ## Formulas
 

@@ -24,33 +24,484 @@
 #
 # STATUS VALUES: active | deprecated | superseded-by: TR-[system]-NNN
 
-version: 1
-last_updated: ""
+version: 2
+last_updated: "2026-04-30"
 
-requirements: []
+requirements:
 
-# --- EXAMPLE ENTRIES (remove when first real entries are added) ---
-#
-# - id: TR-combat-001
-#   system: combat
-#   gdd: design/gdd/combat-system.md
-#   requirement: "Player takes damage from enemies based on attack power minus defence"
-#   created: 2026-03-10
-#   revised: ""
-#   status: active
-#
-# - id: TR-combat-002
-#   system: combat
-#   gdd: design/gdd/combat-system.md
-#   requirement: "Combo window timing is 0.4 seconds between hits"
-#   created: 2026-03-10
-#   revised: "2026-04-01"
-#   status: active
-#
-# - id: TR-combat-003
-#   system: combat
-#   gdd: design/gdd/combat-system.md
-#   requirement: "Old damage formula using raw stats"
-#   created: 2026-03-10
-#   revised: ""
-#   status: superseded-by: TR-combat-001
+  # === Foundation Layer ===
+  # Map / Coordinates (design/gdd/map.md)
+
+  - id: TR-map-001
+    system: map
+    gdd: design/gdd/map.md
+    requirement: "GridSpace as sole coordinate transform authority: world_to_grid(Vector2) → Vector2i, grid_to_world(Vector2i) → Vector2, tile_center(Vector2i) → Vector2"
+    created: 2026-04-30
+    status: active
+
+  - id: TR-map-002
+    system: map
+    gdd: design/gdd/map.md
+    requirement: "TileMapLayer rendering + CSV data-driven map loading (cols,rows header + per-cell characters . # O)"
+    created: 2026-04-30
+    status: active
+
+  - id: TR-map-003
+    system: map
+    gdd: design/gdd/map.md
+    requirement: "Atomic move_unit(unit, from, to) → bool for occupancy consistency (no separate place/remove window)"
+    created: 2026-04-30
+    status: active
+
+  - id: TR-map-004
+    system: map
+    gdd: design/gdd/map.md
+    requirement: "Three immutable tile states: walkable / blocked / obstacle, rendered as TileMapLayer atlas tiles"
+    created: 2026-04-30
+    status: active
+
+  - id: TR-map-005
+    system: map
+    gdd: design/gdd/map.md
+    requirement: "4-directional von Neumann neighbor query: get_neighbors(coord) → Array[Vector2i], in-bounds only, does NOT filter walkability"
+    created: 2026-04-30
+    status: active
+
+  - id: TR-map-006
+    system: map
+    gdd: design/gdd/map.md
+    requirement: "Runtime occupancy tracking: Dictionary[Vector2i, Unit] for O(1) reverse lookup via get_unit_at(coord)"
+    created: 2026-04-30
+    status: active
+
+  - id: TR-map-007
+    system: map
+    gdd: design/gdd/map.md
+    requirement: "TILE_SIZE=64 constant encapsulated in GridSpace — no other file may reference TILE_SIZE or inline * 64 / / 64"
+    created: 2026-04-30
+    status: active
+
+  - id: TR-map-008
+    system: map
+    gdd: design/gdd/map.md
+    requirement: "CSV validation on load: dimensions within [8,32], row/col count matches header, only . # O characters, file exists"
+    created: 2026-04-30
+    status: active
+
+  - id: TR-map-009
+    system: map
+    gdd: design/gdd/map.md
+    requirement: "place_unit(unit, coord) → bool and remove_unit(coord) → bool with validation (out-of-bounds, unwalkable, occupied, empty tile)"
+    created: 2026-04-30
+    status: active
+
+  # === Core Layer ===
+  # Unit (design/gdd/unit.md)
+
+  - id: TR-unit-001
+    system: unit
+    gdd: design/gdd/unit.md
+    requirement: "UnitStats as .tres Resource: 5 data-driven attributes (max_hp [5,20], atk [3,8], def [0,5], mov [2,6], rng [1,3]) — no hardcoded defaults"
+    created: 2026-04-30
+    status: active
+
+  - id: TR-unit-002
+    system: unit
+    gdd: design/gdd/unit.md
+    requirement: "Faction.Type enum in standalone file src/core/faction.gd (PLAYER, ENEMY, NONE) — not nested in Unit; MVP uses embedded, Tier 2 extraction zero-logic-change"
+    created: 2026-04-30
+    status: active
+
+  - id: TR-unit-003
+    system: unit
+    gdd: design/gdd/unit.md
+    requirement: "Stable public interface consumed by 5 downstream systems (Turn, Movement, Attack, Victory, AI): read-only stats, mutable hp/grid_position/action_state/has_acted with defined writers"
+    created: 2026-04-30
+    status: active
+
+  - id: TR-unit-004
+    system: unit
+    gdd: design/gdd/unit.md
+    requirement: "Mutation authorization: take_damage(amount) for hp (called by AttackResolver), heal(amount) reserved, reset_action_state() for has_acted+action_state (called by TurnManager). Direct external writes assertion-guarded."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-unit-005
+    system: unit
+    gdd: design/gdd/unit.md
+    requirement: "unit_died signal contract: emitted exactly once when hp reaches 0 via take_damage(), BEFORE queue_free(). Consumers: Map (remove occupancy + queue_free), TurnManager (re-evaluate auto-advance + elimination), Victory (via TurnManager)"
+    created: 2026-04-30
+    status: active
+
+  - id: TR-unit-006
+    system: unit
+    gdd: design/gdd/unit.md
+    requirement: "Unit scene structure: Node2D root with ColorRect (48×48px, faction-colored, centered in 64×64 tile) + Label child (hp display, offset Vector2(0,-40))"
+    created: 2026-04-30
+    status: active
+
+  - id: TR-unit-007
+    system: unit
+    gdd: design/gdd/unit.md
+    requirement: "action_state machine: IDLE → SELECTED → MOVED → ACTED (or SELECTED → ACTED for direct attack), plus DEAD terminal state. can_be_selected(), can_move(), can_attack() queries."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-unit-008
+    system: unit
+    gdd: design/gdd/unit.md
+    requirement: "UnitStats.validate() fail-fast on .tres load: assert each stat within declared range with message naming file, attribute, value, allowed range. Missing/corrupt .tres → error + queue_free()."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-unit-009
+    system: unit
+    gdd: design/gdd/unit.md
+    requirement: "Monotonically increasing unit_id generation (\"unit_0\", \"enemy_2\", etc.) — counter-based, not random, unique within session"
+    created: 2026-04-30
+    status: active
+
+  - id: TR-unit-010
+    system: unit
+    gdd: design/gdd/unit.md
+    requirement: "Visual state mapping: not-acted = full faction color + full opacity; has_acted = Color.GRAY modulate + 50% alpha"
+    created: 2026-04-30
+    status: active
+
+  # Turn System (design/gdd/turn.md)
+
+  - id: TR-turn-001
+    system: turn
+    gdd: design/gdd/turn.md
+    requirement: "TurnManager as RefCounted, dependency-injected, no Autoload, no scene tree dependency — created by Game scene composition root"
+    created: 2026-04-30
+    status: active
+
+  - id: TR-turn-002
+    system: turn
+    gdd: design/gdd/turn.md
+    requirement: "4-state machine: MATCH_NOT_STARTED → FACTION_PHASE_ACTIVE ⇄ FACTION_PHASE_ENDING → MATCH_ENDED, with 5 defined transitions. MATCH_ENDED is terminal (absorbs all calls)."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-turn-003
+    system: turn
+    gdd: design/gdd/turn.md
+    requirement: "Auto-advance condition: ∀ u ∈ active_faction ∧ u.is_alive → u.has_acted. Vacuous truth when active faction has zero alive units. Event-driven (checked after each action + each death), no _process() polling."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-turn-004
+    system: turn
+    gdd: design/gdd/turn.md
+    requirement: "VictoryChecker injection: determine_winner(units, turn_number, turn_cap) → {winner: Faction.Type, reason: String}. Called in FACTION_PHASE_ENDING step 4. Assert guard: VictoryChecker != null at start_match()."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-turn-005
+    system: turn
+    gdd: design/gdd/turn.md
+    requirement: "AIController injection: take_turn(units, world_state) → ActionList. Called in ENEMY FACTION_PHASE_ACTIVE. MVP: NullAI returns empty ActionList. Tier 2: BasicAI. Assert guard: AIController != null at start_match()."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-turn-006
+    system: turn
+    gdd: design/gdd/turn.md
+    requirement: "TurnConfig.tres data-driven: turn_cap: int [1,99] default 30, end_turn_allowed_during_phase: Dictionary[Faction.Type, bool]. Validation on load asserts range. Missing .tres → assert fail."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-turn-007
+    system: turn
+    gdd: design/gdd/turn.md
+    requirement: "End Turn reentrancy guard: end_current_faction_turn() silently ignored when current_state != FACTION_PHASE_ACTIVE"
+    created: 2026-04-30
+    status: active
+
+  - id: TR-turn-008
+    system: turn
+    gdd: design/gdd/turn.md
+    requirement: "5-signal contract: match_started(), turn_started(int), faction_activated(Faction.Type), faction_phase_ended(Faction.Type), match_ended(String, Faction.Type). Direct connections in Game._ready(), no SignalBus."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-turn-009
+    system: turn
+    gdd: design/gdd/turn.md
+    requirement: "Faction elimination detection: when unit_died → alive_count(faction)==0 → immediate FACTION_PHASE_ENDING → MATCH_ENDED. Skips remaining unacted units of winning faction."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-turn-010
+    system: turn
+    gdd: design/gdd/turn.md
+    requirement: "end_reason single source of truth: VictoryChecker.determine_winner() returns both winner AND reason. Turn F4 end_reason derivation deprecated — reads victory.reason directly."
+    created: 2026-04-30
+    status: active
+
+  # === Feature Layer ===
+  # Movement (design/gdd/movement.md)
+
+  - id: TR-mov-001
+    system: movement
+    gdd: design/gdd/movement.md
+    requirement: "BFS reachable tile computation: start=unit.grid_position, max_depth=unit.mov, neighbors=Map.get_neighbors, walkable=Map.is_walkable. Start tile exempt from walkability check (unit occupies it). Returns MovementResult."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-mov-002
+    system: movement
+    gdd: design/gdd/movement.md
+    requirement: "MovementResult immutable RefCounted: get_reachable_tiles() → Array[Vector2i], get_path_to(target) → Array[Vector2i] ([] if unreachable), get_distance_to(target) → int (-1 if unreachable), get_start_tile() → Vector2i"
+    created: 2026-04-30
+    status: active
+
+  - id: TR-mov-003
+    system: movement
+    gdd: design/gdd/movement.md
+    requirement: "MovementResolver as RefCounted pure function: compute_reachable(unit, map) → MovementResult. No side effects, no state across calls. Map passed per-call (stateless resolver pattern)."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-mov-004
+    system: movement
+    gdd: design/gdd/movement.md
+    requirement: "Map.move_unit(unit, from, to) → bool as atomic occupancy + position update. Rejects if target occupied/blocked/out-of-bounds. Called by InputHandler, not MovementResolver."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-mov-005
+    system: movement
+    gdd: design/gdd/movement.md
+    requirement: "Manhattan distance formula ownership: manhattan(a, b) = |a.row−b.row| + |a.col−b.col|. Defined in Movement GDD F2; consumed by Attack for range checks. Single definition, cross-referenced."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-mov-006
+    system: movement
+    gdd: design/gdd/movement.md
+    requirement: "Path reconstruction from BFS parent map: backtrack from target to start via parent pointers, reverse result. O(path_length) ≤ O(MOV) ≤ 6 lookups. Returns Array[Vector2i] start→target inclusive."
+    created: 2026-04-30
+    status: active
+
+  # Attack (design/gdd/attack.md)
+
+  - id: TR-atk-001
+    system: attack
+    gdd: design/gdd/attack.md
+    requirement: "Deterministic damage formula: damage = max(attacker.atk − target.def, 1). No RNG, no crit, floor ≥ 1. Target HP reduced via target.take_damage(damage)."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-atk-002
+    system: attack
+    gdd: design/gdd/attack.md
+    requirement: "Range check via Manhattan distance: in_range = |attacker.row−target.row| + |attacker.col−target.col| ≤ attacker.rng. Self-tile (distance 0) excluded. Formula owned by Movement GDD F2; referenced here."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-atk-003
+    system: attack
+    gdd: design/gdd/attack.md
+    requirement: "AttackResolver as RefCounted pure function: execute_attack(attacker, target) → AttackResult. No state, no side effects beyond take_damage() + has_acted/action_state writes. INVALID result on precondition failure."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-atk-004
+    system: attack
+    gdd: design/gdd/attack.md
+    requirement: "AttackRangeResolver: get_valid_targets(unit, map) → Array[Unit]. Filters enemy faction + alive + manhattan distance ≤ unit.rng. Sorted: distance ascending, then HP ascending (lowest first). Pure query — no has_acted gating."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-atk-005
+    system: attack
+    gdd: design/gdd/attack.md
+    requirement: "AttackResult immutable RefCounted: {damage: int, killed: bool, attacker: Unit, target: Unit}. INVALID sentinel on precondition failure. Matches MovementResult pattern."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-atk-006
+    system: attack
+    gdd: design/gdd/attack.md
+    requirement: "No counter-attack in MVP. damage_dealt(attacker, target, damage) signal reserved for Tier 2 counter-attack system. Attack never damages the attacker."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-atk-007
+    system: attack
+    gdd: design/gdd/attack.md
+    requirement: "Damage preview: static resolve_damage(atk: int, def: int) → int = max(atk-def, 1). Pure math — no Unit references, no side effects. Used by UI for hover preview before commit."
+    created: 2026-04-30
+    status: active
+
+  # Victory (design/gdd/victory.md)
+
+  - id: TR-vic-001
+    system: victory
+    gdd: design/gdd/victory.md
+    requirement: "VictoryChecker as RefCounted pure function: no state, no signals, no polling. Created by Game scene, DI into TurnManager."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-vic-002
+    system: victory
+    gdd: design/gdd/victory.md
+    requirement: "determine_winner(units: Array[Unit], turn_number: int, turn_cap: int) → Dictionary{winner: Faction.Type, reason: String}. 7-row decision table covering all elimination + turn_cap combinations."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-vic-003
+    system: victory
+    gdd: design/gdd/victory.md
+    requirement: "Elimination > Turn Cap priority: if any faction alive_count==0, reason is always \"elimination\" regardless of turn_cap status"
+    created: 2026-04-30
+    status: active
+
+  - id: TR-vic-004
+    system: victory
+    gdd: design/gdd/victory.md
+    requirement: "Both factions eliminated simultaneously → PLAYER wins, reason=\"elimination\". Player-friendly fallback for edge case (MVP near-impossible without counter-attack/AoE, but interface must define)."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-vic-005
+    system: victory
+    gdd: design/gdd/victory.md
+    requirement: "end_reason single source of truth: VictoryChecker returns reason. Turn System reads victory_result.reason directly — does not independently derive end_reason. Turn GDD F4 end_reason derivation deprecated."
+    created: 2026-04-30
+    status: active
+
+  # AI / AIController (design/gdd/ai.md)
+
+  - id: TR-ai-001
+    system: ai
+    gdd: design/gdd/ai.md
+    requirement: "@abstract AIController base class (RefCounted): defines take_turn(units: Array[Unit], world_state: WorldState) → ActionList. @abstract decorator + assert(false) fallback. Subclasses must override."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-ai-002
+    system: ai
+    gdd: design/gdd/ai.md
+    requirement: "take_turn contract: Turn passes ENEMY alive unacted units + WorldState snapshot. AI returns ActionList. AI does NOT modify game state — only returns data. Turn owns execution."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-ai-003
+    system: ai
+    gdd: design/gdd/ai.md
+    requirement: "Data structures: ActionPlan (unit, type: ActionType, move_target, attack_target), ActionList (ordered plans, get_actions() returns defensive copy), WorldState (all_units, map, _occupancy_snapshot, clone()), ActionType enum (MOVE_AND_ATTACK/MOVE_ONLY/ATTACK_ONLY/WAIT)"
+    created: 2026-04-30
+    status: active
+
+  - id: TR-ai-004
+    system: ai
+    gdd: design/gdd/ai.md
+    requirement: "NullAI implementation: take_turn() always returns empty ActionList (is_empty()==true). ENEMY phase in hotseat mode controlled by human via InputHandler consuming faction_activated(ENEMY)."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-ai-005
+    system: ai
+    gdd: design/gdd/ai.md
+    requirement: "Turn execution model: TurnManager iterates ActionList sequentially. Each ActionPlan validated (unit alive + has_acted==false + faction==active_faction) before execution. Failed actions consume has_acted + push_warning. Auto-advance re-checked after each plan."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-ai-006
+    system: ai
+    gdd: design/gdd/ai.md
+    requirement: "Interface must admit at least two distinct behaviors without Turn System edits: NullAI (zero actions) + BasicAI (move-to-nearest + attack-closest). Proven by prototype before implementation."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-ai-007
+    system: ai
+    gdd: design/gdd/ai.md
+    requirement: "WorldState.clone() deep copy: duplicates _occupancy_snapshot (Dictionary.duplicate()) for AI branch simulation without polluting the original WorldState passed by Turn"
+    created: 2026-04-30
+    status: active
+
+  # === Presentation Layer ===
+  # UI / Input (design/gdd/ui.md)
+
+  - id: TR-ui-001
+    system: ui
+    gdd: design/gdd/ui.md
+    requirement: "InputContext state machine: BOARD_IDLE → UNIT_SELECTED → ATTACK_TARGETING → BOARD_IDLE. Context derived from TurnManager.current_state + active_faction + selected unit action_state. All board clicks gated by FACTION_PHASE_ACTIVE."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-ui-002
+    system: ui
+    gdd: design/gdd/ui.md
+    requirement: "3×HighlightLayer (Node2D, _draw() + draw_rect()): move (cyan #0891B2 z=1), path (bright cyan #06B6D4 z=2), attack (orange #EA580C z=3). Code-drawn, no textures. queue_redraw() only on data change."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-ui-003
+    system: ui
+    gdd: design/gdd/ui.md
+    requirement: "HUD elements (CanvasLayer layer 0): Turn indicator (\"Turn X/Y\", top-left), Faction indicator (\"Player Turn\" blue / \"Enemy Turn\" red), End Turn button (bottom-right, visible only in FACTION_PHASE_ACTIVE)"
+    created: 2026-04-30
+    status: active
+
+  - id: TR-ui-004
+    system: ui
+    gdd: design/gdd/ui.md
+    requirement: "Result overlay (CanvasLayer layer 10): WIN (green \"VICTORY\") / LOSE (red \"DEFEAT\") / DRAW (gray \"DRAW\") screens with reason text + \"Play Again\" button. Background ColorRect mouse_filter=STOP to block click-through."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-ui-005
+    system: ui
+    gdd: design/gdd/ui.md
+    requirement: "Click→grid resolution via GridSpace.world_to_grid(click_pos) → Vector2i. Out-of-bounds clicks silently ignored. Floor-based tile boundary handling matches Map GDD F2."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-ui-006
+    system: ui
+    gdd: design/gdd/ui.md
+    requirement: "InputHandler as RefCounted, DI-injected into Board. Receives all upstream system references via initialize(). No game logic ownership — pure coordination of input → action dispatch."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-ui-007
+    system: ui
+    gdd: design/gdd/ui.md
+    requirement: "Debug coordinate overlay: per-tile (row,col) Label, 12px white, default ON. Toggle via backtick (`) key. Max 1024 labels at 32×32 — acceptable for MVP; revisit if >64×64."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-ui-008
+    system: ui
+    gdd: design/gdd/ui.md
+    requirement: "Color tokens decoupled from faction colors: move=#0891B2, path=#06B6D4, attack target=#EA580C, dmg normal=#F59E0B, dmg lethal=#EF4444, unit PLAYER=#3B82F6, unit ENEMY=#EF4444, acted=Color.GRAY"
+    created: 2026-04-30
+    status: active
+
+  # === Cross-Cutting ===
+
+  - id: TR-cc-001
+    system: cross-cutting
+    gdd: architecture.md
+    requirement: "Dependency Injection over Autoloads: all logic objects created by Game composition root, injected via constructor/setter. No get_node(), no $, no Autoload references in RefCounted classes."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-cc-002
+    system: cross-cutting
+    gdd: map.md + game-concept.md
+    requirement: "Forbidden: inline position * TILE_SIZE or position / TILE_SIZE outside GridSpace. Enforceable via code review + CI grep gate (deferred to CI setup)."
+    created: 2026-04-30
+    status: active
+
+  - id: TR-cc-003
+    system: cross-cutting
+    gdd: architecture.md
+    requirement: "Node2D only for scene entities (Map, Unit, HighlightLayer, HUD CanvasLayer). RefCounted for all logic objects (TurnManager, all Resolvers, VictoryChecker, AIController, InputHandler)."
+    created: 2026-04-30
+    status: active

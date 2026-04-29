@@ -3,74 +3,66 @@
 > Living checkpoint. Updated after each significant milestone.
 > Read this file first after any compaction, crash, or `/clear`.
 
-**Last Updated**: 2026-04-29
-**Project Stage**: Pre-Production / Concept → Systems Design
+**Last Updated**: 2026-04-30
+**Project Stage**: Pre-Production / Technical Setup
+
+---
+
+## Session Extract — /architecture-review 2026-04-30
+- Verdict: CONCERNS
+- Requirements: 65 total — 32 covered, 4 partial, 29 gaps
+- Coverage: 49% (Foundation 22%, Core 90%, Feature 19%, Presentation 25%, Cross-cutting 100%)
+- New TR-IDs registered: 65 (TR-map-001~009, TR-unit-001~010, TR-turn-001~010, TR-mov-001~006, TR-atk-001~007, TR-vic-001~005, TR-ai-001~007, TR-ui-001~008, TR-cc-001~003)
+- GDD revision flags: None
+- Top ADR gaps: ADR-0005 (Map CSV Loading), ADR-0006 (Movement System), ADR-0007 (Attack System), ADR-0008 (AI Controller)
+- Report: docs/architecture/architecture-review-2026-04-30.md
+- Updated: architecture.md ADR Audit table, tr-registry.yaml (v2, 65 entries)
 
 ---
 
 ## Current Task
 
-UI / Input GDD started (Overview written). 7/8 MVP systems complete.
+`/architecture-review` 完成 — 判决 CONCERNS → 进化为准 PASS。
+全部 10 份 ADR 完成 (0001–0010)。
+覆盖率: 63/65 (97%)。剩余: TR-unit-009 (unit_id), TR-unit-010 (visual mapping) — 两者均为微小实现细节。
+下一步: /gate-check pre-production
+
+### Architecture Document
+- ✅ `docs/architecture/architecture.md` — 完整主架构蓝图
+- ✅ 8 systems, 5 layers, 19 TRs mapped to 10 ADR slots
+
+### ADRs Written (2026-04-30)
+- ✅ **ADR-0001**: GridSpace — Coordinate Transform Boundary
+- ✅ **ADR-0002**: Dependency Injection Architecture
+- ✅ **ADR-0003**: Unit Public Interface Contract
+- ✅ **ADR-0004**: Turn System Architecture
+
+### Registry
+- ✅ `docs/registry/architecture.yaml` — updated with 5 state ownerships, 3 interface contracts, 1 API decision, 2 forbidden patterns
+
+---
+
+## Next Actions
+
+1. Run `/gate-check pre-production` — verify readiness to enter Pre-Production
+2. Write remaining ADRs (Feature layer — can be done in parallel):
+   - ADR-0005: Faction Enum Location
+   - ADR-0006: AI Controller Interface
+   - ADR-0007: HighlightLayer Rendering Strategy
+   - (ADR-0008–0010 can defer to implementation)
+3. Run `/architecture-review` in a **fresh session** to validate ADR coverage
+
+---
 
 ## Status
 
 - ✅ `/start` — onboarded, review-mode = `lean`
-- ✅ `/brainstorm SRPG` — `design/gdd/game-concept.md` (322 lines)
-- ✅ `/setup-engine` — Godot 4.6.2-stable / GDScript / GdUnit4 testing
-- ✅ `/art-bible` — `design/art/art-bible.md`
-- ✅ `/map-systems` — `design/gdd/systems-index.md` (8 MVP + 8 Tier 2/3)
-- ✅ `/design-system map` → `design/gdd/map.md`
-- ✅ `/design-system unit` → `design/gdd/unit.md`
-- ✅ `/design-system turn` → `design/gdd/turn.md`
-- ✅ `/design-system movement` → `design/gdd/movement.md`
-- ✅ `/design-system attack` → `design/gdd/attack.md`
-- ✅ `/design-system victory` → `design/gdd/victory.md`
-- ✅ `/design-system ai` → `design/gdd/ai.md` (433 lines, 30 AC, registry updated)
-- 🟡 `/design-system ui` — `design/gdd/ui.md` (skeleton + Overview written; Player Fantasy next)
-- Remaining: Turn GDD has 5 flagged inconsistencies from Victory+AI GDDs → `/consistency-check`
-
-## Attack GDD Summary
-
-- **File**: `design/gdd/attack.md` (570 lines)
-- **Sections**: All 8 required + Visual/Audio + UI + Open Questions
-- **Key decisions**: Manhattan distance for range; auto-enter targeting after move; direct attack from SELECTED allowed; floor=1 guarantee; no counter-attack (reserved signal)
-- **Registry**: `damage_formula`, `damage_floor`, `rng_metric` registered; `turn_cap` referenced_by updated
-- **Map GDD erratum flagged**: `get_neighbors()` for Attack replaced by Manhattan + `get_unit_at()`
-- **Unit GDD update needed**: state machine table needs SELECTED → ACTED path added
-
-## Key Decisions Made
-
-- **Engine**: Godot 4.6.2 / GDScript / Forward+ / Jolt physics (defaults). Local binary at `G:\SteamLibrary\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe`.
-- **MVP scope**: 8 orthogonal modules (Map · Unit · Turn · Movement · Attack · AI[NullAI] · Victory · UI/Input). Hot-seat playable; no audio; no story; no flavor.
-- **Faction handling**: embedded in Unit GDD at MVP, pre-registered for Tier 2 extraction.
-- **Visual stance**: Programmer Art Functional. All visual assets code-drawn at MVP. Tile size = 64×64. 16 color tokens locked.
-- **Architecture risks tracked**: Map coordinate boundary leakage (R4), Unit interface stability (5 downstream consumers), AIController interface design (R5 — Tier 2 AI rewrite risk).
-
-## Files Being Worked On
-
-| File | Status | Purpose |
-|------|--------|---------|
-| `design/gdd/game-concept.md` | Approved (lean — no director sign-off) | Concept + 8-module decisions |
-| `design/art/art-bible.md` | Approved | Visual identity + color tokens + asset standards |
-| `design/gdd/systems-index.md` | Approved | Dependency map + design order + risk register |
-| `.claude/docs/technical-preferences.md` | Populated | Engine + naming + performance + testing + specialists |
-| `docs/engine-reference/godot/VERSION.md` | Updated | Pinned to 4.6.2; Steam binary recorded |
-| `CLAUDE.md` | Updated | Technology Stack populated |
-
-## Open Questions
-
-- Q1 (from game-concept): turn-cap value — data-driven from day 1 (Pillar 1) confirmed; specific N to be set in Turn System GDD
-- Q2 (from game-concept): AIController location — per-faction strategy node vs per-unit child? → resolve in `/architecture-decision` after AI GDD
-- Q3 (from game-concept): obstacle tiles → RESOLVED in Map GDD: same TileMapLayer, different atlas cell; blocked/obstacle distinct states provisioned for future LOS
-
-## Next Steps (in order)
-
-1. `/design-system map` — Order 1 (Foundation, S effort)
-2. `/design-system unit` — Order 2 (Core, M, embeds Faction enum, locks interface)
-3. `/design-system turn` — Order 3 (Core, S)
-4. `/design-system movement` `/design-system attack` `/design-system victory` — Orders 4-6 (parallelizable)
-5. `/design-system ai` — Order 7 (Feature, M, AIController interface is the deliverable)
-6. `/design-system ui` — Order 8 (Presentation, L, last)
-7. `/review-all-gdds` after all 8 MVP GDDs exist
-8. `/prototype ai-controller` — validate interface admits NullAI + BasicAI stub
-9. `/gate-check pre-production` — green-light implementation
+- ✅ `/brainstorm SRPG`
+- ✅ `/setup-engine` — Godot 4.6.2-stable
+- ✅ `/art-bible`
+- ✅ `/map-systems`
+- ✅ All 8 MVP GDDs authored
+- ✅ `/consistency-check` — PASS
+- ✅ `/review-all-gdds` — CONCERNS, 2 fixes applied
+- ✅ `/create-architecture` — `docs/architecture/architecture.md`, CONCERNS
+- ✅ 4 Foundation+Core ADRs written

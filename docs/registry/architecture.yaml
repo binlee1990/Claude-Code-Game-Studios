@@ -43,7 +43,39 @@ last_updated: ""
 # interface: how other systems access this state (read-only property, method call,
 #   signal, shared resource, etc.) — this is the contract other ADRs depend on.
 
-state_ownership: []
+state_ownership:
+  - state: tile_size_constant
+    status: active
+    owner_system: map
+    adr: docs/architecture/adr-0001-gridspace-coordinate-boundary.md
+    interface: "GridSpace.TILE_SIZE (const int, read-only, value=64)"
+    write_access: map-only
+    referenced_by:
+      - docs/architecture/adr-0001-gridspace-coordinate-boundary.md
+    added: 2026-04-30
+    revised: ""
+
+  - state: unit_hp
+    status: active
+    owner_system: unit
+    adr: docs/architecture/adr-0003-unit-public-interface.md
+    interface: "unit.hp (read-only to all; write only via unit.take_damage() or unit.heal())"
+    write_access: unit-only
+    referenced_by:
+      - docs/architecture/adr-0003-unit-public-interface.md
+    added: 2026-04-30
+    revised: ""
+
+  - state: unit_action_state
+    status: active
+    owner_system: unit
+    adr: docs/architecture/adr-0003-unit-public-interface.md
+    interface: "unit.action_state: UnitState (read-only to all; write by InputHandler, Map.move_unit, AttackResolver, TurnManager)"
+    write_access: input-handler, map, attack, turn
+    referenced_by:
+      - docs/architecture/adr-0003-unit-public-interface.md
+    added: 2026-04-30
+    revised: ""
 
 # Example:
 #
@@ -71,7 +103,51 @@ state_ownership: []
 #
 # pattern options: signal | direct_call | event_bus | shared_resource | rpc | none
 
-interfaces: []
+interfaces:
+  - contract: grid_coordinate_transform
+    status: active
+    pattern: direct_call
+    producer: map
+    consumers:
+      - input-handler
+      - highlight-layer
+      - unit-placement
+    adr: docs/architecture/adr-0001-gridspace-coordinate-boundary.md
+    signal_signature: "N/A — direct method calls: world_to_grid(Vector2)→Vector2i, grid_to_world(Vector2i)→Vector2, tile_center(Vector2i)→Vector2"
+    referenced_by:
+      - docs/architecture/adr-0001-gridspace-coordinate-boundary.md
+    added: 2026-04-30
+    revised: ""
+
+  - contract: turn_phase_coordination
+    status: active
+    pattern: signal
+    producer: turn-manager
+    consumers:
+      - hud
+      - input-handler
+      - ui-overlay
+    adr: docs/architecture/adr-0004-turn-system-architecture.md
+    signal_signature: "5 signals: match_started(), turn_started(int), faction_activated(Faction.Type), faction_phase_ended(Faction.Type), match_ended(String, Faction.Type)"
+    referenced_by:
+      - docs/architecture/adr-0004-turn-system-architecture.md
+    added: 2026-04-30
+    revised: ""
+
+  - contract: unit_died
+    status: active
+    pattern: signal
+    producer: unit
+    consumers:
+      - map
+      - turn-manager
+      - victory-checker
+    adr: docs/architecture/adr-0003-unit-public-interface.md
+    signal_signature: "unit_died(unit: Unit)"
+    referenced_by:
+      - docs/architecture/adr-0003-unit-public-interface.md
+    added: 2026-04-30
+    revised: ""
 
 # Example:
 #
@@ -131,7 +207,17 @@ performance_budgets: []
 # Register an API decision when the choice is non-obvious and other ADRs might
 # make a different choice for the same purpose without knowing this was decided.
 
-api_decisions: []
+api_decisions:
+  - purpose: logic_object_lifecycle
+    status: active
+    api: "RefCounted + constructor/method injection"
+    not: "Autoload singleton, Node-based manager, static utility class"
+    adr: docs/architecture/adr-0002-dependency-injection-architecture.md
+    reason: "DI makes dependencies explicit (testable, refactorable). Autoloads hide coupling. Nodes tie logic to scene tree lifecycle."
+    referenced_by:
+      - docs/architecture/adr-0002-dependency-injection-architecture.md
+    added: 2026-04-30
+    revised: ""
 
 # Example:
 #
@@ -157,7 +243,20 @@ api_decisions: []
 # Register a pattern when an ADR explicitly bans it AND other ADRs might
 # unknowingly use it (i.e., it's a tempting but wrong approach for this project).
 
-forbidden_patterns: []
+forbidden_patterns:
+  - pattern: inline_tile_size_math
+    status: active
+    description: "No file outside src/core/grid_space.gd may use `* TILE_SIZE`, `* 64`, `/ TILE_SIZE`, or `/ 64` for coordinate conversion. Use GridSpace.world_to_grid() / grid_to_world() instead."
+    why: "Coordinate math scattered across systems creates brittle coupling — changing tile size requires N-file edits. Violates System Orthogonality (Pillar 2). Identified as Technical Risk R4 in game-concept.md."
+    adr: docs/architecture/adr-0001-gridspace-coordinate-boundary.md
+    added: 2026-04-30
+
+  - pattern: refcounted_node_access
+    status: active
+    description: "RefCounted logic classes must not call get_node(), $NodePath, %, get_tree(), or reference Autoloads. Dependencies must come through constructor/method injection."
+    why: "Node access in RefCounted creates hidden coupling to scene tree — untestable and violates System Orthogonality. The composition root (Game scene) owns all wiring."
+    adr: docs/architecture/adr-0002-dependency-injection-architecture.md
+    added: 2026-04-30
 
 # Example:
 #

@@ -2,7 +2,7 @@
 
 > **Status**: Draft (lean mode — director sign-off skipped)
 > **Created**: 2026-04-28
-> **Last Updated**: 2026-04-28
+> **Last Updated**: 2026-04-30
 > **Source Concept**: `design/gdd/game-concept.md`
 
 > **Creative Director Sign-Off (CD-SYSTEMS)**: SKIPPED — Lean mode (per `production/review-mode.txt`).
@@ -28,7 +28,7 @@ SRPG_MINI 是一个通用战棋 RPG 骨架：由 8 个正交系统组成，共�
 | 5 | Attack | Gameplay | MVP | Designed | `design/gdd/attack.md` | Map, Unit |
 | 6 | Victory | Gameplay | MVP | Designed | `design/gdd/victory.md` | Unit |
 | 7 | AI *(AIController interface + NullAI default)* | Gameplay | MVP | Designed | `design/gdd/ai.md` | Turn System, Movement, Attack |
-| 8 | UI / Input | UI | MVP | Not Started | — | Map, Unit, Turn System, Movement, Attack, Victory |
+| 8 | UI / Input | UI | MVP | Designed | `design/gdd/ui.md` | Map, Unit, Turn System, Movement, Attack, Victory |
 | — | Faction *(extracted)* | Core | Tier 2 | Pre-registered | — | (none) |
 | — | BasicAI | Gameplay | Tier 2 | Pre-registered | — | AI (interface), Map, Unit, Movement, Attack |
 | — | Terrain (one type) | Gameplay | Tier 2 | Pre-registered | — | Map, Movement |
@@ -143,10 +143,10 @@ SRPG_MINI 是一个通用战棋 RPG 骨架：由 8 个正交系统组成，共�
 | Total systems identified (MVP) | 8 |
 | Total systems pre-registered (Tier 2) | 4 |
 | Total systems pre-registered (Tier 3) | 4 |
-| Design docs started | 5 |
-| Design docs reviewed | 0 |
-| Design docs approved | 0 |
-| MVP systems designed | 7 / 8 |
+| Design docs started | 8 |
+| Design docs reviewed | 8 |
+| Design docs approved | 8 |
+| MVP systems designed | 8 / 8 |
 | Tier 2 systems designed | 0 / 4 |
 
 ---

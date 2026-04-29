@@ -85,7 +85,7 @@ Turn System 赋予比赛一个心跳 —— 每个阵营阶段的边界都是一
 | **Unit** | 上行（读取） | Turn System 读取单位状态 | `unit.faction`、`unit.has_acted_this_turn`、`unit.is_alive` |
 | **Unit** | 下行（写入） | Turn System 重置单位 | `unit.reset_action_state()` —— 比赛开始时对所有单位调用，每个阶段开始时对进入阵营的单位调用 |
 | **Unit** | 上行（信号） | 单位死亡通知 | 监听所有已注册单位的 `unit.unit_died(unit)`。收到后：重新评估 auto-advance 和阵营歼灭 |
-| **AI** | 下行（调用，Tier 2） | Turn System 在 ENEMY 阶段调用 AI | `AIController.take_turn(units, world_state) -> ActionList`。Turn System 持有返回动作的执行权。MVP 阶段：AI 为 `NullAI` —— `faction_activated(ENEMY)` 由 Input 系统消费，用于热座控制 |
+| **AI** | 下行（调用，Tier 2） | Turn System 在 ENEMY 阶段调用 AI | `AIController.take_turn(units, world_state) -> ActionList`。Turn System 持有返回动作的执行权——逐项执行时验证 `unit.faction == active_faction`（纵深防御: AI GDD R1 要求 unit ∈ 传入的 ENEMY 单位集，此守卫为安全网）。MVP 阶段：AI 为 `NullAI` —— `faction_activated(ENEMY)` 由 Input 系统消费，用于热座控制 |
 | **Victory** | 下行（信号） | Turn System 通知比赛结束 | 发射 `match_ended(reason, winner)`。Victory 系统通过 `VictoryChecker.determine_winner()` 持有胜者/平局判定逻辑 |
 | **Victory** | 上行（调用） | Turn System 查询胜者 | `VictoryChecker.determine_winner(units, turn_number, turn_cap) -> Dictionary{winner, reason}`。在 FACTION_PHASE_ENDING 步骤 4 中调用 |
 | **UI / Input** | 下行（数据） | Turn System 暴露 HUD 状态 | `active_faction: Faction.Type`、`turn_number: int`、`turn_cap: int`、`current_state: TurnState` —— 由 HUD 读取，用于回合指示器和 End Turn 按钮可见性 |
