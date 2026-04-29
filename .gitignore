@@ -97,6 +97,8 @@ __pycache__/
 *.pyc
 node_modules/
 .npm/
+.omc/
+.omx/
 
 # === Archives ===
 *.zip

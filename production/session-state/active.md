@@ -10,17 +10,24 @@
 
 ## Current Task
 
-Turn, Movement, Attack GDDs complete. Next: Victory (Order 6) or AI (Order 7).
+UI / Input GDD started (Overview written). 7/8 MVP systems complete.
 
 ## Status
 
 - ✅ `/start` — onboarded, review-mode = `lean`
 - ✅ `/brainstorm SRPG` — `design/gdd/game-concept.md` (322 lines)
-- ✅ `/setup-engine` — Godot 4.6.2-stable / GDScript / GdUnit4 testing / Performance budgets default
-- ✅ `/art-bible` — `design/art/art-bible.md` (Programmer Art Functional, 4 sections + 5 N/A)
-- ✅ `/map-systems` — `design/gdd/systems-index.md` (8 MVP systems + 8 pre-registered Tier 2/3)
-- 🟡 Next: `/design-system victory` (Order 6, Gameplay, S effort, depends on Unit)
-- 🟢 Also ready: `/design-system ai` (Order 7, Gameplay, M, depends on Turn+Movement+Attack — all three now Designed)
+- ✅ `/setup-engine` — Godot 4.6.2-stable / GDScript / GdUnit4 testing
+- ✅ `/art-bible` — `design/art/art-bible.md`
+- ✅ `/map-systems` — `design/gdd/systems-index.md` (8 MVP + 8 Tier 2/3)
+- ✅ `/design-system map` → `design/gdd/map.md`
+- ✅ `/design-system unit` → `design/gdd/unit.md`
+- ✅ `/design-system turn` → `design/gdd/turn.md`
+- ✅ `/design-system movement` → `design/gdd/movement.md`
+- ✅ `/design-system attack` → `design/gdd/attack.md`
+- ✅ `/design-system victory` → `design/gdd/victory.md`
+- ✅ `/design-system ai` → `design/gdd/ai.md` (433 lines, 30 AC, registry updated)
+- 🟡 `/design-system ui` — `design/gdd/ui.md` (skeleton + Overview written; Player Fantasy next)
+- Remaining: Turn GDD has 5 flagged inconsistencies from Victory+AI GDDs → `/consistency-check`
 
 ## Attack GDD Summary
 

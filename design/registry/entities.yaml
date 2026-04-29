@@ -121,6 +121,37 @@ formulas:
     added: 2026-04-29
     revised: ""
 
+  - name: determine_winner
+    status: active
+    source: design/gdd/victory.md
+    referenced_by:
+      - design/gdd/victory.md
+      - design/gdd/turn.md
+    variables:
+      - alive_p
+      - alive_e
+      - cap_breached
+    output_range: [7 valid combinations]
+    expression: "See victory.md F3: elimination branch (priority) → turn_cap branch → no-end (continue)"
+    notes: "Returns {winner: Faction.Type, reason: String}. 7 valid output combos defined in decision table. Pure function — no state, no side effects. Called by Turn System during FACTION_PHASE_ENDING."
+    added: 2026-04-29
+    revised: ""
+
+  - name: valid_action_list
+    status: active
+    source: design/gdd/ai.md
+    referenced_by:
+      - design/gdd/ai.md
+    variables:
+      - plans
+      - units
+      - world_state
+    output_range: [false, true]
+    expression: "R1 ∧ R2 ∧ R3 ∧ R4 ∧ R5 ∧ R6 — 6 sub-rule logical predicate. R1: unit membership, R2: no duplicate units, R3: target faction+alive, R4: Manhattan distance bound, R5: no occupancy conflict, R6: field completeness"
+    notes: "Pure logical predicate. AI responsible for ensuring true before return; Turn validates as safety net. Empty ActionList is vacuously true. See ai.md F1 for sub-rule details."
+    added: 2026-04-29
+    revised: ""
+
 
 # ─── CONSTANTS ───────────────────────────────────────────────────────────────
 # Named numerical values referenced across multiple systems.
@@ -157,6 +188,7 @@ constants:
     referenced_by:
       - design/gdd/turn.md
       - design/gdd/attack.md
+      - design/gdd/victory.md
     value: 30
     unit: turns
     range: [1, 99]

@@ -3,70 +3,70 @@
 > **Status**: In Design
 > **Author**: binlee1990 + Claude
 > **Last Updated**: 2026-04-29
-> **Implements Pillar**: Pillar 1 — Data-Driven (all unit stats are external config); Pillar 4 — Generic Vocabulary (HP/ATK/DEF/MOV/RNG are cross-genre SRPG terms)
+> **Implements Pillar**: Pillar 1 — Data-Driven (所有单位数据均为外部配置); Pillar 4 — Generic Vocabulary (HP/ATK/DEF/MOV/RNG 为跨品类 SRPG 通用术语)
 
 ## Overview
 
-The Unit system defines the game pieces players command and fight: each unit is a named entity carrying five stats — `HP`, `ATK`, `DEF`, `MOV`, `RNG` — and belongs to one of two factions (Player or Enemy, embedded in this system at MVP). Units are placed on the Map at grid coordinates and rendered as flat-colored geometric shapes with HP text heads-up, per the Programmer Art Functional palette. The Unit system is the Core layer's stable interface: five downstream systems (Turn System, Movement, Attack, Victory, AI) consume the Unit public API, so this GDD defines not just what a unit *is* but the contract every system reads from. Without units, there are no actors — the board would be an empty grid with no one to move, attack, or win.
+Unit 系统定义了玩家指挥和战斗的游戏棋子：每个单位是一个具名实体，携带五项属性 —— `HP`、`ATK`、`DEF`、`MOV`、`RNG` —— 并属于两个阵营之一（Player 或 Enemy，MVP 阶段内嵌于本系统）。单位以网格坐标放置在 Map 上，按照 Programmer Art Functional 调色板渲染为纯色几何形状并附带 HP 文字抬头显示。Unit 系统是 Core 层的稳定接口：五个下游系统（Turn System、Movement、Attack、Victory、AI）消费 Unit 的公共 API，因此本 GDD 不仅定义了单位*是什么*，更定义了每个系统读取的契约。没有单位就没有行动者 —— 棋盘将是一张空网格，无人可移动、攻击或获胜。
 
 ## Player Fantasy
 
-The Unit system's fantasy is **ownership through decision**. A unit has no name, no backstory, no class — it is yours because *you* decided where it stands, when it moves, and whom it attacks. Five transparent numbers — HP, ATK, DEF, MOV, RNG — are a promise: MOV 5 means 5 tiles of reach, HP 8 means 8 points of survival, and every reduction is a visible consequence of a choice already made. When a unit falls, the loss is not narrative grief but tactical contraction: fewer pieces, fewer options, fewer threats to project. The fantasy lives in the moment of hovering a tile and knowing — with total transparency — exactly what will happen if you click. No hidden modifiers, no dice rolls. The weight is in the decision, not in the unknown.
+Unit 系统的幻想是**通过决策获得所有权**。单位没有名字、没有背景故事、没有职业 —— 它是你的，因为*你*决定了它站在哪里、何时移动、攻击谁。五个透明的数字 —— HP、ATK、DEF、MOV、RNG —— 是一份承诺：MOV 5 意味着 5 格行动范围，HP 8 意味着 8 点生存值，每一点减少都是已经做出的选择的可见后果。当一个单位倒下，损失的不是叙事性的悲伤，而是战术性的收缩：更少的棋子、更少的选项、更少的威胁投射。幻想存在于悬停在一格上并精确知晓 —— 完全透明 —— 点击后会发生什么的那一刻。没有隐藏修正值，没有骰子。分量在决策本身，不在未知之中。
 
 ## Detailed Design
 
 ### Core Rules
 
-1. **Stats**: Each unit carries five integer stats. All stats are data-driven — defined in a `UnitStats` custom Resource (`.tres`), never hardcoded.
+1. **属性（Stats）**: 每个单位携带五项整数属性。所有属性均为数据驱动 —— 定义在 `UnitStats` 自定义 Resource（`.tres`）中，绝不硬编码。
 
 | Stat | Symbol | Type | Default | Range | Description |
 |------|--------|------|---------|-------|-------------|
-| Hit Points | `hp` / `max_hp` | int | 10 | 5–20 | Current and maximum health. `hp ≤ 0` = death |
-| Attack | `atk` | int | 5 | 3–8 | Raw damage before DEF reduction |
-| Defense | `def` | int | 2 | 0–5 | Flat damage reduction |
-| Movement | `mov` | int | 4 | 2–6 | BFS range radius in tiles |
-| Range | `rng` | int | 1 | 1–3 | Manhattan distance for attack targeting |
+| Hit Points | `hp` / `max_hp` | int | 10 | 5–20 | 当前和最大生命值。`hp ≤ 0` = 死亡 |
+| Attack | `atk` | int | 5 | 3–8 | DEF 减免前的原始伤害 |
+| Defense | `def` | int | 2 | 0–5 | 固定伤害减免值 |
+| Movement | `mov` | int | 4 | 2–6 | BFS 移动范围半径（格数） |
+| Range | `rng` | int | 1 | 1–3 | 攻击目标的曼哈顿距离 |
 
-`hp` is a mutable field (current health); all other stats are read-only after creation. `max_hp` is the constant ceiling.
+`hp` 为可变字段（当前生命值）；其余属性在创建后只读。`max_hp` 为恒定上限。
 
-2. **Faction**: Each unit belongs to exactly one faction — `PLAYER` or `ENEMY`. Defined as a standalone `enum` in `Faction.Type` (separate file `src/core/faction.gd`, not nested in Unit). Faction determines:
-   - Visual color: Player = `#3B82F6` (blue), Enemy = `#EF4444` (red)
-   - Turn eligibility: only units of the active faction may act
-   - Targetability: a unit may only target units of the opposing faction
+2. **阵营（Faction）**: 每个单位属于且仅属于一个阵营 —— `PLAYER` 或 `ENEMY`。定义为独立 `enum`，位于 `Faction.Type`（单独文件 `src/core/faction.gd`，不嵌套在 Unit 中）。阵营决定：
+   - 视觉颜色：Player = `#3B82F6`（蓝色），Enemy = `#EF4444`（红色）
+   - 回合资格：仅当前活动阵营的单位可以行动
+   - 可攻击性：单位只能以敌方阵营的单位为目标
 
-3. **Unit Identity**: Each unit receives an auto-generated `unit_id: String` on instantiation (`"unit_0"`, `"enemy_2"`, etc.). Used by the debug overlay and future save/load. Not displayed in normal gameplay.
+3. **单位标识（Unit Identity）**: 每个单位在实例化时获得自动生成的 `unit_id: String`（`"unit_0"`、`"enemy_2"` 等）。供 debug 叠加层和未来的存档/读档使用。正常游戏过程中不显示。
 
-4. **Unit Scene Structure**: Unit is a `Node2D`-root scene (`Unit.tscn`) with two children:
-   - `ColorRect` (48×48px, centered within the 64×64 tile) — faction-colored flat rectangle
-   - `Label` (offset `Vector2(0, -40)` above unit center) — HP display in `"HP: 8/10"` format
+4. **Unit 场景结构**: Unit 为 `Node2D` 根场景（`Unit.tscn`），包含两个子节点：
+   - `ColorRect`（48×48px，在 64×64 瓦片内居中）—— 阵营颜色的纯色矩形
+   - `Label`（偏移 `Vector2(0, -40)`，位于单位中心上方）—— HP 显示，格式为 `"HP: 8/10"`
 
-5. **Unit Data**: A `UnitStats` custom Resource (`.tres`) holds the archetype stat block. Unit reads its `.tres` on `_ready()`. This separates data from presentation — the same `soldier.tres` can be applied to multiple Unit instances.
+5. **单位数据（Unit Data）**: `UnitStats` 自定义 Resource（`.tres`）持有原型属性块。Unit 在 `_ready()` 时读取其 `.tres`。这实现了数据与表现的分离 —— 同一个 `soldier.tres` 可应用于多个 Unit 实例。
 
-6. **Grid Position**: Unit owns `grid_position: Vector2i` (row, col). World pixel placement is derived via Map's `tile_center(grid_position)`. Unit does NOT compute pixel positions internally.
+6. **网格位置（Grid Position）**: Unit 拥有 `grid_position: Vector2i`（row, col）。世界像素坐标通过 Map 的 `tile_center(grid_position)` 推导。Unit 不在内部计算像素位置。
 
-7. **Action State**: Unit tracks `has_acted_this_turn: bool`. Set to `true` after the unit completes its move+attack action. Reset to `false` by the Turn System at the start of the next faction's turn via `reset_action_state()`.
+7. **行动状态（Action State）**: Unit 追踪 `has_acted_this_turn: bool`。单位完成移动+攻击动作后设为 `true`。由 Turn System 在下个阵营回合开始时通过 `reset_action_state()` 重置为 `false`。
 
-8. **Death**: When `hp` is reduced to ≤ 0:
-   - Unit emits `unit_died(unit)` signal.
-   - Map (listener) calls `remove_unit(coord)` and `queue_free()`.
-   - Turn System and Victory (listeners) process the death for turn flow and win-check.
-   - Unit never calls `queue_free()` on itself.
+8. **死亡（Death）**: 当 `hp` 降至 ≤ 0 时：
+   - Unit 发出 `unit_died(unit)` 信号。
+   - Map（监听者）调用 `remove_unit(coord)` 和 `queue_free()`。
+   - Turn System 和 Victory（监听者）处理死亡事件以推进回合流程和胜负判定。
+   - Unit 从不自我调用 `queue_free()`。
 
-9. **Visual State Mapping**:
-   - Normal (idle, alive, has NOT acted): full faction color, full opacity
-   - Acted (has acted this turn): desaturated — modulate to `Color.GRAY` at 50% alpha
+9. **视觉状态映射**:
+   - Normal（idle、存活、尚未行动）：完整阵营颜色、完整不透明度
+   - Acted（本回合已行动）：去饱和 —— modulate 为 `Color.GRAY`、50% 透明度
 
 ### States and Transitions
 
 | State | Meaning | Valid Transitions |
 |-------|---------|-------------------|
-| `IDLE` | Alive, not selected, may or may not have acted | → SELECTED (player clicks unit) |
-| `SELECTED` | Currently the active selection for input | → MOVED (move confirmed), → ATTACK_TARGETING (attack chosen after move) |
-| `MOVED` | Unit has moved; now choosing attack target or skip | → ACTED (attack confirmed or skip) |
-| `ACTED` | Move+attack consumed; `has_acted = true` | → IDLE (Turn System resets on new faction turn) |
-| `DEAD` | `hp ≤ 0`; removed from board | Terminal — unit is `queue_free()`'d |
+| `IDLE` | 存活、未被选中、可能已行动或未行动 | → SELECTED（玩家点击单位） |
+| `SELECTED` | 当前为输入选中的活跃选择 | → MOVED（移动确认），→ ATTACK_TARGETING（移动后选择攻击） |
+| `MOVED` | 单位已移动；正在选择攻击目标或跳过 | → ACTED（攻击确认或跳过） |
+| `ACTED` | 移动+攻击已消耗；`has_acted = true` | → IDLE（Turn System 在新阵营回合时重置） |
+| `DEAD` | `hp ≤ 0`；已从棋盘移除 | 终结状态 —— 单位已被 `queue_free()` |
 
-State transitions are driven by the Input system (click → select, click → move/attack). The Unit stores the current state as `action_state: enum` and exposes precondition checks:
+状态转换由 Input 系统驱动（click → select，click → move/attack）。Unit 将当前状态存储为 `action_state: enum`，并暴露前置条件检查：
 - `can_be_selected()` → `is_alive AND faction == active_faction AND NOT has_acted`
 - `can_move()` → `action_state in [SELECTED]`
 - `can_attack()` → `action_state in [SELECTED, MOVED] AND rng ≥ distance_to_target`
@@ -75,12 +75,12 @@ State transitions are driven by the Input system (click → select, click → mo
 
 | Downstream System | What Unit Exposes | Data Direction |
 |---|---|---|
-| **Turn System** | `faction`, `has_acted_this_turn`, `reset_action_state()`, `unit_died` signal | Turn → Unit (reset); Unit → Turn (death signal) |
-| **Movement** | `mov`, `grid_position`, `set_grid_position()` | Movement → Unit (position write) |
-| **Attack** | `atk`, `def`, `rng`, `hp`, `take_damage(amount)`, `is_alive` | Attack → Unit (HP write) |
-| **Victory** | `faction`, `is_alive`, `unit_died` signal | Unit → Victory (poll + signal) |
-| **AI** | All stats, `grid_position`, `can_be_selected()` equivalent | AI → Unit (via Movement/Attack proxies) |
-| **UI / Input** | `hp`/`max_hp`, `faction`, `grid_position`, `has_acted_this_turn`, `action_state` | Unit → UI (read-only) |
+| **Turn System** | `faction`、`has_acted_this_turn`、`reset_action_state()`、`unit_died` 信号 | Turn → Unit（重置）；Unit → Turn（死亡信号） |
+| **Movement** | `mov`、`grid_position`、`set_grid_position()` | Movement → Unit（位置写入） |
+| **Attack** | `atk`、`def`、`rng`、`hp`、`take_damage(amount)`、`is_alive` | Attack → Unit（HP 写入） |
+| **Victory** | `faction`、`is_alive`、`unit_died` 信号 | Unit → Victory（轮询 + 信号） |
+| **AI** | 所有属性、`grid_position`、等价于 `can_be_selected()` 的接口 | AI → Unit（通过 Movement/Attack 代理） |
+| **UI / Input** | `hp`/`max_hp`、`faction`、`grid_position`、`has_acted_this_turn`、`action_state` | Unit → UI（只读） |
 
 ## Formulas
 
@@ -90,11 +90,11 @@ State transitions are driven by the Input system (click → select, click → mo
 
 | Variable | Symbol | Type | Range | Description |
 |----------|--------|------|-------|-------------|
-| Current HP | hp | int | [0, max_hp] | Mutable current health |
-| Damage amount | amount | int | [1, ∞) | Raw damage after DEF reduction (computed by Attack) |
-| Max HP | max_hp | int | [5, 20] | Constant ceiling |
+| Current HP | hp | int | [0, max_hp] | 可变当前生命值 |
+| Damage amount | amount | int | [1, ∞) | DEF 减免后的原始伤害（由 Attack 计算） |
+| Max HP | max_hp | int | [5, 20] | 恒定上限 |
 
-**Output Range**: hp ∈ [0, max_hp]. **Example**: a unit with hp=8, max_hp=10 takes `take_damage(5)` → hp becomes 3. `take_damage(12)` → hp becomes 0, `unit_died` emitted.
+**输出范围**: hp ∈ [0, max_hp]。**示例**: 一个 hp=8、max_hp=10 的单位受到 `take_damage(5)` → hp 变为 3。`take_damage(12)` → hp 变为 0，发出 `unit_died` 信号。
 
 ### F2: is_alive / is_dead
 
@@ -102,57 +102,57 @@ State transitions are driven by the Input system (click → select, click → mo
 
 | Variable | Type | Range | Description |
 |----------|------|-------|-------------|
-| hp | int | [0, max_hp] | Current health |
+| hp | int | [0, max_hp] | 当前生命值 |
 
-Boolean check consumed by Turn System, Movement (cannot move dead units), Victory (faction-elimination), and UI/HUD.
+布尔检查，供 Turn System、Movement（不能移动已死亡单位）、Victory（阵营全灭判定）和 UI/HUD 消费。
 
 ### F3: clamp_hp
 
 `hp = clamp(hp, 0, max_hp)`
 
-Enforced after every HP modification — damage and healing. No out-of-range HP is ever visible.
+每次 HP 修改后强制执行 —— 包括伤害和治疗。任何超出范围的 HP 都不会被可见。
 
-### F4: stat validation (`.tres` load-time)
+### F4: stat validation（`.tres` 加载时验证）
 
-For each stat `S` in `{max_hp: [5,20], atk: [3,8], def: [0,5], mov: [2,6], rng: [1,3]}`: assert `S` is within range on `.tres` load. Out-of-range data is a hard fail — bad data is a bug, not silently corrected.
+对于 `{max_hp: [5,20], atk: [3,8], def: [0,5], mov: [2,6], rng: [1,3]}` 中的每个属性 `S`：在 `.tres` 加载时断言 `S` 在允许范围内。超出范围的数据为硬失败 —— 错误数据是 bug，不静默修正。
 
-### F5: heal (reserved interface, MVP unused)
+### F5: heal（预留接口，MVP 未使用）
 
 `hp = clamp(hp + amount, 0, max_hp)`
 
-Declared but not wired at MVP. Prevents future healing systems from needing to edit Unit internals.
+已声明但 MVP 阶段未接入。使未来的治疗系统无需修改 Unit 内部实现。
 
-> **What belongs elsewhere**: `damage = max(ATK - DEF, 1)` is owned by the Attack GDD (Module 5). Distance calculations (Manhattan) belong to Movement. Faction-elimination counting belongs to Victory.
+> **属于其他系统的内容**: `damage = max(ATK - DEF, 1)` 属于 Attack GDD（Module 5）。距离计算（曼哈顿距离）属于 Movement。阵营全灭计数属于 Victory。
 
 ## Edge Cases
 
-- **If `take_damage(amount)` called on an already-dead unit**: returns immediately, no signal emitted. Guarded by `if not is_alive: return` at entry.
+- **若对已死亡单位调用 `take_damage(amount)`**: 立即返回，不发出信号。入口处以 `if not is_alive: return` 守卫。
 
-- **If `amount ≤ 0` passed to `take_damage`**: asserts `amount > 0`. Negative damage bypasses the unwired `heal()` interface — not allowed.
+- **若传入 `take_damage` 的 `amount ≤ 0`**: 断言 `amount > 0`。负伤害绕过了未接入的 `heal()` 接口 —— 不允许。
 
-- **If exact kill (`amount == hp`)**: hp becomes 0, `is_alive` → false, `unit_died` emitted once. No special case needed — `clamp` naturally produces 0.
+- **若恰好击杀（`amount == hp`）**: hp 变为 0，`is_alive` → false，`unit_died` 发出一次。无需特殊处理 —— `clamp` 自然产生 0。
 
-- **If `.tres` stat outside declared range**: `assert(false)` on `_ready()` with message naming the file, stat, value, and allowed range. Unit never enters the scene tree.
+- **若 `.tres` 属性超出声明范围**: `_ready()` 时 `assert(false)`，消息中注明文件名、属性名、值和允许范围。Unit 不进入场景树。
 
-- **If `.tres` file missing or corrupt**: `ResourceLoader` returns null. Unit logs error and `queue_free()` before entering scene tree.
+- **若 `.tres` 文件丢失或损坏**: `ResourceLoader` 返回 null。Unit 记录错误并在进入场景树前 `queue_free()`。
 
-- **If player clicks a unit in SELECTED or ACTED state**: `can_be_selected()` additionally checks `action_state == IDLE`. Units not in IDLE reject selection.
+- **若玩家点击处于 SELECTED 或 ACTED 状态的单位**: `can_be_selected()` 额外检查 `action_state == IDLE`。非 IDLE 状态的单位拒绝选中。
 
-- **If player tries to target same-faction unit for attack**: `can_attack()` includes `target.faction != self.faction`. Same-faction targeting is rejected.
+- **若玩家尝试以同阵营单位作为攻击目标**: `can_attack()` 包含 `target.faction != self.faction`。同阵营目标被拒绝。
 
-- **If Turn System calls `reset_action_state()` on a unit still in SELECTED/MOVED state**: state is forced to IDLE regardless of current state. Turn transition overrides any in-progress action.
+- **若 Turn System 对仍处于 SELECTED/MOVED 状态的单位调用 `reset_action_state()`**: 状态被强制设为 IDLE，无论当前状态如何。回合转换覆盖任何进行中的动作。
 
-- **If external code directly sets `action_state` or read-only stats**: assert on write attempt. Only `hp`, `grid_position`, `has_acted_this_turn`, and `action_state` (via defined flows) are mutable.
+- **若外部代码直接设置 `action_state` 或只读属性**: 写入时断言失败。仅 `hp`、`grid_position`、`has_acted_this_turn` 和 `action_state`（通过定义的流程）可变。
 
-- **If `max_hp` is somehow 0**: stat validation rejects on load (floor is 5). Impossible in normal operation.
+- **若 `max_hp` 意外为 0**: 属性验证在加载时拒绝（下限为 5）。正常操作中不可能出现。
 
-- **If `unit_id` collides**: auto-generation uses a monotonic counter, not random. Two units instantiated in the same frame still get unique IDs.
+- **若 `unit_id` 冲突**: 自动生成使用单调递增计数器，非随机生成。同一帧内实例化的两个单位仍获得唯一 ID。
 
-- **If two units placed on same tile**: Map's `place_unit()` rejects with occupancy check — Unit trusts Map, does not self-validate peers.
+- **若两个单位被放置在同一瓦片上**: Map 的 `place_unit()` 通过占用检查拒绝 —— Unit 信任 Map，不自我验证同格单位。
 
-- **If `grid_position` set outside map bounds**: Map rejects. Unit never self-positions or self-validates against map bounds.
+- **若 `grid_position` 设置在 Map 边界外**: Map 拒绝。Unit 从不自我定位或自我验证 Map 边界。
 
-- **If faction is changed at runtime**: No setter exists. Faction is init-only. Assert on write attempt.
+- **若运行时修改阵营（faction）**: 不存在 setter。阵营仅可在初始化时设定。写入时断言失败。
 
 ## Dependencies
 
@@ -160,130 +160,130 @@ Declared but not wired at MVP. Prevents future healing systems from needing to e
 
 | System | Type | Interface Consumed | Notes |
 |--------|------|--------------------|-------|
-| **Map / Coordinates** | Hard | `grid_to_world()`, `tile_center()`, `place_unit()`, `remove_unit()`, `is_walkable()` | Unit cannot exist on the board without Map |
+| **Map / Coordinates** | Hard | `grid_to_world()`、`tile_center()`、`place_unit()`、`remove_unit()`、`is_walkable()` | 没有 Map，Unit 无法存在于棋盘上 |
 
-### Downstream Dependencies (systems that depend on Unit)
+### Downstream Dependencies（依赖 Unit 的系统）
 
 | System | Type | Interface Exposed | Notes |
 |--------|------|-------------------|-------|
-| **Turn System** | Hard | `faction`, `has_acted_this_turn`, `reset_action_state()`, `is_alive`, `unit_died` signal | Iterates units by faction, resets action state |
-| **Movement** | Hard | `mov`, `grid_position`, `set_grid_position()`, `is_alive` | BFS range radius, position write |
-| **Attack** | Hard | `atk`, `def`, `rng`, `hp`, `take_damage()`, `is_alive`, `faction` | Damage computation, target validation |
-| **Victory** | Hard | `faction`, `is_alive`, `unit_died` signal | Faction-elimination polling |
-| **AI** | Hard | All stats, `grid_position`, `faction`, `is_alive`, `has_acted_this_turn` | AI reads unit state to decide actions |
-| **UI / Input** | Hard | `hp`/`max_hp`, `faction`, `grid_position`, `action_state`, `has_acted_this_turn`, `unit_id` | Rendering, HP label, selection, debug overlay |
+| **Turn System** | Hard | `faction`、`has_acted_this_turn`、`reset_action_state()`、`is_alive`、`unit_died` 信号 | 按阵营遍历单位，重置行动状态 |
+| **Movement** | Hard | `mov`、`grid_position`、`set_grid_position()`、`is_alive` | BFS 范围半径，位置写入 |
+| **Attack** | Hard | `atk`、`def`、`rng`、`hp`、`take_damage()`、`is_alive`、`faction` | 伤害计算，目标验证 |
+| **Victory** | Hard | `faction`、`is_alive`、`unit_died` 信号 | 阵营全灭轮询 |
+| **AI** | Hard | 所有属性、`grid_position`、`faction`、`is_alive`、`has_acted_this_turn` | AI 读取单位状态以决策行动 |
+| **UI / Input** | Hard | `hp`/`max_hp`、`faction`、`grid_position`、`action_state`、`has_acted_this_turn`、`unit_id` | 渲染、HP 标签、选择、debug 叠加层 |
 
-All six downstream dependencies are **hard** — no downstream system functions without Unit.
+所有六个下游依赖均为 **hard** —— 没有 Unit，任何下游系统都无法运作。
 
 ### External Dependencies
 
 | Dependency | Type | Notes |
 |------------|------|-------|
-| `UnitStats` Resource (.tres) | Data | Per-archetype stat blocks in `assets/data/units/`. Pillar 1 compliance. |
-| `Unit.tscn` | Scene | Node2D-root scene template. Visual structure decoupled from stat data. |
-| `Faction.Type` enum | Code | Standalone file `src/core/faction.gd`. Not nested in Unit — enables Tier 2 extraction. |
+| `UnitStats` Resource (.tres) | Data | 位于 `assets/data/units/` 的按原型属性块。符合 Pillar 1。 |
+| `Unit.tscn` | Scene | Node2D 根场景模板。视觉结构与属性数据解耦。 |
+| `Faction.Type` enum | Code | 独立文件 `src/core/faction.gd`。不嵌套在 Unit 中 —— 支持 Tier 2 提取。 |
 
 ## Tuning Knobs
 
 | Knob | Location | Safe Range | What Happens If Too Low | What Happens If Too High | Notes |
 |------|----------|------------|------------------------|------------------------|-------|
-| `max_hp` | UnitStats.tres | [5, 20] | Units die in 1 hit from any attacker — no tactical depth | Units become bullet sponges, matches drag | Default 10 gives 2-3 hit survival vs ATK 5 |
-| `atk` | UnitStats.tres | [3, 8] | Below 3: units with DEF 2 take 1 damage minimum — combat feels futile | Above 8: one-shots become common against HP 10 units | Default 5 creates 2-3 hit kill vs HP 10, DEF 2 |
-| `def` | UnitStats.tres | [0, 5] | 0 DEF: ATK = raw damage, no mitigation layer | 5 DEF: only ATK ≥ 7 does more than 2 damage — defense dominates | Default 2 absorbs 40% of default ATK 5 |
-| `mov` | UnitStats.tres | [2, 6] | 2 tiles: unit can barely reposition, map feels claustrophobic | 6 tiles: unit crosses default 16×12 map in 2 turns, range loses meaning | Default 4 is the standard SRPG move value |
-| `rng` | UnitStats.tres | [1, 3] | 1: melee-only — unit must be adjacent to attack | 3: half the board is reachable from center — positioning trivialized | Default 1 (melee) for MVP; ranged archetypes at rng 2–3 are Tier 2 |
+| `max_hp` | UnitStats.tres | [5, 20] | 单位被任何攻击者一击击杀 —— 没有战术深度 | 单位变成子弹海绵，对局拖沓 | 默认 10 在面对 ATK 5 时提供 2-3 次被击存活 |
+| `atk` | UnitStats.tres | [3, 8] | 低于 3: DEF 2 的单位只受 1 点伤害 —— 战斗感觉徒劳 | 高于 8: 对 HP 10 的单位可一击击杀 | 默认 5 在面对 HP 10、DEF 2 时造成 2-3 次攻击击杀 |
+| `def` | UnitStats.tres | [0, 5] | 0 DEF: ATK = 原始伤害，无减免层 | 5 DEF: 仅 ATK ≥ 7 能造成超过 2 点伤害 —— 防御主导 | 默认 2 吸收默认 ATK 5 的 40% |
+| `mov` | UnitStats.tres | [2, 6] | 2 格: 单位几乎无法重新站位，地图感觉幽闭 | 6 格: 单位在 2 回合内穿越默认 16×12 地图，距离失去意义 | 默认 4 是标准的 SRPG 移动值 |
+| `rng` | UnitStats.tres | [1, 3] | 1: 仅近战 —— 单位必须相邻才能攻击 | 3: 从中心可攻击半张棋盘 —— 站位变得无关紧要 | MVP 默认 1（近战）；rng 2–3 的远程原型属于 Tier 2 |
 
-**Knob interactions**:
-- `atk` vs `def`: damage = `max(atk − def, 1)`. Raising `def` globally makes `atk` less meaningful. Raising `atk` globally makes `def` irrelevant. These two define the lethality curve together.
-- `mov` vs `rng`: threat radius = `mov + rng`. A unit with MOV 6 + RNG 3 projects threat 9 tiles from its starting position — nearly the full map width.
-- `max_hp` vs `atk − def`: hits-to-kill = `ceil(max_hp / max(atk − def, 1))`. Adjusting HP without checking this ratio can create immortal units or glass cannons.
+**Knob 交互关系**:
+- `atk` vs `def`: damage = `max(atk − def, 1)`。全局提升 `def` 使 `atk` 失去意义。全局提升 `atk` 使 `def` 无关紧要。两者共同定义杀伤力曲线。
+- `mov` vs `rng`: 威胁半径 = `mov + rng`。一个 MOV 6 + RNG 3 的单位从起始位置投射 9 格威胁 —— 几乎覆盖整个地图宽度。
+- `max_hp` vs `atk − def`: 击杀所需命中次数 = `ceil(max_hp / max(atk − def, 1))`。调整 HP 而不检查此比例可能产生不死单位或玻璃大炮。
 
 ## Visual/Audio Requirements
 
-Per Programmer Art Functional anchor. No audio.
+按 Programmer Art Functional 锚点。无音频。
 
-- **Unit body**: 48×48px `ColorRect`, centered within the 64×64 tile. Faction-colored flat rectangle — Player `#3B82F6` (blue), Enemy `#EF4444` (red).
-- **HP label**: `Label` node offset `Vector2(0, -40)` above unit center. Format: `"HP: 8/10"`. Font: Godot default (no custom font at MVP).
-- **Action state visual**: Acted units → modulate to `Color.GRAY` at 50% alpha.
-- **Death**: No corpse, no death animation. Unit is `queue_free()`'d after `unit_died` signal.
-- **Selection highlight**: Deferred to UI / Input GDD (highlight overlay belongs to that system).
+- **单位身体**: 48×48px `ColorRect`，在 64×64 瓦片内居中。阵营颜色纯色矩形 —— Player `#3B82F6`（蓝色），Enemy `#EF4444`（红色）。
+- **HP 标签**: `Label` 节点偏移 `Vector2(0, -40)`，位于单位中心上方。格式: `"HP: 8/10"`。字体: Godot 默认字体（MVP 无自定义字体）。
+- **行动状态视觉表现**: 已行动单位 → modulate 为 `Color.GRAY`、50% 透明度。
+- **死亡**: 无尸体，无死亡动画。`unit_died` 信号后单位被 `queue_free()`。
+- **选中高亮**: 推迟至 UI / Input GDD（高亮叠加层属于该系统的范围）。
 
-> 📌 **Asset Spec** — Visual requirements defined. Run `/asset-spec system:unit` after art bible approval to produce per-unit visual descriptions and generation prompts.
+> 📌 **资源规格** —— 视觉需求已定义。在美术圣经批准后运行 `/asset-spec system:unit` 以生成每个单位的视觉描述和生成提示。
 
 ## UI Requirements
 
-This system has no UI of its own. Unit selection, HP display overlay, and action menus are owned by the UI / Input GDD. The HP Label child node is a Unit-owned rendering element, not a UI screen.
+本系统不拥有任何 UI。单位选中、HP 显示叠加层和行动菜单由 UI / Input GDD 所有。HP Label 子节点是 Unit 拥有的渲染元素，非 UI 屏幕。
 
 ## Acceptance Criteria
 
 ### Core Rules
 
-**AC-C1 — Stats data-driven** (Logic)
-GIVEN a UnitStats.tres with max_hp=10, atk=5, def=2, mov=4, rng=1, WHEN a Unit loads it on `_ready()`, THEN hp==max_hp==10 and all five stats match `.tres` exactly. No hardcoded defaults survive.
+**AC-C1 — 属性数据驱动**（Logic）
+GIVEN 一个 UnitStats.tres，其中 max_hp=10, atk=5, def=2, mov=4, rng=1，WHEN Unit 在 `_ready()` 时加载它，THEN hp==max_hp==10 且所有五项属性完全匹配 `.tres`。无硬编码默认值残留。
 
-**AC-C2 — Faction color** (Visual)
-GIVEN a PLAYER Unit, THEN ColorRect.modulate is blue (`#3B82F6`). GIVEN an ENEMY Unit, THEN red (`#EF4444`).
+**AC-C2 — 阵营颜色**（Visual）
+GIVEN 一个 PLAYER Unit，THEN ColorRect.modulate 为蓝色（`#3B82F6`）。GIVEN 一个 ENEMY Unit，THEN 红色（`#EF4444`）。
 
-**AC-C3 — unit_id monotonic** (Logic)
-GIVEN zero existing units, WHEN three Units are instantiated, THEN unit_ids are `"unit_0"`, `"unit_1"`, `"unit_2"` — monotonic, no collisions.
+**AC-C3 — unit_id 单调递增**（Logic）
+GIVEN 零个现有单位，WHEN 实例化三个 Unit，THEN unit_id 依次为 `"unit_0"`、`"unit_1"`、`"unit_2"` —— 单调递增，无冲突。
 
-**AC-C4 — Scene structure** (Visual)
-GIVEN Unit.tscn opened in editor, WHEN inspected, THEN root is Node2D with exactly two children: a ColorRect (48×48) and a Label offset above center.
+**AC-C4 — 场景结构**（Visual）
+GIVEN 在编辑器中打开 Unit.tscn，WHEN 检查场景树，THEN 根节点为 Node2D，恰好有两个子节点: 一个 ColorRect（48×48）和一个位于中心上方的偏移 Label。
 
-**AC-C5 — .tres instance separation** (Logic)
-GIVEN two Units both loading the same soldier.tres, WHEN Unit A takes `take_damage(4)` reducing hp 10→6, THEN Unit B's hp remains 10. Each Unit owns mutable hp independently.
+**AC-C5 — .tres 实例隔离**（Logic）
+GIVEN 两个 Unit 均加载同一个 soldier.tres，WHEN Unit A 受到 `take_damage(4)` 导致 hp 10→6，THEN Unit B 的 hp 仍为 10。每个 Unit 独立持有可变 hp。
 
-**AC-C6 — grid_position ownership** (Logic)
-GIVEN a Unit placed at grid (2,3), WHEN `unit.grid_position` is read, THEN `Vector2i(2,3)`. Unit contains zero pixel-math — world position derives solely via Map.
+**AC-C6 — grid_position 所属权**（Logic）
+GIVEN 一个 Unit 放置在网格 (2,3) 处，WHEN 读取 `unit.grid_position`，THEN `Vector2i(2,3)`。Unit 不包含任何像素运算 —— 世界坐标完全通过 Map 推导。
 
-**AC-C7 — has_acted lifecycle** (Logic)
-GIVEN a fresh Unit, THEN `has_acted_this_turn == false`. After move+attack completes, THEN `true`. After Turn System calls `reset_action_state()`, THEN `false`.
+**AC-C7 — has_acted 生命周期**（Logic）
+GIVEN 一个新创建的 Unit，THEN `has_acted_this_turn == false`。移动+攻击完成后，THEN `true`。Turn System 调用 `reset_action_state()` 后，THEN `false`。
 
-**AC-C8 — Death chain** (Integration)
-GIVEN a Unit with hp=1, WHEN `take_damage(3)`, THEN hp→0, `unit_died` emits exactly once, Map removes occupancy, `queue_free()` follows. Signal fires before node freed.
+**AC-C8 — 死亡链**（Integration）
+GIVEN 一个 hp=1 的 Unit，WHEN `take_damage(3)`，THEN hp→0，`unit_died` 恰好发出一次，Map 移除占用，随后 `queue_free()`。信号在节点释放前发出。
 
-**AC-C9 — Visual desaturation** (Visual)
-GIVEN a Unit that has NOT acted, THEN full faction color + full opacity. GIVEN `has_acted_this_turn == true`, THEN desaturated (`Color.GRAY`, 50% alpha).
+**AC-C9 — 视觉去饱和**（Visual）
+GIVEN 一个尚未行动的 Unit，THEN 完整阵营颜色 + 完整不透明度。GIVEN `has_acted_this_turn == true`，THEN 去饱和（`Color.GRAY`，50% 透明度）。
 
 ### State Machine
 
-**AC-S1 — can_be_selected complete precondition** (Logic)
-GIVEN a Unit with `is_alive AND faction==active_faction AND NOT has_acted AND action_state==IDLE`, WHEN `can_be_selected()`, THEN `true`. Any missing condition → `false`.
+**AC-S1 — can_be_selected 完整前置条件**（Logic）
+GIVEN 一个满足 `is_alive AND faction==active_faction AND NOT has_acted AND action_state==IDLE` 的 Unit，WHEN `can_be_selected()`，THEN `true`。缺失任一条件 → `false`。
 
-**AC-S2 — can_move / can_attack** (Logic)
-GIVEN a Unit in SELECTED, THEN `can_move()` → `true`. GIVEN SELECTED or MOVED + enemy target within `rng`, THEN `can_attack()` → `true`. GIVEN same-faction target, THEN `false` regardless of state.
+**AC-S2 — can_move / can_attack**（Logic）
+GIVEN 处于 SELECTED 的 Unit，THEN `can_move()` → `true`。GIVEN 处于 SELECTED 或 MOVED + 敌方目标在 `rng` 范围内，THEN `can_attack()` → `true`。GIVEN 同阵营目标，THEN 无论何种状态均为 `false`。
 
-**AC-S3 — reset_action_state override** (Logic)
-GIVEN a Unit in SELECTED or MOVED, WHEN `reset_action_state()`, THEN state forced to IDLE.
+**AC-S3 — reset_action_state 覆盖**（Logic）
+GIVEN 处于 SELECTED 或 MOVED 的 Unit，WHEN `reset_action_state()`，THEN 状态强制设为 IDLE。
 
 ### Formulas
 
-**AC-F1 — take_damage clamp + dead guard** (Logic)
-GIVEN hp=8 max_hp=10, WHEN `take_damage(5)` → hp=3. WHEN `take_damage(12)` on hp=3 → hp=0 + `unit_died`. GIVEN hp=0, WHEN `take_damage(any)`, THEN returns immediately, no signal.
+**AC-F1 — take_damage clamp + 死亡守卫**（Logic）
+GIVEN hp=8 max_hp=10，WHEN `take_damage(5)` → hp=3。WHEN 在 hp=3 时 `take_damage(12)` → hp=0 + `unit_died`。GIVEN hp=0，WHEN `take_damage(any)`，THEN 立即返回，不发出信号。
 
-**AC-F2 — is_alive / is_dead** (Logic)
-GIVEN hp=5, THEN `is_alive()==true`, `is_dead()==false`. GIVEN hp=0, THEN inverse. hp=1 is alive; hp=0 is dead. No ambiguity.
+**AC-F2 — is_alive / is_dead**（Logic）
+GIVEN hp=5，THEN `is_alive()==true`，`is_dead()==false`。GIVEN hp=0，THEN 相反。hp=1 存活；hp=0 死亡。无歧义。
 
-**AC-F3 — clamp_hp enforcement** (Logic)
-GIVEN hp=8 max_hp=10, WHEN `heal(5)`, THEN hp=10 (capped, not 13). After any HP modification, hp ∈ [0, max_hp].
+**AC-F3 — clamp_hp 强制执行**（Logic）
+GIVEN hp=8 max_hp=10，WHEN `heal(5)`，THEN hp=10（已封顶，非 13）。任何 HP 修改后，hp ∈ [0, max_hp]。
 
-**AC-F4 — .tres validation** (Logic)
-GIVEN UnitStats.tres with atk=12 (outside [3,8]), WHEN loaded, THEN assert fails with message naming file/stat/value/range. GIVEN missing/corrupt .tres, THEN error logged + `queue_free()`.
+**AC-F4 — .tres 验证**（Logic）
+GIVEN UnitStats.tres 中 atk=12（超出 [3,8] 范围），WHEN 加载时，THEN 断言失败，消息中注明文件名/属性名/值/范围。GIVEN 缺失/损坏的 .tres，THEN 记录错误 + `queue_free()`。
 
-**AC-F5 — heal() reserved** (Logic)
-GIVEN the Unit class, WHEN inspected, THEN `heal(amount: int)` method exists with `hp = clamp(hp+amount, 0, max_hp)` but is not wired to any MVP caller.
+**AC-F5 — heal() 预留**（Logic）
+GIVEN Unit 类，WHEN 检查源码，THEN `heal(amount: int)` 方法存在，实现为 `hp = clamp(hp+amount, 0, max_hp)`，但未接入任何 MVP 调用者。
 
 ### Edge Case Guards
 
-**AC-E1 — Read-only stat mutation guard** (Logic)
-GIVEN a live Unit, WHEN external code attempts to set atk/def/mov/rng/max_hp/faction directly, THEN assert fails. Only hp, grid_position, has_acted, and action_state are writable.
+**AC-E1 — 只读属性修改守卫**（Logic）
+GIVEN 一个存活 Unit，WHEN 外部代码尝试直接设置 atk/def/mov/rng/max_hp/faction，THEN 断言失败。仅 hp、grid_position、has_acted 和 action_state 可写。
 
-**AC-E2 — Negative/zero damage rejected** (Logic)
-GIVEN `take_damage(0)` or `take_damage(-3)`, THEN assert fails: "amount must be > 0".
+**AC-E2 — 负/零伤害拒绝**（Logic）
+GIVEN `take_damage(0)` 或 `take_damage(-3)`，THEN 断言失败: "amount must be > 0"。
 
 ## Open Questions
 
-- **OQ1 — UnitStats.tres field naming**: Should the `.tres` use `max_hp` (constant) as the exported field name, with `hp` initialized from it on `_ready()`? → Resolve during implementation.
-- **OQ2 — Faction extraction timing**: Faction enum is embedded in Unit at MVP. Tier 2 extraction to a standalone Faction system requires moving `src/core/faction.gd` — a zero-logic-change move. Should extraction happen before any Tier 2 GDDs are written? → Defer to Tier 2 planning.
-- **OQ3 — heal() wiring**: The `heal(amount)` interface is reserved but unwired at MVP. Which Tier 2/3 system first uses it? → Defer to future GDDs (likely Class Triangle or XP/Level-up).
-- **OQ4 — unit_id counter persistence**: Currently per-session monotonic counter. If save/load (Tier 3) needs persistent IDs, the counter must become save-aware. → Defer to Save/Load GDD.
+- **OQ1 — UnitStats.tres 字段命名**: `.tres` 是否应将 `max_hp`（常量）作为导出字段名，在 `_ready()` 时初始化 `hp`？→ 留待实现阶段确定。
+- **OQ2 — Faction 提取时机**: MVP 阶段 Faction enum 内嵌于 Unit。Tier 2 提取为独立 Faction 系统需要移动 `src/core/faction.gd` —— 这是一次零逻辑变更的移动。提取是否应在任何 Tier 2 GDD 编写之前完成？→ 推迟至 Tier 2 规划。
+- **OQ3 — heal() 接入**: `heal(amount)` 接口已预留但 MVP 未接入。哪个 Tier 2/3 系统首先使用它？→ 推迟至未来 GDD（可能是 Class Triangle 或 XP/Level-up）。
+- **OQ4 — unit_id 计数器持久化**: 当前为每会话单调递增计数器。若存档/读档（Tier 3）需要持久化 ID，计数器必须变为存档感知。→ 推迟至 Save/Load GDD。

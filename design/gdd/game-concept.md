@@ -1,322 +1,324 @@
-# Game Concept: SRPG_MINI — Generic Tactics RPG Skeleton
+# 游戏概念：SRPG_MINI —— 通用战术 RPG 骨架
 
-*Created: 2026-04-28*
-*Status: Draft*
-
----
-
-## Elevator Pitch
-
-> A grid-based, turn-taking tactics RPG **skeleton** that abstracts the universal SRPG system set (grid, unit, faction, turn, move, range, AI, victory) into a minimum playable framework. Two factions alternate turns moving units and attacking until one side is eliminated — no story, no audio, no genre-specific flourishes. The goal is **to make the SRPG system primitives explicit, named, and orthogonal** so any future SRPG variation (Fire Emblem-style, FFT-style, XCOM-style…) can be built on top by additive extension, never rewrite.
+*创建日期：2026-04-28*
+*状态：Draft*
 
 ---
 
-## Core Identity
+## 一句话概述
 
-| Aspect | Detail |
+> 一个基于网格、回合制的战术 RPG **骨架**，将SRPG通用系统集（网格、单位、阵营、回合、移动、射程、AI、胜利）抽象为最小可玩框架。双方阵营轮流移动单位并攻击，直至一方被全灭——无剧情、无音频、无类型特色炫技。目标是**让 SRPG 系统原语变得显式、有名称、正交化**，使任何未来的 SRPG 变体（Fire Emblem 式、FFT 式、XCOM 式……）都能通过增量扩展构建于其上，永远无需重写核心。
+
+---
+
+## 核心定位
+
+| 维度 | 详情 |
 | ---- | ---- |
-| **Genre** | Tactics RPG (SRPG) — engineering reference template |
-| **Platform** | PC (Godot 4.6 export) |
-| **Target Audience** | Developers — primarily self, secondarily peers seeking an SRPG starter kit |
-| **Player Count** | Single-player (hot-seat for MVP; AI replaceable post-MVP) |
-| **Session Length** | 5-15 min per match (a single board) |
-| **Monetization** | None — internal template / learning project |
-| **Estimated Scope** | Small (AI-assisted development, no fixed timeline — gated by module-by-module sign-off) |
-| **Comparable Titles** | Fire Emblem (movement+attack action model), Final Fantasy Tactics (job-as-pluggable-interface ethos), Into the Breach (transparent minimal grid) |
+| **类型** | 战术 RPG（SRPG）—— 工程参考模板 |
+| **平台** | PC（Godot 4.6 导出） |
+| **目标受众** | 开发者 —— 主要为自己，其次为寻求 SRPG 起步套件的同行 |
+| **玩家数量** | 单人（MVP 阶段为热座模式；MVP 后可替换为 AI） |
+| **单局时长** | 每局 5-15 分钟（单张棋盘） |
+| **商业化** | 无 —— 内部模板 / 学习项目 |
+| **预估规模** | 小型（AI 辅助开发，无固定时间表 —— 以逐模块签核为准） |
+| **对标作品** | Fire Emblem（移动+攻击动作模型）、Final Fantasy Tactics（职业即可插拔接口的理念）、Into the Breach（透明极简网格） |
 
 ---
 
-## Core Fantasy
+## 核心幻想
 
-This project's "fantasy" is engineering, not player-emotional. The promise is to the **developer-as-user**:
+本项目的"幻想"是工程性的，而非玩家情感性的。其承诺面向**作为用户的开发者**：
 
 > *"I have a clean, named, orthogonal SRPG skeleton that runs end-to-end. Every concept the genre takes for granted (grid, unit, faction, turn, action budget, range, AI controller, victory check) is a separate, swappable module. I can extend in any SRPG direction — Fire Emblem, FFT, XCOM, Into the Breach — by addition, never by rewriting the core."*
+>
+> *"我拥有一个干净、有名称、正交化的 SRPG 骨架，端到端可运行。该类型视为理所当然的每一个概念（网格、单位、阵营、回合、行动配额、射程、AI 控制器、胜利检测）都是一个独立、可替换的模块。我可以向任何 SRPG 方向扩展——Fire Emblem、FFT、XCOM、Into the Breach——通过增量添加，永远无需重写核心。"*
 
-Player-side, the secondary fantasy is the universal SRPG kernel: **"I see a board, I move units, I kill the other side, I win."** Stripped of all flavor, this kernel is the project.
-
----
-
-## Unique Hook
-
-It's a tactics RPG, **AND ALSO** every system maps 1-to-1 to a named primitive that appears in ≥3 canonical SRPGs, AND ALSO every system has a swap-in interface (e.g., `NullAI → BasicAI → HeuristicAI`, `FlatTerrain → CostedTerrain → TypedTerrain`) so extension is additive.
-
-The hook is not a player-facing gimmick — it is an architectural commitment. The unique value is **what is deliberately absent**: no flavor, no narrative, no proprietary mechanics, no genre-bending twist. The skeleton itself is the artifact.
+在玩家一侧，次级幻想是通用 SRPG 内核：**"我看到棋盘，我移动单位，我消灭对方，我获胜。"** 剥离一切风味后，这个内核就是本项目的全部。
 
 ---
 
-## Player Experience Analysis (MDA Framework)
+## 独特卖点
 
-> **Note**: This project's primary user is the *developer*, not the player. The MDA framework is included for completeness, but most aesthetic categories are intentionally N/A. The dominant aesthetic is **mechanical clarity**, which is not in MDA's eight categories — we treat it as a developer-facing property documented in the Pillars section.
+这是一个战术 RPG，**并且**每个系统都一对一映射到一个具名原语，该原语出现在至少 3 款经典 SRPG 中，**并且**每个系统都有一个可替换接口（如 `NullAI → BasicAI → HeuristicAI`、`FlatTerrain → CostedTerrain → TypedTerrain`），使得扩展是增量式的。
 
-### Target Aesthetics (What the player FEELS)
+这个卖点不是面向玩家的噱头——而是一个架构承诺。其独特价值在于**刻意缺失的部分**：没有风味、没有叙事、没有专有机制、没有类型混搭的花招。骨架本身就是产物。
 
-| Aesthetic | Priority | How We Deliver It |
+---
+
+## 玩家体验分析（MDA 框架）
+
+> **注**：本项目的主要用户是*开发者*，而非玩家。MDA 框架在此仅为完整性而纳入，大多数美学类别有意标记为 N/A。主导美学是**机制清晰性**，这不在 MDA 八类美学之中——我们将其作为面向开发者的属性，记录在支柱部分。
+
+### 目标美学（玩家感受到什么）
+
+| 美学 | 优先级 | 如何实现 |
 | ---- | ---- | ---- |
-| **Sensation** | N/A | No audio, programmer-art visuals |
-| **Fantasy** | N/A | No theme, no narrative |
-| **Narrative** | N/A | No story |
-| **Challenge** | 1 (only ranked aesthetic) | Hot-seat tactical decisions: position, attack order, ending the turn |
-| **Fellowship** | N/A | Single-player; hot-seat is local but uninstrumented |
-| **Discovery** | N/A | All systems are deliberately transparent (debug-grid coordinates always visible) |
-| **Expression** | N/A | No build/customization layer |
-| **Submission** | N/A | Not designed for relaxation |
+| **感官** | N/A | 无音频，程序美术级画面 |
+| **幻想** | N/A | 无主题，无叙事 |
+| **叙事** | N/A | 无剧情 |
+| **挑战** | 1（唯一有排名的美学） | 热座战术决策：站位、攻击顺序、结束回合 |
+| **社交** | N/A | 单人；热座为本地但无相关工具支持 |
+| **探索** | N/A | 所有系统刻意透明（debug 网格坐标始终可见） |
+| **表达** | N/A | 无构筑/自定义层 |
+| **沉浸** | N/A | 非为放松而设计 |
 
-### Key Dynamics (Emergent player behaviors)
+### 关键动态（涌现的玩家行为）
 
-- Hot-seat players will naturally negotiate fairness rules ("you go first", "no ganging up") — **out of scope for MVP**, recorded as a Tier-3 concern.
-- Developers using this codebase will reach for a specific module (e.g., AIController) and replace it without touching the others. If they cannot, an interface is wrong.
+- 热座玩家会自然协商公平规则（"你先走"、"不准集火"）——**MVP 阶段不处理**，记录为 Tier 3 关注事项。
+- 使用本代码库的开发者会定位特定模块（例如 AIController）并在不动其他模块的情况下替换它。如果做不到，说明接口设计有误。
 
-### Core Mechanics (Systems we build)
+### 核心机制（我们构建的系统）
 
-The eight modules of the MVP — see Module Decisions table below.
+MVP 的八个模块——见下方模块决策表。
 
 ---
 
-## Player Motivation Profile
+## 玩家动机画像
 
-### Primary Psychological Needs Served
+### 满足的主要心理需求
 
-| Need | How This Game Satisfies It | Strength |
+| 需求 | 本游戏如何满足 | 强度 |
 | ---- | ---- | ---- |
-| **Autonomy** | Hot-seat: full freedom over both sides | Supporting (incidental, not designed) |
-| **Competence** | Tactical decisions are legible (BFS preview path, damage formula visible) | Supporting |
-| **Relatedness** | None — single-device, no narrative attachment | Minimal |
+| **自主性** | 热座：完全自由操控双方 | 辅助性（偶发，非刻意设计） |
+| **能力感** | 战术决策清晰可读（BFS 路径预览、伤害公式可见） | 辅助性 |
+| **归属感** | 无——单设备，无叙事羁绊 | 极低 |
 
-### Player Type Appeal (Bartle Taxonomy)
+### 玩家类型吸引力（Bartle 分类法）
 
-- [x] **Achievers** — Win/lose state is a clear binary
-- [x] **Explorers** — Developers exploring the codebase will find each system named after its canonical SRPG concept
-- [ ] **Socializers** — N/A
-- [ ] **Killers/Competitors** — N/A (no PvP infrastructure)
+- [x] **成就者** —— 胜负状态是清晰的二元结果
+- [x] **探索者** —— 探索代码库的开发者会发现每个系统都以 SRPG 经典概念命名
+- [ ] **社交者** —— N/A
+- [ ] **杀手/竞争者** —— N/A（无 PvP 基础设施）
 
-### Flow State Design
+### 心流状态设计
 
-- **Onboarding curve**: There is no in-game onboarding. The *developer* onboards via the README and module-by-module concept doc. The *player* (hot-seat) is assumed to know SRPG conventions.
-- **Difficulty scaling**: N/A (no difficulty system in MVP).
-- **Feedback clarity**: Every action surfaces visible state changes (HP text updates, unit greys out after acting, turn indicator updates).
-- **Recovery from failure**: Restart the match (via win/lose screen → restart button).
-
----
-
-## Core Loop
-
-### Moment-to-Moment (30 seconds)
-
-> **Click a player unit → see move-range highlights → hover a target tile (preview path) → click to move → (if enemy adjacent / in RNG) click target to attack → unit greys out.**
-
-The core verb is **commit**: each click finalizes a small decision and exposes the next.
-
-### Short-Term (5-15 minutes)
-
-> **Resolve all units in the active faction → press "End Turn" or auto-advance → opposite faction acts → repeat.**
-
-This is where the tactical "puzzle" of the round forms: which order to act, who absorbs hits, who kills first.
-
-### Session-Level (30-120 minutes)
-
-> **Play one full match.** ~10-30 rounds. Match ends on faction-elimination or turn-cap.
-
-### Long-Term Progression
-
-**N/A in MVP.** The Tier 3 scope adds inter-match progression (XP, levels, save). The MVP intentionally has no out-of-match state.
-
-### Retention Hooks
-
-**N/A in MVP.** This is a skeleton — retention is an extension concern. Documented for posterity:
-- **Curiosity**: would be served by added content (multiple maps, classes) in Tier 2+
-- **Investment**: would be served by progression in Tier 3
-- **Social / Mastery**: out of scope
+- **上手曲线**：游戏内无引导。*开发者*通过 README 和逐模块概念文档上手。*玩家*（热座）假设已知 SRPG 惯例。
+- **难度缩放**：N/A（MVP 无难度系统）。
+- **反馈清晰度**：每次操作都会呈现可见的状态变化（HP 文字更新、行动后单位变灰、回合指示器更新）。
+- **失败恢复**：重新开始对局（通过胜负界面 → 重新开始按钮）。
 
 ---
 
-## Module Decisions (8 Modules)
+## 核心循环
 
-Decisions made during `/brainstorm SRPG`, 2026-04-28. Each module is a separately-specifiable system; later GDDs will live in `design/gdd/<module>.md`.
+### 即时循环（30 秒）
 
-| # | Module | Decision |
+> **点击己方单位 → 查看移动范围高亮 → 悬停目标地块（预览路径）→ 点击移动 →（若敌人在相邻/射程内）点击目标攻击 → 单位变灰。**
+
+核心动词是**提交**：每次点击确定一个小决策并暴露下一个决策。
+
+### 短期循环（5-15 分钟）
+
+> **结算当前阵营所有单位 → 按"结束回合"或自动推进 → 对方阵营行动 → 重复。**
+
+这是回合战术"谜题"形成的地方：以何种顺序行动、谁承受伤害、谁先击杀。
+
+### 单局循环（30-120 分钟）
+
+> **打完一局完整对局。** 约 10-30 轮。对局以阵营全灭或回合上限结束。
+
+### 长期进阶
+
+**MVP 阶段 N/A。** Tier 3 范围加入跨局成长（XP、等级、存档）。MVP 刻意不存在局外状态。
+
+### 留存钩子
+
+**MVP 阶段 N/A。** 这是骨架——留存是扩展层关注的事项。记录以备后续参考：
+- **好奇心**：在 Tier 2+ 通过增加内容（多个地图、职业）来满足
+- **投入感**：在 Tier 3 通过成长系统来满足
+- **社交 / 精通**：不在此范围
+
+---
+
+## 模块决策（8 个模块）
+
+于 2026-04-28 `/brainstorm SRPG` 期间做出的决策。每个模块是可独立规范的系统；后续 GDD 将存放于 `design/gdd/<module>.md`。
+
+| # | 模块 | 决策 |
 | - | ------ | -------- |
-| 1 | **Map / Coordinates** | 4-neighbor square grid · Godot `TileMap` node · Three states only (walkable / blocked / obstacle) · No terrain effects |
-| 2 | **Unit** | Stats: `HP / ATK / DEF / MOV / RNG` · Two factions (Player / Enemy) · Manually placed in Godot scenes |
-| 3 | **Turn System** | Faction-rotation (Player→Enemy→Player) · Move+Attack packed into one action · Auto-advance + manual "End Turn" button |
-| 4 | **Movement** | BFS range computation · Highlight reachable tiles + preview path on hover · Teleport (instant `set_position`) |
-| 5 | **Attack** | Range from per-unit `RNG` attribute (data-driven) · `damage = max(ATK - DEF, 1)` · No counter-attack in MVP |
-| 6 | **AI** | `AIController` interface reserved · MVP defaults to `NullAI` (hot-seat) · `BasicAI` is Tier-2 |
-| 7 | **Victory** | Faction elimination · Turn cap as deadlock guard |
-| 8 | **Input + UI** | Mouse only · Unit-head HP text · Turn/faction indicator + End-Turn button · Win/lose text screen · Debug grid coordinate overlay (toggleable) |
+| 1 | **地图 / 坐标** | 四邻接方格网格 · Godot `TileMap` 节点 · 仅三种状态（可行走 / 阻挡 / 障碍物）· 无地形效果 |
+| 2 | **单位** | 属性：`HP / ATK / DEF / MOV / RNG` · 两方阵营（Player / Enemy）· 在 Godot 场景中手动放置 |
+| 3 | **回合系统** | 阵营轮转（Player→Enemy→Player）· 移动+攻击合并为一个动作 · 自动推进 + 手动"End Turn"按钮 |
+| 4 | **移动** | BFS 范围计算 · 高亮可达地块 + 悬停时预览路径 · 瞬移（即时 `set_position`） |
+| 5 | **攻击** | 射程由每个单位的 `RNG` 属性决定（数据驱动）· `damage = max(ATK - DEF, 1)` · MVP 无反击 |
+| 6 | **AI** | 预留 `AIController` 接口 · MVP 默认使用 `NullAI`（热座模式）· `BasicAI` 属于 Tier 2 |
+| 7 | **胜利条件** | 阵营全灭 · 回合上限作为死锁防范 |
+| 8 | **输入 + UI** | 仅鼠标操作 · 单位头顶 HP 文字 · 回合/阵营指示器 + 结束回合按钮 · 胜利/失败文字界面 · Debug 网格坐标叠加层（可切换） |
 
-> **Rule**: Each module is implemented behind an interface. No module reaches into another's internals — they coordinate through named events / function signatures only. This is enforced in code review (Pillar 2: System Orthogonality).
-
----
-
-## Game Pillars
-
-### Pillar 1: Data-Driven
-
-All values (unit stats, map layout, damage formula constants) live in **external data**. Code does not embed gameplay numbers.
-
-*Design test*: When debating "should X be a code constant or a data field," choose **data**.
-
-### Pillar 2: System Orthogonality
-
-Each module is independent, has minimal dependencies, and interacts with others only through explicit interfaces.
-
-*Design test*: If a change to module A forces a same-PR edit to module B, the interface is wrong — fix the interface before merging.
-
-### Pillar 3: Minimum Complete
-
-Each module has a *"good enough, stop"* boundary. We do not stack features.
-
-*Design test*: For each proposed feature, ask "is this required for SRPG-as-a-genre, or is it a flavor of Fire Emblem / FFT?" If flavor, defer to Tier 2+.
-
-### Pillar 4: Generic Vocabulary
-
-System and identifier names follow industry-common SRPG terms (`grid`, `unit`, `faction`, `turn`, `range`, `move`, `action`). No proprietary or work-specific names.
-
-*Design test*: Search the proposed name. Does it appear in ≥3 canonical SRPGs (FE, FFT, Tactics Ogre, XCOM, Into the Breach, Banner Saga…)? If yes, use it. If no, find a generic synonym.
-
-### Anti-Pillars (What This Project Is NOT)
-
-- **NOT a story / dialogue system** — Orthogonal to the core loop. Defer indefinitely.
-- **NOT audio** — Explicit user requirement; MVP and scope tiers all skip audio integration.
-- **NOT a flavored SRPG** — No FE-style supports, no FFT-style jobs, no XCOM-style cover. Any "wouldn't it be cool if…" goes to backlog, not MVP.
+> **规则**：每个模块在接口之后实现。任何模块不得访问另一模块的内部实现——它们仅通过具名事件 / 函数签名协调。此规则在代码审查中强制执行（支柱 2：系统正交性）。
 
 ---
 
-## Visual Identity Anchor
+## 游戏支柱
 
-> Captured during brainstorm before art-bible authoring. This anchor is the seed of `design/art-bible/`.
+### 支柱 1：数据驱动
 
-- **Direction Name**: **Programmer Art Functional**
-- **One-line Visual Rule**: *Every visual element exists to make the board state legible. Aesthetic consistency is not a goal.*
-- **Supporting Principles**:
-  1. **Faction color = single flat color** (Player = blue, Enemy = red). *Test*: At a glance, can you tell which side a unit is on without reading text? If no, the color is wrong.
-  2. **Grid lines are always visible**. *Test*: Can you count tiles between two units without moving the camera? If no, grid is too subtle.
-  3. **Debug overlays default to ON** (coordinates, HP). *Test*: Can a developer tell which tile is `(5, 3)` without code? If no, overlay is broken.
-- **Color Philosophy**: High-contrast functional palette. No theming, no mood, no atmosphere. The art bible can later replace this anchor wholesale; the code must not depend on visual styling.
+所有数值（单位属性、地图布局、伤害公式常量）均存放于**外部数据**。代码不内嵌游戏数值。
+
+*设计检验*：当争论"X 应该是代码常量还是数据字段"时，选择**数据**。
+
+### 支柱 2：系统正交性
+
+每个模块独立，依赖最小化，仅通过显式接口与其他模块交互。
+
+*设计检验*：如果对模块 A 的改动强制要求在同一 PR 中修改模块 B，说明接口有问题——在合并前修复接口。
+
+### 支柱 3：最小完备
+
+每个模块有*"够好即停"*的边界。我们不堆叠功能。
+
+*设计检验*：对每个提议的功能，问"这是 SRPG 作为类型的必要条件，还是 Fire Emblem / FFT 的特色风味？"若是风味，推迟到 Tier 2+。
+
+### 支柱 4：通用词汇
+
+系统和标识符命名遵循行业通用的 SRPG 术语（`grid`、`unit`、`faction`、`turn`、`range`、`move`、`action`）。不使用专有或项目专属名称。
+
+*设计检验*：搜索提议的名称。它是否出现在至少 3 款经典 SRPG（FE、FFT、Tactics Ogre、XCOM、Into the Breach、Banner Saga……）中？若是，使用它。若否，找到通用同义词。
+
+### 反支柱（本项目不是什么）
+
+- **不是剧情/对话系统** —— 与核心循环正交。无限期推迟。
+- **不是音频** —— 用户明确要求；MVP 及所有范围层级均跳过音频集成。
+- **不是有风味的 SRPG** —— 没有 FE 式羁绊、没有 FFT 式职业、没有 XCOM 式掩体。任何"如果加上……会不会很酷"的想法去 backlog，不去 MVP。
 
 ---
 
-## Inspiration and References
+## 视觉定位锚点
 
-| Reference | What We Take From It | What We Do Differently | Why It Matters |
+> 在美术圣经编写前的头脑风暴阶段捕获。此锚点是 `design/art-bible/` 的种子。
+
+- **方向名称**：**程序美术功能主义**
+- **一句话视觉规则**：*每个视觉元素的存在都是为了呈现棋盘状态的清晰可读。美学一致性不是目标。*
+- **支撑原则**：
+  1. **阵营颜色 = 单一纯色**（Player = 蓝色，Enemy = 红色）。*检验*：一瞥之下，能否在不阅读文字的情况下分辨单位属于哪一方？若不能，颜色有误。
+  2. **网格线始终可见**。*检验*：能否在不移动镜头的情况下计算两个单位之间的地块数？若不能，网格过于隐蔽。
+  3. **Debug 叠加层默认开启**（坐标、HP）。*检验*：开发者能否在无代码辅助的情况下指出 `(5, 3)` 是哪个地块？若不能，叠加层有问题。
+- **色彩哲学**：高对比度功能调色板。无主题化、无氛围、无情绪。美术圣经后续可整体替换此锚点；代码不得依赖于视觉样式。
+
+---
+
+## 灵感与参考
+
+| 参考作品 | 我们借鉴什么 | 我们做了什么不同 | 为何重要 |
 | ---- | ---- | ---- | ---- |
-| Fire Emblem (any GBA/3DS entry) | Faction rotation; Move+Attack as one action; visual move-range highlight | We keep only the kernel — no weapon triangle, no supports, no permadeath UX | Validates the "Move+Attack packed = 1 action" loop is the SRPG default |
-| Final Fantasy Tactics | "Job as pluggable role" instinct → in our codebase, `AIController` and future `UnitClass` are interfaces | We don't ship a job system; we ship the slot for one | Validates a swap-in interface design matches genre expectations |
-| Into the Breach | Total information transparency; small grid; minimal UI | We don't lift the puzzle/precognition concept; we keep the legibility ethos | Validates that a "skeletal" SRPG can feel complete without content padding |
+| Fire Emblem（任意 GBA/3DS 作品） | 阵营轮转；移动+攻击为一个动作；可视移动范围高亮 | 我们仅保留内核——无武器三角、无羁绊、无永久死亡 UX | 验证"移动+攻击合并=1个动作"的循环是 SRPG 标配 |
+| Final Fantasy Tactics | "职业即可插拔角色"的直觉 → 在我们的代码库中，`AIController` 和未来的 `UnitClass` 都是接口 | 我们不发布职业系统；我们发布职业系统的插槽 | 验证可替换接口设计符合类型期望 |
+| Into the Breach | 完全信息透明；小网格；极简 UI | 我们不采用解谜/预知概念；我们保留清晰可读的理念 | 验证"骨架级"SRPG 无需内容填充即可感觉完备 |
 
-**Non-game inspirations**: API design literature (orthogonal primitives, composable interfaces). The project is closer in spirit to a reference implementation than to a game.
+**非游戏灵感来源**：API 设计文献（正交原语、可组合接口）。本项目的精神更接近参考实现，而非游戏。
 
 ---
 
-## Target Player Profile
+## 目标玩家画像
 
-| Attribute | Detail |
+| 属性 | 详情 |
 | ---- | ---- |
-| **Primary user** | The developer building the project (self) |
-| **Secondary user** | Other developers wanting an SRPG starter / teaching sample |
-| **Gaming experience** | Familiar with the SRPG genre (FE / FFT / XCOM) — assumes player knows what "move and attack" means |
-| **Time availability** | Short test-fixture matches (5-15 min) |
-| **Platform preference** | Desktop, mouse |
-| **Current games they play** | Fire Emblem, FFT, Tactics Ogre, Into the Breach, XCOM |
-| **What they're looking for** | A clean, named, orthogonal SRPG kernel they can extend |
-| **What would turn them away** | Code with hidden coupling, flavor leaking into the core, missing interfaces for AI / terrain / classes |
+| **主要用户** | 构建本项目的开发者（自己） |
+| **次要用户** | 想要 SRPG 起步套件 / 教学样例的其他开发者 |
+| **游戏经验** | 熟悉 SRPG 类型（FE / FFT / XCOM）——假设玩家知道"移动和攻击"是什么意思 |
+| **可用时间** | 短测试对局（5-15 分钟） |
+| **平台偏好** | 桌面端，鼠标操作 |
+| **当前在玩的游戏** | Fire Emblem、FFT、Tactics Ogre、Into the Breach、XCOM |
+| **他们想要什么** | 一个干净、有名称、正交化的 SRPG 内核，可以在此基础上扩展 |
+| **什么会劝退他们** | 隐藏耦合的代码、风味泄漏到核心层、AI / 地形 / 职业缺少接口 |
 
 ---
 
-## Technical Considerations
+## 技术考量
 
-| Consideration | Assessment |
+| 考量项 | 评估 |
 | ---- | ---- |
-| **Recommended Engine** | **Godot 4.6** (GDScript) — confirmed implicitly via Module 1 (TileMap node) |
-| **Key Technical Challenges** | (1) Drawing clean module boundaries from day one. (2) Keeping Godot scene/node coordinate conversion isolated to a single boundary so logic doesn't leak into the presentation layer. |
-| **Art Style** | Programmer Art Functional (placeholder geometric shapes + flat colors + text) |
-| **Art Pipeline Complexity** | Low (no external assets needed — flat color rectangles + Godot built-in fonts) |
-| **Audio Needs** | **None** (explicitly excluded) |
-| **Networking** | None |
-| **Content Volume** | MVP: 1 test map, 2-4 unit prefabs per faction |
-| **Procedural Systems** | None in MVP |
+| **推荐引擎** | **Godot 4.6**（GDScript）——通过模块 1（TileMap 节点）隐式确认 |
+| **关键技术挑战** | (1) 从第一天起划定清晰的模块边界。(2) 将 Godot 场景/节点坐标转换隔离到单一边界，使逻辑不泄漏到表现层。 |
+| **美术风格** | 程序美术功能主义（占位几何图形 + 纯色 + 文字） |
+| **美术管线复杂度** | 低（无需外部资源——纯色矩形 + Godot 内置字体） |
+| **音频需求** | **无**（明确排除） |
+| **网络** | 无 |
+| **内容量** | MVP：1 张测试地图，每阵营 2-4 个单位预制体 |
+| **程序化系统** | MVP 中无 |
 
 ---
 
-## Risks and Open Questions
+## 风险与待决问题
 
-### Design Risks
+### 设计风险
 
-- **R1**: "Generic" is itself an aesthetic stance. If we cannot resist adding flavor, the project becomes a Fire Emblem clone instead of a skeleton. → Pillar 3 + 4 are the defense.
-- **R2**: Hot-seat without negotiation rules is inherently unfair. We accept this for MVP — the goal is to verify the *system*, not the *match*.
+- **R1**："通用"本身就是一种美学立场。如果我们无法抵制添加风味的冲动，项目将变成 Fire Emblem 克隆而非骨架。→ 支柱 3 + 支柱 4 是防线。
+- **R2**：无协商规则的热座模式本质上不公平。MVP 阶段接受这一点——目标是验证*系统*，而非*对局*。
 
-### Technical Risks
+### 技术风险
 
-- **R3**: Module boundaries drawn poorly — extending in Tier 2 still requires core rewrites. → Each module GDD must specify its public interface before implementation.
-- **R4**: Godot `TileMap` ↔ unit `Node2D` coordinate conversion leaks logic into rendering. → Concentrate the conversion in a single named boundary (`GridSpace.world_to_grid` / `grid_to_world`); forbid inline `position * tile_size` math elsewhere.
-- **R5**: The `AIController` interface is the most critical one — designed wrong, every Tier-2 AI requires editing the turn system. → Prototype it twice (NullAI + BasicAI scaffold) before committing.
+- **R3**：模块边界划分不当——Tier 2 扩展时仍然需要重写核心。→ 每个模块 GDD 必须在实现前明确其公开接口。
+- **R4**：Godot `TileMap` ↔ 单位 `Node2D` 坐标转换泄漏逻辑到渲染层。→ 将转换集中到单一具名边界（`GridSpace.world_to_grid` / `grid_to_world`）；禁止在其他位置内联 `position * tile_size` 数学运算。
+- **R5**：`AIController` 接口是最关键的接口——设计出错，每个 Tier 2 AI 都需要修改回合系统。→ 在正式确定前原型化两次（NullAI + BasicAI 脚手架）。
 
-### Market Risks
+### 市场风险
 
-- N/A (no market — this is a template).
+- N/A（无市场——这是一个模板）。
 
-### Scope Risks
+### 范围风险
 
-- **R6**: Module-by-module sign-off rhythm could stall. Mitigate by writing each module GDD in ≤1 session.
+- **R6**：逐模块签核节奏可能停滞。缓解措施：每个模块 GDD 在一次会话内完成。
 
-### Open Questions
+### 待决问题
 
-- **Q1**: Should the turn-cap value be data-driven (Pillar 1) or a code constant for MVP? → Lean toward data-driven from day one to avoid retrofitting.
-- **Q2**: Where does the *hot-seat → AI* swap live in the scene tree? Per-unit `AIController` child node, or a per-faction strategy object? → Resolve in `/architecture-decision`.
-- **Q3**: Should "obstacle" tiles be part of TileMap or a separate occupancy layer? → Resolve in Module 1 GDD.
+- **Q1**：回合上限值应该数据驱动（支柱 1）还是 MVP 阶段用代码常量？→ 倾向于从第一天起就数据驱动，避免后续改造。
+- **Q2**：*热座 → AI* 切换在场景树中位于何处？每个单位的 `AIController` 子节点，还是每个阵营的策略对象？→ 在 `/architecture-decision` 中决议。
+- **Q3**："障碍物"地块应属于 TileMap 的一部分还是单独的占用层？→ 在模块 1 GDD 中决议。
 
 ---
 
-## MVP Definition
+## MVP 定义
 
-**Core hypothesis**: *A grid-based turn-taking tactical battle skeleton, built from 8 named-primitive orthogonal modules and zero genre-flavor, runs end-to-end (boot → board → moves → attacks → victory) and feels like an SRPG.*
+**核心假设**：*一个基于网格的回合制战术对战骨架，由 8 个具名原语正交模块构成，零类型风味，端到端可运行（启动 → 棋盘 → 移动 → 攻击 → 胜利），且体验感觉像 SRPG。*
 
-**Required for MVP** (the 8 modules, all):
+**MVP 必须包含**（全部 8 个模块）：
 
-1. Square-grid map via Godot TileMap, three-state passability
-2. Units with `HP/ATK/DEF/MOV/RNG`, two factions, scene-placed
-3. Faction-rotation turn system, packed Move+Attack action, End-Turn button
-4. BFS move-range computation, highlight + path preview, teleport movement
-5. Attack at `RNG` distance, `max(ATK-DEF, 1)` damage, no counter
-6. `AIController` interface + `NullAI` (hot-seat) only
-7. Faction-elimination + turn-cap victory
-8. Mouse input + unit HP text + faction/turn indicator + win-lose text screen + debug coord overlay
+1. 通过 Godot TileMap 实现的方格地图，三种状态通行性
+2. 具有 `HP/ATK/DEF/MOV/RNG` 属性的单位，两个阵营，场景中放置
+3. 阵营轮转回合系统，移动+攻击合并动作，结束回合按钮
+4. BFS 移动范围计算，高亮 + 路径预览，瞬移式移动
+5. `RNG` 距离内攻击，`max(ATK-DEF, 1)` 伤害，无反击
+6. `AIController` 接口 + 仅 `NullAI`（热座模式）
+7. 阵营全灭 + 回合上限胜利条件
+8. 鼠标输入 + 单位 HP 文字 + 阵营/回合指示器 + 胜利-失败文字界面 + debug 坐标叠加层
 
-**Explicitly NOT in MVP** (deferred):
+**明确不在 MVP 中**（推迟）：
 
-- Any AI behavior beyond "do nothing" (`NullAI`)
-- Terrain effects (movement cost, defense / evasion bonus)
-- Weapon triangle / class triangle / elemental relations
-- Counter-attack
-- Critical hits / accuracy / RNG in damage
-- XP / levels / class change
-- Multiple maps / map selection
-- Main menu, save / load
-- Audio (any)
-- Story, dialogue, character supports
+- 任何超出"什么都不做"的 AI 行为（`NullAI`）
+- 地形效果（移动代价、防御/闪避加成）
+- 武器三角 / 职业三角 / 元素克制关系
+- 反击
+- 暴击 / 命中率 / 伤害中的 RNG
+- XP / 等级 / 转职
+- 多个地图 / 地图选择
+- 主菜单、存档/读档
+- 音频（任何形式）
+- 剧情、对话、角色羁绊
 
-### Scope Tiers
+### 范围层级
 
-| Tier | Content | Features | Status |
+| 层级 | 内容 | 功能 | 状态 |
 | ---- | ---- | ---- | ---- |
-| **MVP** | 1 map, 2-4 units/faction | 8 modules, hot-seat playable | **Current target** |
-| **Tier 2 (Vertical Slice)** | Same map | + `BasicAI` (nearest-target heuristic) · 1 terrain type · simple class triangle | Post-MVP, additive |
-| **Tier 3 (Alpha)** | 3 maps, main menu | + multi-level progression · save/load · XP & levelups | Optional extension |
-| **Full Vision** | N/A — this project does not have a "full vision" | Ship MVP and stop, OR fork into a flavored SRPG project that builds on this skeleton | Decision deferred |
+| **MVP** | 1 张地图，每阵营 2-4 单位 | 8 个模块，热座可玩 | **当前目标** |
+| **Tier 2（垂直切片）** | 同地图 | + `BasicAI`（最近目标启发式）· 1 种地形类型 · 简易职业三角 | MVP 之后，增量添加 |
+| **Tier 3（Alpha）** | 3 张地图，主菜单 | + 多局成长 · 存档/读档 · XP 与升级 | 可选扩展 |
+| **完整愿景** | N/A —— 本项目没有"完整愿景" | 发布 MVP 即停，或 fork 为在此骨架之上构建的有风味 SRPG 项目 | 决策推迟 |
 
 ---
 
-## Next Steps
+## 后续步骤
 
-- [ ] (lean: skipping concept-level director sign-off)
-- [ ] Run `/setup-engine` to populate `.claude/docs/technical-preferences.md` with Godot 4.6 / GDScript / TileMap config
-- [ ] Run `/art-bible` to formalize the Visual Identity Anchor
-- [ ] Run `/design-review design/gdd/game-concept.md` to validate concept completeness
-- [ ] Run `/map-systems` to decompose the 8 modules into a system dependency graph
-- [ ] Author per-module GDDs with `/design-system` (one per module, in dependency order: Map → Unit → Turn → Movement → Attack → AI → Victory → UI)
-- [ ] Run `/create-architecture` to produce the master architecture blueprint and Required ADR list
-- [ ] Run `/architecture-decision` for each ADR (interface contracts: AIController, GridSpace boundary, Faction enum location)
-- [ ] Run `/gate-check pre-production` before committing to implementation
-- [ ] Prototype the riskiest interface (`AIController` with NullAI + BasicAI scaffold) via `/prototype`
-- [ ] Run `/playtest-report` after the prototype to confirm core loop validity
-- [ ] If validated, plan first sprint with `/sprint-plan new`
+- [ ] （精简：跳过概念级导演签核）
+- [ ] 运行 `/setup-engine` 以将 Godot 4.6 / GDScript / TileMap 配置填充到 `.claude/docs/technical-preferences.md`
+- [ ] 运行 `/art-bible` 以正式化视觉定位锚点
+- [ ] 运行 `/design-review design/gdd/game-concept.md` 以验证概念完整性
+- [ ] 运行 `/map-systems` 以将 8 个模块分解为系统依赖图
+- [ ] 使用 `/design-system` 编写每个模块的 GDD（每个模块一份，按依赖顺序：地图 → 单位 → 回合 → 移动 → 攻击 → AI → 胜利条件 → UI）
+- [ ] 运行 `/create-architecture` 以生成主架构蓝图及必需的 ADR 列表
+- [ ] 为每个 ADR 运行 `/architecture-decision`（接口合约：AIController、GridSpace 边界、Faction 枚举位置）
+- [ ] 在进入实现阶段前运行 `/gate-check pre-production`
+- [ ] 通过 `/prototype` 原型化风险最高的接口（AIController + NullAI + BasicAI 脚手架）
+- [ ] 原型化后运行 `/playtest-report` 以确认核心循环的有效性
+- [ ] 若验证通过，使用 `/sprint-plan new` 规划首个 sprint
