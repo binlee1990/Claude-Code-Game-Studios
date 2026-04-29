@@ -1,7 +1,7 @@
 # ADR-0008: AI Controller Interface
 
 ## Status
-Proposed
+Accepted
 
 ## Date
 2026-04-30

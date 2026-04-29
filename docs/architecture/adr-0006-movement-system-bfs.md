@@ -1,7 +1,7 @@
 # ADR-0006: Movement System — BFS + MovementResult
 
 ## Status
-Proposed
+Accepted
 
 ## Date
 2026-04-30

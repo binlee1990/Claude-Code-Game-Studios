@@ -1,7 +1,7 @@
 # ADR-0007: Attack System — Damage Formula + Range Check
 
 ## Status
-Proposed
+Accepted
 
 ## Date
 2026-04-30

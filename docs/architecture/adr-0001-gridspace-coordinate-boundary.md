@@ -1,7 +1,7 @@
 # ADR-0001: GridSpace — Coordinate Transform Boundary
 
 ## Status
-Proposed
+Accepted
 
 ## Date
 2026-04-30

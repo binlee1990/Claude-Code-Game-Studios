@@ -1,7 +1,7 @@
 # ADR-0009: Victory System
 
 ## Status
-Proposed
+Accepted
 
 ## Date
 2026-04-30

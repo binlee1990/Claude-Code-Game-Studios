@@ -1,0 +1,25 @@
+name: SRPG_MINI Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Godot
+        uses: bitwizlab/godot-actions@v1
+        with:
+          version: 4.6.2-stable
+
+      - name: Run GdUnit4 Tests
+        run: |
+          godot --headless --path . --script tests/gdunit4_runner.gd

@@ -4,7 +4,23 @@
 > Read this file first after any compaction, crash, or `/clear`.
 
 **Last Updated**: 2026-04-30
-**Project Stage**: Pre-Production / Technical Setup
+**Project Stage**: Pre-Production / Technical Setup (gate resolved)
+
+---
+
+## Session Extract — /gate-check pre-production 2026-04-30
+- Verdict: CONCERNS → 3 blockers resolved
+- Director Panel: CD=CONCERNS, TD=CONCERNS, PR=CONCERNS, AD=CONCERNS
+- All 10 ADRs: Accepted (was Proposed)
+- Test infrastructure: created (tests/unit/, tests/integration/, CI workflow, example test)
+- Color tokens: reconciled (art-bible §4.3 now matches UI GDD/ADR-0010)
+- architecture.md TD Sign-Off: updated
+- **Ready to enter Pre-Production** (minor concerns handled in-phase)
+
+### Blockers Resolved
+1. ✅ 10 ADRs Proposed→Accepted
+2. ✅ Test infrastructure (tests/ + CI/CD + example test)
+3. ✅ Color token reconciliation (4 corrected + 4 added)
 
 ---
 

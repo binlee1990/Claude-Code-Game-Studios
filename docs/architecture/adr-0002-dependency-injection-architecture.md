@@ -1,7 +1,7 @@
 # ADR-0002: Dependency Injection Architecture
 
 ## Status
-Proposed
+Accepted
 
 ## Date
 2026-04-30

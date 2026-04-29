@@ -1,7 +1,7 @@
 # ADR-0010: UI / Input Architecture
 
 ## Status
-Proposed
+Accepted
 
 ## Date
 2026-04-30

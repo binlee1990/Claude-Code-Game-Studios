@@ -1,7 +1,7 @@
 # ADR-0003: Unit Public Interface Contract
 
 ## Status
-Proposed
+Accepted
 
 ## Date
 2026-04-30

@@ -1,7 +1,7 @@
 # ADR-0005: Map CSV Loading Format & Occupancy Tracking
 
 ## Status
-Proposed
+Accepted
 
 ## Date
 2026-04-30

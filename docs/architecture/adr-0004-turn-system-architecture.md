@@ -1,7 +1,7 @@
 # ADR-0004: Turn System Architecture
 
 ## Status
-Proposed
+Accepted
 
 ## Date
 2026-04-30

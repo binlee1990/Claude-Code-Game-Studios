@@ -64,21 +64,25 @@ Blue and red is the standard pairing for **Deuteranopia** safety (the most commo
 
 | Token | Hex | Role | Pillar Served | Colorblind Backup |
 |---|---|---|---|---|
-| `FACTION_PLAYER` | `#2563EB` | Player unit fill color | Visual Identity Principle 1 | Unit shape: square |
-| `FACTION_ENEMY` | `#DC2626` | Enemy unit fill color | Visual Identity Principle 1 | Unit shape: circle |
+| `FACTION_PLAYER` | `#3B82F6` | Player unit fill color | Visual Identity Principle 1 | Unit shape: square |
+| `FACTION_ENEMY` | `#EF4444` | Enemy unit fill color | Visual Identity Principle 1 | Unit shape: circle |
 | `TILE_DEFAULT` | `#374151` | Unoccupied, passable tile | Visual Identity Principle 2 | N/A — base state |
 | `TILE_GRID_LINE` | `#6B7280` | Grid line separating tiles | Visual Identity Principle 2 | N/A — structural |
 | `TILE_BLOCKED` | `#111827` | Impassable tile (wall/void) | Visual Identity Principle 2 | Darker value contrast |
 | `TILE_OBSTACLE` | `#1F2937` | Terrain obstacle (blocks pathing only) | Visual Identity Principle 2 | Slightly raised poly or outline |
 | `TILE_MOVE_RANGE` | `#0891B2` | Tiles reachable by selected unit this turn | Minimum Complete (single-pass legible) | Solid fill pattern |
 | `TILE_ATTACK_RANGE` | `#EA580C` | Tiles attackable by selected unit | Minimum Complete (single-pass legible) | Hatched border pattern |
-| `TILE_PATH_PREVIEW` | `#FBBF24` | Preview of unit's intended move path | Visual Identity Principle 2 | Arrow glyph overlay |
+| `TILE_PATH_PREVIEW` | `#06B6D4` | Preview of unit's intended move path | Visual Identity Principle 2 | Arrow glyph overlay |
 | `UI_HP_TEXT` | `#F9FAFB` | HP value label on unit | Visual Identity Principle 3 (debug-on) | High contrast on dark background |
 | `UI_TURN_PLAYER` | `#2563EB` | "Your Turn" phase indicator | Visual Identity Principle 1 | Label text: "PLAYER" |
 | `UI_TURN_ENEMY` | `#DC2626` | "Enemy Turn" phase indicator | Visual Identity Principle 1 | Label text: "ENEMY" |
-| `UI_WIN` | `#22C55E` | Win screen text | Minimum Complete (terminal state obvious) | Label text: "VICTORY" |
+| `UI_WIN` | `#10B981` | Win screen text | Minimum Complete (terminal state obvious) | Label text: "VICTORY" |
 | `UI_LOSE` | `#EF4444` | Lose screen text | Minimum Complete (terminal state obvious) | Label text: "DEFEAT" |
 | `UI_DEBUG_OVERLAY` | `#E5E7EB` | Coordinate and stat overlay text | Visual Identity Principle 3 (debug-on) | High contrast on all tile colors |
+| `DAMAGE_PREVIEW_NORMAL` | `#F59E0B` | Non-lethal damage preview number over target | Minimum Complete (full information) | Color is additive — text value alone is backup |
+| `DAMAGE_PREVIEW_LETHAL` | `#EF4444` | Lethal damage preview number over target | Minimum Complete (terminal intent clear) | Color matches UI_LOSE for consistency |
+| `UNIT_ACTED` | `Color.GRAY` (50% modulate) | Post-action unit desaturation | Visual Identity Principle 1 (state legibility) | modulate is a Godot CanvasItem property, not a hex value |
+| `SELECTION_OUTLINE` | `#FFFFFF` | Selected unit border (2px) | Visual Identity Principle 1 (current-focus legibility) | White outline at 100% opacity |
 
 ### 4.4 Forbidden Palette Additions
 

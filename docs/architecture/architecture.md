@@ -5,8 +5,8 @@
 - **Last Updated**: 2026-04-30
 - **Engine**: Godot 4.6.2-stable
 - **GDDs Covered**: map, unit, turn, movement, attack, victory, ai, ui (all 8 MVP GDDs)
-- **ADRs Referenced**: ADR-0001 (GridSpace), ADR-0002 (DI Architecture), ADR-0003 (Unit Interface), ADR-0004 (Turn System)
-- **Technical Director Sign-Off**: 2026-04-30 — CONCERNS (architecture sound; Foundation ADRs required before coding)
+- **ADRs Referenced**: ADR-0001~0010 (all 10 ADRs covering Foundation, Core, Feature, and Presentation layers)
+- **Technical Director Sign-Off**: 2026-04-30 — CONCERNS (architecture sound; Foundation ADRs resolved by ADR-0005; re-evaluate after `/architecture-review` refresh)
 - **Lead Programmer Feasibility**: SKIPPED — Lean mode
 
 ## Engine Knowledge Gap Summary
