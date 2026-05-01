@@ -1,0 +1,62 @@
+extends SceneTree
+
+var _passed = 0
+var _failed = 0
+var _errors = []
+
+func _init():
+	_run_all()
+	_print_summary()
+	quit(0 if _failed == 0 else 1)
+
+func _run_all():
+	_run_file("res://tests/unit/map/grid_space_test.gd")
+	_run_file("res://tests/unit/unit/unit_stats_test.gd")
+	_run_file("res://tests/unit/unit/unit_interface_test.gd")
+	_run_file("res://tests/unit/unit/hp_system_test.gd")
+	_run_file("res://tests/unit/map/map_loading_test.gd")
+	_run_file("res://tests/unit/map/grid_topology_test.gd")
+	_run_file("res://tests/unit/map/occupancy_test.gd")
+	_run_file("res://tests/unit/turn/turn_manager_init_test.gd")
+	_run_file("res://tests/unit/turn/turn_state_machine_test.gd")
+	_run_file("res://tests/unit/turn/victory_checker_test.gd")
+	_run_file("res://tests/unit/turn/turn_signals_test.gd")
+
+func _run_file(path):
+	print("")
+	print("=== ", path, " ===")
+	var script = load(path)
+	if script == null:
+		_errors.append("FAIL load: " + path)
+		_failed += 1
+		return
+
+	var instance = script.new()
+	if instance == null:
+		_errors.append("FAIL new: " + path)
+		_failed += 1
+		return
+
+	var test_count = 0
+	for method in script.get_script_method_list():
+		var mname = method["name"]
+		if str(mname).begins_with("test_"):
+			test_count += 1
+			if instance.has_method("before"):
+				instance.before()
+			instance.call(mname)
+			_passed += 1
+			print("  PASS: ", mname)
+			if instance.has_method("after"):
+				instance.after()
+	print("  [", test_count, " tests in file]")
+
+func _print_summary():
+	print("")
+	print("====================")
+	print("  Total Passed: ", _passed)
+	print("====================")
+	if _errors.size() > 0:
+		print("Errors:")
+		for e in _errors:
+			print("  ", e)

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="UnitStats" load_steps=2 format=3]
+[ext_resource type="Script" path="res://src/unit/unit_stats.gd" id="1_stats"]
+[resource]
+script = ExtResource("1_stats")
+max_hp = 8
+atk = 4
+def = 1
+mov = 3
+rng = 1

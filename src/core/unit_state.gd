@@ -1,0 +1,1 @@
+enum { IDLE, SELECTED, MOVED, ACTED, DEAD }

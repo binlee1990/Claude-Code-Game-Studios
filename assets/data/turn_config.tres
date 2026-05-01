@@ -1,0 +1,5 @@
+[gd_resource type="Resource" script_class="TurnConfig" load_steps=2 format=3]
+[ext_resource type="Script" path="res://src/turn/turn_config.gd" id="1_cfg"]
+[resource]
+script = ExtResource("1_cfg")
+turn_cap = 30

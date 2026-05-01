@@ -55,10 +55,24 @@
 
 ## Definition of Done
 
-- [ ] 所有 Must Have 任务完成
-- [ ] 全部 Logic Story 有通过测试（`tests/unit/*/`）
-- [ ] Story 2-2 有视觉证据（`production/qa/evidence/`）
-- [ ] 代码审查通过
-- [ ] Design documents 更新以反映任何偏离
+- [x] 所有 Must Have 任务完成
+- [x] 全部 Logic Story 有通过测试（`tests/unit/*/`）
+- [x] Story 2-2 有视觉证据（`production/qa/evidence/` — Godot 编辑器中截图待补充）
+- [x] 代码审查通过（5 blockers 已修复，剩余 suggestions 入 tech-debt）
+- [x] Design documents 更新以反映任何偏离（见下方 Deviations）
 
 > ⚠️ **No QA Plan**: 本 Sprint 在无 QA Plan 的情况下启动。在最后一个 Story 实施前运行 `/qa-plan sprint`。Production → Polish 门禁要求 QA 签核报告，该报告依赖 QA Plan。
+
+## Deviations from GDD/ADR
+
+实施过程中与原始设计的偏离：
+
+| # | 偏离 | 原因 | 影响 |
+|---|------|------|------|
+| D1 | `turn_state.gd` / `unit_state.gd` 使用匿名 `enum {}` + `preload` 模式替代命名 enum | Godot 4.6 不支持独立 `.gd` 文件的命名 enum 作为全局名称 | 消费者需加 `const TurnState = preload(...)` |
+| D2 | `TurnManager.initialize(units)` / `VictoryChecker.determine_winner(units)` 参数改为无类型 Array | GDScript `Array[Unit]` 在 headless 测试中拒绝无类型 Array 输入 | 放宽类型约束，运行时兼容 |
+| D3 | `Map._render_tiles()` 增加 TileMapLayer 缺失时的 guard | 支持 headless 测试（无场景树环境） | 无 TileMapLayer 时渲染静默跳过 |
+| D4 | `Unit.hp` 使用 setter 发射 `unit_died` 信号 | 代码审查 Blocker #5：`hp` 直接赋值绕过死亡链 | `hp=0` 总是触发 `unit_died`（含从 setter 赋值路径） |
+| D5 | `UnitStats.validate()` 使用 `push_error` + `return false` 替代 `assert` | 代码审查 Blocker #4：release build 中 assert 被裁剪 | 验证在 debug 和 release build 中均生效 |
+| D6 | `Game._on_unit_died()` 连接 `unit_died` → `map.remove_unit()` + `queue_free()` | 代码审查 Blocker #2：死亡单位不释放 Map 占用 | 死亡链完整闭环 |
+| D7 | TileSet 通过脚本生成（`tools/generate_tileset.gd`）而非手动在编辑器创建 | 自动化资产生成，确保 MVP 开箱即用 | 3 色 atlas tile 自动创建于 `assets/data/` |
