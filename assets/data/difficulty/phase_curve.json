@@ -1,0 +1,8 @@
+{
+  "phases": [
+    {"phase": 1, "label": "tutorial", "enemy_stat_mult": 0.7, "exp_mult": 1.2, "resource_mult": 1.0, "ai_strategy_level": 0},
+    {"phase": 2, "label": "growth", "enemy_stat_mult": 1.0, "exp_mult": 1.0, "resource_mult": 1.0, "ai_strategy_level": 0},
+    {"phase": 3, "label": "challenge", "enemy_stat_mult": 1.2, "exp_mult": 0.9, "resource_mult": 0.9, "ai_strategy_level": 1},
+    {"phase": 4, "label": "climax", "enemy_stat_mult": 1.4, "exp_mult": 0.8, "resource_mult": 0.8, "ai_strategy_level": 2}
+  ]
+}

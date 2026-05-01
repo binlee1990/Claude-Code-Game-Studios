@@ -91,3 +91,12 @@ tests/unit/chapter03/b3_gate_evaluator_test.gd
 tests/unit/chapter03/finale_route_variant_test.gd
 tests/unit/hp/hp_formula_test.gd
 tests/unit/localization/localization_test.gd
+tests/unit/difficulty/data_model_test.gd
+tests/unit/boss/boss_profile_test.gd
+tests/unit/fog/visibility_model_test.gd
+tests/unit/fog/rendering_overlay_test.gd
+tests/unit/bond/combo_validator_test.gd
+tests/unit/fog/target_filter_test.gd
+tests/unit/difficulty/integration_mock_test.gd
+tests/integration/fog/fog_save_load_test.gd
+tests/unit/equipment/extreme_risk_test.gd

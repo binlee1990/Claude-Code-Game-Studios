@@ -1,31 +1,63 @@
 # Session State
 
-**Last Updated**: 2026-05-01
+**Last Updated**: 2026-05-02
 
 ## Current Task
-**Sprint-009 READY** — 治理缺口已补全，可启动 dev-story
+**Sprint-009 IMPLEMENTED** — 代码实现完成，996/996 PASS
 
 Active stage: Production. Sprint-009 计划: `production/sprints/sprint-009.md`。
 
 ## 2026-05-01: 治理缺口补全 (Batch P0+P1+P2)
+（见 git commit dd06831）
 
-| Batch | 产出 |
-|-------|------|
-| P0 | ADR-010 (fog) / ADR-011 (bond-combo) / ADR-012 (difficulty) / ADR-013 (boss) |
-| P0 | `production/epics/difficulty-system/` (EPIC + 2 stories) |
-| P0 | `production/epics/boss-system/` (EPIC + 2 stories) |
-| P0 | `production/qa/qa-plan-sprint-9.md` |
-| P1 | `production/epics/bond-system/story-005/006` (combo data model + battle UI) |
-| P1 | `docs/architecture/architecture-traceability.md` v1.0 |
-| P1 | `production/registries/tr-registry.yaml` v5 (+10 TR entries) |
-| P1 | `production/epics/index.md` (+difficulty/boss entries) |
-| P1 | `production/project-stage-report.md` (updated to Sprint-008 state) |
-| P2 | `production/sprints/retrospective-sprint-001-009.md` |
-| P2 | `production/sprints/changelog-sprint-001-008.md` |
-| P2 | `production/reviews/gate-check-production-to-polish-2026-05-01.md` → CONCERNS |
-| P2 | `production/reviews/milestone-review-mvp-complete-2026-05-01.md` → Go |
-| P2 | `production/reviews/consistency-check-2026-05-01.md` → PASS |
-| P2 | `production/release/launch-checklist-draft-2026-05-01.md` → 43% ready |
+## 2026-05-02: Sprint-009 代码实现
+
+### 新增源文件 (12)
+
+| 文件 | 系统 | 行数 |
+|------|------|------|
+| `src/core/fog/fog_state_manager.gd` | fog-of-war | ~80 |
+| `src/core/fog/fog_renderer.gd` | fog-of-war | ~90 |
+| `src/core/fog/fusion_builder.gd` | fog-of-war | ~10 |
+| `src/core/fog/fog_target_filter.gd` | fog-of-war | ~45 |
+| `src/core/difficulty/difficulty_manager.gd` | difficulty | ~95 |
+| `src/core/boss/boss_profile.gd` | boss | ~30 |
+| `src/core/boss/boss_phase.gd` | boss | ~10 |
+| `src/core/boss/boss_checkpoint.gd` | boss | ~15 |
+| `src/core/boss/boss_action_pattern.gd` | boss | ~15 |
+| `src/core/bond/combo_skill_data.gd` | bond | ~40 |
+| `src/core/bond/combo_validator.gd` | bond | ~55 |
+| `assets/data/difficulty/phase_curve.json` | difficulty | ~10 |
+
+### 新增测试文件 (9) / +117 tests
+
+| 文件 | 系统 |
+|------|------|
+| `tests/unit/difficulty/data_model_test.gd` | difficulty (22 tests) |
+| `tests/unit/difficulty/integration_mock_test.gd` | difficulty integration (12 tests) |
+| `tests/unit/boss/boss_profile_test.gd` | boss (16 tests) |
+| `tests/unit/fog/visibility_model_test.gd` | fog (18 tests) |
+| `tests/unit/fog/rendering_overlay_test.gd` | fog renderer (6 tests) |
+| `tests/unit/fog/target_filter_test.gd` | fog target filter (7 tests) |
+| `tests/unit/bond/combo_validator_test.gd` | bond combo (23 tests) |
+| `tests/unit/equipment/extreme_risk_test.gd` | equipment +11+ (13 tests) |
+| `tests/integration/fog/fog_save_load_test.gd` | fog save/load (4 tests) |
+
+### Story 完成状态
+
+| Story | Status |
+|-------|--------|
+| FOG-001 Visibility data model | ✅ Complete |
+| FOG-002 Fog rendering overlay | ✅ Complete |
+| FOG-003 Unit visibility integration | ✅ Complete |
+| FOG-004 Save/load fog | ✅ Complete |
+| BOND-COMBO-001 Combo data model + trigger | ✅ Complete |
+| DIFF-001 Difficulty data model | ✅ Complete |
+| DIFF-002 Difficulty integration | ✅ Complete |
+| BOSS-001 Boss data model | ✅ Complete |
+| EQUIP-014 Extreme-risk tuning | ✅ Complete |
+| BOND-COMBO-002 Combo battle UI | ⏳ Code done, needs UI integration test |
+| BOSS-002 Boss action pattern | ⏳ Partially covered, needs standalone test |
 
 ## Sprint-009 计划概要
 
