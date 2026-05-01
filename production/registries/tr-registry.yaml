@@ -19,8 +19,8 @@
 #
 # STATUS VALUES: active | deprecated | superseded-by: TR-[system]-NNN
 
-version: 4
-last_updated: "2026-04-27"
+version: 5
+last_updated: "2026-05-01"
 
 requirements:
 
@@ -889,5 +889,113 @@ requirements:
     epic: production/epics/equipment-system/story-012-risk-zone-round-trip.md
     adr: ADR-003, ADR-009
     created: "2026-04-27"
+    revised: ""
+    status: active
+
+  # ── fog-of-war (Sprint-009 Must Have) ─────────────────────────────────
+
+  - id: TR-fog-001
+    system: fog-of-war
+    gdd: design/gdd/fog-of-war-system.md
+    requirement: "Visibility three-state model (unknown/explored/visible) + vision range formula with scout/agility/height bonuses"
+    epic: production/epics/fog-of-war/story-001-visibility-model.md
+    adr: ADR-010
+    created: "2026-05-01"
+    revised: ""
+    status: active
+
+  - id: TR-fog-002
+    system: fog-of-war
+    gdd: design/gdd/fog-of-war-system.md
+    requirement: "Fog rendering overlay MVP: three-state color overlay via TileMapLayer with map-opt-in toggle"
+    epic: production/epics/fog-of-war/story-002-rendering-overlay.md
+    adr: ADR-010
+    created: "2026-05-01"
+    revised: ""
+    status: active
+
+  - id: TR-fog-003
+    system: fog-of-war
+    gdd: design/gdd/fog-of-war-system.md
+    requirement: "Hidden enemy rendering + targeting filter: enemies in explored/unknown cells are hidden and non-targetable"
+    epic: production/epics/fog-of-war/story-003-unit-visibility.md
+    adr: ADR-010
+    created: "2026-05-01"
+    revised: ""
+    status: active
+
+  - id: TR-fog-004
+    system: fog-of-war
+    gdd: design/gdd/fog-of-war-system.md
+    requirement: "Fog state save/load: explored_cells array persisted in battle_state"
+    epic: production/epics/fog-of-war/story-004-save-load.md
+    adr: ADR-003, ADR-010
+    created: "2026-05-01"
+    revised: ""
+    status: active
+
+  # ── bond-system Sprint-009 extension stories ──────────────────────────
+
+  - id: TR-bond-005
+    system: bond
+    gdd: design/gdd/bond-system.md
+    requirement: "Combo skill trigger: Manhattan distance ≤3, AP cost, cooldown per pair+skill, 4 bond-type effects (damage/temp-skill/buff/guard)"
+    epic: production/epics/bond-system/story-005-combo-data-model.md
+    adr: ADR-011
+    created: "2026-05-01"
+    revised: ""
+    status: active
+
+  - id: TR-bond-006
+    system: bond
+    gdd: design/gdd/bond-system.md
+    requirement: "Combo skill battle UI: player-only trigger button, disabled-with-reason on failed thresholds, 4 effect type integration through existing damage/status pipelines"
+    epic: production/epics/bond-system/story-006-combo-battle-ui.md
+    adr: ADR-011
+    created: "2026-05-01"
+    revised: ""
+    status: active
+
+  # ── difficulty-system (Sprint-009 Must Have) ────────────────────────────
+
+  - id: TR-diff-001
+    system: difficulty
+    gdd: design/gdd/difficulty-system.md
+    requirement: "First-playthrough fixed curve: 4 phases (tutorial 0.7×/growth 1.0×/challenge 1.2×/climax 1.4×) with enemy/exp/resource multipliers"
+    epic: production/epics/difficulty-system/story-001-data-model.md
+    adr: ADR-012
+    created: "2026-05-01"
+    revised: ""
+    status: active
+
+  - id: TR-diff-002
+    system: difficulty
+    gdd: design/gdd/difficulty-system.md
+    requirement: "Difficulty integration: combat enemy stat ×multiplier, settlement exp/drop ×multiplier, AI strategy level switching"
+    epic: production/epics/difficulty-system/story-002-integration.md
+    adr: ADR-004, ADR-005, ADR-012
+    created: "2026-05-01"
+    revised: ""
+    status: active
+
+  # ── boss-system (Sprint-009 Must Have) ──────────────────────────────────
+
+  - id: TR-boss-001
+    system: boss
+    gdd: design/gdd/boss-system.md
+    requirement: "Boss type classification (5 types: tutorial/narrative/aptitude/peak/hidden) + checkpoint spec with phase threshold 50%/25%"
+    epic: production/epics/boss-system/story-001-data-model.md
+    adr: ADR-013
+    created: "2026-05-01"
+    revised: ""
+    status: active
+
+  - id: TR-boss-002
+    system: boss
+    gdd: design/gdd/boss-system.md
+    requirement: "Boss action pattern data model: telegraph duration + range indicator type + element type + cooldown turns + target scope"
+    epic: production/epics/boss-system/story-002-action-pattern.md
+    adr: ADR-013
+    created: "2026-05-01"
     revised: ""
     status: active

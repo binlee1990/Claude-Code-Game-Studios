@@ -1,11 +1,41 @@
 # Session State
 
-**Last Updated**: 2026-04-27
+**Last Updated**: 2026-05-01
 
 ## Current Task
-**Sprint-008 COMPLETE** — Ch.3 内容完成 + 装备养成收口
+**Sprint-009 READY** — 治理缺口已补全，可启动 dev-story
 
-Active stage: Production. Sprint-008 COMPLETE（Must / Should / Nice 全部 DONE）。
+Active stage: Production. Sprint-009 计划: `production/sprints/sprint-009.md`。
+
+## 2026-05-01: 治理缺口补全 (Batch P0+P1+P2)
+
+| Batch | 产出 |
+|-------|------|
+| P0 | ADR-010 (fog) / ADR-011 (bond-combo) / ADR-012 (difficulty) / ADR-013 (boss) |
+| P0 | `production/epics/difficulty-system/` (EPIC + 2 stories) |
+| P0 | `production/epics/boss-system/` (EPIC + 2 stories) |
+| P0 | `production/qa/qa-plan-sprint-9.md` |
+| P1 | `production/epics/bond-system/story-005/006` (combo data model + battle UI) |
+| P1 | `docs/architecture/architecture-traceability.md` v1.0 |
+| P1 | `production/registries/tr-registry.yaml` v5 (+10 TR entries) |
+| P1 | `production/epics/index.md` (+difficulty/boss entries) |
+| P1 | `production/project-stage-report.md` (updated to Sprint-008 state) |
+| P2 | `production/sprints/retrospective-sprint-001-009.md` |
+| P2 | `production/sprints/changelog-sprint-001-008.md` |
+| P2 | `production/reviews/gate-check-production-to-polish-2026-05-01.md` → CONCERNS |
+| P2 | `production/reviews/milestone-review-mvp-complete-2026-05-01.md` → Go |
+| P2 | `production/reviews/consistency-check-2026-05-01.md` → PASS |
+| P2 | `production/release/launch-checklist-draft-2026-05-01.md` → 43% ready |
+
+## Sprint-009 计划概要
+
+| 类别 | 数量 | 系统 |
+|------|------|------|
+| Must Have | 7 | FOG-001~004 / BOND-COMBO-001 / DIFF-001 / BOSS-001 |
+| Should Have | 3 | BOND-COMBO-002 / DIFF-002 / BOSS-002 |
+| Nice to Have | 2 | EQUIP-014 / ARCH-REVIEW |
+
+**排除**: 章节剧情内容、Ch.4 规划、NG+ 难度倍率选择。
 
 ## Sprint-008 最终状态
 
@@ -47,9 +77,9 @@ Active stage: Production. Sprint-008 COMPLETE（Must / Should / Nice 全部 DONE
 | Packaged smoke | - | ✅ PASS |
 
 <!-- STATUS -->
-Epic: Production
-Feature: Sprint-008 Complete
-Task: Sprint-009 Planning
+Epic: Vertical Slice 系统收尾
+Feature: Sprint-009 Planning
+Task: Fog-of-war MVP 实现准备
 <!-- /STATUS -->
 
 ## Sprint-006 最终状态

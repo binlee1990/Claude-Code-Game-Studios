@@ -1,6 +1,6 @@
 # Epics Index
 
-Last Updated: 2026-04-27
+Last Updated: 2026-05-01
 Engine: Godot 4.6.2
 
 | Epic | Layer | System | GDD | Stories | Status |
@@ -22,14 +22,17 @@ Engine: Godot 4.6.2
 | localization | Foundation | 多语言管理 | localization-system.md | 3 stories (1 Integration, 1 UI, 1 Integration) | Complete |
 | bond-system | Feature | 羁绊系统 MVP | bond-system.md | 4 stories + 1 GDD（Sprint-008）| Sprint-008 Combo GDD Complete |
 | base-system | Feature | 基地系统 Phase 1 | base-system.md | 4 stories | Complete |
-| fog-of-war | Feature | 战争迷雾 MVP | fog-of-war-system.md | 4 stories + 1 GDD（Sprint-008 Nice to Have）| Sprint-008 GDD Complete |
+| fog-of-war | Feature | 战争迷雾 MVP | fog-of-war-system.md | 4 stories | Sprint-009 Must Have |
+| difficulty-system | Meta | 难度系统 | difficulty-system.md | 2 stories | Sprint-009 Must Have |
+| boss-system | Feature | Boss战系统 | boss-system.md | 2 stories | Sprint-009 Must Have |
 
 ## Summary
 
 - **Core**: 7 epics (attribute, class, resource, tactical, AI, skill, turn-based)
-- **Feature**: 6 epics (equipment, character, battle-settlement, bond-system, base-system, fog-of-war)
+- **Feature**: 7 epics (equipment, character, battle-settlement, bond-system, base-system, fog-of-war, boss-system)
 - **Presentation**: 2 epics (camera-map, UI)
 - **Foundation**: 1 epic (localization)
+- **Meta**: 1 epic (difficulty-system)
 - **Content**: 2 epics (chapter-02, chapter-03)
 
 ## Known Gaps
@@ -39,4 +42,5 @@ Engine: Godot 4.6.2
 - Sprint-006 is complete: Bond runtime MVP, equipped-item enhancement UI/cost/round-trip, Base AP + Intel, economy cost config, Ch.3 GDD, and packaged smoke coverage are implemented and verified.
 - Sprint-007 is complete: Ch.3 battle 1 boots/victories, Base Tavern/Upgrade, Tavern affinity, Equipment +6~+10 risk zone, architecture full review, export, and packaged smoke are verified.
 - Sprint-008 is complete: Ch.3 battle 2, B3-GATE runtime activation, Ch.3 finale boss, equipment decomp/reroll UI, architecture.md fixups, Bond combo GDD, Fog GDD, GUT, export, and packaged smoke are verified.
-- Sprint-009 handoff remains: Bond combo runtime implementation, Fog-of-war MVP implementation, equipment +11+ extreme-risk tuning, Ch.4 planning, and post-Sprint architecture review.
+- Sprint-009 (PLANNING): Fog-of-war MVP, Bond combo skill, Difficulty data model + integration, Boss data model + action pattern. ADR-010~013 created, epic directories for difficulty-system/boss-system created, QA plan ready.
+- Remaining gap: event-system, new-game-plus, hp-system Alpha epics not yet created.

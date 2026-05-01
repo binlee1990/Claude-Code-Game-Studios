@@ -2,15 +2,151 @@
 # DO NOT edit manually — use /story-done to update story status.
 # Sprint-007 history archived in production/sprints/sprint-007.md.
 
-sprint: 8
-goal: "Ch.3 内容完成 + 装备养成收口"
-start: "2026-05-08"
-end: "2026-05-12"
-generated: "2026-04-27"
-updated: "2026-04-27"
+sprint: 9
+goal: "Vertical Slice 系统收尾（fog / bond-combo / difficulty / boss）"
+start: "2026-05-13"
+end: "2026-05-17"
+generated: "2026-04-28"
+updated: "2026-04-28"
+
+# Sprint-008 history archived in production/sprints/sprint-008.md.
 
 stories:
-  # Must Have — 内容推进主轴
+  # Must Have — Vertical Slice 系统实现
+  - id: "FOG-001"
+    name: "Visibility data model"
+    file: "production/epics/fog-of-war/story-001-visibility-model.md"
+    priority: must-have
+    status: pending
+    owner: "gameplay-programmer"
+    estimate_days: 0.5
+    blocker: ""
+    completed: ""
+
+  - id: "FOG-002"
+    name: "Fog rendering overlay MVP"
+    file: "production/epics/fog-of-war/story-002-rendering-overlay.md"
+    priority: must-have
+    status: pending
+    owner: "ui-programmer"
+    estimate_days: 0.5
+    blocker: "FOG-001"
+    completed: ""
+
+  - id: "FOG-003"
+    name: "Unit visibility integration"
+    file: "production/epics/fog-of-war/story-003-unit-visibility.md"
+    priority: must-have
+    status: pending
+    owner: "gameplay-programmer"
+    estimate_days: 0.5
+    blocker: "FOG-001"
+    completed: ""
+
+  - id: "FOG-004"
+    name: "Save/load fog state"
+    file: "production/epics/fog-of-war/story-004-save-load.md"
+    priority: must-have
+    status: pending
+    owner: "gameplay-programmer"
+    estimate_days: 0.25
+    blocker: "FOG-001"
+    completed: ""
+
+  - id: "BOND-COMBO-001"
+    name: "Combo skill data model + trigger"
+    file: "production/epics/bond-system/story-005-combo-data-model.md"
+    priority: must-have
+    status: pending
+    owner: "gameplay-programmer"
+    estimate_days: 0.5
+    blocker: ""
+    completed: ""
+
+  - id: "DIFF-001"
+    name: "Difficulty data model + 一周目固定曲线"
+    file: "production/epics/difficulty/story-001-data-model.md"
+    priority: must-have
+    status: pending
+    owner: "gameplay-programmer"
+    estimate_days: 0.5
+    blocker: ""
+    completed: ""
+
+  - id: "BOSS-001"
+    name: "Boss 系统 Epic 创建 + 数据模型"
+    file: "production/epics/boss-system/EPIC.md"
+    priority: must-have
+    status: pending
+    owner: "game-designer"
+    estimate_days: 0.5
+    blocker: ""
+    completed: ""
+
+  # Should Have
+  - id: "BOND-COMBO-002"
+    name: "Combo skill battle UI + 集成"
+    file: "production/epics/bond-system/story-006-combo-battle-ui.md"
+    priority: should-have
+    status: pending
+    owner: "ui-programmer"
+    estimate_days: 0.5
+    blocker: "BOND-COMBO-001"
+    completed: ""
+
+  - id: "DIFF-002"
+    name: "Difficulty 集成"
+    file: "production/epics/difficulty/story-002-integration.md"
+    priority: should-have
+    status: pending
+    owner: "gameplay-programmer"
+    estimate_days: 0.75
+    blocker: "DIFF-001"
+    completed: ""
+
+  - id: "BOSS-002"
+    name: "Boss action pattern 数据模型"
+    file: "production/epics/boss-system/story-002-action-pattern.md"
+    priority: should-have
+    status: pending
+    owner: "gameplay-programmer"
+    estimate_days: 0.5
+    blocker: "BOSS-001"
+    completed: ""
+
+  # Nice to Have
+  - id: "EQUIP-014"
+    name: "Equipment +11+ extreme-risk tuning"
+    file: "production/epics/equipment-system/story-014-extreme-risk.md"
+    priority: nice-to-have
+    status: pending
+    owner: "systems-designer"
+    estimate_days: 0.25
+    blocker: ""
+    completed: ""
+
+  - id: "ARCH-REVIEW"
+    name: "Post-Sprint-008 architecture review"
+    file: "docs/architecture/"
+    priority: nice-to-have
+    status: pending
+    owner: "architect"
+    estimate_days: 0.25
+    blocker: ""
+    completed: ""
+
+# ── Sprint-008 Archived (Complete) ──
+
+sprint_008_archive:
+  sprint: 8
+  goal: "Ch.3 内容完成 + 装备养成收口"
+  start: "2026-05-08"
+  end: "2026-05-12"
+  generated: "2026-04-27"
+  updated: "2026-04-27"
+
+  stories:
+    # Must Have — 内容推进主轴
   - id: "CH3-EPIC-002"
     name: "Ch.3 epic/story 刷新"
     file: "production/epics/chapter-03/EPIC.md"

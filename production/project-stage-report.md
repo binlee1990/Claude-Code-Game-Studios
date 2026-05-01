@@ -1,7 +1,8 @@
-# 项目阶段分析 — 2026-04-25
+# 项目阶段分析 — 2026-05-01
 
-**阶段**: Production
-**置信度**: PASS WITH CONCERNS — `production/stage.txt` + vertical-slice validation artifacts + human fun validation rerun 一致
+> **阶段**: Production
+> **置信度**: PASS WITH CONCERNS
+> **更新原因**: Sprint-005~008 完成 + Sprint-009 PLANNING + 治理缺口补全
 
 ---
 
@@ -9,63 +10,100 @@
 
 | 类别 | 完成度 | 详情 |
 |------|--------|------|
-| Design | 95% | 23/23 系统全部 Designed, cross-review done |
-| Architecture | 90% | 6 ADRs (3 Foundation + 3 Core), review + control-manifest 完整 |
-| Code | 87% | 46+ 源文件, 5 个核心 epic + 3 个 P3 epic 完成；第一章三战、战役推进、独立管理屏、默认回营成长、音效/本地化脚手架、战术/AI/结算/存档闭环已进入正式 battle path |
-| Tests | 91% | 73 测试文件, 686 个 `test_` 函数；当前 Godot 全量测试 `686 | Pass: 686 | Fail: 0` |
-| Production | 82% | Sprint-001 vertical slice validated；第一章三战、战后结算、默认回营、独立管理屏、战术/AI 正式接入、Windows export smoke、packaged scripted playthrough 已完成 |
-| UX | 88% | 6 UX docs, visual readability PASS WITH NOTES；系统菜单和独立管理屏已覆盖 Campaign/Camp/Tactics/Settlement/Party/Equipment，仍需真人主观 release sign-off |
+| Design | 95% | 24/24 系统 Designed, 1 次 cross-review done; 仅 hp-system 有独立 design-review |
+| Architecture | 90% | 13 ADRs (ADR-001~013), 3 architecture reviews, control-manifest + traceability 完整 |
+| Code | 89% | 46+ 源文件, 18 epic 完成; Ch.1~3 完整可玩路径已验收 |
+| Tests | 91% | 93 测试文件, 879 个 test_ 函数; GUT `879 | Pass: 879 | Fail: 0` |
+| Production | 82% | Sprint-001~008 全部 COMPLETE, Sprint-009 PLANNING; governance gap fill 2026-05-01 |
+| UX | 88% | 8 UX specs, visual readability PASS WITH NOTES; 真人 release sign-off 待完成 |
 
-## 已完成
+---
 
-### Design
-- 23 系统 GDD — 全部在 systems-index 标记 Designed
-- Cross-GDD review (2026-04-22)
-- Accessibility requirements + Interaction patterns
+## Sprint-005~008 更新摘要
 
-### Architecture
-- Architecture document + traceability matrix
-- ADR-001~006, Architecture review (2026-04-20), Control manifest
+| Sprint | 系统 | 关键交付 |
+|--------|------|---------|
+| Sprint-005 | Localization / Credits / Governance | srpg_localization.gd, 语言切换, Credits overlay, ADR-008/009 |
+| Sprint-006 | Bond MVP / Equipment Enhancement / Base Phase 1 | BondRegistry, equipment enhancement UI/cost/round-trip, Base AP + Intel, Ch.3 GDD |
+| Sprint-007 | Ch.3 Battle 1 / Base Tavern+Upgrade / Equipment Risk Zone | Ch.3 boot, Tavern affinity, +6~+10 risk, architecture full review |
+| Sprint-008 | Ch.3 Battle 2/B3-GATE/Finale / Equipment Decomp/Reroll | Ch.3 playable path complete, Bond combo GDD, Fog GDD, 879/879 PASS |
 
-### 实现 (31 stories done)
-- attribute-system (7 stories), class-system (6), resource-economy (6)
-- tactical-mechanism (5), ai-system (6), turn-based-mode (7)
-- battle-settlement (5), skill-system (P3), equipment-system (P3)
-- character-management (P3)
-- 新增 speed-up mode (TBM-006), save/load (TBM-007)
+---
 
-## 差距
+## 最新 ADR 状态（as of 2026-05-01）
+
+| ADR | Title | Status | Layer |
+|-----|-------|--------|-------|
+| ADR-001 | Event Architecture | Accepted | Foundation |
+| ADR-002 | Scene Management | Accepted | Foundation |
+| ADR-003 | Save System | Accepted | Foundation |
+| ADR-004 | Combat System | Accepted | Core |
+| ADR-005 | AI Behavior | Accepted | Core |
+| ADR-006 | Attribute Data Model | Accepted | Core |
+| ADR-007 | Belief Branch System | Accepted | Content |
+| ADR-008 | Resource Economy Upgrade Scope | Accepted | Core |
+| ADR-009 | Equipment Upgrade Scope | Accepted | Feature |
+| ADR-010 | Fog-of-War Architecture | Accepted | Feature |
+| ADR-011 | Bond Combo Skill Architecture | Accepted | Feature |
+| ADR-012 | Difficulty System Architecture | Accepted | Meta |
+| ADR-013 | Boss System Architecture | Accepted | Feature |
+
+---
+
+## 当前 Epic 覆盖（as of 2026-05-01）
+
+| Epic | GDD | Stories | Status |
+|------|-----|---------|--------|
+| attribute-system | ✓ | 7 | Complete |
+| class-system | ✓ | 6 | Complete |
+| resource-economy | ✓ | 7 | Complete |
+| tactical-mechanism | ✓ | 5 | Complete |
+| ai-system | ✓ | 6 | Complete |
+| skill-system | ✓ | 7 | Complete |
+| turn-based-mode | ✓ | 7 | Complete |
+| equipment-system | ✓ | 13 | Complete |
+| character-management | ✓ | 3 | Complete |
+| battle-settlement | ✓ | 5 | Complete |
+| camera-map-system | ✓ | 3 | Complete |
+| ui-system | ✓ | 3 | Complete |
+| chapter-02 | ✓ | 6 | Complete |
+| chapter-03 | ✓ | 4 | Complete |
+| localization | ✓ | 3 | Complete |
+| bond-system | ✓ | 6 | 4 Complete + 2 Sprint-009 pending |
+| base-system | ✓ | 4 | Complete |
+| fog-of-war | ✓ | 4 | Sprint-009 pending |
+| difficulty-system | ✓ | 2 | Sprint-009 pending |
+| boss-system | ✓ | 2 | Sprint-009 pending |
+
+---
+
+## 差距（2026-05-01 更新）
 
 | # | 差距 | 严重度 | 阻塞 gate? |
 |---|------|--------|------------|
 | 1 | UX Review 未执行 | Low | No |
-| 2 | `design/narrative/`, `design/levels/` 空 | Info | No — 阶段预期内 |
-| 3 | `production/milestones/` 空 | Low | No — sprint plan 替代 |
-| 4 | 人工视觉签收 | Medium | No — 2026-04-25 PASS WITH NOTES |
-| 5 | Fun validation / UX framing | Medium | No — 2026-04-25 rerun PASS WITH PRODUCT-SCOPE NOTES |
+| 2 | `design/levels/`, `design/balance/` 空 | Info | No |
+| 3 | 无 sprint retrospective（8 sprints done） | Medium | No |
+| 4 | 人工视觉签收 | Medium | No |
+| 5 | 无 formal changelog / launch-checklist | Low | No |
+| 6 | 4 个 Alpha 优先级 epic 未创建（event/new-game-plus/chapter-04/hp-system） | Low | No |
 
-## 当前 Gate 阻塞
-
-```
-Gate: Pre-Production → Production
-Verdict: PASS WITH CONCERNS
-通过原因: 自动化验证通过，人工视觉可读性 PASS WITH NOTES，2026-04-25 fun validation rerun 给出 PASS；核心循环已足够推进到 Production。
-保留关注: 玩家明确表示“需要完善游戏才愿意继续”，因此这不是 release/readiness PASS，而是 Production 启动 PASS。
-```
+---
 
 ## Production 起点
 
 | Lane | 目标 | Gate |
 |------|------|------|
 | Playable build | Windows exe 可试玩包 | Full packaged playthrough PASS |
-| UI/UX polish | 降低“简陋/突兀”感 | 人工截图/试玩确认 |
-| Battle presentation | 移动、攻击、伤害、死亡有轻量表现 | Auto/手动都不再瞬间突兀 |
-| First content slice | Tutorial / Chapter 1 小关 | COMPLETE — 正式 battle path 加载 `chapter_01_tutorial` |
-| Systems productization | 技能、装备、角色管理进入玩家路径 | CURRENT PASS COMPLETE — 技能、装备、队伍、职业/属性训练、回营推荐成长、独立管理屏、战术规则、AI/Boss、结算奖励均有正式路径并可保存；深度手动操作仍属后续 UX backlog |
-| Post-battle flow | 结算/奖励展示进入玩家路径 | COMPLETE — 胜利后 EXP、金币、材料、装备掉落会应用并在 Settlement 菜单和存档中保留 |
+| Ch.1~3 内容 | 3 章 9+ 战完整可玩 | Sprint-008 验收通过 |
+| Vertical Slice 系统 | fog / bond-combo / difficulty / boss | Sprint-009 PLANNING |
+| UI/UX polish | 降低简陋感 | 人工截图/试玩确认 |
+| Systems productization | 18 epic 完成 | Sprint-008 结束基线 |
+
+---
 
 ## 建议路径
 
-1. **立即**: 扩展 Chapter 2 内容，避免 Chapter 1 完成后出现长期内容断点
-2. **然后**: 将当前独立管理屏升级为可手动队伍编成、装备切换、奖励领取动画的深度管理界面
-3. **后续**: 做真人主观 UI/UX release sign-off、正式音频/视觉资产、全量本地化与发行包流程
+1. **Sprint-009 启动前**: P0 治理补全（ADR-010~013 + epic 创建 + QA plan）— DONE 2026-05-01
+2. **Sprint-009**: 实现 4 个 Vertical Slice 系统 + 补齐测试
+3. **Sprint-009 后**: retrospective batch + changelog + milestone review + gate-check
