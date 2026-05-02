@@ -32,8 +32,6 @@ const SLOT_ORDER: Array[int] = [
 	EquipmentDefinitions.Slot.BOOTS,
 	EquipmentDefinitions.Slot.ACCESSORY,
 ]
-const SPRINT_007_MAX_ENHANCEMENT_LEVEL: int = 10
-
 var _roster: CharacterRoster
 var _selected_unit_id: StringName = &""
 var _active_tab: int = Tab.CHARACTER
@@ -706,8 +704,11 @@ func _format_equipped_slot_text(unit: Unit, item: EquipmentItem) -> String:
 	var shortage := unit.equipment_component.get_enhancement_shortage(item.item_id, Inventory)
 	if shortage.is_empty():
 		if item.enhancement_level >= 5:
+			var protection_cost: int = EquipmentDefinitions.get_protection_symbol_cost(item.enhancement_level)
 			var protect_state := _tr("management.enhance_protection_ready")
-			if not Inventory.has_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, 1):
+			if protection_cost > 1:
+				protect_state = _tr("management.enhance_protection_ready_count") % protection_cost
+			if not Inventory.has_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, protection_cost):
 				protect_state = _tr("management.enhance_no_protection")
 			return "%s | %s" % [
 				base,
@@ -727,7 +728,8 @@ func _is_enhance_disabled(unit: Unit, item: EquipmentItem) -> bool:
 		return true
 	if item.enhancement_level >= _max_supported_enhancement_level(item):
 		return true
-	if item.enhancement_level >= 5 and not Inventory.has_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, 1):
+	var protection_cost: int = EquipmentDefinitions.get_protection_symbol_cost(item.enhancement_level)
+	if item.enhancement_level >= 5 and not Inventory.has_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, protection_cost):
 		return true
 	return not unit.equipment_component.get_enhancement_shortage(item.item_id, Inventory).is_empty()
 
@@ -755,7 +757,7 @@ func _affix_label(affix_type: int) -> String:
 func _max_supported_enhancement_level(item: EquipmentItem) -> int:
 	if item == null:
 		return 0
-	return mini(item.get_enhancement_cap(), SPRINT_007_MAX_ENHANCEMENT_LEVEL)
+	return item.get_enhancement_cap()
 
 func _get_skill_display_name(skill: SkillData) -> String:
 	if skill == null:
@@ -844,7 +846,8 @@ func _on_enhance_item_pressed(unit_id: StringName, item_id: StringName, slot: in
 		_set_hint_text(_tr("management.enhance_sprint_cap"))
 		return
 	var use_protection := item.enhancement_level >= 5
-	if use_protection and not Inventory.has_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, 1):
+	var protection_cost: int = EquipmentDefinitions.get_protection_symbol_cost(item.enhancement_level)
+	if use_protection and not Inventory.has_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, protection_cost):
 		_set_hint_text(_tr("management.enhance_protection_required"))
 		return
 	var shortage := unit.equipment_component.get_enhancement_shortage(item_id, Inventory)

@@ -72,6 +72,9 @@ static func get_enhancement_success_rate(current_level: int) -> float:
 		return 1.0  # Safe zone +1 to +5
 	return RISK_ZONE_SUCCESS_RATES.get(current_level, 0.05)
 
+static func get_protection_symbol_cost(current_level: int) -> int:
+	return EquipmentDefinitions.get_protection_symbol_cost(current_level)
+
 static func calculate_affix_reroll_cost(quality: int) -> Dictionary:
 	return AFFIX_REROLL_COSTS.get(quality, AFFIX_REROLL_COSTS[EquipmentDefinitions.Quality.WHITE]).duplicate()
 

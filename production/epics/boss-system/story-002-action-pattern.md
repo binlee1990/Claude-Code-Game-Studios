@@ -16,12 +16,12 @@
 
 ## Acceptance Criteria
 
-- [ ] **AC-1**: `BossActionPattern` Resource 包含 pattern_id / telegraph_duration / range_indicator / element_type / cooldown_turns / targets 字段
-- [ ] **AC-2**: `telegraph_duration` 默认 0.7s，范围 [0.3, 1.5]
-- [ ] **AC-3**: `targets` 枚举支持 SINGLE / ROW / CROSS / AREA 四种目标范围
-- [ ] **AC-4**: `range_indicator` 类型枚举定义完整（矩形/十字/菱形/全屏）
-- [ ] **AC-5**: Action pattern 与 BossPhase 的 `active_patterns` 索引正确关联
-- [ ] **AC-6**: Unit test 覆盖所有枚举字段 + JSON 反序列化
+- [x] **AC-1**: `BossActionPattern` Resource 包含 pattern_id / telegraph_duration / range_indicator / element_type / cooldown_turns / targets 字段
+- [x] **AC-2**: `telegraph_duration` 默认 0.7s，范围 [0.3, 1.5]
+- [x] **AC-3**: `targets` 枚举支持 SINGLE / ROW / CROSS / AREA 四种目标范围
+- [x] **AC-4**: `range_indicator` 类型枚举定义完整（矩形/十字/菱形/全屏）
+- [x] **AC-5**: Action pattern 与 BossPhase 的 `active_patterns` 索引正确关联
+- [x] **AC-6**: Unit test 覆盖所有枚举字段 + JSON 反序列化
 
 ## Implementation Notes
 
@@ -32,3 +32,8 @@
 ## Test Evidence
 
 - `tests/unit/boss/action_pattern_test.gd`
+- `tests/unit/boss/boss_action_pattern_test.gd`
+
+## Completion Note
+
+Completed in Sprint-009, with standalone BossActionPattern coverage closed during Sprint-010/post-audit verification.

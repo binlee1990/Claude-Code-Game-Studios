@@ -2,8 +2,9 @@
 
 > **Status**: Designed (pending review)
 > **Author**: binlee1990 + agents
-> **Last Updated**: 2026-04-22
+> **Last Updated**: 2026-05-02
 > **Implements Pillar**: 系统互锁（基地连接资源经济、装备、羁绊、叙事，是系统间交互的枢纽）
+> **Phase Scope**: Phase 1 MVP is implemented through Sprint-007 (Training, Market, Tavern, Upgrade, Intel). Phase 2+ expansion remains Alpha scope.
 
 ## Overview
 

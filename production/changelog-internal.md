@@ -175,7 +175,7 @@
 ---
 
 ## Sprint-009: Vertical Slice 系统收尾
-> Status: COMPLETE | 1021/1021 PASS (12/12 stories)
+> Status: COMPLETE | 1037/1037 PASS after post-audit hardening (12/12 stories)
 
 | Story ID | System | Files | Tests |
 |----------|--------|-------|-------|
@@ -199,12 +199,12 @@
 | Metric | Sprint-001 | Sprint-002 | Sprint-003 | Sprint-004 | Sprint-005 | Sprint-006 | Sprint-007 | Sprint-008 | Sprint-009 |
 |--------|------------|------------|------------|------------|------------|------------|------------|------------|------------|
 | Stories | 13 | 18 | 11 | 8 | 14 | 12 | 12 | 10 | 12 |
-| Test baseline | 805 | 686 | 776 | 805 | 817 | ~830 | 855 | 879 | 1021 |
+| Test baseline | 805 | 686 | 776 | 805 | 817 | ~830 | 855 | 879 | 1037 |
 | New source files | ~10 | ~12 | 8 | 8 | 8 | 4 | 5 | 4 | 12 |
 | godot --check-only | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
 | Packaged smoke | PASS | PASS | N/A | PASS | PASS | PASS | PASS | PASS | PASS |
 
-**Total across Sprints 001-009**: 110 stories, 1021 tests, ~60+ new source files, 0 parse errors, all smokes PASS.
+**Total across Sprints 001-009 + post-audit hardening**: 110 stories, 1037 tests, ~60+ new source files, 0 parse errors, all smokes PASS.
 
 ### System Coverage Map
 

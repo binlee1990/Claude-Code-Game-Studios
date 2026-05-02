@@ -3,8 +3,8 @@
 > **Layer**: Feature
 > **GDD**: design/gdd/equipment-system.md
 > **Architecture Module**: Equipment
-> **Status**: Complete / Sprint-008 Decompose-Reroll UI Complete
-> **Stories**: 13 stories
+> **Status**: Complete / Sprint-009 Extreme-Risk Complete
+> **Stories**: 14 stories
 
 ## Overview
 
@@ -46,6 +46,7 @@ Implements the ARPG-inspired equipment framework: random affix generation (1-4 a
 | story-011-risk-zone-enhancement | TR-equip-011 | Equipment enhancement UI supports +6 through +10 risk-zone behavior |
 | story-012-risk-zone-round-trip | TR-equip-012 | Risk-zone enhancement state and protection symbols round-trip through save/load |
 | story-013-decomp-reroll-ui | TR-equip-013 | Decomposition and single-affix reroll UI with resource persistence |
+| story-014-extreme-risk | TR-equip-014 | +11+ extreme-risk success curve and scaling protection-symbol cost |
 
 ## Stories
 
@@ -64,6 +65,7 @@ Implements the ARPG-inspired equipment framework: random affix generation (1-4 a
 | 011 | Equipment +6 Risk-Zone Enhancement | Logic + UI + Integration | Complete | ADR-008, ADR-009 |
 | 012 | Risk-Zone Round-Trip Tests | Save/Load Integration | Complete | ADR-003, ADR-009 |
 | 013 | Decompose and Affix Reroll UI | UI + Integration | Complete | ADR-003, ADR-008, ADR-009 |
+| 014 | Equipment +11+ Extreme-Risk Tuning | Config + Logic | Complete | ADR-009 |
 
 ## Definition of Done
 
@@ -97,6 +99,14 @@ Sprint-008 completed the remaining player-facing equipment management loop insid
 2. Resource costs stay owned by `ResourceFormulas`; equipment mutation stays owned by `EquipmentComponent`.
 3. UI integration coverage verifies item removal, reroll persistence, shortage handling, and enhancement-level preservation.
 
+## Sprint-009 Extension
+
+Sprint-009 completed the +11+ extreme-risk tuning slice:
+
+1. `story-014-extreme-risk.md` defines the +11+ probability and protection-cost behavior.
+2. Protection symbol cost scales above +10, and enhancement requests with insufficient symbols fail before mutating gold/materials/items.
+3. Character management no longer stops blue+ equipment at the old Sprint-007 +10 cap; it respects each item's quality cap.
+
 ## Next Step
 
-Sprint-008 evidence: `tests/unit/equipment/decomp_reroll_test.gd`, `tests/integration/equipment/decomp_reroll_ui_test.gd`, `src/ui/management/character_management.gd`, and `src/core/equipment/equipment_component.gd`.
+Sprint-009 evidence: `tests/unit/equipment/extreme_risk_test.gd`, `tests/integration/ui/character_management_test.gd`, `src/ui/management/character_management.gd`, and `src/core/equipment/equipment_component.gd`.

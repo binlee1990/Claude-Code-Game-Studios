@@ -1,12 +1,17 @@
 # Story FOG-002: Fog Rendering Overlay MVP
 
 > **Epic**: Fog-of-war MVP
-> **Status**: Ready
+> **Status**: Complete
 > **Type**: UI/Visual
 
 ## Acceptance Criteria
 
-- [ ] Unknown cells render as dark overlay.
-- [ ] Explored cells remain visible but dimmed.
-- [ ] Visible cells render normally.
-- [ ] Overlay can be disabled for non-fog battles.
+- [x] Unknown cells render as dark overlay.
+- [x] Explored cells remain visible but dimmed.
+- [x] Visible cells render normally.
+- [x] Overlay can be disabled for non-fog battles.
+
+## Evidence
+
+- `src/core/fog/fog_renderer.gd`
+- `tests/unit/fog/rendering_overlay_test.gd`

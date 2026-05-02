@@ -16,14 +16,14 @@
 
 ## Acceptance Criteria
 
-- [ ] **AC-1**: Battle HUD 中距离 ≤3 的已羁绊角色 pair 显示 combo 按钮（从 ComboSkillData 读取）
-- [ ] **AC-2**: 按钮在门槛不满足时 disabled + tooltip 显示失败原因
-- [ ] **AC-3**: 伤害型（协力一击）通过现有 damage pipeline 生效（×1.5 + 无视 20% 防御）
-- [ ] **AC-4**: 临时技能型（技能传授）通过 status_effects 写入临时技能引用，3 回合后移除
-- [ ] **AC-5**: 增益型（竞争觉醒）通过 attack_bonus status_effect 生效，2 回合后移除
-- [ ] **AC-6**: 防护型（誓约守护）注册 before_fatal_damage 拦截器，消耗 30% HP
-- [ ] **AC-7**: Combo 执行后冷却写入 battle_state，按钮进入 cooldown 倒计时
-- [ ] **AC-8**: Integration test 覆盖完整 trigger→execute→cooldown→HUD refresh 链路
+- [x] **AC-1**: Battle HUD 中距离 ≤3 的已羁绊角色 pair 显示 combo 按钮（从 ComboSkillData 读取）
+- [x] **AC-2**: 按钮在门槛不满足时 disabled + tooltip 显示失败原因
+- [x] **AC-3**: 伤害型（协力一击）通过现有 damage pipeline 生效（×1.5 + 无视 20% 防御）
+- [x] **AC-4**: 临时技能型（技能传授）通过 status_effects 写入临时技能引用，3 回合后移除
+- [x] **AC-5**: 增益型（竞争觉醒）通过 attack_bonus status_effect 生效，2 回合后移除
+- [x] **AC-6**: 防护型（誓约守护）注册 before_fatal_damage 拦截器，消耗 30% HP
+- [x] **AC-7**: Combo 执行后冷却写入 battle_state，按钮进入 cooldown 倒计时
+- [x] **AC-8**: Integration test 覆盖完整 trigger→execute→cooldown→HUD refresh 链路
 
 ## Implementation Notes
 
@@ -34,3 +34,7 @@
 ## Test Evidence
 
 - `tests/integration/bond/combo_battle_ui_test.gd`
+
+## Completion Note
+
+Completed in Sprint-009. Human visual inspection of active/disabled button clarity remains tracked as MAN-009.

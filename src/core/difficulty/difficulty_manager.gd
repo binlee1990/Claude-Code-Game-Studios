@@ -1,5 +1,8 @@
-class_name DifficultyManager
 extends Node
+
+# The autoload singleton is named DifficultyManager in project.godot.
+# Do not also register this script as class_name DifficultyManager; Godot treats
+# that as hiding the autoload singleton in exported/headless startup.
 
 const PHASE_TUTORIAL: int = 1
 const PHASE_GROWTH: int = 2

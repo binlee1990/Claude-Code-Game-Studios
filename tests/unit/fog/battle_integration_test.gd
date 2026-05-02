@@ -51,8 +51,10 @@ func test_fog_integration_explored_cells_round_trip() -> void:
 	var fog2 := FogBattleIntegration.new()
 	fog2.init_from_definition({"fog": {"enabled": true}})
 	fog2.set_explored_cells(saved)
+	var restored_fog_state := fog2.get_fog_state()
 	for cell in saved:
-		assert_true(fog2.is_cell_targetable(cell))
+		assert_true(restored_fog_state.is_cell_explored(cell))
+		assert_false(fog2.is_cell_targetable(cell))
 
 
 func test_fog_integration_config_accessible() -> void:

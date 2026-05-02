@@ -1,7 +1,7 @@
 # Sprint 人工操作集中队列
 
 > Version: v2.0 | Date: 2026-05-02 | Status: **OPEN**
-> Source: 从 `sprint-001.md` ~ `sprint-009.md` 抽离的人工执行、人工验收、截图归档、试玩、听感确认与 sign-off 工作。
+> Source: 从 `sprint-001.md` ~ `sprint-010.md` 抽离的人工执行、人工验收、截图归档、试玩、听感确认与 sign-off 工作。
 
 ## 目标
 
@@ -64,18 +64,27 @@
 |---:|---|------|------|------|------|---|
 | 8 | P1 | MAN-008 | **迷雾视觉效果验证**: 启用 fog 关卡中观察迷雾三态颜色、移动后揭示、隐藏敌人不出现在 targeting、侦察兵视野加成正确 | 当前 Windows build; FogStateManager/FogRenderer/FogTargetFilter 已实现 | 截图 2-3 张（迷雾初始/揭示后/敌人出现），记录视觉问题 | OPEN |
 | 9 | P1 | MAN-009 | **组合技 UI 验证**: 羁绊 A 级角色相邻时 combo 按钮状态、门槛不满足时 disabled+tooltip 文字、执行后冷却倒计时 | BondRegistry + ComboValidator + ComboSkillData 已实现 | 截图 2 张（按钮激活/禁用状态），记录 UI 交互问题 | OPEN |
-| 10 | P1 | MAN-010 | **难度倍率感受验证**: 玩 Ch.1(0.7×) vs Ch.3(1.0×) vs Ch.6+(1.2×)，确认敌人强度差异可感知 | DifficultyManager + phase_curve.json 已实现 | playtest 笔记，记录各阶段战斗难度主观感受 | OPEN |
-| 11 | P1 | MAN-011 | **Boss 数据模型验证**: 使用现有 Ch.2/Ch.3 Boss 战，确认 BossProfile/BossPhase/BossCheckpoint 数据加载正确 | BossProfile/Phase/Checkpoint/ActionPattern 已实现 | 战斗中观察 Boss 名称/阶段/前兆是否正确显示 | OPEN |
+| 10 | P1 | MAN-010 | **难度倍率感受验证**: 玩 Ch.1(0.7×) vs Ch.3(1.0×) vs Ch.6+(1.2×)，确认敌人强度差异可感知 | DifficultyManager + phase_curve.json 已实现；自动化倍率应用已 PASS | playtest 笔记，记录各阶段战斗难度主观感受 | OPEN — AI 数值验证完成，主观体感仍需真人 |
+| 11 | P1 | MAN-011 | **Boss 数据模型验证**: 使用现有 Ch.2/Ch.3 Boss 战，确认 BossProfile/BossPhase/BossCheckpoint 数据加载正确 | BossProfile/Phase/Checkpoint/ActionPattern 已实现；Resource 与兼容 API 自动化已 PASS | 战斗中观察 Boss 名称/阶段/前兆是否正确显示 | OPEN — AI 数据验证完成，战斗内可见性仍需真人 |
 
 ### Sprint-009 完整验证
 
 | 顺序 | 优先级 | ID | 人工任务 | 前置条件 | 输出物 | 状态 |
 |---:|---|------|------|------|------|---|
-| 12 | P0 | MAN-012 | **Sprint-009 packaged smoke**: 双击 `builds/windows/SRPG.exe` → 主菜单 → 战斗(迷雾关) → combo 触发 → 存档 → 读档 → 退出 | 自动化 gate 全 PASS (1021/1021, check-only 0, export OK) | smoke 报告 | OPEN |
-| 13 | P2 | MAN-013 | **装备 +11+ 风险体验**: 强化装备到 +11 以上，确认失败降级概率合理、保护符号消耗可见 | EQUIP-014 概率曲线已定义 | 记录强化日志（等级/成功/失败/符号消耗） | OPEN |
+| 12 | P0 | MAN-012 | **Sprint-009 packaged smoke**: 双击 `builds/windows/SRPG.exe` → 主菜单 → 战斗(迷雾关) → combo 触发 → 存档 → 读档 → 退出 | 自动化 gate 全 PASS (1037/1037, check-only 0, export OK, strict packaged smoke PASS) | smoke 报告 | OPEN — 自动 packaged smoke 已 PASS，人工双击 walkthrough 仍需真人 |
+| 13 | P2 | MAN-013 | **装备 +11+ 风险体验**: 强化装备到 +11 以上，确认失败降级概率合理、保护符号消耗可见 | EQUIP-014 概率曲线与保护符号消耗已实现并测试 | 记录强化日志（等级/成功/失败/符号消耗） | OPEN — AI 规则/UI 验证完成，主观公平感仍需真人 |
+
+### AI 自动完成记录 (2026-05-02)
+
+| ID | 覆盖人工项 | 自动完成内容 | 证据 |
+|---|---|---|---|
+| MAN-AUTO-001 | MAN-010 | 难度曲线、combat/settlement/AI bridge、packaged smoke 启动错误修复 | `tests/unit/difficulty/*.gd`, `production/qa/evidence/sprint-009-ai-auto-evidence.md` |
+| MAN-AUTO-002 | MAN-011 | BossProfile/BossPhase/BossCheckpoint/BossActionPattern 数据模型、兼容 API、序列化测试 | `tests/unit/boss/*.gd` |
+| MAN-AUTO-003 | MAN-012 | Windows export、完整 GUT、strict packaged smoke、可启动性检查 | `tools/package_windows_release.ps1` |
+| MAN-AUTO-004 | MAN-013 | +11+ 成功率、失败降级、保护符号 `x2+` 消耗、UI enable/disable 回归 | `tests/unit/equipment/extreme_risk_test.gd`, `tests/integration/ui/character_management_test.gd` |
 
 ### 已完成
 
 | ID | 来源 | 结果 | 证据 |
 |---|---|---|---|
-| MAN-DONE-003 | Sprint-009 QA verification | 自动化全部 PASS | `production/qa/evidence/sprint-009-qa-evidence.md` — 1021/1021 PASS, export OK |
+| MAN-DONE-003 | Sprint-009 QA verification | 自动化全部 PASS | `production/qa/evidence/sprint-009-qa-evidence.md` — 1037/1037 PASS, export OK, strict packaged smoke PASS |

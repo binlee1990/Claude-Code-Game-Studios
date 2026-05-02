@@ -1,6 +1,6 @@
 # Epic: Boss System
 
-> **Status**: Sprint-009 Planning
+> **Status**: Complete
 > **Created**: 2026-05-01
 > **GDD**: `design/gdd/boss-system.md`
 > **ADR**: `docs/architecture/ADR-013-boss-system.md`
@@ -16,8 +16,8 @@
 
 | # | Story | Type | Est. | Status |
 |---|-------|------|------|--------|
-| 001 | Boss 系统 Epic 创建 + 数据模型 | Design/Logic | 0.5d | pending |
-| 002 | Boss action pattern 数据模型 | Logic | 0.5d | pending |
+| 001 | Boss 系统 Epic 创建 + 数据模型 | Design/Logic | 0.5d | Complete |
+| 002 | Boss action pattern 数据模型 | Logic | 0.5d | Complete |
 
 ## Out of Scope
 
@@ -30,3 +30,14 @@
 
 - TR-boss-001: Boss type classification (5 types) + checkpoint spec
 - TR-boss-002: Boss action pattern: telegraph + range indicator + cooldown
+
+## Completion Evidence
+
+- `src/core/boss/boss_profile.gd`
+- `src/core/boss/boss_phase.gd`
+- `src/core/boss/boss_checkpoint.gd`
+- `src/core/boss/boss_action_pattern.gd`
+- `src/core/combat/boss_phase_controller.gd`
+- `tests/unit/boss/boss_profile_test.gd`
+- `tests/unit/boss/action_pattern_test.gd`
+- `tests/unit/boss/boss_action_pattern_test.gd`

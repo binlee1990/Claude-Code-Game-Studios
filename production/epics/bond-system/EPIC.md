@@ -2,7 +2,7 @@
 
 > **Layer**: Feature
 > **GDD**: `design/gdd/bond-system.md`
-> **Status**: Sprint-008 Combo GDD Complete
+> **Status**: Complete
 > **Created**: 2026-04-27
 > **Sprint Source**: Sprint-005 / BOND-001
 
@@ -12,7 +12,7 @@ Create the smallest implementation slice of the designed bond system that can su
 
 ## Scope Boundary
 
-Sprint-006 implements the bounded MVP: pair-keyed bond data, combat affinity gain, save payload, and character detail summary. Sprint-007 adds tavern dialogue. Sprint-008 completes combo-skill design only; combo-skill runtime and network graph remain future work.
+Sprint-006 implements the bounded MVP: pair-keyed bond data, combat affinity gain, save payload, and character detail summary. Sprint-007 adds tavern dialogue. Sprint-008 completes combo-skill design. Sprint-009 completes combo-skill runtime validation and battle UI integration. Full relationship network graph remains future work.
 
 ## Stories
 
@@ -23,6 +23,8 @@ Sprint-006 implements the bounded MVP: pair-keyed bond data, combat affinity gai
 | BOND-003 | Base tavern dialogue trigger MVP | UI/Integration | 0.5d | Base full phase 1 | Complete |
 | BOND-UI-001 | Character detail bond summary | UI + Integration | 0.25d | BOND-DATA-001 / Character management UI | Complete |
 | BOND-COMBO-DESIGN | Combo skill GDD refinement | Design | 0.5d | Bond GDD / Sprint-008 | Complete |
+| BOND-COMBO-001 | Combo skill data model + trigger | Logic | 0.5d | Bond GDD / Sprint-009 | Complete |
+| BOND-COMBO-002 | Combo skill battle UI + integration | Integration/UI | 0.5d | BOND-COMBO-001 | Complete |
 
 ## TR-IDs
 
@@ -55,3 +57,10 @@ Completion evidence: `src/core/bond/bond_registry.gd`, `GameEvents.bond_level_up
 ## Sprint-008 Handoff
 
 Combo-skill trigger conditions, effect types, rank gates, cooldown scope, and failure feedback are specified in `design/gdd/bond-system.md`. Runtime implementation is intentionally deferred to Sprint-009.
+
+## Completion Evidence
+
+- `src/core/bond/combo_skill_data.gd`
+- `src/core/bond/combo_validator.gd`
+- `tests/unit/bond/combo_validator_test.gd`
+- `tests/integration/bond/combo_battle_ui_test.gd`

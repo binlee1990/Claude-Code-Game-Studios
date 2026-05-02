@@ -144,13 +144,17 @@ func attempt_enhancement(item_id: StringName, inventory, use_protection: bool = 
 		return {"success": false, "reason": "insufficient_gold", "cost": cost}
 	if not inventory.has_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, cost["materials"]):
 		return {"success": false, "reason": "insufficient_materials", "cost": cost}
-	var protection_active: bool = use_protection and inventory.has_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, 1)
+	var protection_cost: int = EquipmentDefinitions.get_protection_symbol_cost(item.enhancement_level)
+	if use_protection and protection_cost > 0 and not inventory.has_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, protection_cost):
+		return {"success": false, "reason": "insufficient_protection", "protection_cost": protection_cost}
+	var protection_active: bool = use_protection and protection_cost > 0
 	inventory.remove_resource(ResourceTypes.ResourceId.GOLD, cost["gold"])
 	inventory.remove_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, cost["materials"])
 	if protection_active:
-		inventory.remove_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, 1)
+		inventory.remove_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, protection_cost)
 	var result: Dictionary = _resolve_enhancement(item, protection_active, rng_seed)
 	result["cost"] = cost
+	result["protection_cost"] = protection_cost if protection_active else 0
 	result["protection_consumed"] = protection_active
 	GameEvents.equipment_enhanced.emit(String(item_id), int(result.get("new_level", item.enhancement_level)), bool(result.get("success", false)))
 	return result

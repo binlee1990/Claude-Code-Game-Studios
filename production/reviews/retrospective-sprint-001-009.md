@@ -1,7 +1,7 @@
 # Sprint-001~009 综合 Retrospective
 
 > **Date**: 2026-05-02
-> **Scope**: 9 sprints, 19 epics Complete, 1021 tests
+> **Scope**: 9 sprints, 19 epics Complete, 1021 Sprint-009 tests; current post-audit baseline 1037 tests
 > **Phase**: Production — Vertical Slice 完整交付
 > **Source**: sprint-001.md ~ sprint-009.md + sprint-status.yaml + active.md
 
@@ -129,7 +129,7 @@
 | **Stories** | 12 条（Must 7 + Should 3 + Nice 2） |
 | **Must/Should/Nice** | 7 / 3 / 2 |
 | **Test 基线** | **1021 条**（+142 vs Sprint-008，历史最大单 Sprint 增量） |
-| **Status** | COMPLETE（1021/1021 PASS） |
+| **Status** | COMPLETE（1021/1021 PASS at sprint close; 1037/1037 after post-audit hardening） |
 | **Key Risks/Issues** | **Fog 渲染性能**（15x15~25x25 tile overlays）：MVP 不做 LOS 裁剪，关闭 fog 的关卡零开销；**Difficulty 集成触及三系统**：按 combat→settlement→AI 顺序集成缓解耦合；**Boss telegraph 视觉效果**：MVP 用纯色矩形/闪烁占位，不依赖正式资产 |
 | **Notable** | 首次在一个 Sprint 内落地 4 个新系统；+117 tests from Sprint-009 alone；新增源文件 12 个（~500 行代码）；新增测试文件 9 个；BOND-COMBO-002 与 BOSS-002 在 Sprint-010 仍有遗留 standalone test 需求 |
 

@@ -1,6 +1,6 @@
 # Epics Index
 
-Last Updated: 2026-05-01
+Last Updated: 2026-05-02
 Engine: Godot 4.6.2
 
 | Epic | Layer | System | GDD | Stories | Status |
@@ -12,7 +12,7 @@ Engine: Godot 4.6.2
 | ai-system | Core | AI系统 | ai-system.md | 6 stories (5 Logic, 1 Integration) | Complete |
 | skill-system | Core | 技能系统 | skill-system.md | 7 stories (6 Logic, 1 Integration) | Complete |
 | turn-based-mode | Core | 回合制模式 | turn-based-mode.md | 7 stories (6 Logic, 1 Integration) | Complete |
-| equipment-system | Feature | 装备系统 | equipment-system.md | 13 stories | Complete / Sprint-008 UI Complete |
+| equipment-system | Feature | 装备系统 | equipment-system.md | 14 stories | Complete / Sprint-009 Extreme-Risk Complete |
 | character-management | Feature | 角色管理 | character-management.md | 3 stories (2 Logic, 1 Integration) | Complete |
 | battle-settlement | Feature | 战斗结算 | battle-settlement.md | 5 stories (4 Logic, 1 Integration) | Complete |
 | camera-map-system | Presentation | 视角与地图 | camera-map-system.md | 3 stories (2 Visual/Feel, 1 Integration) | Complete |
@@ -20,11 +20,11 @@ Engine: Godot 4.6.2
 | chapter-02 | Content | Ch.2 内容 | chapter-02.md | 6 stories (Logic) | Complete / Ready for Playtest |
 | chapter-03 | Content | Ch.3 内容 | chapter-03.md | 4 stories | Complete / Sprint-008 Playable Path Complete |
 | localization | Foundation | 多语言管理 | localization-system.md | 3 stories (1 Integration, 1 UI, 1 Integration) | Complete |
-| bond-system | Feature | 羁绊系统 MVP | bond-system.md | 4 stories + 1 GDD（Sprint-008）| Sprint-008 Combo GDD Complete |
+| bond-system | Feature | 羁绊系统 MVP | bond-system.md | 6 stories | Complete / Combo Runtime Complete |
 | base-system | Feature | 基地系统 Phase 1 | base-system.md | 4 stories | Complete |
-| fog-of-war | Feature | 战争迷雾 MVP | fog-of-war-system.md | 4 stories | Sprint-009 Must Have |
-| difficulty-system | Meta | 难度系统 | difficulty-system.md | 2 stories | Sprint-009 Must Have |
-| boss-system | Feature | Boss战系统 | boss-system.md | 2 stories | Sprint-009 Must Have |
+| fog-of-war | Feature | 战争迷雾 MVP | fog-of-war-system.md | 4 stories | Complete |
+| difficulty-system | Meta | 难度系统 | difficulty-system.md | 2 stories | Complete |
+| boss-system | Feature | Boss战系统 | boss-system.md | 2 stories | Complete |
 
 ## Summary
 
@@ -42,6 +42,7 @@ Engine: Godot 4.6.2
 - Sprint-006 is complete: Bond runtime MVP, equipped-item enhancement UI/cost/round-trip, Base AP + Intel, economy cost config, Ch.3 GDD, and packaged smoke coverage are implemented and verified.
 - Sprint-007 is complete: Ch.3 battle 1 boots/victories, Base Tavern/Upgrade, Tavern affinity, Equipment +6~+10 risk zone, architecture full review, export, and packaged smoke are verified.
 - Sprint-008 is complete: Ch.3 battle 2, B3-GATE runtime activation, Ch.3 finale boss, equipment decomp/reroll UI, architecture.md fixups, Bond combo GDD, Fog GDD, GUT, export, and packaged smoke are verified.
-- Sprint-009 (COMPLETE 2026-05-02): Fog-of-war MVP, Bond combo skill, Difficulty data model + integration, Boss data model + action pattern. 12/12 stories done, 1021/1021 PASS.
+- Sprint-009 (COMPLETE 2026-05-02): Fog-of-war MVP, Bond combo skill, Difficulty data model + integration, Boss data model + action pattern, Equipment +11+ extreme-risk. 12/12 stories done.
 - Sprint-010 (COMPLETE 2026-05-02): 治理收口 + 里程碑审查 — retrospective batch / gate re-check / changelog / regression suite / test helpers / launch checklist / design review batch / perf baseline / retro template. 12/12 stories done.
+- Post-audit hardening (2026-05-02): strict packaged smoke, DifficultyManager autoload fix, invalid save regression, fog targeting contract fix, 1037/1037 PASS.
 - Remaining gap: event-system, new-game-plus, hp-system, chapter-04 Alpha epics not yet created.

@@ -2,7 +2,7 @@ extends Gut
 
 const DifficultyManager = preload("res://src/core/difficulty/difficulty_manager.gd")
 
-var _manager: DifficultyManager
+var _manager
 
 
 func before_each() -> void:

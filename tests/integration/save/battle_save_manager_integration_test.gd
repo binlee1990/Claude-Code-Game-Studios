@@ -32,6 +32,14 @@ func _remove_test_save() -> void:
 	if FileAccess.file_exists("user://saves/save_%d.tmp.tres" % TEST_SLOT):
 		DirAccess.remove_absolute(temp_absolute_path)
 
+func test_invalid_save_resource_fails_gracefully_without_pending_data() -> void:
+	var absolute_path: String = ProjectSettings.globalize_path("user://saves/save_%d.tres" % TEST_SLOT)
+	var result := ResourceSaver.save(Resource.new(), absolute_path)
+	assert_eq(result, OK)
+
+	assert_false(SaveManager.load_game(TEST_SLOT))
+	assert_false(SaveManager.has_pending_loaded_data())
+
 func test_save_manager_restores_formal_battle_runtime_state() -> void:
 	var enemy: Unit = _first_enemy(_battle)
 	_battle.rotate_camera(2)

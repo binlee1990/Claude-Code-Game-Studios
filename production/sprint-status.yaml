@@ -32,7 +32,7 @@ stories:
     completed: "2026-05-02"
 
   - id: "MILESTONE-001"
-    name: "Milestone review 更新（VS Complete, 19 epics, 1021 tests）"
+    name: "Milestone review 更新（VS Complete, 19 epics, 1037 tests）"
     file: "production/reviews/milestone-review-vs-complete-2026-05-17.md"
     priority: must-have
     status: complete

@@ -1,6 +1,6 @@
 # Epic: Difficulty System
 
-> **Status**: Sprint-009 Planning
+> **Status**: Complete
 > **Created**: 2026-05-01
 > **GDD**: `design/gdd/difficulty-system.md`
 > **ADR**: `docs/architecture/ADR-012-difficulty-system.md`
@@ -16,8 +16,8 @@
 
 | # | Story | Type | Est. | Status |
 |---|-------|------|------|--------|
-| 001 | Difficulty data model + 一周目固定曲线 | Logic | 0.5d | pending |
-| 002 | Difficulty 集成（combat/settlement/AI） | Integration | 0.75d | pending |
+| 001 | Difficulty data model + 一周目固定曲线 | Logic | 0.5d | Complete |
+| 002 | Difficulty 集成（combat/settlement/AI） | Integration | 0.75d | Complete |
 
 ## Out of Scope
 
@@ -29,3 +29,13 @@
 
 - TR-diff-001: 一周目固定曲线（4 phases × enemy/exp/resource multipliers）
 - TR-diff-002: Difficulty integration with combat/settlement/AI
+
+## Completion Evidence
+
+- `src/core/difficulty/difficulty_manager.gd`
+- `src/core/difficulty/difficulty_bridge.gd`
+- `assets/data/difficulty/phase_curve.json`
+- `tests/unit/difficulty/data_model_test.gd`
+- `tests/unit/difficulty/integration_mock_test.gd`
+- `tests/unit/difficulty/difficulty_bridge_test.gd`
+- Strict packaged smoke no longer emits DifficultyManager autoload startup errors.

@@ -15,12 +15,12 @@
 
 ## Acceptance Criteria
 
-- [ ] **AC-1**: `BattleDifficultyProfile` Resource 包含 phase/enemy_stat_mult/exp_mult/resource_mult/ai_strategy_level 字段
-- [ ] **AC-2**: 章节→phase 映射表正确：Ch.1-2→教学(0.7×), Ch.3-5→成长(1.0×), Ch.6-8→挑战(1.2×), Ch.9-10→高潮(1.4×)
-- [ ] **AC-3**: `DifficultyManager` Autoload 提供 `get_profile(chapter: int)` 接口
-- [ ] **AC-4**: 映射表从 `assets/data/difficulty/phase_curve.json` 加载，代码不硬编码
-- [ ] **AC-5**: NG+ 倍率字段预留（`ng_multiplier: float = 1.0`），一周目固定为 1.0
-- [ ] **AC-6**: Unit test 覆盖章节映射正确性 + 倍率值精度
+- [x] **AC-1**: profile payload 包含 phase/enemy_stat_mult/exp_mult/resource_mult/ai_strategy_level 字段
+- [x] **AC-2**: 章节→phase 映射表正确：Ch.1-2→教学(0.7×), Ch.3-5→成长(1.0×), Ch.6-8→挑战(1.2×), Ch.9-10→高潮(1.4×)
+- [x] **AC-3**: `DifficultyManager` Autoload 提供 `get_profile(chapter: int)` 接口
+- [x] **AC-4**: 映射表从 `assets/data/difficulty/phase_curve.json` 加载，代码不硬编码
+- [x] **AC-5**: NG+ 倍率字段预留（`_ng_multiplier: float = 1.0`），一周目固定为 1.0
+- [x] **AC-6**: Unit test 覆盖章节映射正确性 + 倍率值精度
 
 ## Implementation Notes
 
@@ -31,3 +31,9 @@
 ## Test Evidence
 
 - `tests/unit/difficulty/data_model_test.gd`
+- `src/core/difficulty/difficulty_manager.gd`
+- `assets/data/difficulty/phase_curve.json`
+
+## Completion
+
+Completed in Sprint-009. Post-audit fix removed the conflicting `class_name DifficultyManager` registration so the project autoload singleton can start cleanly in exported/headless builds.

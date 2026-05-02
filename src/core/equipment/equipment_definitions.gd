@@ -171,6 +171,15 @@ static func get_success_rate(current_level: int) -> float:
 		return 1.0
 	return RISK_ZONE_SUCCESS_RATES.get(current_level, 0.05)
 
+static func get_protection_symbol_cost(current_level: int) -> int:
+	if current_level < 5:
+		return 0
+	if current_level <= 8:
+		return 1
+	if current_level <= 10:
+		return 2
+	return 2 + maxi(current_level - 11, 0)
+
 static func get_affix_definition(affix_type: int) -> Dictionary:
 	return AFFIX_DEFS.get(affix_type, {})
 

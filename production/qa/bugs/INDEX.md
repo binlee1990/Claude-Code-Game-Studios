@@ -7,13 +7,13 @@
 
 | # | Title | Severity | System | Reported | Status |
 |---|-------|----------|--------|----------|--------|
-| — | (No bugs filed yet) | — | — | — | — |
+| — | (No active bugs) | — | — | — | — |
 
 ## Resolved Bugs
 
 | # | Title | Severity | System | Reported | Resolved |
 |---|-------|----------|--------|----------|----------|
-| — | (No bugs resolved yet) | — | — | — | — |
+| BUG-001 | DifficultyManager autoload emitted startup errors in packaged smoke | HIGH | difficulty-system | 2026-05-02 | 2026-05-02 |
 
 ---
 

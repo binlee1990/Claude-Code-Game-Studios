@@ -3939,9 +3939,10 @@ func _apply_default_equipment_enhancement(unit: Unit, lines: Array[String]) -> v
 	var item := _get_first_equipped_item(unit)
 	if item == null:
 		return
-	if item.enhancement_level >= 10:
+	if item.enhancement_level >= item.get_enhancement_cap():
 		return
-	if item.enhancement_level >= 5 and not Inventory.has_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, 1):
+	var protection_cost: int = EquipmentDefinitions.get_protection_symbol_cost(item.enhancement_level)
+	if item.enhancement_level >= 5 and not Inventory.has_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, protection_cost):
 		return
 	var cost := unit.equipment_component.get_enhancement_cost(item.item_id)
 	if cost.is_empty():
@@ -3950,7 +3951,7 @@ func _apply_default_equipment_enhancement(unit: Unit, lines: Array[String]) -> v
 		return
 	if not Inventory.has_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, int(cost.get("materials", 0))):
 		return
-	var protected := Inventory.has_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, 1)
+	var protected := item.enhancement_level >= 5 and Inventory.has_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, protection_cost)
 	var result := unit.equipment_component.attempt_enhancement(item.item_id, Inventory, protected, 20260425)
 	lines.append(_tr("battle.camp.enhanced") % [
 		_unit_display_name(unit),

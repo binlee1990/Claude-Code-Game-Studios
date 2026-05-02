@@ -1,7 +1,7 @@
 # Regression Suite — SRPG
 
 > **Generated**: 2026-05-02
-> **Baseline**: Sprint-009 Complete, 1021/1021 PASS
+> **Baseline**: Post-audit hardening, 1037/1037 PASS
 > **Purpose**: 确保 GDD critical path 全量覆盖，固定 bug 有回测
 
 ---
@@ -174,6 +174,6 @@
 
 | Bug ID | Sprint | Description | Regression Test | Status |
 |--------|--------|-------------|----------------|--------|
-| — | — | 尚无已录入的 bug | — | — |
+| BUG-001 | Post-Sprint-009 | `DifficultyManager` script class hid the autoload singleton and emitted packaged smoke startup errors | `tools/package_windows_release.ps1` strict smoke + `tests/unit/difficulty/data_model_test.gd` | ✅ RESOLVED |
 
-首次 bug 修复后在此表登记，确保后续 sprint 不会回退。
+每个修复后的 bug 都必须在此表登记，并保留可自动执行的回归证据。

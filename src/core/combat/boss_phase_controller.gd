@@ -50,6 +50,16 @@ func load_config(config: Dictionary) -> void:
 		_boss_max_hp = maxi(int(config["boss_max_hp"]), 1)
 		_boss_current_hp = _boss_max_hp
 
+func initialize(config: Dictionary) -> void:
+	load_config(config)
+	var max_hp: int = int(config.get("max_hp", config.get("boss_max_hp", _boss_max_hp)))
+	init(max_hp, int(config.get("turn", 1)))
+	if config.has("current_hp"):
+		on_boss_hp_changed(int(config["current_hp"]))
+
+func update_hp(new_hp: int) -> Array[Dictionary]:
+	return on_boss_hp_changed(new_hp)
+
 ## Initialize with boss HP. Call before battle starts.
 func init(max_hp: int, start_turn: int = 1) -> void:
 	_boss_max_hp = maxi(max_hp, 1)

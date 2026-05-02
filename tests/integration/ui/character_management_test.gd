@@ -221,10 +221,10 @@ func test_risk_zone_protected_failure_consumes_symbol_and_keeps_level() -> void:
 	assert_eq(Inventory.get_amount(ResourceTypes.ResourceId.PROTECT_SYMBOL), 0)
 	assert_true(_collect_label_text(_screen).contains("保护符"))
 
-func test_risk_zone_ui_stops_at_plus_ten_for_sprint_scope() -> void:
+func test_extreme_risk_ui_allows_blue_item_above_plus_ten_with_enough_symbols() -> void:
 	Inventory.add_resource(ResourceTypes.ResourceId.GOLD, 5000)
 	Inventory.add_resource(ResourceTypes.ResourceId.BASIC_MATERIAL, 500)
-	Inventory.add_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, 1)
+	Inventory.add_resource(ResourceTypes.ResourceId.PROTECT_SYMBOL, 2)
 	var unit: Unit = _roster.get_character(&"leader")
 	unit.equipment_component.add_item(EquipmentItem.new({
 		"item_id": "blue_sword",
@@ -242,8 +242,8 @@ func test_risk_zone_ui_stops_at_plus_ten_for_sprint_scope() -> void:
 
 	var enhance_button := _find_button_by_text(_screen, SRPGLocalization.translate("management.enhance"), false)
 	assert_ne(enhance_button, null)
-	assert_true(enhance_button.disabled, "Sprint-007 should not expose +11 risk-zone entry")
-	assert_true(_collect_label_text(_screen).contains(SRPGLocalization.translate("management.enhance_sprint_cap")))
+	assert_false(enhance_button.disabled, "Sprint-009 should expose +11 extreme-risk entry for blue+ equipment")
+	assert_true(_collect_label_text(_screen).contains("x2"))
 
 func test_character_detail_shows_top_three_bonds() -> void:
 	var story_progress := {

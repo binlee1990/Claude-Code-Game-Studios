@@ -34,7 +34,7 @@ func init_from_definition(battle_definition: Dictionary) -> void:
 
 	if _fog_enabled:
 		var base_vision: int = int(_fog_config.get("base_vision", 3))
-		_fog_state.BASE_VISION = base_vision
+		_fog_state.set_base_vision(base_vision)
 
 
 func is_enabled() -> bool:

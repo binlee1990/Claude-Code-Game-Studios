@@ -15,12 +15,12 @@
 
 ## Acceptance Criteria
 
-- [ ] **AC-1**: `BossProfile` Resource 可序列化，包含 boss_type / phases / action_patterns / checkpoint 字段
-- [ ] **AC-2**: `BossPhase` Resource 包含 phase_index / hp_threshold / active_patterns / on_enter_effects
-- [ ] **AC-3**: `BossCheckpoint` Resource 包含 phase_index / retained_hp_ratio / free_retries / pattern_hints_revealed
-- [ ] **AC-4**: BossType enum 5 种类型，每种有对应的默认 phase_count/checkpoint/hint_level
-- [ ] **AC-5**: BossProfile 可从 battle_definition JSON 的 `boss` 节加载
-- [ ] **AC-6**: Unit test 覆盖 Resource 序列化/反序列化 + BossType 默认值
+- [x] **AC-1**: `BossProfile` Resource 可序列化，包含 boss_type / phases / action_patterns / checkpoint 字段
+- [x] **AC-2**: `BossPhase` Resource 包含 phase_index / hp_threshold / active_patterns / on_enter_effects
+- [x] **AC-3**: `BossCheckpoint` Resource 包含 phase_index / retained_hp_ratio / free_retries / pattern_hints_revealed
+- [x] **AC-4**: BossType enum 5 种类型，每种有对应的默认 phase_count/checkpoint/hint_level
+- [x] **AC-5**: BossProfile 可从 battle_definition JSON 的 `boss` 节加载
+- [x] **AC-6**: Unit test 覆盖 Resource 序列化/反序列化 + BossType 默认值
 
 ## Implementation Notes
 
@@ -31,3 +31,7 @@
 ## Test Evidence
 
 - `tests/unit/boss/boss_profile_test.gd`
+
+## Completion Note
+
+Completed in Sprint-009 and revalidated in the post-audit hardening pass. `BossPhaseController` keeps compatibility methods for older tests while the Resource model remains the source of truth.

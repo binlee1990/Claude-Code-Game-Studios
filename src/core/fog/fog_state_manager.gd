@@ -11,6 +11,7 @@ const LIGHT_BONUS: int = 2
 var _explored_cells: Dictionary = {}
 var _visible_cells: Dictionary = {}
 var _enabled: bool = false
+var _base_vision: int = BASE_VISION
 
 
 func is_enabled() -> bool:
@@ -21,6 +22,10 @@ func set_enabled(v: bool) -> void:
 	_enabled = v
 	if not _enabled:
 		clear()
+
+
+func set_base_vision(value: int) -> void:
+	_base_vision = maxi(value, 0)
 
 
 func get_cell_state(cell: Vector2i) -> int:
@@ -61,7 +66,7 @@ func recalculate_visible(unit_positions: Array, unit_vision_ranges: Array) -> vo
 
 
 func calculate_vision_range(agility: int, class_id: String = "", on_high_ground: bool = false, near_light: bool = false) -> int:
-	var vision := BASE_VISION
+	var vision := _base_vision
 	if agility >= 80:
 		vision += 2
 	elif agility >= 60:
