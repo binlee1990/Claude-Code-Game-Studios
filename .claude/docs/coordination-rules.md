@@ -63,6 +63,44 @@ Requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` environment variable.
 
 **Current status**: Not yet used in this project. Document usage here when first adopted.
 
+## AI-Native Sprint Design
+
+This framework's primary executor is AI, not human developers. Sprint planning
+must reflect this:
+
+1. **Functional completeness over time estimates**: A sprint contains one
+   complete functional layer (Foundation → Core → Feature → Presentation →
+   Polish), not a fixed number of workdays. Story scope is dictated by what
+   can be validated as a coherent unit.
+
+2. **Context window is the capacity ceiling**: Maximum ~20 stories per sprint.
+   Beyond this, the AI cannot hold the full sprint context. Subagents extend
+   this ceiling for parallel work but do not eliminate it.
+
+3. **No human time estimates**: Story files, sprint plans, and status YAML
+   must NOT contain `Est. Days`, `estimate_days`, "hours", or "sessions".
+   Replace with: dependency graph position, test count (verification density),
+   and story type (Logic / Integration / Visual / UI).
+
+4. **Dependency graph drives ordering**: Sequential execution where required
+   (B depends on A). Parallel subagent execution where independent. No
+   artificial staggering to fit a human calendar.
+
+5. **Verification density**: Each Logic/Integration story must carry ≥ 5
+   automated tests. A sprint is "on track" when tests pass, not when a date
+   is reached.
+
+## Sprint Burndown (AI-adjusted)
+
+Burndown assessment uses completion ratio, not time ratio:
+
+- **On Track**: ≥ 80% of Must Have stories are `done` or `in-progress`
+- **At Risk**: 50–79% of Must Have stories are `done` or `in-progress`
+- **Behind**: < 50% of Must Have stories are `done` or `in-progress`
+
+Carryover from previous sprints: any `done` story stays done. Any `ready-for-dev`
+story from a previous sprint is automatically carried forward at same priority.
+
 ## Parallel Task Protocol
 
 When an orchestration skill spawns multiple independent agents:
