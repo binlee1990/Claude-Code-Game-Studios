@@ -4,7 +4,7 @@
 > **GDD**: design/gdd/ai.md
 > **Architecture Module**: AIController (Feature Layer)
 > **Status**: Ready
-> **Stories**: 4 stories created
+> **Stories**: 5 stories created
 
 ## Stories
 | # | Story | Type | Status | ADR |
@@ -13,10 +13,11 @@
 | 002 | WorldState + ActionPlan/ActionList 数据结构 | Logic | Done | ADR-0008 |
 | 003 | BasicAI — 最近目标启发式计划生成器 | Logic | Done | ADR-0008 |
 | 004 | Runtime ActionList Execution — TurnManager 执行非空 AI 计划 | Integration | Done | ADR-0008 |
+| 005 | Runtime AI Mode Selection — Game 可选 NullAI / BasicAI | Integration | Done | ADR-0008 |
 
 ## Overview
 
-实现可替换 AI 控制器接口：AIController 为 @abstract RefCounted 基类，定义 `take_turn(units, world_state) → ActionList` 契约。WorldState 封装 Map 拓扑快照和单位状态供 AI 决策。NullAI（MVP 默认实现）返回空 ActionList——热座模式下 ENEMY 回合由玩家手动操控。BasicAI（Tier 2）使用 BFS+伤害公式选择行动；TurnManager 现在可以执行非空 ActionList。默认 Game 场景仍注入 NullAI，BasicAI 通过 DI 启用。
+实现可替换 AI 控制器接口：AIController 为 @abstract RefCounted 基类，定义 `take_turn(units, world_state) → ActionList` 契约。WorldState 封装 Map 拓扑快照和单位状态供 AI 决策。NullAI（MVP 默认实现）返回空 ActionList——热座模式下 ENEMY 回合由玩家手动操控。BasicAI（Tier 2）使用 BFS+伤害公式选择行动；TurnManager 现在可以执行非空 ActionList。默认 Game 场景仍使用 NullAI；BasicAI 可通过 `srpg_mini/enemy_ai_mode=basic` 或命令行 `--enemy-ai=basic` 启用。
 
 ## Governing ADRs
 
@@ -45,4 +46,4 @@
 
 ## Next Step
 
-Optional next extension: expose a runtime/demo configuration to select `BasicAI` in `Game` without editing the composition root.
+Optional next extension: run manual visual QA for automatic ENEMY movement timing in `BasicAI` mode.

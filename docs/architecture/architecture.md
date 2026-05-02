@@ -221,6 +221,14 @@ Serialization boundary design (pre-registered):
   - Each module exposes to_dict() / from_dict() on its owned state
 ```
 
+### Runtime AI Mode Selection
+
+`src/game.gd` remains the composition root for AI selection. It reads `srpg_mini/enemy_ai_mode` from `project.godot` and accepts command-line demo overrides:
+
+- `hotseat` (default): instantiate `NullAI`; ENEMY phase stays manually controllable.
+- `basic`: instantiate `BasicAI`; ENEMY phase executes non-empty ActionLists through `TurnManager`.
+- CLI examples: `--enemy-ai=basic` or `--enemy-ai hotseat`.
+
 ### Initialization Order
 
 ```

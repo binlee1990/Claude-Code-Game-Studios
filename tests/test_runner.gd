@@ -33,6 +33,7 @@ func _run_all():
 	_run_file("res://tests/unit/ui/highlight_layer_test.gd")
 	_run_file("res://tests/unit/ui/debug_overlay_test.gd")
 	_run_file("res://tests/unit/ui/input_handler_test.gd")
+	_run_file("res://tests/unit/ui/game_ai_mode_test.gd")
 	_run_file("res://tests/unit/ui/hud_test.gd")
 	_run_file("res://tests/unit/ui/result_overlay_test.gd")
 	_run_file("res://tests/unit/victory/victory_elimination_test.gd")

@@ -18,7 +18,7 @@ The original 2026-04-30 review was written before ADR-0005 through ADR-0010 exis
 - ADR-0001 through ADR-0010 exist and cover Foundation, Core, Feature, Victory, AI, and Presentation layers.
 - `docs/architecture/architecture.md` records 63 / 65 technical requirements covered by ADRs (97%).
 - The two remaining Unit details are implementation-level items rather than architecture blockers: `unit_id` generation and acted-state visual mapping. Both are implemented and covered by automated tests.
-- Sprint 1-3 automated QA plus Tier 2 BasicAI planner/runtime execution coverage is clean: `Total Passed: 266`, with zero script errors, assertion failures, error lines, or warnings.
+- Sprint 1-3 automated QA plus Tier 2 BasicAI planner/runtime execution/mode selection coverage is clean: `Total Passed: 270`, with zero script errors, assertion failures, error lines, or warnings.
 
 **Blocking architecture issues**: none.
 
@@ -61,7 +61,7 @@ The current traceability source of truth is `docs/architecture/architecture.md`;
 - **Dependency graph**: clean layered DAG: Foundation -> Core -> Feature -> Presentation.
 - **Boundary rule**: Grid/world coordinate conversion remains isolated to `GridSpace`.
 - **State ownership**: `Map` owns occupancy, `Unit` owns HP/action state, `TurnManager` owns turn lifecycle.
-- **Extension point**: `AIController` now supports `NullAI`, a Tier 2 `BasicAI` planner without `TurnManager` imports, and Turn-layer execution of non-empty `ActionList` values.
+- **Extension point**: `AIController` now supports `NullAI`, a Tier 2 `BasicAI` planner without `TurnManager` imports, Turn-layer execution of non-empty `ActionList` values, and runtime/demo mode selection.
 - **Composition root**: `src/game.gd` wires systems directly; no Autoload or SignalBus is required at MVP scale.
 
 ---
@@ -71,7 +71,7 @@ The current traceability source of truth is `docs/architecture/architecture.md`;
 Current verification was performed during the 2026-05-02 QA audit:
 
 ```text
-Total Passed: 266
+Total Passed: 270
 SCRIPT_ERROR=0
 ASSERTION_FAILED=0
 ERROR_LINES=0
@@ -101,4 +101,4 @@ Relevant evidence files:
 
 1. If story-readiness tooling enforces ADR lifecycle labels, run a separate ADR status pass to promote completed ADRs from `Proposed` to `Accepted` through the project workflow.
 2. Human editor screenshots remain useful as product-polish evidence, but they are not a blocker for the current automated MVP architecture or QA gate.
-3. The recommended next engineering extension is optional configuration/demo work for selecting `NullAI` vs `BasicAI` at runtime, then manual visual QA for automated ENEMY movement timing.
+3. The recommended next engineering extension is manual visual QA for automated ENEMY movement timing in `BasicAI` mode.

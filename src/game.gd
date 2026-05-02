@@ -1,5 +1,9 @@
 class_name Game extends Node2D
 
+const ENEMY_AI_MODE_SETTING := "srpg_mini/enemy_ai_mode"
+const ENEMY_AI_MODE_HOTSEAT := "hotseat"
+const ENEMY_AI_MODE_BASIC := "basic"
+
 var grid_space: GridSpace
 var map: Map
 var turn_manager: TurnManager
@@ -32,7 +36,8 @@ func _ready() -> void:
 
 	# 5. TurnManager (create + inject, start later after all UI wired)
 	turn_manager = TurnManager.new()
-	turn_manager.initialize(units, TurnConfig.new(), VictoryChecker.new(), NullAI.new(), map, attack_resolver)
+	turn_manager.initialize(units, TurnConfig.new(), VictoryChecker.new(),
+		_create_enemy_ai_controller(), map, attack_resolver)
 
 	# 6. InputHandler
 	_input_handler = InputHandler.new()
@@ -94,6 +99,40 @@ func _create_highlight_layer(color: Color, z: int) -> HighlightLayer:
 	layer.z_index = z
 	add_child(layer)
 	return layer
+
+func _create_enemy_ai_controller(user_args: Array = []) -> AIController:
+	var mode := _resolve_enemy_ai_mode(user_args)
+	if mode == ENEMY_AI_MODE_BASIC:
+		return BasicAI.new()
+	return NullAI.new()
+
+func _resolve_enemy_ai_mode(user_args: Array = []) -> String:
+	var configured_mode := str(ProjectSettings.get_setting(
+		ENEMY_AI_MODE_SETTING,
+		ENEMY_AI_MODE_HOTSEAT,
+	))
+	var mode := _normalize_enemy_ai_mode(configured_mode)
+	var args := user_args
+	if args.is_empty():
+		args = OS.get_cmdline_user_args()
+
+	for i in range(args.size()):
+		var arg := str(args[i])
+		if arg.begins_with("--enemy-ai="):
+			mode = _normalize_enemy_ai_mode(arg.get_slice("=", 1))
+		elif arg == "--enemy-ai" and i + 1 < args.size():
+			mode = _normalize_enemy_ai_mode(str(args[i + 1]))
+	return mode
+
+func _normalize_enemy_ai_mode(raw_mode: String) -> String:
+	var normalized := raw_mode.strip_edges().to_lower()
+	if normalized in [ENEMY_AI_MODE_BASIC, "basic_ai", "ai"]:
+		return ENEMY_AI_MODE_BASIC
+	if normalized in [ENEMY_AI_MODE_HOTSEAT, "null", "null_ai", "manual", ""]:
+		return ENEMY_AI_MODE_HOTSEAT
+
+	push_warning("Unknown enemy AI mode '%s'; falling back to hotseat" % raw_mode)
+	return ENEMY_AI_MODE_HOTSEAT
 
 func _on_damage_preview(attacker: Unit, target: Unit, damage: int) -> void:
 	_damage_preview_label.text = "-%d\nATK %d - DEF %d" % [damage, attacker.atk, target.def]

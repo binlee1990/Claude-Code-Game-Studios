@@ -20,7 +20,7 @@ Validate the highest-risk Tier 2 extension point: `AIController` must admit a no
 - [x] `BasicAI` does not import or reference `TurnManager`
 - [x] `BasicAI` does not mutate the passed `WorldState`
 - [x] Default runner includes `tests/unit/ai/basic_ai_test.gd`
-- [x] Current runner is clean: `Total Passed: 266`
+- [x] Current runner is clean: `Total Passed: 270`
 
 ## Scope Boundary
 

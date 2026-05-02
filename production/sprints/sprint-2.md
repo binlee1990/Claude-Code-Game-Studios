@@ -64,4 +64,4 @@
 - [x] Design documents 更新以反映任何偏离
 - [x] Sprint 1 QA Plan 签核报告完成
 
-> ✅ **QA Plan Execution (refreshed 2026-05-02)**: `production/qa/qa-plan-sprint-2-2026-05-02.md` 已执行，Sprint 2 QA sign-off 已生成：`production/qa/qa-signoff-sprint-2-2026-05-02.md`。当前 headless runner 复核为 clean：`Total Passed: 266`，`SCRIPT ERROR` / `Assertion failed` / `ERROR:` / `WARNING:` 均为 0。Sprint 2 当前状态为 **complete / QA signed off**。详情见 `production/qa/qa-execution-audit-2026-05-02.md`。
+> ✅ **QA Plan Execution (refreshed 2026-05-03)**: `production/qa/qa-plan-sprint-2-2026-05-02.md` 已执行，Sprint 2 QA sign-off 已生成：`production/qa/qa-signoff-sprint-2-2026-05-02.md`。当前 headless runner 复核为 clean：`Total Passed: 270`，`SCRIPT ERROR` / `Assertion failed` / `ERROR:` / `WARNING:` 均为 0。Sprint 2 当前状态为 **complete / QA signed off**。详情见 `production/qa/qa-execution-audit-2026-05-02.md`。

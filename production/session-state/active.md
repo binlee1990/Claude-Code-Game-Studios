@@ -4,13 +4,13 @@
 > Read this file first after any compaction, crash, or `/clear`.
 
 **Last Updated**: 2026-05-02
-**Project Stage**: Pre-Production — MVP signed off; Tier 2 BasicAI runtime execution implemented
-**Active Sprint**: Sprint 5 — Runtime AI ActionList Execution complete
+**Project Stage**: Pre-Production — MVP signed off; Tier 2 BasicAI runtime mode selection implemented
+**Active Sprint**: Sprint 6 — Runtime AI Mode Selection complete
 
 <!-- STATUS -->
 Epic: —
 Feature: —
-Task: Tier 2 BasicAI runtime execution complete; optional runtime/demo AI selection remains
+Task: Tier 2 BasicAI runtime/demo selection complete; BasicAI visual timing QA remains optional
 <!-- /STATUS -->
 
 ---
@@ -66,7 +66,7 @@ Command:
 Observed output summary:
 
 ```text
-Total Passed: 266
+Total Passed: 270
 SCRIPT ERROR: 0
 Assertion failed: 0
 ERROR lines: 0
@@ -122,6 +122,11 @@ WARNING lines: 0
 | `tests/unit/turn/turn_ai_execution_test.gd` | Created | NullAI hotseat preservation, BasicAI runtime execution, WorldState handoff, and wrong-faction guard coverage |
 | `production/sprints/sprint-5.md` | Created | Runtime AI ActionList execution sprint |
 | `production/epics/ai/story-004-runtime-actionlist-execution.md` | Created | Runtime AI execution story |
+| `project.godot` | Updated | Adds `srpg_mini/enemy_ai_mode="hotseat"` default |
+| `src/game.gd` | Updated | Selects NullAI or BasicAI from project setting / command-line override |
+| `tests/unit/ui/game_ai_mode_test.gd` | Created | AI mode selection coverage for project setting and `--enemy-ai` arguments |
+| `production/sprints/sprint-6.md` | Created | Runtime AI mode selection sprint |
+| `production/epics/ai/story-005-runtime-ai-mode-selection.md` | Created | Runtime AI mode selection story |
 
 ---
 

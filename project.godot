@@ -19,3 +19,7 @@ config/features=PackedStringArray("4.6")
 
 window/size/viewport_width=1184
 window/size/viewport_height=768
+
+[srpg_mini]
+
+enemy_ai_mode="hotseat"

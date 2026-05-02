@@ -20,12 +20,12 @@ Close the gap between AI planning and runtime behavior by letting `TurnManager` 
 - [x] `NullAI` empty ActionList preserves manual ENEMY hotseat phase.
 - [x] `BasicAI` can move and attack at runtime when injected.
 - [x] Invalid wrong-faction plans are rejected defensively.
-- [x] Default runner is clean: `Total Passed: 266`.
+- [x] Default runner is clean: `Total Passed: 270`.
 
 ## Scope Boundary
 
-This sprint does not change the default `Game` scene from `NullAI` to `BasicAI`. Runtime BasicAI is available through dependency injection; exposing it as a player-facing mode or demo toggle is a separate product decision.
+This sprint did not change the default `Game` scene from `NullAI` to `BasicAI`. Runtime BasicAI is available through dependency injection; Sprint 6 added the demo/runtime selection setting.
 
 ## Next Step
 
-Optional: add a small runtime/demo configuration for selecting `NullAI` vs `BasicAI`, then run manual visual QA for automated ENEMY movement timing.
+Sprint 6 completed the runtime/demo selection setting. The remaining optional step is manual visual QA for automated ENEMY movement timing.
