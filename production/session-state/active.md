@@ -4,13 +4,13 @@
 > Read this file first after any compaction, crash, or `/clear`.
 
 **Last Updated**: 2026-05-02
-**Project Stage**: Pre-Production — MVP automated QA signed off; CP1/CP2 feedback fixed
+**Project Stage**: Pre-Production — MVP automated and manual visual QA signed off
 **Active Sprint**: Sprint 3 — Presentation Layer complete
 
 <!-- STATUS -->
 Epic: —
 Feature: —
-Task: CP1/CP2 visual and input feedback fixes
+Task: MVP visual verification complete
 <!-- /STATUS -->
 
 ---
@@ -50,7 +50,7 @@ Implementation coverage:
 QA status:
   Automated MVP QA signed off for Sprint 1-3.
   Sprint 3 should-have visual state story 8-8 is implemented and covered by automated structural test.
-  Human editor screenshots remain optional polish evidence, not a blocking QA risk.
+  Human editor QA is complete: CP1-CP10 and综合检查 all passed in production/qa/visual-verification-checklist.md.
 ```
 
 ---
@@ -111,6 +111,7 @@ WARNING lines: 0
 | `src/ui/HUD.tscn` | Updated | HUD moved outside the 1024px board into a right-side panel |
 | `project.godot` | Updated | Viewport widened to provide HUD panel space |
 | `tests/unit/ui/debug_overlay_test.gd` | Created | Regression coverage for grid lines and `(5,12)` coordinate |
+| `production/qa/visual-verification-checklist.md` | Updated | Final manual QA pass: CP1-CP10 and综合检查 all passed |
 
 ---
 

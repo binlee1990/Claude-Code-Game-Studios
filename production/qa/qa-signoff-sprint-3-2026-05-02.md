@@ -52,6 +52,6 @@ WARNING lines: 0
 - [x] CP1/CP2 visual/input feedback fixes are covered: grid lines, full coordinate coverage, HUD panel placement, and Unit mouse pass-through
 - [x] Sprint 3 sprint document, QA plan, playtest evidence, and sprint status updated
 
-Human editor screenshots remain useful for polish review, but they are not a blocking QA risk for this automated MVP sign-off.
+Human editor visual QA is complete: CP1-CP10 and comprehensive checks all pass in `production/qa/visual-verification-checklist.md`.
 
 **Remaining blocking risks**: none

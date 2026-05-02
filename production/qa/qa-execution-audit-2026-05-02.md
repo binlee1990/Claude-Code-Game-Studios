@@ -7,7 +7,7 @@
 
 ## Verdict
 
-**RESOLVED / PASS — current automated QA is clean for Sprint 1, Sprint 2, and Sprint 3 sign-off.**
+**RESOLVED / PASS — current automated QA is clean for Sprint 1, Sprint 2, and Sprint 3 sign-off; manual visual verification is also complete.**
 
 The initial 2026-05-02 audit found an unsafe QA signal: `Total Passed: 222` was printed while the same run emitted 37 `SCRIPT ERROR` entries, 37 assertion failures, 20 `ERROR:` lines, and 5 `WARNING:` lines.
 
@@ -19,7 +19,7 @@ The current revalidation run now reports:
 - `ERROR:` lines: 0
 - `WARNING:` lines: 0
 
-The scene boot smoke also completed with zero script errors, assertions, `ERROR:` lines, or `WARNING:` lines.
+The scene boot smoke also completed with zero script errors, assertions, `ERROR:` lines, or `WARNING:` lines. Manual editor verification for CP1-CP10 and comprehensive checks also passed on 2026-05-02.
 
 ## Sprint Summary
 
@@ -48,7 +48,7 @@ The scene boot smoke also completed with zero script errors, assertions, `ERROR:
 - Sprint 1 historical sign-off is still valid and now has a clean current revalidation note.
 - Sprint 2 now has a local sign-off artifact: `production/qa/qa-signoff-sprint-2-2026-05-02.md`.
 - Sprint 3 now has a local sign-off artifact: `production/qa/qa-signoff-sprint-3-2026-05-02.md`.
-- The previous manual-visual blocker is replaced for engineering sign-off by automated structural UI tests plus headless scene smoke. Human editor screenshots may still be useful as product-polish evidence, but they are no longer a blocking QA risk for the current automated MVP claim.
+- The previous manual-visual blocker is closed: automated structural UI tests, headless scene smoke, and the manual visual checklist all pass.
 
 ## Verification Evidence
 

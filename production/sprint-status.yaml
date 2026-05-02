@@ -17,7 +17,7 @@ qa_audit:
   runner_error_lines: 0
   runner_warnings: 0
   scene_smoke: "src/Game.tscn headless boot clean"
-  note: "Sprint 1-3 automated QA clean; CP1/CP2 visual/input regressions covered by unit tests and scene smoke."
+  note: "Sprint 1-3 automated QA clean; manual visual verification CP1-CP10 plus comprehensive checks passed."
 
 stories:
   # === UI: Highlight Layer ===
@@ -102,7 +102,7 @@ stories:
     blocker: ""
     completed: "2026-05-02"
     qa_status: verified
-    qa_note: "10/10 checkpoints covered by automated logic, structural UI, scene boot, or wiring evidence."
+    qa_note: "10/10 checkpoints covered by automated logic, structural UI, scene boot, or wiring evidence; manual CP1-CP10 visual verification passed."
 
   # === Should Have ===
   - id: "8-8"

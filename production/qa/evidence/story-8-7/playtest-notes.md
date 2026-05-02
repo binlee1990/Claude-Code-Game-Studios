@@ -2,13 +2,15 @@
 
 **Date**: 2026-05-02
 **Test File**: `tests/integration/ui/e2e_game_flow_test.gd`
-**Method**: Headless automated integration test + UI structural tests + scene boot smoke
+**Method**: Headless automated integration test + UI structural tests + scene boot smoke + manual editor verification
 
 ---
 
 ## 2026-05-02 Resolution
 
 Current status: ✅ **signed off for automated MVP QA**. The latest runner invocation reports `Total Passed: 254` with zero `SCRIPT ERROR`, zero `Assertion failed`, zero `ERROR:` lines, and zero `WARNING:` lines. `src/Game.tscn` also boots headlessly for two frames with zero console errors. See `production/qa/qa-execution-audit-2026-05-02.md`.
+
+Manual editor status: ✅ **signed off for visual/product verification**. CP1-CP10 and the comprehensive checks all passed on 2026-05-02; see `production/qa/visual-verification-checklist.md`.
 
 ---
 
@@ -59,25 +61,25 @@ Current status: ✅ **signed off for automated MVP QA**. The latest runner invoc
 
 | Checkpoint | Automated Evidence | Manual Needed |
 |-----------|--------------------|---------------|
-| CP1 | ✅ Logic + scene boot | Optional editor visual |
-| CP2 | ✅ Logic + structural UI | Optional editor visual |
-| CP3 | ✅ Signal + structural UI | Optional editor visual |
-| CP4 | ✅ Logic + structural UI | Optional editor visual |
-| CP5 | ✅ Signal + wiring review | Optional editor visual |
-| CP6 | ✅ Logic + cleanup | Optional editor visual |
-| CP7 | ✅ Logic + HUD UI | — |
-| CP8 | ✅ Logic + ResultOverlay UI | Optional editor visual |
-| CP9 | ✅ Button wiring | Optional editor full reload |
-| CP10 | ✅ Logic + ResultOverlay UI | Optional editor visual |
+| CP1 | ✅ Logic + scene boot | ✅ Manual passed |
+| CP2 | ✅ Logic + structural UI | ✅ Manual passed |
+| CP3 | ✅ Signal + structural UI | ✅ Manual passed |
+| CP4 | ✅ Logic + structural UI | ✅ Manual passed |
+| CP5 | ✅ Signal + wiring review | ✅ Manual passed |
+| CP6 | ✅ Logic + cleanup | ✅ Manual passed |
+| CP7 | ✅ Logic + HUD UI | ✅ Manual passed |
+| CP8 | ✅ Logic + ResultOverlay UI | ✅ Manual passed |
+| CP9 | ✅ Button wiring | ✅ Manual passed |
+| CP10 | ✅ Logic + ResultOverlay UI | ✅ Manual passed |
 
 **Automated**: 10/10 checkpoints have logic, structural UI, scene boot, or wiring evidence in the default runner/smoke command.
-**Manual**: Editor screenshots remain optional product-polish evidence and are no longer a blocking QA risk for the automated MVP sign-off.
+**Manual**: CP1-CP10 and comprehensive editor checks passed on 2026-05-02.
 
 ---
 
 ## Visual Verification Evidence
 
-In Godot editor, `src/Game.tscn` can still be checked manually for product polish. For the current engineering QA gate, these items are covered by automated or structural evidence:
+In Godot editor, `src/Game.tscn` was checked manually for product polish. These items are covered by automated or structural evidence and confirmed by manual QA:
 
 1. [x] Blue Player units (#3B82F6) at (5,2) and (5,4) — scene boot + Unit visual evidence
 2. [x] Red Enemy units (#EF4444) at (5,10) and (5,12) — scene boot + Unit visual evidence

@@ -131,4 +131,4 @@
 
 ## Sprint Completion Gate = MVP Complete
 
-实现层已覆盖 8 个 MVP 原语模块 (Map/Unit/Turn/Movement/Attack/Victory/AI/UI)，Sprint Completion Gate 已通过当前 automated QA。进入 Tier 2 或 Polish 前可补充人工编辑器截图作为产品观感证据，但不再是当前 MVP 自动化签核阻塞项。
+实现层已覆盖 8 个 MVP 原语模块 (Map/Unit/Turn/Movement/Attack/Victory/AI/UI)，Sprint Completion Gate 已通过当前 automated QA。人工编辑器验证也已完成：CP1-CP10 与综合检查全部通过。
