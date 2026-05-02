@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="Script" path="res://src/ui/hud.gd" id="1_hud"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_hud")
+
+[node name="TurnLabel" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 200.0
+offset_bottom = 40.0
+text = "Turn 0/0"
+add_theme_font_size_override = 16
+
+[node name="FactionLabel" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 16.0
+offset_top = 42.0
+offset_right = 200.0
+offset_bottom = 64.0
+add_theme_font_size_override = 14
+
+[node name="EndTurnButton" type="Button" parent="."]
+unique_name_in_owner = true
+offset_left = 880.0
+offset_top = 640.0
+offset_right = 1000.0
+offset_bottom = 680.0
+text = "End Turn"

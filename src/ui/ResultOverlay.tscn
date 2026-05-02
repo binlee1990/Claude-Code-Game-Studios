@@ -1,0 +1,40 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="Script" path="res://src/ui/result_overlay.gd" id="1_overlay"]
+
+[node name="ResultOverlay" type="CanvasLayer"]
+script = ExtResource("1_overlay")
+
+[node name="Background" type="ColorRect" parent="."]
+unique_name_in_owner = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.7)
+mouse_filter = 2
+
+[node name="TitleLabel" type="Label" parent="."]
+unique_name_in_owner = true
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = 260.0
+offset_bottom = 340.0
+text = ""
+horizontal_alignment = 1
+add_theme_font_size_override = 48
+
+[node name="ReasonLabel" type="Label" parent="."]
+unique_name_in_owner = true
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = 350.0
+offset_bottom = 380.0
+text = ""
+horizontal_alignment = 1
+add_theme_font_size_override = 18
+
+[node name="PlayAgainButton" type="Button" parent="."]
+unique_name_in_owner = true
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = 420.0
+offset_bottom = 470.0
+text = "Play Again"

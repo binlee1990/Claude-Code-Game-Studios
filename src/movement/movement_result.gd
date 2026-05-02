@@ -1,17 +1,17 @@
 class_name MovementResult extends RefCounted
 
-var reachable: Array[Vector2i] = []
+var reachable: Array = []
 var parents: Dictionary = {}
 var start: Vector2i
 var _dist: Dictionary = {}
 
-func get_reachable_tiles() -> Array[Vector2i]:
+func get_reachable_tiles() -> Array:
 	return reachable.duplicate()
 
-func get_path_to(target: Vector2i) -> Array[Vector2i]:
+func get_path_to(target: Vector2i) -> Array:
 	if not parents.has(target) and target != start:
 		return []
-	var path: Array[Vector2i] = []
+	var path: Array = []
 	var current := target
 	while current != start:
 		path.append(current)

@@ -17,7 +17,7 @@ func compute_reachable(unit: Unit, map: Map) -> MovementResult:
 		return result
 
 	var visited: Dictionary = {}
-	var queue: Array[Vector2i] = [unit.grid_position]
+	var queue: Array = [unit.grid_position]
 	visited[unit.grid_position] = true
 	result._dist[unit.grid_position] = 0
 	result.reachable.append(unit.grid_position)
@@ -28,14 +28,14 @@ func compute_reachable(unit: Unit, map: Map) -> MovementResult:
 		return result
 
 	while head < queue.size():
-		var current := queue[head]
+		var current = queue[head]
 		head += 1
 		var current_dist: int = result._dist[current]
 
 		if current_dist >= limit:
 			continue
 
-		for neighbor in map.get_neighbors(current):
+		for neighbor: Vector2i in map.get_neighbors(current):
 			if visited.has(neighbor):
 				continue
 			if not map.is_walkable(neighbor):

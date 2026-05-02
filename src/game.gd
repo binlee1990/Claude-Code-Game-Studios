@@ -4,20 +4,118 @@ var grid_space: GridSpace
 var map: Map
 var turn_manager: TurnManager
 
+var _input_handler: InputHandler
+var _move_highlight: HighlightLayer
+var _path_highlight: HighlightLayer
+var _attack_highlight: HighlightLayer
+var _damage_preview_label: Label
+var _debug_overlay: DebugOverlay
+
 func _ready() -> void:
+	# 1. GridSpace
 	grid_space = GridSpace.new()
 
+	# 2. Map
 	map = load("res://src/map/Map.tscn").instantiate()
 	add_child(map)
 	map.initialize(grid_space, "test_map")
 
+	# 3. Units
 	var units := _create_units()
 	for u in units:
 		u.unit_died.connect(_on_unit_died)
 
+	# 4. TurnManager (create + inject, start later after all UI wired)
 	turn_manager = TurnManager.new()
 	turn_manager.initialize(units, TurnConfig.new(), VictoryChecker.new(), NullAI.new())
+
+	# 5. Resolvers
+	var movement_resolver := MovementResolver.new()
+	var attack_resolver := AttackResolver.new()
+	var attack_range_resolver := AttackRangeResolver.new()
+
+	# 6. InputHandler
+	_input_handler = InputHandler.new()
+	_input_handler.initialize(map, grid_space, turn_manager,
+		movement_resolver, attack_resolver, attack_range_resolver, units)
+
+	# 7. HighlightLayers (z_index: move=1, path=2, attack=3)
+	_move_highlight = _create_highlight_layer(Color("#0891B2"), 1)
+	_path_highlight = _create_highlight_layer(Color("#06B6D4"), 2)
+	_attack_highlight = _create_highlight_layer(Color("#EA580C"), 3)
+
+	# 8. Debug Overlay (z=10)
+	_debug_overlay = DebugOverlay.new()
+	_debug_overlay.initialize(grid_space, map)
+	_debug_overlay.z_index = 10
+	add_child(_debug_overlay)
+
+	# 9. Damage preview label
+	_damage_preview_label = Label.new()
+	_damage_preview_label.visible = false
+	_damage_preview_label.add_theme_font_size_override("font_size", 14)
+	add_child(_damage_preview_label)
+
+	# 10. HUD
+	var hud: HUD = load("res://src/ui/HUD.tscn").instantiate()
+	add_child(hud)
+	hud.initialize(turn_manager)
+
+	# 11. ResultOverlay
+	var result_overlay: ResultOverlay = load("res://src/ui/ResultOverlay.tscn").instantiate()
+	add_child(result_overlay)
+	result_overlay.initialize(turn_manager)
+
+	# 12. Wire InputHandler -> HighlightLayers
+	_input_handler.move_highlights_changed.connect(_move_highlight.set_highlight)
+	_input_handler.path_highlights_changed.connect(_path_highlight.set_highlight)
+	_input_handler.attack_highlights_changed.connect(_attack_highlight.set_highlight)
+	_input_handler.damage_preview_requested.connect(_on_damage_preview)
+	_input_handler.preview_cleared.connect(_hide_preview)
+
+	# 13. Wire post-attack damage display
+	attack_resolver.damage_dealt.connect(_on_damage_dealt)
+
+	# 14. Wire faction_phase_ended -> clear all UI state
+	turn_manager.faction_phase_ended.connect(_on_phase_ended)
+
+	# 15. Start match (all signal listeners connected)
 	turn_manager.start_match()
+
+func _create_highlight_layer(color: Color, z: int) -> HighlightLayer:
+	var layer := HighlightLayer.new()
+	layer.initialize(grid_space, color)
+	layer.z_index = z
+	add_child(layer)
+	return layer
+
+func _on_damage_preview(target: Unit, damage: int) -> void:
+	_damage_preview_label.text = "-%d" % damage
+	_damage_preview_label.position = target.position + Vector2(0, -60)
+	if damage >= target.hp:
+		_damage_preview_label.modulate = Color("#EF4444")
+	else:
+		_damage_preview_label.modulate = Color("#F59E0B")
+	_damage_preview_label.visible = true
+
+func _hide_preview() -> void:
+	_damage_preview_label.visible = false
+
+func _on_damage_dealt(_attacker: Unit, target: Unit, damage: int) -> void:
+	_damage_preview_label.text = "-%d" % damage
+	_damage_preview_label.position = target.position + Vector2(0, -60)
+	_damage_preview_label.modulate = Color("#EF4444")
+	_damage_preview_label.visible = true
+	get_tree().create_timer(0.6).timeout.connect(_hide_preview)
+
+func _on_phase_ended(_faction: Faction.Type) -> void:
+	_input_handler.force_clear()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.keycode == KEY_QUOTELEFT and event.pressed:
+		_debug_overlay.toggle()
+		return
+	_input_handler.handle_event(event)
 
 func _create_units() -> Array:
 	var unit_scene := load("res://src/unit/Unit.tscn")

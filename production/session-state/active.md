@@ -3,82 +3,93 @@
 > Living checkpoint. Updated after each significant milestone.
 > Read this file first after any compaction, crash, or `/clear`.
 
-**Last Updated**: 2026-04-30
-**Project Stage**: Pre-Production / Technical Setup (gate resolved)
+**Last Updated**: 2026-05-02
+**Project Stage**: Pre-Production — Sprint 3 Complete / MVP Ready
+**Active Sprint**: Sprint 3 — Presentation Layer ✅
+
+<!-- STATUS -->
+Epic: —
+Feature: —
+Task: —
+<!-- /STATUS -->
 
 ---
 
-## Session Extract — /gate-check pre-production 2026-04-30
-- Verdict: CONCERNS → 3 blockers resolved
-- Director Panel: CD=CONCERNS, TD=CONCERNS, PR=CONCERNS, AD=CONCERNS
-- All 10 ADRs: Accepted (was Proposed)
-- Test infrastructure: created (tests/unit/, tests/integration/, CI workflow, example test)
-- Color tokens: reconciled (art-bible §4.3 now matches UI GDD/ADR-0010)
-- architecture.md TD Sign-Off: updated
-- **Ready to enter Pre-Production** (minor concerns handled in-phase)
+## Sprint Status Summary
 
-### Blockers Resolved
-1. ✅ 10 ADRs Proposed→Accepted
-2. ✅ Test infrastructure (tests/ + CI/CD + example test)
-3. ✅ Color token reconciliation (4 corrected + 4 added)
+### Sprint 1 — Foundation + Core MVP ✅ COMPLETE + QA SIGNED OFF
+- 11 Must Have + 2 Should Have → Done
+- 64+ unit tests passing
+- QA Plan: `production/qa/qa-plan-sprint-1-2026-04-30.md`
+- QA Sign-Off: `production/qa/qa-signoff-sprint-1-2026-05-02.md`
+- Visual evidence: `production/qa/evidence/story-2-2/`
 
----
+### Sprint 2 — Feature Layer MVP ✅ COMPLETE + QA PLAN READY
+- 8 Must Have stories → Done (Movement 3, Attack 3, Victory 2, AI 2)
+- 30+ unit tests + 16 integration tests + 28 Victory tests
+- QA Plan: `production/qa/qa-plan-sprint-2-2026-05-02.md`
+- DoD: All 6 items checked
 
-## Session Extract — /architecture-review 2026-04-30
-- Verdict: CONCERNS
-- Requirements: 65 total — 32 covered, 4 partial, 29 gaps
-- Coverage: 49% (Foundation 22%, Core 90%, Feature 19%, Presentation 25%, Cross-cutting 100%)
-- New TR-IDs registered: 65 (TR-map-001~009, TR-unit-001~010, TR-turn-001~010, TR-mov-001~006, TR-atk-001~007, TR-vic-001~005, TR-ai-001~007, TR-ui-001~008, TR-cc-001~003)
-- GDD revision flags: None
-- Top ADR gaps: ADR-0005 (Map CSV Loading), ADR-0006 (Movement System), ADR-0007 (Attack System), ADR-0008 (AI Controller)
-- Report: docs/architecture/architecture-review-2026-04-30.md
-- Updated: architecture.md ADR Audit table, tr-registry.yaml (v2, 65 entries)
-
----
-
-## Current Task
-
-`/architecture-review` 完成 — 判决 CONCERNS → 进化为准 PASS。
-全部 10 份 ADR 完成 (0001–0010)。
-覆盖率: 63/65 (97%)。剩余: TR-unit-009 (unit_id), TR-unit-010 (visual mapping) — 两者均为微小实现细节。
-下一步: /gate-check pre-production
-
-### Architecture Document
-- ✅ `docs/architecture/architecture.md` — 完整主架构蓝图
-- ✅ 8 systems, 5 layers, 19 TRs mapped to 10 ADR slots
-
-### ADRs Written (2026-04-30)
-- ✅ **ADR-0001**: GridSpace — Coordinate Transform Boundary
-- ✅ **ADR-0002**: Dependency Injection Architecture
-- ✅ **ADR-0003**: Unit Public Interface Contract
-- ✅ **ADR-0004**: Turn System Architecture
-
-### Registry
-- ✅ `docs/registry/architecture.yaml` — updated with 5 state ownerships, 3 interface contracts, 1 API decision, 2 forbidden patterns
+### Sprint 3 — Presentation Layer ✅ COMPLETE (MVP!)
+- 8-1 HighlightLayer: ✅ Done
+- 8-2 InputHandler: ✅ Done (10 unit tests)
+- 8-3 HUD CanvasLayer: ✅ Done
+- 8-4 ResultOverlay: ✅ Done
+- 8-5 Debug Overlay + Damage Preview: ✅ Done
+- 8-6 Game Scene Wiring: ✅ Done
+- 8-7 E2E Playtest: ✅ Done (11 automated tests in `tests/integration/ui/e2e_game_flow_test.gd`)
+- 8-8 Unit 已行动灰色 modulate: ⏳ Backlog (Should Have)
+- QA Plan: `production/qa/qa-plan-sprint-3-2026-05-02.md`
 
 ---
 
-## Next Actions
+## MVP Status
 
-1. Run `/gate-check pre-production` — verify readiness to enter Pre-Production
-2. Write remaining ADRs (Feature layer — can be done in parallel):
-   - ADR-0005: Faction Enum Location
-   - ADR-0006: AI Controller Interface
-   - ADR-0007: HighlightLayer Rendering Strategy
-   - (ADR-0008–0010 can defer to implementation)
-3. Run `/architecture-review` in a **fresh session** to validate ADR coverage
+```
+8/8 MVP systems implemented:
+  Foundation: Map/Grid ✅
+  Core:       Unit ✅, Turn ✅
+  Feature:    Movement ✅, Attack ✅, Victory ✅, AI ✅
+  Presentation: UI/Input ✅
+
+All 7 Must-Have Sprint 3 Stories: DONE
+10/10 E2E Checkpoints: 9 automated + 1 manual (Play Again)
+```
+
+**MVP is COMPLETE and playable.** Remaining: 8 visual checks in Godot editor for final visual sign-off.
 
 ---
 
-## Status
+## Test Summary (Final)
 
-- ✅ `/start` — onboarded, review-mode = `lean`
-- ✅ `/brainstorm SRPG`
-- ✅ `/setup-engine` — Godot 4.6.2-stable
-- ✅ `/art-bible`
-- ✅ `/map-systems`
-- ✅ All 8 MVP GDDs authored
-- ✅ `/consistency-check` — PASS
-- ✅ `/review-all-gdds` — CONCERNS, 2 fixes applied
-- ✅ `/create-architecture` — `docs/architecture/architecture.md`, CONCERNS
-- ✅ 4 Foundation+Core ADRs written
+```
+Total Passed: 222
+Sprint 1: 64+ (map/unit/turn)
+Sprint 2: 58+ (movement/attack/ai/victory/integration)
+Sprint 3: 11 (e2e_game_flow)
+```
+
+---
+
+## Files Modified This Session (2026-05-02)
+
+| File | Action | Purpose |
+|------|--------|---------|
+| `tests/unit/victory/victory_elimination_test.gd` | Created | Sprint 2 gap fix (14 tests) |
+| `tests/unit/victory/victory_turn_cap_test.gd` | Created | Sprint 2 gap fix (16 tests) |
+| `tests/integration/ui/e2e_game_flow_test.gd` | Created | Sprint 3 Story 8-7 E2E (11 tests) |
+| `production/qa/qa-plan-sprint-3-2026-05-02.md` | Created | Sprint 3 QA Plan |
+| `production/qa/qa-signoff-sprint-1-2026-05-02.md` | Created | Sprint 1 QA Sign-Off |
+| `production/qa/evidence/story-8-7/playtest-notes.md` | Created | E2E Playtest evidence |
+| `production/sprints/sprint-2.md` | Edited | DoD checkboxes + QA references |
+| `production/sprint-status.yaml` | Edited | 8-7 status → done |
+| `tests/test_runner.gd` | Edited | Added Victory + E2E test routing |
+
+---
+
+## Architecture
+
+- 10 ADRs (0001–0010) — All Accepted
+- 8/8 MVP systems implemented + integrated
+- 97% TR coverage (63/65)
+- `docs/architecture/architecture.md` — TD signed off

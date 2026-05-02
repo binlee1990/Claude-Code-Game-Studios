@@ -1,6 +1,6 @@
 class_name WorldState extends RefCounted
 
-var all_units: Array[Unit] = []
+var all_units: Array = []
 var map: Map
 var _occupancy_snapshot: Dictionary = {}
 

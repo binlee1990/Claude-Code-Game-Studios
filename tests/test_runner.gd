@@ -27,8 +27,11 @@ func _run_all():
 	_run_file("res://tests/unit/attack/attack_range_test.gd")
 	_run_file("res://tests/unit/ai/ai_controller_test.gd")
 	_run_file("res://tests/unit/ai/ai_data_structures_test.gd")
+	_run_file("res://tests/unit/victory/victory_elimination_test.gd")
+	_run_file("res://tests/unit/victory/victory_turn_cap_test.gd")
 	_run_file("res://tests/integration/movement/movement_execution_test.gd")
 	_run_file("res://tests/integration/attack/attack_execution_test.gd")
+	_run_file("res://tests/integration/ui/e2e_game_flow_test.gd")
 
 func _run_file(path):
 	print("")

@@ -129,38 +129,56 @@
   "hotPaths": [
     {
       "path": "",
-      "accessCount": 20,
-      "lastAccessed": 1777651273461,
+      "accessCount": 24,
+      "lastAccessed": 1777702845442,
       "type": "directory"
     },
     {
+      "path": "src\\game.gd",
+      "accessCount": 19,
+      "lastAccessed": 1777698673013,
+      "type": "file"
+    },
+    {
       "path": "tests\\test_runner.gd",
-      "accessCount": 15,
-      "lastAccessed": 1777693034229,
+      "accessCount": 18,
+      "lastAccessed": 1777699429460,
       "type": "file"
     },
     {
       "path": "src\\unit\\unit.gd",
-      "accessCount": 13,
-      "lastAccessed": 1777651707532,
-      "type": "file"
-    },
-    {
-      "path": "src\\game.gd",
-      "accessCount": 9,
-      "lastAccessed": 1777651716766,
-      "type": "file"
-    },
-    {
-      "path": "production\\sprints\\sprint-1.md",
-      "accessCount": 8,
-      "lastAccessed": 1777651066218,
+      "accessCount": 15,
+      "lastAccessed": 1777698798863,
       "type": "file"
     },
     {
       "path": "src\\map\\map.gd",
-      "accessCount": 7,
-      "lastAccessed": 1777651708891,
+      "accessCount": 14,
+      "lastAccessed": 1777702856560,
+      "type": "file"
+    },
+    {
+      "path": "src",
+      "accessCount": 13,
+      "lastAccessed": 1777702861819,
+      "type": "directory"
+    },
+    {
+      "path": "production\\sprints\\sprint-1.md",
+      "accessCount": 10,
+      "lastAccessed": 1777698629908,
+      "type": "file"
+    },
+    {
+      "path": "production\\sprint-status.yaml",
+      "accessCount": 9,
+      "lastAccessed": 1777701063876,
+      "type": "file"
+    },
+    {
+      "path": "src\\turn\\turn_manager.gd",
+      "accessCount": 8,
+      "lastAccessed": 1777701906788,
       "type": "file"
     },
     {
@@ -170,15 +188,33 @@
       "type": "file"
     },
     {
+      "path": "tests",
+      "accessCount": 7,
+      "lastAccessed": 1777702818100,
+      "type": "directory"
+    },
+    {
       "path": "tests\\unit\\unit\\unit_interface_test.gd",
       "accessCount": 6,
       "lastAccessed": 1777648920753,
       "type": "file"
     },
     {
-      "path": "src\\turn\\turn_manager.gd",
+      "path": "tests\\unit\\turn\\turn_state_machine_test.gd",
       "accessCount": 6,
-      "lastAccessed": 1777651712833,
+      "lastAccessed": 1777698764051,
+      "type": "file"
+    },
+    {
+      "path": "production\\sprints\\sprint-2.md",
+      "accessCount": 6,
+      "lastAccessed": 1777699035238,
+      "type": "file"
+    },
+    {
+      "path": "src\\ai\\ai_controller.gd",
+      "accessCount": 6,
+      "lastAccessed": 1777702009899,
       "type": "file"
     },
     {
@@ -188,64 +224,46 @@
       "type": "file"
     },
     {
-      "path": "tests\\unit\\turn\\turn_state_machine_test.gd",
-      "accessCount": 5,
-      "lastAccessed": 1777648925158,
-      "type": "file"
-    },
-    {
       "path": "src\\core\\unit_state.gd",
       "accessCount": 5,
       "lastAccessed": 1777651715939,
       "type": "file"
     },
     {
-      "path": "src",
+      "path": "production\\epics\\index.md",
       "accessCount": 5,
-      "lastAccessed": 1777651796683,
-      "type": "directory"
+      "lastAccessed": 1777698634039,
+      "type": "file"
+    },
+    {
+      "path": "src\\turn\\victory_checker.gd",
+      "accessCount": 5,
+      "lastAccessed": 1777698759080,
+      "type": "file"
+    },
+    {
+      "path": "tests\\unit\\turn\\victory_checker_test.gd",
+      "accessCount": 5,
+      "lastAccessed": 1777698762664,
+      "type": "file"
+    },
+    {
+      "path": "src\\unit\\unit_stats.gd",
+      "accessCount": 5,
+      "lastAccessed": 1777698800245,
+      "type": "file"
+    },
+    {
+      "path": "src\\ai\\null_ai.gd",
+      "accessCount": 5,
+      "lastAccessed": 1777702012553,
+      "type": "file"
     },
     {
       "path": "src\\core\\turn_state.gd",
       "accessCount": 4,
       "lastAccessed": 1777648883901,
       "type": "file"
-    },
-    {
-      "path": "src\\unit\\unit_stats.gd",
-      "accessCount": 4,
-      "lastAccessed": 1777651711500,
-      "type": "file"
-    },
-    {
-      "path": "tests\\unit\\turn\\victory_checker_test.gd",
-      "accessCount": 4,
-      "lastAccessed": 1777651945817,
-      "type": "file"
-    },
-    {
-      "path": "src\\turn\\victory_checker.gd",
-      "accessCount": 4,
-      "lastAccessed": 1777652119669,
-      "type": "file"
-    },
-    {
-      "path": "src\\ai\\ai_controller.gd",
-      "accessCount": 4,
-      "lastAccessed": 1777652454513,
-      "type": "file"
-    },
-    {
-      "path": "production\\sprint-status.yaml",
-      "accessCount": 4,
-      "lastAccessed": 1777693103610,
-      "type": "file"
-    },
-    {
-      "path": "tests",
-      "accessCount": 3,
-      "lastAccessed": 1777647963716,
-      "type": "directory"
     },
     {
       "path": "project.godot",
@@ -260,21 +278,21 @@
       "type": "file"
     },
     {
-      "path": "src\\ai\\null_ai.gd",
-      "accessCount": 3,
-      "lastAccessed": 1777651911897,
-      "type": "file"
-    },
-    {
-      "path": "production\\epics\\index.md",
-      "accessCount": 2,
-      "lastAccessed": 1777650739605,
-      "type": "file"
-    },
-    {
       "path": "src\\core\\faction.gd",
-      "accessCount": 2,
-      "lastAccessed": 1777651710226,
+      "accessCount": 3,
+      "lastAccessed": 1777698760298,
+      "type": "file"
+    },
+    {
+      "path": "src\\Game.tscn",
+      "accessCount": 3,
+      "lastAccessed": 1777701275009,
+      "type": "file"
+    },
+    {
+      "path": "tests\\unit\\map\\grid_topology_test.gd",
+      "accessCount": 3,
+      "lastAccessed": 1777702660711,
       "type": "file"
     },
     {
@@ -290,9 +308,21 @@
       "type": "file"
     },
     {
-      "path": "production\\sprints\\sprint-2.md",
+      "path": "src\\core\\grid_space.gd",
       "accessCount": 2,
-      "lastAccessed": 1777693106983,
+      "lastAccessed": 1777696517408,
+      "type": "file"
+    },
+    {
+      "path": "src\\map\\Map.tscn",
+      "accessCount": 2,
+      "lastAccessed": 1777696729379,
+      "type": "file"
+    },
+    {
+      "path": "production\\qa\\evidence\\story-2-2\\README.md",
+      "accessCount": 2,
+      "lastAccessed": 1777698678301,
       "type": "file"
     },
     {
@@ -302,39 +332,9 @@
       "type": "file"
     },
     {
-      "path": "src\\map\\Map.tscn",
-      "accessCount": 1,
-      "lastAccessed": 1777648496212,
-      "type": "file"
-    },
-    {
-      "path": "src\\Game.tscn",
-      "accessCount": 1,
-      "lastAccessed": 1777648498868,
-      "type": "file"
-    },
-    {
-      "path": "production\\qa\\evidence\\story-2-2\\README.md",
-      "accessCount": 1,
-      "lastAccessed": 1777648617483,
-      "type": "file"
-    },
-    {
-      "path": "src\\core\\grid_space.gd",
-      "accessCount": 1,
-      "lastAccessed": 1777648881229,
-      "type": "file"
-    },
-    {
       "path": "src\\turn\\turn_config.gd",
       "accessCount": 1,
       "lastAccessed": 1777648910078,
-      "type": "file"
-    },
-    {
-      "path": "tests\\unit\\map\\grid_topology_test.gd",
-      "accessCount": 1,
-      "lastAccessed": 1777648914601,
       "type": "file"
     },
     {

@@ -57,11 +57,11 @@
 
 ## Definition of Done
 
-- [ ] 所有 Must Have 任务完成
-- [ ] 全部 Logic Story 有通过测试（`tests/unit/movement/`, `tests/unit/attack/`, `tests/unit/victory/`, `tests/unit/ai/`）
-- [ ] 集成 Story（4-3, 5-3）有集成测试或文档化 playtest
-- [ ] 代码审查通过（`/code-review`）
-- [ ] Design documents 更新以反映任何偏离
-- [ ] Sprint 1 QA Plan 签核报告完成
+- [x] 所有 Must Have 任务完成
+- [x] 全部 Logic Story 有通过测试（`tests/unit/movement/`, `tests/unit/attack/`, `tests/unit/victory/`, `tests/unit/ai/`）
+- [x] 集成 Story（4-3, 5-3）有集成测试或文档化 playtest
+- [x] 代码审查通过（`/code-review`）
+- [x] Design documents 更新以反映任何偏离
+- [x] Sprint 1 QA Plan 签核报告完成
 
-> ⚠️ **No QA Plan**: 本 Sprint 在无 QA Plan 的情况下启动。在第一个 Story 实施前运行 `/qa-plan sprint`。Production → Polish 门禁要求 QA 签核报告，该报告依赖 QA Plan。
+> ✅ **QA Plan**: `production/qa/qa-plan-sprint-2-2026-05-02.md` — 已生成。Sprint 1 QA 签核: `production/qa/qa-signoff-sprint-1-2026-05-02.md`。

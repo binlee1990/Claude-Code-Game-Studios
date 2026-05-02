@@ -12,3 +12,4 @@ Engine: Godot 4.6.2-stable
 | attack | Feature | Attack | design/gdd/attack.md | 3 stories | Ready |
 | victory | Feature | Victory | design/gdd/victory.md | 2 stories | Ready |
 | ai | Feature | AI | design/gdd/ai.md | 2 stories | Ready |
+| ui | Presentation | UI / Input | design/gdd/ui.md | 7 stories | Ready |

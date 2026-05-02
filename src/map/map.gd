@@ -8,7 +8,12 @@ var _occupancy: Dictionary = {}
 var _cols: int = 0
 var _rows: int = 0
 
-const NEIGHBOR_OFFSETS: Array[Vector2i] = [
+var columns: int:
+	get: return _cols
+var rows: int:
+	get: return _rows
+
+const NEIGHBOR_OFFSETS: Array = [
 	Vector2i(-1, 0), Vector2i(1, 0),
 	Vector2i(0, -1), Vector2i(0, 1),
 ]
@@ -33,10 +38,10 @@ func is_walkable(coord: Vector2i) -> bool:
 		return false
 	return true
 
-func get_neighbors(coord: Vector2i) -> Array[Vector2i]:
-	var result: Array[Vector2i] = []
+func get_neighbors(coord: Vector2i) -> Array:
+	var result: Array = []
 	for offset in NEIGHBOR_OFFSETS:
-		var neighbor := coord + offset
+		var neighbor = coord + offset
 		if is_coord_in_bounds(neighbor):
 			result.append(neighbor)
 	return result
@@ -81,13 +86,13 @@ func move_unit(unit: Unit, from: Vector2i, to: Vector2i) -> bool:
 	return true
 
 func _load_csv(path: String) -> void:
-	var file := FileAccess.open(path, FileAccess.READ)
+	var file = FileAccess.open(path, FileAccess.READ)
 	if file == null:
 		push_error("Map CSV not found: %s" % path)
 		return
 
-	var header := file.get_line().strip_edges()
-	var parts := header.split(",")
+	var header = file.get_line().strip_edges()
+	var parts = header.split(",")
 	assert(parts.size() == 2, "CSV header must be 'cols,rows', got: %s" % header)
 	_cols = parts[0].to_int()
 	_rows = parts[1].to_int()
@@ -98,11 +103,11 @@ func _load_csv(path: String) -> void:
 	while r < _rows:
 		if file.eof_reached():
 			assert(false, "CSV ended at row %d, expected %d rows" % [r, _rows])
-		var line := file.get_line().strip_edges()
+		var line = file.get_line().strip_edges()
 		assert(line.length() == _cols, "Row %d: expected %d chars, got %d" % [r, _cols, line.length()])
 		for c in range(_cols):
-			var ch := line[c]
-			var coord := Vector2i(r, c)
+			var ch = line[c]
+			var coord = Vector2i(r, c)
 			match ch:
 				".":
 					_tile_states[coord] = TileState.WALKABLE
@@ -121,7 +126,7 @@ func _render_tiles() -> void:
 	tilemap.tile_set = load("res://assets/data/tileset.tres")
 	tilemap.clear()
 	for coord in _tile_states:
-		var atlas_coords := _tile_state_to_atlas(_tile_states[coord])
+		var atlas_coords = _tile_state_to_atlas(_tile_states[coord])
 		tilemap.set_cell(coord, 0, atlas_coords)
 
 func _tile_state_to_atlas(state: TileState) -> Vector2i:

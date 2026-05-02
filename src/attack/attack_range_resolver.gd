@@ -2,8 +2,8 @@ class_name AttackRangeResolver extends RefCounted
 
 const MovementResolver = preload("res://src/movement/movement_resolver.gd")
 
-func get_valid_targets(attacker: Unit, all_units: Array[Unit], map: Map) -> Array[Unit]:
-	var targets: Array[Unit] = []
+func get_valid_targets(attacker: Unit, all_units: Array, map: Map) -> Array:
+	var targets: Array = []
 	for u in all_units:
 		if not is_instance_valid(u):
 			continue

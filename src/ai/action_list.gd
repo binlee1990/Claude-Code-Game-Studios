@@ -1,11 +1,11 @@
 class_name ActionList extends RefCounted
 
-var plans: Array[ActionPlan] = []
+var plans: Array = []
 
 func add(action: ActionPlan) -> void:
 	plans.append(action)
 
-func get_actions() -> Array[ActionPlan]:
+func get_actions() -> Array:
 	return plans.duplicate()
 
 func is_empty() -> bool:

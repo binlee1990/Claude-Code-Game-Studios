@@ -12,31 +12,31 @@ func before() -> void:
 	_map.initialize(GridSpace.new(), "test_map")
 
 func test_get_neighbors_interior_tile_returns_four_cardinal() -> void:
-	var neighbors := _map.get_neighbors(Vector2i(5, 5))
+	var neighbors = _map.get_neighbors(Vector2i(5, 5))
 	assert(neighbors.size() == 4)
 
 func test_get_neighbors_corner_tile_returns_two() -> void:
-	var neighbors := _map.get_neighbors(Vector2i(0, 0))
+	var neighbors = _map.get_neighbors(Vector2i(0, 0))
 	assert(neighbors.size() == 2)
 	# Must include only cardinal directions
 	for n in neighbors:
 		assert(n == Vector2i(1, 0) or n == Vector2i(0, 1))
 
 func test_get_neighbors_edge_tile_returns_three() -> void:
-	var neighbors := _map.get_neighbors(Vector2i(0, 5))
+	var neighbors = _map.get_neighbors(Vector2i(0, 5))
 	assert(neighbors.size() == 3)
 
 func test_get_neighbors_no_diagonal() -> void:
-	var neighbors := _map.get_neighbors(Vector2i(5, 5))
+	var neighbors = _map.get_neighbors(Vector2i(5, 5))
 	for n in neighbors:
-		var diff := n - Vector2i(5, 5)
+		var diff = n - Vector2i(5, 5)
 		# von Neumann: |dr| + |dc| == 1
 		assert(abs(diff.x) + abs(diff.y) == 1)
 
 func test_get_neighbors_includes_blocked_tiles() -> void:
 	# (2,4) is blocked but should still appear as neighbor of (2,5)
-	var neighbors := _map.get_neighbors(Vector2i(2, 5))
-	var has_blocked := false
+	var neighbors = _map.get_neighbors(Vector2i(2, 5))
+	var has_blocked = false
 	for n in neighbors:
 		if n == Vector2i(2, 4):
 			has_blocked = true
