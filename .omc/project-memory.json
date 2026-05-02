@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1777307655750,
+  "lastScanned": 1777646554174,
   "projectRoot": "D:\\work\\Games\\SRPG_MINI",
   "techStack": {
     "languages": [],
@@ -25,8 +25,10 @@
     "isMonorepo": false,
     "workspaces": [],
     "mainDirectories": [
+      "assets",
       "docs",
-      "src"
+      "src",
+      "tests"
     ],
     "gitBranches": {
       "defaultBranch": "main",
@@ -35,11 +37,18 @@
   },
   "customNotes": [],
   "directoryMap": {
+    "assets": {
+      "path": "assets",
+      "purpose": "Static assets",
+      "fileCount": 0,
+      "lastAccessed": 1777646554139,
+      "keyFiles": []
+    },
     "CCGS Skill Testing Framework": {
       "path": "CCGS Skill Testing Framework",
       "purpose": null,
       "fileCount": 4,
-      "lastAccessed": 1777307655728,
+      "lastAccessed": 1777646554140,
       "keyFiles": [
         "catalog.yaml",
         "CLAUDE.md",
@@ -51,7 +60,7 @@
       "path": "design",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1777307655728,
+      "lastAccessed": 1777646554140,
       "keyFiles": [
         "CLAUDE.md"
       ]
@@ -60,7 +69,7 @@
       "path": "docs",
       "purpose": "Documentation",
       "fileCount": 3,
-      "lastAccessed": 1777307655729,
+      "lastAccessed": 1777646554140,
       "keyFiles": [
         "CLAUDE.md",
         "COLLABORATIVE-DESIGN-PRINCIPLE.md",
@@ -70,24 +79,46 @@
     "production": {
       "path": "production",
       "purpose": null,
-      "fileCount": 0,
-      "lastAccessed": 1777307655729,
-      "keyFiles": []
+      "fileCount": 3,
+      "lastAccessed": 1777646554141,
+      "keyFiles": [
+        "review-mode.txt",
+        "sprint-status.yaml",
+        "stage.txt"
+      ]
     },
     "src": {
       "path": "src",
       "purpose": "Source code",
       "fileCount": 2,
-      "lastAccessed": 1777307655729,
+      "lastAccessed": 1777646554141,
       "keyFiles": [
         "CLAUDE.md"
+      ]
+    },
+    "tests": {
+      "path": "tests",
+      "purpose": "Test files",
+      "fileCount": 1,
+      "lastAccessed": 1777646554141,
+      "keyFiles": [
+        "gdunit4_runner.gd"
+      ]
+    },
+    "assets\\data": {
+      "path": "assets\\data",
+      "purpose": "Data files",
+      "fileCount": 1,
+      "lastAccessed": 1777646554142,
+      "keyFiles": [
+        "turn_config.tres"
       ]
     },
     "docs\\examples": {
       "path": "docs\\examples",
       "purpose": "Example code",
       "fileCount": 11,
-      "lastAccessed": 1777307655730,
+      "lastAccessed": 1777646554144,
       "keyFiles": [
         "README.md",
         "reverse-document-workflow-example.md",
@@ -97,63 +128,303 @@
   },
   "hotPaths": [
     {
-      "path": "CLAUDE.md",
-      "accessCount": 2,
-      "lastAccessed": 1777310151880,
+      "path": "",
+      "accessCount": 20,
+      "lastAccessed": 1777651273461,
+      "type": "directory"
+    },
+    {
+      "path": "tests\\test_runner.gd",
+      "accessCount": 15,
+      "lastAccessed": 1777693034229,
       "type": "file"
     },
     {
-      "path": "docs\\engine-reference\\godot\\VERSION.md",
+      "path": "src\\unit\\unit.gd",
+      "accessCount": 13,
+      "lastAccessed": 1777651707532,
+      "type": "file"
+    },
+    {
+      "path": "src\\game.gd",
+      "accessCount": 9,
+      "lastAccessed": 1777651716766,
+      "type": "file"
+    },
+    {
+      "path": "production\\sprints\\sprint-1.md",
+      "accessCount": 8,
+      "lastAccessed": 1777651066218,
+      "type": "file"
+    },
+    {
+      "path": "src\\map\\map.gd",
+      "accessCount": 7,
+      "lastAccessed": 1777651708891,
+      "type": "file"
+    },
+    {
+      "path": "tests\\unit\\turn\\turn_signals_test.gd",
+      "accessCount": 7,
+      "lastAccessed": 1777652550957,
+      "type": "file"
+    },
+    {
+      "path": "tests\\unit\\unit\\unit_interface_test.gd",
+      "accessCount": 6,
+      "lastAccessed": 1777648920753,
+      "type": "file"
+    },
+    {
+      "path": "src\\turn\\turn_manager.gd",
+      "accessCount": 6,
+      "lastAccessed": 1777651712833,
+      "type": "file"
+    },
+    {
+      "path": "tests\\unit\\turn\\turn_manager_init_test.gd",
+      "accessCount": 5,
+      "lastAccessed": 1777648923619,
+      "type": "file"
+    },
+    {
+      "path": "tests\\unit\\turn\\turn_state_machine_test.gd",
+      "accessCount": 5,
+      "lastAccessed": 1777648925158,
+      "type": "file"
+    },
+    {
+      "path": "src\\core\\unit_state.gd",
+      "accessCount": 5,
+      "lastAccessed": 1777651715939,
+      "type": "file"
+    },
+    {
+      "path": "src",
+      "accessCount": 5,
+      "lastAccessed": 1777651796683,
+      "type": "directory"
+    },
+    {
+      "path": "src\\core\\turn_state.gd",
+      "accessCount": 4,
+      "lastAccessed": 1777648883901,
+      "type": "file"
+    },
+    {
+      "path": "src\\unit\\unit_stats.gd",
+      "accessCount": 4,
+      "lastAccessed": 1777651711500,
+      "type": "file"
+    },
+    {
+      "path": "tests\\unit\\turn\\victory_checker_test.gd",
+      "accessCount": 4,
+      "lastAccessed": 1777651945817,
+      "type": "file"
+    },
+    {
+      "path": "src\\turn\\victory_checker.gd",
+      "accessCount": 4,
+      "lastAccessed": 1777652119669,
+      "type": "file"
+    },
+    {
+      "path": "src\\ai\\ai_controller.gd",
+      "accessCount": 4,
+      "lastAccessed": 1777652454513,
+      "type": "file"
+    },
+    {
+      "path": "production\\sprint-status.yaml",
+      "accessCount": 4,
+      "lastAccessed": 1777693103610,
+      "type": "file"
+    },
+    {
+      "path": "tests",
+      "accessCount": 3,
+      "lastAccessed": 1777647963716,
+      "type": "directory"
+    },
+    {
+      "path": "project.godot",
+      "accessCount": 3,
+      "lastAccessed": 1777648525270,
+      "type": "file"
+    },
+    {
+      "path": "tools\\generate_tileset.gd",
+      "accessCount": 3,
+      "lastAccessed": 1777648801098,
+      "type": "file"
+    },
+    {
+      "path": "src\\ai\\null_ai.gd",
+      "accessCount": 3,
+      "lastAccessed": 1777651911897,
+      "type": "file"
+    },
+    {
+      "path": "production\\epics\\index.md",
       "accessCount": 2,
-      "lastAccessed": 1777310155423,
+      "lastAccessed": 1777650739605,
+      "type": "file"
+    },
+    {
+      "path": "src\\core\\faction.gd",
+      "accessCount": 2,
+      "lastAccessed": 1777651710226,
+      "type": "file"
+    },
+    {
+      "path": "tests\\unit\\map\\grid_space_test.gd",
+      "accessCount": 2,
+      "lastAccessed": 1777651947202,
+      "type": "file"
+    },
+    {
+      "path": "tests\\unit\\map\\map_loading_test.gd",
+      "accessCount": 2,
+      "lastAccessed": 1777652382158,
+      "type": "file"
+    },
+    {
+      "path": "production\\sprints\\sprint-2.md",
+      "accessCount": 2,
+      "lastAccessed": 1777693106983,
+      "type": "file"
+    },
+    {
+      "path": "src\\unit\\Unit.tscn",
+      "accessCount": 1,
+      "lastAccessed": 1777648492885,
+      "type": "file"
+    },
+    {
+      "path": "src\\map\\Map.tscn",
+      "accessCount": 1,
+      "lastAccessed": 1777648496212,
+      "type": "file"
+    },
+    {
+      "path": "src\\Game.tscn",
+      "accessCount": 1,
+      "lastAccessed": 1777648498868,
+      "type": "file"
+    },
+    {
+      "path": "production\\qa\\evidence\\story-2-2\\README.md",
+      "accessCount": 1,
+      "lastAccessed": 1777648617483,
+      "type": "file"
+    },
+    {
+      "path": "src\\core\\grid_space.gd",
+      "accessCount": 1,
+      "lastAccessed": 1777648881229,
+      "type": "file"
+    },
+    {
+      "path": "src\\turn\\turn_config.gd",
+      "accessCount": 1,
+      "lastAccessed": 1777648910078,
+      "type": "file"
+    },
+    {
+      "path": "tests\\unit\\map\\grid_topology_test.gd",
+      "accessCount": 1,
+      "lastAccessed": 1777648914601,
+      "type": "file"
+    },
+    {
+      "path": "tests\\unit\\map\\occupancy_test.gd",
+      "accessCount": 1,
+      "lastAccessed": 1777648916149,
+      "type": "file"
+    },
+    {
+      "path": "tests\\unit\\unit\\unit_stats_test.gd",
+      "accessCount": 1,
+      "lastAccessed": 1777648917576,
+      "type": "file"
+    },
+    {
+      "path": "tests\\unit\\unit\\hp_system_test.gd",
+      "accessCount": 1,
+      "lastAccessed": 1777648919163,
+      "type": "file"
+    },
+    {
+      "path": "tests\\gdunit4_runner.gd",
+      "accessCount": 1,
+      "lastAccessed": 1777649065719,
       "type": "file"
     },
     {
       "path": ".claude\\docs\\technical-preferences.md",
-      "accessCount": 2,
-      "lastAccessed": 1777310198551,
+      "accessCount": 1,
+      "lastAccessed": 1777650613241,
       "type": "file"
     },
     {
-      "path": ".claude\\docs\\templates\\game-concept.md",
+      "path": "production\\review-mode.txt",
       "accessCount": 1,
-      "lastAccessed": 1777309687373,
+      "lastAccessed": 1777650637064,
       "type": "file"
     },
     {
-      "path": "design\\gdd\\game-concept.md",
+      "path": "production\\epics\\movement\\EPIC.md",
       "accessCount": 1,
-      "lastAccessed": 1777309859968,
+      "lastAccessed": 1777650826234,
       "type": "file"
     },
     {
-      "path": ".claude/agents",
+      "path": "production\\epics\\attack\\EPIC.md",
       "accessCount": 1,
-      "lastAccessed": 1777310076262,
-      "type": "directory"
-    },
-    {
-      "path": "design\\art\\art-bible.md",
-      "accessCount": 1,
-      "lastAccessed": 1777310660867,
+      "lastAccessed": 1777650827654,
       "type": "file"
     },
     {
-      "path": ".claude\\docs\\templates\\systems-index.md",
+      "path": "production\\epics\\victory\\EPIC.md",
       "accessCount": 1,
-      "lastAccessed": 1777310782010,
+      "lastAccessed": 1777650829066,
       "type": "file"
     },
     {
-      "path": "design\\gdd\\systems-index.md",
+      "path": "production\\epics\\ai\\EPIC.md",
       "accessCount": 1,
-      "lastAccessed": 1777311012207,
+      "lastAccessed": 1777650830560,
       "type": "file"
     },
     {
-      "path": "production\\session-state\\active.md",
+      "path": "production\\epics\\movement\\story-001-bfs-manhattan.md",
       "accessCount": 1,
-      "lastAccessed": 1777311055771,
+      "lastAccessed": 1777651252434,
+      "type": "file"
+    },
+    {
+      "path": "production\\epics\\movement\\story-002-result-path.md",
+      "accessCount": 1,
+      "lastAccessed": 1777651253013,
+      "type": "file"
+    },
+    {
+      "path": "production\\epics\\movement\\story-003-execution-map.md",
+      "accessCount": 1,
+      "lastAccessed": 1777651253174,
+      "type": "file"
+    },
+    {
+      "path": "production\\epics\\attack\\story-001-damage-formula-result.md",
+      "accessCount": 1,
+      "lastAccessed": 1777651253303,
+      "type": "file"
+    },
+    {
+      "path": "production\\epics\\attack\\story-002-range-resolver.md",
+      "accessCount": 1,
+      "lastAccessed": 1777651253713,
       "type": "file"
     }
   ],
