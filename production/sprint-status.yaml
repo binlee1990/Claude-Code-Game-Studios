@@ -11,7 +11,7 @@ qa_audit:
   date: "2026-05-02"
   report: "production/qa/qa-execution-audit-2026-05-02.md"
   verdict: "pass"
-  runner_total_passed_reported: 251
+  runner_total_passed_reported: 253
   runner_script_errors: 0
   runner_assertion_failures: 0
   runner_error_lines: 0

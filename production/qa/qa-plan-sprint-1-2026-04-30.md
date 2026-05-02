@@ -14,7 +14,7 @@
 **Sign-off artifact**: `production/qa/qa-signoff-sprint-1-2026-05-02.md`
 **Current audit**: `production/qa/qa-execution-audit-2026-05-02.md`
 
-Current headless revalidation reports `Total Passed: 251` with zero `SCRIPT ERROR`, zero `Assertion failed`, zero `ERROR:` lines, and zero `WARNING:` lines. The scene smoke command for `src/Game.tscn` also exits cleanly with zero console errors.
+Current headless revalidation reports `Total Passed: 253` with zero `SCRIPT ERROR`, zero `Assertion failed`, zero `ERROR:` lines, and zero `WARNING:` lines. The scene smoke command for `src/Game.tscn` also exits cleanly with zero console errors.
 
 ---
 

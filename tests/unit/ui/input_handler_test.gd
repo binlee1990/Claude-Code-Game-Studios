@@ -12,6 +12,8 @@ var _mov_res: MovementResolver
 var _atk_res: AttackResolver
 var _atk_rng: AttackRangeResolver
 var _units: Array
+var _last_move_highlights: Array = []
+var _last_attack_highlights: Array = []
 
 func before() -> void:
 	_handler = InputHandler.new()
@@ -25,6 +27,8 @@ func before() -> void:
 	_atk_res = AttackResolver.new()
 	_atk_rng = AttackRangeResolver.new()
 	_units = []
+	_last_move_highlights = []
+	_last_attack_highlights = []
 	_handler.initialize(_mp, _gs, _tm, _mov_res, _atk_res, _atk_rng, _units)
 
 func _setup_map_5by5() -> void:
@@ -59,6 +63,12 @@ func _start_match() -> void:
 	_tm.current_state = TurnState.FACTION_PHASE_ACTIVE
 	_tm.active_faction = Faction.Type.PLAYER
 	_tm.turn_number = 1
+
+func _capture_move_highlights(tiles: Array) -> void:
+	_last_move_highlights = tiles
+
+func _capture_attack_highlights(tiles: Array) -> void:
+	_last_attack_highlights = tiles
 
 # === MUST HAVE TESTS (≥5) ===
 
@@ -122,6 +132,51 @@ func test_unit_selected_escape_deselects() -> void:
 	assert(_handler.get_context() == InputHandler.InputContext.BOARD_IDLE)
 	assert(_handler.get_selected_unit() == null)
 	assert(u.action_state == UnitState.IDLE)
+
+func test_unit_selected_click_reachable_tile_moves_unit_and_enters_attack_targeting() -> void:
+	var p := _make_unit(10, 5, 2, 3, 1, Faction.Type.PLAYER)
+	_mp.place_unit(p, Vector2i(2, 2))
+	var e := _make_unit(8, 4, 1, 3, 1, Faction.Type.ENEMY)
+	_mp.place_unit(e, Vector2i(2, 4))
+	_units.append_array([p, e])
+	_handler.initialize(_mp, _gs, _tm, _mov_res, _atk_res, _atk_rng, _units)
+	_start_match()
+
+	_handler.move_highlights_changed.connect(_capture_move_highlights)
+	_handler.attack_highlights_changed.connect(_capture_attack_highlights)
+
+	var select := _make_click_event(_gs.tile_center(Vector2i(2, 2)).x, _gs.tile_center(Vector2i(2, 2)).y)
+	_handler.handle_event(select)
+	var move := _make_click_event(_gs.tile_center(Vector2i(2, 3)).x, _gs.tile_center(Vector2i(2, 3)).y)
+	_handler.handle_event(move)
+
+	assert(p.grid_position == Vector2i(2, 3))
+	assert(p.position == _gs.tile_center(Vector2i(2, 3)))
+	assert(_mp.get_unit_at(Vector2i(2, 2)) == null)
+	assert(_mp.get_unit_at(Vector2i(2, 3)) == p)
+	assert(p.action_state == UnitState.MOVED)
+	assert(_handler.get_selected_unit() == p)
+	assert(_handler.get_context() == InputHandler.InputContext.ATTACK_TARGETING)
+	assert(_last_move_highlights.is_empty())
+	assert(Vector2i(2, 4) in _last_attack_highlights)
+
+func test_unit_selected_click_reachable_tile_without_targets_auto_ends_action() -> void:
+	var p := _make_unit(10, 5, 2, 3, 1, Faction.Type.PLAYER)
+	_mp.place_unit(p, Vector2i(2, 2))
+	_units.append(p)
+	_start_match()
+
+	var select := _make_click_event(_gs.tile_center(Vector2i(2, 2)).x, _gs.tile_center(Vector2i(2, 2)).y)
+	_handler.handle_event(select)
+	var move := _make_click_event(_gs.tile_center(Vector2i(2, 3)).x, _gs.tile_center(Vector2i(2, 3)).y)
+	_handler.handle_event(move)
+
+	assert(p.grid_position == Vector2i(2, 3))
+	assert(p.position == _gs.tile_center(Vector2i(2, 3)))
+	assert(p.action_state == UnitState.ACTED)
+	assert(p.has_acted_this_turn)
+	assert(_handler.get_selected_unit() == null)
+	assert(_handler.get_context() == InputHandler.InputContext.BOARD_IDLE)
 
 func test_click_out_of_bounds_ignored() -> void:
 	_start_match()

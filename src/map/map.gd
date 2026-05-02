@@ -74,6 +74,7 @@ func place_unit(unit: Unit, coord: Vector2i) -> bool:
 		return false
 	_occupancy[coord] = unit
 	unit.grid_position = coord
+	_sync_unit_world_position(unit, coord)
 	return true
 
 func remove_unit(coord: Vector2i) -> bool:
@@ -98,7 +99,13 @@ func move_unit(unit: Unit, from: Vector2i, to: Vector2i) -> bool:
 	_occupancy.erase(from)
 	_occupancy[to] = unit
 	unit.grid_position = to
+	_sync_unit_world_position(unit, to)
 	return true
+
+func _sync_unit_world_position(unit: Unit, coord: Vector2i) -> void:
+	if grid_space == null:
+		return
+	unit.position = grid_space.tile_center(coord)
 
 func _load_csv(path: String) -> void:
 	var file = FileAccess.open(path, FileAccess.READ)

@@ -32,9 +32,11 @@ func test_move_unit_atomic_success() -> void:
 	_make_open_map(5, 5)
 	var u := _make_unit(Faction.Type.PLAYER, Vector2i(0, 0))
 	mp.place_unit(u, Vector2i(0, 0))
+	assert(u.position == gs.tile_center(Vector2i(0, 0)))
 	var ok := mp.move_unit(u, Vector2i(0, 0), Vector2i(0, 1))
 	assert(ok, "move_unit should succeed")
 	assert(u.grid_position == Vector2i(0, 1))
+	assert(u.position == gs.tile_center(Vector2i(0, 1)))
 	assert(mp.get_unit_at(Vector2i(0, 0)) == null)
 	assert(mp.get_unit_at(Vector2i(0, 1)) == u)
 

@@ -11,7 +11,7 @@
 
 ## 当前实现状态
 
-截至 2026-05-02，MVP 的 8 个原语模块已经实现并集成：Map / Unit / Turn / Movement / Attack / AI / Victory / UI。Sprint 1-3 自动化 QA 已签核，当前默认 runner 报告 `Total Passed: 251`，且 `SCRIPT ERROR`、`Assertion failed`、`ERROR:`、`WARNING:` 均为 0。`src/Game.tscn` headless scene smoke 也为 clean。
+截至 2026-05-02，MVP 的 8 个原语模块已经实现并集成：Map / Unit / Turn / Movement / Attack / AI / Victory / UI。Sprint 1-3 自动化 QA 已签核，当前默认 runner 报告 `Total Passed: 253`，且 `SCRIPT ERROR`、`Assertion failed`、`ERROR:`、`WARNING:` 均为 0。`src/Game.tscn` headless scene smoke 也为 clean。
 
 本文件现在作为 **MVP baseline** 的概念记录。不要把旧的前置流程清单当作未完成任务；当前后续方向见文末“后续步骤”。
 

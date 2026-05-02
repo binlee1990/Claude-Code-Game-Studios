@@ -152,7 +152,6 @@ func _create_units() -> Array:
 
 func _place_unit(unit: Unit, coord: Vector2i) -> void:
 	add_child(unit)
-	unit.position = grid_space.tile_center(coord)
 	map.place_unit(unit, coord)
 
 func _on_unit_died(unit: Unit) -> void:
