@@ -1,15 +1,21 @@
 # Claude Code Game Studios -- Game Studio Agent Architecture
 
+## core rules（沟通与决策）
+
+1. **Think in English, respond in Chinese** — 思考过程用英语保证逻辑严谨；回复用户统一用中文。Quality over speed — iterate until requirements are truly clear.
+2. **AskUserQuestion 决策模式** — 需用户确认时，通过 AskUserQuestion Tool 给至少 4 个选项，标记推荐项（✅）并说明理由。
+3. **文档输出语言** — 所有文档统一中文。代码、文件名、路径、reason codes 等必要字段使用英文。
+
 Indie game development managed through 48 coordinated Claude Code subagents.
 Each agent owns a specific domain, enforcing separation of concerns and quality.
 
 ## Technology Stack
 
-- **Engine**: [CHOOSE: Godot 4 / Unity / Unreal Engine 5]
-- **Language**: [CHOOSE: GDScript / C# / C++ / Blueprint]
+- **Engine**: Godot 4.6.2
+- **Language**: GDScript
 - **Version Control**: Git with trunk-based development
-- **Build System**: [SPECIFY after choosing engine]
-- **Asset Pipeline**: [SPECIFY after choosing engine]
+- **Build System**: SCons (engine), Godot Export Templates
+- **Asset Pipeline**: Godot Import System + custom resource pipeline
 
 > **Note**: Engine-specialist agents exist for Godot, Unity, and Unreal with
 > dedicated sub-specialists. Use the set matching your engine.
