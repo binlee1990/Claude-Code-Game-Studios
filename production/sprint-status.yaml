@@ -107,11 +107,11 @@ stories:
   # === Should Have ===
   - id: "8-8"
     name: "Unit 已行动灰色 modulate"
-    file: ""
+    file: "tests/unit/unit/unit_scene_visual_test.gd"
     priority: should-have
-    status: backlog
+    status: done
     owner: ""
     blocker: ""
-    completed: ""
-    qa_status: backlog
-    qa_note: "Should-have story remains backlog."
+    completed: "2026-05-02"
+    qa_status: verified
+    qa_note: "Implemented in src/unit/unit.gd _update_visual(); covered by test_acted_unit_uses_gray_half_alpha_modulate in the default runner."

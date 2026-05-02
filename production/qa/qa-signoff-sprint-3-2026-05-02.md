@@ -36,8 +36,9 @@ WARNING lines: 0
 | 8-5 | `tests/unit/ui/input_handler_test.gd`; `tests/integration/ui/e2e_game_flow_test.gd` | covered | PASS |
 | 8-6 | `tests/integration/ui/e2e_game_flow_test.gd`; scene boot smoke | 11 + smoke | PASS |
 | 8-7 | `tests/integration/ui/e2e_game_flow_test.gd`; `production/qa/evidence/story-8-7/playtest-notes.md` | 11 + evidence | PASS |
+| 8-8 | `tests/unit/unit/unit_scene_visual_test.gd` | 1 targeted visual-state assertion | PASS |
 
-**Sprint 3 scoped test files**: 32 UI/E2E tests plus scene boot smoke.
+**Sprint 3 scoped test files**: 32 UI/E2E tests, 1 targeted Unit visual-state assertion, plus scene boot smoke.
 
 ---
 
@@ -47,6 +48,7 @@ WARNING lines: 0
 - [x] Full runner has zero script/assertion/error/warning output
 - [x] `src/Game.tscn` starts headlessly without console errors
 - [x] 10/10 playtest checkpoints have automated logic, structural UI, scene boot, or wiring evidence
+- [x] Unit acted-state visual mapping is covered by automated structural test
 - [x] Sprint 3 sprint document, QA plan, playtest evidence, and sprint status updated
 
 Human editor screenshots remain useful for polish review, but they are not a blocking QA risk for this automated MVP sign-off.

@@ -27,7 +27,7 @@ The scene boot smoke also completed with zero script errors, assertions, `ERROR:
 |--------|------------------------|----------------|----------------------|------------------|
 | Sprint 1 | Complete | `production/qa/qa-plan-sprint-1-2026-04-30.md`; sign-off exists | Clean full-run revalidation | Complete; QA clean |
 | Sprint 2 | Complete | `production/qa/qa-plan-sprint-2-2026-05-02.md`; sign-off created | Clean movement/attack/victory/AI unit and integration coverage | Complete; QA signed off |
-| Sprint 3 | 8-1 through 8-7 done; 8-8 backlog | `production/qa/qa-plan-sprint-3-2026-05-02.md`; sign-off created | Clean UI unit coverage, E2E flow coverage, and scene boot smoke | MVP automated QA signed off |
+| Sprint 3 | 8-1 through 8-8 done | `production/qa/qa-plan-sprint-3-2026-05-02.md`; sign-off created | Clean UI unit coverage, Unit acted-state visual coverage, E2E flow coverage, and scene boot smoke | MVP automated QA signed off |
 
 ## Closed Blockers
 
@@ -36,7 +36,7 @@ The scene boot smoke also completed with zero script errors, assertions, `ERROR:
 - `tests/unit/ui/highlight_layer_test.gd` now covers HighlightLayer color, defensive copy, clear behavior, rect sizing, and z order.
 - `tests/unit/ui/hud_test.gd` now covers HUD signal updates, faction colors, and End Turn delegation.
 - `tests/unit/ui/result_overlay_test.gd` now covers ResultOverlay visibility, title colors, reason text, blocking background, match-ended signal integration, and Play Again button wiring.
-- `tests/unit/unit/unit_scene_visual_test.gd` now covers Unit scene structure, faction colors, HP label baseline, and acted-state gray/half-alpha modulate.
+- `tests/unit/unit/unit_scene_visual_test.gd` now covers Unit scene structure, faction colors, HP label baseline, and acted-state gray/half-alpha modulate, resolving Sprint 3 should-have story 8-8.
 - `src/ui/ResultOverlay.tscn` now uses a blocking background mouse filter as required by the QA plan.
 - `src/Game.tscn` starts headlessly for two frames without runtime errors, covering initialization and scene wiring smoke risk.
 

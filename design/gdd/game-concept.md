@@ -1,13 +1,19 @@
 # 游戏概念：SRPG_MINI —— 通用战术 RPG 骨架
 
 *创建日期：2026-04-28*
-*状态：Draft*
+*状态：MVP Baseline Locked — automated QA signed off 2026-05-02*
 
 ---
 
 ## 一句话概述
 
 > 一个基于网格、回合制的战术 RPG **骨架**，将SRPG通用系统集（网格、单位、阵营、回合、移动、射程、AI、胜利）抽象为最小可玩框架。双方阵营轮流移动单位并攻击，直至一方被全灭——无剧情、无音频、无类型特色炫技。目标是**让 SRPG 系统原语变得显式、有名称、正交化**，使任何未来的 SRPG 变体（Fire Emblem 式、FFT 式、XCOM 式……）都能通过增量扩展构建于其上，永远无需重写核心。
+
+## 当前实现状态
+
+截至 2026-05-02，MVP 的 8 个原语模块已经实现并集成：Map / Unit / Turn / Movement / Attack / AI / Victory / UI。Sprint 1-3 自动化 QA 已签核，当前默认 runner 报告 `Total Passed: 247`，且 `SCRIPT ERROR`、`Assertion failed`、`ERROR:`、`WARNING:` 均为 0。`src/Game.tscn` headless scene smoke 也为 clean。
+
+本文件现在作为 **MVP baseline** 的概念记录。不要把旧的前置流程清单当作未完成任务；当前后续方向见文末“后续步骤”。
 
 ---
 
@@ -261,11 +267,11 @@ MVP 的八个模块——见下方模块决策表。
 
 - **R6**：逐模块签核节奏可能停滞。缓解措施：每个模块 GDD 在一次会话内完成。
 
-### 待决问题
+### 原待决问题（MVP 已收敛）
 
-- **Q1**：回合上限值应该数据驱动（支柱 1）还是 MVP 阶段用代码常量？→ 倾向于从第一天起就数据驱动，避免后续改造。
-- **Q2**：*热座 → AI* 切换在场景树中位于何处？每个单位的 `AIController` 子节点，还是每个阵营的策略对象？→ 在 `/architecture-decision` 中决议。
-- **Q3**："障碍物"地块应属于 TileMap 的一部分还是单独的占用层？→ 在模块 1 GDD 中决议。
+- **Q1**：回合上限值应该数据驱动还是代码常量？→ 已收敛为 `TurnConfig.tres` / `TurnConfig` 数据驱动配置，默认 `turn_cap = 30`。
+- **Q2**：*热座 → AI* 切换位于何处？→ 已收敛为 `TurnManager` 注入 `AIController`，MVP 使用 `NullAI`，Tier 2 通过替换为 `BasicAI` 验证接口。
+- **Q3**："障碍物"地块属于 TileMap 还是单独占用层？→ 已收敛为 Map CSV / TileMapLayer 的 tile state；单位占用由 Map runtime occupancy 字典单独管理。
 
 ---
 
@@ -301,7 +307,7 @@ MVP 的八个模块——见下方模块决策表。
 
 | 层级 | 内容 | 功能 | 状态 |
 | ---- | ---- | ---- | ---- |
-| **MVP** | 1 张地图，每阵营 2-4 单位 | 8 个模块，热座可玩 | **当前目标** |
+| **MVP** | 1 张地图，每阵营 2-4 单位 | 8 个模块，热座可玩 | **已实现；自动化 QA 已签核（2026-05-02）** |
 | **Tier 2（垂直切片）** | 同地图 | + `BasicAI`（最近目标启发式）· 1 种地形类型 · 简易职业三角 | MVP 之后，增量添加 |
 | **Tier 3（Alpha）** | 3 张地图，主菜单 | + 多局成长 · 存档/读档 · XP 与升级 | 可选扩展 |
 | **完整愿景** | N/A —— 本项目没有"完整愿景" | 发布 MVP 即停，或 fork 为在此骨架之上构建的有风味 SRPG 项目 | 决策推迟 |
@@ -310,15 +316,10 @@ MVP 的八个模块——见下方模块决策表。
 
 ## 后续步骤
 
-- [ ] （精简：跳过概念级导演签核）
-- [ ] 运行 `/setup-engine` 以将 Godot 4.6 / GDScript / TileMap 配置填充到 `.claude/docs/technical-preferences.md`
-- [ ] 运行 `/art-bible` 以正式化视觉定位锚点
-- [ ] 运行 `/design-review design/gdd/game-concept.md` 以验证概念完整性
-- [ ] 运行 `/map-systems` 以将 8 个模块分解为系统依赖图
-- [ ] 使用 `/design-system` 编写每个模块的 GDD（每个模块一份，按依赖顺序：地图 → 单位 → 回合 → 移动 → 攻击 → AI → 胜利条件 → UI）
-- [ ] 运行 `/create-architecture` 以生成主架构蓝图及必需的 ADR 列表
-- [ ] 为每个 ADR 运行 `/architecture-decision`（接口合约：AIController、GridSpace 边界、Faction 枚举位置）
-- [ ] 在进入实现阶段前运行 `/gate-check pre-production`
-- [ ] 通过 `/prototype` 原型化风险最高的接口（AIController + NullAI + BasicAI 脚手架）
-- [ ] 原型化后运行 `/playtest-report` 以确认核心循环的有效性
-- [ ] 若验证通过，使用 `/sprint-plan new` 规划首个 sprint
+- [x] 8 个 MVP 系统 GDD 完成。
+- [x] ADR-0001 至 ADR-0010 覆盖 Foundation / Core / Feature / Presentation 架构面。
+- [x] Sprint 1-3 实现完成，MVP 自动化 QA 签核完成。
+- [x] `8-8 Unit 已行动灰色 modulate` 已实现并由 `tests/unit/unit/unit_scene_visual_test.gd` 覆盖。
+- [ ] 可选：补充 Godot 编辑器人工视觉 checklist 作为产品 polish 证据。
+- [ ] Tier 2 默认下一步：实现 `BasicAI`，验证 `AIController` 扩展点能在不重写 `TurnManager` 的情况下替换 `NullAI`。
+- [ ] 若 story-readiness 工具严格要求 ADR 生命周期标签，单独执行 ADR `Proposed` → `Accepted` 状态收敛 pass。

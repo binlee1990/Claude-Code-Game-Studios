@@ -122,6 +122,7 @@
 - [x] 8-2 (InputHandler Logic Story) 有 ≥5 通过测试 (`tests/unit/ui/`) — `input_handler_test.gd` 7 个测试已进入 default runner
 - [x] 8-6 集成有 E2E 冒烟检查清单完成 — E2E 自动化 + `src/Game.tscn` headless scene boot clean
 - [x] 8-7 全流程 playtest 通过 (所有 10 个检查点) — 见 `production/qa/evidence/story-8-7/playtest-notes.md`
+- [x] 8-8 Should Have 已行动灰色 modulate 完成 — `tests/unit/unit/unit_scene_visual_test.gd` 覆盖
 - [x] 代码审查通过 (current QA risk-resolution diff reviewed against sprint scope)
 - [x] MVP 完整可玩: 启动 → 移动 → 攻击 → End Turn → Victory/Loss
 - [x] `game-concept.md` MVP 定义全部 8 项满足
