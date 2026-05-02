@@ -41,6 +41,16 @@
         "player": [[1, 2], [10, 2]],
         "enemy": [[1, 13], [10, 13]]
       }
+    },
+    {
+      "name": "rough_pass",
+      "role": "variant",
+      "cols": 16,
+      "rows": 12,
+      "spawns": {
+        "player": [[5, 2], [6, 2]],
+        "enemy": [[5, 13], [6, 13]]
+      }
     }
   ]
 }

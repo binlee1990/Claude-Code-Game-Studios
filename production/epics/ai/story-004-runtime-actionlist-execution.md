@@ -24,7 +24,7 @@ Allow `TurnManager` to execute non-empty AI `ActionList` values during ENEMY pha
 - `src/turn/ai_action_executor.gd`
 - `src/turn/turn_manager.gd`
 - `tests/unit/turn/turn_ai_execution_test.gd`
-- Default runner: `Total Passed: 292`
+- Default runner: `Total Passed: 297`
 
 ## Notes
 

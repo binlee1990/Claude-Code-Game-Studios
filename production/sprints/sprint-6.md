@@ -19,7 +19,7 @@ Expose a minimal demo/runtime configuration for selecting `NullAI` vs `BasicAI` 
 - [x] `Game` resolves the configured mode and instantiates the matching `AIController`.
 - [x] Command-line `--enemy-ai=basic` and `--enemy-ai hotseat` override project settings for demo runs.
 - [x] Unit tests cover project-setting and command-line selection.
-- [x] Default runner is clean: `Total Passed: 292`.
+- [x] Default runner is clean: `Total Passed: 297`.
 - [x] Default scene smoke is clean.
 - [x] BasicAI-mode scene smoke is clean.
 

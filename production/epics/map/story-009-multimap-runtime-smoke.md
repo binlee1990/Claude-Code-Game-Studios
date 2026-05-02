@@ -19,7 +19,7 @@ Runtime map selection must be proven through both unit tests and scene boot smok
 
 ## Test Evidence
 
-- Full runner: `Total Passed: 292`; zero script errors, assertion failures, error lines, or warnings observed.
+- Full runner: `Total Passed: 297`; zero script errors, assertion failures, error lines, or warnings observed.
 - Scene smoke matrix from `production/qa/qa-plan-sprint-8-2026-05-03.md`: default, `--map=crossroads`, and `--map=split_lanes --enemy-ai=basic` all clean.
 
 ## Out of Scope

@@ -25,7 +25,7 @@ Allow the `Game` composition root to select `NullAI` or `BasicAI` at runtime wit
 - `project.godot`
 - `src/game.gd`
 - `tests/unit/ui/game_ai_mode_test.gd`
-- Default runner: `Total Passed: 292`
+- Default runner: `Total Passed: 297`
 
 ## Notes
 

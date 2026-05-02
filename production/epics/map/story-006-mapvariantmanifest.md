@@ -20,7 +20,7 @@ Sprint 7 created `assets/data/maps/map_variants.json`, but the runtime has no ty
 ## Test Evidence
 
 - `tests/unit/map/map_variant_manifest_test.gd`
-- Full runner: `Total Passed: 292`; zero script errors, assertion failures, error lines, or warnings observed.
+- Full runner: `Total Passed: 297`; zero script errors, assertion failures, error lines, or warnings observed.
 
 ## Out of Scope
 

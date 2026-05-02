@@ -12,7 +12,7 @@
 
 **Status**: Executed / Pass.
 **Baseline evidence**: Sprint 7 map data validation is covered by `tests/unit/map/map_variant_pack_test.gd`.
-**Execution evidence**: Current runner is clean at `Total Passed: 292`; zero `SCRIPT ERROR`, zero `Assertion failed`, zero `ERROR:` lines, and zero `WARNING:` lines observed. Scene smoke matrix is clean for default `test_map`, `--map=crossroads`, and `--map=split_lanes --enemy-ai=basic`.
+**Execution evidence**: Current runner is clean at `Total Passed: 297`; zero `SCRIPT ERROR`, zero `Assertion failed`, zero `ERROR:` lines, and zero `WARNING:` lines observed. Scene smoke matrix is clean for default `test_map`, `--map=crossroads`, and `--map=split_lanes --enemy-ai=basic`.
 
 This QA plan assumes implementation will preserve the existing default behavior: launching `src/Game.tscn` without arguments still loads `test_map`, places the original 2 Player / 2 Enemy units, and uses `NullAI` hotseat mode by default.
 
@@ -99,7 +99,7 @@ Required commands:
 Expected:
 
 ```text
-Total Passed: 292
+Total Passed: 297
 SCRIPT ERROR: 0
 Assertion failed: 0
 ERROR lines: 0

@@ -33,6 +33,25 @@ func test_csv_loading_out_of_bounds_returns_blocked() -> void:
 	# Out-of-bounds defaults to BLOCKED (safe default)
 	assert(_map.get_tile_state(Vector2i(100, 100)) == Map.TileState.BLOCKED)
 
+func test_rough_tile_is_walkable_with_cost_two() -> void:
+	_map = Map.new()
+	_map._rows = 1
+	_map._cols = 1
+	_map._tile_states[Vector2i(0, 0)] = Map.TileState.ROUGH
+
+	assert(_map.is_walkable(Vector2i(0, 0)))
+	assert(_map.get_movement_cost(Vector2i(0, 0)) == 2)
+
+func test_blocked_and_obstacle_tiles_have_no_movement_cost() -> void:
+	_map = Map.new()
+	_map._rows = 1
+	_map._cols = 2
+	_map._tile_states[Vector2i(0, 0)] = Map.TileState.BLOCKED
+	_map._tile_states[Vector2i(0, 1)] = Map.TileState.OBSTACLE
+
+	assert(_map.get_movement_cost(Vector2i(0, 0)) < 0)
+	assert(_map.get_movement_cost(Vector2i(0, 1)) < 0)
+
 func test_is_coord_in_bounds_corner() -> void:
 	_map = Map.new()
 	_map.initialize(GridSpace.new(), "test_map")

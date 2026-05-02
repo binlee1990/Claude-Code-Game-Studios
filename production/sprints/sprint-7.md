@@ -21,7 +21,7 @@ Use the `$generate2dmap` workflow as a tactical data pipeline, not an art pass: 
 - [x] Add automated validation for CSV load, spawn legality, path connectivity, and blocked/obstacle behavior.
 - [x] Keep `test_map.csv` as the default scene map unless a separate decision changes it.
 - [x] Do not add decorative raster maps, prop packs, unit sprites, or map-selection UI in this sprint.
-- [x] Default runner remains clean: `Total Passed: 292`.
+- [x] Default runner remains clean: `Total Passed: 297`.
 
 ## Pipeline Decision
 

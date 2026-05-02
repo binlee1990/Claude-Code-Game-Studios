@@ -22,7 +22,7 @@
 
 - `tests/unit/ui/game_map_mode_test.gd`
 - Default scene smoke: `src/Game.tscn` clean.
-- Full runner: `Total Passed: 292`; zero script errors, assertion failures, error lines, or warnings observed.
+- Full runner: `Total Passed: 297`; zero script errors, assertion failures, error lines, or warnings observed.
 
 ## Out of Scope
 

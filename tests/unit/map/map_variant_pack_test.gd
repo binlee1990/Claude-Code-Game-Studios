@@ -10,12 +10,12 @@ func after() -> void:
 			map.free()
 	_loaded_maps = []
 
-func test_manifest_lists_three_new_variant_maps() -> void:
+func test_manifest_lists_four_new_variant_maps() -> void:
 	var manifest := _load_manifest()
 	var variants := _variant_entries(manifest)
 
 	assert(manifest["default_map"] == "test_map")
-	assert(variants.size() == 3)
+	assert(variants.size() == 4)
 	for entry in variants:
 		assert(FileAccess.file_exists("res://assets/data/maps/%s.csv" % entry["name"]))
 		assert(entry["spawns"]["player"].size() == 2)
@@ -56,6 +56,7 @@ func test_variant_maps_have_player_to_enemy_connectivity() -> void:
 func test_variant_blocked_and_obstacle_tiles_are_not_walkable() -> void:
 	var saw_blocked := false
 	var saw_obstacle := false
+	var saw_rough := false
 
 	for entry in _load_manifest()["maps"]:
 		var map := _load_map(entry["name"])
@@ -70,9 +71,14 @@ func test_variant_blocked_and_obstacle_tiles_are_not_walkable() -> void:
 				elif state == Map.TileState.OBSTACLE:
 					saw_obstacle = true
 					assert(not map.is_walkable(coord))
+				elif state == Map.TileState.ROUGH:
+					saw_rough = true
+					assert(map.is_walkable(coord))
+					assert(map.get_movement_cost(coord) == 2)
 
 	assert(saw_blocked)
 	assert(saw_obstacle)
+	assert(saw_rough)
 
 func _load_manifest() -> Dictionary:
 	var file := FileAccess.open(MANIFEST_PATH, FileAccess.READ)
@@ -119,7 +125,7 @@ func _has_path_to_any(map: Map, start: Vector2i, goals: Array) -> bool:
 		for neighbor in map.get_neighbors(current):
 			if visited.has(neighbor):
 				continue
-			if map.get_tile_state(neighbor) != Map.TileState.WALKABLE:
+			if not map.is_walkable(neighbor):
 				continue
 			visited[neighbor] = true
 			frontier.append(neighbor)

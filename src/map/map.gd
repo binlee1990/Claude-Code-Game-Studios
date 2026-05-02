@@ -1,6 +1,10 @@
 class_name Map extends Node2D
 
-enum TileState { WALKABLE, BLOCKED, OBSTACLE }
+enum TileState { WALKABLE, BLOCKED, OBSTACLE, ROUGH }
+
+const WALKABLE_MOVEMENT_COST := 1
+const ROUGH_MOVEMENT_COST := 2
+const BLOCKED_MOVEMENT_COST := -1
 
 var grid_space: GridSpace
 var _tile_states: Dictionary = {}
@@ -42,10 +46,20 @@ func is_coord_in_bounds(coord: Vector2i) -> bool:
 func get_tile_state(coord: Vector2i) -> TileState:
 	return _tile_states.get(coord, TileState.BLOCKED)
 
+func get_movement_cost(coord: Vector2i) -> int:
+	if not is_coord_in_bounds(coord):
+		return BLOCKED_MOVEMENT_COST
+	var state: TileState = _tile_states.get(coord, TileState.BLOCKED)
+	if state == TileState.WALKABLE:
+		return WALKABLE_MOVEMENT_COST
+	if state == TileState.ROUGH:
+		return ROUGH_MOVEMENT_COST
+	return BLOCKED_MOVEMENT_COST
+
 func is_walkable(coord: Vector2i) -> bool:
 	if not is_coord_in_bounds(coord):
 		return false
-	if _tile_states.get(coord) != TileState.WALKABLE:
+	if get_movement_cost(coord) <= 0:
 		return false
 	if _occupancy.has(coord):
 		return false
@@ -68,7 +82,7 @@ func get_dimensions() -> Dictionary:
 func place_unit(unit: Unit, coord: Vector2i) -> bool:
 	if not is_coord_in_bounds(coord):
 		return false
-	if _tile_states.get(coord) != TileState.WALKABLE:
+	if get_movement_cost(coord) <= 0:
 		return false
 	if _occupancy.has(coord):
 		return false
@@ -92,7 +106,7 @@ func move_unit(unit: Unit, from: Vector2i, to: Vector2i) -> bool:
 		return false
 	if not is_coord_in_bounds(to):
 		return false
-	if _tile_states.get(to) != TileState.WALKABLE:
+	if get_movement_cost(to) <= 0:
 		return false
 	if from != to and _occupancy.has(to):
 		return false
@@ -137,6 +151,8 @@ func _load_csv(path: String) -> void:
 					_tile_states[coord] = TileState.BLOCKED
 				"O":
 					_tile_states[coord] = TileState.OBSTACLE
+				"R":
+					_tile_states[coord] = TileState.ROUGH
 				_:
 					assert(false, "Invalid char '%s' at (%d,%d)" % [ch, r, c])
 		r += 1
@@ -159,4 +175,6 @@ func _tile_state_to_atlas(state: TileState) -> Vector2i:
 			return Vector2i(1, 0)
 		TileState.OBSTACLE:
 			return Vector2i(2, 0)
+		TileState.ROUGH:
+			return Vector2i(0, 0)
 	return Vector2i(0, 0)

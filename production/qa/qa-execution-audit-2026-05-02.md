@@ -14,7 +14,7 @@ The initial 2026-05-02 audit found an unsafe QA signal: `Total Passed: 222` was 
 
 The current revalidation run now reports:
 
-- `Total Passed`: 292
+- `Total Passed`: 297
 - `SCRIPT ERROR`: 0
 - `Assertion failed`: 0
 - `ERROR:` lines: 0
@@ -57,7 +57,7 @@ The scene boot smoke also completed with zero script errors, assertions, `ERROR:
 ## Verification Evidence
 
 ```text
-Total Passed: 292
+Total Passed: 297
 SCRIPT_ERROR=0
 ASSERTION_FAILED=0
 ERROR_LINES=0

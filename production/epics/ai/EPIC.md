@@ -4,7 +4,7 @@
 > **GDD**: design/gdd/ai.md
 > **Architecture Module**: AIController (Feature Layer)
 > **Status**: Ready
-> **Stories**: 5 stories created
+> **Stories**: 6 stories created
 
 ## Stories
 | # | Story | Type | Status | ADR |
@@ -14,10 +14,11 @@
 | 003 | BasicAI — 最近目标启发式计划生成器 | Logic | Done | ADR-0008 |
 | 004 | Runtime ActionList Execution — TurnManager 执行非空 AI 计划 | Integration | Done | ADR-0008 |
 | 005 | Runtime AI Mode Selection — Game 可选 NullAI / BasicAI | Integration | Done | ADR-0008 |
+| 006 | BasicAI Terrain Awareness — cost-aware movement through MovementResolver | Logic | Done | ADR-0008 |
 
 ## Overview
 
-实现可替换 AI 控制器接口：AIController 为 @abstract RefCounted 基类，定义 `take_turn(units, world_state) → ActionList` 契约。WorldState 封装 Map 拓扑快照和单位状态供 AI 决策。NullAI（MVP 默认实现）返回空 ActionList——热座模式下 ENEMY 回合由玩家手动操控。BasicAI（Tier 2）使用 BFS+伤害公式选择行动；TurnManager 现在可以执行非空 ActionList。默认 Game 场景仍使用 NullAI；BasicAI 可通过 `srpg_mini/enemy_ai_mode=basic` 或命令行 `--enemy-ai=basic` 启用。
+实现可替换 AI 控制器接口：AIController 为 @abstract RefCounted 基类，定义 `take_turn(units, world_state) → ActionList` 契约。WorldState 封装 Map 拓扑快照和单位状态供 AI 决策。NullAI（MVP 默认实现）返回空 ActionList——热座模式下 ENEMY 回合由玩家手动操控。BasicAI（Tier 2）使用 MovementResolver+伤害公式选择行动；TurnManager 现在可以执行非空 ActionList。默认 Game 场景仍使用 NullAI；BasicAI 可通过 `srpg_mini/enemy_ai_mode=basic` 或命令行 `--enemy-ai=basic` 启用。Sprint 9 后，BasicAI 通过 MovementResolver 自动获得 rough terrain cost-awareness，而不导入地形特例。
 
 ## Governing ADRs
 
@@ -46,4 +47,4 @@
 
 ## Next Step
 
-Optional BasicAI visual timing QA has been replaced by CP11 AI/automated verification in `production/qa/visual-verification-checklist.md`. Sprint 7 Map Variant Pack is complete under the Map epic.
+Optional BasicAI visual timing QA has been replaced by CP11 AI/automated verification in `production/qa/visual-verification-checklist.md`. Sprint 9 terrain-aware BasicAI behavior is covered by `tests/unit/ai/basic_ai_test.gd`.

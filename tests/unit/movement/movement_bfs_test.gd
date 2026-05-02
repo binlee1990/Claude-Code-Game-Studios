@@ -26,6 +26,8 @@ func _make_tile_states(data: Array) -> void:
 					mp._tile_states[coord] = Map.TileState.BLOCKED
 				"O":
 					mp._tile_states[coord] = Map.TileState.OBSTACLE
+				"R":
+					mp._tile_states[coord] = Map.TileState.ROUGH
 
 func _make_unit(hp: int, mov: int) -> Unit:
 	var u = Unit.new()
@@ -62,6 +64,26 @@ func test_blocked_tiles_avoided() -> void:
 	u.grid_position = Vector2i(0, 0)
 	var result = resolver.compute_reachable(u, mp)
 	assert(not Vector2i(1, 1) in result.get_reachable_tiles())
+
+func test_rough_tile_cost_limits_reach() -> void:
+	_make_tile_states([".R."])
+	var u = _make_unit(10, 2)
+	u.grid_position = Vector2i(0, 0)
+	var result = resolver.compute_reachable(u, mp)
+	assert(Vector2i(0, 1) in result.get_reachable_tiles())
+	assert(not Vector2i(0, 2) in result.get_reachable_tiles())
+	assert(result.get_distance_to(Vector2i(0, 1)) == 2)
+
+func test_weighted_path_prefers_lower_total_cost() -> void:
+	_make_tile_states([".....", ".RRR.", "....."])
+	var u = _make_unit(10, 6)
+	u.grid_position = Vector2i(1, 0)
+	var result = resolver.compute_reachable(u, mp)
+	var path = result.get_path_to(Vector2i(1, 4))
+	assert(result.get_distance_to(Vector2i(1, 4)) == 6)
+	assert(Vector2i(1, 1) not in path)
+	assert(path[0] == Vector2i(1, 0))
+	assert(path[path.size() - 1] == Vector2i(1, 4))
 
 func test_occupied_tile_avoids_enemy() -> void:
 	_make_tile_states(["...", "...", "..."])

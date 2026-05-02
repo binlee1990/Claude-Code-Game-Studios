@@ -4,13 +4,13 @@
 > Read this file first after any compaction, crash, or `/clear`.
 
 **Last Updated**: 2026-05-03
-**Project Stage**: Pre-Production — MVP signed off; Tier 2 BasicAI runtime mode selection, Map Variant Pack, and Runtime Map Selection implemented
-**Active Sprint**: Sprint 8 — Runtime Map Selection complete
+**Project Stage**: Pre-Production — MVP signed off; Tier 2 BasicAI, Map Variant Pack, Runtime Map Selection, and Weighted Terrain Movement implemented
+**Active Sprint**: Sprint 9 — Weighted Terrain Movement complete
 
 <!-- STATUS -->
 Epic: Map / Coordinates
-Feature: Runtime Map Selection
-Task: Sprint 8 implemented and verified with automated runner plus multi-map scene smokes
+Feature: Weighted Terrain Movement
+Task: Sprint 9 implemented and verified with automated runner plus rough terrain scene smokes
 <!-- /STATUS -->
 
 ---
@@ -52,7 +52,7 @@ Use these boundaries:
 - Implementation: complete
 - Story: `production/epics/map/story-005-map-variant-pack.md`
 - Scope: 3 project-native CSV map variants + automated validation
-- Evidence: `tests/unit/map/map_variant_pack_test.gd`, default runner `Total Passed: 292`
+- Evidence: `tests/unit/map/map_variant_pack_test.gd`, default runner `Total Passed: 297`
 - Explicitly out of scope: decorative raster maps, prop packs, unit sprites, map-selection UI
 
 ### Sprint 8 — Runtime Map Selection
@@ -61,7 +61,15 @@ Use these boundaries:
 - QA Plan: `production/qa/qa-plan-sprint-8-2026-05-03.md`
 - Scope: manifest query, runtime map selection, spawn fixture consumption, multi-map scene smoke
 - Sprint sizing: 4 coherent stories, planned as one AI-sized integration batch
-- Evidence: `tests/unit/map/map_variant_manifest_test.gd`, `tests/unit/ui/game_map_mode_test.gd`, default runner `Total Passed: 292`, clean scene smokes for default, `--map=crossroads`, and `--map=split_lanes --enemy-ai=basic`
+- Evidence: `tests/unit/map/map_variant_manifest_test.gd`, `tests/unit/ui/game_map_mode_test.gd`, default runner `Total Passed: 297`, clean scene smokes for default, `--map=crossroads`, and `--map=split_lanes --enemy-ai=basic`
+
+### Sprint 9 — Weighted Terrain Movement
+- Implementation: complete
+- Sprint: `production/sprints/sprint-9.md`
+- QA Plan: `production/qa/qa-plan-sprint-9-2026-05-03.md`
+- Scope: rough terrain cost model, weighted MovementResolver, rough map fixture, BasicAI terrain awareness, rough terrain scene smoke
+- Sprint sizing: 5 coherent stories, implemented as one AI-sized rules/validation batch
+- Evidence: `tests/unit/map/map_loading_test.gd`, `tests/unit/movement/movement_bfs_test.gd`, `tests/unit/ai/basic_ai_test.gd`, `tests/unit/map/map_variant_pack_test.gd`, default runner `Total Passed: 297`, clean scene smokes for default, `--map=rough_pass`, and `--map=rough_pass --enemy-ai=basic`
 
 ---
 
@@ -79,6 +87,7 @@ QA status:
   Sprint 3 should-have visual state story 8-8 is implemented and covered by automated structural test.
   Human editor QA is complete: CP1-CP10 and综合检查 all passed in production/qa/visual-verification-checklist.md.
   Sprint 8 Runtime Map Selection is implemented and covered by automated tests plus multi-map scene smokes.
+  Sprint 9 Weighted Terrain Movement is implemented and covered by automated tests plus rough terrain scene smokes.
 ```
 
 ---
@@ -94,7 +103,7 @@ Command:
 Observed output summary:
 
 ```text
-Total Passed: 292
+Total Passed: 297
 SCRIPT ERROR: 0
 Assertion failed: 0
 ERROR lines: 0
@@ -105,8 +114,8 @@ Scene smoke:
 
 ```powershell
 & 'G:\SteamLibrary\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe' --headless --path . --scene res://src/Game.tscn --quit-after 2
-& 'G:\SteamLibrary\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe' --headless --path . --scene res://src/Game.tscn --quit-after 2 -- --map=crossroads
-& 'G:\SteamLibrary\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe' --headless --path . --scene res://src/Game.tscn --quit-after 2 -- --map=split_lanes --enemy-ai=basic
+& 'G:\SteamLibrary\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe' --headless --path . --scene res://src/Game.tscn --quit-after 2 -- --map=rough_pass
+& 'G:\SteamLibrary\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe' --headless --path . --scene res://src/Game.tscn --quit-after 2 -- --map=rough_pass --enemy-ai=basic
 ```
 
 ```text
@@ -175,6 +184,18 @@ WARNING lines: 0
 | `tests/unit/ui/game_map_mode_test.gd` | Created | Runtime map selection, spawn fixture placement, and invalid spawn fallback coverage |
 | `src/game.gd` | Updated | Selects map by project setting / CLI override and places units from selected-map fixtures |
 | `project.godot` | Updated | Adds `srpg_mini/map_name="test_map"` default |
+| `production/sprints/sprint-9.md` | Created | Completed AI-sized Weighted Terrain Movement sprint |
+| `production/qa/qa-plan-sprint-9-2026-05-03.md` | Created | Executed QA plan for rough terrain cost model, weighted movement, BasicAI terrain awareness, and scene smoke matrix |
+| `production/epics/map/story-010-rough-terrain-cost-model.md` | Created | Completed rough terrain cost model story |
+| `production/epics/map/story-011-rough-pass-map-variant.md` | Created | Completed rough terrain map fixture story |
+| `production/epics/movement/story-004-weighted-terrain-movement.md` | Created | Completed weighted movement resolver story |
+| `production/epics/ai/story-006-basic-ai-terrain-awareness.md` | Created | Completed BasicAI terrain awareness story |
+| `assets/data/maps/rough_pass.csv` | Created | Rough terrain map variant |
+| `assets/data/maps/map_variants.json` | Updated | Adds `rough_pass` map entry and spawn fixture |
+| `src/map/map.gd` | Updated | Adds `ROUGH` tile state and `get_movement_cost()` |
+| `src/movement/movement_resolver.gd` | Updated | Upgrades reachability from uniform BFS to movement-cost aware search |
+| `tests/unit/movement/movement_bfs_test.gd` | Updated | Covers rough terrain budget limits and lower-cost path reconstruction |
+| `tests/unit/ai/basic_ai_test.gd` | Updated | Covers BasicAI rough terrain cost-awareness through MovementResolver |
 
 ---
 
@@ -184,3 +205,4 @@ WARNING lines: 0
 - 8/8 MVP systems implemented + integrated at implementation layer
 - `docs/architecture/architecture-review-2026-04-30.md` refreshed to current PASS / no blocking architecture gaps
 - Sprint 8 preserved architecture boundaries: map selection lives in the `Game` composition root and manifest parsing lives behind `src/map/map_variant_manifest.gd`
+- Sprint 9 preserved architecture boundaries: terrain cost lookup lives in `Map`, movement cost search lives in `MovementResolver`, and BasicAI consumes terrain only through MovementResolver

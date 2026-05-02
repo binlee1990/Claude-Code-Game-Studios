@@ -9,15 +9,15 @@ generated: "2026-05-02"
 updated: "2026-05-02"
 qa_audit:
   date: "2026-05-03"
-  report: "production/qa/qa-plan-sprint-8-2026-05-03.md"
+  report: "production/qa/qa-plan-sprint-9-2026-05-03.md"
   verdict: "pass"
-  runner_total_passed_reported: 292
+  runner_total_passed_reported: 297
   runner_script_errors: 0
   runner_assertion_failures: 0
   runner_error_lines: 0
   runner_warnings: 0
-  scene_smoke: "src/Game.tscn default, --map=crossroads, and --map=split_lanes --enemy-ai=basic headless boot clean"
-  note: "Sprint 1-3 automated QA clean; manual visual verification CP1-CP10 plus comprehensive checks passed; Tier 2 BasicAI planner/runtime/mode tests, Sprint 7 Map Variant Pack validation, and Sprint 8 Runtime Map Selection validation are clean."
+  scene_smoke: "src/Game.tscn default, --map=rough_pass, and --map=rough_pass --enemy-ai=basic headless boot clean"
+  note: "Sprint 1-3 automated QA clean; manual visual verification CP1-CP10 plus comprehensive checks passed; Tier 2 BasicAI planner/runtime/mode tests, Sprint 7 Map Variant Pack, Sprint 8 Runtime Map Selection, and Sprint 9 Weighted Terrain Movement validation are clean."
 
 stories:
   # === UI: Highlight Layer ===

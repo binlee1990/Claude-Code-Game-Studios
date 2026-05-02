@@ -12,11 +12,12 @@ func test_manifest_lists_baseline_and_variant_maps() -> void:
 	var manifest = MapVariantManifest.load_default()
 	var names = manifest.get_map_names()
 
-	assert(names.size() == 4)
+	assert(names.size() == 5)
 	assert("test_map" in names)
 	assert("crossroads" in names)
 	assert("central_choke" in names)
 	assert("split_lanes" in names)
+	assert("rough_pass" in names)
 
 func test_resolve_map_name_falls_back_to_default() -> void:
 	var manifest = MapVariantManifest.load_default()

@@ -45,7 +45,7 @@ This sprint makes existing map variants playable by configuration. It does not c
 
 ## Verification Evidence
 
-- Full runner: `Total Passed: 292`; zero script errors, assertion failures, error lines, or warnings observed.
+- Full runner: `Total Passed: 297`; zero script errors, assertion failures, error lines, or warnings observed.
 - Scene smoke: default `src/Game.tscn` clean.
 - Scene smoke: `--map=crossroads` clean.
 - Scene smoke: `--map=split_lanes --enemy-ai=basic` clean.

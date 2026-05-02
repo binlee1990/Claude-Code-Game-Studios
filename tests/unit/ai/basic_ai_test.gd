@@ -21,6 +21,20 @@ func _make_open_map(rows: int, cols: int) -> void:
 		for c in range(cols):
 			_map._tile_states[Vector2i(r, c)] = Map.TileState.WALKABLE
 
+func _make_tile_states(data: Array) -> void:
+	_map._rows = data.size()
+	_map._cols = data[0].length()
+	for r in range(data.size()):
+		for c in range(data[r].length()):
+			var coord := Vector2i(r, c)
+			match data[r][c]:
+				".":
+					_map._tile_states[coord] = Map.TileState.WALKABLE
+				"R":
+					_map._tile_states[coord] = Map.TileState.ROUGH
+				"#":
+					_map._tile_states[coord] = Map.TileState.BLOCKED
+
 func _make_unit(faction: Faction.Type, pos: Vector2i, mov: int = 3, rng: int = 1, hp: int = 10) -> Unit:
 	var stats := UnitStats.new()
 	stats.mov = mov
@@ -64,6 +78,18 @@ func test_basic_ai_moves_into_range_and_attacks_nearest_target() -> void:
 	var plan: ActionPlan = result.get_actions()[0]
 	assert(plan.type == ActionType.MOVE_AND_ATTACK)
 	assert(plan.move_target == Vector2i(2, 3))
+	assert(plan.attack_target == player)
+
+func test_basic_ai_uses_weighted_movement_to_avoid_rough_terrain() -> void:
+	_make_tile_states(["......", ".RRRR.", "......"])
+	var enemy := _make_unit(Faction.Type.ENEMY, Vector2i(1, 0), 6, 1)
+	var player := _make_unit(Faction.Type.PLAYER, Vector2i(1, 5))
+	var result := _ai.take_turn([enemy], _make_world_state([enemy, player]))
+
+	assert(result.size() == 1)
+	var plan: ActionPlan = result.get_actions()[0]
+	assert(plan.type == ActionType.MOVE_AND_ATTACK)
+	assert(plan.move_target == Vector2i(0, 5))
 	assert(plan.attack_target == player)
 
 func test_basic_ai_moves_toward_nearest_target_when_attack_unreachable() -> void:

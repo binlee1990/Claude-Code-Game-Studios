@@ -18,7 +18,7 @@ The original 2026-04-30 review was written before ADR-0005 through ADR-0010 exis
 - ADR-0001 through ADR-0010 exist and cover Foundation, Core, Feature, Victory, AI, and Presentation layers.
 - `docs/architecture/architecture.md` records 63 / 65 technical requirements covered by ADRs (97%).
 - The two remaining Unit details are implementation-level items rather than architecture blockers: `unit_id` generation and acted-state visual mapping. Both are implemented and covered by automated tests.
-- Sprint 1-3 automated QA plus Tier 2 BasicAI planner/runtime/mode selection, Sprint 7 Map Variant Pack coverage, and Sprint 8 Runtime Map Selection coverage is clean: `Total Passed: 292`, with zero script errors, assertion failures, error lines, or warnings.
+- Sprint 1-3 automated QA plus Tier 2 BasicAI planner/runtime/mode selection, Sprint 7 Map Variant Pack coverage, Sprint 8 Runtime Map Selection coverage, and Sprint 9 Weighted Terrain Movement coverage is clean: `Total Passed: 297`, with zero script errors, assertion failures, error lines, or warnings.
 
 **Blocking architecture issues**: none.
 
@@ -61,17 +61,17 @@ The current traceability source of truth is `docs/architecture/architecture.md`;
 - **Dependency graph**: clean layered DAG: Foundation -> Core -> Feature -> Presentation.
 - **Boundary rule**: Grid/world coordinate conversion remains isolated to `GridSpace`.
 - **State ownership**: `Map` owns occupancy, `Unit` owns HP/action state, `TurnManager` owns turn lifecycle.
-- **Extension point**: `AIController` now supports `NullAI`, a Tier 2 `BasicAI` planner without `TurnManager` imports, Turn-layer execution of non-empty `ActionList` values, and runtime/demo mode selection.
+- **Extension point**: `AIController` now supports `NullAI`, a Tier 2 `BasicAI` planner without `TurnManager` imports, Turn-layer execution of non-empty `ActionList` values, runtime/demo mode selection, and terrain-aware movement through `MovementResolver`.
 - **Composition root**: `src/game.gd` wires systems directly, including runtime map and AI mode selection; no Autoload or SignalBus is required at MVP scale.
 
 ---
 
 ## Evidence
 
-Current verification was refreshed on 2026-05-03 during Sprint 8 completion:
+Current verification was refreshed on 2026-05-03 during Sprint 9 completion:
 
 ```text
-Total Passed: 292
+Total Passed: 297
 SCRIPT_ERROR=0
 ASSERTION_FAILED=0
 ERROR_LINES=0
@@ -82,8 +82,8 @@ Scene smoke:
 
 ```text
 src/Game.tscn headless boot clean
-src/Game.tscn --map=crossroads headless boot clean
-src/Game.tscn --map=split_lanes --enemy-ai=basic headless boot clean
+src/Game.tscn --map=rough_pass headless boot clean
+src/Game.tscn --map=rough_pass --enemy-ai=basic headless boot clean
 SCRIPT_ERROR=0
 ASSERTION_FAILED=0
 ERROR_LINES=0
@@ -94,9 +94,12 @@ Relevant evidence files:
 
 - `production/qa/qa-execution-audit-2026-05-02.md`
 - `production/qa/qa-plan-sprint-8-2026-05-03.md`
+- `production/qa/qa-plan-sprint-9-2026-05-03.md`
 - `production/qa/qa-signoff-sprint-3-2026-05-02.md`
 - `tests/unit/map/map_variant_manifest_test.gd`
 - `tests/unit/ui/game_map_mode_test.gd`
+- `tests/unit/movement/movement_bfs_test.gd`
+- `tests/unit/ai/basic_ai_test.gd`
 - `tests/unit/unit/unit_scene_visual_test.gd`
 - `tests/integration/ui/e2e_game_flow_test.gd`
 
@@ -106,4 +109,4 @@ Relevant evidence files:
 
 1. If story-readiness tooling enforces ADR lifecycle labels, run a separate ADR status pass to promote completed ADRs from `Proposed` to `Accepted` through the project workflow.
 2. Human editor screenshots remain useful as product-polish evidence, but they are not a blocker for the current automated MVP architecture or QA gate.
-3. Sprint 8 Runtime Map Selection is complete. The next engineering extension should either expose map choice through a small UI surface or integrate generated sprite assets while preserving the current composition-root selection boundary.
+3. Sprint 9 Weighted Terrain Movement is complete. The next engineering extension should be a minimal class/advantage layer only after defining neutral, non-flavored vocabulary.

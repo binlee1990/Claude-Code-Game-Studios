@@ -4,7 +4,7 @@
 > **GDD**: design/gdd/map.md
 > **Architecture Module**: Map (Foundation Layer)
 > **Status**: Ready
-> **Stories**: 9 stories created — see below
+> **Stories**: 11 stories created — see below
 
 ## Stories
 
@@ -19,6 +19,8 @@
 | 007 | Runtime Map Selection — project setting + command-line map override | Integration | Done | ADR-0005 |
 | 008 | Game Spawn Fixture Consumption — place units from manifest fixtures | Integration | Done | ADR-0005 |
 | 009 | Multi-map Runtime Smoke — default/hotseat/BasicAI across variants | QA + Integration | Done | ADR-0005 |
+| 010 | Rough Terrain Cost Model — `R` tile and movement cost API | Data + Logic | Done | ADR-0005 |
+| 011 | Rough Pass Map Variant — validated terrain fixture | Data + Validation | Done | ADR-0005 |
 
 ## Overview
 
@@ -55,4 +57,4 @@
 
 ## Current Extension Status
 
-Sprint 8 completed Stories 006-009 as one AI-sized integration batch: manifest boundary, runtime map selection, spawn fixture consumption, and multi-map smoke verification. Current evidence: `Total Passed: 292` plus clean scene smokes for default `test_map`, `--map=crossroads`, and `--map=split_lanes --enemy-ai=basic`.
+Sprint 9 completed rough terrain support on top of the Sprint 8 runtime map-selection boundary. Current evidence: `Total Passed: 297` plus clean scene smokes for default `test_map`, `--map=rough_pass`, and `--map=rough_pass --enemy-ai=basic`.

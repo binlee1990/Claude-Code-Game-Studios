@@ -21,7 +21,7 @@
 
 - `tests/unit/ui/game_map_mode_test.gd`
 - `tests/integration/ui/e2e_game_flow_test.gd`
-- Full runner: `Total Passed: 292`; zero script errors, assertion failures, error lines, or warnings observed.
+- Full runner: `Total Passed: 297`; zero script errors, assertion failures, error lines, or warnings observed.
 
 ## Out of Scope
 

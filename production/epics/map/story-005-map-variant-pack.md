@@ -59,7 +59,7 @@ MVP 只有 `assets/data/maps/test_map.csv` 一张 16x12 测试地图。下一步
 - `assets/data/maps/crossroads.csv`
 - `assets/data/maps/central_choke.csv`
 - `assets/data/maps/split_lanes.csv`
-- Default runner clean: `Total Passed: 292`
+- Default runner clean: `Total Passed: 297`
 
 ## Dependencies
 
