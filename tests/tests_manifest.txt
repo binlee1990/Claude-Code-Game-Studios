@@ -100,3 +100,5 @@ tests/unit/fog/target_filter_test.gd
 tests/unit/difficulty/integration_mock_test.gd
 tests/integration/fog/fog_save_load_test.gd
 tests/unit/equipment/extreme_risk_test.gd
+tests/unit/boss/action_pattern_test.gd
+tests/integration/bond/combo_battle_ui_test.gd
