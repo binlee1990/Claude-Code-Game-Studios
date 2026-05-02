@@ -5,8 +5,8 @@ const MapVariantManifest = preload("res://src/map/map_variant_manifest.gd")
 func test_load_default_manifest_exposes_default_map() -> void:
 	var manifest = MapVariantManifest.load_default()
 
-	assert(manifest.default_map_name == "test_map")
-	assert(manifest.has_map("test_map"))
+	assert(manifest.default_map_name == "rough_pass")
+	assert(manifest.has_map("rough_pass"))
 
 func test_manifest_lists_baseline_and_variant_maps() -> void:
 	var manifest = MapVariantManifest.load_default()
@@ -23,8 +23,8 @@ func test_resolve_map_name_falls_back_to_default() -> void:
 	var manifest = MapVariantManifest.load_default()
 
 	assert(manifest.resolve_map_name("crossroads") == "crossroads")
-	assert(manifest.resolve_map_name("does_not_exist") == "test_map")
-	assert(manifest.resolve_map_name("") == "test_map")
+	assert(manifest.resolve_map_name("does_not_exist") == "rough_pass")
+	assert(manifest.resolve_map_name("") == "rough_pass")
 
 func test_dimensions_are_available_for_selected_map() -> void:
 	var manifest = MapVariantManifest.load_default()
@@ -45,4 +45,4 @@ func test_unknown_map_spawn_query_uses_default_fixture() -> void:
 	var manifest = MapVariantManifest.load_default()
 	var player_spawns = manifest.get_spawn_points_for_faction("unknown", Faction.Type.PLAYER)
 
-	assert(player_spawns == [Vector2i(5, 2), Vector2i(5, 4)])
+	assert(player_spawns == [Vector2i(5, 2), Vector2i(6, 2)])

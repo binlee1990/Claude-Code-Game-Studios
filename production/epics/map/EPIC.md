@@ -57,4 +57,4 @@
 
 ## Current Extension Status
 
-Sprint 9 completed rough terrain support on top of the Sprint 8 runtime map-selection boundary. Current evidence: `Total Passed: 297` plus clean scene smokes for default `test_map`, `--map=rough_pass`, and `--map=rough_pass --enemy-ai=basic`.
+Sprint 9 completed rough terrain support on top of the Sprint 8 runtime map-selection boundary. Current playtest default is `rough_pass`; use `--map=test_map` to return to the MVP baseline map. Current evidence: `Total Passed: 297` plus clean scene smokes for default launch, `--map=rough_pass`, and `--map=rough_pass --enemy-ai=basic`.

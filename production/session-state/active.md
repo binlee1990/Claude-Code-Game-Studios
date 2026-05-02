@@ -13,6 +13,8 @@ Feature: Weighted Terrain Movement
 Task: Sprint 9 implemented and verified with automated runner plus rough terrain scene smokes
 <!-- /STATUS -->
 
+Current playtest default: `srpg_mini/map_name="rough_pass"` so a plain `src/Game.tscn` launch opens the existing map with the broadest mechanics coverage. Use `--map=test_map` to return to the MVP baseline map. A post-MVP generated visual skin is now applied through per-map `*_visual.png` backgrounds, `assets/data/tile_atlas.png`, and static unit token textures without changing map CSV or combat rules.
+
 ---
 
 ## Sprint Planning Rule
@@ -183,7 +185,7 @@ WARNING lines: 0
 | `tests/unit/map/map_variant_manifest_test.gd` | Created | Manifest load/query/fallback coverage |
 | `tests/unit/ui/game_map_mode_test.gd` | Created | Runtime map selection, spawn fixture placement, and invalid spawn fallback coverage |
 | `src/game.gd` | Updated | Selects map by project setting / CLI override and places units from selected-map fixtures |
-| `project.godot` | Updated | Adds `srpg_mini/map_name="test_map"` default |
+| `project.godot` | Updated | Adds `srpg_mini/map_name` runtime map setting; current playtest default is `rough_pass` |
 | `production/sprints/sprint-9.md` | Created | Completed AI-sized Weighted Terrain Movement sprint |
 | `production/qa/qa-plan-sprint-9-2026-05-03.md` | Created | Executed QA plan for rough terrain cost model, weighted movement, BasicAI terrain awareness, and scene smoke matrix |
 | `production/epics/map/story-010-rough-terrain-cost-model.md` | Created | Completed rough terrain cost model story |

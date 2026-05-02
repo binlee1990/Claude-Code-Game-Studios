@@ -11,7 +11,7 @@
 
 ## 当前实现状态
 
-截至 2026-05-03，MVP 的 8 个原语模块已经实现并集成：Map / Unit / Turn / Movement / Attack / AI / Victory / UI。Sprint 1-3 自动化 QA 已签核，当前默认 runner 报告 `Total Passed: 297`，且 `SCRIPT ERROR`、`Assertion failed`、`ERROR:`、`WARNING:` 均为 0。`src/Game.tscn` headless scene smoke 也为 clean。Tier 2 的 `BasicAI` 计划生成器、Turn-layer runtime ActionList 执行、runtime/demo AI mode selection 均已实现；Sprint 7 `Map Variant Pack` 已新增项目原生 CSV 战术地图并加入自动化验证；Sprint 8 已让这些地图可通过项目设置或 `--map` 命令行参数在运行时选择；Sprint 9 已加入 `R` rough terrain movement cost 并让 MovementResolver / BasicAI 按总移动代价行动。默认 `Game` 场景仍使用 `NullAI` 与 `test_map` 以保留 MVP 热座 baseline。
+截至 2026-05-03，MVP 的 8 个原语模块已经实现并集成：Map / Unit / Turn / Movement / Attack / AI / Victory / UI。Sprint 1-3 自动化 QA 已签核，当前默认 runner 报告 `Total Passed: 297`，且 `SCRIPT ERROR`、`Assertion failed`、`ERROR:`、`WARNING:` 均为 0。`src/Game.tscn` headless scene smoke 也为 clean。Tier 2 的 `BasicAI` 计划生成器、Turn-layer runtime ActionList 执行、runtime/demo AI mode selection 均已实现；Sprint 7 `Map Variant Pack` 已新增项目原生 CSV 战术地图并加入自动化验证；Sprint 8 已让这些地图可通过项目设置或 `--map` 命令行参数在运行时选择；Sprint 9 已加入 `R` rough terrain movement cost 并让 MovementResolver / BasicAI 按总移动代价行动。默认 `Game` 场景仍使用 `NullAI` 热座模式；默认地图现配置为 `rough_pass` 以便直接体验现有机制最复杂的 rough terrain 地图，仍可通过 `--map=test_map` 回到 MVP baseline。Post-MVP 视觉皮肤已用生成式 tile atlas 和静态单位 token 替换纯色占位，但地图/单位规则仍由原数据模型驱动。
 
 本文件现在作为 **MVP baseline** 的概念记录。不要把旧的前置流程清单当作未完成任务；当前后续方向见文末“后续步骤”。
 

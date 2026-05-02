@@ -58,7 +58,8 @@
 ├───────┼────────────────┼────────────────────────────────────┤
 │  FOUNDATION LAYER                                            │
 │  ┌──────────┐                                                │
-│  │   Map    │  TileMapLayer + GridSpace + occupancy dict     │
+│  │   Map    │  CSV state + optional visual background +       │
+│  │          │  TileMapLayer fallback + GridSpace + occupancy  │
 │  └──────────┘                                                │
 │   Node2D (scene root)                                        │
 │   owns: grid topology, walkability, occupancy,               │
@@ -78,19 +79,19 @@
 
 | Aspect | Detail |
 |--------|--------|
-| **Owns** | `_tile_states: Dictionary[Vector2i, TileState]` (walkable/blocked/obstacle), `_occupancy: Dictionary[Vector2i, Unit]`, `GridSpace` instance (world↔grid transform), `TileMapLayer` node |
+| **Owns** | `_tile_states: Dictionary[Vector2i, TileState]` (walkable/blocked/obstacle/rough), `_occupancy: Dictionary[Vector2i, Unit]`, `GridSpace` instance (world↔grid transform), optional per-map `Sprite2D` visual background, `TileMapLayer` fallback node |
 | **Exposes** | `world_to_grid(Vector2) → Vector2i`, `grid_to_world(Vector2i) → Vector2`, `tile_center(Vector2i) → Vector2`, `is_coord_in_bounds(Vector2i) → bool`, `is_walkable(Vector2i) → bool`, `get_neighbors(Vector2i) → Array[Vector2i]`, `get_unit_at(Vector2i) → Unit`, `place_unit(Unit, Vector2i) → bool`, `remove_unit(Vector2i) → bool`, `move_unit(Unit, Vector2i, Vector2i) → bool` |
 | **Consumes** | (nothing — Foundation layer, no upstream deps) |
-| **Engine APIs** | `TileMapLayer.set_cell()` (4.3+, LOW risk), `Node2D`, `RefCounted`, `ResourceLoader` (CSV loading) |
+| **Engine APIs** | `Sprite2D`, `Texture2D`, `TileMapLayer.set_cell()` fallback (4.3+, LOW risk), `Node2D`, `RefCounted`, `ResourceLoader` (CSV and visual loading) |
 
 ### Core Layer — Unit
 
 | Aspect | Detail |
 |--------|--------|
-| **Owns** | `hp: int`, `max_hp: int`, `atk: int`, `def: int`, `mov: int`, `rng: int`, `faction: Faction.Type`, `grid_position: Vector2i`, `action_state: UnitState` (IDLE/SELECTED/MOVED/ACTED/DEAD), `has_acted_this_turn: bool`, `unit_id: String`, `ColorRect` + `Label` child nodes |
+| **Owns** | `hp: int`, `max_hp: int`, `atk: int`, `def: int`, `mov: int`, `rng: int`, `faction: Faction.Type`, `grid_position: Vector2i`, `action_state: UnitState` (IDLE/SELECTED/MOVED/ACTED/DEAD), `has_acted_this_turn: bool`, `unit_id: String`, `ColorRect` state container + `TextureRect` static token + `Label` child nodes |
 | **Exposes** | All owned fields (read-only except `hp`, `grid_position`, `action_state`, `has_acted`), `take_damage(int)`, `heal(int)`, `reset_action_state()`, `can_be_selected() → bool`, `can_move() → bool`, `can_attack() → bool`, `is_alive → bool`, `is_dead → bool`, signal `unit_died(unit)` |
 | **Consumes** | Map: `tile_center()`, `place_unit()`, `remove_unit()` |
-| **Engine APIs** | `Node2D` (scene root), `ColorRect`, `Label`, `Resource` (.tres loading), `RefCounted` (UnitStats) — all LOW risk |
+| **Engine APIs** | `Node2D` (scene root), `ColorRect`, `TextureRect`, `Texture2D`, `Label`, `Resource` (.tres loading), `RefCounted` (UnitStats) — all LOW risk |
 
 ### Core Layer — Turn System
 
@@ -233,7 +234,7 @@ Serialization boundary design (pre-registered):
 
 ```
 1. Game scene (_ready):
-   a. Create Map (load CSV → set TileMapLayer cells → build occupancy dict)
+   a. Create Map (load CSV → load optional visual background or set TileMapLayer fallback cells → build occupancy dict)
    b. Create GridSpace (RefCounted, DI into all consumers)
    c. Instantiate Units (from .tres stats → place on Map via place_unit)
    d. Create TurnManager (RefCounted, inject: units, TurnConfig, VictoryChecker, AIController)

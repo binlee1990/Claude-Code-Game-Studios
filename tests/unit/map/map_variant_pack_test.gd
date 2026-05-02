@@ -14,7 +14,7 @@ func test_manifest_lists_four_new_variant_maps() -> void:
 	var manifest := _load_manifest()
 	var variants := _variant_entries(manifest)
 
-	assert(manifest["default_map"] == "test_map")
+	assert(manifest["default_map"] == "rough_pass")
 	assert(variants.size() == 4)
 	for entry in variants:
 		assert(FileAccess.file_exists("res://assets/data/maps/%s.csv" % entry["name"]))

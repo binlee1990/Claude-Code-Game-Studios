@@ -23,4 +23,4 @@ window/size/viewport_height=768
 [srpg_mini]
 
 enemy_ai_mode="hotseat"
-map_name="test_map"
+map_name="rough_pass"

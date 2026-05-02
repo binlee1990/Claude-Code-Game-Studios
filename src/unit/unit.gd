@@ -3,6 +3,8 @@ class_name Unit extends Node2D
 const COLOR_PLAYER := Color("#3B82F6")
 const COLOR_ENEMY := Color("#EF4444")
 const UnitState = preload("res://src/core/unit_state.gd")
+const PLAYER_TOKEN_TEXTURE: Texture2D = preload("res://assets/data/units/player_token.png")
+const ENEMY_TOKEN_TEXTURE: Texture2D = preload("res://assets/data/units/enemy_token.png")
 
 static var _id_counter: int = 0
 static var _test_instances: Array = []
@@ -101,6 +103,9 @@ func _update_visual() -> void:
 			color_rect.modulate.a = 0.5
 		else:
 			color_rect.modulate = COLOR_PLAYER if faction == Faction.Type.PLAYER else COLOR_ENEMY
+	var token_texture: TextureRect = get_node_or_null("ColorRect/TokenTexture")
+	if token_texture:
+		token_texture.texture = PLAYER_TOKEN_TEXTURE if faction == Faction.Type.PLAYER else ENEMY_TOKEN_TEXTURE
 	var label: Label = get_node_or_null("Label")
 	if label:
 		label.text = "HP: %d/%d" % [hp, max_hp]

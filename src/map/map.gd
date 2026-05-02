@@ -9,6 +9,7 @@ const BLOCKED_MOVEMENT_COST := -1
 var grid_space: GridSpace
 var _tile_states: Dictionary = {}
 var _occupancy: Dictionary = {}
+var _map_name: String = ""
 var _cols: int = 0
 var _rows: int = 0
 var emit_warnings: bool = true
@@ -37,6 +38,7 @@ static func free_test_instances() -> void:
 
 func initialize(p_grid_space: GridSpace, map_name: String) -> void:
 	grid_space = p_grid_space
+	_map_name = map_name
 	_load_csv("res://assets/data/maps/%s.csv" % map_name)
 	_render_tiles()
 
@@ -159,13 +161,39 @@ func _load_csv(path: String) -> void:
 
 func _render_tiles() -> void:
 	var tilemap = get_node_or_null("TileMapLayer") as TileMapLayer
+	var has_visual_background := _render_visual_background()
 	if tilemap == null:
 		return
+	tilemap.visible = not has_visual_background
 	tilemap.tile_set = load("res://assets/data/tileset.tres")
 	tilemap.clear()
 	for coord in _tile_states:
 		var atlas_coords = _tile_state_to_atlas(_tile_states[coord])
 		tilemap.set_cell(coord, 0, atlas_coords)
+
+func _render_visual_background() -> bool:
+	var texture_path := "res://assets/data/maps/%s_visual.png" % _map_name
+	if not ResourceLoader.exists(texture_path):
+		var existing := get_node_or_null("VisualBackground") as Sprite2D
+		if existing:
+			existing.visible = false
+		return false
+
+	var texture := load(texture_path) as Texture2D
+	if texture == null:
+		return false
+
+	var background := get_node_or_null("VisualBackground") as Sprite2D
+	if background == null:
+		background = Sprite2D.new()
+		background.name = "VisualBackground"
+		background.centered = false
+		background.z_index = -10
+		add_child(background)
+	background.texture = texture
+	background.position = Vector2.ZERO
+	background.visible = true
+	return true
 
 func _tile_state_to_atlas(state: TileState) -> Vector2i:
 	match state:
@@ -176,5 +204,5 @@ func _tile_state_to_atlas(state: TileState) -> Vector2i:
 		TileState.OBSTACLE:
 			return Vector2i(2, 0)
 		TileState.ROUGH:
-			return Vector2i(0, 0)
+			return Vector2i(3, 0)
 	return Vector2i(0, 0)

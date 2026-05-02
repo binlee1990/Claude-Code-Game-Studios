@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "default_map": "test_map",
+  "default_map": "rough_pass",
   "maps": [
     {
       "name": "test_map",

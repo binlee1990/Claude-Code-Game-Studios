@@ -29,10 +29,10 @@ func after() -> void:
 			game.free()
 	_games = []
 
-func test_default_project_setting_resolves_test_map() -> void:
+func test_default_project_setting_resolves_rough_pass() -> void:
 	var game := _make_game()
 
-	assert(game._resolve_map_name([]) == "test_map")
+	assert(game._resolve_map_name([]) == "rough_pass")
 
 func test_project_setting_can_select_variant_map() -> void:
 	ProjectSettings.set_setting(Game.MAP_NAME_SETTING, "central_choke")
@@ -52,12 +52,12 @@ func test_command_line_space_overrides_project_setting() -> void:
 
 	assert(game._resolve_map_name(["--map", "split_lanes"]) == "split_lanes")
 
-func test_invalid_map_name_falls_back_to_test_map() -> void:
+func test_invalid_map_name_falls_back_to_default_map() -> void:
 	ProjectSettings.set_setting(Game.MAP_NAME_SETTING, "does_not_exist")
 	var game := _make_game()
 
-	assert(game._resolve_map_name([]) == "test_map")
-	assert(game._resolve_map_name(["--map=missing"]) == "test_map")
+	assert(game._resolve_map_name([]) == "rough_pass")
+	assert(game._resolve_map_name(["--map=missing"]) == "rough_pass")
 
 func test_default_spawn_fixture_preserves_existing_positions() -> void:
 	var game := _make_game_with_map("test_map")

@@ -1,7 +1,7 @@
 class_name MapVariantManifest extends RefCounted
 
 const DEFAULT_PATH := "res://assets/data/maps/map_variants.json"
-const DEFAULT_MAP_NAME := "test_map"
+const DEFAULT_MAP_NAME := "rough_pass"
 const MAP_CSV_TEMPLATE := "res://assets/data/maps/%s.csv"
 
 var default_map_name: String = DEFAULT_MAP_NAME

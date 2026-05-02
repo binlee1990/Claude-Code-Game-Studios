@@ -130,8 +130,8 @@ External resources are permitted only where code-drawn output is categorically i
 
 ### 8.2 External Assets Allowed List
 
-- **Tile textures**: **No.** Tile appearance is defined entirely by `TILE_DEFAULT` and `TILE_GRID_LINE` color tokens rendered as `ColorRect` and `Line2D` nodes. Rationale: **Minimum Complete**.
-- **Unit sprites**: **No** for MVP. Units are code-drawn `Polygon2D` (Player: square, Enemy: circle per §4.1) with a single-letter `Label` child node displaying abbreviated type (e.g., "S" for Soldier, "A" for Archer). The letter is drawn in `UI_HP_TEXT` color against the faction fill. Rationale: **Generic Vocabulary** — no sprite art embeds franchise identity.
+- **Tile textures / map backgrounds**: **Allowed after MVP as a skin layer.** The canonical gameplay source remains CSV tile state (`.` / `#` / `O` / `R`); generated `tile_atlas.png` and per-map `*_visual.png` backgrounds may replace only the visual surface. They must preserve immediate readability for walkable, blocked, obstacle, and rough terrain, and must not encode additional rules.
+- **Unit sprites**: **Allowed after MVP as static token skins.** Units keep the `ColorRect` state/modulate container and HP `Label`; generated unit textures may sit under that container as non-animated faction tokens. Rationale: improve readability without adding character identity, animation, or class flavor.
 - **UI icons**: **No** for MVP. All interactive elements are `StyleBoxFlat`-styled `Button` and `Label` nodes. No icon sheet, no SVG import. Rationale: **Minimum Complete**.
 - **Fonts**: Godot built-in `ThemeDB` default font only for MVP. If the built-in font fails Principle 3's design test (developer reads coordinates at standard scaling), a single monospace `.ttf` may be added — candidate: **JetBrains Mono** (OFL-licensed; distinguishes `0`/`O` and `1`/`I` at small sizes).
 
