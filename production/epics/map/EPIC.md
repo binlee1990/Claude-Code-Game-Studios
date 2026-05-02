@@ -4,7 +4,7 @@
 > **GDD**: design/gdd/map.md
 > **Architecture Module**: Map (Foundation Layer)
 > **Status**: Ready
-> **Stories**: 4 stories created — see below
+> **Stories**: 5 stories created — see below
 
 ## Stories
 
@@ -14,6 +14,7 @@
 | 002 | CSV 地图加载 + TileMapLayer 渲染 | Logic | Ready | ADR-0005 |
 | 003 | 网格拓扑 — 邻接查询 + 边界检查 | Logic | Ready | ADR-0005 |
 | 004 | 占用追踪 — place/remove/get_unit_at | Logic | Ready | ADR-0005 |
+| 005 | Map Variant Pack — 生成式战术地图数据包 | Data + Validation | Done | ADR-0005 |
 
 ## Overview
 
@@ -50,4 +51,4 @@
 
 ## Next Step
 
-Run `/create-stories map` 将本 Epic 拆解为可实施的 Story。
+Story 005 is complete. Optional next extension: add runtime map selection only after deciding how `Game` should consume spawn fixtures.

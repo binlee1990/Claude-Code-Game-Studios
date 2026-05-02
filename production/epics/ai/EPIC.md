@@ -46,4 +46,4 @@
 
 ## Next Step
 
-Optional next extension: run manual visual QA for automatic ENEMY movement timing in `BasicAI` mode.
+Optional BasicAI visual timing QA has been replaced by CP11 AI/automated verification in `production/qa/visual-verification-checklist.md`. Sprint 7 Map Variant Pack is complete under the Map epic.

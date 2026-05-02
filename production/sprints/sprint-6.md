@@ -19,14 +19,14 @@ Expose a minimal demo/runtime configuration for selecting `NullAI` vs `BasicAI` 
 - [x] `Game` resolves the configured mode and instantiates the matching `AIController`.
 - [x] Command-line `--enemy-ai=basic` and `--enemy-ai hotseat` override project settings for demo runs.
 - [x] Unit tests cover project-setting and command-line selection.
-- [x] Default runner is clean: `Total Passed: 270`.
+- [x] Default runner is clean: `Total Passed: 275`.
 - [x] Default scene smoke is clean.
 - [x] BasicAI-mode scene smoke is clean.
 
 ## Scope Boundary
 
-This sprint only exposes selection. It does not add in-game menus, HUD indicators for the selected AI mode, or manual visual sign-off for automatic ENEMY movement timing.
+This sprint only exposes selection. It does not add in-game menus, HUD indicators for the selected AI mode, or visual polish features for automatic ENEMY movement timing. CP11 is covered by AI/automated verification in `production/qa/visual-verification-checklist.md`.
 
 ## Next Step
 
-Run a short manual visual QA pass in `BasicAI` mode to verify automatic ENEMY movement timing, HP updates, and phase transition readability.
+Sprint 7 completed a verified Map Variant Pack using `$generate2dmap` as a project-native tactical-map data workflow. Optional next extension: runtime map selection after spawn-fixture consumption is designed.

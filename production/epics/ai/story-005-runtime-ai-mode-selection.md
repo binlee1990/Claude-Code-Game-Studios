@@ -25,8 +25,8 @@ Allow the `Game` composition root to select `NullAI` or `BasicAI` at runtime wit
 - `project.godot`
 - `src/game.gd`
 - `tests/unit/ui/game_ai_mode_test.gd`
-- Default runner: `Total Passed: 270`
+- Default runner: `Total Passed: 275`
 
 ## Notes
 
-This story provides selection and smoke coverage. It does not replace the signed-off manual visual checklist; automated ENEMY movement timing should still receive a manual visual QA pass before treating BasicAI mode as product-facing.
+This story provides selection and smoke coverage. CP11 in `production/qa/visual-verification-checklist.md` records the AI/automated verification for automatic ENEMY movement, so this story no longer carries a separate manual visual QA follow-up.

@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "default_map": "test_map",
+  "maps": [
+    {
+      "name": "test_map",
+      "role": "baseline",
+      "cols": 16,
+      "rows": 12,
+      "spawns": {
+        "player": [[5, 2], [5, 4]],
+        "enemy": [[5, 10], [5, 12]]
+      }
+    },
+    {
+      "name": "crossroads",
+      "role": "variant",
+      "cols": 16,
+      "rows": 12,
+      "spawns": {
+        "player": [[5, 2], [6, 2]],
+        "enemy": [[5, 13], [6, 13]]
+      }
+    },
+    {
+      "name": "central_choke",
+      "role": "variant",
+      "cols": 16,
+      "rows": 12,
+      "spawns": {
+        "player": [[4, 2], [7, 2]],
+        "enemy": [[4, 13], [7, 13]]
+      }
+    },
+    {
+      "name": "split_lanes",
+      "role": "variant",
+      "cols": 16,
+      "rows": 12,
+      "spawns": {
+        "player": [[1, 2], [10, 2]],
+        "enemy": [[1, 13], [10, 13]]
+      }
+    }
+  ]
+}

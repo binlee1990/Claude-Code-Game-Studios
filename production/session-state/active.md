@@ -3,14 +3,14 @@
 > Living checkpoint. Updated after each significant milestone.
 > Read this file first after any compaction, crash, or `/clear`.
 
-**Last Updated**: 2026-05-02
-**Project Stage**: Pre-Production — MVP signed off; Tier 2 BasicAI runtime mode selection implemented
-**Active Sprint**: Sprint 6 — Runtime AI Mode Selection complete
+**Last Updated**: 2026-05-03
+**Project Stage**: Pre-Production — MVP signed off; Tier 2 BasicAI runtime mode selection and Map Variant Pack implemented
+**Active Sprint**: Sprint 7 — Map Variant Pack complete
 
 <!-- STATUS -->
-Epic: —
-Feature: —
-Task: Tier 2 BasicAI runtime/demo selection complete; BasicAI visual timing QA remains optional
+Epic: Map / Coordinates
+Feature: Map Variant Pack
+Task: Sprint 7 complete; optional next extension is runtime map selection after spawn-fixture consumption is designed
 <!-- /STATUS -->
 
 ---
@@ -35,6 +35,13 @@ Task: Tier 2 BasicAI runtime/demo selection complete; BasicAI visual timing QA r
 - QA Plan: `production/qa/qa-plan-sprint-3-2026-05-02.md`
 - QA Sign-Off: `production/qa/qa-signoff-sprint-3-2026-05-02.md`
 - Current revalidation: ✅ clean
+
+### Sprint 7 — Map Variant Pack
+- Implementation: complete
+- Story: `production/epics/map/story-005-map-variant-pack.md`
+- Scope: 3 project-native CSV map variants + automated validation
+- Evidence: `tests/unit/map/map_variant_pack_test.gd`, default runner `Total Passed: 275`
+- Explicitly out of scope: decorative raster maps, prop packs, unit sprites, map-selection UI
 
 ---
 
@@ -66,7 +73,7 @@ Command:
 Observed output summary:
 
 ```text
-Total Passed: 270
+Total Passed: 275
 SCRIPT ERROR: 0
 Assertion failed: 0
 ERROR lines: 0
@@ -127,6 +134,13 @@ WARNING lines: 0
 | `tests/unit/ui/game_ai_mode_test.gd` | Created | AI mode selection coverage for project setting and `--enemy-ai` arguments |
 | `production/sprints/sprint-6.md` | Created | Runtime AI mode selection sprint |
 | `production/epics/ai/story-005-runtime-ai-mode-selection.md` | Created | Runtime AI mode selection story |
+| `production/sprints/sprint-7.md` | Created | Completed Map Variant Pack sprint using `$generate2dmap` as a tactical data workflow |
+| `production/epics/map/story-005-map-variant-pack.md` | Created | Completed map-variant content/data story |
+| `assets/data/maps/crossroads.csv` | Created | Sprint 7 tactical map variant |
+| `assets/data/maps/central_choke.csv` | Created | Sprint 7 tactical map variant |
+| `assets/data/maps/split_lanes.csv` | Created | Sprint 7 tactical map variant |
+| `assets/data/maps/map_variants.json` | Created | Map variant spawn fixture manifest |
+| `tests/unit/map/map_variant_pack_test.gd` | Created | CSV load, spawn legality, connectivity, and blocked/obstacle validation |
 
 ---
 

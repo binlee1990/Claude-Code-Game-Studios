@@ -41,4 +41,4 @@ MVP 通过 `NullAI` 证明 AIController 的零行为端。Tier 2 的第一个验
 ## Completion
 
 Completed: 2026-05-02
-Runner evidence: `Total Passed: 270`
+Runner evidence: `Total Passed: 275`

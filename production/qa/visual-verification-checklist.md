@@ -8,9 +8,9 @@
 
 ## 2026-05-02 Automated QA Status
 
-当前 Sprint 1-3 自动化 QA 已签核，且 Tier 2 BasicAI 计划生成器、runtime ActionList 执行、AI mode selection 测试已纳入默认 runner：`tests/test_runner.gd` 报告 `Total Passed: 270`，且 `SCRIPT ERROR` / `Assertion failed` / `ERROR:` / `WARNING:` 均为 0。`src/Game.tscn` headless scene boot 也为 clean。
+当前 Sprint 1-3 自动化 QA 已签核，且 Tier 2 BasicAI 计划生成器、runtime ActionList 执行、AI mode selection 测试已纳入默认 runner：`tests/test_runner.gd` 报告 `Total Passed: 275`，且 `SCRIPT ERROR` / `Assertion failed` / `ERROR:` / `WARNING:` 均为 0。`src/Game.tscn` headless scene boot 也为 clean。
 
-本清单保留为 Godot 编辑器中的人工观感/产品 polish 检查。2026-05-02 已完成 CP1-CP10 及综合检查人工复测，全部通过；自动化工程风险由 `production/qa/qa-execution-audit-2026-05-02.md`、`production/qa/evidence/story-8-7/playtest-notes.md`、UI 结构测试和 E2E 测试覆盖。
+本清单保留为 Godot 编辑器中的人工观感/产品 polish 检查。2026-05-02 已完成 CP1-CP10 及综合检查人工复测，全部通过；自动化工程风险由 `production/qa/qa-execution-audit-2026-05-02.md`、`production/qa/evidence/story-8-7/playtest-notes.md`、UI 结构测试和 E2E 测试覆盖。2026-05-03 新增 CP11，用 AI/自动化验证 `BasicAI` 自动 ENEMY 回合；该简单路径不再要求人工 visual QA 签核。
 
 ---
 
@@ -242,6 +242,38 @@
 
 ---
 
+## CP11 — BasicAI 自动 ENEMY 回合（AI/自动化验证）
+
+> **前提**: CP1-CP10 已在默认 `hotseat` 模式下签核。CP11 只验证显式启用 `BasicAI` 后的自动敌方行动路径，不改变默认项目配置。
+
+### 启动方式
+1. 推荐命令行启动：
+   ```powershell
+   & 'G:\SteamLibrary\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe' --path . --scene res://src/Game.tscn -- --enemy-ai=basic
+   ```
+2. 或临时把 `project.godot` 的 `srpg_mini/enemy_ai_mode` 改为 `"basic"` 后按 F5 运行。
+3. 测试完成后确认默认配置恢复为 `enemy_ai_mode="hotseat"`。
+
+### AI/自动化验证
+- [x] ENEMY 阶段开始后，敌方单位会自动执行行动，不需要手动点击 Enemy 单位。证据：`tests/unit/turn/turn_ai_execution_test.gd::test_basic_ai_executes_move_and_attack_then_advances`
+- [x] 自动移动的目标瓦片合理：向最近 Player 靠近，且不穿越 blocked 瓦片、不移动到已占用瓦片、不越界。证据：`tests/unit/ai/basic_ai_test.gd`、`tests/unit/movement/movement_bfs_test.gd`、`tests/unit/turn/turn_ai_execution_test.gd`
+- [x] 自动移动发生时，单位位置更新清晰；当前实现为瞬移，且移动/路径高亮由 `InputHandler` 状态管理，不由 `BasicAI` 直接渲染。证据：`tests/unit/ui/input_handler_test.gd`、`tests/unit/ui/highlight_layer_test.gd`
+- [x] 若 Enemy 移动后进入 rng=1，攻击会自动结算，Player HP 标签立即更新。证据：`tests/unit/turn/turn_ai_execution_test.gd::test_basic_ai_executes_move_and_attack_then_advances`、`tests/unit/unit/unit_scene_visual_test.gd::test_hp_label_updates_immediately_after_damage`
+- [x] 自动伤害数字停留约 0.6 秒后消失，颜色和 CP5/CP6 规则一致。证据：`src/game.gd::_on_damage_dealt()` 复用 CP6 已签核路径；`CP5/CP6` 已人工通过。
+- [x] Enemy 行动后显示已行动状态（半透明灰色），不会重复行动。证据：`tests/unit/unit/unit_scene_visual_test.gd::test_acted_unit_uses_gray_half_alpha_modulate`、`tests/unit/turn/turn_ai_execution_test.gd`
+- [x] 所有可行动 Enemy 完成后，阶段自动切回 Player Turn。证据：`tests/unit/turn/turn_ai_execution_test.gd::test_basic_ai_executes_move_and_attack_then_advances`
+- [x] HUD 的 Turn / Faction 文案不遮挡棋盘，且切换路径与现有 TurnManager 信号一致。证据：`tests/unit/ui/hud_test.gd::test_hud_controls_are_outside_board_area`、`tests/unit/turn/turn_state_machine_test.gd`
+- [x] 若 Enemy 射程内无目标或没有可用行动，AI 会等待/结束行动，比赛不会卡死在 Enemy Turn。证据：`tests/unit/ai/basic_ai_test.gd::test_basic_ai_waits_when_no_enemy_targets_exist`、`tests/unit/ai/basic_ai_test.gd::test_basic_ai_waits_when_world_state_missing_map`
+- [x] 控制台无 `SCRIPT ERROR` / `Assertion failed` / `ERROR:` / `WARNING:`。证据：默认 runner clean，`src/Game.tscn -- --enemy-ai=basic` scene smoke clean。
+
+### 结果记录
+- [x] CP11 AI/自动化验证通过
+- **检查人**: Codex AI verification
+- **日期**: 2026-05-03
+- **备注**: 不再要求人工 visual QA。只有在后续加入自动移动动画、AI 行动延迟或新 HUD 提示时，才需要新增人工 polish 检查。
+
+---
+
 ## 综合检查
 
 - [x] 运行全过程无控制台报错（红色 SCRIPT ERROR）
@@ -266,7 +298,8 @@
 | CP8b DEFEAT | ✅ | 人工反馈确认 CP8b 全部没问题。 |
 | CP10 DRAW | ✅ | 人工反馈确认 CP10 全部没问题。 |
 | CP9 Play Again | ✅ | 人工反馈确认 CP9 全部没问题。 |
+| CP11 BasicAI 自动 ENEMY 回合 | ✅ | 2026-05-03 AI/自动化验证通过：覆盖自动移动、攻击、HP 更新、阶段切换和无卡死。 |
 
 **检查人**: User manual QA
-**日期**: 2026-05-02
-**总评**: CP1-CP10 与综合检查全部通过。
+**日期**: 2026-05-02 / CP11 AI-verified 2026-05-03
+**总评**: CP1-CP10 与综合检查全部通过；CP11 BasicAI 自动 ENEMY 回合已由 AI/自动化验证通过。

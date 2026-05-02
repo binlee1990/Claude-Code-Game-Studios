@@ -127,7 +127,7 @@
 - [x] MVP 完整可玩: 启动 → 移动 → 攻击 → End Turn → Victory/Loss
 - [x] `game-concept.md` MVP 定义全部 8 项满足
 
-> ✅ **QA Plan Execution (refreshed 2026-05-03)**: `production/qa/qa-plan-sprint-3-2026-05-02.md` 已执行，Sprint 3 QA sign-off 已生成：`production/qa/qa-signoff-sprint-3-2026-05-02.md`。当前 headless runner 复核为 clean：`Total Passed: 270`，`SCRIPT ERROR` / `Assertion failed` / `ERROR:` / `WARNING:` 均为 0。Sprint 3 当前状态为 **MVP automated QA signed off**。详情见 `production/qa/qa-execution-audit-2026-05-02.md`。
+> ✅ **QA Plan Execution (refreshed 2026-05-03)**: `production/qa/qa-plan-sprint-3-2026-05-02.md` 已执行，Sprint 3 QA sign-off 已生成：`production/qa/qa-signoff-sprint-3-2026-05-02.md`。当前 headless runner 复核为 clean：`Total Passed: 275`，`SCRIPT ERROR` / `Assertion failed` / `ERROR:` / `WARNING:` 均为 0。Sprint 3 当前状态为 **MVP automated QA signed off**。详情见 `production/qa/qa-execution-audit-2026-05-02.md`。
 
 ## Sprint Completion Gate = MVP Complete
 
