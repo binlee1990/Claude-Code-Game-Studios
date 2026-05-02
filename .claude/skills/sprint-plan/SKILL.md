@@ -45,28 +45,28 @@ For `new`:
 ## Sprint Goal
 [One sentence describing what this sprint achieves toward the milestone]
 
-## Capacity
-- Total days: [X]
-- Buffer (20%): [Y days reserved for unplanned work]
-- Available: [Z days]
+## AI Context Budget
+- Stories: [N] total（≤ 20 — context window hard constraint）
+- Parallelizable: [N] stories（无跨依赖，可 parallel subagent 执行）
+- Verification Density: ≥ [N] automated tests per story（Logic/Integration 类型）
 
 ## Tasks
 
-### Must Have (Critical Path)
-| ID | Task | Agent/Owner | Est. Days | Dependencies | Acceptance Criteria |
-|----|------|-------------|-----------|-------------|-------------------|
+### Must Have（Critical Path — 依赖顺序）
+| ID | Story | Epic | Type | Depends On |
+|----|-------|------|------|------------|
 
 ### Should Have
-| ID | Task | Agent/Owner | Est. Days | Dependencies | Acceptance Criteria |
-|----|------|-------------|-----------|-------------|-------------------|
+| ID | Story | Epic | Type | Depends On |
+|----|-------|------|------|------------|
 
 ### Nice to Have
-| ID | Task | Agent/Owner | Est. Days | Dependencies | Acceptance Criteria |
-|----|------|-------------|-----------|-------------|-------------------|
+| ID | Story | Epic | Type | Depends On |
+|----|-------|------|------|------------|
 
 ## Carryover from Previous Sprint
-| Task | Reason | New Estimate |
-|------|--------|-------------|
+| Story | Reason |
+|-------|--------|
 
 ## Risks
 | Risk | Probability | Impact | Mitigation |
@@ -150,7 +150,6 @@ stories:
     priority: must-have        # must-have | should-have | nice-to-have
     status: ready-for-dev      # backlog | ready-for-dev | in-progress | review | done | blocked
     owner: ""
-    estimate_days: 0
     blocker: ""
     completed: ""
 ```
@@ -174,7 +173,7 @@ stories that haven't changed, add new stories, remove dropped ones.
 
 Before finalising the sprint plan, spawn `producer` via Task using gate **PR-SPRINT** (`.claude/docs/director-gates.md`).
 
-Pass: proposed story list (titles, estimates, dependencies), total team capacity in hours/days, any carryover from the previous sprint, milestone constraints and deadline.
+Pass: proposed story list (titles, types, dependencies, estimated test counts), dependency graph with parallelization opportunities, carryover from previous sprint, milestone constraints. Do NOT pass human time estimates — capacity in this framework is measured by context window (≤ 20 stories) and functional completeness, not hours.
 
 Present the producer's assessment. If UNREALISTIC, revise the story selection (defer stories to Should Have or Nice to Have) before asking for write approval. If CONCERNS, surface them and let the user decide whether to adjust.
 
