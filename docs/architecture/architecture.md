@@ -96,9 +96,9 @@
 
 | Aspect | Detail |
 |--------|--------|
-| **Owns** | `active_faction: Faction.Type`, `turn_number: int`, `turn_cap: int`, `current_state: TurnState` (MATCH_NOT_STARTED/FACTION_PHASE_ACTIVE/FACTION_PHASE_ENDING/MATCH_ENDED), `_all_units: Array[Unit]`, `TurnConfig` reference, `VictoryChecker` reference, `AIController` reference |
+| **Owns** | `active_faction: Faction.Type`, `turn_number: int`, `turn_cap: int`, `current_state: TurnState` (MATCH_NOT_STARTED/FACTION_PHASE_ACTIVE/FACTION_PHASE_ENDING/MATCH_ENDED), `_all_units: Array[Unit]`, `TurnConfig` reference, `VictoryChecker` reference, `AIController` reference, `AIActionExecutor` reference |
 | **Exposes** | Signals: `match_started()`, `turn_started(int)`, `faction_activated(Faction.Type)`, `faction_phase_ended(Faction.Type)`, `match_ended(String, Faction.Type)`. Methods: `start_match(Array[Unit])`, `end_current_faction_turn()`. Read-only: `active_faction`, `turn_number`, `turn_cap`, `current_state` |
-| **Consumes** | Unit: `faction`, `has_acted_this_turn`, `is_alive`, `reset_action_state()`, `unit_died` signal. VictoryChecker: `determine_winner(units, turn_number, turn_cap) → {winner, reason}`. AIController: `take_turn(units, world_state) → ActionList` |
+| **Consumes** | Unit: `faction`, `has_acted_this_turn`, `is_alive`, `reset_action_state()`, `unit_died` signal. Map: `move_unit()`. AttackResolver: `execute_attack()`. VictoryChecker: `determine_winner(units, turn_number, turn_cap) → {winner, reason}`. AIController: `take_turn(units, world_state) → ActionList` |
 | **Engine APIs** | `RefCounted` — no scene tree dependency. **No Autoload.** DI-managed. LOW risk |
 
 ### Feature Layer — Movement
@@ -132,7 +132,7 @@
 
 | Aspect | Detail |
 |--------|--------|
-| **Owns** | `AIController` (@abstract base, RefCounted), `NullAI` (MVP implementation), `ActionPlan`, `ActionList`, `WorldState`, `ActionType` enum |
+| **Owns** | `AIController` (@abstract base, RefCounted), `NullAI` (MVP implementation), `BasicAI` (Tier 2 planner), `ActionPlan`, `ActionList`, `WorldState`, `ActionType` enum |
 | **Exposes** | `AIController.take_turn(units: Array[Unit], world_state: WorldState) → ActionList` |
 | **Consumes** | Turn System (caller — invokes `take_turn()`). Map (via WorldState): `get_neighbors()`, `is_walkable()`, `get_unit_at()`. Unit: all attributes (read-only). Movement: `MovementResolver.compute_reachable()` (Tier 2). Attack: `AttackRangeResolver.get_valid_targets()` (Tier 2) |
 | **Engine APIs** | `RefCounted`, `@abstract` decorator (Godot 4.5+, ⚠️ HIGH risk — editor-only, needs `assert(false)` fallback). `Dictionary.duplicate()` for WorldState.clone() |
@@ -202,6 +202,9 @@ auto-advance OR end_turn_requested:
     → VictoryChecker.determine_winner(units, turn_number, turn_cap)
       → if winner != NONE: → MATCH_ENDED, match_ended(reason, winner) signal
       → else: → FACTION_PHASE_ACTIVE, faction_activated(next) signal
+        → if next_faction == ENEMY and AI returns non-empty ActionList:
+          → AIActionExecutor applies move/attack/wait plans through Map + AttackResolver
+          → NullAI empty ActionList leaves ENEMY phase available for hotseat control
 ```
 
 ### Save/Load Path
@@ -319,6 +322,9 @@ var turn_cap: int
 # Lifecycle
 func start_match(all_units: Array[Unit]) -> void   # assert: current_state == MATCH_NOT_STARTED
 func end_current_faction_turn() -> void             # guarded: current_state == FACTION_PHASE_ACTIVE
+
+# AI runtime execution
+func _run_ai_phase_if_ready() -> void               # ENEMY only; empty ActionList preserves hotseat
 
 # Signals
 signal match_started()

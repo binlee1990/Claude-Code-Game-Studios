@@ -1,6 +1,7 @@
 class_name TurnManager extends RefCounted
 
 const TurnState = preload("res://src/core/turn_state.gd")
+const AIActionExecutor = preload("res://src/turn/ai_action_executor.gd")
 
 var current_state = TurnState.MATCH_NOT_STARTED
 var active_faction: Faction.Type
@@ -11,6 +12,11 @@ var _all_units = []
 var _victory_checker: VictoryChecker
 var _ai_controller: AIController
 var _turn_config: TurnConfig
+var _map: Map
+var _attack_resolver: AttackResolver
+var _ai_action_executor := AIActionExecutor.new()
+
+var emit_warnings: bool = true
 
 signal match_started()
 signal turn_started(turn_number: int)
@@ -22,13 +28,17 @@ func initialize(
 	units,
 	config: TurnConfig,
 	victory_checker: VictoryChecker,
-	ai_controller: AIController
+	ai_controller: AIController,
+	p_map: Map = null,
+	p_attack_resolver: AttackResolver = null,
 ) -> void:
 	_all_units = units.duplicate()
 	_turn_config = config
 	turn_cap = config.turn_cap
 	_victory_checker = victory_checker
 	_ai_controller = ai_controller
+	_map = p_map
+	_attack_resolver = p_attack_resolver
 
 func start_match() -> void:
 	assert(current_state == TurnState.MATCH_NOT_STARTED, "start_match() called while match already in progress")
@@ -108,6 +118,52 @@ func _transition_to_ending() -> void:
 		faction_activated.emit(next)
 		if next == Faction.Type.PLAYER:
 			turn_started.emit(turn_number)
+		_run_ai_phase_if_ready()
+
+func _run_ai_phase_if_ready() -> void:
+	if current_state != TurnState.FACTION_PHASE_ACTIVE:
+		return
+	if active_faction != Faction.Type.ENEMY:
+		return
+
+	var units := _get_active_unacted_units()
+	var actions := _ai_controller.take_turn(units, _build_world_state())
+	if actions == null or actions.is_empty():
+		return
+
+	if _map == null or _attack_resolver == null:
+		_warn("TurnManager: AI returned actions but map or attack resolver is not injected")
+		return
+
+	_ai_action_executor.emit_warnings = emit_warnings
+	for plan in actions.get_actions():
+		if current_state != TurnState.FACTION_PHASE_ACTIVE or active_faction != Faction.Type.ENEMY:
+			break
+		var acted_unit: Unit = _ai_action_executor.execute(plan, active_faction, _map, _attack_resolver)
+		if acted_unit != null:
+			_on_unit_action_completed(acted_unit)
+
+func _get_active_unacted_units() -> Array:
+	var result: Array = []
+	for u in _all_units:
+		if not is_instance_valid(u):
+			continue
+		if u.faction != active_faction:
+			continue
+		if not u.is_alive() or u.has_acted_this_turn:
+			continue
+		result.append(u)
+	return result
+
+func _build_world_state() -> WorldState:
+	var world_state := WorldState.new()
+	world_state.map = _map
+	for u in _all_units:
+		if not is_instance_valid(u) or not u.is_alive():
+			continue
+		world_state.all_units.append(u)
+		world_state._occupancy_snapshot[u.grid_position] = u
+	return world_state
 
 func _reset_all_units() -> void:
 	for u in _all_units:
@@ -129,3 +185,7 @@ func _count_alive(faction: Faction.Type) -> int:
 
 func _other_faction(f: Faction.Type) -> Faction.Type:
 	return Faction.Type.ENEMY if f == Faction.Type.PLAYER else Faction.Type.PLAYER
+
+func _warn(message: String) -> void:
+	if emit_warnings:
+		push_warning(message)

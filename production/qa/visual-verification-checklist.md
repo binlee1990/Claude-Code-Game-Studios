@@ -8,7 +8,7 @@
 
 ## 2026-05-02 Automated QA Status
 
-当前 Sprint 1-3 自动化 QA 已签核，且 Tier 2 BasicAI 计划生成器测试已纳入默认 runner：`tests/test_runner.gd` 报告 `Total Passed: 262`，且 `SCRIPT ERROR` / `Assertion failed` / `ERROR:` / `WARNING:` 均为 0。`src/Game.tscn` headless scene boot 也为 clean。
+当前 Sprint 1-3 自动化 QA 已签核，且 Tier 2 BasicAI 计划生成器与 runtime ActionList 执行测试已纳入默认 runner：`tests/test_runner.gd` 报告 `Total Passed: 266`，且 `SCRIPT ERROR` / `Assertion failed` / `ERROR:` / `WARNING:` 均为 0。`src/Game.tscn` headless scene boot 也为 clean。
 
 本清单保留为 Godot 编辑器中的人工观感/产品 polish 检查。2026-05-02 已完成 CP1-CP10 及综合检查人工复测，全部通过；自动化工程风险由 `production/qa/qa-execution-audit-2026-05-02.md`、`production/qa/evidence/story-8-7/playtest-notes.md`、UI 结构测试和 E2E 测试覆盖。
 

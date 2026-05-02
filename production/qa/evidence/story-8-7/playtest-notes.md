@@ -8,7 +8,7 @@
 
 ## 2026-05-02 Resolution
 
-Current status: ✅ **signed off for automated MVP QA**. The latest runner invocation reports `Total Passed: 262` with zero `SCRIPT ERROR`, zero `Assertion failed`, zero `ERROR:` lines, and zero `WARNING:` lines. `src/Game.tscn` also boots headlessly for two frames with zero console errors. See `production/qa/qa-execution-audit-2026-05-02.md`.
+Current status: ✅ **signed off for automated MVP QA**. The latest runner invocation reports `Total Passed: 266` with zero `SCRIPT ERROR`, zero `Assertion failed`, zero `ERROR:` lines, and zero `WARNING:` lines. `src/Game.tscn` also boots headlessly for two frames with zero console errors. See `production/qa/qa-execution-audit-2026-05-02.md`.
 
 Manual editor status: ✅ **signed off for visual/product verification**. CP1-CP10 and the comprehensive checks all passed on 2026-05-02; see `production/qa/visual-verification-checklist.md`.
 

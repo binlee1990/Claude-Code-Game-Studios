@@ -13,7 +13,7 @@ The initial 2026-05-02 audit found an unsafe QA signal: `Total Passed: 222` was 
 
 The current revalidation run now reports:
 
-- `Total Passed`: 262
+- `Total Passed`: 266
 - `SCRIPT ERROR`: 0
 - `Assertion failed`: 0
 - `ERROR:` lines: 0
@@ -49,12 +49,12 @@ The scene boot smoke also completed with zero script errors, assertions, `ERROR:
 - Sprint 2 now has a local sign-off artifact: `production/qa/qa-signoff-sprint-2-2026-05-02.md`.
 - Sprint 3 now has a local sign-off artifact: `production/qa/qa-signoff-sprint-3-2026-05-02.md`.
 - The previous manual-visual blocker is closed: automated structural UI tests, headless scene smoke, and the manual visual checklist all pass.
-- Tier 2 `BasicAI` planner coverage is now included in the default runner; it validates non-empty AIController behavior without `TurnManager` imports.
+- Tier 2 `BasicAI` planner and runtime ActionList execution coverage are now included in the default runner; they validate non-empty AIController behavior without `BasicAI` importing `TurnManager`, plus Turn-layer execution of non-empty plans.
 
 ## Verification Evidence
 
 ```text
-Total Passed: 262
+Total Passed: 266
 SCRIPT_ERROR=0
 ASSERTION_FAILED=0
 ERROR_LINES=0

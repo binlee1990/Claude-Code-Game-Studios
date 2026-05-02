@@ -4,13 +4,13 @@
 > Read this file first after any compaction, crash, or `/clear`.
 
 **Last Updated**: 2026-05-02
-**Project Stage**: Pre-Production — MVP signed off; Tier 2 BasicAI planner implemented
-**Active Sprint**: Sprint 3 — Presentation Layer complete
+**Project Stage**: Pre-Production — MVP signed off; Tier 2 BasicAI runtime execution implemented
+**Active Sprint**: Sprint 5 — Runtime AI ActionList Execution complete
 
 <!-- STATUS -->
 Epic: —
 Feature: —
-Task: Tier 2 BasicAI planner complete; runtime AI integration decision pending
+Task: Tier 2 BasicAI runtime execution complete; optional runtime/demo AI selection remains
 <!-- /STATUS -->
 
 ---
@@ -66,7 +66,7 @@ Command:
 Observed output summary:
 
 ```text
-Total Passed: 262
+Total Passed: 266
 SCRIPT ERROR: 0
 Assertion failed: 0
 ERROR lines: 0
@@ -116,6 +116,12 @@ WARNING lines: 0
 | `tests/unit/ai/basic_ai_test.gd` | Created | BasicAI behavior, no-TurnManager import, and WorldState immutability coverage |
 | `production/sprints/sprint-4.md` | Created | Tier 2 BasicAI interface validation sprint |
 | `production/epics/ai/story-003-basic-ai-nearest-target.md` | Created | BasicAI implementation story |
+| `src/turn/ai_action_executor.gd` | Created | Turn-layer executor for AI ActionPlan movement/attack/wait semantics |
+| `src/turn/turn_manager.gd` | Updated | ENEMY phase now invokes AIController and executes non-empty ActionLists |
+| `src/game.gd` | Updated | TurnManager receives Map and shared AttackResolver while default scene remains NullAI |
+| `tests/unit/turn/turn_ai_execution_test.gd` | Created | NullAI hotseat preservation, BasicAI runtime execution, WorldState handoff, and wrong-faction guard coverage |
+| `production/sprints/sprint-5.md` | Created | Runtime AI ActionList execution sprint |
+| `production/epics/ai/story-004-runtime-actionlist-execution.md` | Created | Runtime AI execution story |
 
 ---
 

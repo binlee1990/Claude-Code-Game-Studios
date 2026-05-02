@@ -9,7 +9,7 @@
 
 ## Current Revalidation Note — 2026-05-02
 
-This report remains the historical Sprint 1 sign-off artifact. The latest full-sprint revalidation (`production/qa/qa-execution-audit-2026-05-02.md`) is now clean: `Total Passed: 262`, zero `SCRIPT ERROR`, zero `Assertion failed`, zero `ERROR:` lines, and zero `WARNING:` lines. `src/Game.tscn` also boots headlessly for scene-smoke verification with zero console errors.
+This report remains the historical Sprint 1 sign-off artifact. The latest full-sprint revalidation (`production/qa/qa-execution-audit-2026-05-02.md`) is now clean: `Total Passed: 266`, zero `SCRIPT ERROR`, zero `Assertion failed`, zero `ERROR:` lines, and zero `WARNING:` lines. `src/Game.tscn` also boots headlessly for scene-smoke verification with zero console errors.
 
 ---
 

@@ -20,6 +20,7 @@ func _run_all():
 	_run_file("res://tests/unit/map/occupancy_test.gd")
 	_run_file("res://tests/unit/turn/turn_manager_init_test.gd")
 	_run_file("res://tests/unit/turn/turn_state_machine_test.gd")
+	_run_file("res://tests/unit/turn/turn_ai_execution_test.gd")
 	_run_file("res://tests/unit/turn/victory_checker_test.gd")
 	_run_file("res://tests/unit/turn/turn_signals_test.gd")
 	_run_file("res://tests/unit/movement/movement_bfs_test.gd")

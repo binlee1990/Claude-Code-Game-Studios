@@ -25,14 +25,14 @@ func _ready() -> void:
 	for u in units:
 		u.unit_died.connect(_on_unit_died)
 
-	# 4. TurnManager (create + inject, start later after all UI wired)
-	turn_manager = TurnManager.new()
-	turn_manager.initialize(units, TurnConfig.new(), VictoryChecker.new(), NullAI.new())
-
-	# 5. Resolvers
+	# 4. Resolvers
 	var movement_resolver := MovementResolver.new()
 	var attack_resolver := AttackResolver.new()
 	var attack_range_resolver := AttackRangeResolver.new()
+
+	# 5. TurnManager (create + inject, start later after all UI wired)
+	turn_manager = TurnManager.new()
+	turn_manager.initialize(units, TurnConfig.new(), VictoryChecker.new(), NullAI.new(), map, attack_resolver)
 
 	# 6. InputHandler
 	_input_handler = InputHandler.new()

@@ -20,14 +20,12 @@ Validate the highest-risk Tier 2 extension point: `AIController` must admit a no
 - [x] `BasicAI` does not import or reference `TurnManager`
 - [x] `BasicAI` does not mutate the passed `WorldState`
 - [x] Default runner includes `tests/unit/ai/basic_ai_test.gd`
-- [x] Current runner is clean: `Total Passed: 262`
+- [x] Current runner is clean: `Total Passed: 266`
 
 ## Scope Boundary
 
-This sprint does **not** wire `BasicAI` into runtime ENEMY turns. Runtime AI execution requires a separate story for `TurnManager` ActionList execution, because that changes game behavior from hotseat-only to optional autonomous ENEMY control.
+This sprint itself validated the pure BasicAI planner. Runtime ActionList execution was completed afterward in Sprint 5, while the default Game scene remains `NullAI` hotseat.
 
 ## Next Step
 
-Create a follow-up story for optional AI runtime integration:
-
-`TurnManager executes non-empty AI ActionList while preserving NullAI hotseat behavior`.
+Sprint 5 completed runtime AI ActionList execution. The remaining optional product step is a runtime/demo toggle for selecting `NullAI` vs `BasicAI`.
