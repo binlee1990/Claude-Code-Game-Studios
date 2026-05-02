@@ -1,6 +1,6 @@
 # Sprint-009 — Vertical Slice 系统收尾
 
-> **Status**: PLANNING
+> **Status**: COMPLETE
 > **Start**: 2026-05-13
 > **End**: 2026-05-17
 > **Goal**: 完成 Vertical Slice 层全部 4 个系统（fog-of-war / bond-combo / difficulty / boss），不含章节剧情内容

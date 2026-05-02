@@ -42,5 +42,6 @@ Engine: Godot 4.6.2
 - Sprint-006 is complete: Bond runtime MVP, equipped-item enhancement UI/cost/round-trip, Base AP + Intel, economy cost config, Ch.3 GDD, and packaged smoke coverage are implemented and verified.
 - Sprint-007 is complete: Ch.3 battle 1 boots/victories, Base Tavern/Upgrade, Tavern affinity, Equipment +6~+10 risk zone, architecture full review, export, and packaged smoke are verified.
 - Sprint-008 is complete: Ch.3 battle 2, B3-GATE runtime activation, Ch.3 finale boss, equipment decomp/reroll UI, architecture.md fixups, Bond combo GDD, Fog GDD, GUT, export, and packaged smoke are verified.
-- Sprint-009 (PLANNING): Fog-of-war MVP, Bond combo skill, Difficulty data model + integration, Boss data model + action pattern. ADR-010~013 created, epic directories for difficulty-system/boss-system created, QA plan ready.
-- Remaining gap: event-system, new-game-plus, hp-system Alpha epics not yet created.
+- Sprint-009 (COMPLETE 2026-05-02): Fog-of-war MVP, Bond combo skill, Difficulty data model + integration, Boss data model + action pattern. 12/12 stories done, 1021/1021 PASS.
+- Sprint-010 (COMPLETE 2026-05-02): 治理收口 + 里程碑审查 — retrospective batch / gate re-check / changelog / regression suite / test helpers / launch checklist / design review batch / perf baseline / retro template. 12/12 stories done.
+- Remaining gap: event-system, new-game-plus, hp-system, chapter-04 Alpha epics not yet created.
