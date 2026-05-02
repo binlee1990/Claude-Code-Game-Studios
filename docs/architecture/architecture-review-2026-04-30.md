@@ -18,7 +18,7 @@ The original 2026-04-30 review was a **CONCERNS** report because only ADR-0001 t
 - ADR-0001 through ADR-0010 exist and cover Foundation, Core, Feature, Victory, AI, and Presentation layers.
 - `docs/architecture/architecture.md` records 63 / 65 technical requirements covered by ADRs (97%).
 - The two remaining Unit details are implementation-level items rather than architecture blockers: `unit_id` generation and acted-state visual mapping. Both are implemented and covered by automated tests.
-- Sprint 1-3 automated QA is clean: `Total Passed: 247`, with zero script errors, assertion failures, error lines, or warnings.
+- Sprint 1-3 automated QA is clean: `Total Passed: 251`, with zero script errors, assertion failures, error lines, or warnings.
 
 **Blocking architecture issues**: none.
 
@@ -71,7 +71,7 @@ The current traceability source of truth is `docs/architecture/architecture.md`;
 Current verification was performed during the 2026-05-02 QA audit:
 
 ```text
-Total Passed: 247
+Total Passed: 251
 SCRIPT_ERROR=0
 ASSERTION_FAILED=0
 ERROR_LINES=0

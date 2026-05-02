@@ -8,7 +8,7 @@
 
 ## 2026-05-02 Automated QA Status
 
-当前 Sprint 1-3 自动化 QA 已签核：`tests/test_runner.gd` 报告 `Total Passed: 247`，且 `SCRIPT ERROR` / `Assertion failed` / `ERROR:` / `WARNING:` 均为 0。`src/Game.tscn` headless scene boot 也为 clean。
+当前 Sprint 1-3 自动化 QA 已签核：`tests/test_runner.gd` 报告 `Total Passed: 251`，且 `SCRIPT ERROR` / `Assertion failed` / `ERROR:` / `WARNING:` 均为 0。`src/Game.tscn` headless scene boot 也为 clean。
 
 本清单保留为 Godot 编辑器中的人工观感/产品 polish 检查，不再是当前 MVP 自动化 QA 的阻塞项。对应的工程风险已由 `production/qa/qa-execution-audit-2026-05-02.md`、`production/qa/evidence/story-8-7/playtest-notes.md`、UI 结构测试和 E2E 测试覆盖。
 
@@ -16,45 +16,49 @@
 
 ## CP1 — 启动：棋盘 / 单位 / HUD / Debug
 
+> **人工反馈刷新（2026-05-02）**: 已根据 CP1/CP2 反馈更新勾选状态。已确认正确的项标为 `[x]`；已修复但尚未人工复测的项保留 `[ ]` 并标注“已修复，待复测”。
+
 ### 1.1 棋盘渲染
-- [ ] 看到 TileMapLayer 渲染的完整网格（16×12）
-- [ ] 瓦片边界清晰，无黑屏区域
+- [x] 看到 TileMapLayer 渲染的完整网格（16×12）
+- [ ] DebugOverlay 绘制的细网格线使瓦片边界清晰，无黑屏区域 — 已修复，待复测
 - **异常**: 黑屏 → 检查 `assets/data/maps/test_map.csv` 是否存在
 - **异常**: 瓦片错位 → 检查 TileSet `assets/data/tileset.tres`
 
 ### 1.2 Player 单位
-- [ ] 2 个蓝色方块 (#3B82F6)，坐标 (5,2) 和 (5,4)
-- [ ] 方块尺寸 48×48 像素
+- [x] 2 个蓝色方块 (#3B82F6)，坐标 (5,2) 和 (5,4)
+- [ ] 方块尺寸 48×48 像素 — 自动化覆盖，人工观感待复测
+- [ ] 方块与细网格线之间有可见边距，不再看起来占满整个瓦片 — 已修复，待复测
 - **异常**: 单位不可见 → 检查 `src/unit/Unit.tscn` 是否存在
 - **异常**: 坐标错误 → 检查 `game.gd:131-134`
 
 ### 1.3 Enemy 单位
-- [ ] 2 个红色方块 (#EF4444)，坐标 (5,10) 和 (5,12)
+- [x] 2 个红色方块 (#EF4444)，坐标 (5,10) 和 (5,12)
 - **异常**: 颜色不对 → 检查 `unit.gd:3-4` 常量
 
 ### 1.4 HP 标签
-- [ ] Player 单位上方显示 "HP: 10/10"
-- [ ] Enemy 单位上方显示 "HP: 8/8"
-- [ ] 标签黑色文字，位于 ColorRect 中心上方约 40px
+- [x] Player 单位上方显示 "HP: 10/10"
+- [x] Enemy 单位上方显示 "HP: 8/8"
+- [x] 标签白色文字，位于 ColorRect 中心上方约 40px
 - **异常**: 无标签 → 检查 `unit.gd:89-90` Label 节点
 
 ### 1.5 HUD — 回合指示器
-- [ ] 左上角显示 "Turn 1/30"
-- **注意**: 可能与棋盘重叠——这是已知的 MVP 粗略布局问题，非阻塞
+- [x] 显示 "Turn 1/30"
+- [ ] HUD 位于棋盘右侧深色面板，不遮挡瓦片 — 已修复，待复测
 
 ### 1.6 HUD — 阵营指示器
-- [ ] 显示 "Player Turn"，蓝色文字 (#3B82F6)
+- [x] 显示 "Player Turn"，蓝色文字 (#3B82F6)
+- [ ] 阵营指示器位于棋盘右侧深色面板，不遮挡瓦片 — 已修复，待复测
 - **异常**: 不显示 → 检查 `hud.gd:41-48`
 
 ### 1.7 HUD — End Turn 按钮
-- [ ] 可见可点击
-- [ ] 点击后阵营指示器切换为 "Enemy Turn"（红色 #EF4444）
+- [x] 可见可点击
+- [x] 点击后阵营指示器切换为 "Enemy Turn"（红色 #EF4444）
 - **异常**: 按钮灰色 → 检查 `hud.gd:31` `_end_turn_button.visible`
 
 ### 1.8 Debug Overlay
-- [ ] 每个瓦片中心显示白色 "(col,row)" 坐标文字
-- [ ] 字体大小约 10px
-- [ ] 按反引号键 (`` ` ``) 可切换显示/隐藏
+- [ ] 每个瓦片中心显示白色 "(row,col)" 坐标文字，包括 (5,12) — (5,12) 已修复，待复测
+- [x] 字体大小约 10px
+- [x] 按反引号键 (`` ` ``) 可切换坐标文字显示/隐藏；细网格线保持显示
 - **异常**: 无坐标 → 上次修复了 `ThemeDB.fallback_font`，确认生效
 
 ---
@@ -65,11 +69,11 @@
 1. 点击 (5,2) 位置的蓝色 Player 单位
 
 ### 验证
-- [ ] 单位有选中反馈（当前 MVP 无视觉选中效果，可通过后续高亮确认）
-- [ ] 以该单位为中心，mov=4 格范围内的 walkable 瓦片显示**蓝色半透明矩形** (#0891B2)
+- [ ] 单位有选中反馈（当前 MVP 无视觉选中效果，可通过后续高亮确认） — 点击无反应已修复，待复测
+- [ ] 以该单位为中心，mov=4 格范围内的 walkable 瓦片显示**蓝色半透明矩形** (#0891B2) — 点击无反应已修复，待复测
 - [ ] 高亮范围不超出棋盘边界
 - [ ] 高亮不覆盖 blocked 瓦片（test_map 中如有）
-- **异常**: 无高亮 → 检查 `highlight_layer.gd:_draw()` 及 `queue_redraw()`
+- **异常**: 无高亮 → 检查 `Unit.tscn` 的 ColorRect/Label `mouse_filter = Ignore`、`highlight_layer.gd:_draw()` 及 `queue_redraw()`
 - **异常**: 范围不对 → 检查 `movement_resolver.gd:compute_reachable()` 的 BFS 逻辑
 
 ---
@@ -251,8 +255,8 @@
 
 | CP | 状态 | 备注 |
 |----|------|------|
-| CP1 启动 | ⬜ | |
-| CP2 选中+蓝高亮 | ⬜ | |
+| CP1 启动 | ◐ | 已确认：完整网格、单位颜色、HP、HUD 文案/按钮、debug toggle。已修复待复测：网格线、HUD 不遮挡、(5,12) 坐标、单位边距观感。 |
+| CP2 选中+蓝高亮 | ◐ | 人工反馈为点击无反应；已修复 Unit Control mouse_filter 并有自动化覆盖，待人工复测。 |
 | CP3 悬停+路径 | ⬜ | |
 | CP4 移动+橙高亮 | ⬜ | |
 | CP5 伤害预览 | ⬜ | |

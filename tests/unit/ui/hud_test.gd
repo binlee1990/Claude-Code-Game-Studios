@@ -84,3 +84,15 @@ func test_hud_hides_end_turn_button_when_match_ends() -> void:
 
 	assert(not hud._end_turn_button.visible)
 	hud.free()
+
+func test_hud_controls_are_outside_board_area() -> void:
+	var hud := _make_hud()
+	var panel: ColorRect = hud.get_node("HudPanel")
+	var board_width := GridSpace.TILE_SIZE * 16
+
+	assert(panel.position.x == board_width)
+	assert(panel.mouse_filter == Control.MOUSE_FILTER_IGNORE)
+	assert(hud._turn_label.position.x > board_width)
+	assert(hud._faction_label.position.x > board_width)
+	assert(hud._end_turn_button.position.x > board_width)
+	hud.free()

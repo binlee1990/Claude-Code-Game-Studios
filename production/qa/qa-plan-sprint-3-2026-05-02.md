@@ -14,7 +14,7 @@
 **Sign-off artifact**: `production/qa/qa-signoff-sprint-3-2026-05-02.md`
 **Current audit**: `production/qa/qa-execution-audit-2026-05-02.md`
 
-Current headless revalidation reports `Total Passed: 247` with zero `SCRIPT ERROR`, zero `Assertion failed`, zero `ERROR:` lines, and zero `WARNING:` lines. `tests/unit/ui/input_handler_test.gd`, `tests/unit/ui/highlight_layer_test.gd`, `tests/unit/ui/hud_test.gd`, `tests/unit/ui/result_overlay_test.gd`, `tests/unit/unit/unit_scene_visual_test.gd`, and `tests/integration/ui/e2e_game_flow_test.gd` are all executed by the default runner. `src/Game.tscn` scene boot smoke also exits cleanly.
+Current headless revalidation reports `Total Passed: 251` with zero `SCRIPT ERROR`, zero `Assertion failed`, zero `ERROR:` lines, and zero `WARNING:` lines. `tests/unit/ui/input_handler_test.gd`, `tests/unit/ui/highlight_layer_test.gd`, `tests/unit/ui/debug_overlay_test.gd`, `tests/unit/ui/hud_test.gd`, `tests/unit/ui/result_overlay_test.gd`, `tests/unit/unit/unit_scene_visual_test.gd`, and `tests/integration/ui/e2e_game_flow_test.gd` are all executed by the default runner. `src/Game.tscn` scene boot smoke also exits cleanly.
 
 ---
 
@@ -22,7 +22,7 @@ Current headless revalidation reports `Total Passed: 247` with zero `SCRIPT ERRO
 
 | Story ID | Story | Type | Auto Test | Manual |
 |----------|-------|------|-----------|--------|
-| 8-1 | HighlightLayer — 3层代码绘制高亮 | UI | `tests/unit/ui/highlight_layer_test.gd` | Screenshot |
+| 8-1 | HighlightLayer — 3层代码绘制高亮 | UI | `tests/unit/ui/highlight_layer_test.gd`; `tests/unit/ui/debug_overlay_test.gd` | Automated structural sign-off; optional screenshot |
 | 8-2 | InputHandler — 输入上下文状态机 | Logic | `tests/unit/ui/input_handler_test.gd` | — |
 | 8-3 | HUD CanvasLayer | UI | `tests/unit/ui/hud_test.gd` | Automated structural sign-off |
 | 8-4 | ResultOverlay | UI | `tests/unit/ui/result_overlay_test.gd` | Automated structural sign-off |

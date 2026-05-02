@@ -4,27 +4,34 @@
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_hud")
 
+[node name="HudPanel" type="ColorRect" parent="."]
+offset_left = 1024.0
+offset_right = 1184.0
+offset_bottom = 768.0
+color = Color(0.0431373, 0.0588235, 0.0901961, 0.92)
+mouse_filter = 2
+
 [node name="TurnLabel" type="Label" parent="."]
 unique_name_in_owner = true
-offset_left = 16.0
-offset_top = 16.0
-offset_right = 200.0
-offset_bottom = 40.0
+offset_left = 1040.0
+offset_top = 24.0
+offset_right = 1170.0
+offset_bottom = 48.0
 text = "Turn 0/0"
 add_theme_font_size_override = 16
 
 [node name="FactionLabel" type="Label" parent="."]
 unique_name_in_owner = true
-offset_left = 16.0
-offset_top = 42.0
-offset_right = 200.0
-offset_bottom = 64.0
+offset_left = 1040.0
+offset_top = 56.0
+offset_right = 1170.0
+offset_bottom = 80.0
 add_theme_font_size_override = 14
 
 [node name="EndTurnButton" type="Button" parent="."]
 unique_name_in_owner = true
-offset_left = 880.0
-offset_top = 640.0
-offset_right = 1000.0
-offset_bottom = 680.0
+offset_left = 1040.0
+offset_top = 704.0
+offset_right = 1168.0
+offset_bottom = 744.0
 text = "End Turn"

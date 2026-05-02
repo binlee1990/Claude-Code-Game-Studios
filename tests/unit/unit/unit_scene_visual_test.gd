@@ -23,8 +23,10 @@ func test_unit_scene_has_expected_visual_nodes() -> void:
 
 	assert(color_rect.size == Vector2(48, 48))
 	assert(color_rect.position == Vector2(-24, -24))
+	assert(color_rect.mouse_filter == Control.MOUSE_FILTER_IGNORE)
 	assert(label.text == "HP: 10/10")
 	assert(label.horizontal_alignment == HORIZONTAL_ALIGNMENT_CENTER)
+	assert(label.mouse_filter == Control.MOUSE_FILTER_IGNORE)
 	unit.free()
 
 func test_player_unit_uses_blue_faction_color() -> void:

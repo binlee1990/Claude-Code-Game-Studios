@@ -14,7 +14,7 @@
 Current full-run revalidation is clean:
 
 ```text
-Total Passed: 247
+Total Passed: 251
 SCRIPT ERROR: 0
 Assertion failed: 0
 ERROR lines: 0
@@ -29,7 +29,7 @@ WARNING lines: 0
 
 | Story | Test File | Tests | Status |
 |-------|-----------|-------|--------|
-| 8-1 | `tests/unit/ui/highlight_layer_test.gd` | 5 | PASS |
+| 8-1 | `tests/unit/ui/highlight_layer_test.gd`; `tests/unit/ui/debug_overlay_test.gd` | 8 | PASS |
 | 8-2 | `tests/unit/ui/input_handler_test.gd` | 7 | PASS |
 | 8-3 | `tests/unit/ui/hud_test.gd` | 4 | PASS |
 | 8-4 | `tests/unit/ui/result_overlay_test.gd` | 5 | PASS |
@@ -38,7 +38,7 @@ WARNING lines: 0
 | 8-7 | `tests/integration/ui/e2e_game_flow_test.gd`; `production/qa/evidence/story-8-7/playtest-notes.md` | 11 + evidence | PASS |
 | 8-8 | `tests/unit/unit/unit_scene_visual_test.gd` | 1 targeted visual-state assertion | PASS |
 
-**Sprint 3 scoped test files**: 32 UI/E2E tests, 1 targeted Unit visual-state assertion, plus scene boot smoke.
+**Sprint 3 scoped test files**: 35 UI/E2E tests, 1 targeted Unit visual-state assertion, plus scene boot smoke.
 
 ---
 
@@ -49,6 +49,7 @@ WARNING lines: 0
 - [x] `src/Game.tscn` starts headlessly without console errors
 - [x] 10/10 playtest checkpoints have automated logic, structural UI, scene boot, or wiring evidence
 - [x] Unit acted-state visual mapping is covered by automated structural test
+- [x] CP1/CP2 visual/input feedback fixes are covered: grid lines, full coordinate coverage, HUD panel placement, and Unit mouse pass-through
 - [x] Sprint 3 sprint document, QA plan, playtest evidence, and sprint status updated
 
 Human editor screenshots remain useful for polish review, but they are not a blocking QA risk for this automated MVP sign-off.

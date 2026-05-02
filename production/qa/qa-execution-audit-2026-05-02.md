@@ -13,7 +13,7 @@ The initial 2026-05-02 audit found an unsafe QA signal: `Total Passed: 222` was 
 
 The current revalidation run now reports:
 
-- `Total Passed`: 247
+- `Total Passed`: 251
 - `SCRIPT ERROR`: 0
 - `Assertion failed`: 0
 - `ERROR:` lines: 0
@@ -37,6 +37,9 @@ The scene boot smoke also completed with zero script errors, assertions, `ERROR:
 - `tests/unit/ui/hud_test.gd` now covers HUD signal updates, faction colors, and End Turn delegation.
 - `tests/unit/ui/result_overlay_test.gd` now covers ResultOverlay visibility, title colors, reason text, blocking background, match-ended signal integration, and Play Again button wiring.
 - `tests/unit/unit/unit_scene_visual_test.gd` now covers Unit scene structure, faction colors, HP label baseline, and acted-state gray/half-alpha modulate, resolving Sprint 3 should-have story 8-8.
+- `tests/unit/ui/debug_overlay_test.gd` now covers full 12x16 coordinate iteration, including `(5,12)`, and grid boundary line generation.
+- Unit visual controls now ignore mouse input so clicking a unit reaches `Game._unhandled_input()` / `InputHandler`.
+- HUD controls now sit in a right-side panel outside the 1024px board area.
 - `src/ui/ResultOverlay.tscn` now uses a blocking background mouse filter as required by the QA plan.
 - `src/Game.tscn` starts headlessly for two frames without runtime errors, covering initialization and scene wiring smoke risk.
 
@@ -50,7 +53,7 @@ The scene boot smoke also completed with zero script errors, assertions, `ERROR:
 ## Verification Evidence
 
 ```text
-Total Passed: 247
+Total Passed: 251
 SCRIPT_ERROR=0
 ASSERTION_FAILED=0
 ERROR_LINES=0

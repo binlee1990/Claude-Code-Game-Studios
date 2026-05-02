@@ -4,13 +4,13 @@
 > Read this file first after any compaction, crash, or `/clear`.
 
 **Last Updated**: 2026-05-02
-**Project Stage**: Pre-Production — MVP automated QA signed off; status docs aligned
+**Project Stage**: Pre-Production — MVP automated QA signed off; CP1/CP2 feedback fixed
 **Active Sprint**: Sprint 3 — Presentation Layer complete
 
 <!-- STATUS -->
 Epic: —
 Feature: —
-Task: MVP closeout status alignment
+Task: CP1/CP2 visual and input feedback fixes
 <!-- /STATUS -->
 
 ---
@@ -66,7 +66,7 @@ Command:
 Observed output summary:
 
 ```text
-Total Passed: 247
+Total Passed: 251
 SCRIPT ERROR: 0
 Assertion failed: 0
 ERROR lines: 0
@@ -106,6 +106,11 @@ WARNING lines: 0
 | `production/sprint-status.yaml` | Updated | QA audit metadata and per-story QA status, including 8-8 verified |
 | `docs/architecture/architecture-review-2026-04-30.md` | Updated | Current architecture review refresh |
 | `design/gdd/game-concept.md` | Updated | MVP status and next-step convergence |
+| `src/unit/Unit.tscn` | Updated | Unit visual controls ignore mouse so board clicks reach InputHandler |
+| `src/ui/debug_overlay.gd` | Updated | Grid boundary lines and full row/column coordinate coverage |
+| `src/ui/HUD.tscn` | Updated | HUD moved outside the 1024px board into a right-side panel |
+| `project.godot` | Updated | Viewport widened to provide HUD panel space |
+| `tests/unit/ui/debug_overlay_test.gd` | Created | Regression coverage for grid lines and `(5,12)` coordinate |
 
 ---
 

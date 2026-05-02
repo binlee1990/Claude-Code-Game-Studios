@@ -14,3 +14,8 @@ config/name="SRPG_MINI"
 config/version="0.0.2"
 run/main_scene="res://src/Game.tscn"
 config/features=PackedStringArray("4.6")
+
+[display]
+
+window/size/viewport_width=1184
+window/size/viewport_height=768
