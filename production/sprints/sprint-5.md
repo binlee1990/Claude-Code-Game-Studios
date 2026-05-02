@@ -20,7 +20,7 @@ Close the gap between AI planning and runtime behavior by letting `TurnManager` 
 - [x] `NullAI` empty ActionList preserves manual ENEMY hotseat phase.
 - [x] `BasicAI` can move and attack at runtime when injected.
 - [x] Invalid wrong-faction plans are rejected defensively.
-- [x] Default runner is clean: `Total Passed: 275`.
+- [x] Default runner is clean: `Total Passed: 292`.
 
 ## Scope Boundary
 

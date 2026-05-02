@@ -1,6 +1,7 @@
 # QA Execution Audit — Sprint Status Refresh
 
 **Date**: 2026-05-02  
+**Latest Refresh**: 2026-05-03
 **Scope**: `production/sprints/sprint-1.md` through `production/sprints/sprint-3.md`, all sprint QA plans, current sprint status, and active session state.  
 **Runner command**: `G:\SteamLibrary\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe --headless --path . --script res://tests/test_runner.gd`  
 **Scene smoke command**: `G:\SteamLibrary\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe --headless --path . --scene res://src/Game.tscn --quit-after 2`
@@ -13,7 +14,7 @@ The initial 2026-05-02 audit found an unsafe QA signal: `Total Passed: 222` was 
 
 The current revalidation run now reports:
 
-- `Total Passed`: 275
+- `Total Passed`: 292
 - `SCRIPT ERROR`: 0
 - `Assertion failed`: 0
 - `ERROR:` lines: 0
@@ -51,11 +52,12 @@ The scene boot smoke also completed with zero script errors, assertions, `ERROR:
 - The previous manual-visual blocker is closed: automated structural UI tests, headless scene smoke, and the manual visual checklist all pass.
 - Tier 2 `BasicAI` planner, runtime ActionList execution, and AI mode selection coverage are now included in the default runner; they validate non-empty AIController behavior without `BasicAI` importing `TurnManager`, Turn-layer execution of non-empty plans, and demo selection via `srpg_mini/enemy_ai_mode` / `--enemy-ai`.
 - Sprint 7 Map Variant Pack validation is now included in the default runner; it validates the new CSV maps, spawn fixtures, connectivity, and blocked/obstacle behavior.
+- Sprint 8 Runtime Map Selection validation is now included in the default runner; it validates manifest query behavior, project-setting/CLI map selection, selected-map spawn placement, and invalid spawn fallback.
 
 ## Verification Evidence
 
 ```text
-Total Passed: 275
+Total Passed: 292
 SCRIPT_ERROR=0
 ASSERTION_FAILED=0
 ERROR_LINES=0

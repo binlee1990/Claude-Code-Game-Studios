@@ -8,7 +8,7 @@
 
 ## 2026-05-02 Automated QA Status
 
-当前 Sprint 1-3 自动化 QA 已签核，且 Tier 2 BasicAI 计划生成器、runtime ActionList 执行、AI mode selection 测试已纳入默认 runner：`tests/test_runner.gd` 报告 `Total Passed: 275`，且 `SCRIPT ERROR` / `Assertion failed` / `ERROR:` / `WARNING:` 均为 0。`src/Game.tscn` headless scene boot 也为 clean。
+当前 Sprint 1-3 自动化 QA 已签核，且 Tier 2 BasicAI 计划生成器、runtime ActionList 执行、AI mode selection、Sprint 7 Map Variant Pack、Sprint 8 Runtime Map Selection 测试均已纳入默认 runner：`tests/test_runner.gd` 报告 `Total Passed: 292`，且 `SCRIPT ERROR` / `Assertion failed` / `ERROR:` / `WARNING:` 均为 0。`src/Game.tscn` default、`--map=crossroads`、`--map=split_lanes --enemy-ai=basic` headless scene boot 也均为 clean。
 
 本清单保留为 Godot 编辑器中的人工观感/产品 polish 检查。2026-05-02 已完成 CP1-CP10 及综合检查人工复测，全部通过；自动化工程风险由 `production/qa/qa-execution-audit-2026-05-02.md`、`production/qa/evidence/story-8-7/playtest-notes.md`、UI 结构测试和 E2E 测试覆盖。2026-05-03 新增 CP11，用 AI/自动化验证 `BasicAI` 自动 ENEMY 回合；该简单路径不再要求人工 visual QA 签核。
 

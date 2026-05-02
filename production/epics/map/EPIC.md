@@ -4,7 +4,7 @@
 > **GDD**: design/gdd/map.md
 > **Architecture Module**: Map (Foundation Layer)
 > **Status**: Ready
-> **Stories**: 5 stories created — see below
+> **Stories**: 9 stories created — see below
 
 ## Stories
 
@@ -15,6 +15,10 @@
 | 003 | 网格拓扑 — 邻接查询 + 边界检查 | Logic | Ready | ADR-0005 |
 | 004 | 占用追踪 — place/remove/get_unit_at | Logic | Ready | ADR-0005 |
 | 005 | Map Variant Pack — 生成式战术地图数据包 | Data + Validation | Done | ADR-0005 |
+| 006 | MapVariantManifest — load/query map names and spawn fixtures | Data + Logic | Done | ADR-0005 |
+| 007 | Runtime Map Selection — project setting + command-line map override | Integration | Done | ADR-0005 |
+| 008 | Game Spawn Fixture Consumption — place units from manifest fixtures | Integration | Done | ADR-0005 |
+| 009 | Multi-map Runtime Smoke — default/hotseat/BasicAI across variants | QA + Integration | Done | ADR-0005 |
 
 ## Overview
 
@@ -49,6 +53,6 @@
 - 全部 Logic 和 Integration Story 在 `tests/` 中有通过的测试文件
 - 全部 Visual/Feel 和 UI Story 在 `production/qa/evidence/` 中有签核证据文档
 
-## Next Step
+## Current Extension Status
 
-Story 005 is complete. Optional next extension: add runtime map selection only after deciding how `Game` should consume spawn fixtures.
+Sprint 8 completed Stories 006-009 as one AI-sized integration batch: manifest boundary, runtime map selection, spawn fixture consumption, and multi-map smoke verification. Current evidence: `Total Passed: 292` plus clean scene smokes for default `test_map`, `--map=crossroads`, and `--map=split_lanes --enemy-ai=basic`.

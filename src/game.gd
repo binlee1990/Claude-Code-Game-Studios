@@ -3,10 +3,16 @@ class_name Game extends Node2D
 const ENEMY_AI_MODE_SETTING := "srpg_mini/enemy_ai_mode"
 const ENEMY_AI_MODE_HOTSEAT := "hotseat"
 const ENEMY_AI_MODE_BASIC := "basic"
+const MAP_NAME_SETTING := "srpg_mini/map_name"
+const DEFAULT_MAP_NAME := "test_map"
+const DEFAULT_PLAYER_SPAWNS := [Vector2i(5, 2), Vector2i(5, 4)]
+const DEFAULT_ENEMY_SPAWNS := [Vector2i(5, 10), Vector2i(5, 12)]
+const MapVariantManifestScript = preload("res://src/map/map_variant_manifest.gd")
 
 var grid_space: GridSpace
 var map: Map
 var turn_manager: TurnManager
+var selected_map_name: String = DEFAULT_MAP_NAME
 
 var _input_handler: InputHandler
 var _move_highlight: HighlightLayer
@@ -14,18 +20,21 @@ var _path_highlight: HighlightLayer
 var _attack_highlight: HighlightLayer
 var _damage_preview_label: Label
 var _debug_overlay: DebugOverlay
+var _map_variant_manifest
 
 func _ready() -> void:
 	# 1. GridSpace
 	grid_space = GridSpace.new()
+	_map_variant_manifest = MapVariantManifestScript.load_default()
+	selected_map_name = _resolve_map_name()
 
 	# 2. Map
 	map = load("res://src/map/Map.tscn").instantiate()
 	add_child(map)
-	map.initialize(grid_space, "test_map")
+	map.initialize(grid_space, selected_map_name)
 
 	# 3. Units
-	var units := _create_units()
+	var units := _create_units(selected_map_name)
 	for u in units:
 		u.unit_died.connect(_on_unit_died)
 
@@ -134,6 +143,30 @@ func _normalize_enemy_ai_mode(raw_mode: String) -> String:
 	push_warning("Unknown enemy AI mode '%s'; falling back to hotseat" % raw_mode)
 	return ENEMY_AI_MODE_HOTSEAT
 
+func _resolve_map_name(user_args: Array = []) -> String:
+	var configured_map := str(ProjectSettings.get_setting(
+		MAP_NAME_SETTING,
+		DEFAULT_MAP_NAME,
+	))
+	var requested_map := configured_map
+	var args := user_args
+	if args.is_empty():
+		args = OS.get_cmdline_user_args()
+
+	for i in range(args.size()):
+		var arg := str(args[i])
+		if arg.begins_with("--map="):
+			requested_map = arg.get_slice("=", 1)
+		elif arg == "--map" and i + 1 < args.size():
+			requested_map = str(args[i + 1])
+
+	return _ensure_map_variant_manifest().resolve_map_name(requested_map)
+
+func _ensure_map_variant_manifest():
+	if _map_variant_manifest == null:
+		_map_variant_manifest = MapVariantManifestScript.load_default()
+	return _map_variant_manifest
+
 func _on_damage_preview(attacker: Unit, target: Unit, damage: int) -> void:
 	_damage_preview_label.text = "-%d\nATK %d - DEF %d" % [damage, attacker.atk, target.def]
 	_damage_preview_label.position = target.position + Vector2(-64, -84)
@@ -165,7 +198,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	_input_handler.handle_event(event)
 
-func _create_units() -> Array:
+func _create_units(map_name: String = DEFAULT_MAP_NAME) -> Array:
 	var unit_scene := load("res://src/unit/Unit.tscn")
 	var player_stats := UnitStats.new()
 	var enemy_stats := UnitStats.new()
@@ -175,28 +208,58 @@ func _create_units() -> Array:
 	enemy_stats.mov = 3
 
 	var result: Array = []
+	var player_spawns := _get_spawn_points(map_name, Faction.Type.PLAYER)
+	var enemy_spawns := _get_spawn_points(map_name, Faction.Type.ENEMY)
 
 	var u1 := unit_scene.instantiate() as Unit
 	u1.initialize(player_stats, Faction.Type.PLAYER)
-	_place_unit(u1, Vector2i(5, 2))
+	_place_unit(u1, player_spawns[0])
 	result.append(u1)
 
 	var u2 := unit_scene.instantiate() as Unit
 	u2.initialize(player_stats, Faction.Type.PLAYER)
-	_place_unit(u2, Vector2i(5, 4))
+	_place_unit(u2, player_spawns[1])
 	result.append(u2)
 
 	var e1 := unit_scene.instantiate() as Unit
 	e1.initialize(enemy_stats, Faction.Type.ENEMY)
-	_place_unit(e1, Vector2i(5, 10))
+	_place_unit(e1, enemy_spawns[0])
 	result.append(e1)
 
 	var e2 := unit_scene.instantiate() as Unit
 	e2.initialize(enemy_stats, Faction.Type.ENEMY)
-	_place_unit(e2, Vector2i(5, 12))
+	_place_unit(e2, enemy_spawns[1])
 	result.append(e2)
 
 	return result
+
+func _get_spawn_points(map_name: String, faction: Faction.Type) -> Array:
+	var spawns = _ensure_map_variant_manifest().get_spawn_points_for_faction(map_name, faction)
+	if _are_spawn_points_usable(spawns):
+		return spawns
+	if faction == Faction.Type.PLAYER:
+		return DEFAULT_PLAYER_SPAWNS.duplicate()
+	if faction == Faction.Type.ENEMY:
+		return DEFAULT_ENEMY_SPAWNS.duplicate()
+	return []
+
+func _are_spawn_points_usable(spawns: Array) -> bool:
+	if spawns.size() != 2:
+		return false
+
+	var seen: Dictionary = {}
+	for coord in spawns:
+		if typeof(coord) != TYPE_VECTOR2I:
+			return false
+		if seen.has(coord):
+			return false
+		seen[coord] = true
+		if map != null:
+			if not map.is_coord_in_bounds(coord):
+				return false
+			if map.get_tile_state(coord) != Map.TileState.WALKABLE:
+				return false
+	return true
 
 func _place_unit(unit: Unit, coord: Vector2i) -> void:
 	add_child(unit)

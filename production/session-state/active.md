@@ -4,14 +4,26 @@
 > Read this file first after any compaction, crash, or `/clear`.
 
 **Last Updated**: 2026-05-03
-**Project Stage**: Pre-Production — MVP signed off; Tier 2 BasicAI runtime mode selection and Map Variant Pack implemented
-**Active Sprint**: Sprint 7 — Map Variant Pack complete
+**Project Stage**: Pre-Production — MVP signed off; Tier 2 BasicAI runtime mode selection, Map Variant Pack, and Runtime Map Selection implemented
+**Active Sprint**: Sprint 8 — Runtime Map Selection complete
 
 <!-- STATUS -->
 Epic: Map / Coordinates
-Feature: Map Variant Pack
-Task: Sprint 7 complete; optional next extension is runtime map selection after spawn-fixture consumption is designed
+Feature: Runtime Map Selection
+Task: Sprint 8 implemented and verified with automated runner plus multi-map scene smokes
 <!-- /STATUS -->
+
+---
+
+## Sprint Planning Rule
+
+Future sprints should be sized for AI execution, not human-day capacity. Prefer batching 3-6 coherent stories per sprint when they share a verification surface and can be completed in one automated pass.
+
+Use these boundaries:
+- Group work by integration risk and test surface, not by how long a human would need.
+- Include multiple independent data/content/test stories in one sprint when the runner can prove them together.
+- Split only when a story changes architecture boundaries, runtime UX, asset pipeline defaults, or requires a separate product decision.
+- Every AI-sized sprint still needs a crisp Definition of Done, automated verification, and a clean final status update.
 
 ---
 
@@ -40,8 +52,16 @@ Task: Sprint 7 complete; optional next extension is runtime map selection after 
 - Implementation: complete
 - Story: `production/epics/map/story-005-map-variant-pack.md`
 - Scope: 3 project-native CSV map variants + automated validation
-- Evidence: `tests/unit/map/map_variant_pack_test.gd`, default runner `Total Passed: 275`
+- Evidence: `tests/unit/map/map_variant_pack_test.gd`, default runner `Total Passed: 292`
 - Explicitly out of scope: decorative raster maps, prop packs, unit sprites, map-selection UI
+
+### Sprint 8 — Runtime Map Selection
+- Implementation: complete
+- Sprint: `production/sprints/sprint-8.md`
+- QA Plan: `production/qa/qa-plan-sprint-8-2026-05-03.md`
+- Scope: manifest query, runtime map selection, spawn fixture consumption, multi-map scene smoke
+- Sprint sizing: 4 coherent stories, planned as one AI-sized integration batch
+- Evidence: `tests/unit/map/map_variant_manifest_test.gd`, `tests/unit/ui/game_map_mode_test.gd`, default runner `Total Passed: 292`, clean scene smokes for default, `--map=crossroads`, and `--map=split_lanes --enemy-ai=basic`
 
 ---
 
@@ -58,6 +78,7 @@ QA status:
   Automated MVP QA signed off for Sprint 1-3.
   Sprint 3 should-have visual state story 8-8 is implemented and covered by automated structural test.
   Human editor QA is complete: CP1-CP10 and综合检查 all passed in production/qa/visual-verification-checklist.md.
+  Sprint 8 Runtime Map Selection is implemented and covered by automated tests plus multi-map scene smokes.
 ```
 
 ---
@@ -73,7 +94,7 @@ Command:
 Observed output summary:
 
 ```text
-Total Passed: 275
+Total Passed: 292
 SCRIPT ERROR: 0
 Assertion failed: 0
 ERROR lines: 0
@@ -84,6 +105,8 @@ Scene smoke:
 
 ```powershell
 & 'G:\SteamLibrary\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe' --headless --path . --scene res://src/Game.tscn --quit-after 2
+& 'G:\SteamLibrary\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe' --headless --path . --scene res://src/Game.tscn --quit-after 2 -- --map=crossroads
+& 'G:\SteamLibrary\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe' --headless --path . --scene res://src/Game.tscn --quit-after 2 -- --map=split_lanes --enemy-ai=basic
 ```
 
 ```text
@@ -141,6 +164,17 @@ WARNING lines: 0
 | `assets/data/maps/split_lanes.csv` | Created | Sprint 7 tactical map variant |
 | `assets/data/maps/map_variants.json` | Created | Map variant spawn fixture manifest |
 | `tests/unit/map/map_variant_pack_test.gd` | Created | CSV load, spawn legality, connectivity, and blocked/obstacle validation |
+| `production/sprints/sprint-8.md` | Created | Completed AI-sized Runtime Map Selection sprint |
+| `production/qa/qa-plan-sprint-8-2026-05-03.md` | Created | Executed QA plan for manifest, runtime map selection, spawn fixture consumption, and scene smoke matrix |
+| `production/epics/map/story-006-mapvariantmanifest.md` | Created | Completed manifest query boundary story |
+| `production/epics/map/story-007-runtime-map-selection.md` | Created | Completed runtime map selection story |
+| `production/epics/map/story-008-game-spawn-fixture-consumption.md` | Created | Completed spawn fixture consumption story |
+| `production/epics/map/story-009-multimap-runtime-smoke.md` | Created | Completed multi-map smoke story |
+| `src/map/map_variant_manifest.gd` | Created | Runtime query boundary for map variant names, dimensions, and spawn fixtures |
+| `tests/unit/map/map_variant_manifest_test.gd` | Created | Manifest load/query/fallback coverage |
+| `tests/unit/ui/game_map_mode_test.gd` | Created | Runtime map selection, spawn fixture placement, and invalid spawn fallback coverage |
+| `src/game.gd` | Updated | Selects map by project setting / CLI override and places units from selected-map fixtures |
+| `project.godot` | Updated | Adds `srpg_mini/map_name="test_map"` default |
 
 ---
 
@@ -149,3 +183,4 @@ WARNING lines: 0
 - 10 ADR files present (0001-0010); `docs/architecture/architecture.md` records 63/65 ADR coverage (97%)
 - 8/8 MVP systems implemented + integrated at implementation layer
 - `docs/architecture/architecture-review-2026-04-30.md` refreshed to current PASS / no blocking architecture gaps
+- Sprint 8 preserved architecture boundaries: map selection lives in the `Game` composition root and manifest parsing lives behind `src/map/map_variant_manifest.gd`

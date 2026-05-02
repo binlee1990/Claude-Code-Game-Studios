@@ -11,7 +11,7 @@
 
 ## 当前实现状态
 
-截至 2026-05-03，MVP 的 8 个原语模块已经实现并集成：Map / Unit / Turn / Movement / Attack / AI / Victory / UI。Sprint 1-3 自动化 QA 已签核，当前默认 runner 报告 `Total Passed: 275`，且 `SCRIPT ERROR`、`Assertion failed`、`ERROR:`、`WARNING:` 均为 0。`src/Game.tscn` headless scene smoke 也为 clean。Tier 2 的 `BasicAI` 计划生成器、Turn-layer runtime ActionList 执行、runtime/demo AI mode selection 均已实现；Sprint 7 `Map Variant Pack` 已新增 3 张项目原生 CSV 战术地图并加入自动化验证。默认 `Game` 场景仍使用 `NullAI` 与 `test_map` 以保留 MVP 热座 baseline。
+截至 2026-05-03，MVP 的 8 个原语模块已经实现并集成：Map / Unit / Turn / Movement / Attack / AI / Victory / UI。Sprint 1-3 自动化 QA 已签核，当前默认 runner 报告 `Total Passed: 292`，且 `SCRIPT ERROR`、`Assertion failed`、`ERROR:`、`WARNING:` 均为 0。`src/Game.tscn` headless scene smoke 也为 clean。Tier 2 的 `BasicAI` 计划生成器、Turn-layer runtime ActionList 执行、runtime/demo AI mode selection 均已实现；Sprint 7 `Map Variant Pack` 已新增 3 张项目原生 CSV 战术地图并加入自动化验证；Sprint 8 已让这些地图可通过项目设置或 `--map` 命令行参数在运行时选择。默认 `Game` 场景仍使用 `NullAI` 与 `test_map` 以保留 MVP 热座 baseline。
 
 本文件现在作为 **MVP baseline** 的概念记录。不要把旧的前置流程清单当作未完成任务；当前后续方向见文末“后续步骤”。
 
@@ -308,7 +308,7 @@ MVP 的八个模块——见下方模块决策表。
 | 层级 | 内容 | 功能 | 状态 |
 | ---- | ---- | ---- | ---- |
 | **MVP** | 1 张地图，每阵营 2-4 单位 | 8 个模块，热座可玩 | **已实现；自动化 QA 已签核（2026-05-02）** |
-| **Tier 2（垂直切片）** | 同地图 | `BasicAI`（最近目标启发式）、runtime ActionList 执行、AI mode selection 已完成；剩余为 1 种地形类型 · 简易职业三角 | MVP 之后，增量添加 |
+| **Tier 2（垂直切片）** | 可配置地图 | `BasicAI`（最近目标启发式）、runtime ActionList 执行、AI mode selection、Map Variant Pack、runtime map selection 已完成；剩余为 1 种地形类型 · 简易职业三角 | MVP 之后，增量添加 |
 | **Tier 3（Alpha）** | 3 张地图，主菜单 | + 多局成长 · 存档/读档 · XP 与升级 | 可选扩展 |
 | **完整愿景** | N/A —— 本项目没有"完整愿景" | 发布 MVP 即停，或 fork 为在此骨架之上构建的有风味 SRPG 项目 | 决策推迟 |
 
@@ -326,5 +326,5 @@ MVP 的八个模块——见下方模块决策表。
 - [x] Tier 2 下一步：添加 runtime/demo 配置，让 `Game` 可在 `NullAI` 与 `BasicAI` 之间切换。
 - [x] Tier 2 下一步：`BasicAI` mode 自动 ENEMY 行动由 AI/自动化验证覆盖，记录在 `production/qa/visual-verification-checklist.md` 的 CP11。
 - [x] Tier 2 下一步：Sprint 7 `Map Variant Pack` —— 用 `$generate2dmap` 思路生成 3 张项目原生 CSV 战术地图，并加入自动化验证。
-- [ ] 可选后续：设计 runtime map selection，让 `Game` 可消费 `map_variants.json` 的地图名与 spawn fixture。
+- [x] Tier 2 下一步：Sprint 8 `Runtime Map Selection` —— `Game` 可消费 `map_variants.json` 的地图名与 spawn fixture，并支持项目设置 / `--map` CLI 选择。
 - [ ] 若 story-readiness 工具严格要求 ADR 生命周期标签，单独执行 ADR `Proposed` → `Accepted` 状态收敛 pass。
