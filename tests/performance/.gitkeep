@@ -1,0 +1,3 @@
+# Performance test directory
+# Place performance benchmark tests here.
+# Run: godot --headless res://tests/performance/run_benchmarks.tscn

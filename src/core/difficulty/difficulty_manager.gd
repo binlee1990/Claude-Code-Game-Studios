@@ -24,7 +24,7 @@ func _load_phase_curve() -> void:
 		file.close()
 		var json: Variant = JSON.parse_string(text)
 		if json != null and json is Dictionary and (json as Dictionary).has("phases"):
-			_phase_curve = json
+			_phase_curve = json as Dictionary
 
 
 func _set_phase_curve_for_test(data: Dictionary) -> void:

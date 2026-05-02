@@ -1,7 +1,7 @@
 # Sprint 人工操作集中队列
 
-> Version: v1.0 | Date: 2026-04-27 | Status: **OPEN**
-> Source: 从 `sprint-001.md` ~ `sprint-005.md` 抽离的人工执行、人工验收、截图归档、试玩、听感确认与 sign-off 工作。
+> Version: v2.0 | Date: 2026-05-02 | Status: **OPEN**
+> Source: 从 `sprint-001.md` ~ `sprint-009.md` 抽离的人工执行、人工验收、截图归档、试玩、听感确认与 sign-off 工作。
 
 ## 目标
 
@@ -53,3 +53,29 @@
 - 每个报告必须写清：build/hash 或日期、执行人、执行路径、截图/录屏路径、结果、阻塞项、可接受 notes。
 - 如果人工结果只产生体验建议，不阻塞当前自动化交付，应标为 `PASS WITH NOTES` 并把后续改动转入对应 epic / backlog。
 - 不在原 sprint 文档中新增新的人工 gate；新的人工项继续追加到本文件。
+
+---
+
+## Sprint-009+ 追加人工验证 (2026-05-02)
+
+### VS 系统视觉验证
+
+| 顺序 | 优先级 | ID | 人工任务 | 前置条件 | 输出物 | 状态 |
+|---:|---|------|------|------|------|---|
+| 8 | P1 | MAN-008 | **迷雾视觉效果验证**: 启用 fog 关卡中观察迷雾三态颜色、移动后揭示、隐藏敌人不出现在 targeting、侦察兵视野加成正确 | 当前 Windows build; FogStateManager/FogRenderer/FogTargetFilter 已实现 | 截图 2-3 张（迷雾初始/揭示后/敌人出现），记录视觉问题 | OPEN |
+| 9 | P1 | MAN-009 | **组合技 UI 验证**: 羁绊 A 级角色相邻时 combo 按钮状态、门槛不满足时 disabled+tooltip 文字、执行后冷却倒计时 | BondRegistry + ComboValidator + ComboSkillData 已实现 | 截图 2 张（按钮激活/禁用状态），记录 UI 交互问题 | OPEN |
+| 10 | P1 | MAN-010 | **难度倍率感受验证**: 玩 Ch.1(0.7×) vs Ch.3(1.0×) vs Ch.6+(1.2×)，确认敌人强度差异可感知 | DifficultyManager + phase_curve.json 已实现 | playtest 笔记，记录各阶段战斗难度主观感受 | OPEN |
+| 11 | P1 | MAN-011 | **Boss 数据模型验证**: 使用现有 Ch.2/Ch.3 Boss 战，确认 BossProfile/BossPhase/BossCheckpoint 数据加载正确 | BossProfile/Phase/Checkpoint/ActionPattern 已实现 | 战斗中观察 Boss 名称/阶段/前兆是否正确显示 | OPEN |
+
+### Sprint-009 完整验证
+
+| 顺序 | 优先级 | ID | 人工任务 | 前置条件 | 输出物 | 状态 |
+|---:|---|------|------|------|------|---|
+| 12 | P0 | MAN-012 | **Sprint-009 packaged smoke**: 双击 `builds/windows/SRPG.exe` → 主菜单 → 战斗(迷雾关) → combo 触发 → 存档 → 读档 → 退出 | 自动化 gate 全 PASS (1021/1021, check-only 0, export OK) | smoke 报告 | OPEN |
+| 13 | P2 | MAN-013 | **装备 +11+ 风险体验**: 强化装备到 +11 以上，确认失败降级概率合理、保护符号消耗可见 | EQUIP-014 概率曲线已定义 | 记录强化日志（等级/成功/失败/符号消耗） | OPEN |
+
+### 已完成
+
+| ID | 来源 | 结果 | 证据 |
+|---|---|---|---|
+| MAN-DONE-003 | Sprint-009 QA verification | 自动化全部 PASS | `production/qa/evidence/sprint-009-qa-evidence.md` — 1021/1021 PASS, export OK |
