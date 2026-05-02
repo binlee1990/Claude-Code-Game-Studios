@@ -7,14 +7,16 @@ func test_null_ai_extends_ai_controller():
 	var ai = NullAI.new()
 	assert(ai is AIController)
 
-func test_null_ai_returns_empty_array():
+func test_null_ai_returns_empty_action_list():
 	var ai = NullAI.new()
-	var result = ai.take_turn([], {})
-	assert(result == [])
+	var ws := WorldState.new()
+	var result = ai.take_turn([], ws)
+	assert(result.is_empty())
 
 func test_null_ai_accepts_empty_inputs():
 	var ai = NullAI.new()
-	var result = ai.take_turn([], {})
+	var ws := WorldState.new()
+	var result = ai.take_turn([], ws)
 	assert(result.is_empty())
 
 func test_turn_manager_match_ended_signal_with_elimination():

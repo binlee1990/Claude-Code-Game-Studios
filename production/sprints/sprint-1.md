@@ -1,7 +1,7 @@
 # Sprint 1 — Foundation + Core MVP
 
 **Start**: 2026-04-30
-**End**: TBD（按故事完成签核）
+**End**: 2026-04-30
 
 ## Sprint Goal
 
