@@ -4,13 +4,14 @@
 > **GDD**: design/gdd/ai.md
 > **Architecture Module**: AIController (Feature Layer)
 > **Status**: Ready
-> **Stories**: 2 stories created
+> **Stories**: 3 stories created
 
 ## Stories
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | AIController @abstract 基类 + NullAI | Logic | Ready | ADR-0008 |
-| 002 | WorldState + ActionPlan/ActionList 数据结构 | Logic | Ready | ADR-0008 |
+| 001 | AIController @abstract 基类 + NullAI | Logic | Done | ADR-0008 |
+| 002 | WorldState + ActionPlan/ActionList 数据结构 | Logic | Done | ADR-0008 |
+| 003 | BasicAI — 最近目标启发式计划生成器 | Logic | Done | ADR-0008 |
 
 ## Overview
 
@@ -30,7 +31,7 @@
 | TR-ai-002 | WorldState 数据结构（Map 快照 + 单位状态） | ADR-0008 ✅ |
 | TR-ai-003 | ActionPlan/ActionList 数据结构（动作序列容器） | ADR-0008 ✅ |
 | TR-ai-004 | NullAI 返回空 ActionList（热座模式下 ENEMY 由玩家操控） | ADR-0008 ✅ |
-| TR-ai-005 | BasicAI 接口兼容性（Tier 2 实现，MVP 仅预留插槽） | ADR-0008 ✅ |
+| TR-ai-005 | BasicAI 接口兼容性（Tier 2 实现） | ADR-0008 ✅ |
 | TR-ai-006 | 接口容纳 NullAI+BasicAI 而不修改 Turn System | ADR-0008 ✅ |
 | TR-ai-007 | WorldState.clone() 深拷贝（供 AI 模拟使用） | ADR-0008 ✅ |
 
@@ -43,4 +44,4 @@
 
 ## Next Step
 
-Run `/create-stories ai` 将本 Epic 拆解为可实施的 Story。
+Optional runtime integration story: execute non-empty AI ActionLists in `TurnManager` while preserving `NullAI` hotseat behavior.

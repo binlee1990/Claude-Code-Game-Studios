@@ -12,13 +12,13 @@
 
 ## Verdict: PASS
 
-The original 2026-04-30 review was a **CONCERNS** report because only ADR-0001 through ADR-0004 existed at that point. That finding is now superseded by the current architecture baseline:
+The original 2026-04-30 review was written before ADR-0005 through ADR-0010 existed. That historical finding is now superseded by the current architecture baseline:
 
 - All 8 MVP systems are represented in the architecture document.
 - ADR-0001 through ADR-0010 exist and cover Foundation, Core, Feature, Victory, AI, and Presentation layers.
 - `docs/architecture/architecture.md` records 63 / 65 technical requirements covered by ADRs (97%).
 - The two remaining Unit details are implementation-level items rather than architecture blockers: `unit_id` generation and acted-state visual mapping. Both are implemented and covered by automated tests.
-- Sprint 1-3 automated QA is clean: `Total Passed: 254`, with zero script errors, assertion failures, error lines, or warnings.
+- Sprint 1-3 automated QA plus Tier 2 BasicAI planner coverage is clean: `Total Passed: 262`, with zero script errors, assertion failures, error lines, or warnings.
 
 **Blocking architecture issues**: none.
 
@@ -61,7 +61,7 @@ The current traceability source of truth is `docs/architecture/architecture.md`;
 - **Dependency graph**: clean layered DAG: Foundation -> Core -> Feature -> Presentation.
 - **Boundary rule**: Grid/world coordinate conversion remains isolated to `GridSpace`.
 - **State ownership**: `Map` owns occupancy, `Unit` owns HP/action state, `TurnManager` owns turn lifecycle.
-- **Extension point**: `AIController` supports `NullAI` now and is the intended Tier 2 extension surface for `BasicAI`.
+- **Extension point**: `AIController` now supports `NullAI` and a Tier 2 `BasicAI` planner without `TurnManager` imports.
 - **Composition root**: `src/game.gd` wires systems directly; no Autoload or SignalBus is required at MVP scale.
 
 ---
@@ -71,7 +71,7 @@ The current traceability source of truth is `docs/architecture/architecture.md`;
 Current verification was performed during the 2026-05-02 QA audit:
 
 ```text
-Total Passed: 254
+Total Passed: 262
 SCRIPT_ERROR=0
 ASSERTION_FAILED=0
 ERROR_LINES=0
@@ -101,4 +101,4 @@ Relevant evidence files:
 
 1. If story-readiness tooling enforces ADR lifecycle labels, run a separate ADR status pass to promote completed ADRs from `Proposed` to `Accepted` through the project workflow.
 2. Human editor screenshots remain useful as product-polish evidence, but they are not a blocker for the current automated MVP architecture or QA gate.
-3. The recommended next engineering extension is Tier 2 `BasicAI`, because it validates the most important promised extension point without rewriting `TurnManager`.
+3. The recommended next engineering extension is optional runtime AI integration: execute non-empty `ActionList` values in `TurnManager` while preserving `NullAI` hotseat behavior.

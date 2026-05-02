@@ -28,6 +28,7 @@ func _run_all():
 	_run_file("res://tests/unit/attack/attack_range_test.gd")
 	_run_file("res://tests/unit/ai/ai_controller_test.gd")
 	_run_file("res://tests/unit/ai/ai_data_structures_test.gd")
+	_run_file("res://tests/unit/ai/basic_ai_test.gd")
 	_run_file("res://tests/unit/ui/highlight_layer_test.gd")
 	_run_file("res://tests/unit/ui/debug_overlay_test.gd")
 	_run_file("res://tests/unit/ui/input_handler_test.gd")

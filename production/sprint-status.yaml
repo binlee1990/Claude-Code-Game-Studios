@@ -11,13 +11,13 @@ qa_audit:
   date: "2026-05-02"
   report: "production/qa/qa-execution-audit-2026-05-02.md"
   verdict: "pass"
-  runner_total_passed_reported: 254
+  runner_total_passed_reported: 262
   runner_script_errors: 0
   runner_assertion_failures: 0
   runner_error_lines: 0
   runner_warnings: 0
   scene_smoke: "src/Game.tscn headless boot clean"
-  note: "Sprint 1-3 automated QA clean; manual visual verification CP1-CP10 plus comprehensive checks passed."
+  note: "Sprint 1-3 automated QA clean; manual visual verification CP1-CP10 plus comprehensive checks passed; Tier 2 BasicAI planner tests are clean."
 
 stories:
   # === UI: Highlight Layer ===

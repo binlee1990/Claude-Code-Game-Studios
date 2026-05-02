@@ -36,7 +36,7 @@
 ### Nice to Have
 
 - UX 文档 (`design/ux/`) — 当 MVP 运行时作为参考写入
-- BasicAI `take_turn()` scaffold — 为 Tier 2 AI 预热接口
+- BasicAI `take_turn()` scaffold — 已在 Sprint 4 完成，为 Tier 2 AI 预热接口
 - `_draw_multirect()` batch 优化 — 仅在 perf profiling 显示 `_draw()` 超过 1ms 时执行
 
 ## Story Details
@@ -127,7 +127,7 @@
 - [x] MVP 完整可玩: 启动 → 移动 → 攻击 → End Turn → Victory/Loss
 - [x] `game-concept.md` MVP 定义全部 8 项满足
 
-> ✅ **QA Plan Execution (refreshed 2026-05-02)**: `production/qa/qa-plan-sprint-3-2026-05-02.md` 已执行，Sprint 3 QA sign-off 已生成：`production/qa/qa-signoff-sprint-3-2026-05-02.md`。当前 headless runner 复核为 clean：`Total Passed: 254`，`SCRIPT ERROR` / `Assertion failed` / `ERROR:` / `WARNING:` 均为 0。Sprint 3 当前状态为 **MVP automated QA signed off**。详情见 `production/qa/qa-execution-audit-2026-05-02.md`。
+> ✅ **QA Plan Execution (refreshed 2026-05-02)**: `production/qa/qa-plan-sprint-3-2026-05-02.md` 已执行，Sprint 3 QA sign-off 已生成：`production/qa/qa-signoff-sprint-3-2026-05-02.md`。当前 headless runner 复核为 clean：`Total Passed: 262`，`SCRIPT ERROR` / `Assertion failed` / `ERROR:` / `WARNING:` 均为 0。Sprint 3 当前状态为 **MVP automated QA signed off**。详情见 `production/qa/qa-execution-audit-2026-05-02.md`。
 
 ## Sprint Completion Gate = MVP Complete
 

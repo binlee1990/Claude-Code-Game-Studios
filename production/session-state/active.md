@@ -4,13 +4,13 @@
 > Read this file first after any compaction, crash, or `/clear`.
 
 **Last Updated**: 2026-05-02
-**Project Stage**: Pre-Production — MVP automated and manual visual QA signed off
+**Project Stage**: Pre-Production — MVP signed off; Tier 2 BasicAI planner implemented
 **Active Sprint**: Sprint 3 — Presentation Layer complete
 
 <!-- STATUS -->
 Epic: —
 Feature: —
-Task: MVP visual verification complete
+Task: Tier 2 BasicAI planner complete; runtime AI integration decision pending
 <!-- /STATUS -->
 
 ---
@@ -66,7 +66,7 @@ Command:
 Observed output summary:
 
 ```text
-Total Passed: 254
+Total Passed: 262
 SCRIPT ERROR: 0
 Assertion failed: 0
 ERROR lines: 0
@@ -112,6 +112,10 @@ WARNING lines: 0
 | `project.godot` | Updated | Viewport widened to provide HUD panel space |
 | `tests/unit/ui/debug_overlay_test.gd` | Created | Regression coverage for grid lines and `(5,12)` coordinate |
 | `production/qa/visual-verification-checklist.md` | Updated | Final manual QA pass: CP1-CP10 and综合检查 all passed |
+| `src/ai/basic_ai.gd` | Created | Tier 2 BasicAI pure ActionList planner |
+| `tests/unit/ai/basic_ai_test.gd` | Created | BasicAI behavior, no-TurnManager import, and WorldState immutability coverage |
+| `production/sprints/sprint-4.md` | Created | Tier 2 BasicAI interface validation sprint |
+| `production/epics/ai/story-003-basic-ai-nearest-target.md` | Created | BasicAI implementation story |
 
 ---
 

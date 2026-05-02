@@ -11,7 +11,7 @@
 
 ## 当前实现状态
 
-截至 2026-05-02，MVP 的 8 个原语模块已经实现并集成：Map / Unit / Turn / Movement / Attack / AI / Victory / UI。Sprint 1-3 自动化 QA 已签核，当前默认 runner 报告 `Total Passed: 254`，且 `SCRIPT ERROR`、`Assertion failed`、`ERROR:`、`WARNING:` 均为 0。`src/Game.tscn` headless scene smoke 也为 clean。
+截至 2026-05-02，MVP 的 8 个原语模块已经实现并集成：Map / Unit / Turn / Movement / Attack / AI / Victory / UI。Sprint 1-3 自动化 QA 已签核，当前默认 runner 报告 `Total Passed: 262`，且 `SCRIPT ERROR`、`Assertion failed`、`ERROR:`、`WARNING:` 均为 0。`src/Game.tscn` headless scene smoke 也为 clean。Tier 2 的第一个扩展验证点 `BasicAI` 已作为纯计划生成器实现，证明 AIController 可容纳非空行为而不修改 `TurnManager`。
 
 本文件现在作为 **MVP baseline** 的概念记录。不要把旧的前置流程清单当作未完成任务；当前后续方向见文末“后续步骤”。
 
@@ -320,6 +320,7 @@ MVP 的八个模块——见下方模块决策表。
 - [x] ADR-0001 至 ADR-0010 覆盖 Foundation / Core / Feature / Presentation 架构面。
 - [x] Sprint 1-3 实现完成，MVP 自动化 QA 签核完成。
 - [x] `8-8 Unit 已行动灰色 modulate` 已实现并由 `tests/unit/unit/unit_scene_visual_test.gd` 覆盖。
-- [ ] 可选：补充 Godot 编辑器人工视觉 checklist 作为产品 polish 证据。
-- [ ] Tier 2 默认下一步：实现 `BasicAI`，验证 `AIController` 扩展点能在不重写 `TurnManager` 的情况下替换 `NullAI`。
+- [x] 补充 Godot 编辑器人工视觉 checklist 作为产品 polish 证据。
+- [x] Tier 2 默认下一步：实现 `BasicAI`，验证 `AIController` 扩展点能在不重写 `TurnManager` 的情况下替换 `NullAI`。
+- [ ] Tier 2 下一步：决定是否接入 `TurnManager` 执行非空 AI ActionList，同时保留 `NullAI` 热座行为。
 - [ ] 若 story-readiness 工具严格要求 ADR 生命周期标签，单独执行 ADR `Proposed` → `Accepted` 状态收敛 pass。
