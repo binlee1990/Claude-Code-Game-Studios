@@ -21,11 +21,18 @@ var hp: int = 0:
 			return
 		var was_alive := hp > 0
 		hp = clamped
+		_update_visual()
 		if was_alive and clamped <= 0:
 			unit_died.emit(self)
 var grid_position: Vector2i
-var action_state = UnitState.IDLE
-var has_acted_this_turn: bool = false
+var action_state = UnitState.IDLE:
+	set(v):
+		action_state = v
+		_update_visual()
+var has_acted_this_turn: bool = false:
+	set(v):
+		has_acted_this_turn = v
+		_update_visual()
 
 signal unit_died(unit: Unit)
 

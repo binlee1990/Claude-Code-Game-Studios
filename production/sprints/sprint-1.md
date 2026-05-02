@@ -61,7 +61,7 @@
 - [x] 代码审查通过（5 blockers 已修复，剩余 suggestions 入 tech-debt）
 - [x] Design documents 更新以反映任何偏离（见下方 Deviations）
 
-> ✅ **QA Execution Status (refreshed 2026-05-02)**: QA Plan 已补齐：`production/qa/qa-plan-sprint-1-2026-04-30.md`；历史签核报告存在：`production/qa/qa-signoff-sprint-1-2026-05-02.md`。当前 headless runner 复核为 clean：`Total Passed: 253`，`SCRIPT ERROR` / `Assertion failed` / `ERROR:` / `WARNING:` 均为 0。详情见 `production/qa/qa-execution-audit-2026-05-02.md`。
+> ✅ **QA Execution Status (refreshed 2026-05-02)**: QA Plan 已补齐：`production/qa/qa-plan-sprint-1-2026-04-30.md`；历史签核报告存在：`production/qa/qa-signoff-sprint-1-2026-05-02.md`。当前 headless runner 复核为 clean：`Total Passed: 254`，`SCRIPT ERROR` / `Assertion failed` / `ERROR:` / `WARNING:` 均为 0。详情见 `production/qa/qa-execution-audit-2026-05-02.md`。
 
 ## Deviations from GDD/ADR
 

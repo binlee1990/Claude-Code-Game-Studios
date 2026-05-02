@@ -46,10 +46,18 @@ func test_enemy_unit_uses_red_faction_color() -> void:
 func test_acted_unit_uses_gray_half_alpha_modulate() -> void:
 	var unit := _make_unit(Faction.Type.PLAYER)
 	unit.has_acted_this_turn = true
-	unit._update_visual()
 	var color_rect: ColorRect = unit.get_node("ColorRect")
 	var expected := Color.GRAY
 	expected.a = 0.5
 
 	assert(color_rect.modulate == expected)
+	unit.free()
+
+func test_hp_label_updates_immediately_after_damage() -> void:
+	var unit := _make_unit(Faction.Type.ENEMY)
+	var label: Label = unit.get_node("Label")
+
+	unit.take_damage(4)
+
+	assert(label.text == "HP: 6/10")
 	unit.free()

@@ -21,7 +21,7 @@ var _current_movement_result: MovementResult = null
 signal move_highlights_changed(tiles: Array)
 signal path_highlights_changed(tiles: Array)
 signal attack_highlights_changed(tiles: Array)
-signal damage_preview_requested(target: Unit, damage: int)
+signal damage_preview_requested(attacker: Unit, target: Unit, damage: int)
 signal preview_cleared()
 signal selection_changed(unit: Unit)
 signal selection_cleared()
@@ -115,7 +115,7 @@ func _handle_hover(screen_pos: Vector2) -> void:
 				var valid_targets: Array = _attack_range_resolver.get_valid_targets(_selected_unit, _all_units, _map)
 				if target in valid_targets:
 					var damage := AttackResult.resolve_damage(_selected_unit.atk, target.def)
-					damage_preview_requested.emit(target, damage)
+					damage_preview_requested.emit(_selected_unit, target, damage)
 					return
 			preview_cleared.emit()
 

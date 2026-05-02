@@ -13,7 +13,7 @@
 **Sign-off artifact**: `production/qa/qa-signoff-sprint-2-2026-05-02.md`
 **Current audit**: `production/qa/qa-execution-audit-2026-05-02.md`
 
-Current headless revalidation reports `Total Passed: 253` with zero `SCRIPT ERROR`, zero `Assertion failed`, zero `ERROR:` lines, and zero `WARNING:` lines. Sprint 2 movement, attack, victory, and AI unit/integration coverage is executed by the default runner. `src/Game.tscn` scene boot smoke also exits cleanly.
+Current headless revalidation reports `Total Passed: 254` with zero `SCRIPT ERROR`, zero `Assertion failed`, zero `ERROR:` lines, and zero `WARNING:` lines. Sprint 2 movement, attack, victory, and AI unit/integration coverage is executed by the default runner. `src/Game.tscn` scene boot smoke also exits cleanly.
 
 ---
 

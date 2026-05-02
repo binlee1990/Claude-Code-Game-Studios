@@ -53,7 +53,13 @@ func _ready() -> void:
 	# 9. Damage preview label
 	_damage_preview_label = Label.new()
 	_damage_preview_label.visible = false
+	_damage_preview_label.size = Vector2(128, 48)
+	_damage_preview_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_damage_preview_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_damage_preview_label.add_theme_font_size_override("font_size", 14)
+	_damage_preview_label.add_theme_constant_override("outline_size", 3)
+	_damage_preview_label.add_theme_color_override("font_outline_color", Color.BLACK)
+	_damage_preview_label.z_index = 20
 	add_child(_damage_preview_label)
 
 	# 10. HUD
@@ -89,13 +95,13 @@ func _create_highlight_layer(color: Color, z: int) -> HighlightLayer:
 	add_child(layer)
 	return layer
 
-func _on_damage_preview(target: Unit, damage: int) -> void:
-	_damage_preview_label.text = "-%d" % damage
-	_damage_preview_label.position = target.position + Vector2(0, -60)
+func _on_damage_preview(attacker: Unit, target: Unit, damage: int) -> void:
+	_damage_preview_label.text = "-%d\nATK %d - DEF %d" % [damage, attacker.atk, target.def]
+	_damage_preview_label.position = target.position + Vector2(-64, -84)
 	if damage >= target.hp:
-		_damage_preview_label.modulate = Color("#EF4444")
+		_set_damage_preview_color(Color("#EF4444"))
 	else:
-		_damage_preview_label.modulate = Color("#F59E0B")
+		_set_damage_preview_color(Color("#F59E0B"))
 	_damage_preview_label.visible = true
 
 func _hide_preview() -> void:
@@ -103,10 +109,13 @@ func _hide_preview() -> void:
 
 func _on_damage_dealt(_attacker: Unit, target: Unit, damage: int) -> void:
 	_damage_preview_label.text = "-%d" % damage
-	_damage_preview_label.position = target.position + Vector2(0, -60)
-	_damage_preview_label.modulate = Color("#EF4444")
+	_damage_preview_label.position = target.position + Vector2(-64, -76)
+	_set_damage_preview_color(Color("#EF4444"))
 	_damage_preview_label.visible = true
 	get_tree().create_timer(0.6).timeout.connect(_hide_preview)
+
+func _set_damage_preview_color(color: Color) -> void:
+	_damage_preview_label.add_theme_color_override("font_color", color)
 
 func _on_phase_ended(_faction: Faction.Type) -> void:
 	_input_handler.force_clear()
