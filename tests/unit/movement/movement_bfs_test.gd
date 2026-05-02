@@ -30,10 +30,11 @@ func _make_tile_states(data: Array) -> void:
 func _make_unit(hp: int, mov: int) -> Unit:
 	var u = Unit.new()
 	var stats = UnitStats.new()
-	stats.max_hp = hp
-	stats.mov = mov
+	stats.max_hp = maxi(hp, 5)
+	stats.mov = clampi(mov, 2, 6)
 	u.initialize(stats, Faction.Type.PLAYER)
 	u.hp = hp
+	u.mov = mov
 	return u
 
 func test_manhattan_distance() -> void:

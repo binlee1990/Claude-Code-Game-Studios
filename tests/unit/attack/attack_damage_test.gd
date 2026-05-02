@@ -48,7 +48,7 @@ func test_invalid_sentinel() -> void:
 func _make_unit(hp_val: int, atk_val: int, def_val: int, rng_val: int) -> Unit:
 	var u := Unit.new()
 	var stats := UnitStats.new()
-	stats.max_hp = hp_val
+	stats.max_hp = maxi(hp_val, 5)
 	stats.atk = atk_val
 	stats.def = def_val
 	stats.rng = rng_val

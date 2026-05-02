@@ -32,20 +32,17 @@ func test_unitstats_max_hp_at_upper_bound() -> void:
 func test_unitstats_max_hp_below_range_fails() -> void:
 	var stats := UnitStats.new()
 	stats.max_hp = 4
-	var passed := false
-	var _ok = stats.validate()
-	# Out of range → assert should trigger in debug; test confirms range check exists
-	assert(stats.max_hp == 4)  # value was set but should fail validation
+	assert(not stats.validate(false))
 
 func test_unitstats_atk_below_range_fails() -> void:
 	var stats := UnitStats.new()
 	stats.atk = 2  # below [3,8]
-	assert(stats.atk == 2)
+	assert(not stats.validate(false))
 
 func test_unitstats_atk_above_range_fails() -> void:
 	var stats := UnitStats.new()
 	stats.atk = 9  # above [3,8]
-	assert(stats.atk == 9)
+	assert(not stats.validate(false))
 
 func test_unitstats_def_boundary_zero() -> void:
 	var stats := UnitStats.new()

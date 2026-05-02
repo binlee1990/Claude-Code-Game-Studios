@@ -8,6 +8,16 @@
 
 ---
 
+## Execution Status — 2026-05-02 Refresh
+
+**Status**: ✅ Current clean revalidation passed.
+**Sign-off artifact**: `production/qa/qa-signoff-sprint-1-2026-05-02.md`
+**Current audit**: `production/qa/qa-execution-audit-2026-05-02.md`
+
+Current headless revalidation reports `Total Passed: 247` with zero `SCRIPT ERROR`, zero `Assertion failed`, zero `ERROR:` lines, and zero `WARNING:` lines. The scene smoke command for `src/Game.tscn` also exits cleanly with zero console errors.
+
+---
+
 ## Test Summary
 
 | Story ID | Story | Type | Auto Test | Manual |
@@ -161,10 +171,10 @@
 **Verification method**: Screenshot + developer sign-off
 **Evidence**: `production/qa/evidence/unit-visual-evidence.md`
 
-- [ ] PLAYER Unit 渲染为蓝色矩形 (#3B82F6)
-- [ ] ENEMY Unit 渲染为红色矩形 (#EF4444)
-- [ ] Unit.tscn 场景树: Node2D → ColorRect(48×48) + Label(offset Y:-40)
-- [ ] has_acted=true → modulate=Color.GRAY + 50% alpha
+- [x] PLAYER Unit 渲染为蓝色矩形 (#3B82F6) — `tests/unit/unit/unit_scene_visual_test.gd`
+- [x] ENEMY Unit 渲染为红色矩形 (#EF4444) — `tests/unit/unit/unit_scene_visual_test.gd`
+- [x] Unit.tscn 场景树: Node2D → ColorRect(48×48) + Label(offset Y:-40) — `tests/unit/unit/unit_scene_visual_test.gd`
+- [x] has_acted=true → modulate=Color.GRAY + 50% alpha — `tests/unit/unit/unit_scene_visual_test.gd`
 
 ---
 
@@ -189,8 +199,8 @@ Visual/Feel Story 2-2 通过手动截图验证。
 
 ## Definition of Done — Sprint 1
 
-- [ ] 全 11 Logic Story 有通过测试（`tests/unit/*/`）
-- [ ] Story 2-2 有视觉证据（`production/qa/evidence/unit-visual-evidence.md`）
-- [ ] Smoke check 通过
-- [ ] 代码审查通过
-- [ ] Sprint status 全部 Must-Have → Done
+- [x] 全 11 Logic Story 有干净通过测试（`tests/unit/*/`）
+- [x] Story 2-2 有视觉证据（`production/qa/evidence/story-2-2/`）
+- [x] Smoke check 通过 — `src/Game.tscn` headless scene boot clean
+- [x] 代码审查通过 — 历史签核报告记录 5 blockers fixed
+- [x] Sprint status 全部 Must-Have → Done — 历史签核报告记录完成

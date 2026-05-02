@@ -60,9 +60,9 @@ func test_end_turn_during_ending_is_ignored():
 	tm.initialize(units, TurnConfig.new(), VictoryChecker.new(), NullAI.new())
 	tm.faction_phase_ended.connect(func(_f: Faction.Type): s["phase_ended"] += 1)
 	tm.start_match()
+	tm.current_state = TurnState.FACTION_PHASE_ENDING
 	tm.end_current_faction_turn()
-	tm.end_current_faction_turn()
-	assert(s["phase_ended"] == 1)
+	assert(s["phase_ended"] == 0)
 
 func test_faction_rotation_player_to_enemy():
 	var units = _make_units(3, 3)

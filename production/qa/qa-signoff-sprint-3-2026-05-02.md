@@ -1,0 +1,54 @@
+# QA Sign-Off Report: Sprint 3 — Presentation Layer + MVP Complete
+
+**Date**: 2026-05-02  
+**QA Plan**: `production/qa/qa-plan-sprint-3-2026-05-02.md`  
+**Sprint File**: `production/sprints/sprint-3.md`  
+**Reviewer**: Automated audit + lead-programmer
+
+---
+
+## Verdict
+
+✅ **Sprint 3 / MVP AUTOMATED QA SIGNED OFF**
+
+Current full-run revalidation is clean:
+
+```text
+Total Passed: 247
+SCRIPT ERROR: 0
+Assertion failed: 0
+ERROR lines: 0
+WARNING lines: 0
+```
+
+`src/Game.tscn` scene boot smoke also exits cleanly with zero script errors, assertions, `ERROR:` lines, or `WARNING:` lines.
+
+---
+
+## Automated Test Results
+
+| Story | Test File | Tests | Status |
+|-------|-----------|-------|--------|
+| 8-1 | `tests/unit/ui/highlight_layer_test.gd` | 5 | PASS |
+| 8-2 | `tests/unit/ui/input_handler_test.gd` | 7 | PASS |
+| 8-3 | `tests/unit/ui/hud_test.gd` | 4 | PASS |
+| 8-4 | `tests/unit/ui/result_overlay_test.gd` | 5 | PASS |
+| 8-5 | `tests/unit/ui/input_handler_test.gd`; `tests/integration/ui/e2e_game_flow_test.gd` | covered | PASS |
+| 8-6 | `tests/integration/ui/e2e_game_flow_test.gd`; scene boot smoke | 11 + smoke | PASS |
+| 8-7 | `tests/integration/ui/e2e_game_flow_test.gd`; `production/qa/evidence/story-8-7/playtest-notes.md` | 11 + evidence | PASS |
+
+**Sprint 3 scoped test files**: 32 UI/E2E tests plus scene boot smoke.
+
+---
+
+## MVP Gate
+
+- [x] Default runner executes HighlightLayer, InputHandler, HUD, ResultOverlay, and E2E flow tests
+- [x] Full runner has zero script/assertion/error/warning output
+- [x] `src/Game.tscn` starts headlessly without console errors
+- [x] 10/10 playtest checkpoints have automated logic, structural UI, scene boot, or wiring evidence
+- [x] Sprint 3 sprint document, QA plan, playtest evidence, and sprint status updated
+
+Human editor screenshots remain useful for polish review, but they are not a blocking QA risk for this automated MVP sign-off.
+
+**Remaining blocking risks**: none

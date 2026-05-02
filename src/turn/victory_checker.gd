@@ -1,8 +1,7 @@
 class_name VictoryChecker extends RefCounted
 
 func determine_winner(units, turn_number: int, turn_cap: int) -> Dictionary:
-	assert(turn_number >= 1, "turn_number must be >= 1, got %d" % turn_number)
-	assert(turn_cap >= 1, "turn_cap must be >= 1, got %d" % turn_cap)
+	assert(are_turn_bounds_valid(turn_number, turn_cap), "turn_number and turn_cap must be >= 1, got turn_number=%d turn_cap=%d" % [turn_number, turn_cap])
 	var player_alive := _count_alive(units, Faction.Type.PLAYER)
 	var enemy_alive := _count_alive(units, Faction.Type.ENEMY)
 
@@ -23,6 +22,9 @@ func determine_winner(units, turn_number: int, turn_cap: int) -> Dictionary:
 			return {"winner": Faction.Type.NONE, "reason": "turn_cap"}
 
 	return {"winner": Faction.Type.NONE, "reason": ""}
+
+func are_turn_bounds_valid(turn_number: int, turn_cap: int) -> bool:
+	return turn_number >= 1 and turn_cap >= 1
 
 func _count_alive(units, faction: Faction.Type) -> int:
 	var count := 0

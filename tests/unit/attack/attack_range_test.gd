@@ -23,8 +23,9 @@ func _make_unit(faction: Faction.Type, atk_val: int, rng_val: int, pos: Vector2i
 	var u = Unit.new()
 	var stats = UnitStats.new()
 	stats.atk = atk_val
-	stats.rng = rng_val
+	stats.rng = clampi(rng_val, 1, 3)
 	u.initialize(stats, faction)
+	u.rng = rng_val
 	u.grid_position = pos
 	return u
 

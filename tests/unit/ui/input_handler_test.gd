@@ -56,12 +56,9 @@ func _make_escape_event() -> InputEventKey:
 	return e
 
 func _start_match() -> void:
-	var tmp_tm := TurnManager.new()
-	tmp_tm.initialize(_units, TurnConfig.new(), VictoryChecker.new(), NullAI.new())
-	tmp_tm.start_match()
-	_tm.current_state = tmp_tm.current_state
-	_tm.active_faction = tmp_tm.active_faction
-	_tm.turn_number = tmp_tm.turn_number
+	_tm.current_state = TurnState.FACTION_PHASE_ACTIVE
+	_tm.active_faction = Faction.Type.PLAYER
+	_tm.turn_number = 1
 
 # === MUST HAVE TESTS (≥5) ===
 

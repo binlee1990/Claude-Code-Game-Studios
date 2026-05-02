@@ -9,6 +9,8 @@ func get_reachable_tiles() -> Array:
 	return reachable.duplicate()
 
 func get_path_to(target: Vector2i) -> Array:
+	if not _dist.has(target):
+		return []
 	if not parents.has(target) and target != start:
 		return []
 	var path: Array = []

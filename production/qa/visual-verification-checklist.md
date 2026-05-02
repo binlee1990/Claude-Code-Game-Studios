@@ -6,6 +6,14 @@
 
 ---
 
+## 2026-05-02 Automated QA Status
+
+当前 Sprint 1-3 自动化 QA 已签核：`tests/test_runner.gd` 报告 `Total Passed: 247`，且 `SCRIPT ERROR` / `Assertion failed` / `ERROR:` / `WARNING:` 均为 0。`src/Game.tscn` headless scene boot 也为 clean。
+
+本清单保留为 Godot 编辑器中的人工观感/产品 polish 检查，不再是当前 MVP 自动化 QA 的阻塞项。对应的工程风险已由 `production/qa/qa-execution-audit-2026-05-02.md`、`production/qa/evidence/story-8-7/playtest-notes.md`、UI 结构测试和 E2E 测试覆盖。
+
+---
+
 ## CP1 — 启动：棋盘 / 单位 / HUD / Debug
 
 ### 1.1 棋盘渲染

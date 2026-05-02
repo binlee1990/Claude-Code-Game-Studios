@@ -22,13 +22,14 @@ func _make_open_map() -> void:
 func _make_unit(faction: Faction.Type, pos: Vector2i, hp_val: int = 10, atk_val: int = 5, def_val: int = 2, rng_val: int = 1) -> Unit:
 	var u := Unit.new()
 	var stats := UnitStats.new()
-	stats.max_hp = hp_val
-	stats.atk = atk_val
+	stats.max_hp = maxi(hp_val, 5)
+	stats.atk = clampi(atk_val, 3, 8)
 	stats.def = def_val
 	stats.rng = rng_val
 	u.initialize(stats, faction)
 	u.grid_position = pos
 	u.hp = hp_val
+	u.atk = atk_val
 	mp.place_unit(u, pos)
 	return u
 
@@ -36,7 +37,7 @@ func test_execute_attack_applies_damage() -> void:
 	_make_open_map()
 	var attacker := _make_unit(Faction.Type.PLAYER, Vector2i(2, 2), 10, 5, 2, 1)
 	attacker.action_state = Unit.UnitState.SELECTED
-	var target := _make_unit(Faction.Type.ENEMY, Vector2i(2, 3), 10, 3, 1, 1)
+	var target := _make_unit(Faction.Type.ENEMY, Vector2i(2, 3), 10, 3, 2, 1)
 	var result := atk_resolver.execute_attack(attacker, target)
 	assert(result.is_valid)
 	assert(result.damage == 3)
@@ -57,7 +58,7 @@ func test_execute_attack_dead_attacker_rejected() -> void:
 	_make_open_map()
 	var attacker := _make_unit(Faction.Type.PLAYER, Vector2i(2, 2), 0, 5, 2, 1)
 	attacker.action_state = Unit.UnitState.SELECTED
-	var target := _make_unit(Faction.Type.ENEMY, Vector2i(2, 3), 10, 3, 1, 1)
+	var target := _make_unit(Faction.Type.ENEMY, Vector2i(2, 3), 10, 3, 2, 1)
 	var result := atk_resolver.execute_attack(attacker, target)
 	assert(not result.is_valid)
 
@@ -66,14 +67,14 @@ func test_execute_attack_already_acted_rejected() -> void:
 	var attacker := _make_unit(Faction.Type.PLAYER, Vector2i(2, 2), 10, 5, 2, 1)
 	attacker.action_state = Unit.UnitState.SELECTED
 	attacker.has_acted_this_turn = true
-	var target := _make_unit(Faction.Type.ENEMY, Vector2i(2, 3), 10, 3, 1, 1)
+	var target := _make_unit(Faction.Type.ENEMY, Vector2i(2, 3), 10, 3, 2, 1)
 	var result := atk_resolver.execute_attack(attacker, target)
 	assert(not result.is_valid)
 
 func test_execute_attack_wrong_action_state_rejected() -> void:
 	_make_open_map()
 	var attacker := _make_unit(Faction.Type.PLAYER, Vector2i(2, 2), 10, 5, 2, 1)
-	var target := _make_unit(Faction.Type.ENEMY, Vector2i(2, 3), 10, 3, 1, 1)
+	var target := _make_unit(Faction.Type.ENEMY, Vector2i(2, 3), 10, 3, 2, 1)
 	var result := atk_resolver.execute_attack(attacker, target)
 	assert(not result.is_valid)
 
@@ -97,7 +98,7 @@ func test_execute_attack_moved_state() -> void:
 	_make_open_map()
 	var attacker := _make_unit(Faction.Type.PLAYER, Vector2i(2, 2), 10, 5, 2, 1)
 	attacker.action_state = Unit.UnitState.MOVED
-	var target := _make_unit(Faction.Type.ENEMY, Vector2i(2, 3), 10, 3, 1, 1)
+	var target := _make_unit(Faction.Type.ENEMY, Vector2i(2, 3), 10, 3, 2, 1)
 	var result := atk_resolver.execute_attack(attacker, target)
 	assert(result.is_valid)
 	assert(result.damage == 3)
@@ -115,9 +116,9 @@ func test_damage_dealt_signal_emitted() -> void:
 	_make_open_map()
 	var attacker := _make_unit(Faction.Type.PLAYER, Vector2i(2, 2), 10, 5, 2, 1)
 	attacker.action_state = Unit.UnitState.SELECTED
-	var target := _make_unit(Faction.Type.ENEMY, Vector2i(2, 3), 10, 3, 1, 1)
+	var target := _make_unit(Faction.Type.ENEMY, Vector2i(2, 3), 10, 3, 2, 1)
 	var sig_data := {"fired": false, "damage": 0}
-	atk_resolver.damage_dealt.connect(func(_a, _t, d): sig_data.fired = true; sig_data.damage = d)
+	atk_resolver.damage_dealt.connect(func(_a, _t, d): sig_data["fired"] = true; sig_data["damage"] = d)
 	var result := atk_resolver.execute_attack(attacker, target)
 	assert(result.is_valid)
 	assert(sig_data.fired)

@@ -8,6 +8,7 @@ var _stats: UnitStats
 func before() -> void:
 	_map = Map.new()
 	_map.initialize(GridSpace.new(), "test_map")
+	_map.emit_warnings = false
 	_stats = UnitStats.new()
 	_unit = Unit.new()
 	_unit.initialize(_stats, Faction.Type.PLAYER)
@@ -31,6 +32,7 @@ func test_place_unit_on_out_of_bounds_tile_fails() -> void:
 func test_place_unit_on_occupied_tile_fails() -> void:
 	var u2 := Unit.new()
 	u2.initialize(_stats, Faction.Type.ENEMY)
+	u2.grid_position = Vector2i(-1, -1)
 	_map.place_unit(_unit, Vector2i(0, 0))
 	assert(not _map.place_unit(u2, Vector2i(0, 0)))
 	assert(u2.grid_position != Vector2i(0, 0))

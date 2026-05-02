@@ -61,7 +61,7 @@
 - [x] 代码审查通过（5 blockers 已修复，剩余 suggestions 入 tech-debt）
 - [x] Design documents 更新以反映任何偏离（见下方 Deviations）
 
-> ⚠️ **No QA Plan**: 本 Sprint 在无 QA Plan 的情况下启动。在最后一个 Story 实施前运行 `/qa-plan sprint`。Production → Polish 门禁要求 QA 签核报告，该报告依赖 QA Plan。
+> ✅ **QA Execution Status (refreshed 2026-05-02)**: QA Plan 已补齐：`production/qa/qa-plan-sprint-1-2026-04-30.md`；历史签核报告存在：`production/qa/qa-signoff-sprint-1-2026-05-02.md`。当前 headless runner 复核为 clean：`Total Passed: 247`，`SCRIPT ERROR` / `Assertion failed` / `ERROR:` / `WARNING:` 均为 0。详情见 `production/qa/qa-execution-audit-2026-05-02.md`。
 
 ## Deviations from GDD/ADR
 

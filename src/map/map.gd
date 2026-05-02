@@ -7,6 +7,7 @@ var _tile_states: Dictionary = {}
 var _occupancy: Dictionary = {}
 var _cols: int = 0
 var _rows: int = 0
+var emit_warnings: bool = true
 
 var columns: int:
 	get: return _cols
@@ -17,6 +18,18 @@ const NEIGHBOR_OFFSETS: Array = [
 	Vector2i(-1, 0), Vector2i(1, 0),
 	Vector2i(0, -1), Vector2i(0, 1),
 ]
+
+static var _test_instances: Array = []
+
+func _init() -> void:
+	_test_instances.append(weakref(self))
+
+static func free_test_instances() -> void:
+	for ref in _test_instances:
+		var map = ref.get_ref()
+		if is_instance_valid(map):
+			map.free()
+	_test_instances.clear()
 
 func initialize(p_grid_space: GridSpace, map_name: String) -> void:
 	grid_space = p_grid_space
@@ -65,14 +78,16 @@ func place_unit(unit: Unit, coord: Vector2i) -> bool:
 
 func remove_unit(coord: Vector2i) -> bool:
 	if not _occupancy.has(coord):
-		push_warning("remove_unit: no unit at %s" % coord)
+		if emit_warnings:
+			push_warning("remove_unit: no unit at %s" % coord)
 		return false
 	_occupancy.erase(coord)
 	return true
 
 func move_unit(unit: Unit, from: Vector2i, to: Vector2i) -> bool:
 	if _occupancy.get(from) != unit:
-		push_warning("move_unit: unit not at expected position %s" % from)
+		if emit_warnings:
+			push_warning("move_unit: unit not at expected position %s" % from)
 		return false
 	if not is_coord_in_bounds(to):
 		return false

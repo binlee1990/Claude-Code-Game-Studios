@@ -44,10 +44,17 @@ func _setup_map(size: int) -> void:
 
 func _mk(hp: int, atk: int, def: int, mov: int, rng: int, faction: Faction.Type) -> Unit:
 	var s = UnitStats.new()
-	s.max_hp = hp; s.atk = atk; s.def = def; s.mov = mov; s.rng = rng
+	s.max_hp = maxi(hp, 5)
+	s.atk = clampi(atk, 3, 8)
+	s.def = def
+	s.mov = clampi(mov, 2, 6)
+	s.rng = clampi(rng, 1, 3)
 	var u = Unit.new()
 	u.initialize(s, faction)
 	u.hp = hp
+	u.atk = atk
+	u.mov = mov
+	u.rng = rng
 	return u
 
 func _place(u: Unit, row: int, col: int) -> void:
@@ -155,7 +162,7 @@ func test_cp2_cp4_unit_selection_and_movement_logic() -> void:
 
 func test_cp5_cp6_attack_and_lethal_kill() -> void:
 	_setup_map(8)
-	var p = _mk(10, 9, 0, 4, 1, Faction.Type.PLAYER)
+	var p = _mk(10, 8, 0, 4, 1, Faction.Type.PLAYER)
 	var e = _mk(4, 4, 1, 3, 1, Faction.Type.ENEMY)
 	_place(p, 3, 3); _place(e, 3, 4)
 	_units = [p, e]
@@ -173,7 +180,7 @@ func test_cp5_cp6_attack_and_lethal_kill() -> void:
 	var died_before = _dieds.size()
 	p.action_state = UnitState.SELECTED
 	_atk_res.execute_attack(p, e)
-	# atk=9 def=1 → damage=8, e.hp=4 → lethal
+	# atk=8 def=1 -> damage=7, e.hp=4 -> lethal
 	assert(not e.is_alive())
 	assert(_dieds.size() == died_before + 1)
 
@@ -237,7 +244,7 @@ func test_cp7_two_full_cycles() -> void:
 
 func test_cp8_full_game_victory() -> void:
 	_setup_map(8)
-	var p = _mk(10, 9, 0, 4, 1, Faction.Type.PLAYER)
+	var p = _mk(10, 8, 0, 4, 1, Faction.Type.PLAYER)
 	var e1 = _mk(1, 4, 1, 3, 1, Faction.Type.ENEMY)
 	var e2 = _mk(1, 4, 1, 3, 1, Faction.Type.ENEMY)
 	_place(p, 3, 3); _place(e1, 3, 4); _place(e2, 5, 5)
@@ -281,7 +288,7 @@ func test_cp8_full_game_victory() -> void:
 func test_cp8_defeat_player_eliminated() -> void:
 	_setup_map(8)
 	var p = _mk(1, 5, 2, 4, 1, Faction.Type.PLAYER)
-	var e = _mk(10, 9, 0, 4, 1, Faction.Type.ENEMY)
+	var e = _mk(10, 8, 0, 4, 1, Faction.Type.ENEMY)
 	_place(p, 3, 3); _place(e, 3, 4)
 	_units = [p, e]
 
@@ -375,10 +382,11 @@ func test_e2e_victory_checker_pure_function() -> void:
 
 func test_e2e_unit_died_occupancy_cleanup() -> void:
 	_setup_map(8)
-	var p = _mk(10, 9, 0, 4, 1, Faction.Type.PLAYER)
+	var p = _mk(10, 8, 0, 4, 1, Faction.Type.PLAYER)
 	var e = _mk(1, 4, 1, 3, 1, Faction.Type.ENEMY)
 	_place(p, 3, 3); _place(e, 3, 4)
 	_units = [p, e]
+	e.unit_died.connect(_on_died)
 
 	var e_pos = e.grid_position
 	assert(_mp.get_unit_at(e_pos) == e)

@@ -109,9 +109,9 @@ func test_freed_unit_reference_skipped_in_alive_count() -> void:
 	var freed := Unit.new()
 	var stats := UnitStats.new()
 	freed.initialize(stats, Faction.Type.PLAYER)
-	freed.queue_free()
+	freed.free()
 	var alive_enemy := _make_unit(Faction.Type.ENEMY, true)
-	var units: Array[Unit] = [freed, alive_enemy]
+	var units: Array = [freed, alive_enemy]
 	var result := _vc.determine_winner(units, 1, 30)
 	assert(result.winner == Faction.Type.ENEMY)
 	assert(result.reason == "elimination")
@@ -120,12 +120,12 @@ func test_all_units_freed_returns_player_elimination() -> void:
 	var freed1 := Unit.new()
 	var stats1 := UnitStats.new()
 	freed1.initialize(stats1, Faction.Type.PLAYER)
-	freed1.queue_free()
+	freed1.free()
 	var freed2 := Unit.new()
 	var stats2 := UnitStats.new()
 	freed2.initialize(stats2, Faction.Type.ENEMY)
-	freed2.queue_free()
-	var units: Array[Unit] = [freed1, freed2]
+	freed2.free()
+	var units: Array = [freed1, freed2]
 	var result := _vc.determine_winner(units, 1, 30)
 	assert(result.winner == Faction.Type.PLAYER)
 	assert(result.reason == "elimination")

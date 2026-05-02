@@ -12,6 +12,7 @@ func _init():
 func _run_all():
 	_run_file("res://tests/unit/map/grid_space_test.gd")
 	_run_file("res://tests/unit/unit/unit_stats_test.gd")
+	_run_file("res://tests/unit/unit/unit_scene_visual_test.gd")
 	_run_file("res://tests/unit/unit/unit_interface_test.gd")
 	_run_file("res://tests/unit/unit/hp_system_test.gd")
 	_run_file("res://tests/unit/map/map_loading_test.gd")
@@ -27,6 +28,10 @@ func _run_all():
 	_run_file("res://tests/unit/attack/attack_range_test.gd")
 	_run_file("res://tests/unit/ai/ai_controller_test.gd")
 	_run_file("res://tests/unit/ai/ai_data_structures_test.gd")
+	_run_file("res://tests/unit/ui/highlight_layer_test.gd")
+	_run_file("res://tests/unit/ui/input_handler_test.gd")
+	_run_file("res://tests/unit/ui/hud_test.gd")
+	_run_file("res://tests/unit/ui/result_overlay_test.gd")
 	_run_file("res://tests/unit/victory/victory_elimination_test.gd")
 	_run_file("res://tests/unit/victory/victory_turn_cap_test.gd")
 	_run_file("res://tests/integration/movement/movement_execution_test.gd")
@@ -55,12 +60,20 @@ func _run_file(path):
 			test_count += 1
 			if instance.has_method("before"):
 				instance.before()
+			if instance.has_method("set_scene_tree"):
+				instance.set_scene_tree(self)
 			instance.call(mname)
 			_passed += 1
 			print("  PASS: ", mname)
 			if instance.has_method("after"):
 				instance.after()
+			_free_tracked_nodes()
 	print("  [", test_count, " tests in file]")
+
+func _free_tracked_nodes() -> void:
+	Unit.free_test_instances()
+	Map.free_test_instances()
+	HighlightLayer.free_test_instances()
 
 func _print_summary():
 	print("")

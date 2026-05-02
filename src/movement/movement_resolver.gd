@@ -7,8 +7,10 @@ static func manhattan(a: Vector2i, b: Vector2i) -> int:
 
 func compute_reachable(unit: Unit, map: Map) -> MovementResult:
 	var result := MovementResult.new()
-	result.start = unit.grid_position
 
+	if unit == null:
+		return result
+	result.start = unit.grid_position
 	if not unit.is_alive():
 		return result
 	if map == null:

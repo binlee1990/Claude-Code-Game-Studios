@@ -22,10 +22,11 @@ func _make_open_map(rows: int, cols: int) -> void:
 func _make_unit(hp: int, mov: int, pos: Vector2i) -> Unit:
 	var u = Unit.new()
 	var stats = UnitStats.new()
-	stats.max_hp = hp
-	stats.mov = mov
+	stats.max_hp = maxi(hp, 5)
+	stats.mov = clampi(mov, 2, 6)
 	u.initialize(stats, Faction.Type.PLAYER)
 	u.hp = hp
+	u.mov = mov
 	u.grid_position = pos
 	return u
 

@@ -11,6 +11,7 @@ func before() -> void:
 	gs = GridSpace.new()
 	mp = Map.new()
 	mp.grid_space = gs
+	mp.emit_warnings = false
 
 func _make_open_map(rows: int, cols: int) -> void:
 	mp._rows = rows

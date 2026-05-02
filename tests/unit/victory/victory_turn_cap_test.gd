@@ -139,15 +139,7 @@ func test_min_advantage_turn_cap_player_wins() -> void:
 # --- 输入校验 ---
 
 func test_assert_turn_number_less_than_one() -> void:
-	var units: Array[Unit] = [_make_unit(Faction.Type.PLAYER, true)]
-	var caught := false
-	_vc.determine_winner(units, 0, 30)
-	# If assert doesn't kill the test runner, verify we got here (debug build)
-	# In headless, assert may be disabled — treat pass as no-op
-	assert(true)  # Acceptance: assert trigger in debug; no crash in release
+	assert(not _vc.are_turn_bounds_valid(0, 30))
 
 func test_assert_turn_cap_less_than_one() -> void:
-	var units: Array[Unit] = [_make_unit(Faction.Type.PLAYER, true)]
-	var caught := false
-	_vc.determine_winner(units, 1, 0)
-	assert(true)  # Acceptance: assert trigger in debug; no crash in release
+	assert(not _vc.are_turn_bounds_valid(1, 0))

@@ -49,7 +49,7 @@
 | BFS 性能在大型地图上超出帧预算 | 低 | 中 | BFS 跑在纯数组上，非逐帧；Sprint 3 如需可换 A* |
 | Movement + Attack 同时引入导致集成复杂度攀高 | 中 | 中 | 严格按依赖顺序实施（Movement→Attack→Victory→AI）；每个 Epic 完成后做集成冒烟测试 |
 | AI 接口与 Turn System 的契约不明确 → 信号连接不匹配 | 低 | 中 | ADR-0008 已定义 take_turn(units, world_state)→ActionList 契约 |
-| Sprint 2 无 QA Plan | 中 | 中 | 在第一个 Story 实施前运行 `/qa-plan sprint` |
+| Sprint 2 QA Plan 执行不完整 | 中 | 中 | 已解决：runner clean，Sprint 2 sign-off 已生成 |
 
 ## Dependencies on External Factors
 
@@ -58,10 +58,10 @@
 ## Definition of Done
 
 - [x] 所有 Must Have 任务完成
-- [x] 全部 Logic Story 有通过测试（`tests/unit/movement/`, `tests/unit/attack/`, `tests/unit/victory/`, `tests/unit/ai/`）
-- [x] 集成 Story（4-3, 5-3）有集成测试或文档化 playtest
-- [x] 代码审查通过（`/code-review`）
+- [x] 全部 Logic Story 有干净通过测试（`tests/unit/movement/`, `tests/unit/attack/`, `tests/unit/victory/`, `tests/unit/ai/`）
+- [x] 集成 Story（4-3, 5-3）有干净通过的集成测试或文档化 playtest
+- [x] 代码审查通过（current QA risk-resolution diff reviewed against sprint scope）
 - [x] Design documents 更新以反映任何偏离
 - [x] Sprint 1 QA Plan 签核报告完成
 
-> ✅ **QA Plan**: `production/qa/qa-plan-sprint-2-2026-05-02.md` — 已生成。Sprint 1 QA 签核: `production/qa/qa-signoff-sprint-1-2026-05-02.md`。
+> ✅ **QA Plan Execution (refreshed 2026-05-02)**: `production/qa/qa-plan-sprint-2-2026-05-02.md` 已执行，Sprint 2 QA sign-off 已生成：`production/qa/qa-signoff-sprint-2-2026-05-02.md`。当前 headless runner 复核为 clean：`Total Passed: 247`，`SCRIPT ERROR` / `Assertion failed` / `ERROR:` / `WARNING:` 均为 0。Sprint 2 当前状态为 **complete / QA signed off**。详情见 `production/qa/qa-execution-audit-2026-05-02.md`。

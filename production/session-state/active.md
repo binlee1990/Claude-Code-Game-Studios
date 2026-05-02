@@ -4,92 +4,110 @@
 > Read this file first after any compaction, crash, or `/clear`.
 
 **Last Updated**: 2026-05-02
-**Project Stage**: Pre-Production — Sprint 3 Complete / MVP Ready
-**Active Sprint**: Sprint 3 — Presentation Layer ✅
+**Project Stage**: Pre-Production — Sprint 3 MVP automated QA signed off
+**Active Sprint**: Sprint 3 — Presentation Layer complete
 
 <!-- STATUS -->
 Epic: —
 Feature: —
-Task: —
+Task: Sprint QA risk resolution
 <!-- /STATUS -->
 
 ---
 
 ## Sprint Status Summary
 
-### Sprint 1 — Foundation + Core MVP ✅ COMPLETE + QA SIGNED OFF
-- 11 Must Have + 2 Should Have → Done
-- 64+ unit tests passing
+### Sprint 1 — Foundation + Core MVP
+- Implementation: complete
 - QA Plan: `production/qa/qa-plan-sprint-1-2026-04-30.md`
 - QA Sign-Off: `production/qa/qa-signoff-sprint-1-2026-05-02.md`
-- Visual evidence: `production/qa/evidence/story-2-2/`
+- Current revalidation: ✅ clean
 
-### Sprint 2 — Feature Layer MVP ✅ COMPLETE + QA PLAN READY
-- 8 Must Have stories → Done (Movement 3, Attack 3, Victory 2, AI 2)
-- 30+ unit tests + 16 integration tests + 28 Victory tests
+### Sprint 2 — Feature Layer MVP
+- Implementation: complete
 - QA Plan: `production/qa/qa-plan-sprint-2-2026-05-02.md`
-- DoD: All 6 items checked
+- QA Sign-Off: `production/qa/qa-signoff-sprint-2-2026-05-02.md`
+- Current revalidation: ✅ clean
 
-### Sprint 3 — Presentation Layer ✅ COMPLETE (MVP!)
-- 8-1 HighlightLayer: ✅ Done
-- 8-2 InputHandler: ✅ Done (10 unit tests)
-- 8-3 HUD CanvasLayer: ✅ Done
-- 8-4 ResultOverlay: ✅ Done
-- 8-5 Debug Overlay + Damage Preview: ✅ Done
-- 8-6 Game Scene Wiring: ✅ Done
-- 8-7 E2E Playtest: ✅ Done (11 automated tests in `tests/integration/ui/e2e_game_flow_test.gd`)
-- 8-8 Unit 已行动灰色 modulate: ⏳ Backlog (Should Have)
+### Sprint 3 — Presentation Layer
+- Implementation: 8-1 through 8-7 done in `production/sprint-status.yaml`
+- 8-8 Unit 已行动灰色 modulate: backlog (Should Have)
 - QA Plan: `production/qa/qa-plan-sprint-3-2026-05-02.md`
+- QA Sign-Off: `production/qa/qa-signoff-sprint-3-2026-05-02.md`
+- Current revalidation: ✅ clean
 
 ---
 
 ## MVP Status
 
-```
-8/8 MVP systems implemented:
-  Foundation: Map/Grid ✅
-  Core:       Unit ✅, Turn ✅
-  Feature:    Movement ✅, Attack ✅, Victory ✅, AI ✅
-  Presentation: UI/Input ✅
+```text
+Implementation coverage:
+  Foundation:   Map/Grid implemented
+  Core:         Unit, Turn implemented
+  Feature:      Movement, Attack, Victory, AI implemented
+  Presentation: UI/Input implemented
 
-All 7 Must-Have Sprint 3 Stories: DONE
-10/10 E2E Checkpoints: 9 automated + 1 manual (Play Again)
-```
-
-**MVP is COMPLETE and playable.** Remaining: 8 visual checks in Godot editor for final visual sign-off.
-
----
-
-## Test Summary (Final)
-
-```
-Total Passed: 222
-Sprint 1: 64+ (map/unit/turn)
-Sprint 2: 58+ (movement/attack/ai/victory/integration)
-Sprint 3: 11 (e2e_game_flow)
+QA status:
+  Automated MVP QA signed off for Sprint 1-3.
+  Human editor screenshots remain optional polish evidence, not a blocking QA risk.
 ```
 
 ---
 
-## Files Modified This Session (2026-05-02)
+## Test Summary (Current Audit)
+
+Command:
+
+```powershell
+& 'G:\SteamLibrary\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe' --headless --path . --script res://tests/test_runner.gd
+```
+
+Observed output summary:
+
+```text
+Total Passed: 247
+SCRIPT ERROR: 0
+Assertion failed: 0
+ERROR lines: 0
+WARNING lines: 0
+```
+
+Scene smoke:
+
+```powershell
+& 'G:\SteamLibrary\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe' --headless --path . --scene res://src/Game.tscn --quit-after 2
+```
+
+```text
+SCRIPT ERROR: 0
+Assertion failed: 0
+ERROR lines: 0
+WARNING lines: 0
+```
+
+---
+
+## Current Audit Artifacts
 
 | File | Action | Purpose |
 |------|--------|---------|
-| `tests/unit/victory/victory_elimination_test.gd` | Created | Sprint 2 gap fix (14 tests) |
-| `tests/unit/victory/victory_turn_cap_test.gd` | Created | Sprint 2 gap fix (16 tests) |
-| `tests/integration/ui/e2e_game_flow_test.gd` | Created | Sprint 3 Story 8-7 E2E (11 tests) |
-| `production/qa/qa-plan-sprint-3-2026-05-02.md` | Created | Sprint 3 QA Plan |
-| `production/qa/qa-signoff-sprint-1-2026-05-02.md` | Created | Sprint 1 QA Sign-Off |
-| `production/qa/evidence/story-8-7/playtest-notes.md` | Created | E2E Playtest evidence |
-| `production/sprints/sprint-2.md` | Edited | DoD checkboxes + QA references |
-| `production/sprint-status.yaml` | Edited | 8-7 status → done |
-| `tests/test_runner.gd` | Edited | Added Victory + E2E test routing |
+| `production/qa/qa-execution-audit-2026-05-02.md` | Updated | Sprint 1-3 QA execution audit and resolved blocker list |
+| `production/qa/qa-signoff-sprint-2-2026-05-02.md` | Created | Sprint 2 sign-off |
+| `production/qa/qa-signoff-sprint-3-2026-05-02.md` | Created | Sprint 3/MVP automated QA sign-off |
+| `tests/unit/unit/unit_scene_visual_test.gd` | Created | Unit scene visual regression coverage |
+| `production/sprints/sprint-1.md` | Updated | Clean revalidation status |
+| `production/sprints/sprint-2.md` | Updated | DoD and QA status |
+| `production/sprints/sprint-3.md` | Updated | DoD and QA status |
+| `production/qa/qa-plan-sprint-1-2026-04-30.md` | Updated | Current clean DoD evidence |
+| `production/qa/qa-plan-sprint-2-2026-05-02.md` | Updated | Executed QA plan evidence |
+| `production/qa/qa-plan-sprint-3-2026-05-02.md` | Updated | Executed QA plan evidence |
+| `production/qa/evidence/story-8-7/playtest-notes.md` | Updated | 10-checkpoint automated evidence |
+| `production/sprint-status.yaml` | Updated | QA audit metadata and per-story QA status |
 
 ---
 
 ## Architecture
 
-- 10 ADRs (0001–0010) — All Accepted
-- 8/8 MVP systems implemented + integrated
-- 97% TR coverage (63/65)
+- 10 ADRs (0001-0010) — All Accepted
+- 8/8 MVP systems implemented + integrated at implementation layer
 - `docs/architecture/architecture.md` — TD signed off

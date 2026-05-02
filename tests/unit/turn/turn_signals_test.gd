@@ -25,15 +25,14 @@ func test_turn_manager_match_ended_signal_with_elimination():
 	u.initialize(stats, Faction.Type.PLAYER)
 	var tm = TurnManager.new()
 	tm.initialize([u], TurnConfig.new(), VictoryChecker.new(), NullAI.new())
-	var reason = ""
-	var winner: Faction.Type
+	var ended := {"reason": "", "winner": Faction.Type.NONE}
 	tm.match_ended.connect(func(r: String, w: Faction.Type):
-		reason = r
-		winner = w
+		ended["reason"] = r
+		ended["winner"] = w
 	)
 	tm.start_match()
-	assert(reason == "elimination")
-	assert(winner == Faction.Type.PLAYER)
+	assert(ended["reason"] == "elimination")
+	assert(ended["winner"] == Faction.Type.PLAYER)
 
 func test_turn_manager_readonly_properties_before_start():
 	var stats = UnitStats.new()

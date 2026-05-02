@@ -46,6 +46,7 @@ func start_match() -> void:
 	match_started.emit()
 	turn_started.emit(1)
 	faction_activated.emit(Faction.Type.PLAYER)
+	_end_if_match_already_decided()
 
 func end_current_faction_turn() -> void:
 	if current_state != TurnState.FACTION_PHASE_ACTIVE:
@@ -76,6 +77,13 @@ func _check_faction_elimination() -> void:
 	if _count_alive(active_faction) == 0 or _count_alive(_other_faction(active_faction)) == 0:
 		_transition_to_ending()
 
+func _end_if_match_already_decided() -> void:
+	var result := _victory_checker.determine_winner(_all_units, turn_number, turn_cap)
+	if result.winner == Faction.Type.NONE and result.reason == "":
+		return
+	current_state = TurnState.MATCH_ENDED
+	match_ended.emit(result.reason, result.winner)
+
 func _transition_to_ending() -> void:
 	current_state = TurnState.FACTION_PHASE_ENDING
 	faction_phase_ended.emit(active_faction)
@@ -91,7 +99,7 @@ func _transition_to_ending() -> void:
 
 	var result := _victory_checker.determine_winner(_all_units, turn_number, turn_cap)
 
-	if result.winner != Faction.Type.NONE:
+	if result.reason != "":
 		current_state = TurnState.MATCH_ENDED
 		match_ended.emit(result.reason, result.winner)
 	else:
