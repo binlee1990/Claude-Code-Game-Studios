@@ -82,6 +82,26 @@
 
 <!-- STATUS -->
 Epic: MVP Systems Design
-Feature: Cross-GDD Review Repair
-Task: Consistency repair complete; next required work is bridge-system GDD design (#15/#17/#20)
+Feature: Bridge System GDD — #15 Level System
+Task: GDD COMPLETE 2026-05-04; CD-GDD-ALIGN REVISED; registry + systems-index 已同步；待 fresh session /design-review
 <!-- /STATUS -->
+
+## Active GDD: design/gdd/level-system.md (2026-05-04)
+
+- Skeleton created with 8 required + 4 optional sections placeholder
+- Pillars: 4.1 数字增长就是快乐 · 4.2 放置 = 低频高价值决策 · 4.5 多层重置（弱预留）
+- Section progress:
+  - [x] Overview (written 2026-05-04)
+  - [x] Player Fantasy (written 2026-05-04, framing C 台阶)
+  - [x] Detailed Design (Core Rules / States / Interactions, written 2026-05-04)
+  - [x] Formulas (12 公式 written 2026-05-04)
+  - [x] Edge Cases (28 条 written 2026-05-04)
+  - [x] Dependencies (written 2026-05-04)
+  - [x] Tuning Knobs (written 2026-05-04)
+  - [x] Visual/Audio Requirements (无视觉需求声明 written 2026-05-04)
+  - [x] UI Requirements (无 UI 需求声明 written 2026-05-04)
+  - [x] Acceptance Criteria (33 条 written 2026-05-04)
+  - [x] Open Questions (12 项 written 2026-05-04)
+- **Phase 5 next**: CD-GDD-ALIGN gate (full mode) → Registry update → Systems-index update → /design-review in fresh session
+- Locked upstream contracts: AttributeSystem.set_base, FormulaEngine `level_exp` + `atk_growth`, ResourceSystem.spend("exp"), `level.changed` event payload `{old_level, new_level}`, ModifierEngine `realm` 池
+- Cross-review obligations: 必须实现 exp 消费路径 / 软上限 / realm modifier 重建 / 修仙身份字段

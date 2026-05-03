@@ -35,7 +35,7 @@
 | 12 | 物品/材料系统 | Core Gameplay | MVP | Approved | design/gdd/item-material-system.md | 数据配置系统, 大数值系统 |
 | 13 | 产出乘数系统 | Core Gameplay | MVP | Designed | design/gdd/output-multiplier-system.md | 修正器/倍率引擎, 数据配置系统, 事件总线, 大数值系统 |
 | 14 | 调试控制台 | Core Gameplay | MVP | Designed | design/gdd/debug-console.md | 事件总线, 数据配置系统, 资源系统, 属性系统, 修正器/倍率引擎, 产出乘数系统, 时间管理器, 存档系统, 数值格式化系统, 大数值系统 |
-| 15 | 等级系统 | Feature | MVP | Not Started | — | 属性系统, 公式引擎 |
+| 15 | 等级系统 | Feature | MVP | Designed | design/gdd/level-system.md | 属性系统, 公式引擎, 资源系统, 修正器/倍率引擎, 事件总线, 大数值系统, 数据配置系统, 存档系统 |
 | 16 | 存储上限系统 | Feature | MVP | Not Started | — | 物品/材料系统, 资源系统 |
 | 17 | 自动产出系统 | Feature | MVP | Not Started | — | 资源系统, 时间管理器, 产出乘数系统 |
 | 18 | 敌人数据库 | Feature | MVP | Not Started | — | 数据配置系统, 属性系统 |
@@ -203,11 +203,11 @@ None detected. All dependency chains flow unidirectionally: Foundation → Core 
 | Metric | Count |
 |--------|-------|
 | Total systems identified | 30 |
-| Design docs started | 14 |
-| Design docs reviewed | 14 |
+| Design docs started | 15 |
+| Design docs reviewed | 15 |
 | Design docs approved | 2 |
 | Design docs needs revision | 0 |
-| MVP systems designed | 14 / 30 |
+| MVP systems designed | 15 / 30 |
 
 ---
 

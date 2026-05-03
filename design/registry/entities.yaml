@@ -37,7 +37,7 @@
 #   Each entry: name, status, source, referenced_by[], attributes{}, added, revised
 
 version: 1
-last_updated: "2026-05-03"
+last_updated: "2026-05-04"
 
 # ─── ENTITIES ────────────────────────────────────────────────────────────────
 # Named game-world objects: enemies, NPCs, characters, factions, bosses.
@@ -85,6 +85,7 @@ items:
       - design/gdd/resource-system.md
       - design/gdd/item-material-system.md
       - design/gdd/output-multiplier-system.md
+      - design/gdd/level-system.md
     category: regenerative_resource
     has_cap: true
     reset_scope: breakthrough
@@ -100,6 +101,7 @@ items:
       - design/gdd/resource-system.md
       - design/gdd/item-material-system.md
       - design/gdd/output-multiplier-system.md
+      - design/gdd/level-system.md
     category: progress_resource
     has_cap: false
     reset_scope: breakthrough
@@ -115,6 +117,7 @@ items:
       - design/gdd/resource-system.md
       - design/gdd/item-material-system.md
       - design/gdd/output-multiplier-system.md
+      - design/gdd/level-system.md
     category: currency
     has_cap: false
     reset_scope: ascension
@@ -130,6 +133,7 @@ items:
       - design/gdd/resource-system.md
       - design/gdd/item-material-system.md
       - design/gdd/output-multiplier-system.md
+      - design/gdd/level-system.md
     category: crafting_material
     has_cap: true
     reset_scope: ascension
@@ -144,6 +148,7 @@ items:
     referenced_by:
       - design/gdd/resource-system.md
       - design/gdd/item-material-system.md
+      - design/gdd/level-system.md
     category: progress_resource
     has_cap: false
     reset_scope: breakthrough
@@ -157,6 +162,7 @@ items:
     source: design/gdd/attribute-system.md
     referenced_by:
       - design/gdd/attribute-system.md
+      - design/gdd/level-system.md
     category: attribute
     chinese_name: 生命上限
     storage_type: BigNumber
@@ -170,6 +176,7 @@ items:
     source: design/gdd/attribute-system.md
     referenced_by:
       - design/gdd/attribute-system.md
+      - design/gdd/level-system.md
     category: attribute
     chinese_name: 攻击
     storage_type: BigNumber
@@ -183,6 +190,7 @@ items:
     source: design/gdd/attribute-system.md
     referenced_by:
       - design/gdd/attribute-system.md
+      - design/gdd/level-system.md
     category: attribute
     chinese_name: 防御
     storage_type: BigNumber
@@ -196,6 +204,7 @@ items:
     source: design/gdd/attribute-system.md
     referenced_by:
       - design/gdd/attribute-system.md
+      - design/gdd/level-system.md
     category: attribute
     chinese_name: 速度
     storage_type: BigNumber
@@ -209,6 +218,7 @@ items:
     source: design/gdd/attribute-system.md
     referenced_by:
       - design/gdd/attribute-system.md
+      - design/gdd/level-system.md
     category: attribute
     chinese_name: 暴击率
     storage_type: BigNumber
@@ -222,6 +232,7 @@ items:
     source: design/gdd/attribute-system.md
     referenced_by:
       - design/gdd/attribute-system.md
+      - design/gdd/level-system.md
     category: attribute
     chinese_name: 暴击伤害
     storage_type: BigNumber
@@ -257,7 +268,107 @@ items:
 #   output_range[min, max], added
 # Optional: expression (the actual formula), notes
 
-formulas: []
+formulas:
+  - name: level_exp
+    status: active
+    source: design/gdd/level-system.md
+    referenced_by:
+      - design/gdd/level-system.md
+    variables:
+      - level
+      - EXP_BASE
+      - EXP_GROWTH
+      - EXP_SOFTCAP_LV
+      - EXP_SOFTCAP_POW
+    output_range: [10, 3000000]
+    expression: "EXP_BASE * pow(level, 2.0) * pow(EXP_GROWTH, softcap(level, EXP_SOFTCAP_LV, EXP_SOFTCAP_POW))"
+    notes: "升级到下一级所需 exp 阈值。默认参数 EXP_BASE=10.0, EXP_GROWTH=1.038, EXP_SOFTCAP_LV=80, EXP_SOFTCAP_POW=0.55。Lv.99 实际节奏 ~6 小时（非早期目标 3 天）；MVP 多日体验由 Lv.100-200 多级累加提供。L30 偏差 -24% 在调参安全范围内"
+    added: 2026-05-04
+    revised: ""
+
+  - name: hp_max_growth
+    status: active
+    source: design/gdd/level-system.md
+    referenced_by:
+      - design/gdd/level-system.md
+    variables:
+      - level
+      - realm_id
+    output_range: [100, 1000000]
+    expression: "clamp(log_softcap(100.0 * pow(level, 1.8) * (1.0 + realm_id * 0.15), 80000.0), 100.0, 1000000.0)"
+    notes: "玩家 hp_max 属性成长公式。Lv.1 凡人 = 100；Lv.200 合体 ≈ 1.3e5。clamp 上界与 attribute-system.md hp_max recommended_range 一致。写入 AttributeSystem.set_base"
+    added: 2026-05-04
+    revised: ""
+
+  - name: atk_growth
+    status: active
+    source: design/gdd/level-system.md
+    referenced_by:
+      - design/gdd/level-system.md
+    variables:
+      - level
+      - realm_id
+    output_range: [10, 1000000]
+    expression: "clamp(log_softcap(10.0 * pow(level, 1.75) * (1.0 + realm_id * 0.12), 8000.0), 10.0, 1000000.0)"
+    notes: "玩家 atk 属性成长公式。Lv.1 凡人 = 10；Lv.200 合体 ≈ 1.1e4。写入 AttributeSystem.set_base"
+    added: 2026-05-04
+    revised: ""
+
+  - name: def_growth
+    status: active
+    source: design/gdd/level-system.md
+    referenced_by:
+      - design/gdd/level-system.md
+    variables:
+      - level
+      - realm_id
+    output_range: [5, 1000000]
+    expression: "clamp(log_softcap(5.0 * pow(level, 1.7) * (1.0 + realm_id * 0.10), 4000.0), 5.0, 1000000.0)"
+    notes: "玩家 def 属性成长公式。Lv.1 凡人 = 5；Lv.200 合体 ≈ 5000。早期成长慢于 atk（玻璃炮体感设计意图，pillar 4.2）"
+    added: 2026-05-04
+    revised: ""
+
+  - name: spd_growth
+    status: active
+    source: design/gdd/level-system.md
+    referenced_by:
+      - design/gdd/level-system.md
+    variables:
+      - level
+      - realm_id
+    output_range: [10, 1000]
+    expression: "clamp(log_softcap(10.0 * pow(level, 1.35) * (1.0 + realm_id * 0.06), 700.0), 10.0, 1000.0)"
+    notes: "玩家 spd 属性成长公式。Lv.1 = 10；Lv.200 合体 ≈ 958。clamp 1000 严格硬边界（与 attribute-system.md spd recommended_range 上限一致）"
+    added: 2026-05-04
+    revised: ""
+
+  - name: crit_rate_growth
+    status: active
+    source: design/gdd/level-system.md
+    referenced_by:
+      - design/gdd/level-system.md
+    variables:
+      - level
+      - realm_id
+    output_range: [0.0, 1.0]
+    expression: "clamp(log_softcap(0.05 + 0.003 * pow(level, 1.1) * (1.0 + realm_id * 0.04), 0.6), 0.0, 1.0)"
+    notes: "玩家 crit_rate 基础值成长公式。Lv.1 起点 0.05；Lv.200 合体裸值 ≈ 0.37。clamp 严格 ≤ 1.0 防 NaN。剩余至 100% 由装备/天赋通过 ModifierEngine 叠加（设计意图：留装备价值空间）"
+    added: 2026-05-04
+    revised: ""
+
+  - name: crit_dmg_growth
+    status: active
+    source: design/gdd/level-system.md
+    referenced_by:
+      - design/gdd/level-system.md
+    variables:
+      - level
+      - realm_id
+    output_range: [1.0, 100.0]
+    expression: "clamp(log_softcap(1.5 + 0.025 * pow(level, 1.15) * (1.0 + realm_id * 0.05), 6.0), 1.0, 100.0)"
+    notes: "玩家 crit_dmg 属性成长公式。Lv.1 起点 1.5（×1.5 倍）；Lv.200 合体 ≈ 5.0"
+    added: 2026-05-04
+    revised: ""
 
 # Example:
 #
@@ -374,14 +485,76 @@ constants:
     source: design/gdd/output-multiplier-system.md
     referenced_by:
       - design/gdd/output-multiplier-system.md
+      - design/gdd/level-system.md
     value:
       - realm
       - equipment
       - zone
       - buff
     unit: enum_strings
-    notes: "MVP 4 类产出来源类型，映射到 ModifierEngine 同名池。skill 和 milestone 为 Alpha/Post-MVP 预留。新增来源类型需在此追加并在 ModifierEngine 中创建对应池"
+    notes: "MVP 4 类产出来源类型，映射到 ModifierEngine 同名池。skill 和 milestone 为 Alpha/Post-MVP 预留。新增来源类型需在此追加并在 ModifierEngine 中创建对应池。`realm` 池由 level-system.md 注册境界倍率"
     added: 2026-05-03
+    revised: 2026-05-04
+
+  - name: realm_enum_mvp
+    status: active
+    source: design/gdd/level-system.md
+    referenced_by:
+      - design/gdd/level-system.md
+    value:
+      - fanren       # 凡人境（Lv.1+）
+      - lianqi       # 炼气境（Lv.10+）
+      - zhuji        # 筑基境（Lv.30+）
+      - jindan       # 金丹境（Lv.60+）
+      - yuanying     # 元婴境（Lv.100+）
+      - huashen      # 化神境（Lv.150+）
+      - heti         # 合体境（Lv.200+）
+    unit: enum_strings
+    notes: "7 元 MVP 修仙境界枚举。Post-MVP 引入 dujie / feisheng / heyi 等新境界需在此追加并同步 level_realm_thresholds_mvp、realm_modifier_cumulative_values_mvp 表。HUD 系统据此查境界中文名（凡人/炼气/筑基/金丹/元婴/化神/合体）"
+    added: 2026-05-04
+    revised: ""
+
+  - name: level_realm_thresholds_mvp
+    status: active
+    source: design/gdd/level-system.md
+    referenced_by:
+      - design/gdd/level-system.md
+    value: [1, 10, 30, 60, 100, 150, 200]
+    unit: level_int
+    notes: "7 个境界的起始 level 阈值（一一对应 realm_enum_mvp 序号 0-6）。level >= thresholds[i] 且 level < thresholds[i+1] 时玩家处于第 i 个境界。Lv.200 为合体境无上限——玩家进入合体后不再跨境界"
+    added: 2026-05-04
+    revised: ""
+
+  - name: realm_modifier_cumulative_values_mvp
+    status: active
+    source: design/gdd/level-system.md
+    referenced_by:
+      - design/gdd/level-system.md
+    value: [0.00, 0.20, 0.50, 1.00, 1.80, 3.00, 5.00]
+    unit: mult_float
+    notes: "7 个境界对应的 ModifierEngine `realm` 池 MULT 累计值（一一对应 realm_enum_mvp 序号 0-6）。这是境界 modifier 实际注册到 ModifierEngine 的 value（不是各境界的增量；增量列见 level-system.md §Formulas 8）。同池加算 → 总倍率 = 1.0 + cumulative。合体境总倍率 ×6.0"
+    added: 2026-05-04
+    revised: ""
+
+  - name: realm_modifier_targets_mvp
+    status: active
+    source: design/gdd/level-system.md
+    referenced_by:
+      - design/gdd/level-system.md
+    value:
+      - lingqi_production
+      - xiuwei_production
+      - lingshi_production
+      - herb_production
+      - player.hp_max
+      - player.atk
+      - player.def
+      - player.spd
+      - player.crit_rate
+      - player.crit_dmg
+    unit: modifier_target_strings
+    notes: "10 个 ModifierEngine target，境界跨越时统一注册同 realm 的 MULT modifier。前 4 个为 OMS production target，后 6 个为 player attribute target（与 attribute-system.md MVP 6 属性一一对应）。Post-MVP 多角色时通过 entity_id 扩展（如 disciple_001.atk）"
+    added: 2026-05-04
     revised: ""
 
 # Example:
