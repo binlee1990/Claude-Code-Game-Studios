@@ -1,8 +1,8 @@
 # 调试控制台 (Debug Console)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
-> **Last Updated**: 2026-05-03
+> **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.10 数据驱动与可扩展
 > **Creative Director Review (CD-GDD-ALIGN)**: APPROVED 2026-05-03 — pillar 4.10 强化，scope 守纪律，"神识" 隐喻得当且非玩家面向。
 
@@ -10,7 +10,7 @@
 
 调试控制台是 MVP 开发阶段的统一诊断入口——开发者在游戏运行时按 `~` 键呼出一个覆盖层，输入文本命令（或从命令面板选择），即时查看任意系统的内部状态：资源当前值、事件流日志、配置表内容、已注册的 modifier 列表、实体属性快照、产出速率分解。它不替代 Godot 内置的 `@tool` 脚本编辑器或 `print()` 调试——而是把"运行时看一眼就知道系统在做什么"的体验集中到一个入口，避免开发者在多个 Godot dock 面板之间反复切换。
 
-从使用者（开发者+QA）视角看，调试控制台是"游戏体内的一台 X 光机"。开发资源系统时，敲 `res list` 看 5 项资源的 current/cap；调事件总线时，敲 `event watch resource` 实时打印每一条 `resource.*.changed` 的 payload；验证掉落系统时，敲 `config show enemies` 看敌人数据库全表。不需要临时写 `print()` 语句然后重启、不需要在 Godot 编辑器的 Remote Scene Tree 里手动展开节点——一条命令，实时反馈。这个系统的全部价值就是：**让开发者和 QA 在运行时拥有一双穿透所有系统的眼睛**，缩短"怀疑 → 验证 → 定位"的迭代循环。
+从使用者（开发者+QA）视角看，调试控制台是"游戏体内的一台 X 光机"。开发资源系统时，敲 `res list` 看 5 项资源的 current/cap；调事件总线时，敲 `event watch resource` 实时打印所有 `resource` 前缀事件的 payload；验证掉落系统时，敲 `config show enemies` 看敌人数据库全表。不需要临时写 `print()` 语句然后重启、不需要在 Godot 编辑器的 Remote Scene Tree 里手动展开节点——一条命令，实时反馈。这个系统的全部价值就是：**让开发者和 QA 在运行时拥有一双穿透所有系统的眼睛**，缩短"怀疑 → 验证 → 定位"的迭代循环。
 
 > **Note**：调试控制台是 MVP 的**开发辅助工具**——不面向玩家，不影响游戏平衡，不在正式构建中编译。它与 Godot 内置控制台（`@tool` / `OS.debug`）的关系是补充而非替代：Godot 内置控制台提供脚本错误、`print()` 输出和表达式求值；本系统提供领域特定的快速查询命令（`res`、`event`、`config`、`modifier`、`attr`、`prod`）。
 
@@ -548,12 +548,8 @@ CanvasLayer (layer=128)
 ## Open Questions
 
 | Question | Owner | Deadline | Resolution |
-|----------|-------|----------|-----------|
-| `T_append`（RichTextLabel BBCode 单行追加耗时）的真实值是多少？F1/F2/F3 三式均依赖此估算，若实测 > 0.03 ms/行需将全量重建改为虚拟滚动 | 实现工程师 | 实现阶段首次 dogfood 时 | — |
-| MVP 阶段 `enemies` 配置表预期记录数？F3 最坏情况假设 L=500，若实际仅 20–50 条则上界大幅下降 | DataConfig GDD 作者 / 设计师 | 数据表确认时 | — |
-| `event watch` 回调中嵌套 BigNumber payload 的 `str()` 序列化耗时是否会拉爆 F2 的 `T_format` 上界？是否需要 lazy formatting（仅控制台可见时展开 payload）？ | 实现工程师 | event watch 实现后首次性能测试 | — |
-| 命令历史是否值得跨会话持久化（`user://debug_console_history.json`）？需要权衡 SaveSystem 依赖 vs 开发者体验 | 团队 | MVP 后第一次 retro | — |
-| Tab 补全（`res li<TAB>` → `res list`）是否值得在 MVP 后追加？P1 优先级 | 团队 | MVP 后 | — |
-| `event watch` 是否应支持多前缀同时匹配（如 `event watch resource attribute`）而非要求多次执行？P2 优先级 | 团队 | 用户反馈驱动 | — |
-| 长会话中 `RichTextLabel` 内存增长是否可观察？500 行环形缓冲理论上界限明确，但 Godot 内部 paragraph 链表的实际占用需测量 | 实现工程师 | 实现后内存 profiling | — |
-| `physical_keycode == KEY_QUOTELEFT` 在所有目标平台（Win / Linux / macOS）的物理键映射是否一致？理论一致，但需实机验证 | QA | 跨平台测试阶段 | — |
+|----------|-------|----------|------------|
+| `T_append`（RichTextLabel BBCode 单行追加耗时）的真实值是否超过虚拟滚动阈值？ | 实现工程师 | 首次 dogfood | 保留：若实测 > 0.03 ms/行，将输出区改为虚拟滚动。 |
+| `event watch` 中 BigNumber payload 的格式化是否需要 lazy formatting？ | 实现工程师 | `event watch` 实现后 | 保留：仅当 F2 profiling 超预算时延迟展开 payload。 |
+| 500 行环形缓冲下 RichTextLabel 的实际内存增长是否符合预算？ | 实现工程师 | 内存 profiling | 保留：理论有界，仍需 Godot 实测确认控件内部占用。 |
+| `physical_keycode == KEY_QUOTELEFT` 在 Win/Linux/macOS 的物理键映射是否一致？ | QA | 跨平台测试 | 保留：理论一致，但需实机验证。 |

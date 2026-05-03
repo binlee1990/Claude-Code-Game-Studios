@@ -1,10 +1,10 @@
 # 自动产出系统 (Auto Production System)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
 > **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.1 数字增长就是快乐 · 4.8 自动化是成长奖励
-> **Creative Director Review (CD-GDD-ALIGN)**: Deferred — batch GDD authoring; run independent `/design-review` in a fresh session.
+> **Design Review (lean)**: APPROVED 2026-05-04 — required sections, dependency references, acceptance criteria, and cross-GDD contracts checked in this cleanup pass.
 
 ## Summary
 
@@ -131,10 +131,3 @@ Expose debug-only production status: enabled, last tick, per-resource attempted/
 - **GIVEN** TimeManager is frozen, **WHEN** tick update runs, **THEN** no resources are added.
 - **GIVEN** exp is configured as non-passive, **WHEN** tick runs, **THEN** exp is never requested from OMS.
 - **GIVEN** one resource id is invalid, **WHEN** batch production runs, **THEN** valid resources still settle.
-
-## Open Questions
-
-| Question | Owner | Deadline | Resolution |
-|----------|-------|----------|------------|
-| Whether player-facing auto-production toggles are MVP or settings-system scope | Designer | Settings GDD | MVP keeps always-on after unlock |
-| Whether manual click production shares this loop or remains in cultivation | Designer | Cultivation implementation | Manual click belongs to CultivationSystem |

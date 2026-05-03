@@ -1,8 +1,8 @@
 # 事件总线 (Event Bus)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
-> **Last Updated**: 2026-05-03
+> **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.6 渐进叙事展开 · 4.10 数据驱动与可扩展
 
 ## Overview
@@ -137,7 +137,7 @@ EventBus 自身不持有业务状态，但管理订阅关系的内部状态：
 | 离线模拟内核 | 上游发布 | `offline.simulation_completed` | 离线草案完成通知，供结算/调试消费 |
 | 离线收益结算系统 | 上游发布 | `offline.settled` | 离线收益实际入账后通知 HUD/UI |
 | UI 框架 | 下游订阅 | 订阅各类显示更新事件 | 响应数据变化刷新界面 |
-| HUD 系统 | 下游订阅 | 订阅 `resource.*.changed`、`level.changed`、`realm.advanced`、`combat.*`、`zone.changed`、`offline.settled` | 更新资源栏、等级/境界、战斗状态、区域和离线摘要 |
+| HUD 系统 | 下游订阅 | 精确订阅 MVP 资源的 `resource.{id}.changed`、`level.changed`、`realm.advanced`、`combat.*`、`zone.changed`、`offline.settled` | 更新资源栏、等级/境界、战斗状态、区域和离线摘要；生产 UI 不依赖 prefix 订阅 |
 | 调试控制台 | 下游订阅 | 通过 `subscribe_pattern(prefix, callable)` 订阅指定事件前缀 | 开发阶段监控资源、时间、存档等事件流；空 prefix 不允许 |
 | 时间管理器 | 上游发布 | `time.frozen`, `time.unfrozen`, `time.speed_changed`, `time.offline_delta` | 时间状态变更通知，离线收益结算触发 |
 | 通知系统（未来） | 下游订阅 | 订阅突破、稀有掉落、成就等关键事件 | 触发弹窗通知 |
@@ -285,7 +285,5 @@ EventBus 自身不持有业务状态，但管理订阅关系的内部状态：
 ## Open Questions
 
 | Question | Owner | Deadline | Resolution |
-|----------|-------|----------|-----------|
-| 是否支持通配符订阅（如 `resource.*.changed`）？通配符增加查找复杂度但减少订阅代码量 | 开发者 | 实现阶段前 | **RESOLVED 2026-05-03** — 采用前缀匹配方案：新增 `subscribe_pattern(prefix, callable)` + `unsubscribe_pattern(prefix, callable)`（详见规则 11）。回调签名扩展为 `(event_name, payload)` 以便消费方区分多个匹配事件。由调试控制台 `event watch <prefix>` 命令首次驱动；生产代码不应使用此机制。 |
-| payload Dictionary 是否深拷贝给每个订阅者？引用传递性能更好但有被订阅者意外修改的风险 | 开发者 | 实现阶段前 | — |
-| 是否需要 `emit_deferred(event_name, payload)` 支持"下一帧投递"以缓解同帧高频事件？ | 开发者 | 性能测试后决定 | **RESOLVED 2026-05-03** — 不添加无合并语义的 deferred API；改为 `emit_coalesced(event_name, payload, coalesce_key)`，仅用于最新状态型 UI/调试事件。事务事件继续使用同步 `emit()`，批处理由发布方领域系统负责。 |
+|----------|-------|----------|------------|
+| payload Dictionary 是否深拷贝给每个订阅者，还是按只读约定引用传递？ | 开发者 | 实现阶段前 | 保留：默认倾向引用传递 + 订阅者只读约定；如测试发现写穿透风险，再改为 debug 防御或浅拷贝。 |

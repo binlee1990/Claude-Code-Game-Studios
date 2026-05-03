@@ -1,10 +1,10 @@
 # 敌人数据库 (Enemy Database)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
 > **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.10 数据驱动与可扩展 · 4.7 子玩法服务主循环
-> **Creative Director Review (CD-GDD-ALIGN)**: Deferred — batch GDD authoring; run independent `/design-review` in a fresh session.
+> **Design Review (lean)**: APPROVED 2026-05-04 — required sections, dependency references, acceptance criteria, and cross-GDD contracts checked in this cleanup pass.
 
 ## Summary
 
@@ -27,7 +27,7 @@
 1. `EnemyDatabase` 是只读服务，启动时通过 `DataConfig.get_all("enemies")` 加载。
 2. 每条 enemy definition 包含：`id`、`name`、`level`、`attribute_set`、`base_attributes`、`loot_table_id`、`zone_tags`、`combat_tags`、`weight`。
 3. 属性字段必须能映射到 AttributeSystem 的 MVP 6 属性：`hp_max/atk/def/spd/crit_rate/crit_dmg`。
-4. `create_combat_snapshot(enemy_id, instance_id)` 返回战斗用快照；是否注册到 AttributeSystem 由 CombatCalculator/SemiAutoCombat 的实现策略决定。
+4. `create_combat_snapshot(enemy_id, instance_id)` 返回战斗用快照；MVP 不把敌人的实时 HP 注册到 AttributeSystem，CombatCalculator 使用战斗局部状态处理当前血量。
 5. 本系统不产生随机选择；区域系统根据 enemy ids 和 weights 决定候选池，RNG 由调用方使用。
 6. 热重载只允许 debug build；重载后新战斗使用新数据，已进行战斗不被改写。
 
@@ -119,10 +119,3 @@ Debug UI should list loaded enemies, level, power score, loot table id, and zone
 - **GIVEN** enemy has invalid attribute id, **WHEN** loading, **THEN** that record is skipped and warning includes the id.
 - **GIVEN** zone tag `starter`, **WHEN** `get_by_zone_tag("starter")`, **THEN** only enemies tagged starter are returned.
 - **GIVEN** debug reload changes enemy atk, **WHEN** new combat snapshot is created, **THEN** it uses the updated value.
-
-## Open Questions
-
-| Question | Owner | Deadline | Resolution |
-|----------|-------|----------|------------|
-| Whether enemy current HP is registered in AttributeSystem or kept inside CombatCalculator state | Designer | CombatCalculator implementation | This GDD recommends combat-local state |
-| Whether first MVP enemy names should be lore-specific or generic placeholders | Writer/Designer | Content pass before implementation | Schema works either way |

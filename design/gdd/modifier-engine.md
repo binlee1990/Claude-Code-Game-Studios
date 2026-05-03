@@ -1,8 +1,8 @@
 # 修正器/倍率引擎 (Modifier/Multiplier Engine)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
-> **Last Updated**: 2026-05-03
+> **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.1 数字增长就是快乐 · 4.10 数据驱动与可扩展
 
 ## Overview
@@ -311,9 +311,8 @@ result = (1000 + 250) × 2.0538 = 1250 × 2.0538 = 2567.25
 ## Open Questions
 
 | Question | Owner | Deadline | Resolution |
-|----------|-------|----------|-----------|
-| 修正器是否需要支持序列化（存档/读档时持久化限时修正器的 remaining 时间）？ | 开发者 | 存档系统 GDD 时决定 | — |
-| 产出乘数系统的职责是否与修正器引擎重叠太多？是否应合并？ | 技术总监 | 产出乘数系统 GDD 时决定 | — |
-| 是否需要修正器变更事件（如 `"modifier_added"`, `"modifier_removed"`），还是仅过期事件？ | 设计师 | UI 框架 GDD 时决定 | — |
-| 池名是否需要命名空间前缀（如 `"combat.equipment"` vs `"production.equipment"`）以避免冲突？ | 设计师 | 首批修正器配置时决定 | — |
-| Post-MVP 是否需要条件表达式支持（如公式引擎的条件求值）？ | 技术总监 | MVP 完成后评估 | — |
+|----------|-------|----------|------------|
+| 限时修正器是否需要序列化 remaining 时间并由存档系统恢复？ | 开发者 | 存档/临时 Buff 实现前 | 保留：MVP 永久来源可重建；临时 Buff 上线前再定持久化。 |
+| 是否需要 `modifier_added` / `modifier_removed` 事件，还是只保留过期事件？ | 设计师 + 开发者 | UI/缓存需求出现前 | 保留：属性/HUD 若加最终值缓存或实时 breakdown，再补事件。 |
+| 池名是否需要命名空间前缀（如 `combat.equipment` / `production.equipment`）？ | 设计师 | 首批跨域 modifier 配置前 | 保留：当前 target+pool 已隔离；若调试或配置可读性不足再加前缀。 |
+| Post-MVP 是否支持条件表达式修正器？ | 技术总监 | MVP 完成后评估 | 保留：MVP 不引入条件求值，避免与公式引擎职责重叠。 |

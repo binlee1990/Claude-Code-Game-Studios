@@ -2,7 +2,7 @@
 
 > **Status**: Approved
 > **Author**: binlee1990 + agents
-> **Last Updated**: 2026-05-03
+> **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.1 数字增长就是快乐
 
 ## Summary
@@ -344,8 +344,6 @@ BigNumber 是无状态的值类型（value type），不适用状态机。每个
 ## Open Questions
 
 | Question | Owner | Deadline | Resolution |
-|----------|-------|----------|-----------|
-| 纯 GDScript mantissa+exponent 的性能是否满足离线模拟批量运算需求？需原型验证 | 开发者 | 架构阶段前 | — |
-| 是否需要在 MVP 后期迁移到 GDExtension C++ 以提升性能？ | 技术总监 | MVP 完成后评估 | — |
-| `from_string()` 是否需要支持中文数字格式（如 "1.23万亿"）？还是由数值格式化系统单向处理？ | 设计师 | 数值格式化系统 GDD 时决定 | — |
-| 亚单位值（< 1）如何处理？ | 设计师 | 本次评审 | **已决定**：BigNumber 仅用于绝对量 ≥ 1，比值和百分比乘数使用 float |
+|----------|-------|----------|------------|
+| 纯 GDScript mantissa+exponent 的性能是否满足离线模拟批量运算需求？ | 开发者 | 架构阶段前 | 保留：需原型验证；若失败再评估 GDExtension。 |
+| 是否需要在 MVP 后期迁移到 GDExtension C++ 以提升性能？ | 技术总监 | MVP 性能评估后 | 保留：仅当原型或离线模拟 profiling 证明 GDScript 不足时启动。 |

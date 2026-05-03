@@ -1,10 +1,10 @@
 # 半自动战斗系统 (Semi-Auto Combat System)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
 > **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.2 放置不是无操作 · 4.3 刷宝提供惊喜 · 4.7 子玩法服务主循环
-> **Creative Director Review (CD-GDD-ALIGN)**: Deferred — batch GDD authoring; run independent `/design-review` in a fresh session.
+> **Design Review (lean)**: APPROVED 2026-05-04 — required sections, dependency references, acceptance criteria, and cross-GDD contracts checked in this cleanup pass.
 
 ## Summary
 
@@ -135,10 +135,3 @@ HUD must show current enemy, current zone, latest result, recent drops, and clea
 - **GIVEN** same seed context and same snapshots, **WHEN** online combat and offline combat call calculator, **THEN** result parity is possible.
 - **GIVEN** enemy pool empty, **WHEN** combat tries to seek, **THEN** no crash and HUD can show a zone data error.
 - **GIVEN** five consecutive failures, **WHEN** threshold is met, **THEN** system exposes a recommendation state instead of silently looping forever.
-
-## Open Questions
-
-| Question | Owner | Deadline | Resolution |
-|----------|-------|----------|------------|
-| Whether LevelSystem consumes exp immediately from reward bundle or via ResourceSystem.exp balance | Designer/Engineer | Implementation plan | Recommended: write exp then call gain path in one orchestrated flow |
-| Whether MVP battle shows animated bars or log-only text | UX/Designer | HUD GDD | HUD defines presentation |

@@ -91,12 +91,7 @@ items:
       - design/gdd/cultivation-system.md
       - design/gdd/offline-reward-settlement-system.md
       - design/gdd/hud-system.md
-      - design/gdd/storage-limit-system.md
-      - design/gdd/auto-production-system.md
-      - design/gdd/cultivation-system.md
-      - design/gdd/offline-reward-settlement-system.md
-      - design/gdd/hud-system.md
-    category: regenerative_resource
+    category: regenerative
     has_cap: true
     reset_scope: breakthrough
     chinese_name: 灵气
@@ -116,10 +111,7 @@ items:
       - design/gdd/cultivation-system.md
       - design/gdd/offline-reward-settlement-system.md
       - design/gdd/hud-system.md
-      - design/gdd/auto-production-system.md
-      - design/gdd/cultivation-system.md
-      - design/gdd/hud-system.md
-    category: progress_resource
+    category: progress
     has_cap: false
     reset_scope: breakthrough
     chinese_name: 修为
@@ -135,10 +127,6 @@ items:
       - design/gdd/item-material-system.md
       - design/gdd/output-multiplier-system.md
       - design/gdd/level-system.md
-      - design/gdd/auto-production-system.md
-      - design/gdd/loot-system.md
-      - design/gdd/offline-reward-settlement-system.md
-      - design/gdd/hud-system.md
       - design/gdd/auto-production-system.md
       - design/gdd/loot-system.md
       - design/gdd/offline-reward-settlement-system.md
@@ -164,12 +152,7 @@ items:
       - design/gdd/loot-system.md
       - design/gdd/offline-reward-settlement-system.md
       - design/gdd/hud-system.md
-      - design/gdd/storage-limit-system.md
-      - design/gdd/auto-production-system.md
-      - design/gdd/loot-system.md
-      - design/gdd/offline-reward-settlement-system.md
-      - design/gdd/hud-system.md
-    category: crafting_material
+    category: material
     has_cap: true
     reset_scope: ascension
     chinese_name: 药材
@@ -188,9 +171,7 @@ items:
       - design/gdd/semi-auto-combat-system.md
       - design/gdd/offline-combat-simulation-system.md
       - design/gdd/hud-system.md
-      - design/gdd/loot-system.md
-      - design/gdd/hud-system.md
-    category: progress_resource
+    category: progress
     has_cap: false
     reset_scope: breakthrough
     chinese_name: 战斗经验
@@ -325,7 +306,7 @@ items:
 #     value_gold: 5
 #     weight: 1
 #     stackable: true
-#     category: crafting_material
+#     category: material
 #     added: 2026-03-26
 #     revised: ""
 

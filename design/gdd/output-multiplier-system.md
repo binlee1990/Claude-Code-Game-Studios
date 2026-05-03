@@ -1,8 +1,8 @@
 # 产出乘数系统 (Output Multiplier System)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
-> **Last Updated**: 2026-05-03
+> **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.1 数字增长就是快乐 · 4.10 数据驱动与可扩展
 > **Creative Director Review (CD-GDD-ALIGN)**: APPROVED 2026-05-03
 
@@ -698,11 +698,6 @@ T_tick_4_worst = 4 × (0.003 + 0.04 + 0.005) = 0.192 ms
 ## Open Questions
 
 | Question | Owner | Deadline | Resolution |
-|----------|-------|----------|-----------|
-| ModifierEngine GDD Open Question "产出乘数系统的职责是否与修正器引擎重叠太多？是否应合并？" | 设计师 | 本 GDD 完成时 | ✅ 已解决——产出乘数系统作为独立系统设计，职责边界明确：修正器引擎做通用叠加数学，产出乘数系统做产出域来源分类和池映射。两系统独立但组合使用 |
-| EventBus GDD §Core Rules 12 命名空间约定中列出 `"production_multiplier_changed"` 事件 | 开发者 | `/consistency-check` 阶段 | ✅ 已解决 2026-05-03 — event-bus.md 已列出该事件 |
-| MVP 硬编码倍率（炼气境 ×2.0、东海 herb ×1.5）何时迁移到配置驱动？ | 设计师 | Alpha 阶段（阶段 3：装备刷宝与 Build） | MVP 可接受硬编码——只有 1-2 个境界和 1-2 个区域。Alpha 阶段新增更多境界/区域时转为 `realm_config.json` 和 `zone_config.json` |
-| 是否需要支持运行时修改 base_rate（如科技树升级改变基础产出而非叠加乘数）？ | 设计师 | 科技树系统 GDD 时 | MVP 不需要。若未来需要，可通过追加 `set_base_rate(id, new_rate)` API 实现——暂不设计以保持 MVP 简洁 |
-| HUD 应显示"绝对产出速率"还是"基础 × 倍率"分解？ | UX 设计师 | HUD 系统 GDD 时 | `get_breakdown()` API 已就绪支持两种模式——由 HUD GDD 决定 |
-| 是否需要产出乘数上限（如最终倍率不超过 1e6×）以防止数值爆炸？ | 设计师 | 平衡性测试阶段 | MVP 不设上限——ModifierEngine 的池倍率钳位（< 0 → 0.0）已提供底线保护。上限属于平衡性问题而非技术问题 |
-| 战斗掉落是否也应该经过产出乘数系统（如"装备 +15% 药材掉落"）？还是只影响被动产出？ | 设计师 | 掉落系统 GDD 时 | 当前设计只有被动产出经过 OMS。掉落倍率可能复用同样的 source→pool 映射但走不同管线（战斗计算器而非 passive tick）。是否抽象共享的"倍率来源定义"层由掉落系统 GDD 决定 |
+|----------|-------|----------|------------|
+| MVP 硬编码倍率（炼气境 ×2.0、东海 herb ×1.5）何时迁移到配置驱动？ | 设计师 | Alpha 装备刷宝与 Build 阶段 | 保留：MVP 可硬编码少量值；Alpha 新增境界/区域前迁移到配置。 |
+| 战斗掉落倍率是否复用 OMS 来源定义，还是保持独立 DropContext 管线？ | 设计师 | Alpha 装备/掉落扩展 | 保留：MVP 掉落倍率留在 DropContext；装备掉落加成上线前再决定是否抽共享来源层。 |

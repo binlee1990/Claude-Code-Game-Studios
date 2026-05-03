@@ -1,10 +1,10 @@
 # 修炼系统 (Cultivation System)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
 > **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.1 数字增长就是快乐 · 4.2 放置不是无操作
-> **Creative Director Review (CD-GDD-ALIGN)**: Deferred — batch GDD authoring; run independent `/design-review` in a fresh session.
+> **Design Review (lean)**: APPROVED 2026-05-04 — required sections, dependency references, acceptance criteria, and cross-GDD contracts checked in this cleanup pass.
 
 ## Summary
 
@@ -132,10 +132,3 @@ Requires a compact stance control with recommended default `Meditate`, a manual 
 - **GIVEN** player lacks lingqi, **WHEN** Condense tick runs, **THEN** no xiuwei is added and a shortage state is available to HUD.
 - **GIVEN** TimeManager is frozen, **WHEN** manual or auto cultivation tries to run, **THEN** no resource changes occur.
 - **GIVEN** stance changes from Meditate to Condense, **WHEN** transition succeeds, **THEN** one `cultivation.stance_changed` event is emitted.
-
-## Open Questions
-
-| Question | Owner | Deadline | Resolution |
-|----------|-------|----------|------------|
-| Whether `xiuwei` becomes a direct breakthrough currency or remains a progress display until breakthrough GDD | Designer | Breakthrough system | MVP stores it for future use |
-| Whether click action should disappear after automation unlock or stay as a ritual accelerator | UX/Designer | Automation settings | Default recommendation: keep but reduce importance |

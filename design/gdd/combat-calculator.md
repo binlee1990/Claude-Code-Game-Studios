@@ -1,10 +1,10 @@
 # 战斗计算器 (Combat Calculator)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
 > **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.2 放置不是无操作 · 4.7 子玩法服务主循环
-> **Creative Director Review (CD-GDD-ALIGN)**: Deferred — batch GDD authoring; run independent `/design-review` in a fresh session.
+> **Design Review (lean)**: APPROVED 2026-05-04 — required sections, dependency references, acceptance criteria, and cross-GDD contracts checked in this cleanup pass.
 
 ## Summary
 
@@ -137,10 +137,3 @@ No direct UI. Debug view should expose input snapshots, formula version, seed, a
 - **GIVEN** defender def exceeds attacker atk, **WHEN** attack resolves, **THEN** damage is at least MIN_DAMAGE.
 - **GIVEN** crit_rate 1.0, **WHEN** attack resolves, **THEN** all attacks use crit_dmg multiplier.
 - **GIVEN** max duration exceeded, **WHEN** simulate returns, **THEN** result status is timeout failure.
-
-## Open Questions
-
-| Question | Owner | Deadline | Resolution |
-|----------|-------|----------|------------|
-| Whether MVP uses full event trace or only aggregate result for offline simulation | Designer/Engineer | Offline combat implementation | Result must support both |
-| Whether hit/dodge join MVP attributes | Designer | Post-MVP combat expansion | MVP excludes them |

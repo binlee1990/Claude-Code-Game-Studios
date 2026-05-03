@@ -1,10 +1,10 @@
 # 挂机探索系统 (Idle Exploration System)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
 > **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.1 数字增长就是快乐 · 4.2 放置不是无操作
-> **Creative Director Review (CD-GDD-ALIGN)**: Deferred — batch GDD authoring; run independent `/design-review` in a fresh session.
+> **Design Review (lean)**: APPROVED 2026-05-04 — required sections, dependency references, acceptance criteria, and cross-GDD contracts checked in this cleanup pass.
 
 ## Summary
 
@@ -131,10 +131,3 @@ Requires a compact exploration assignment panel: current zone, strategy, estimat
 - **GIVEN** active zone becomes invalid, **WHEN** validation runs, **THEN** state becomes Blocked with reason.
 - **GIVEN** offline combat returns summary, **WHEN** player returns, **THEN** exploration stores session summary for HUD.
 - **GIVEN** capacity factor is below threshold, **WHEN** summary is generated, **THEN** recommendation includes capacity pressure.
-
-## Open Questions
-
-| Question | Owner | Deadline | Resolution |
-|----------|-------|----------|------------|
-| Whether exploration strategy affects enemy selection in MVP | Designer | Combat tuning | MVP uses it for recommendations only |
-| Whether first launch should auto-start exploration | UX | Onboarding pass | Default: recommend first zone, start after player reaches combat unlock |

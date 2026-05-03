@@ -1,15 +1,15 @@
 # 存档系统 (Save System)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
-> **Last Updated**: 2026-05-03
+> **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.1 数字增长就是快乐 · 4.2 放置不是无操作
 
 ## Summary
 
 存档系统是游戏的持久化基础设施，采用注册表模式：各系统通过 `register_provider()` 注册 save/restore 回调，SaveManager 聚合所有数据写入单个 JSON 文件。支持自动保存、版本迁移、损坏恢复和离线时间戳持久化。MVP 为单存档位、无加密、无云存档。
 
-> **Quick reference** — Layer: `Core Data` · Priority: `MVP` · Key deps: `数据配置系统, 时间管理器`
+> **Quick reference** — Layer: `Core Data` · Priority: `MVP` · Key deps: `数据配置系统, 时间管理器, 事件总线`
 
 ## Overview
 
@@ -274,9 +274,8 @@ MVP 预估：4.0 ms / 60 s ≈ 0.067 ms/s，帧影响可忽略
 ## Open Questions
 
 | Question | Owner | Deadline | Resolution |
-|----------|-------|----------|-----------|
-| provider 保存/恢复顺序是否需要显式控制（如依赖链排序）？当前按注册顺序，TimeManager 是否需在所有资源系统之前恢复？ | 开发者 | 实现阶段前 | — |
-| 迁移脚本是否应存放在独立目录（如 `assets/migrations/`）还是代码内注册？ | 开发者 | 首次迁移需求时 | — |
-| 自动保存是否需要区分"静默保存"和"显式保存"事件（如 UI 显示"已保存"提示）？ | 设计师 | HUD 系统 GDD 时 | — |
-| 存档文件是否需要校验和（如 SHA256）用于检测篡改？MVP 是否需要反作弊？ | 开发者 | 反作弊需求明确时 | — |
-| `play_time_seconds` 是由 SaveManager 追踪还是由 TimeManager 提供？ | 开发者 | 实现阶段前 | — |
+|----------|-------|----------|------------|
+| provider 保存/恢复顺序是否需要显式排序，而不是按注册顺序？ | 开发者 | 实现阶段前 | 保留：TimeManager、ResourceSystem、LevelSystem 的恢复顺序需在实现中验证。 |
+| 迁移脚本应存放在独立目录还是代码内注册？ | 开发者 | 首次迁移需求前 | 保留：MVP v1 可无迁移；首次格式升级前必须定目录和注册机制。 |
+| 存档文件是否需要校验和或轻量反篡改？ | 开发者 | 反作弊需求明确时 | 保留：单机 MVP 不加密；如引入排行榜/分享验证再评估。 |
+| `play_time_seconds` 由 SaveManager 累计还是由 TimeManager 提供权威值？ | 开发者 | 实现阶段前 | 保留：meta 字段已存在，权威来源需实现时锁定。 |

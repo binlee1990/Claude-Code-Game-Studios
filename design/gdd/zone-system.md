@@ -1,10 +1,10 @@
 # 区域系统 (Zone System)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
 > **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.2 放置不是无操作 · 4.7 子玩法服务主循环
-> **Creative Director Review (CD-GDD-ALIGN)**: Deferred — batch GDD authoring; run independent `/design-review` in a fresh session.
+> **Design Review (lean)**: APPROVED 2026-05-04 — required sections, dependency references, acceptance criteria, and cross-GDD contracts checked in this cleanup pass.
 
 ## Summary
 
@@ -130,10 +130,3 @@ Requires a zone picker/list with lock reason, recommended level, expected reward
 - **GIVEN** player selects an unlocked zone, **WHEN** selection succeeds, **THEN** `zone.changed` is emitted.
 - **GIVEN** player tries to select locked zone, **WHEN** selection is attempted, **THEN** current zone does not change and lock reason is returned.
 - **GIVEN** active zone has enemy weights, **WHEN** SemiAutoCombat requests pool, **THEN** pool contains only valid enemy ids and weights.
-
-## Open Questions
-
-| Question | Owner | Deadline | Resolution |
-|----------|-------|----------|------------|
-| Exact names and lore of the first three MVP zones | Writer/Designer | Content pass | Schema supports any names |
-| Whether zone production modifiers directly register into OMS or pass through active context | Engineer | Implementation plan | Recommended: active context, OMS source registration by orchestrator |

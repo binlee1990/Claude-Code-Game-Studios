@@ -4,57 +4,48 @@
 
 ## Current Task
 
-Batch GDD completion for remaining MVP systems using `$reframe-and-execute` + `.claude/skills/design-system` recommended defaults.
+GDD system optimization, consistency repair, all-GDD review, targeted design-review refresh, and final approval status update for all 30 MVP systems under `design/gdd/`.
 
 ## Status
 
-Complete pending final validation/archive.
+Complete. All 30 MVP systems are now `Approved` in `systems-index.md` and in their GDD headers.
 
 ## Scope Completed
 
 | Area | Result |
 |------|--------|
-| Remaining MVP GDDs | Authored 15 new system design docs for rows 16-30 in `design/gdd/systems-index.md` |
-| Existing designed-system fixes | Synced EventBus event namespace/payloads, fixed AttributeSystem `save.loaded` wording, and closed LevelSystem consistency notes |
-| Registry | Updated key `referenced_by` links for MVP resources, attributes, rarity/class constants |
-| Systems index | Rows 16-30 marked `Designed`; progress tracker updated to 30 / 30 MVP systems designed |
+| System GDD cleanup | Removed or simplified stale/noisy Open Questions across all 30 system docs; retained only real implementation, performance, tuning, or Post-MVP questions |
+| Required structure | Confirmed all 30 system GDDs keep the required core sections |
+| Consistency-check | Fixed registry item category enum drift, duplicate `referenced_by` lists, EventBus/HUD subscription wording, TimeManager stale note, SaveSystem dependency summary, FormulaEngine dependency note, Systems Index dependency map, and EnemyDatabase HP ownership wording |
+| Review-all-GDDs | Added `design/gdd/reviews/gdd-cross-review-2026-05-04.md` with 30-system scenario walkthroughs and fixed findings |
+| Targeted design-review | Added `design/gdd/reviews/targeted-design-review-2026-05-04.md`; cleared deferred review markers from the 15 newly completed GDDs |
+| Final approval | Added `design/gdd/reviews/all-systems-approval-2026-05-04.md`; promoted all 30 systems to `Approved` |
+| Systems index | `Design docs reviewed` and `Design docs approved` refreshed to 30 / 30; all system rows now `Approved` |
+| Task record | `.tasks/completed/2026-05-04-gdd-system-optimization.task.md` archived with completion evidence |
 
-## New GDD Files
+## Fresh Review Artifacts
 
-| System | File |
-|--------|------|
-| 存储上限系统 | `design/gdd/storage-limit-system.md` |
-| 自动产出系统 | `design/gdd/auto-production-system.md` |
-| 敌人数据库 | `design/gdd/enemy-database.md` |
-| 掉落系统 | `design/gdd/loot-system.md` |
-| 修炼系统 | `design/gdd/cultivation-system.md` |
-| 战斗计算器 | `design/gdd/combat-calculator.md` |
-| 半自动战斗系统 | `design/gdd/semi-auto-combat-system.md` |
-| 区域系统 | `design/gdd/zone-system.md` |
-| 地图推进系统 | `design/gdd/map-progression-system.md` |
-| 离线模拟内核 | `design/gdd/offline-simulation-core.md` |
-| 挂机探索系统 | `design/gdd/idle-exploration-system.md` |
-| 离线战斗模拟系统 | `design/gdd/offline-combat-simulation-system.md` |
-| 离线收益结算系统 | `design/gdd/offline-reward-settlement-system.md` |
-| UI 框架 | `design/gdd/ui-framework.md` |
-| HUD 系统 | `design/gdd/hud-system.md` |
+| Artifact | Purpose |
+|----------|---------|
+| `design/gdd/reviews/gdd-cross-review-2026-05-04.md` | Full 30-system cross-GDD review report |
+| `design/gdd/reviews/targeted-design-review-2026-05-04.md` | Individual targeted review record for the 15 formerly deferred GDDs plus focused repairs |
+| `design/gdd/reviews/all-systems-approval-2026-05-04.md` | Final status approval record for all 30 MVP systems |
 
-## Existing Files Updated
+## Approved Watchlist
 
-| File | Purpose |
-|------|---------|
-| `design/gdd/event-bus.md` | Added/synced `level.changed`, `realm.advanced`, combat, cultivation, zone, exploration, and offline events |
-| `design/gdd/attribute-system.md` | Replaced historical `save.restored` wording with `save.loaded` refresh semantics |
-| `design/gdd/level-system.md` | Marked EventBus/AttributeSystem consistency concerns resolved |
-| `design/gdd/systems-index.md` | Linked new GDDs and updated progress |
-| `design/registry/entities.yaml` | Added referenced_by links for newly authored systems |
+| Area | Why It Remains |
+|------|----------------|
+| BigNumber / RNG / DebugConsole performance | Requires implementation profiling, not speculative GDD wording |
+| LevelSystem Lv150-200 growth feel | Requires tuning sign-off before content lock |
+| ItemMaterial Alpha expansion | Intentionally Post-MVP; MVP contains only the five resource/material IDs |
+| SaveSystem provider order and anti-cheat/checksum | Implementation decision retained as real Open Questions |
 
 ## Next Recommended Step
 
-Run independent `/design-review` in fresh sessions for the 15 newly completed GDDs, then run `/gate-check systems-design` after review findings are resolved.
+Run implementation prototype or gate-check only when this GDD set is ready to move from design cleanup into code work.
 
 <!-- STATUS -->
 Epic: MVP Systems Design
-Feature: Batch GDD Completion
-Task: 15 remaining MVP GDDs authored; index/registry/event consistency synced; validation in progress
+Feature: GDD System Cleanup and Review Refresh
+Task: all 30 MVP system GDDs cleaned, consistency-fixed, reviewed, approved, status-refreshed, and verified
 <!-- /STATUS -->

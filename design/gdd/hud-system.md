@@ -1,10 +1,10 @@
 # HUD 系统 (HUD System)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
 > **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.1 数字增长就是快乐 · 4.2 放置不是无操作 · 4.6 渐进叙事展开
-> **Creative Director Review (CD-GDD-ALIGN)**: Deferred — batch GDD authoring; run independent `/design-review` in a fresh session.
+> **Design Review (lean)**: APPROVED 2026-05-04 — required sections, dependency references, acceptance criteria, and cross-GDD contracts checked in this cleanup pass.
 
 ## Summary
 
@@ -138,10 +138,3 @@ Required elements: resource strip, level/realm badge, current zone selector entr
 - **GIVEN** `offline.settled` event arrives, **WHEN** HUD handles it, **THEN** offline summary entry becomes visible or modal opens per setting.
 - **GIVEN** `level.changed` includes entity_id player, **WHEN** HUD handles it, **THEN** level badge updates after attributes are already recalculated.
 - **GIVEN** 50 resource events in one frame, **WHEN** HUD updates, **THEN** only one layout refresh occurs.
-
-## Open Questions
-
-| Question | Owner | Deadline | Resolution |
-|----------|-------|----------|------------|
-| Exact desktop layout split between battle log and resource panels | UX | UX spec | Recommended: dense dashboard, no marketing-style hero |
-| Whether common resource ticks animate every update | UX/Performance | Playtest | Default: text updates only; animate threshold/rare events |

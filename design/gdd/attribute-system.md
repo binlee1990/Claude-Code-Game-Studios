@@ -1,8 +1,8 @@
 # 属性系统 (Attribute System)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
-> **Last Updated**: 2026-05-03
+> **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.1 数字增长就是快乐 · 4.10 数据驱动与可扩展
 > **Creative Director Review (CD-GDD-ALIGN)**: APPROVED 2026-05-03
 
@@ -106,7 +106,7 @@
    | `crit_rate` | 暴击率 | offensive | [0.0, 1.0] | 概率值；本系统仍存为 BigNumber 以保持 schema 一致 |
    | `crit_dmg` | 暴击伤害 | offensive | [1.0, 100.0] | 暴击倍率 |
 
-   砍掉的属性：`hit / dodge / tenacity / shenshi / qiyun / yinguo`——MVP 闭环不需要；新增属性仅需追加配置，不改代码。**不进 MVP 属性系统的字段**：`hp_current`（实时血量，建议由战斗计算器内部"战斗状态层"管理，与本系统的"基础值账本"语义不同——见 Open Questions）。
+   砍掉的属性：`hit / dodge / tenacity / shenshi / qiyun / yinguo`——MVP 闭环不需要；新增属性仅需追加配置，不改代码。**不进 MVP 属性系统的字段**：`hp_current`（实时血量，建议由战斗计算器内部"战斗状态层"管理，与本系统的"基础值账本"语义不同——战斗计算器 GDD 已确认该状态留在战斗局部层）。
 
 7. **事件发布规则**：基础值实际变化时发布 `attribute.{entity_id}.{attr_id}.base_changed`，payload：
    ```
@@ -502,13 +502,13 @@
 
 ## Visual/Audio Requirements
 
-本系统**无视觉/音频需求**。属性系统是数据基础设施层，所有玩家可见的属性表现——属性面板、属性数值跳动、属性条变色、突破时的属性跃升动画、装备替换的数字浮空特效、暴击数字闪烁、面板溯源小窗、敌方属性披露浮窗——均由 **HUD 系统**承载，本系统仅通过 `attribute.{entity_id}.{attr_id}.base_changed` 事件向其推送变更通知。视觉与音频规格由 HUD 系统 GDD（#30，未设计）定义。
+本系统**无视觉/音频需求**。属性系统是数据基础设施层，所有玩家可见的属性表现——属性面板、属性数值跳动、属性条变色、突破时的属性跃升动画、装备替换的数字浮空特效、暴击数字闪烁、面板溯源小窗、敌方属性披露浮窗——均由 **HUD 系统**承载，本系统仅通过 `attribute.{entity_id}.{attr_id}.base_changed` 事件向其推送变更通知。视觉与音频规格由 HUD 系统 GDD 定义。
 
 参见 §Player Fantasy 的"重要边界声明"段落。
 
 ## UI Requirements
 
-本系统**无 UI 需求**。属性面板、属性溯源弹窗、属性对比窗口、敌方属性披露浮窗、Build 评分面板等所有 UI 元素由 **HUD 系统**与 **UI 框架**承载，本系统仅提供 `get_base / get_final / get_attribute_set / get_final_set` 等数据查询 API 供其消费。UI 布局、交互流程、信息密度由 UI 框架 GDD（#29，未设计）和 HUD 系统 GDD（#30）定义。
+本系统**无 UI 需求**。属性面板、属性溯源弹窗、属性对比窗口、敌方属性披露浮窗、Build 评分面板等所有 UI 元素由 **HUD 系统**与 **UI 框架**承载，本系统仅提供 `get_base / get_final / get_attribute_set / get_final_set` 等数据查询 API 供其消费。UI 布局、交互流程、信息密度由 UI 框架 GDD 和 HUD 系统 GDD 定义。
 
 参见 §Player Fantasy 的"重要边界声明"段落。
 
@@ -573,13 +573,6 @@
 ## Open Questions
 
 | Question | Owner | Deadline | Resolution |
-|----------|-------|----------|-----------|
-| `hp_current`（实时血量）的归属系统：本 GDD 假定它由战斗计算器内部的"战斗状态层"管理，与本系统的"基础值账本"语义不同。但战斗计算器 GDD 未设计——如未来认为 `hp_current` 应由 ResourceSystem 或本系统统一持有，需重审本 GDD 的属性集定义 | 设计师 | 战斗计算器 GDD 时 | — |
-| ModifierEngine GDD §Detailed Design 的 target 示例使用裸字符串（如 `"atk"`），未声明"target 格式由消费方约定"——需在 `/consistency-check` 阶段在 ModifierEngine GDD §Edge Cases 或 §Tuning Knobs 增加 target 命名约定澄清 | 设计师 | `/consistency-check` 阶段 | ✅ 已解决 2026-05-03 — modifier-engine.md §Detailed Design 第 2 条 target 字段已加注释；§Interactions 行 123 与 §Dependencies 行 267 示例改为 `apply("player.atk", base_atk)` 与 `apply("{entity_id}.{attr_id}", base)` |
-| FormulaEngine GDD §Interactions 列出"属性系统调用 evaluate 计算属性成长系数"，与本 GDD 不一致——需在 `/consistency-check` 阶段把 FormulaEngine 的 Interactions 改为"等级系统/突破系统调用 evaluate" | 设计师 | `/consistency-check` 阶段 | ✅ 已解决 2026-05-03 — formula-engine.md §Interactions 行 122 与 §Dependencies 行 232 中 "属性系统" 改为 "等级系统/突破系统"，并加"属性系统不直接调用 FormulaEngine"的中介说明 |
-| EventBus GDD §12 命名空间约定中列出 `attribute.{entity_id}.{attr_id}.base_changed` 和 `attribute.{entity_id}.unregistered` 两个属性事件 | 开发者 | 实现阶段前 | ✅ 已解决 2026-05-03 — event-bus.md 已追加两条命名空间；§Interactions 表 + §Dependencies 表已追加属性系统行 |
-| ModifierEngine 缺 `modifier_registered` / `modifier_unregistered` 事件——本系统当前不缓存最终值（透传 ModifierEngine），如未来需要在属性系统加一层缓存以优化战斗高频查询，需推动 ModifierEngine 补充增减事件以支持正确的缓存失效。Open Questions 已在 ModifierEngine GDD 中提出 | 技术总监 | Post-MVP 性能评估时 | — |
-| 实体被 `unregister_entity` 后，ModifierEngine 中其修正器未被对应业务系统清理时的残留问题——本 GDD 选择"业务系统责任"路径。是否需要属性系统提供 `cleanup_modifiers_for_entity(entity_id)` 工具方法（内部按 source 前缀清理 ModifierEngine）作为补救措施？取决于 ModifierEngine API 是否允许按 target 前缀批量注销 | 设计师 | 装备系统 GDD 时 | — |
-| MVP 6 属性的具体初始 base 值（`hp_max` 起始 100 还是 1000？`spd` 起始 10 还是 50？）由数值设计师拍板，依赖战斗计算器伤害公式 + 等级系统成长曲线 | 数值设计师 | 战斗计算器/等级系统 GDD 时 | — |
-| `attribute_set_config.json` 与 `entity_template.json` 的具体文件位置（`assets/data/` 下何处？）和格式版本号约定，依赖于数据配置系统 GDD | 开发者 | 数据配置系统 GDD 完善时 | — |
-| 是否需要 `attribute.*.base_changed` 通配符订阅以减少 HUD 订阅样板代码？取决于 EventBus 是否实现通配符订阅（其 Open Questions 已列）。MVP 阶段 HUD 只订阅主角 6 属性 + 上阵弟子 6 属性 ≈ 36 条精准订阅，可接受 | 设计师 | HUD 系统 GDD 时 | — |
+|----------|-------|----------|------------|
+| 如果 Post-MVP 引入最终值缓存，ModifierEngine 是否需要补充 `modifier_added` / `modifier_removed` 事件以支持正确失效？ | 技术总监 | Post-MVP 性能评估 | 保留：MVP 不缓存最终值；新增缓存前必须先补变更事件。 |
+| 实体注销后，来源系统未清理的修正器是否需要由 AttributeSystem 提供兜底清理接口？ | 开发者 | 装备/召唤实体生命周期 GDD | 保留：MVP 由来源系统负责；实体生命周期扩大后再决定是否增加 `cleanup_modifiers_for_entity()`。 |

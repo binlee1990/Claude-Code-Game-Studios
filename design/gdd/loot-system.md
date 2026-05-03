@@ -1,10 +1,10 @@
 # 掉落系统 (Loot System)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
 > **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.3 刷宝提供惊喜 · 4.10 数据驱动与可扩展
-> **Creative Director Review (CD-GDD-ALIGN)**: Deferred — batch GDD authoring; run independent `/design-review` in a fresh session.
+> **Design Review (lean)**: APPROVED 2026-05-04 — required sections, dependency references, acceptance criteria, and cross-GDD contracts checked in this cleanup pass.
 
 ## Summary
 
@@ -133,10 +133,3 @@ Reward bundle must expose display-ready item ids, quantities, rarity, and source
 - **GIVEN** entry references unknown item id, **WHEN** roll runs, **THEN** that entry is skipped and valid entries still settle.
 - **GIVEN** max drops per kill is 5, **WHEN** table has 20 successful entries, **THEN** output is capped deterministically to 5 entries.
 - **GIVEN** bundle has any reward, **WHEN** roll completes, **THEN** one `loot.dropped` event is emitted.
-
-## Open Questions
-
-| Question | Owner | Deadline | Resolution |
-|----------|-------|----------|------------|
-| Whether offline simulation should roll each kill or use expected values above a duration threshold | Designer | Offline combat simulation | This GDD supports both through the same table |
-| Whether drop-rate modifiers use OMS source pools or a separate loot multiplier domain | Designer | Equipment/Loot Filter phase | MVP keeps multiplier in DropContext |

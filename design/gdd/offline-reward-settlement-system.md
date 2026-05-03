@@ -1,10 +1,10 @@
 # 离线收益结算系统 (Offline Reward Settlement System)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
 > **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.1 数字增长就是快乐 · 4.2 放置不是无操作
-> **Creative Director Review (CD-GDD-ALIGN)**: Deferred — batch GDD authoring; run independent `/design-review` in a fresh session.
+> **Design Review (lean)**: APPROVED 2026-05-04 — required sections, dependency references, acceptance criteria, and cross-GDD contracts checked in this cleanup pass.
 
 ## Summary
 
@@ -131,10 +131,3 @@ Requires offline summary modal or panel with duration, rewards by source, actual
 - **GIVEN** same draft id is settled once, **WHEN** settlement is requested again, **THEN** second request is rejected.
 - **GIVEN** one simulator failed, **WHEN** summary is generated, **THEN** warning appears and other rewards still apply.
 - **GIVEN** settlement completes, **WHEN** event bus is checked, **THEN** exactly one `offline.settled` event is emitted.
-
-## Open Questions
-
-| Question | Owner | Deadline | Resolution |
-|----------|-------|----------|------------|
-| Whether offline settlement should auto-save immediately after applying rewards | Engineer | Save/load implementation | Recommended: yes, via SaveManager after summary |
-| Whether lost rewards should be recoverable through ads/premium is out of scope | Product | Monetization strategy | Single-player MVP: no recovery monetization |

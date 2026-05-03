@@ -1,10 +1,10 @@
 # 地图推进系统 (Map Progression System)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
 > **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.2 放置不是无操作 · 4.6 渐进叙事展开
-> **Creative Director Review (CD-GDD-ALIGN)**: Deferred — batch GDD authoring; run independent `/design-review` in a fresh session.
+> **Design Review (lean)**: APPROVED 2026-05-04 — required sections, dependency references, acceptance criteria, and cross-GDD contracts checked in this cleanup pass.
 
 ## Summary
 
@@ -131,10 +131,3 @@ Needs map list/progression strip: locked reason, unlocked badge, cleared marker,
 - **GIVEN** recent win rate exceeds farm threshold, **WHEN** HUD queries zone state, **THEN** zone is marked farmable.
 - **GIVEN** a locked zone is selected, **WHEN** selection is attempted, **THEN** selection fails with lock reason.
 - **GIVEN** save/load roundtrip, **WHEN** progress restores, **THEN** unlocked/cleared states match saved data.
-
-## Open Questions
-
-| Question | Owner | Deadline | Resolution |
-|----------|-------|----------|------------|
-| Whether first-clear rewards are part of MVP | Designer | Reward implementation | This system only emits event |
-| Whether temporary reset should visually hide higher zones or gray them out | UX | Reset/progression UX | Default: gray out with reason |

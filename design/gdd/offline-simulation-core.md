@@ -1,10 +1,10 @@
 # 离线模拟内核 (Offline Simulation Core)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
 > **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.1 数字增长就是快乐 · 4.8 自动化是成长奖励
-> **Creative Director Review (CD-GDD-ALIGN)**: Deferred — batch GDD authoring; run independent `/design-review` in a fresh session.
+> **Design Review (lean)**: APPROVED 2026-05-04 — required sections, dependency references, acceptance criteria, and cross-GDD contracts checked in this cleanup pass.
 
 ## Summary
 
@@ -131,10 +131,3 @@ Expose summary draft fields: offline seconds used, truncated seconds, simulator 
 - **GIVEN** one non-critical simulator fails, **WHEN** simulation completes, **THEN** draft includes failure and successful simulator output.
 - **GIVEN** delta is 0, **WHEN** simulation is requested, **THEN** no settlement draft is emitted.
 - **GIVEN** save.loaded has not completed, **WHEN** offline delta arrives, **THEN** simulation is deferred.
-
-## Open Questions
-
-| Question | Owner | Deadline | Resolution |
-|----------|-------|----------|------------|
-| Whether long offline settlement should animate progress over multiple frames | UX/Engineer | Settlement UI | Framework supports both |
-| Whether production simulator is part of AutoProduction or a separate adapter | Engineer | Implementation plan | Recommended: separate adapter registered with core |

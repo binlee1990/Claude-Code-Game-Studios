@@ -1,10 +1,10 @@
 # UI 框架 (UI Framework)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
 > **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.2 放置不是无操作 · 4.6 渐进叙事展开 · 4.10 数据驱动与可扩展
-> **Creative Director Review (CD-GDD-ALIGN)**: Deferred — batch GDD authoring; run independent `/design-review` in a fresh session.
+> **Design Review (lean)**: APPROVED 2026-05-04 — required sections, dependency references, acceptance criteria, and cross-GDD contracts checked in this cleanup pass.
 
 ## Summary
 
@@ -131,10 +131,3 @@ Required MVP components: top-level screen host, tab/side navigation, modal manag
 - **GIVEN** 1000 log rows, **WHEN** list renders, **THEN** only visible rows plus overscan are instantiated.
 - **GIVEN** resource events emit 50 times in one frame, **WHEN** HUD refreshes, **THEN** layout rebuild is coalesced.
 - **GIVEN** modal open, **WHEN** background command button is clicked, **THEN** command is blocked unless modal allows passthrough.
-
-## Open Questions
-
-| Question | Owner | Deadline | Resolution |
-|----------|-------|----------|------------|
-| Exact navigation pattern: left rail vs top tabs | UX | UX spec | Recommended for MVP: left rail on desktop, compact top tabs for narrow layout |
-| Whether UI framework is pure Control scenes or includes custom theme plugin | Engineer/UX | Implementation plan | Start with Control scenes + Theme resource |

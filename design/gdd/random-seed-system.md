@@ -1,8 +1,8 @@
 # 随机数与种子系统 (Random Seed System)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
-> **Last Updated**: 2026-05-03
+> **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.3 刷宝提供惊喜 · 4.10 数据驱动与可扩展
 
 ## Overview
@@ -320,8 +320,7 @@
 ## Open Questions
 
 | Question | Owner | Deadline | Resolution |
-|----------|-------|----------|-----------|
-| Godot 4.6 的 `RandomNumberGenerator` 内部实现是否有变更？`seed`/`state` 属性的行为是否与 4.3 一致？ | 开发者 | 实现阶段前 | — |
-| GDScript 多实例 `RandomNumberGenerator`（10-20 个）在离线模拟批量调用（数千次/秒）下的性能是否满足 16.6ms 帧预算？ | 开发者 | 架构阶段前 | — |
-| `weighted_pick` 是否需要支持别名方法（Alias Method）以优化高频场景的 O(1) 采样？累积分布 + 二分查找的 O(n) 构建是否足够？ | 开发者 | 掉落系统 GDD 时决定 | — |
-| 扩展流的 `stream_name` 是否需要命名空间前缀（如 `"mod_xxx:stream_yyy"`）以防止 Mod 之间冲突？ | 技术总监 | Mod 规范系统 GDD 时决定 | — |
+|----------|-------|----------|------------|
+| Godot 4.6 `RandomNumberGenerator.seed/state` 行为是否与当前确定性需求一致？ | 开发者 | 实现阶段前 | 保留：需最小回放测试确认。 |
+| 10-20 个 RNG 实例在离线模拟批量调用下是否满足帧预算？ | 开发者 | 架构阶段前 | 保留：需在离线模拟原型中 profile。 |
+| `weighted_pick` 是否需要 Alias Method 优化高频掉落采样？ | 开发者 | 掉落/离线性能验证 | 保留：MVP 先用累积分布；高频表超预算再优化。 |

@@ -2,7 +2,7 @@
 
 > **Status**: Approved
 > **Author**: binlee1990 + agents
-> **Last Updated**: 2026-05-03
+> **Last Updated**: 2026-05-04
 > **Implements Pillar**: MVP: 4.1 数字增长就是快乐（主） · 4.10 数据驱动与可扩展（基底）；Alpha: 4.6 渐进叙事展开（主，待装备/词条/法宝/稀有材料上线后兑现）
 > **Creative Director Review (CD-GDD-ALIGN)**: CONCERNS (accepted) 2026-05-03 — 3 项非阻塞修订已应用：(1) Player Fantasy 显性区分 MVP 兑现度；(2) Open Questions 追加"Alpha 重写 Player Fantasy"承诺；(3) 澄清"千年血参"为 Alpha 示意
 > **Independent /design-review**: NEEDS REVISION → REVISED 2026-05-03 — 5 specialist + creative-director 综合裁定 7 项 BLOCKING + 15 项 IMPORTANT 已修订（详见 review-log）
@@ -566,25 +566,9 @@ EventBus（可选） ←─ ItemRegistry  发布 loaded/reloaded
 ## Open Questions
 
 | Question | Owner | Deadline | Resolution |
-|----------|-------|----------|-----------|
-| **BigNumber GDD §Interactions** 列出"物品/材料系统：物品价值、堆叠数量用 BigNumber"——与本 GDD §Dependencies 不一致（MVP 无 BigNumber 字段）。需在 `/consistency-check` 阶段把该行改为"Alpha 阶段引入"或加注 MVP 不需要 | 设计师 | `/consistency-check` 阶段 | ✅ 已解决 2026-05-03 — big-number-system.md L100（§Interactions）+ L285（§Dependencies）两处已改为"物品/材料系统（Alpha 阶段引入）"，标注 MVP 不接入 |
-| **EventBus GDD §Core Rules 12** 命名空间约定已列入 `item_registry.loaded` / `item_registry.reloaded` 两个 lifecycle 事件 | 开发者 | `/consistency-check` 阶段 | ✅ 已解决 2026-05-03 — event-bus.md 已追加两条 item_registry 命名空间，含 payload 说明 |
-| **entities.yaml** 中 5 条物品（lingqi/xiuwei/lingshi/herb/exp）的 `referenced_by` 字段**未含 `design/gdd/item-material-system.md`**。需在 Phase 5b 时追加引用关系 | 开发者 | Phase 5b（本 GDD 完成后） | — |
-| **rarity 8 元枚举的 HUD 颜色 mapping** 由 HUD GDD 定义。本 GDD 只锁定枚举字符串集合（`fanpin/jingliang/xiyou/shishi/chuanshuo/shenhua/xiantian/hundun`），具体 RGB 值待 HUD GDD 拍板 | 美术 + UI 设计师 | HUD GDD 时 | — |
-| **物品图标资产规格**（尺寸如 64×64、格式 PNG/SVG/WebP、命名约定）由 HUD GDD 与 art-bible 共同决定。本 GDD 只约定 `icon_path` 是 `res://...` 字符串 | 美术总监 | art-bible / HUD GDD | — |
-| **倒排索引切换阈值**：GDD 当前以 `INVERTED_INDEX_THRESHOLD=50` 作为代码注释中的参考值。Alpha 实施时是否真正按此切换、是否引入 `query_by_*` 调用频率监测来动态决策——待 Alpha 性能验证阶段拍板 | 开发者 | Alpha 性能验证阶段 | — |
-| **tags 集合是否在 Alpha 锁定**：MVP 阶段 tags 是开放字符串集，避免拼写漂移依赖 items.json 维护方自律。Alpha 阶段如装备/词条体系大规模上线时，tag typo 可能让大量记录从掉落表中消失——是否引入 `valid_tags.json` 白名单或在加载时警告非白名单 tag？ | 设计师 | Alpha 装备系统 GDD 时 | — |
-| **`localization_key` 命名约定**：建议形如 `"item.<id>.name"` / `"item.<id>.desc"`，但需与本地化系统 GDD（Post-MVP）的整体命名空间约定对齐。Post-MVP 本地化系统设计阶段拍板 | 设计师 + 开发者 | 本地化系统 GDD（Post-MVP） | — |
-| **装备 instance 的实例 ID 设计**（`discrete_instance=true` 时如何生成 instance_id、如何持久化）由 Alpha 装备/词条系统 GDD 决定。本 GDD 在 schema 中预留 `discrete_instance` bool 但不规范实例化机制 | 设计师 | Alpha 装备系统 GDD | — |
-| **`affix_pool_id` / `equip_slot` 引用完整性校验**：MVP 不校验这些 Alpha 字段引用的有效性。Alpha 装备/词条系统接入时，是否引入"启动时引用完整性校验"或"运行时按需校验"——待装备系统 GDD 决定 | 开发者 | Alpha 装备系统 GDD | — |
-| **`items.json` 文件位置约定**（`assets/data/items.json` 是否合适）依赖于数据配置系统 GDD 已建立的 `assets/data/` 路径约定，本 GDD 沿用 | 开发者 | 实施阶段前 | ✅ 已解决 — DataConfig GDD §Core Rules 已约定 `assets/data/` 路径，本系统沿用 |
-| **【设计承诺】Alpha 阶段重写 Player Fantasy 节**：MVP 阶段本 GDD 的 Player Fantasy 实质只兑现支柱 4.1（数字增长具象化层），支柱 4.6（渐进叙事）和支柱 4.3（刷宝惊喜）目前仅作占位。Alpha 装备/词条/法宝/稀有材料上线后，需回头追加 "拾取动画 + 稀有度颜色 + 词条 reveal 三件套" 锚定段，真正兑现 4.6 渐进叙事 + 4.3 刷宝惊喜 | 设计师 + creative-director | Alpha 装备系统 GDD / Alpha 内容广度 第一次扩张时 | — |
-| **typed `Dictionary[K, V]` 采纳决策** — Godot 4.4+ 支持类型化字典；与项目静态类型偏好一致。但 ItemDefinition 14 字段含异构 Variant 值，typed dict 仅能标 `Dictionary[String, Variant]` 提供 key 类型保证而非 value。是否值得采纳？或考虑 custom Resource 子类（获得完整类型安全但需 DataConfig JSON 解析桥接层） | 开发者 | 实施阶段前 | — |
-| **`OS.is_debug_build()` 在 Godot 4.6.2 行为复核** — 4.4-4.6 多处 OS API 变更（VERSION.md MEDIUM/HIGH 风险版本）；本 GDD 多处依赖此 API（reload 门控、debug 校验、warning 输出）。需查 `docs/engine-reference/godot/` 确认 4.6.2 行为；是否改用 `OS.has_feature("debug")` 备选 | 开发者 | 实施阶段前 | — |
-| **Autoload 顺序运行时防御** — 当前依赖 project.godot 行序的隐式约定。是否在 `_ready()` 中通过 `Engine.has_singleton("DataConfig")` 或类似 API 做运行时顺序检测？ | 开发者 | 实施阶段前 | — |
-| **id 命名空间一致性 debug 校验** — MVP 阶段建议在调试控制台 / 独立 startup-checker 系统中实现 `_check_id_consistency_with_resource_system()`，运行时不强制但 debug 启动时打印差分。本系统不实现以保持解耦——由调试控制台 GDD 接手 | 开发者 + 设计师 | 调试控制台 GDD 时 | — |
-| **9 个 Debug 常量精简度** — game-designer 评审建议 MVP 仅保留 3 个核心常量（`WARN_ON_INVALID_ITEM_CLASS` / `WARN_ON_MISSING_NAME` / `EMIT_LIFECYCLE_EVENTS`），其余 6 个移至 Alpha 章节脚注（避免 MVP 阅读负担与"为什么没用"的认知摩擦）。creative-director 裁定为 NICE-TO-HAVE 部分接受。是否接受精简？ | 开发者 + 设计师 | 实施阶段前 | — |
-| **per_item_size 字段分解证明** — 公式 5 给出 per_item_size 上限 1200 bytes 是估算值，缺各字段 Godot 内存占用分解。Alpha 阶段需补 benchmark 验证 tags=50 + meta=5 层嵌套的实际内存 | 开发者 | Alpha 性能验证阶段 | — |
-| **Autoload `/root/ItemRegistry` 与 `class_name ItemRegistry`（RefCounted）命名冲突** — GDScript 全局命名空间中两者同名；`ItemRegistry` 标识符解析时 Autoload Node 优先于 `class_name`。实施前需决定：RefCounted 服务类命名为 `ItemRegistryService`（内部），Autoload 保持 `ItemRegistry`（对外 API）；或 Autoload 脚本改名为 `ItemRegistryAutoload` | 开发者 | 实施阶段前 | — |
-| **OS.is_debug_build() 行为确认** — godot-gdscript-specialist 确认：Godot 4.6 中 `OS.is_debug_build()` 稳定可靠，无需切换到 `OS.has_feature("debug")`。此条可关闭 | 开发者 | 实施阶段前 | ✅ 已解决 — `OS.is_debug_build()` 使用正确，无需修改；`Engine.has_singleton()` 也不是 Autoload 顺序防御的必要手段 |
-| **Alpha 实际物品数估算超 N=500 建模上限** — 装备 ~200 + 词条池 ~100 + 消耗品 ~50 + 任务道具 ~100 + 法宝 ~50 ≈ 550 条（已超本 GDD N=500 上限）。Alpha 阶段需将公式上限调至 N=1000 并重新验证性能门槛 | 开发者 | Alpha 内容广度第一次扩张时 | — |
+|----------|-------|----------|------------|
+| Alpha 阶段 tags 是否需要从开放字符串集收敛为 `valid_tags.json` 白名单？ | 设计师 | Alpha 装备/词条系统 GDD | 保留：MVP 开放；大规模掉落/词条上线前必须防 tag typo。 |
+| `localization_key` 命名约定是否与 Post-MVP 本地化系统统一为 `item.<id>.name/desc`？ | 设计师 + 开发者 | 本地化系统 GDD | 保留：MVP 可用中文 name；本地化系统设计时锁定命名空间。 |
+| 装备/词条实例的 `instance_id` 如何生成、持久化、与 `discrete_instance=true` 对齐？ | 设计师 | Alpha 装备系统 GDD | 保留：MVP 无离散装备实例；Alpha 接入前必须决定。 |
+| Alpha 数据量超过 N=500 后，是否将性能模型和倒排索引门槛上调至 N=1000？ | 开发者 | Alpha 内容扩张前 | 保留：当前公式覆盖 MVP；Alpha 预计条目数可能超过 500。 |
+| Autoload `/root/ItemRegistry` 与内部服务类是否采用不同名称以避免 `class_name` 冲突？ | 开发者 | 实施阶段前 | 保留：推荐内部服务类命名 `ItemRegistryService`，Autoload 对外仍叫 `ItemRegistry`。 |

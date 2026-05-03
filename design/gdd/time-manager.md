@@ -1,8 +1,8 @@
 # 时间管理器 (Time Manager)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
-> **Last Updated**: 2026-05-03
+> **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.1 数字增长就是快乐 · 4.2 放置不是无操作
 
 ## Overview
@@ -177,9 +177,7 @@ Godot 的 `_process(delta)` 不是可靠的时间源——Web 导出时标签页
 | 离线模拟内核 | 下游依赖 TimeManager | 硬依赖 | 通过 `time.offline_delta` 事件获取离线时间差 |
 | 调试控制台 | 下游依赖 TimeManager | 软依赖 | 查询时间状态；以 `debug_console` source_id 临时注册/移除调试加速 |
 
-**注**：原始 systems-index 中时间管理器的"Depends On"列为空。本 GDD 设计中 TimeManager 使用 EventBus 发布事件，实际存在一个上游依赖。Systems index 需更新。
-
-**双向一致性**：EventBus GDD 的 Interactions 表与命名空间约定已补充 `time.*` 系列事件。存档系统、自动产出系统、修炼系统、离线模拟内核的 GDD 完成后需各自列出"上游依赖 TimeManager"。
+**双向一致性**：systems-index 已将时间管理器列为依赖事件总线；EventBus GDD 的 Interactions 表与命名空间约定已补充 `time.*` 系列事件。存档系统、自动产出系统、修炼系统、离线模拟内核均已列出 TimeManager 依赖。
 
 ## Tuning Knobs
 
@@ -218,7 +216,5 @@ Godot 的 `_process(delta)` 不是可靠的时间源——Web 导出时标签页
 ## Open Questions
 
 | Question | Owner | Deadline | Resolution |
-|----------|-------|----------|-----------|
-| 加速来源是否需要自动过期机制（如限时 30 分钟加速）？还是由拥有系统自行移除？ | 设计师 | 修正器/倍率引擎 GDD 时决定 | — |
-| MAX_OFFLINE_SECONDS 是否应随游戏阶段动态调整（如飞升后可延长到 24 小时）？ | 设计师 | 飞升系统 GDD 时决定 | — |
-| game_time 的起点（game_ref = 0）是否有语义含义？是否需要一个"游戏开始时间"概念？ | 设计师 | 存档系统 GDD 时决定 | — |
+|----------|-------|----------|------------|
+| `MAX_OFFLINE_SECONDS` 是否应随境界/飞升阶段动态调整？ | 设计师 | 飞升/长期重置系统 GDD | 保留：MVP 固定 8h；长期成长阶段再决定是否延长。 |

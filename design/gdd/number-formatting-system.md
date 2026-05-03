@@ -1,8 +1,8 @@
 # 数值格式化系统 (Number Formatting System)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
-> **Last Updated**: 2026-05-03
+> **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.1 数字增长就是快乐
 
 ## Summary
@@ -31,7 +31,7 @@
 
 核心体验：**数字永远在增长，单位永远在跃迁，没有天花板**。
 
-## Detailed Rules
+## Detailed Design
 
 ### 中文单位表 (CHINESE_UNIT_TABLE)
 
@@ -230,9 +230,3 @@ formatted = add_thousand_separators(integer_value)
 - [ ] **GIVEN** `{5.678, 150}`，**WHEN** 调用 `get_display_unit()`，**THEN** 返回 `"e"`
 - [ ] **GIVEN** mantissa 为 NaN 的 BigNumber，**WHEN** 调用 `format()`，**THEN** 返回 `"0"`
 - [ ] **GIVEN** 1000 个不同量级的 BigNumber，**WHEN** 各调用 `format()` 一次，**THEN** 总耗时 < 1ms
-
-## Open Questions
-
-| Question | Owner | Deadline | Resolution |
-|----------|-------|----------|-----------|
-| `from_string()` 是否需要支持中文数字格式（如 "1.23万亿"）？ | 设计师 | 本 GDD | **已决定**：格式化为单向操作（BigNumber → 字符串）。`from_string()` 仅支持标准数字和科学计数法，不解析中文单位。 |

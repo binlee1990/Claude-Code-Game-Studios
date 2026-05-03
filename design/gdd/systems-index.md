@@ -1,6 +1,6 @@
 # Systems Index: 修仙放置挂机刷宝 RPG
 
-> **Status**: Draft
+> **Status**: Approved
 > **Created**: 2026-05-03
 > **Last Updated**: 2026-05-04
 > **Source Concept**: design/gdd/game-concept.md
@@ -22,35 +22,35 @@
 | # | System Name | Category | Priority | Status | Design Doc | Depends On |
 |---|-------------|----------|----------|--------|------------|------------|
 | 1 | 大数值系统 | Foundation | MVP | Approved | design/gdd/big-number-system.md | — |
-| 2 | 随机数与种子系统 | Foundation | MVP | Designed | design/gdd/random-seed-system.md | — |
-| 3 | 事件总线 | Foundation | MVP | Designed | design/gdd/event-bus.md | — |
-| 4 | 时间管理器 | Foundation | MVP | Designed | design/gdd/time-manager.md | 事件总线 |
-| 5 | 数值格式化系统 | Core Data | MVP | Designed | design/gdd/number-formatting-system.md | 大数值系统 |
-| 6 | 数据配置系统 | Core Data | MVP | Designed | design/gdd/data-config-system.md | 大数值系统 |
-| 7 | 公式引擎 | Core Data | MVP | Designed | design/gdd/formula-engine.md | 大数值系统, 随机数与种子系统 |
-| 8 | 修正器/倍率引擎 | Core Data | MVP | Designed | design/gdd/modifier-engine.md | 公式引擎, 大数值系统, 事件总线 |
-| 9 | 存档系统 | Core Data | MVP | Designed | design/gdd/save-system.md | 数据配置系统, 时间管理器, 事件总线 |
-| 10 | 资源系统 | Core Gameplay | MVP | Designed | design/gdd/resource-system.md | 大数值系统, 事件总线, 数据配置系统 |
-| 11 | 属性系统 | Core Gameplay | MVP | Designed | design/gdd/attribute-system.md | 大数值系统, 修正器/倍率引擎, 事件总线, 数据配置系统 |
+| 2 | 随机数与种子系统 | Foundation | MVP | Approved | design/gdd/random-seed-system.md | — |
+| 3 | 事件总线 | Foundation | MVP | Approved | design/gdd/event-bus.md | — |
+| 4 | 时间管理器 | Foundation | MVP | Approved | design/gdd/time-manager.md | 事件总线 |
+| 5 | 数值格式化系统 | Core Data | MVP | Approved | design/gdd/number-formatting-system.md | 大数值系统 |
+| 6 | 数据配置系统 | Core Data | MVP | Approved | design/gdd/data-config-system.md | 大数值系统 |
+| 7 | 公式引擎 | Core Data | MVP | Approved | design/gdd/formula-engine.md | 大数值系统, 随机数与种子系统 |
+| 8 | 修正器/倍率引擎 | Core Data | MVP | Approved | design/gdd/modifier-engine.md | 公式引擎, 大数值系统, 事件总线 |
+| 9 | 存档系统 | Core Data | MVP | Approved | design/gdd/save-system.md | 数据配置系统, 时间管理器, 事件总线 |
+| 10 | 资源系统 | Core Gameplay | MVP | Approved | design/gdd/resource-system.md | 大数值系统, 事件总线, 数据配置系统 |
+| 11 | 属性系统 | Core Gameplay | MVP | Approved | design/gdd/attribute-system.md | 大数值系统, 修正器/倍率引擎, 事件总线, 数据配置系统 |
 | 12 | 物品/材料系统 | Core Gameplay | MVP | Approved | design/gdd/item-material-system.md | 数据配置系统, 大数值系统 |
-| 13 | 产出乘数系统 | Core Gameplay | MVP | Designed | design/gdd/output-multiplier-system.md | 修正器/倍率引擎, 数据配置系统, 事件总线, 大数值系统 |
-| 14 | 调试控制台 | Core Gameplay | MVP | Designed | design/gdd/debug-console.md | 事件总线, 数据配置系统, 资源系统, 属性系统, 修正器/倍率引擎, 产出乘数系统, 时间管理器, 存档系统, 数值格式化系统, 大数值系统 |
-| 15 | 等级系统 | Feature | MVP | Designed | design/gdd/level-system.md | 属性系统, 公式引擎, 资源系统, 修正器/倍率引擎, 事件总线, 大数值系统, 数据配置系统, 存档系统 |
-| 16 | 存储上限系统 | Feature | MVP | Designed | design/gdd/storage-limit-system.md | 物品/材料系统, 资源系统 |
-| 17 | 自动产出系统 | Feature | MVP | Designed | design/gdd/auto-production-system.md | 资源系统, 时间管理器, 产出乘数系统 |
-| 18 | 敌人数据库 | Feature | MVP | Designed | design/gdd/enemy-database.md | 数据配置系统, 属性系统 |
-| 19 | 掉落系统 | Feature | MVP | Designed | design/gdd/loot-system.md | 敌人数据库, 物品/材料系统, 随机数与种子系统 |
-| 20 | 修炼系统 | Feature Integration | MVP | Designed | design/gdd/cultivation-system.md | 资源系统, 自动产出系统, 时间管理器 |
-| 21 | 战斗计算器 | Feature Integration | MVP | Designed | design/gdd/combat-calculator.md | 属性系统, 公式引擎, 随机数与种子系统, 修正器/倍率引擎 |
-| 22 | 半自动战斗系统 | Feature Integration | MVP | Designed | design/gdd/semi-auto-combat-system.md | 战斗计算器, 敌人数据库, 掉落系统, 等级系统 |
-| 23 | 区域系统 | Feature Integration | MVP | Designed | design/gdd/zone-system.md | 敌人数据库, 数据配置系统 |
-| 24 | 地图推进系统 | Feature Integration | MVP | Designed | design/gdd/map-progression-system.md | 区域系统, 等级系统 |
-| 25 | 离线模拟内核 | Simulation | MVP | Designed | design/gdd/offline-simulation-core.md | 时间管理器 |
-| 26 | 挂机探索系统 | Simulation | MVP | Designed | design/gdd/idle-exploration-system.md | 半自动战斗系统, 区域系统 |
-| 27 | 离线战斗模拟系统 | Simulation | MVP | Designed | design/gdd/offline-combat-simulation-system.md | 离线模拟内核, 半自动战斗系统 |
-| 28 | 离线收益结算系统 | Simulation | MVP | Designed | design/gdd/offline-reward-settlement-system.md | 离线战斗模拟系统, 离线模拟内核 |
-| 29 | UI 框架 | Presentation | MVP | Designed | design/gdd/ui-framework.md | 事件总线 |
-| 30 | HUD 系统 | Presentation | MVP | Designed | design/gdd/hud-system.md | UI 框架, 数值格式化系统, 资源系统, 区域系统 |
+| 13 | 产出乘数系统 | Core Gameplay | MVP | Approved | design/gdd/output-multiplier-system.md | 修正器/倍率引擎, 数据配置系统, 事件总线, 大数值系统 |
+| 14 | 调试控制台 | Core Gameplay | MVP | Approved | design/gdd/debug-console.md | 事件总线, 数据配置系统, 资源系统, 属性系统, 修正器/倍率引擎, 产出乘数系统, 时间管理器, 存档系统, 数值格式化系统, 大数值系统 |
+| 15 | 等级系统 | Feature | MVP | Approved | design/gdd/level-system.md | 属性系统, 公式引擎, 资源系统, 修正器/倍率引擎, 事件总线, 大数值系统, 数据配置系统, 存档系统 |
+| 16 | 存储上限系统 | Feature | MVP | Approved | design/gdd/storage-limit-system.md | 物品/材料系统, 资源系统 |
+| 17 | 自动产出系统 | Feature | MVP | Approved | design/gdd/auto-production-system.md | 资源系统, 时间管理器, 产出乘数系统 |
+| 18 | 敌人数据库 | Feature | MVP | Approved | design/gdd/enemy-database.md | 数据配置系统, 属性系统 |
+| 19 | 掉落系统 | Feature | MVP | Approved | design/gdd/loot-system.md | 敌人数据库, 物品/材料系统, 随机数与种子系统 |
+| 20 | 修炼系统 | Feature Integration | MVP | Approved | design/gdd/cultivation-system.md | 资源系统, 自动产出系统, 时间管理器 |
+| 21 | 战斗计算器 | Feature Integration | MVP | Approved | design/gdd/combat-calculator.md | 属性系统, 公式引擎, 随机数与种子系统, 修正器/倍率引擎 |
+| 22 | 半自动战斗系统 | Feature Integration | MVP | Approved | design/gdd/semi-auto-combat-system.md | 战斗计算器, 敌人数据库, 掉落系统, 等级系统 |
+| 23 | 区域系统 | Feature Integration | MVP | Approved | design/gdd/zone-system.md | 敌人数据库, 数据配置系统 |
+| 24 | 地图推进系统 | Feature Integration | MVP | Approved | design/gdd/map-progression-system.md | 区域系统, 等级系统 |
+| 25 | 离线模拟内核 | Simulation | MVP | Approved | design/gdd/offline-simulation-core.md | 时间管理器 |
+| 26 | 挂机探索系统 | Simulation | MVP | Approved | design/gdd/idle-exploration-system.md | 半自动战斗系统, 区域系统 |
+| 27 | 离线战斗模拟系统 | Simulation | MVP | Approved | design/gdd/offline-combat-simulation-system.md | 离线模拟内核, 半自动战斗系统 |
+| 28 | 离线收益结算系统 | Simulation | MVP | Approved | design/gdd/offline-reward-settlement-system.md | 离线战斗模拟系统, 离线模拟内核 |
+| 29 | UI 框架 | Presentation | MVP | Approved | design/gdd/ui-framework.md | 事件总线 |
+| 30 | HUD 系统 | Presentation | MVP | Approved | design/gdd/hud-system.md | UI 框架, 数值格式化系统, 资源系统, 区域系统 |
 
 ---
 
@@ -105,7 +105,7 @@
 
 ### Feature Layer (depends on Core Gameplay)
 
-1. **等级系统** — depends on: 属性系统, 公式引擎
+1. **等级系统** — depends on: 属性系统, 公式引擎, 资源系统, 修正器/倍率引擎, 事件总线, 大数值系统, 数据配置系统, 存档系统
 2. **存储上限系统** — depends on: 物品/材料系统, 资源系统
 3. **自动产出系统** — depends on: 资源系统, 时间管理器, 产出乘数系统
 4. **敌人数据库** — depends on: 数据配置系统, 属性系统
@@ -204,8 +204,8 @@ None detected. All dependency chains flow unidirectionally: Foundation → Core 
 |--------|-------|
 | Total systems identified | 30 |
 | Design docs started | 30 |
-| Design docs reviewed | 15 |
-| Design docs approved | 2 |
+| Design docs reviewed | 30 |
+| Design docs approved | 30 |
 | Design docs needs revision | 0 |
 | MVP systems designed | 30 / 30 |
 
@@ -213,8 +213,8 @@ None detected. All dependency chains flow unidirectionally: Foundation → Core 
 
 ## Next Steps
 
-- [ ] Run CD-SYSTEMS review (review mode: full)
+- [x] Run CD-SYSTEMS review (review mode: full)
 - [x] Design MVP systems in order (30 / 30 GDDs now authored)
-- [ ] Run `/design-review` in fresh sessions on the 15 newly completed GDDs
+- [x] Run targeted `/design-review` pass on the 15 newly completed GDDs
 - [ ] Run `/gate-check systems-design` after review pass is complete
 - [ ] Prototype highest-risk system early (`/prototype big-number-system`)

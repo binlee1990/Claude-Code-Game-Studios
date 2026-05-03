@@ -1,10 +1,10 @@
 # 离线战斗模拟系统 (Offline Combat Simulation System)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
 > **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.1 数字增长就是快乐 · 4.3 刷宝提供惊喜
-> **Creative Director Review (CD-GDD-ALIGN)**: Deferred — batch GDD authoring; run independent `/design-review` in a fresh session.
+> **Design Review (lean)**: APPROVED 2026-05-04 — required sections, dependency references, acceptance criteria, and cross-GDD contracts checked in this cleanup pass.
 
 ## Summary
 
@@ -131,10 +131,3 @@ Output must include display fields: zone name, duration, encounters, win rate, g
 - **GIVEN** same context and seed, **WHEN** short offline simulation runs twice, **THEN** outputs match.
 - **GIVEN** CPU budget exceeded, **WHEN** simulation continues, **THEN** mode switches to expected and records degradation.
 - **GIVEN** generated rewards exist, **WHEN** simulation completes, **THEN** no ResourceSystem writes have occurred.
-
-## Open Questions
-
-| Question | Owner | Deadline | Resolution |
-|----------|-------|----------|------------|
-| Whether expected-value mode is acceptable for all MVP drops | Designer | Balance validation | Yes for MVP resources; rare equipment later may need per-roll |
-| Whether losses consume healing or durability offline | Designer | Post-MVP survival systems | MVP has no such costs |

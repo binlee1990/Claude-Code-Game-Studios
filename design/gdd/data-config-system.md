@@ -1,8 +1,8 @@
 # 数据配置系统 (Data Config System)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
-> **Last Updated**: 2026-05-03
+> **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.10 数据驱动与可扩展
 
 ## Summary
@@ -230,9 +230,7 @@ MVP 预估：10 × (1 + 2) = 30 ms，单帧内完成。
 ## Open Questions
 
 | Question | Owner | Deadline | Resolution |
-|----------|-------|----------|-----------|
-| JSON 文件中的 BigNumber 字段是用字符串（`"1.5e25"`）还是用 Godot Resource 格式存储更合适？ | 开发者 | 实现阶段前 | — |
-| Post-MVP 是否需要支持 CSV 格式（便于 Excel 编辑）还是统一 JSON？ | 设计师 | Post-MVP 规划时 | — |
-| 热重载是否需要自动文件监听（FileWatcher）还是手动触发即可？ | 开发者 | 开发工具阶段 | — |
-| 是否需要表级别的 schema 定义（用于数据校验系统），还是纯约定？ | 设计师 | 数据校验系统 GDD 时 | — |
-| 消费方每次都做 BigNumber 解析是否有性能问题？是否需要缓存解析结果？ | 开发者 | 性能验证阶段 | — |
+|----------|-------|----------|------------|
+| Post-MVP 是否需要支持 CSV/表格导入，还是继续统一 JSON？ | 设计师 | Post-MVP 内容工具规划 | 保留：MVP 统一 JSON；表格导入属于内容管线扩展。 |
+| 是否需要表级 schema 定义与自动校验系统？ | 设计师 + 开发者 | 数据校验系统 GDD | 保留：MVP 先用字段约定；独立数据校验系统再决定 schema 形态。 |
+| BigNumber 字符串字段是否需要解析缓存以避免重复解析成本？ | 开发者 | 性能验证阶段 | 保留：先由消费方解析；只有 profile 显示热点后才缓存。 |

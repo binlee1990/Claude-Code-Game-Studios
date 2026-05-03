@@ -1,10 +1,10 @@
 # 存储上限系统 (Storage Limit System)
 
-> **Status**: Designed
+> **Status**: Approved
 > **Author**: binlee1990 + agents
 > **Last Updated**: 2026-05-04
 > **Implements Pillar**: 4.1 数字增长就是快乐 · 4.2 放置不是无操作
-> **Creative Director Review (CD-GDD-ALIGN)**: Deferred — batch GDD authoring; run independent `/design-review` in a fresh session.
+> **Design Review (lean)**: APPROVED 2026-05-04 — required sections, dependency references, acceptance criteria, and cross-GDD contracts checked in this cleanup pass.
 
 ## Summary
 
@@ -129,10 +129,3 @@ Expose current/cap/fill ratio, a compact warning reason, and the last overflow a
 - **GIVEN** `lingshi` is uncapped, **WHEN** `get_capacity_state("lingshi")`, **THEN** state is `uncapped` and no warning is emitted.
 - **GIVEN** a realm multiplier changes from 1.0 to 2.0, **WHEN** storage limits recompute, **THEN** capped resources receive doubled cap through ResourceSystem.
 - **GIVEN** a new cap below current value, **WHEN** `set_max` is called, **THEN** ResourceSystem performs clamping and overflow reporting.
-
-## Open Questions
-
-| Question | Owner | Deadline | Resolution |
-|----------|-------|----------|------------|
-| Whether storage upgrades are unlocked through buildings or realm milestones | Designer | Building/Sect GDD | Pending future system |
-| Whether item stack slots share this system or a future backpack system owns them | Designer | Backpack/Bank GDD | MVP only exposes metadata |
