@@ -25,9 +25,219 @@
 # STATUS VALUES: active | deprecated | superseded-by: TR-[system]-NNN
 
 version: 1
-last_updated: ""
+last_updated: "2026-05-04"
 
-requirements: []
+requirements:
+  - id: TR-big-number-001
+    system: big-number
+    gdd: design/gdd/big-number-system.md
+    requirement: "BigNumber provides the shared non-negative mantissa/exponent numeric abstraction for all large game quantities."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-rng-001
+    system: rng
+    gdd: design/gdd/random-seed-system.md
+    requirement: "RNGManager provides deterministic master-seed and multi-stream random services for combat, loot, events, affixes, saves, and offline simulation."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-event-bus-001
+    system: event-bus
+    gdd: design/gdd/event-bus.md
+    requirement: "EventBus provides decoupled exact event publish/subscribe, debug prefix watch, lifecycle cleanup, and coalesced display refresh."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-time-manager-001
+    system: time-manager
+    gdd: design/gdd/time-manager.md
+    requirement: "TimeManager owns real/game time, speed sources, freeze/unfreeze, save timestamp snapshots, and capped offline delta calculation."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-number-formatting-001
+    system: number-formatting
+    gdd: design/gdd/number-formatting-system.md
+    requirement: "NumberFormatter provides the single formatting path for BigNumber display using direct, Chinese-unit, and scientific notation ranges."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-data-config-001
+    system: data-config
+    gdd: design/gdd/data-config-system.md
+    requirement: "DataConfig loads MVP JSON tables, keeps a schema-agnostic memory cache, and exposes read-only table/record/query access."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-formula-engine-001
+    system: formula-engine
+    gdd: design/gdd/formula-engine.md
+    requirement: "FormulaEngine evaluates bounded cached float expressions and safe helper functions for growth, combat, and balance formulas."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-modifier-engine-001
+    system: modifier-engine
+    gdd: design/gdd/modifier-engine.md
+    requirement: "ModifierEngine owns modifier registration, target naming, ADD and MULT pool stacking, cache invalidation, and expiry events."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-save-system-001
+    system: save-system
+    gdd: design/gdd/save-system.md
+    requirement: "SaveManager persists namespaced provider data to a versioned JSON autosave with temp-write, backup recovery, and migrations."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-resource-system-001
+    system: resource-system
+    gdd: design/gdd/resource-system.md
+    requirement: "ResourceSystem owns resource CRUD, BigNumber balances, caps, overflow events, reset scopes, batch_add, snapshot, and restore."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-attribute-system-001
+    system: attribute-system
+    gdd: design/gdd/attribute-system.md
+    requirement: "AttributeSystem owns entity attribute base values, final-value queries through ModifierEngine, events, snapshot, and restore."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-item-material-001
+    system: item-material
+    gdd: design/gdd/item-material-system.md
+    requirement: "ItemRegistry loads immutable item/material definitions from DataConfig and exposes query-only metadata APIs."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-output-multiplier-001
+    system: output-multiplier
+    gdd: design/gdd/output-multiplier-system.md
+    requirement: "OutputMultiplierSystem translates production config and modifier pools into per-resource production rates and tick amounts."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-debug-console-001
+    system: debug-console
+    gdd: design/gdd/debug-console.md
+    requirement: "DebugConsole provides debug-only runtime commands, event watching, pause-safe overlay behavior, and release-build self-removal."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-level-system-001
+    system: level-system
+    gdd: design/gdd/level-system.md
+    requirement: "LevelSystem handles level/experience/realm progression using approved data, formulas, resource, modifier, event, and save boundaries."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-storage-limit-001
+    system: storage-limit
+    gdd: design/gdd/storage-limit-system.md
+    requirement: "StorageLimitSystem computes resource caps and applies them through ResourceSystem ownership boundaries."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-auto-production-001
+    system: auto-production
+    gdd: design/gdd/auto-production-system.md
+    requirement: "AutoProductionSystem uses TimeManager deltas and OutputMultiplierSystem rates to batch-add online passive resource gains."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-enemy-database-001
+    system: enemy-database
+    gdd: design/gdd/enemy-database.md
+    requirement: "EnemyDatabase exposes static enemy template data from DataConfig without owning combat-local mutable state."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-loot-system-001
+    system: loot-system
+    gdd: design/gdd/loot-system.md
+    requirement: "LootSystem resolves weighted drops using DataConfig, ItemRegistry, EnemyDatabase, and the LOOT RNG stream."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-cultivation-system-001
+    system: cultivation-system
+    gdd: design/gdd/cultivation-system.md
+    requirement: "CultivationSystem uses resource, auto-production, and time services to orchestrate cultivation stance and progress."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-combat-calculator-001
+    system: combat-calculator
+    gdd: design/gdd/combat-calculator.md
+    requirement: "CombatCalculator provides the shared attack/damage resolution path for online and offline combat."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-semi-auto-combat-001
+    system: semi-auto-combat
+    gdd: design/gdd/semi-auto-combat-system.md
+    requirement: "SemiAutoCombatSystem orchestrates online encounter loops through CombatCalculator, EnemyDatabase, LootSystem, LevelSystem, and EventBus."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-zone-system-001
+    system: zone-system
+    gdd: design/gdd/zone-system.md
+    requirement: "ZoneSystem exposes current and unlocked zone data from DataConfig and coordinates with combat/progression consumers."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-map-progression-001
+    system: map-progression
+    gdd: design/gdd/map-progression-system.md
+    requirement: "MapProgressionSystem unlocks and advances zones based on ZoneSystem, LevelSystem, and combat progression events."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-offline-sim-core-001
+    system: offline-sim-core
+    gdd: design/gdd/offline-simulation-core.md
+    requirement: "OfflineSimulationCore converts capped offline delta into ordered chunked simulator runs and emits settlement drafts."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-idle-exploration-001
+    system: idle-exploration
+    gdd: design/gdd/idle-exploration-system.md
+    requirement: "IdleExplorationSystem coordinates selected zone exploration through semi-auto combat and zone state."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-offline-combat-001
+    system: offline-combat
+    gdd: design/gdd/offline-combat-simulation-system.md
+    requirement: "OfflineCombatSimulation reuses the online combat calculation path with copied RNG state and returns partial results."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-offline-settlement-001
+    system: offline-settlement
+    gdd: design/gdd/offline-reward-settlement-system.md
+    requirement: "OfflineRewardSettlement applies claimable offline rewards through ResourceSystem and reports gross, claimed, lost, and warnings."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-ui-framework-001
+    system: ui-framework
+    gdd: design/gdd/ui-framework.md
+    requirement: "UIFramework uses UIManager and Control scenes for screen registration, navigation, modals, events, read-only queries, and command routing."
+    created: 2026-05-04
+    revised: ""
+    status: active
+  - id: TR-hud-system-001
+    system: hud-system
+    gdd: design/gdd/hud-system.md
+    requirement: "HUD displays MVP resources, level/realm, zone, combat, and offline summaries using EventBus and NumberFormatter."
+    created: 2026-05-04
+    revised: ""
+    status: active
 
 # --- EXAMPLE ENTRIES (remove when first real entries are added) ---
 #

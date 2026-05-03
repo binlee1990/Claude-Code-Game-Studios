@@ -48,7 +48,21 @@
 
 ## Architecture Decisions Log
 
-- [No ADRs yet — use /architecture-decision to create one]
+- ADR-0001: BigNumber 实现策略 — accepted 2026-05-04
+- ADR-0002: 事件总线架构 — accepted 2026-05-04
+- ADR-0003: 时间源与双时间体系 — accepted 2026-05-04
+- ADR-0004: 确定性随机数架构 — accepted 2026-05-04
+- ADR-0005: 数据配置加载策略 — accepted 2026-05-04
+- ADR-0006: 存档格式与版本迁移 — accepted 2026-05-04
+- ADR-0007: 修正器叠加顺序 — accepted 2026-05-04
+- ADR-0008: Autoload 初始化顺序 — accepted 2026-05-04
+- ADR-0009: 在线/离线战斗路径统一 — accepted 2026-05-04
+- ADR-0010: ResourceSystem 不可变 BigNumber 策略 — accepted 2026-05-04
+- ADR-0011: UI 屏幕管理架构 — accepted 2026-05-04
+- ADR-0012: DebugConsole 发布构建排除 — accepted 2026-05-04
+- ADR-0013: FormulaEngine 表达式 DSL 深度 — accepted 2026-05-04
+- ADR-0014: NumberFormatter 缩写映射策略 — accepted 2026-05-04
+- ADR-0015: 离线模拟 tick 粒度 — accepted 2026-05-04
 
 ## Engine Specialists
 

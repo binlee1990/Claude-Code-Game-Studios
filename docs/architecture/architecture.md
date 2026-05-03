@@ -5,9 +5,19 @@
 - Last Updated: 2026-05-04
 - Engine: Godot 4.6.2
 - GDDs Covered: 30 MVP systems (all Approved)
-- ADRs Referenced: (none yet — see Required ADRs section)
+- ADRs Referenced: ADR-0001 through ADR-0015 (see Required ADRs section)
 - Technical Director Sign-Off: 2026-05-04 — APPROVED
 - Lead Programmer Feasibility: FEASIBLE
+
+---
+
+## Dialectical Architecture Review
+
+**Thesis**: The existing document already captures the correct high-level layering and the MVP dependency direction: Foundation → Core → Feature → Presentation.
+
+**Antithesis**: Several details drifted from the approved GDD baseline: DataConfig was described as Resource-based while its GDD locks JSON/FileAccess; BigNumber/EventBus/SaveManager APIs were abbreviated differently from their GDD contracts; `project.godet` was misspelled; and the ADR list used short numbers while the project ADR template expects zero-padded IDs.
+
+**Synthesis**: Keep the layer map and decision set, but tighten the document into an implementable contract: API names match GDDs, engine-risk labels match Godot 4.6.2 reference docs, ADR IDs are stable (`ADR-0001`...), and traceability is delegated to the generated ADRs plus `architecture-traceability.md`.
 
 ---
 
@@ -58,7 +68,7 @@ Engine: Godot 4.6.2 | LLM Cutoff: ~4.3 | Post-Cutoff: 4.4 (MEDIUM), 4.5 (HIGH), 
 | System | Class | Pattern | Key Owns | Engine Risk |
 |--------|-------|---------|----------|-------------|
 | 大数值系统 | `BigNumber` (RefCounted) | 值类型 | mantissa + exponent, 算术, 比较, 序列化 | LOW |
-| 事件总线 | `EventBus` (Autoload) | 全局单例 | 事件订阅表, 发布调度, 前缀匹配 | HIGH (UI) |
+| 事件总线 | `EventBus` (Autoload) | 全局单例 | 事件订阅表, 发布调度, 前缀匹配 | HIGH (GDScript lifecycle) |
 | 时间管理器 | `TimeManager` (Autoload) | 全局单例 | 双时间快照, 加速来源注册表, 离线 delta | LOW |
 | 随机数与种子 | `RNGManager` (Autoload) | 全局单例 | 主种子, 多流 RNG, FNV-1a 推导, 状态快照 | LOW |
 
@@ -67,13 +77,13 @@ Engine: Godot 4.6.2 | LLM Cutoff: ~4.3 | Post-Cutoff: 4.4 (MEDIUM), 4.5 (HIGH), 
 | System | Class | Pattern | Key Owns | Engine Risk |
 |--------|-------|---------|----------|-------------|
 | 数值格式化 | `NumberFormatter` | 工具类 | 格式化规则, 缩写映射 | LOW |
-| 数据配置 | `DataConfig` (RefCounted) | Autoload 持有 | 配置表缓存, 加载/热重载 | MEDIUM (Resource) |
+| 数据配置 | `DataConfig` (RefCounted) | Autoload 持有 | JSON 配置表缓存, 加载/热重载 | MEDIUM (FileAccess/JSON) |
 | 公式引擎 | `FormulaEngine` | 静态工具 | 表达式解析, 变量上下文 | LOW |
 | 修正器引擎 | `ModifierEngine` (RefCounted) | Autoload 持有 | 修正器注册表, 叠加顺序, 倍率计算 | LOW |
 | 存档系统 | `SaveManager` (Autoload) | 全局单例 | 注册表, 序列化, 版本迁移 | MEDIUM (FileAccess) |
 | 资源系统 | `ResourceSystem` (RefCounted) | Autoload 持有 | 资源 ID→BigNumber CRUD, 变更事件 | LOW |
 | 属性系统 | `AttributeSystem` (RefCounted) | Autoload 持有 | 属性基础值, 修正器整合查询 | LOW |
-| 物品材料 | `ItemRegistry` (RefCounted) | Autoload 持有 | 静态物品定义查询 | MEDIUM (Resource) |
+| 物品材料 | `ItemRegistry` (RefCounted) | Autoload 持有 | 静态物品定义查询 | LOW (DataConfig consumer) |
 | 产出乘数 | `OutputMultiplierSystem` (RefCounted) | Autoload 持有 | 每秒产出率计算 | LOW |
 | 离线模拟内核 | `OfflineSimCore` | 服务 | 批量模拟框架, tick 步进 | LOW |
 
@@ -111,8 +121,8 @@ Engine: Godot 4.6.2 | LLM Cutoff: ~4.3 | Post-Cutoff: 4.4 (MEDIUM), 4.5 (HIGH), 
 
 | Module | Owns | Exposes | Consumes | Engine APIs |
 |--------|------|---------|----------|-------------|
-| **BigNumber** | mantissa: float, exponent: int | `add/sub/mul/div/pow/compare/to_string/serialize` | 无 | 纯数学，无 Engine API |
-| **EventBus** | {event_name → [Callable]} 订阅表 | `emit/subscribe/unsubscribe/unsubscribe_pattern` | 无 | Node (Autoload lifecycle) |
+| **BigNumber** | mantissa: float, exponent: int | `add/subtract/multiply/divide/power/compare/to_dict/from_dict` | 无 | 纯数学，无 Engine API |
+| **EventBus** | {event_name → [Callable]} 订阅表 | `emit/emit_coalesced/subscribe/subscribe_once/unsubscribe/subscribe_pattern/unsubscribe_pattern` | 无 | Node (Autoload lifecycle) |
 | **TimeManager** | {real_ref, game_ref, speed_sources} | `get_real_time/get_game_time/freeze/unfreeze/add_speed_source` | EventBus | `Time.get_unix_time_from_system()` |
 | **RNGManager** | master_seed, {stream_id → RNG} | `rand_int/rand_float/rand_bool/weighted_pick/save_states/load_states` | 无 | `RandomNumberGenerator` |
 
@@ -120,27 +130,27 @@ Engine: Godot 4.6.2 | LLM Cutoff: ~4.3 | Post-Cutoff: 4.4 (MEDIUM), 4.5 (HIGH), 
 
 | Module | Owns | Exposes | Consumes | Engine APIs |
 |--------|------|---------|----------|-------------|
-| **DataConfig** | 配置表缓存 | `get_all/get_by_id/reload_table` | BigNumber | `ResourceLoader.load()` |
+| **DataConfig** | JSON 配置表缓存 | `get/get_all/query/has_table/has_record/get_field/reload_table` | BigNumber 字符串约定 | `FileAccess.open()`, `JSON.parse_string()` |
 | **FormulaEngine** | 表达式缓存（无状态） | `evaluate/evaluate_raw` | BigNumber, RNGManager | 无 |
 | **ModifierEngine** | 修正器注册表 | `register/unregister/get_multiplier/apply` | BigNumber, FormulaEngine, EventBus | 无 |
-| **SaveManager** | ISaveDataProvider 注册表 | `register_provider/save_game/load_game/has_save` | DataConfig, TimeManager, EventBus | `FileAccess` |
-| **ResourceSystem** | {resource_id → BigNumber} | `add/spend/can_afford/get/batch_add` | BigNumber, EventBus, DataConfig | 无 |
-| **AttributeSystem** | {attr_id → {base, modifiers}} | `get_base/set_base/get_total` | BigNumber, ModifierEngine, EventBus, DataConfig | 无 |
-| **ItemRegistry** | 静态物品定义缓存 | `get_item/get_all/has_item` | DataConfig, BigNumber | `ResourceLoader` |
+| **SaveManager** | provider 回调注册表 | `register_provider/save_game/load_game/collect_save_data/is_saving/is_loading` | DataConfig, TimeManager, EventBus | `FileAccess` |
+| **ResourceSystem** | {resource_id → BigNumber} | `register/add/spend/get_value/set_max/batch_add/snapshot/restore` | BigNumber, EventBus, DataConfig | 无 |
+| **AttributeSystem** | {attr_id → {base, modifiers}} | `register_entity/get_base/set_base/get_final/snapshot/restore` | BigNumber, ModifierEngine, EventBus, DataConfig | 无 |
+| **ItemRegistry** | 静态物品定义缓存 | `get/has_item/get_all_ids/query_by_item_class/query_by_tag/reload` | DataConfig | 无直接 Engine API |
 | **OutputMultiplierSystem** | 产出速率计算规则 | `get_tick_amount/get_production_rate` | ModifierEngine, DataConfig, EventBus, BigNumber | 无 |
-| **OfflineSimCore** | 模拟框架（tick 步进器） | `simulate(real_delta, tick_callback)` | TimeManager | 无 |
+| **OfflineSimulationCore** | 模拟框架（chunk + simulator registry） | `register_simulator/run_simulation/build_plan` | TimeManager | 无 |
 | **NumberFormatter** | 格式化规则 | `format/format_short` | BigNumber | 无 |
 
 ### Autoload 初始化顺序
 
 ```
-EventBus → RNGManager → TimeManager → BigNumber(data)
-→ DataConfig → ItemRegistry → ModifierEngine
+EventBus → RNGManager → TimeManager
+→ DataConfigHost → ItemRegistry → ModifierEngine
 → ResourceSystem → AttributeSystem → SaveManager
 → LevelSystem → ... → DebugConsole → UIManager
 ```
 
-顺序约束：DataConfig 必须在 ItemRegistry 之前；EventBus 必须第一个。DebugConsole 和 UIManager 通过 `has_node()` 惰性检查，不依赖严格顺序。
+顺序约束：EventBus 必须第一个；DataConfigHost 必须在 ItemRegistry、EnemyDatabase、ZoneSystem 等静态数据消费者之前。BigNumber 是值类型脚本，不作为 Autoload 排序项。DebugConsole 和 UIManager 通过 `has_node()` / `is_instance_valid()` 惰性检查，不依赖严格顺序。
 
 ---
 
@@ -205,7 +215,7 @@ SaveManager.load_game()
 
 ```
 SaveManager.save_game()
-    │ 收集所有 ISaveDataProvider:
+    │ 调用所有 provider save_fn:
     │   ResourceSystem → {resources: {id: serialized_bn}}
     │   AttributeSystem → {attributes: {id: {base, mods}}}
     │   LevelSystem → {level, exp, realm}
@@ -218,7 +228,7 @@ SaveManager.save_game()
 SaveManager.load_game()
     │ FileAccess.get_as_text() → JSON.parse_string()
     │ 版本检查 → migration_chain
-    └──→ 分发给各 ISaveDataProvider.restore_save_data()
+    └──→ 按 namespace 分发给各 provider restore_fn(data)
 ```
 
 ### 场景 5: 初始化顺序
@@ -226,7 +236,7 @@ SaveManager.load_game()
 ```
 App 启动
   │
-  ├──→ [Autoload _ready() 按 project.godet 顺序]
+  ├──→ [Autoload _ready() 按 project.godot 顺序]
   │     EventBus → RNGManager → TimeManager → DataConfig → ...
   │
   ├──→ SaveManager.has_save()?
@@ -248,19 +258,24 @@ App 启动
 ```gdscript
 class_name BigNumber extends RefCounted
 func _init(mantissa: float = 0.0, exponent: int = 0) -> void
-static func from_number(value: float) -> BigNumber
+static func from_int(value: int) -> BigNumber
+static func from_float(value: float) -> BigNumber
 static func from_string(s: String) -> BigNumber
+static func from_dict(d: Dictionary) -> BigNumber
 static func zero() -> BigNumber
 func add(other: BigNumber) -> BigNumber         # 返回新实例（不可变）
-func sub(other: BigNumber) -> BigNumber
-func mul(other: BigNumber) -> BigNumber
-func div(other: BigNumber) -> BigNumber
-func pow(exponent: int) -> BigNumber
-func compare_to(other: BigNumber) -> int        # -1, 0, 1
+func subtract(other: BigNumber) -> BigNumber
+func multiply(other: BigNumber) -> BigNumber
+func multiply_float(value: float) -> BigNumber
+func divide(other: BigNumber) -> BigNumber
+func power(exponent: float) -> BigNumber
+func log10() -> float
+func compare(other: BigNumber) -> int        # -1, 0, 1
+func equals(other: BigNumber) -> bool
 func is_zero() -> bool
-func clamp_zero() -> BigNumber
-func serialize() -> Dictionary                  # {m: float, e: int}
-static func deserialize(d: Dictionary) -> BigNumber
+func is_max() -> bool
+func magnitude() -> int
+func to_dict() -> Dictionary                  # {m: float, e: int}
 func to_string() -> String
 func to_scientific() -> String
 ```
@@ -270,10 +285,13 @@ func to_scientific() -> String
 ```gdscript
 class_name EventBus extends Node
 func emit(event_name: String, payload: Dictionary = {}) -> void
+func emit_coalesced(event_name: String, payload: Dictionary, coalesce_key: String = "") -> void
 func subscribe(event_name: String, callable: Callable) -> void
+func subscribe_once(event_name: String, callable: Callable) -> void
 func unsubscribe(event_name: String, callable: Callable) -> void
 func subscribe_pattern(prefix: String, callable: Callable) -> void    # 仅调试
 func unsubscribe_pattern(prefix: String, callable: Callable) -> void  # 仅调试
+func set_debug_enabled(enabled: bool) -> void
 ```
 
 #### TimeManager（全局单例 — Autoload）
@@ -300,7 +318,7 @@ func restore_save_data(data: Dictionary) -> void
 class_name RNGManager extends Node
 enum CoreStream { COMBAT, LOOT, EVENT, AFFIX }
 func rand_int(stream_id: int, min_val: int, max_val: int) -> int
-func rand_float(stream_id: float, min_val: float = 0.0, max_val: float = 1.0) -> float
+func rand_float(stream_id: int, min_val: float = 0.0, max_val: float = 1.0) -> float
 func rand_bool(stream_id: int, probability: float = 0.5) -> bool
 func weighted_pick(stream_id: int, weights: Array[float]) -> int
 func shuffle(stream_id: int, array: Array) -> Array
@@ -317,8 +335,13 @@ func load_states(data: Dictionary) -> void
 
 ```gdscript
 class_name DataConfig extends RefCounted
-func get_all(table_name: String) -> Array[Dictionary]
-func get_by_id(table_name: String, id: String) -> Dictionary
+func get(table_name: String, id: String) -> Dictionary
+func get_all(table_name: String) -> Dictionary
+func query(table_name: String, filter: Callable) -> Array[Dictionary]
+func has_table(table_name: String) -> bool
+func has_record(table_name: String, id: String) -> bool
+func get_field(table_name: String, id: String, field: String) -> Variant
+func is_loaded() -> bool
 func reload_table(table_name: String) -> void   # 热重载，Debug only
 ```
 
@@ -335,48 +358,68 @@ static func evaluate_raw(expression: String, context: Dictionary) -> float
 
 ```gdscript
 class_name ModifierEngine extends RefCounted
-func register(id: String, target: String, type: String, value: float, priority: int, source: String) -> void
-func unregister(id: String) -> void
+func register(data: Dictionary) -> String
+func unregister(id: String) -> bool
+func unregister_by_source(source_id: String) -> int
+func get_add_sum(target: String) -> float
+func get_pool_multiplier(target: String, pool: String) -> float
 func get_multiplier(target: String) -> float
 func apply(target: String, base_value: BigNumber) -> BigNumber
+func get_breakdown(target: String) -> Dictionary
+func get_all_targets() -> Array[String]
 ```
 
 #### ResourceSystem（Autoload 持有 RefCounted）
 
 ```gdscript
 class_name ResourceSystem extends RefCounted
-func add(resource_id: String, amount: BigNumber) -> void
+func register(definition: Dictionary) -> bool
+func add(resource_id: String, amount: BigNumber) -> BigNumber
 func spend(resource_id: String, amount: BigNumber) -> bool
-func can_afford(resource_id: String, amount: BigNumber) -> bool
-func get(resource_id: String) -> BigNumber
-func batch_add(resources: Dictionary) -> void   # {id: BigNumber}
-func register_resource(id: String, initial: BigNumber, cap: BigNumber) -> void
-func collect_save_data() -> Dictionary
-func restore_save_data(data: Dictionary) -> void
+func get_value(resource_id: String) -> BigNumber
+func get_max(resource_id: String) -> BigNumber
+func set_value(resource_id: String, value: BigNumber) -> bool
+func set_max(resource_id: String, cap: BigNumber) -> bool
+func batch_add(resources: Dictionary) -> Dictionary   # {id: BigNumber actual_added}
+func reset_by_scope(scope: String) -> int
+func snapshot() -> Dictionary
+func restore(data: Dictionary) -> void
 ```
 
 #### SaveManager（全局单例 — Autoload）
 
 ```gdscript
 class_name SaveManager extends Node
-func register_provider(id: String, provider: ISaveDataProvider) -> void
+func register_provider(namespace: String, save_fn: Callable, restore_fn: Callable) -> void
 func save_game(slot: int = 0) -> bool
 func load_game(slot: int = 0) -> bool
 func has_save(slot: int = 0) -> bool
 func delete_save(slot: int = 0) -> void
-
-# ISaveDataProvider — 所有可持久化系统实现
-class_name ISaveDataProvider extends RefCounted
 func collect_save_data() -> Dictionary
-func restore_save_data(data: Dictionary) -> void
-func get_save_version() -> int
+func is_saving() -> bool
+func is_loading() -> bool
 ```
+
+---
+
+## Technical Requirements Baseline
+
+Extracted from 30 approved MVP GDDs. The detailed matrix is maintained in `docs/architecture/architecture-traceability.md`; this document records the architectural coverage groups that drive ADR creation.
+
+| Coverage Group | GDD Systems | Primary ADRs | Status |
+|----------------|-------------|--------------|--------|
+| Foundation numeric/time/random/event infrastructure | BigNumber, EventBus, TimeManager, RNGManager | ADR-0001 to ADR-0004 | Required before coding |
+| Core data and persistence infrastructure | DataConfig, SaveManager, ItemRegistry | ADR-0005, ADR-0006, ADR-0008 | Required before coding |
+| Core gameplay state ownership | ResourceSystem, AttributeSystem, ModifierEngine, OutputMultiplierSystem | ADR-0007, ADR-0010 | Required before core gameplay implementation |
+| Online/offline loop determinism | CombatCalculator, SemiAutoCombatSystem, OfflineSimulationCore, OfflineCombatSimulation, OfflineRewardSettlement | ADR-0003, ADR-0004, ADR-0009, ADR-0015 | Required before vertical slice prototype |
+| UI/debug presentation contracts | UIFramework, HUD, DebugConsole, NumberFormatter | ADR-0002, ADR-0011, ADR-0012, ADR-0014 | Required before player-facing prototype |
+| Formula and balance execution | FormulaEngine, LevelSystem, AutoProduction, Cultivation, Zone/Map progression, Loot/Enemy systems | ADR-0005, ADR-0007, ADR-0009, ADR-0013 | Required before feature implementation |
 
 ---
 
 ## ADR Audit
 
-当前无已存在的 ADR。以下为本架构文档产生的所有架构决策的审计起点。
+本轮架构优化后，以下决策均需要并将由 ADR-0001 至 ADR-0015 固化。所有 ADR 必须包含 Engine Compatibility、ADR Dependencies、GDD Requirements Addressed、Implementation Guidelines 和 Validation Criteria，供 `control-manifest.md` 与 gate-check 使用。
 
 | Decision Point | Documented In | ADR Required |
 |---------------|---------------|-------------|
@@ -401,31 +444,31 @@ func get_save_version() -> int
 
 | Priority | ADR Title | Covers GDD Systems | Key Decision |
 |----------|-----------|-------------------|--------------|
-| 1 | ADR-001: BigNumber 实现策略 | 大数值系统 | GDScript RefCounted class vs GDExtension (C++)。性能关键：12+ 依赖方，需原型验证 |
-| 2 | ADR-002: 事件总线架构 | 事件总线 | Autoload 单例 + 字符串事件名 + Dictionary 负载。前缀订阅仅限调试路径 |
-| 3 | ADR-003: 时间源与双时间体系 | 时间管理器 | Unix 时间戳（非 _process delta），双时间快照模型，加速倍率乘法叠加 |
-| 4 | ADR-004: 确定性随机数架构 | 随机数与种子 | 多流隔离 + 主种子推导 + FNV-1a 哈希。离线模拟状态快照隔离 |
-| 5 | ADR-005: 数据配置加载策略 | 数据配置系统 | Godot Resource 加载 + 启动时全量缓存。支持热重载（Debug only） |
-| 6 | ADR-006: 存档格式与版本迁移 | 存档系统 | JSON Dictionary + ISaveDataProvider 注册制 + 链式版本迁移 |
-| 7 | ADR-007: 修正器叠加顺序 | 修正器引擎 | additive → multiplicative → override，按 priority 排序 |
-| 8 | ADR-008: Autoload 初始化顺序 | 全局 | project.godet 显式注册顺序。EventBus 第一。惰性检查作为安全网 |
+| 1 | ADR-0001: BigNumber 实现策略 | 大数值系统 | GDScript RefCounted class，算术返回新实例；GDExtension 仅在性能门失败时升级 |
+| 2 | ADR-0002: 事件总线架构 | 事件总线 | Autoload 单例 + 字符串事件名 + Dictionary 负载。前缀订阅仅限调试路径 |
+| 3 | ADR-0003: 时间源与双时间体系 | 时间管理器 | Unix 时间戳（非 `_process(delta)`），双时间快照模型，加速倍率乘法叠加 |
+| 4 | ADR-0004: 确定性随机数架构 | 随机数与种子 | 多流隔离 + 主种子推导 + FNV-1a 哈希。离线模拟状态快照隔离 |
+| 5 | ADR-0005: 数据配置加载策略 | 数据配置系统 | JSON/FileAccess 加载 + 启动时全量缓存。支持热重载（Debug only） |
+| 6 | ADR-0006: 存档格式与版本迁移 | 存档系统 | JSON Dictionary + provider 回调注册制 + 链式版本迁移 |
+| 7 | ADR-0007: 修正器叠加顺序 | 修正器引擎 | ADD → 同池加算 MULT → 跨池乘算 MULT，缓存 target 结果 |
+| 8 | ADR-0008: Autoload 初始化顺序 | 全局 | `project.godot` 显式注册顺序。EventBus 第一，DataConfigHost 先于数据消费者 |
 
 ### Should have before the relevant system is built
 
 | Priority | ADR Title | Covers GDD Systems | Key Decision |
 |----------|-----------|-------------------|--------------|
-| 9 | ADR-009: 在线/离线战斗路径统一 | 战斗计算器, 半自动战斗, 离线战斗模拟 | 共享 CombatCalculator，离线模拟使用 RNG 副本 |
-| 10 | ADR-010: ResourceSystem 不可变 vs 可变 BigNumber | 资源系统 | BigNumber 算术返回新实例 vs 就地修改的权衡 |
-| 11 | ADR-011: UI 屏幕管理架构 | UI 框架 | UIManager Autoload + Control 场景栈。考虑 4.6 dual-focus 影响 |
-| 12 | ADR-012: DebugConsole 发布构建排除 | 调试控制台 | `_ready()` 中 `queue_free()` 模式。process_mode ALWAYS 保证暂停可用 |
+| 9 | ADR-0009: 在线/离线战斗路径统一 | 战斗计算器, 半自动战斗, 离线战斗模拟 | 共享 CombatCalculator，离线模拟使用 RNG 状态副本 |
+| 10 | ADR-0010: ResourceSystem 不可变 BigNumber 策略 | 资源系统 | ResourceSystem 存储 BigNumber 值，所有算术返回新实例；batch_add 非原子 |
+| 11 | ADR-0011: UI 屏幕管理架构 | UI 框架 | UIManager Autoload + Control 场景栈。显式验证 Godot 4.6 dual-focus |
+| 12 | ADR-0012: DebugConsole 发布构建排除 | 调试控制台 | `_ready()` 中 `queue_free()` 模式。`process_mode = ALWAYS` 保证暂停可用 |
 
 ### Can defer to implementation
 
 | Priority | ADR Title | Covers GDD Systems | Key Decision |
 |----------|-----------|-------------------|--------------|
-| 13 | ADR-013: FormulaEngine 表达式 DSL 深度 | 公式引擎 | 简单变量替换 vs 完整 DSL。MVP 先简单，Post-MVP 扩展 |
-| 14 | ADR-014: NumberFormatter 缩写映射策略 | 数值格式化 | 硬编码缩写表 vs DataConfig 驱动 |
-| 15 | ADR-015: 离线模拟 tick 粒度 | 离线模拟内核 | 固定 1s tick vs 自适应步长。MVP 固定 1s |
+| 13 | ADR-0013: FormulaEngine 表达式 DSL 深度 | 公式引擎 | MVP 支持安全表达式、软上限函数和缓存；不构建完整 DSL |
+| 14 | ADR-0014: NumberFormatter 缩写映射策略 | 数值格式化 | MVP 硬编码中文单位表；超过 10^48 切换科学计数法 |
+| 15 | ADR-0015: 离线模拟 tick 粒度 | 离线模拟内核 | 固定 chunk/tick 策略，先按 1s 业务 tick + 最大 chunk 分块，Post-MVP 再自适应 |
 
 ---
 
