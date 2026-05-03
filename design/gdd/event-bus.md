@@ -80,12 +80,19 @@
     - `resource.{resource_id}.overflow` — 资源溢出（add 超过上限或 set_max 截断 current 时触发；payload 含 `attempted, actual_added, lost`）
     - `attribute.{entity_id}.{attr_id}.base_changed` — 角色属性基础值变化（payload: `{entity_id, attr_id, old_value, new_value, delta}`，由属性系统 `set_base` 触发；最终值变化不广播——订阅者按需在收到 base_changed 后重算 final）
     - `attribute.{entity_id}.unregistered` — 实体注销聚合事件（payload: `{entity_id}`，由属性系统 `unregister_entity` 触发；HUD 据此清理面板，无需逐属性订阅删除事件）
-    - `combat.{event_type}` — 战斗事件
+    - `combat.encounter_started` — 单场在线战斗开始（payload: `{zone_id, enemy_id, encounter_id}`）
+    - `combat.encounter_finished` — 单场在线战斗结束（payload: `{zone_id, enemy_id, encounter_id, result, duration, rewards_summary}`）
     - `ui.{screen_name}.opened/closed` — UI 页面切换
     - `system.{system_name}.unlocked` — 系统解锁
-    - `level.changed` — 等级变化
+    - `level.changed` — 等级变化（payload: `{entity_id, old_level, new_level, levels_gained}`）
+    - `realm.advanced` — 境界变化（payload: `{entity_id, old_realm, new_realm}`）
     - `achievement.unlocked` — 成就达成
     - `offline.settled` — 离线收益结算完成
+    - `offline.simulation_completed` — 离线模拟草案生成完成（payload: `{draft_id, offline_seconds, simulator_count, warning_count}`）
+    - `cultivation.stance_changed` — 修炼姿态变化（payload: `{old_stance, new_stance}`）
+    - `exploration.target_changed` — 挂机探索目标变化（payload: `{old_zone_id, new_zone_id, strategy}`）
+    - `zone.changed` — 当前区域变化（payload: `{old_zone_id, new_zone_id}`）
+    - `zone.first_cleared` — 区域首次通关（payload: `{zone_id, clear_time, combat_result}`）
     - `time.frozen` / `time.unfrozen` / `time.speed_changed` / `time.offline_delta` — 时间状态与离线 delta 通知
     - `save.loaded` / `save.saved` / `save.corrupted` — 存档加载、保存、损坏恢复通知
     - `production_multiplier_changed` — 产出来源激活/注销导致某资源最终产出倍率变化
@@ -120,10 +127,17 @@ EventBus 自身不持有业务状态，但管理订阅关系的内部状态：
 |------|------|---------|------|
 | 资源系统 | 上游发布 | `resource.{id}.changed`，payload: `{resource_id, old_value, new_value, delta}` | 资源增减时发布，UI/HUD 订阅更新显示 |
 | 属性系统 | 上游发布 | `attribute.{entity_id}.{attr_id}.base_changed` 和 `attribute.{entity_id}.unregistered` | 实体属性基础值变化与实体注销时发布，HUD 精准订阅主角/上阵弟子的属性事件 |
-| 等级系统 | 上游发布 | `level.changed`，payload: `{old_level, new_level}` | 升级时发布，UI 和技能系统订阅 |
+| 等级系统 | 上游发布 | `level.changed`，payload: `{entity_id, old_level, new_level, levels_gained}`；`realm.advanced`，payload: `{entity_id, old_realm, new_realm}` | 升级/境界变化时发布，HUD、地图推进、修炼提示订阅 |
 | 掉落系统 | 上游发布 | `loot.dropped`，payload: `{item_id, quantity, source}` | 物品掉落时发布，背包和日志订阅 |
+| 修炼系统 | 上游发布 | `cultivation.stance_changed` | 姿态切换时发布，HUD 刷新修炼状态 |
+| 半自动战斗系统 | 上游发布 | `combat.encounter_started` / `combat.encounter_finished` | 战斗日志、地图推进和 HUD 消费 |
+| 区域系统 | 上游发布 | `zone.changed` | 当前挂机区域切换通知 |
+| 地图推进系统 | 上游发布 | `zone.first_cleared` | 首通和解锁反馈 |
+| 挂机探索系统 | 上游发布 | `exploration.target_changed` | 当前挂机目标切换通知 |
+| 离线模拟内核 | 上游发布 | `offline.simulation_completed` | 离线草案完成通知，供结算/调试消费 |
+| 离线收益结算系统 | 上游发布 | `offline.settled` | 离线收益实际入账后通知 HUD/UI |
 | UI 框架 | 下游订阅 | 订阅各类显示更新事件 | 响应数据变化刷新界面 |
-| HUD 系统 | 下游订阅 | 订阅 `resource.*.changed`、`level.changed` | 更新顶部资源栏和等级显示 |
+| HUD 系统 | 下游订阅 | 订阅 `resource.*.changed`、`level.changed`、`realm.advanced`、`combat.*`、`zone.changed`、`offline.settled` | 更新资源栏、等级/境界、战斗状态、区域和离线摘要 |
 | 调试控制台 | 下游订阅 | 通过 `subscribe_pattern(prefix, callable)` 订阅指定事件前缀 | 开发阶段监控资源、时间、存档等事件流；空 prefix 不允许 |
 | 时间管理器 | 上游发布 | `time.frozen`, `time.unfrozen`, `time.speed_changed`, `time.offline_delta` | 时间状态变更通知，离线收益结算触发 |
 | 通知系统（未来） | 下游订阅 | 订阅突破、稀有掉落、成就等关键事件 | 触发弹窗通知 |
@@ -211,8 +225,15 @@ EventBus 自身不持有业务状态，但管理订阅关系的内部状态：
 | 修正器/倍率引擎 | 下游依赖 EventBus | 硬依赖 | 发布 `modifier_expired` 事件 |
 | 产出乘数系统 | 下游依赖 EventBus | 硬依赖 | 发布 `production_multiplier_changed` 事件；订阅 `modifier_expired` 清理来源追踪 |
 | 物品/材料系统 | 下游依赖 EventBus | 软依赖 | 发布 `item_registry.loaded` / `item_registry.reloaded` 事件 |
-| 等级系统 | 下游依赖 EventBus | 硬依赖 | 发布 `level.changed` 事件 |
+| 等级系统 | 下游依赖 EventBus | 硬依赖 | 发布 `level.changed` 和 `realm.advanced` 事件 |
 | 掉落系统 | 下游依赖 EventBus | 硬依赖 | 发布 `loot.dropped` 事件 |
+| 修炼系统 | 下游依赖 EventBus | 硬依赖 | 发布 `cultivation.stance_changed` 事件 |
+| 半自动战斗系统 | 下游依赖 EventBus | 硬依赖 | 发布 `combat.encounter_started` / `combat.encounter_finished` 事件 |
+| 区域系统 | 下游依赖 EventBus | 硬依赖 | 发布 `zone.changed` 事件 |
+| 地图推进系统 | 下游依赖 EventBus | 硬依赖 | 发布 `zone.first_cleared` 事件 |
+| 挂机探索系统 | 下游依赖 EventBus | 硬依赖 | 发布 `exploration.target_changed` 事件 |
+| 离线模拟内核 | 下游依赖 EventBus | 硬依赖 | 发布 `offline.simulation_completed` 事件 |
+| 离线收益结算系统 | 下游依赖 EventBus | 硬依赖 | 发布 `offline.settled` 事件 |
 | 调试控制台 | 下游依赖 EventBus | 软依赖 | 通过 `subscribe_pattern(prefix)` 订阅指定前缀用于开发日志；可移除不影响游戏功能 |
 | UI 框架 | 下游依赖 EventBus | 硬依赖 | 订阅数据变化事件驱动界面刷新 |
 | HUD 系统 | 下游依赖 EventBus | 硬依赖 | 订阅资源/等级变化事件更新顶栏显示 |

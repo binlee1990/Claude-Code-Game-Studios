@@ -86,6 +86,16 @@ items:
       - design/gdd/item-material-system.md
       - design/gdd/output-multiplier-system.md
       - design/gdd/level-system.md
+      - design/gdd/storage-limit-system.md
+      - design/gdd/auto-production-system.md
+      - design/gdd/cultivation-system.md
+      - design/gdd/offline-reward-settlement-system.md
+      - design/gdd/hud-system.md
+      - design/gdd/storage-limit-system.md
+      - design/gdd/auto-production-system.md
+      - design/gdd/cultivation-system.md
+      - design/gdd/offline-reward-settlement-system.md
+      - design/gdd/hud-system.md
     category: regenerative_resource
     has_cap: true
     reset_scope: breakthrough
@@ -102,6 +112,13 @@ items:
       - design/gdd/item-material-system.md
       - design/gdd/output-multiplier-system.md
       - design/gdd/level-system.md
+      - design/gdd/auto-production-system.md
+      - design/gdd/cultivation-system.md
+      - design/gdd/offline-reward-settlement-system.md
+      - design/gdd/hud-system.md
+      - design/gdd/auto-production-system.md
+      - design/gdd/cultivation-system.md
+      - design/gdd/hud-system.md
     category: progress_resource
     has_cap: false
     reset_scope: breakthrough
@@ -118,6 +135,14 @@ items:
       - design/gdd/item-material-system.md
       - design/gdd/output-multiplier-system.md
       - design/gdd/level-system.md
+      - design/gdd/auto-production-system.md
+      - design/gdd/loot-system.md
+      - design/gdd/offline-reward-settlement-system.md
+      - design/gdd/hud-system.md
+      - design/gdd/auto-production-system.md
+      - design/gdd/loot-system.md
+      - design/gdd/offline-reward-settlement-system.md
+      - design/gdd/hud-system.md
     category: currency
     has_cap: false
     reset_scope: ascension
@@ -134,6 +159,16 @@ items:
       - design/gdd/item-material-system.md
       - design/gdd/output-multiplier-system.md
       - design/gdd/level-system.md
+      - design/gdd/storage-limit-system.md
+      - design/gdd/auto-production-system.md
+      - design/gdd/loot-system.md
+      - design/gdd/offline-reward-settlement-system.md
+      - design/gdd/hud-system.md
+      - design/gdd/storage-limit-system.md
+      - design/gdd/auto-production-system.md
+      - design/gdd/loot-system.md
+      - design/gdd/offline-reward-settlement-system.md
+      - design/gdd/hud-system.md
     category: crafting_material
     has_cap: true
     reset_scope: ascension
@@ -149,6 +184,12 @@ items:
       - design/gdd/resource-system.md
       - design/gdd/item-material-system.md
       - design/gdd/level-system.md
+      - design/gdd/loot-system.md
+      - design/gdd/semi-auto-combat-system.md
+      - design/gdd/offline-combat-simulation-system.md
+      - design/gdd/hud-system.md
+      - design/gdd/loot-system.md
+      - design/gdd/hud-system.md
     category: progress_resource
     has_cap: false
     reset_scope: breakthrough
@@ -163,6 +204,11 @@ items:
     referenced_by:
       - design/gdd/attribute-system.md
       - design/gdd/level-system.md
+      - design/gdd/enemy-database.md
+      - design/gdd/combat-calculator.md
+      - design/gdd/semi-auto-combat-system.md
+      - design/gdd/offline-combat-simulation-system.md
+      - design/gdd/hud-system.md
     category: attribute
     chinese_name: 生命上限
     storage_type: BigNumber
@@ -177,6 +223,11 @@ items:
     referenced_by:
       - design/gdd/attribute-system.md
       - design/gdd/level-system.md
+      - design/gdd/enemy-database.md
+      - design/gdd/combat-calculator.md
+      - design/gdd/semi-auto-combat-system.md
+      - design/gdd/offline-combat-simulation-system.md
+      - design/gdd/hud-system.md
     category: attribute
     chinese_name: 攻击
     storage_type: BigNumber
@@ -191,6 +242,11 @@ items:
     referenced_by:
       - design/gdd/attribute-system.md
       - design/gdd/level-system.md
+      - design/gdd/enemy-database.md
+      - design/gdd/combat-calculator.md
+      - design/gdd/semi-auto-combat-system.md
+      - design/gdd/offline-combat-simulation-system.md
+      - design/gdd/hud-system.md
     category: attribute
     chinese_name: 防御
     storage_type: BigNumber
@@ -205,6 +261,11 @@ items:
     referenced_by:
       - design/gdd/attribute-system.md
       - design/gdd/level-system.md
+      - design/gdd/enemy-database.md
+      - design/gdd/combat-calculator.md
+      - design/gdd/semi-auto-combat-system.md
+      - design/gdd/offline-combat-simulation-system.md
+      - design/gdd/hud-system.md
     category: attribute
     chinese_name: 速度
     storage_type: BigNumber
@@ -219,6 +280,11 @@ items:
     referenced_by:
       - design/gdd/attribute-system.md
       - design/gdd/level-system.md
+      - design/gdd/enemy-database.md
+      - design/gdd/combat-calculator.md
+      - design/gdd/semi-auto-combat-system.md
+      - design/gdd/offline-combat-simulation-system.md
+      - design/gdd/hud-system.md
     category: attribute
     chinese_name: 暴击率
     storage_type: BigNumber
@@ -233,6 +299,11 @@ items:
     referenced_by:
       - design/gdd/attribute-system.md
       - design/gdd/level-system.md
+      - design/gdd/enemy-database.md
+      - design/gdd/combat-calculator.md
+      - design/gdd/semi-auto-combat-system.md
+      - design/gdd/offline-combat-simulation-system.md
+      - design/gdd/hud-system.md
     category: attribute
     chinese_name: 暴击伤害
     storage_type: BigNumber
@@ -407,6 +478,8 @@ constants:
     source: design/gdd/item-material-system.md
     referenced_by:
       - design/gdd/item-material-system.md
+      - design/gdd/loot-system.md
+      - design/gdd/hud-system.md
     value:
       - fanpin       # 凡品（MVP material 全部使用此值）
       - jingliang    # 精良
@@ -426,6 +499,7 @@ constants:
     source: design/gdd/item-material-system.md
     referenced_by:
       - design/gdd/item-material-system.md
+      - design/gdd/loot-system.md
     value:
       - resource_material   # MVP 唯一使用的类别
       - consumable          # Alpha 预留
@@ -501,6 +575,8 @@ constants:
     source: design/gdd/level-system.md
     referenced_by:
       - design/gdd/level-system.md
+      - design/gdd/storage-limit-system.md
+      - design/gdd/hud-system.md
     value:
       - fanren       # 凡人境（Lv.1+）
       - lianqi       # 炼气境（Lv.10+）

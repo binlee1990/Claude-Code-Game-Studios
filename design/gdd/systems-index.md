@@ -2,7 +2,7 @@
 
 > **Status**: Draft
 > **Created**: 2026-05-03
-> **Last Updated**: 2026-05-03
+> **Last Updated**: 2026-05-04
 > **Source Concept**: design/gdd/game-concept.md
 > **TD-SYSTEM-BOUNDARY Review**: CONCERNS (accepted) 2026-05-03
 > **PR-SCOPE Review**: REALISTIC 2026-05-03
@@ -11,7 +11,7 @@
 
 ## Overview
 
-一款修仙题材的半放置刷宝队伍 RPG，MVP（最小挂机闭环）需要 29 个系统实现核心循环：修炼产出资源 → 自动战斗刷怪掉落 → 等级提升推进区域 → 离线结算收益。系统按 7 层依赖组织，从 Foundation（大数值、事件、时间、随机）到 Presentation（UI 框架、HUD），自底向上设计。
+一款修仙题材的半放置刷宝队伍 RPG，MVP（最小挂机闭环）需要 30 个系统实现核心循环：修炼产出资源 → 自动战斗刷怪掉落 → 等级提升推进区域 → 离线结算收益。系统按 7 层依赖组织，从 Foundation（大数值、事件、时间、随机）到 Presentation（UI 框架、HUD），自底向上设计。
 
 核心循环（§10.2）：修炼 → 资源增长 → 等级提升 → 简单自动战斗 → 掉落材料 → 强化角色 → 推进区域 → 离线结算
 
@@ -36,21 +36,21 @@
 | 13 | 产出乘数系统 | Core Gameplay | MVP | Designed | design/gdd/output-multiplier-system.md | 修正器/倍率引擎, 数据配置系统, 事件总线, 大数值系统 |
 | 14 | 调试控制台 | Core Gameplay | MVP | Designed | design/gdd/debug-console.md | 事件总线, 数据配置系统, 资源系统, 属性系统, 修正器/倍率引擎, 产出乘数系统, 时间管理器, 存档系统, 数值格式化系统, 大数值系统 |
 | 15 | 等级系统 | Feature | MVP | Designed | design/gdd/level-system.md | 属性系统, 公式引擎, 资源系统, 修正器/倍率引擎, 事件总线, 大数值系统, 数据配置系统, 存档系统 |
-| 16 | 存储上限系统 | Feature | MVP | Not Started | — | 物品/材料系统, 资源系统 |
-| 17 | 自动产出系统 | Feature | MVP | Not Started | — | 资源系统, 时间管理器, 产出乘数系统 |
-| 18 | 敌人数据库 | Feature | MVP | Not Started | — | 数据配置系统, 属性系统 |
-| 19 | 掉落系统 (inferred) | Feature | MVP | Not Started | — | 敌人数据库, 物品/材料系统, 随机数与种子系统 |
-| 20 | 修炼系统 | Feature Integration | MVP | Not Started | — | 资源系统, 自动产出系统, 时间管理器 |
-| 21 | 战斗计算器 | Feature Integration | MVP | Not Started | — | 属性系统, 公式引擎, 随机数与种子系统, 修正器/倍率引擎 |
-| 22 | 半自动战斗系统 | Feature Integration | MVP | Not Started | — | 战斗计算器, 敌人数据库, 掉落系统, 等级系统 |
-| 23 | 区域系统 | Feature Integration | MVP | Not Started | — | 敌人数据库, 数据配置系统 |
-| 24 | 地图推进系统 | Feature Integration | MVP | Not Started | — | 区域系统, 等级系统 |
-| 25 | 离线模拟内核 | Simulation | MVP | Not Started | — | 时间管理器 |
-| 26 | 挂机探索系统 | Simulation | MVP | Not Started | — | 半自动战斗系统, 区域系统 |
-| 27 | 离线战斗模拟系统 | Simulation | MVP | Not Started | — | 离线模拟内核, 半自动战斗系统 |
-| 28 | 离线收益结算系统 | Simulation | MVP | Not Started | — | 离线战斗模拟系统, 离线模拟内核 |
-| 29 | UI 框架 | Presentation | MVP | Not Started | — | 事件总线 |
-| 30 | HUD 系统 | Presentation | MVP | Not Started | — | UI 框架, 数值格式化系统, 资源系统, 区域系统 |
+| 16 | 存储上限系统 | Feature | MVP | Designed | design/gdd/storage-limit-system.md | 物品/材料系统, 资源系统 |
+| 17 | 自动产出系统 | Feature | MVP | Designed | design/gdd/auto-production-system.md | 资源系统, 时间管理器, 产出乘数系统 |
+| 18 | 敌人数据库 | Feature | MVP | Designed | design/gdd/enemy-database.md | 数据配置系统, 属性系统 |
+| 19 | 掉落系统 | Feature | MVP | Designed | design/gdd/loot-system.md | 敌人数据库, 物品/材料系统, 随机数与种子系统 |
+| 20 | 修炼系统 | Feature Integration | MVP | Designed | design/gdd/cultivation-system.md | 资源系统, 自动产出系统, 时间管理器 |
+| 21 | 战斗计算器 | Feature Integration | MVP | Designed | design/gdd/combat-calculator.md | 属性系统, 公式引擎, 随机数与种子系统, 修正器/倍率引擎 |
+| 22 | 半自动战斗系统 | Feature Integration | MVP | Designed | design/gdd/semi-auto-combat-system.md | 战斗计算器, 敌人数据库, 掉落系统, 等级系统 |
+| 23 | 区域系统 | Feature Integration | MVP | Designed | design/gdd/zone-system.md | 敌人数据库, 数据配置系统 |
+| 24 | 地图推进系统 | Feature Integration | MVP | Designed | design/gdd/map-progression-system.md | 区域系统, 等级系统 |
+| 25 | 离线模拟内核 | Simulation | MVP | Designed | design/gdd/offline-simulation-core.md | 时间管理器 |
+| 26 | 挂机探索系统 | Simulation | MVP | Designed | design/gdd/idle-exploration-system.md | 半自动战斗系统, 区域系统 |
+| 27 | 离线战斗模拟系统 | Simulation | MVP | Designed | design/gdd/offline-combat-simulation-system.md | 离线模拟内核, 半自动战斗系统 |
+| 28 | 离线收益结算系统 | Simulation | MVP | Designed | design/gdd/offline-reward-settlement-system.md | 离线战斗模拟系统, 离线模拟内核 |
+| 29 | UI 框架 | Presentation | MVP | Designed | design/gdd/ui-framework.md | 事件总线 |
+| 30 | HUD 系统 | Presentation | MVP | Designed | design/gdd/hud-system.md | UI 框架, 数值格式化系统, 资源系统, 区域系统 |
 
 ---
 
@@ -203,18 +203,18 @@ None detected. All dependency chains flow unidirectionally: Foundation → Core 
 | Metric | Count |
 |--------|-------|
 | Total systems identified | 30 |
-| Design docs started | 15 |
+| Design docs started | 30 |
 | Design docs reviewed | 15 |
 | Design docs approved | 2 |
 | Design docs needs revision | 0 |
-| MVP systems designed | 15 / 30 |
+| MVP systems designed | 30 / 30 |
 
 ---
 
 ## Next Steps
 
 - [ ] Run CD-SYSTEMS review (review mode: full)
-- [ ] Design MVP systems in order (use `/design-system [system-name]` or `/map-systems next`)
-- [ ] Run `/design-review` on each completed GDD
-- [ ] Run `/gate-check systems-design` when all MVP systems are designed
+- [x] Design MVP systems in order (30 / 30 GDDs now authored)
+- [ ] Run `/design-review` in fresh sessions on the 15 newly completed GDDs
+- [ ] Run `/gate-check systems-design` after review pass is complete
 - [ ] Prototype highest-risk system early (`/prototype big-number-system`)

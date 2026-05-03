@@ -390,7 +390,7 @@
 - **If `restore(data)` 中含配置文件不存在的 `entity_id`（如旧存档主角弟子 ID 在新版本被改名）**：跳过该 entity，打印警告 `"restore: skipping unknown entity '{entity_id}'"`。其他实体正常恢复，不崩溃。
 - **If `restore(data)` 中某属性条目的 BigNumber 字典损坏（缺 `m` 或 `e` 字段）**：BigNumber.from_dict 返回 ZERO，restore 写入 ZERO 并打印警告。降级处理。
 - **If `restore(data)` 中某 entity 的 `meta.attribute_set` 在新配置中已删除**：跳过该 entity，打印警告 `"restore: entity '{entity_id}' references deprecated schema '{name}'"`。需配合存档迁移系统处理。
-- **If `restore(data)` 期间产生事件**：本系统**抑制** restore 期间的所有 `base_changed` 事件（与 ResourceSystem 不同——属性数量乘实体数量可能在百级以上，事件风暴会卡顿 HUD）。restore 完成后由调用方主动发起一次"全量 HUD 重绘"信号（如 `EventBus.emit("save.restored", {})`）。
+- **If `restore(data)` 期间产生事件**：本系统**抑制** restore 期间的所有 `base_changed` 事件（与 ResourceSystem 不同——属性数量乘实体数量可能在百级以上，事件风暴会卡顿 HUD）。restore 完成后由调用方主动发起一次"全量 HUD 重绘"信号（如订阅存档系统已定义的 `save.loaded` 事件后整体刷新）。
 
 ### 跨系统协作路径
 
