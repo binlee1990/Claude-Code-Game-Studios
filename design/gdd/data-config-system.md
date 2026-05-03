@@ -69,6 +69,7 @@ MVP 仅支持 JSON 格式。每个 JSON 文件对应一张逻辑表（如 `enemi
    - `has_record(table: String, id: String) -> bool` — 记录是否存在
    - `get_table_names() -> Array[String]` — 返回所有已加载表名
    - `get_field(table: String, id: String, field: String) -> Variant` — 获取单条记录的单个字段，不存在返回 `null`
+   - `is_loaded() -> bool` — 返回 `load_all()` 是否已成功完成至少一次。初始值 `false`，`load_all()` 完成（含部分失败但流程结束）后置为 `true`。供消费方在初始化期检查（如调试控制台 `config show` 命令在加载未完成时拒绝执行而非崩溃）。
 
 6. **加载流程**：
    - 启动时：扫描 `assets/data/*.json`，逐文件 `FileAccess.open()` → `JSON.parse_string()` → 存入内存字典
@@ -167,8 +168,9 @@ MVP 预估：10 × (1 + 2) = 30 ms，单帧内完成。
 - **If 查询不存在的表**：`get()` 返回 `null`，`get_all()` 返回空字典，`has_table()` 返回 `false`，均打印警告。
 - **If 查询不存在的记录**：`get()` 返回 `null`，`has_record()` 返回 `false`，打印警告。
 - **If `get_field()` 的字段不存在**：返回 `null`，不打印警告（字段缺失可能是正常业务逻辑）。
-- **If `query()` 的过滤函数抛出异常**：捕获异常，跳过该记录，打印警告，继续过滤剩余记录。
+- **If `query()` 的过滤 callable 无效或返回非 bool**：跳过该记录，打印警告，继续过滤剩余记录。GDScript 无 `try/catch`，过滤函数不得依赖异常流。
 - **If 数据目录不存在**：`load_all()` 打印错误并返回，所有查询返回空结果。不阻止游戏启动。
+- **If 在 `load_all()` 完成前调用查询 API**：`get` / `get_all` / `query` / `has_*` 返回各自的"空"结果（`null` / `{}` / `[]` / `false`），不崩溃但消费方无法区分"加载未完成"与"表/记录不存在"。消费方可先调用 `is_loaded()` 判别——返回 `false` 时应延迟操作或显示加载提示。
 - **If JSON 文件编码不是 UTF-8**：可能产生乱码但不崩溃。打印警告建议检查文件编码。
 - **If 热重载期间有并发查询**：Godot 单线程无并发问题。热重载是同步操作，替换后立即生效。
 - **If JSON 值为超大数字**（超出 float 精确表示范围）：精度可能丢失。建议使用字符串格式（如 `"9.99e19"`），由消费方 BigNumber 解析。
@@ -223,6 +225,7 @@ MVP 预估：10 × (1 + 2) = 30 ms，单帧内完成。
 - [ ] **GIVEN** 数据目录路径为 `"res://test/fixtures/data/"`，**WHEN** 用该路径构造 DataConfig 并加载，**THEN** 从测试目录加载数据
 - [ ] **GIVEN** JSON 含嵌套对象 `{"boss": {"stats": {"atk": "500"}}}`，**WHEN** 执行 `get("enemies", "boss")`，**THEN** 返回含嵌套 Dictionary 的记录
 - [ ] **GIVEN** JSON 含数组字段 `{"slime": {"tags": ["beast", "slime"]}}`，**WHEN** 执行 `get("enemies", "slime")`，**THEN** `tags` 为 `["beast", "slime"]`（Array 类型）
+- [ ] **GIVEN** DataConfig 新建未调用 `load_all()`，**WHEN** 调用 `is_loaded()`，**THEN** 返回 `false`；调用 `load_all()` 后再次调用 `is_loaded()`，**THEN** 返回 `true`（无论加载过程中是否有单表失败）
 
 ## Open Questions
 

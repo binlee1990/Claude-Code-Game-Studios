@@ -1,6 +1,6 @@
 # 存档系统 (Save System)
 
-> **Status**: Draft
+> **Status**: Designed
 > **Author**: binlee1990 + agents
 > **Last Updated**: 2026-05-03
 > **Implements Pillar**: 4.1 数字增长就是快乐 · 4.2 放置不是无操作
@@ -106,11 +106,17 @@ MVP 采用单存档位（autosave）+ 单 JSON 文件。存档文件存放于 `u
    - 恢复时发布 `save.corrupted` 事件，payload 含 `recovered_from_backup: bool`
 
 10. **错误隔离**：
-    - 单个 provider 的 `save_fn()` 抛异常 → 该系统存档段记为 `null`，打印警告，继续其余系统
-    - 单个 provider 的 `restore_fn()` 抛异常 → 跳过该系统恢复，打印警告，继续其余系统
+    - 单个 provider 的 `save_fn()` 返回 `null` / 非 Dictionary / 显式错误结果 → 该系统存档段记为 `null`，打印警告，继续其余系统
+    - 单个 provider 的 `restore_fn()` 返回 `false` / 显式错误结果 → 跳过该系统恢复，打印警告，继续其余系统
     - 不因单个系统失败导致整体保存/加载中止
 
 11. **数据目录可配置**：存档根目录路径作为参数（默认 `"user://save/"`），支持测试时传入替代路径。
+
+12. **只读快照与并发保护 API**：
+    - `collect_save_data() -> Dictionary` — 仅执行规则 5 的步骤 (a) 和 (b)：调用所有已注册 provider 的 `save_fn()` 收集数据并组装为完整存档对象（含 `meta` 和 `systems`），**不写文件**。返回组装后的 Dictionary。供调试控制台 `save dump` 命令使用，也可被未来的"存档预览"等功能复用。错误隔离规则与 `save_game()` 一致——单个 provider 返回无效数据时该 namespace 数据为 `null`，不中止收集。
+    - `is_saving() -> bool` — 返回当前是否处于 Saving 状态（即规则 5 的步骤 (a)–(g) 仍在进行中）。供调用方在触发新的 `save_game()` 前先检查，避免与正在进行的保存竞争。Loading 状态不计入（`is_saving()` 在 Loading 时返回 `false`）。
+    - `is_loading() -> bool` — 对称方法，返回当前是否处于 Loading 状态。
+    - 边界：`collect_save_data()` 在 Saving 状态期间被调用是安全的（仅读取 provider，不修改 SaveManager 内部状态），但返回的快照可能与刚开始的 `save_game()` 操作收集到的数据存在 race（取决于 provider 实现）；调用方应避免此组合。
 
 ### States and Transitions
 
@@ -134,6 +140,7 @@ MVP 采用单存档位（autosave）+ 单 JSON 文件。存档文件存放于 `u
 | 等级系统 | 下游注册 | provider namespace: `level_system` | 注册 provider 保存/恢复等级数据 |
 | 区域系统 | 下游注册 | provider namespace: `zone_system` | 注册 provider 保存/恢复当前区域和进度 |
 | 离线模拟内核 | 下游消费 | 监听 `save.loaded` 事件 | 加载完成后触发离线结算流程 |
+| 调试控制台 | 下游 → 调试调用 | `save_game()` / `collect_save_data()` / `is_saving()` | `save now` 与 `save dump` 命令；dump 不写文件 |
 
 ## Formulas
 
@@ -192,13 +199,13 @@ MVP 预估：4.0 ms / 60 s ≈ 0.067 ms/s，帧影响可忽略
 - **If `save.json` JSON 语法错误**：解析失败，触发损坏恢复流程。
 - **If `save.json` 缺少 `meta` 或 `systems` 顶层键**：视为格式错误，触发损坏恢复流程。
 - **If `save.json` 和 `save.json.bak` 都损坏**：创建新游戏，发布 `save.corrupted` 事件（`recovered_from_backup: false`），打印警告。不阻塞游戏启动。
-- **If 某 provider 的 `save_fn()` 抛异常**：该 namespace 数据记为 `null`，打印警告含 namespace 和异常信息，继续其余 provider。保存不中止。
-- **If 某 provider 的 `restore_fn()` 抛异常**：跳过该系统恢复，打印警告含 namespace 和异常信息，继续其余 provider。该系统以默认状态运行。
+- **If 某 provider 的 `save_fn()` 返回 `null` / 非 Dictionary / 显式错误结果**：该 namespace 数据记为 `null`，打印警告含 namespace 和错误码，继续其余 provider。保存不中止。
+- **If 某 provider 的 `restore_fn()` 返回 `false` / 显式错误结果**：跳过该系统恢复，打印警告含 namespace 和错误码，继续其余 provider。该系统以默认状态运行。
 - **If 存档中包含未注册 namespace 的数据**（游戏版本删除了某系统）：数据保留在存档中不被删除，但不分发给任何 provider。下次保存时该数据随存档一起写出，不会丢失。
 - **If 已注册 provider 在存档中无对应 namespace**（新系统加载旧存档）：该 provider 的 `restore_fn()` 收到空 Dictionary `{}`。Provider 应以默认值初始化。
 - **If 存档 `meta.version` 大于当前游戏版本**（未来版本存档）：拒绝加载，打印警告 `"Save version {v} is newer than game version {current}"`，创建新游戏。
 - **If 迁移链中间缺少迁移脚本**（gap）：迁移中止，打印错误 `"Migration gap: no script for version {v}"`，回退到 backup 或新游戏。
-- **If 迁移函数抛异常**：迁移中止，不覆盖原文件，打印错误含版本号和异常信息，回退到 backup 或新游戏。
+- **If 迁移函数返回 `false` / 显式错误结果**：迁移中止，不覆盖原文件，打印错误含版本号和错误码，回退到 backup 或新游戏。
 - **If 磁盘空间不足导致写入失败**：`FileAccess` 写入返回错误，打印警告，不执行 rename，原有存档不受影响。
 - **If 正在保存时收到新的保存请求**：忽略重复请求，打印调试日志。同一时间只允许一个保存操作。
 - **If 正在加载时收到保存请求**：忽略保存请求，打印警告。
@@ -218,11 +225,12 @@ MVP 预估：4.0 ms / 60 s ≈ 0.067 ms/s，帧影响可忽略
 | 等级系统 | 下游注册 | 硬依赖（save 侧） | 注册 provider 保存/恢复等级数据 |
 | 区域系统 | 下游注册 | 硬依赖（save 侧） | 注册 provider 保存/恢复区域进度 |
 | 离线模拟内核 | 下游消费 | 硬依赖 | 监听 `save.loaded` 事件，触发离线结算 |
+| 调试控制台 | 下游依赖 SaveManager | 软依赖 | 调用 `save_game()` 触发调试保存；调用 `collect_save_data()` 预览存档对象；调用 `is_saving()` 避免重复保存 |
 
 **双向一致性说明**：
 - 时间管理器 GDD 的 Interactions 表已列出存档系统为双向协作方。本 GDD 与之一致。
 - 数据配置系统 GDD 的 Interactions 表已列出存档系统为协作方（版本校验）。本 GDD 与之一致。
-- EventBus GDD 的事件名空间约定中需补充 `save.*` 系列事件。
+- EventBus GDD 的事件名空间约定已补充 `save.*` 系列事件。
 
 ## Tuning Knobs
 
@@ -244,13 +252,13 @@ MVP 预估：4.0 ms / 60 s ≈ 0.067 ms/s，帧影响可忽略
 - [ ] **GIVEN** `save.json` JSON 语法错误，**WHEN** 调用 `load_game()`，**THEN** 尝试加载 `save.json.bak`，若 backup 有效则从 backup 恢复，发布 `save.corrupted` 事件
 - [ ] **GIVEN** `save.json` 和 `save.json.bak` 都损坏，**WHEN** 调用 `load_game()`，**THEN** 游戏以默认状态开始，发布 `save.corrupted` 事件（`recovered_from_backup: false`）
 - [ ] **GIVEN** `save.json` 缺少 `meta` 顶层键，**WHEN** 调用 `load_game()`，**THEN** 视为格式错误，触发损坏恢复流程
-- [ ] **GIVEN** 系统 A 的 `save_fn()` 抛出异常，**WHEN** 调用 `save_game()`，**THEN** 系统 A 的 namespace 数据为 `null`，系统 B 的数据正常保存，打印警告
-- [ ] **GIVEN** 系统 A 的 `restore_fn()` 抛出异常，**WHEN** 调用 `load_game()`，**THEN** 系统 A 以默认状态运行，系统 B 正常恢复，打印警告
+- [ ] **GIVEN** 系统 A 的 `save_fn()` 返回 `null` 或非 Dictionary，**WHEN** 调用 `save_game()`，**THEN** 系统 A 的 namespace 数据为 `null`，系统 B 的数据正常保存，打印警告
+- [ ] **GIVEN** 系统 A 的 `restore_fn()` 返回 `false`，**WHEN** 调用 `load_game()`，**THEN** 系统 A 以默认状态运行，系统 B 正常恢复，打印警告
 - [ ] **GIVEN** 存档含 namespace `removed_system` 但无对应 provider，**WHEN** 加载，**THEN** 数据保留不分发，无错误；保存时该数据随存档写出
 - [ ] **GIVEN** 新系统注册了 provider 但存档中无对应 namespace，**WHEN** 加载，**THEN** 该 provider 的 `restore_fn()` 收到空 Dictionary `{}`
 - [ ] **GIVEN** 存档 `meta.version = 1`，当前 `CURRENT_SAVE_VERSION = 3`，注册了 v1→v2 和 v2→v3 迁移，**WHEN** 加载，**THEN** 迁移链按序执行，最终 `meta.version = 3`
 - [ ] **GIVEN** 存档 `meta.version = 5`，当前 `CURRENT_SAVE_VERSION = 3`，**WHEN** 加载，**THEN** 拒绝加载，创建新游戏，打印版本过高警告
-- [ ] **GIVEN** 迁移脚本 v1→v2 抛异常，**WHEN** 加载，**THEN** 迁移中止，不覆盖原文件，回退到 backup 或新游戏
+- [ ] **GIVEN** 迁移脚本 v1→v2 返回 `false`，**WHEN** 加载，**THEN** 迁移中止，不覆盖原文件，回退到 backup 或新游戏
 - [ ] **GIVEN** `BACKUP_ENABLED = true`，**WHEN** 调用 `save_game()`，**THEN** 保存成功后 `save.json.bak` 包含上一次的存档数据
 - [ ] **GIVEN** 正在执行保存操作，**WHEN** 再次调用 `save_game()`，**THEN** 忽略重复请求，打印调试日志
 - [ ] **GIVEN** SaveManager 收到 `NOTIFICATION_WM_CLOSE_REQUEST`，**WHEN** 退出流程触发，**THEN** 在关闭前完成一次保存
@@ -260,6 +268,8 @@ MVP 预估：4.0 ms / 60 s ≈ 0.067 ms/s，帧影响可忽略
 - [ ] **GIVEN** 15 个 provider 各返回 ~800 bytes 数据，**WHEN** 保存，**THEN** 文件大小 < 50 KB，保存耗时 < 20 ms
 - [ ] **GIVEN** 对同一 namespace 重复调用 `register_provider()`，**WHEN** 保存，**THEN** 使用最后一次注册的回调，打印覆盖警告
 - [ ] **GIVEN** 保存成功完成，**WHEN** 检查文件系统，**THEN** 存在 `save.json` 和 `save.json.bak`，不存在 `save.json.tmp`（临时文件已清理）
+- [ ] **GIVEN** 两个 provider 已注册（`time_manager` 和 `resource_system`），**WHEN** 调用 `collect_save_data()`，**THEN** 返回的 Dictionary 包含 `meta` 与 `systems` 顶层键，且 `systems.time_manager` 和 `systems.resource_system` 均为非空 Dictionary，且 `user://save/save.json` 文件**未被创建或修改**
+- [ ] **GIVEN** SaveManager 处于 Idle 状态，**WHEN** 调用 `is_saving()`，**THEN** 返回 `false`；启动 `save_game()` 后立即在同一帧内查询 `is_saving()`，**THEN** 返回 `true`；保存完成后再次查询，**THEN** 返回 `false`
 
 ## Open Questions
 

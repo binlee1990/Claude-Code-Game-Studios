@@ -85,6 +85,7 @@
    - `get_pool_multiplier(target: String, pool: String) → float` — 指定池的倍率
    - `apply(target: String, base: BigNumber) → BigNumber` — 一步完成 base → 最终值
    - `get_breakdown(target: String) → Dictionary` — 详细分解（每个池的贡献值）
+   - `get_all_targets() → Array[String]` — 返回当前所有已注册修正器的不重复 target 列表（**调试用**）。无修正器时返回空数组。结果不保证排序顺序；调用方按需排序。该方法供调试控制台 `modifier list` 命令枚举所有 target；游戏运行逻辑不应依赖此方法（性能 O(N)，N 为修正器总数）。
 
 8. **缓存机制**：
    - 每个 target 缓存最终乘法倍率（dirty-flag 模式）
@@ -119,13 +120,14 @@ ModifierEngine 整体无状态机。单个修正器的生命周期：
 | 大数值系统 | 下游消费 | `BigNumber.add(BigNumber.from_float(add_sum))`, `BigNumber.multiply_float(final_mult)` | `apply()` 方法内部调用 BigNumber 运算 |
 | 公式引擎 | 上游协作 | 源系统用公式引擎计算单个修正值后注册到修正器引擎 | 公式引擎计算"这个装备加多少暴击率"，修正器引擎管理"所有暴击率修正怎么叠" |
 | 事件总线 | 双向 | 发送 `"modifier_expired"` 事件；接收游戏状态变更（Post-MVP） | 限时修正器过期时通知 UI 和其他系统 |
-| 产出乘数系统 | 下游消费 | 调用 `apply("lingqi_production", base)` 计算最终产出 | 灵气/修为产出倍率。**注意**：资源系统不直接调用 ModifierEngine，由产出乘数系统作为中介——见 resource-system.md §Dependencies "关键非依赖" |
+| 产出乘数系统 | 下游消费 | 调用 `get_multiplier("lingqi_production")` / `get_pool_multiplier()` 获取最终倍率和池分解 | 灵气/修为产出倍率。OMS 自行用 float base_rate 计算速率并处理亚单位 carry；资源系统不直接调用 ModifierEngine |
 | 属性系统 | 下游消费 | 调用 `apply("player.atk", base_atk)` 计算最终攻击力（target 命名约定：`{entity_id}.{attr_id}`，由属性系统的 `make_target()` 生成） | 装备、技能、Buff 对属性的加成。详见 attribute-system.md §Detailed Design 规则 5 |
 | 等级系统 | 下游消费 | 等级变化时注册/注销境界/等级修正 | 等级提升带来的属性加成 |
 | 产出乘数系统 | 下游消费 | 产出乘数系统定义具体产出来源和池分配，使用修正器引擎叠加 | 修正器引擎提供通用基础设施 |
 | 战斗计算器 | 下游消费 | 查询伤害倍率、防御倍率、暴击倍率 | 战斗中的实时修正查询 |
 | 半自动战斗系统 | 下游消费 | 战斗开始/结束时注册/注销战斗 Buff | 限时战斗增益 |
 | 区域系统 | 下游消费 | 进入/离开区域时注册/注销区域修正 | 区域效果加成 |
+| 调试控制台 | 下游 → 只读查询 | `get_all_targets()` / `get_breakdown(target)` | `modifier list` 与 `modifier breakdown` 命令；不注册或注销修正器 |
 
 ## Formulas
 
@@ -263,7 +265,7 @@ result = (1000 + 250) × 2.0538 = 1250 × 2.0538 = 2567.25
 | 大数值系统 | 上游依赖 | 硬依赖 | `apply()` 内部调用 `BigNumber.add()` 和 `BigNumber.multiply_float()`。修正器引擎无法脱离 BigNumber 独立工作 |
 | 事件总线 | 上游依赖 | 硬依赖 | 限时修正器过期时发送 `"modifier_expired"` 事件。事件总线是 Foundation 层已完成的系统 |
 | 公式引擎 | 架构协作 | 软依赖 | ModifierEngine 本身**不调用**公式引擎。调用方用公式引擎计算单个修正值后注册到 ModifierEngine。两者是架构邻居，不互相导入 |
-| 产出乘数系统 | 下游消费 | 硬依赖 | 调用 `apply("lingqi_production", base)` 计算最终产出倍率。资源系统**不直接**依赖 ModifierEngine，由产出乘数系统中介 |
+| 产出乘数系统 | 下游消费 | 硬依赖 | 调用 `get_multiplier("lingqi_production")` / `get_pool_multiplier()` 获取产出倍率。OMS 自行用 float base_rate 计算速率并处理亚单位 carry；资源系统**不直接**依赖 ModifierEngine |
 | 属性系统 | 下游消费 | 硬依赖 | 调用 `apply("{entity_id}.{attr_id}", base)` 计算最终属性值（target 命名约定见 attribute-system.md §Detailed Design 规则 5） |
 | 等级系统 | 下游消费 | 硬依赖 | 等级/境界变化时注册/注销修正 |
 | 产出乘数系统 | 下游消费 | 硬依赖 | 定义具体产出来源和池分配，使用修正器引擎叠加 |
@@ -304,6 +306,7 @@ result = (1000 + 250) × 2.0538 = 1250 × 2.0538 = 2567.25
 - [ ] **GIVEN** target 缓存为脏，**WHEN** 首次调用 `get_multiplier()` 后再次调用，**THEN** 第二次直接返回缓存值
 - [ ] **GIVEN** 一个修正器 value=0.15, pool="equipment", target="atk"，**WHEN** 注销后重新查询，**THEN** 该池倍率不再包含 0.15
 - [ ] **GIVEN** 200 个修正器分散在 6 个池中，**WHEN** 单帧内调用 1000 次 `get_multiplier()`，**THEN** 总耗时 < 1.0 ms（缓存命中场景）
+- [ ] **GIVEN** 已注册 3 个修正器，target 分别为 `"player.atk"`、`"player.atk"`、`"lingqi_production"`，**WHEN** 调用 `get_all_targets()`，**THEN** 返回的数组长度为 2 且包含 `"player.atk"` 和 `"lingqi_production"`（去重，顺序不保证）；空注册表时返回空数组 `[]`
 
 ## Open Questions
 

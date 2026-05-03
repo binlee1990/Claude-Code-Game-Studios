@@ -90,6 +90,7 @@ Godot 的 `_process(delta)` 不是可靠的时间源——Web 导出时标签页
 | 自动产出系统 | 下游消费 | `get_game_delta_since(last_tick)` | 每 tick 查询经过的游戏时间，乘以产出速率计算资源增量 |
 | 修炼系统 | 下游消费 | `get_game_delta_since(last_tick)` | 计算修炼进度 |
 | 离线模拟内核 | 下游消费 | `offline_real_delta`（来自 `time.offline_delta` 事件） | 用真实时间差驱动批量模拟 |
+| 调试控制台 | 下游 → 查询/调试控制 | `get_real_time()` / `get_game_time()` / `get_effective_speed()` / `freeze()` / `unfreeze()` / `add_speed_source("debug_console", mult)` / `remove_speed_source("debug_console")` | `time status/freeze/unfreeze/speed` 命令；仅 Debug build 可用 |
 
 ## Formulas
 
@@ -174,10 +175,11 @@ Godot 的 `_process(delta)` 不是可靠的时间源——Web 导出时标签页
 | 自动产出系统 | 下游依赖 TimeManager | 硬依赖 | 调用 `get_game_delta_since()` 计算每 tick 产出 |
 | 修炼系统 | 下游依赖 TimeManager | 硬依赖 | 调用 `get_game_delta_since()` 计算修炼进度 |
 | 离线模拟内核 | 下游依赖 TimeManager | 硬依赖 | 通过 `time.offline_delta` 事件获取离线时间差 |
+| 调试控制台 | 下游依赖 TimeManager | 软依赖 | 查询时间状态；以 `debug_console` source_id 临时注册/移除调试加速 |
 
 **注**：原始 systems-index 中时间管理器的"Depends On"列为空。本 GDD 设计中 TimeManager 使用 EventBus 发布事件，实际存在一个上游依赖。Systems index 需更新。
 
-**双向一致性**：EventBus GDD 的 Interactions 表需补充 `time.*` 系列事件。存档系统、自动产出系统、修炼系统、离线模拟内核的 GDD 完成后需各自列出"上游依赖 TimeManager"。
+**双向一致性**：EventBus GDD 的 Interactions 表与命名空间约定已补充 `time.*` 系列事件。存档系统、自动产出系统、修炼系统、离线模拟内核的 GDD 完成后需各自列出"上游依赖 TimeManager"。
 
 ## Tuning Knobs
 

@@ -189,6 +189,7 @@
 | 战斗计算器 | 下游 → 主动调用 | 高频 `get_final(entity_id, attr_id)` 读双方最终属性 | spd/atk/def/crit_rate/crit_dmg 等用于伤害和顺序判定 |
 | 半自动战斗系统 | 下游 → 主动调用 | 战斗结束清理临时实体：`unregister_entity("enemy_*_session{N}")` 批量 | 防止战斗会话累积 |
 | HUD 系统 | 下游 → 订阅 | 订阅 `attribute.player.{attr_id}.base_changed` 等精准事件 | 不轮询；不订阅敌人属性变更（性能控制） |
+| 调试控制台 | 下游 → 只读查询 | `has_entity(id)` / `get_all_entity_ids()` / `get_attribute_set(id)` / `get_final_set(id)` | `attr` 命令查看实体 base/final 属性；不修改属性 |
 | 存档系统 | 下游 → 主动调用 | `snapshot()`/`restore(data)`；调用方负责过滤临时实体 | 本系统提供数据快照，存档系统负责文件 I/O |
 | 物品/材料系统 | 无直接关联 | — | 物品/材料是数值资产，不是属性 |
 | 资源系统 | 无直接关联 | — | 资源系统管"全局玩家资产"，属性系统管"角色个体属性"；语义正交 |
@@ -576,7 +577,7 @@
 | `hp_current`（实时血量）的归属系统：本 GDD 假定它由战斗计算器内部的"战斗状态层"管理，与本系统的"基础值账本"语义不同。但战斗计算器 GDD 未设计——如未来认为 `hp_current` 应由 ResourceSystem 或本系统统一持有，需重审本 GDD 的属性集定义 | 设计师 | 战斗计算器 GDD 时 | — |
 | ModifierEngine GDD §Detailed Design 的 target 示例使用裸字符串（如 `"atk"`），未声明"target 格式由消费方约定"——需在 `/consistency-check` 阶段在 ModifierEngine GDD §Edge Cases 或 §Tuning Knobs 增加 target 命名约定澄清 | 设计师 | `/consistency-check` 阶段 | ✅ 已解决 2026-05-03 — modifier-engine.md §Detailed Design 第 2 条 target 字段已加注释；§Interactions 行 123 与 §Dependencies 行 267 示例改为 `apply("player.atk", base_atk)` 与 `apply("{entity_id}.{attr_id}", base)` |
 | FormulaEngine GDD §Interactions 列出"属性系统调用 evaluate 计算属性成长系数"，与本 GDD 不一致——需在 `/consistency-check` 阶段把 FormulaEngine 的 Interactions 改为"等级系统/突破系统调用 evaluate" | 设计师 | `/consistency-check` 阶段 | ✅ 已解决 2026-05-03 — formula-engine.md §Interactions 行 122 与 §Dependencies 行 232 中 "属性系统" 改为 "等级系统/突破系统"，并加"属性系统不直接调用 FormulaEngine"的中介说明 |
-| EventBus GDD §11 命名空间约定中需追加 `attribute.{entity_id}.{attr_id}.base_changed` 和 `attribute.{entity_id}.unregistered` 两个新事件 | 开发者 | 实现阶段前 | ✅ 已解决 2026-05-03 — event-bus.md §Core Rules 11 已追加两条命名空间；§Interactions 表 + §Dependencies 表已追加属性系统行 |
+| EventBus GDD §12 命名空间约定中列出 `attribute.{entity_id}.{attr_id}.base_changed` 和 `attribute.{entity_id}.unregistered` 两个属性事件 | 开发者 | 实现阶段前 | ✅ 已解决 2026-05-03 — event-bus.md 已追加两条命名空间；§Interactions 表 + §Dependencies 表已追加属性系统行 |
 | ModifierEngine 缺 `modifier_registered` / `modifier_unregistered` 事件——本系统当前不缓存最终值（透传 ModifierEngine），如未来需要在属性系统加一层缓存以优化战斗高频查询，需推动 ModifierEngine 补充增减事件以支持正确的缓存失效。Open Questions 已在 ModifierEngine GDD 中提出 | 技术总监 | Post-MVP 性能评估时 | — |
 | 实体被 `unregister_entity` 后，ModifierEngine 中其修正器未被对应业务系统清理时的残留问题——本 GDD 选择"业务系统责任"路径。是否需要属性系统提供 `cleanup_modifiers_for_entity(entity_id)` 工具方法（内部按 source 前缀清理 ModifierEngine）作为补救措施？取决于 ModifierEngine API 是否允许按 target 前缀批量注销 | 设计师 | 装备系统 GDD 时 | — |
 | MVP 6 属性的具体初始 base 值（`hp_max` 起始 100 还是 1000？`spd` 起始 10 还是 50？）由数值设计师拍板，依赖战斗计算器伤害公式 + 等级系统成长曲线 | 数值设计师 | 战斗计算器/等级系统 GDD 时 | — |

@@ -4,72 +4,84 @@
 
 ## Current Task
 
-调试控制台 (Debug Console) GDD — Section A+B+C 完成, Section D (Formulas) 起接续
+基于 `design/gdd/reviews` 的辩证性 GDD 修复 — **完成（文档一致性阻塞项已清理，玩法桥梁 GDD 仍待专门设计）**
 
 ## Status
 
-Skeleton + Sections A/B/C 已写入 design/gdd/debug-console.md。
-- A Overview ✅
-- B Player Fantasy ✅
-- C Detailed Design ✅（13 条 Core Rules + 状态机 + 7 个系统交互表）
-- D Formulas — 待
-- E Edge Cases — 待
-- F Dependencies — 待
-- G Tuning Knobs — 待
-- H Visual/Audio Requirements — 待（可选，调试工具非 VFX 类）
-- I UI Requirements — 待
-- J Acceptance Criteria — 待
-- K Open Questions — 待
+本轮按 `$reframe-and-execute` 将 cross-review 的 FAIL 项拆成三类处理：
+
+1. **已成立且可直接修复的契约冲突** — 已修。
+2. **review 中已被后续会话修过但状态/措辞陈旧的条目** — 已刷新。
+3. **需要新增系统 GDD 的玩法闭环缺口** — 保留为后续阻塞，不在修复 pass 中伪装完成。
+
+## Fixes Applied This Session
+
+| Area | 修复 | 状态 |
+|------|------|------|
+| OMS 亚单位产出 | `base_rate_per_second` 改为 float 速率；`get_production_rate()` 返回 float；`get_tick_amount()` 通过 `fractional_carry` 累积 `<1` 产出后再返回 BigNumber | ✅ |
+| EventBus 可实现性 | 移除“捕获回调异常”的 GDScript 不可实现承诺；改为 `Callable.is_valid()` / Node 有效性隔离 | ✅ |
+| EventBus 命名空间 | 补齐 `save.*`、`time.*`、`production_multiplier_changed`、`modifier_expired`、`loot.dropped` 等事件 | ✅ |
+| EventBus 高频治理 | 新增 `emit_coalesced(event_name, payload, coalesce_key)`，仅用于最新状态型 UI/调试事件；事务事件仍同步投递 | ✅ |
+| debug-console 陈旧缺口 | `需新增` 标记改为已追加状态；OMS API 签名同步为 float rate + BigNumber tick amount | ✅ |
+| 上游 GDD 反向引用 | resource/time/attribute/modifier/save 的 Interactions 表补充调试控制台只读/调试消费关系 | ✅ |
+| systems-index | 10 个旧 `Needs Revision` 状态刷新；调试控制台完整软依赖列表写入；进度指标同步 | ✅ |
 
 ## Files Modified This Session
 
 | File | Purpose |
 |------|---------|
-| design/gdd/debug-console.md | Section C 写入：Core Rules / States / Interactions（约 200 行） |
-| production/session-state/active.md | 当前会话同步 |
+| design/gdd/output-multiplier-system.md | 修复亚单位 base_rate 与 BigNumber 钳位冲突；新增 fractional carry 结算语义 |
+| design/gdd/event-bus.md | 修复 GDScript 异常隔离不可实现问题；补命名空间与 coalesced 显示事件 |
+| design/gdd/debug-console.md | 清理陈旧“需新增”标记；同步 OMS/EventBus/Save/Modifier/DataConfig 接口状态 |
+| design/gdd/resource-system.md | 补调试控制台只读查询反向引用；刷新 EventBus namespace 状态 |
+| design/gdd/time-manager.md | 补调试控制台查询/调试控制引用；刷新 time.* 一致性说明 |
+| design/gdd/attribute-system.md | 补调试控制台只读属性查询引用；刷新 EventBus namespace 状态 |
+| design/gdd/modifier-engine.md | 补调试控制台 `get_all_targets` / `get_breakdown` 引用 |
+| design/gdd/save-system.md | 补调试控制台 `save now/dump` 引用；把 provider 错误语义改为显式返回值 |
+| design/gdd/data-config-system.md | 把 query 过滤错误语义改为显式 callable/返回值校验 |
+| design/gdd/item-material-system.md | 刷新 item_registry EventBus namespace 状态 |
+| design/gdd/systems-index.md | 刷新状态、依赖与进度指标 |
+| .tasks/completed/2026-05-03-dialectical-gdd-review-fixes.task.md | 本轮 reframe-and-execute 任务系统（已归档） |
 
-## Key Decisions Locked in Section C
+## Critical Decisions Locked This Session
 
-- Autoload + .tscn UI；`OS.is_debug_build()` 入口排除
-- `~` 键检测使用 `physical_keycode == KEY_QUOTELEFT`（跨布局稳定）
-- 控制台打开 = `get_tree().paused = true` + 缓存/恢复前焦点
-- `process_mode = PROCESS_MODE_ALWAYS`、`CanvasLayer.layer = 128`
-- 静态硬编码命令注册表（10 命令：res/event/config/modifier/attr/prod/time/save/help/clear）
-- LineEdit + RichTextLabel(BBCode) + SystemFont monospace fallback
-- 输出缓冲 500 行环形 Array<String> + clear+rebuild
-- 命令历史 50 条，仅内存（不跨会话持久化）
-- EventBus 需补充 `subscribe_pattern` + 对称的 `unsubscribe_pattern`
-- 关闭控制台时遍历注销所有活跃 watch
+- **不修改 BigNumber 已批准边界**：BigNumber 继续只表示 `>= 1` 的绝对量；亚单位产出由 OMS float rate + fractional carry 处理。
+- **`get_production_rate()` 语义调整**：返回每秒速率 float；需要写入 ResourceSystem 的数量必须走 `get_tick_amount()`，其返回 BigNumber。
+- **EventBus 不做异常捕获承诺**：GDScript 无 `try/catch`；EventBus 只隔离无效 callable / 已释放 Node，订阅者逻辑错误由 Godot 日志暴露。
+- **透明节流被拒绝**：普通 `emit()` 保持同步因果；`emit_coalesced()` 仅给最新状态型 UI/调试事件使用。
+- **本轮不新增等级/自动产出/修炼 GDD**：这些属于新的系统设计任务，应单独走 `/design-system` 或同等设计流程。
 
-## Downstream GDD Gaps (need followup edits)
+## Remaining Blockers
 
-- **EventBus GDD**：需追加 `subscribe_pattern(prefix, callable)` 与 `unsubscribe_pattern(prefix, callable)` 接口（Phase 5 的 EventBus 修订条目）
-- **ModifierEngine GDD**：需新增 `get_all_targets() -> Array[String]`（`modifier list` 命令需要）
-- **OutputMultiplierSystem GDD**：高层 `get_final_rate()` + breakdown API 当前未声明（`prod breakdown` 命令需要）
-- **SaveSystem GDD**：需将 `save_game()` 拆出 `collect_save_data() -> Dictionary` 内部方法（`save dump` 命令需要）
+| Blocker | Why Still Open | Recommended Next |
+|---------|----------------|------------------|
+| 等级系统 #15 未设计 | `exp → level → 属性成长` 链路仍缺，资源消费端不足 | 设计 `design/gdd/level-system.md` |
+| 自动产出系统 #17 未设计 | `TimeManager/OMS → ResourceSystem.add()` 在线 tick 编排者仍缺 | 设计 `design/gdd/auto-production-system.md` |
+| 修炼系统 #20 未设计 | `lingqi → xiuwei` 主动/自动转化消费仍缺 | 设计 `design/gdd/cultivation-system.md` |
+| 离线结算链路仍未闭合 | 离线模拟内核/收益结算系统尚未设计 | 在 #17/#20 后设计离线模拟相关 GDD |
 
-## Previous Tasks
+## Next Step Options
 
-- output-multiplier-system.md — Designed (CD-GDD-ALIGN: APPROVED)
-- item-material-system.md — Designed (CD-GDD-ALIGN: CONCERNS accepted)
-- attribute-system.md — Designed (CD-GDD-ALIGN: APPROVED)
-- resource-system.md — Designed (CD-GDD-ALIGN: REVISED)
+1. **设计等级系统 #15** — 优先补 `exp` 消费和玩家身份字段。
+2. **设计自动产出系统 #17** — 锁定在线 tick 编排和 OMS fractional carry 调用方式。
+3. **设计修炼系统 #20** — 锁定 `lingqi` 消费、`xiuwei` 增长、手动/自动修炼边界。
+4. **重新运行 cross-GDD review** — 在上述桥梁系统至少 1-3 个完成后执行，避免重复报告已知玩法闭环缺口。
 
-## Next Step
+## Session Extract — /review-all-gdds 2026-05-03
 
-继续 debug-console.md Section D (Formulas)。本系统数学性较弱，主要 formula 候选：
-- 输出缓冲 clear+rebuild 耗时模型
-- `event watch` 回调每帧累计耗时上限
-- 命令分发延迟预算
-
-如认为 Formulas 节"不适用"可写一句声明跳过，但 Edge Cases、Tuning Knobs、Acceptance Criteria 必须填实。
-
-## Open Questions
-
-None (session-level).
+- **Original Verdict**: FAIL
+- **This Session Result**: Consistency blockers repaired; design-loop blockers remain.
+- **Resolved consistency blockers**:
+  1. OMS sub-unit production no longer collapses through BigNumber before accumulation.
+  2. EventBus now has pattern subscription, missing namespaces, implementable error boundary, and high-frequency display coalescing.
+  3. Debug-console upstream API gaps are marked resolved and reflected bidirectionally.
+- **Still open design blockers**:
+  1. MVP resources still need concrete consumption paths in level/cultivation systems.
+  2. First playable loop still needs bridge-system GDDs.
+  3. Offline settlement chain still needs orchestrator design.
 
 <!-- STATUS -->
 Epic: MVP Systems Design
-Feature: Debug Console
-Task: Section A+B+C complete — resume from Section D (Formulas)
+Feature: Cross-GDD Review Repair
+Task: Consistency repair complete; next required work is bridge-system GDD design (#15/#17/#20)
 <!-- /STATUS -->

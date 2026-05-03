@@ -54,13 +54,27 @@
    - 收到一次事件后自动取消订阅
    - 适用于"等待某条件达成后执行一次"的场景（如等待突破完成）
 
-8. **错误隔离**：某个订阅者的回调抛出异常时，EventBus 捕获异常并打印警告，继续向其余订阅者投递。一个有 bug 的订阅者不能破坏事件链。
+8. **错误隔离（GDScript 可实现边界）**：GDScript 4.x 没有 `try/catch`，EventBus **不承诺捕获订阅者回调内部的运行时错误**。可实现的隔离边界是：投递前检查 `Callable.is_valid()` 与 Node 实例有效性；无效 callable 会被移除并打印 warning，后续订阅者继续投递。订阅者自身逻辑错误由 Godot 错误日志暴露，订阅者必须保持回调短小、无跨系统写入副作用。
 
 9. **订阅者生命周期**：当订阅者是 Node 且被释放（`tree_exited`）时，EventBus 自动移除该 Node 的所有订阅。防止已销毁节点收到回调导致崩溃。
 
 10. **调试模式**：`EventBus.set_debug_enabled(true)` 开启后，每次 emit 都打印事件名和订阅者数量到控制台。不影响事件投递行为。
 
-11. **事件名空间约定**：
+11. **通配符订阅（前缀匹配）**：
+    - `EventBus.subscribe_pattern(prefix: String, callable: Callable) -> void`
+      - 订阅所有事件名以 `prefix` 开头的事件（`String.begins_with(prefix)` 匹配）。
+      - 回调签名：`callable(event_name: String, payload: Dictionary) -> void`——**与 `subscribe()` 不同**，pattern 回调接收事件名作为第一个参数，便于消费方区分多个匹配事件（如 `event watch resource` 同时收到 `resource.lingqi.changed` 和 `resource.xiuwei.changed`）。
+      - prefix 不可为空字符串（订阅所有事件无意义且会拖垮订阅者）；空 prefix 拒绝注册并打印警告 `"subscribe_pattern: prefix must not be empty"`。
+      - 同一 (prefix, callable) 重复订阅只生效一次（与 `subscribe()` 一致的去重语义）。
+      - pattern 订阅与精确订阅独立——同一事件触发时，`subscribe()` 和 `subscribe_pattern()` 的回调都会收到，按内部投递顺序执行（精确订阅先于 pattern）。
+    - `EventBus.unsubscribe_pattern(prefix: String, callable: Callable) -> void`
+      - 注销 (prefix, callable) 对应的 pattern 订阅；对未订阅的 (prefix, callable) 是静默 no-op。
+      - **必须与 `subscribe_pattern` 对称**——不能用 `unsubscribe()` 注销 `subscribe_pattern()` 的订阅，反之亦然（两者维护独立的订阅集合）。
+    - **性能模型**：每次 `emit()` 在精确投递完成后，遍历所有 pattern 订阅，对每个 prefix 做 `event_name.begins_with(prefix)` 检查；命中则执行回调。复杂度 O(P × k)，P 为 pattern 订阅数，k 为平均 prefix 长度。Pattern 订阅数应远小于精确订阅数（设计预期 ≤ 4 个，开发者调试用）；高频事件场景下若 pattern 订阅累计开销超过帧预算 0.5 ms/frame 应警告。
+    - **典型用例**：调试控制台 `event watch resource` 命令——开发者实时观察 `resource.*` 事件流；不应作为生产代码的解耦机制（生产代码用精确订阅）。
+    - **错误隔离**：pattern 回调使用与精确订阅相同的有效性检查（规则 8）；不提供 GDScript 不支持的异常捕获语义。
+
+12. **事件名空间约定**：
     - `resource.{resource_id}.changed` — 资源数量变化（payload: `{resource_id, old_value, new_value, delta}`）
     - `resource.{resource_id}.cap_changed` — 资源上限变化（由资源系统 `set_max` 触发）
     - `resource.{resource_id}.overflow` — 资源溢出（add 超过上限或 set_max 截断 current 时触发；payload 含 `attempted, actual_added, lost`）
@@ -72,8 +86,19 @@
     - `level.changed` — 等级变化
     - `achievement.unlocked` — 成就达成
     - `offline.settled` — 离线收益结算完成
+    - `time.frozen` / `time.unfrozen` / `time.speed_changed` / `time.offline_delta` — 时间状态与离线 delta 通知
+    - `save.loaded` / `save.saved` / `save.corrupted` — 存档加载、保存、损坏恢复通知
+    - `production_multiplier_changed` — 产出来源激活/注销导致某资源最终产出倍率变化
+    - `modifier_expired` — 限时修正器过期，由 ModifierEngine 发布
+    - `loot.dropped` — 掉落系统结算出物品/材料时发布
     - `item_registry.loaded` — 物品注册表启动加载完成（payload: `{count: int, item_classes: Dictionary[String, int]}`，由物品/材料系统 `_ready()` 完成时触发；HUD/掉落系统据此确认 metadata 就绪）
     - `item_registry.reloaded` — 物品注册表热重载完成（payload: `{count: int, item_classes: Dictionary[String, int]}`，由 `ItemRegistry.reload()` 在 debug 模式触发；订阅方应刷新缓存的 metadata）
+
+13. **高频事件治理**：默认 `emit()` 保持即时同步，不做透明节流或合并，避免破坏资源/存档/战斗等事务事件的因果语义。对显示型高频事件，EventBus 提供可选 `emit_coalesced(event_name: String, payload: Dictionary, coalesce_key: String = "") -> void`：
+    - 同一帧内相同 `(event_name, coalesce_key)` 仅保留最后一个 payload，在帧末按一次普通 `emit()` 投递。
+    - 只允许用于"最新状态覆盖旧状态"的 UI/调试事件；不得用于需要累计 delta、逐条审计或触发业务连锁的事件。
+    - 资源、属性、存档等拥有业务语义的系统应优先在自身领域内批处理（如 ResourceSystem.batch_add），而不是要求 EventBus 猜测如何合并 payload。
+    - 调试模式下仍统计每帧 emit 次数，超过 `HIGH_EMIT_FREQUENCY_THRESHOLD` 打印 warning，提示发布方改用批处理或 coalesced 显示事件。
 
 ### States and Transitions
 
@@ -99,7 +124,7 @@ EventBus 自身不持有业务状态，但管理订阅关系的内部状态：
 | 掉落系统 | 上游发布 | `loot.dropped`，payload: `{item_id, quantity, source}` | 物品掉落时发布，背包和日志订阅 |
 | UI 框架 | 下游订阅 | 订阅各类显示更新事件 | 响应数据变化刷新界面 |
 | HUD 系统 | 下游订阅 | 订阅 `resource.*.changed`、`level.changed` | 更新顶部资源栏和等级显示 |
-| 调试控制台 | 下游订阅 | 订阅所有事件（`*` 通配符） | 开发阶段监控全量事件流 |
+| 调试控制台 | 下游订阅 | 通过 `subscribe_pattern(prefix, callable)` 订阅指定事件前缀 | 开发阶段监控资源、时间、存档等事件流；空 prefix 不允许 |
 | 时间管理器 | 上游发布 | `time.frozen`, `time.unfrozen`, `time.speed_changed`, `time.offline_delta` | 时间状态变更通知，离线收益结算触发 |
 | 通知系统（未来） | 下游订阅 | 订阅突破、稀有掉落、成就等关键事件 | 触发弹窗通知 |
 | 教程系统（未来） | 下游订阅 | 订阅 `system.*.unlocked` 等事件 | 触发新手引导 |
@@ -155,15 +180,24 @@ EventBus 自身不持有业务状态，但管理订阅关系的内部状态：
 - **If 在回调中再次对同一事件调用 emit**：检测到递归投递，打印警告 `"Recursive emit detected: {event_name}"`，忽略递归调用。防止无限循环。
 - **If 在回调中对其他事件调用 emit**：允许。嵌套 emit 作为正常的同步调用处理，但深度超过 8 层时打印警告并截断。防止意外深度嵌套。
 - **If 在回调中执行 subscribe/unsubscribe**：操作缓存到待处理队列，当前 emit 投递完成后批量执行。防止迭代器失效。
-- **If 回调抛出异常**：EventBus 捕获异常，打印警告 `"{callable} threw during {event_name}: {error}"`，继续向后续订阅者投递。错误不传播到发布者。
+- **If 回调内部发生 GDScript 运行时错误**：EventBus 不捕获（GDScript 无 `try/catch`）。Godot 记录错误；EventBus 的设计约束是回调必须短小、无跨系统写入副作用。需要错误返回的订阅者应自行用 Result/状态码处理，而不是依赖异常。
+- **If callable 在投递前已无效**：EventBus 跳过该 callable，移除订阅记录，打印 warning `Invalid callable removed during {event_name}`，继续向后续订阅者投递。
 - **If 订阅者 Node 在 emit 前被释放**：EventBus 监听了 `tree_exited` 信号并已自动移除订阅，不会发生调用已释放节点的情况。
 - **If 同一个 callable 对同一事件订阅多次**：只生效一次。重复订阅静默忽略。使用 `Callable` 的 `==` 比较判断重复。
 - **If 对未订阅的 callable 调用 unsubscribe**：静默忽略，无副作用。
-- **If subscribe_once 的回调在执行中抛出异常**：自动取消订阅仍然生效——一次性标记在回调调用前即已移除。
-- **If emit 频率极高（同一帧内数百次）**：不节流，由订阅者自行处理。但调试模式下打印警告 `"High emit frequency: {event_name} emitted {N} times this frame"`。
+- **If subscribe_once 的 callable 无效**：一次性订阅在投递前即移除；无效 callable 不会被调用，后续 emit 不再触发。
+- **If emit 频率极高（同一帧内数百次）**：普通 `emit()` 不透明节流；调试模式下打印警告 `"High emit frequency: {event_name} emitted {N} times this frame"`。发布方若事件只表达最新显示状态，可改用 `emit_coalesced()`；若事件包含累计业务 delta，必须在发布方领域内批处理。
 - **If 事件名拼写错误或使用了未定义的常量**：不校验事件名合法性——EventBus 不持有"已注册事件"列表。这是设计决策：松耦合意味着发布者不声明自己会发什么事件。调试模式下会打印所有 emit 的事件名供人工检查。
 - **If 在 _ready 之前访问 EventBus**：Autoload 单例在所有场景树的 `_ready` 之前初始化，不应出现此情况。若出现，返回空操作（GDScript Autoload 保证初始化顺序）。
 - **If 单事件订阅者数超过 hard_cap (128)**：超出限制的 subscribe 调用被拒绝，打印警告 `"Subscriber cap reached for {event_name}"`。设计上应拆分事件粒度或优化订阅者。
+- **If `subscribe_pattern` 的 prefix 为空字符串**：拒绝注册，打印警告 `"subscribe_pattern: prefix must not be empty"`，回调不会被触发。
+- **If 同一 (prefix, callable) 重复 `subscribe_pattern`**：仅生效一次（与 `subscribe()` 一致的去重语义），不重复触发回调。
+- **If 用 `unsubscribe()` 注销 `subscribe_pattern()` 的订阅**：静默 no-op（两者维护独立的订阅集合）；pattern 订阅仍然有效。反之亦然。
+- **If 同一事件同时匹配多个 pattern 订阅**：每个匹配的 pattern 回调都被触发一次（独立投递）；pattern 之间的执行顺序由内部存储顺序决定，不保证特定顺序。
+- **If pattern callable 无效**：与精确订阅一致——跳过、移除、打印 warning，继续向其余订阅者（含其他 pattern）投递。
+- **If 一个事件同时匹配精确订阅和 pattern 订阅**：先投递精确订阅，再遍历 pattern 订阅。两者均收到事件。
+- **If 同一帧内多次调用 `emit_coalesced("ui.hud.refresh", payload, "resources")`**：只保留最后一个 payload；帧末执行一次普通 `emit("ui.hud.refresh", latest_payload)`。
+- **If 对需要逐条审计的事件调用 `emit_coalesced()`**（如 `save.saved` 或 `loot.dropped`）：这是发布方错误。EventBus 不理解业务语义，代码审查应禁止此用法。
 
 ## Dependencies
 
@@ -172,7 +206,14 @@ EventBus 自身不持有业务状态，但管理订阅关系的内部状态：
 | **（无上游依赖）** | — | — | EventBus 是 Foundation 层零依赖基础设施，不依赖任何其他系统 |
 | 资源系统 | 下游依赖 EventBus | 硬依赖 | 发布 `resource.{id}.changed` 事件，通知 UI/HUD 刷新 |
 | 属性系统 | 下游依赖 EventBus | 硬依赖 | 发布 `attribute.{entity_id}.{attr_id}.base_changed` 与 `attribute.{entity_id}.unregistered` 事件，通知 HUD/Build 评分系统刷新 |
-| 调试控制台 | 下游依赖 EventBus | 软依赖 | 订阅所有事件用于开发日志；可移除不影响游戏功能 |
+| 时间管理器 | 下游依赖 EventBus | 硬依赖 | 发布 `time.frozen` / `time.unfrozen` / `time.speed_changed` / `time.offline_delta` 事件 |
+| 存档系统 | 下游依赖 EventBus | 硬依赖 | 发布 `save.loaded` / `save.saved` / `save.corrupted` 事件 |
+| 修正器/倍率引擎 | 下游依赖 EventBus | 硬依赖 | 发布 `modifier_expired` 事件 |
+| 产出乘数系统 | 下游依赖 EventBus | 硬依赖 | 发布 `production_multiplier_changed` 事件；订阅 `modifier_expired` 清理来源追踪 |
+| 物品/材料系统 | 下游依赖 EventBus | 软依赖 | 发布 `item_registry.loaded` / `item_registry.reloaded` 事件 |
+| 等级系统 | 下游依赖 EventBus | 硬依赖 | 发布 `level.changed` 事件 |
+| 掉落系统 | 下游依赖 EventBus | 硬依赖 | 发布 `loot.dropped` 事件 |
+| 调试控制台 | 下游依赖 EventBus | 软依赖 | 通过 `subscribe_pattern(prefix)` 订阅指定前缀用于开发日志；可移除不影响游戏功能 |
 | UI 框架 | 下游依赖 EventBus | 硬依赖 | 订阅数据变化事件驱动界面刷新 |
 | HUD 系统 | 下游依赖 EventBus | 硬依赖 | 订阅资源/等级变化事件更新顶栏显示 |
 | 通知系统（未来） | 下游依赖 EventBus | 硬依赖 | 订阅突破、稀有掉落、成就等关键事件 |
@@ -200,7 +241,7 @@ EventBus 自身不持有业务状态，但管理订阅关系的内部状态：
 - [ ] **GIVEN** 系统A 订阅了 `test.event`，**WHEN** 系统A 调用 `EventBus.unsubscribe("test.event", callable)`，**THEN** 后续 emit 不再触发该 callable
 - [ ] **GIVEN** 系统A 对 `test.event` 订阅了同一个 callable 两次，**WHEN** emit 被调用，**THEN** callable 只执行一次
 - [ ] **GIVEN** 系统A 使用 `subscribe_once` 订阅 `test.event`，**WHEN** 事件被 emit 一次后再次 emit，**THEN** callable 只在第一次被调用
-- [ ] **GIVEN** 3 个订阅者订阅同一事件，其中第 2 个回调抛出异常，**WHEN** `EventBus.emit()` 被调用，**THEN** 第 1 和第 3 个订阅者正常收到事件，控制台打印异常警告
+- [ ] **GIVEN** 3 个订阅者订阅同一事件，其中第 2 个 callable 在投递前已无效，**WHEN** `EventBus.emit()` 被调用，**THEN** 第 1 和第 3 个订阅者正常收到事件，第 2 个订阅记录被移除，控制台打印无效 callable 警告
 - [ ] **GIVEN** 一个 Node 作为订阅者，**WHEN** 该 Node 被 `queue_free()` 释放，**THEN** EventBus 自动移除该 Node 的所有订阅，后续 emit 不触发该 Node 的回调
 - [ ] **GIVEN** 回调执行中调用 `subscribe("other.event", callable)`，**WHEN** 当前 emit 完成，**THEN** 延迟的订阅生效，可接收后续 `other.event` 的 emit
 - [ ] **GIVEN** 回调执行中再次对同一事件调用 `emit`，**WHEN** 检测到递归，**THEN** 递归 emit 被忽略，控制台打印警告
@@ -209,14 +250,21 @@ EventBus 自身不持有业务状态，但管理订阅关系的内部状态：
 - [ ] **GIVEN** 对从未订阅过的 callable 调用 `unsubscribe`，**WHEN** 执行完毕，**THEN** 无错误、无副作用
 - [ ] **GIVEN** `DEBUG_ENABLED = true`，**WHEN** 任意 emit 被调用，**THEN** 控制台输出事件名和当前订阅者数量
 - [ ] **GIVEN** 同一帧内对 `resource.lingqi.changed` emit 100 次，**WHEN** `HIGH_EMIT_FREQUENCY_THRESHOLD = 50` 且调试模式开启，**THEN** 帧结束时打印高频告警
-- [ ] **GIVEN** `subscribe_once` 的回调在执行中抛出异常，**WHEN** 异常被捕获后，**THEN** 该订阅已被移除，后续 emit 不再触发该 callable
+- [ ] **GIVEN** `subscribe_once` 的 callable 在投递前已无效，**WHEN** emit 尝试投递，**THEN** 该订阅被移除，后续 emit 不再触发该 callable
 - [ ] **GIVEN** 一个事件有 10 个订阅者，每个回调耗时 0.01 ms，**WHEN** 执行 emit，**THEN** 总投递耗时 < 0.2 ms（含查找开销）
 - [ ] **GIVEN** EventBus 初始化完成，**WHEN** 在帧内执行 100 次不同事件的 emit（每次 5 个订阅者），**THEN** 总耗时 < 0.5 ms（帧预算内）
+- [ ] **GIVEN** 系统A 调用 `subscribe_pattern("resource", callable)`，**WHEN** EventBus.emit("resource.lingqi.changed", {...}) 被调用，**THEN** callable 被触发一次，第一个参数等于 `"resource.lingqi.changed"`，第二个参数等于 emit 的 payload
+- [ ] **GIVEN** 系统A 调用 `subscribe_pattern("resource", callable)`，**WHEN** EventBus.emit("attribute.player.atk.base_changed", {...}) 被调用（前缀不匹配），**THEN** callable 不被触发
+- [ ] **GIVEN** 系统A 调用 `subscribe_pattern("", callable)`（空 prefix），**WHEN** 注册被处理，**THEN** 注册被拒绝，控制台打印警告，后续任何 emit 都不触发该 callable
+- [ ] **GIVEN** 系统A 同时调用 `subscribe("test.event", cb1)` 与 `subscribe_pattern("test", cb2)`，**WHEN** EventBus.emit("test.event", {...}) 被调用，**THEN** cb1 与 cb2 均被触发；cb1 收到一个参数（payload），cb2 收到两个参数（event_name + payload）
+- [ ] **GIVEN** 系统A `subscribe_pattern("resource", callable)`，**WHEN** 调用 `unsubscribe_pattern("resource", callable)` 后再 emit `resource.lingqi.changed`，**THEN** callable 不再被触发
+- [ ] **GIVEN** 系统A `subscribe_pattern("resource", callable)`，**WHEN** 错误地调用 `unsubscribe("resource", callable)`，**THEN** 该 pattern 订阅仍然有效（unsubscribe 与 unsubscribe_pattern 互不影响）
+- [ ] **GIVEN** 同一帧内连续 10 次调用 `emit_coalesced("ui.hud.refresh", payload_i, "resource_panel")`，**WHEN** 帧末 flush 执行，**THEN** 订阅者只收到 1 次 `ui.hud.refresh`，payload 等于第 10 次调用的 payload
 
 ## Open Questions
 
 | Question | Owner | Deadline | Resolution |
 |----------|-------|----------|-----------|
-| 是否支持通配符订阅（如 `resource.*.changed`）？通配符增加查找复杂度但减少订阅代码量 | 开发者 | 实现阶段前 | — |
+| 是否支持通配符订阅（如 `resource.*.changed`）？通配符增加查找复杂度但减少订阅代码量 | 开发者 | 实现阶段前 | **RESOLVED 2026-05-03** — 采用前缀匹配方案：新增 `subscribe_pattern(prefix, callable)` + `unsubscribe_pattern(prefix, callable)`（详见规则 11）。回调签名扩展为 `(event_name, payload)` 以便消费方区分多个匹配事件。由调试控制台 `event watch <prefix>` 命令首次驱动；生产代码不应使用此机制。 |
 | payload Dictionary 是否深拷贝给每个订阅者？引用传递性能更好但有被订阅者意外修改的风险 | 开发者 | 实现阶段前 | — |
-| 是否需要 `emit_deferred(event_name, payload)` 支持"下一帧投递"以缓解同帧高频事件？ | 开发者 | 性能测试后决定 | — |
+| 是否需要 `emit_deferred(event_name, payload)` 支持"下一帧投递"以缓解同帧高频事件？ | 开发者 | 性能测试后决定 | **RESOLVED 2026-05-03** — 不添加无合并语义的 deferred API；改为 `emit_coalesced(event_name, payload, coalesce_key)`，仅用于最新状态型 UI/调试事件。事务事件继续使用同步 `emit()`，批处理由发布方领域系统负责。 |
