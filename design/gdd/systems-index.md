@@ -21,10 +21,10 @@
 
 | # | System Name | Category | Priority | Status | Design Doc | Depends On |
 |---|-------------|----------|----------|--------|------------|------------|
-| 1 | 大数值系统 | Foundation | MVP | Not Started | — | — |
-| 2 | 随机数与种子系统 | Foundation | MVP | Not Started | — | — |
-| 3 | 事件总线 | Foundation | MVP | Not Started | — | — |
-| 4 | 时间管理器 | Foundation | MVP | Not Started | — | — |
+| 1 | 大数值系统 | Foundation | MVP | Designed | design/gdd/big-number-system.md | — |
+| 2 | 随机数与种子系统 | Foundation | MVP | Designed | design/gdd/random-seed-system.md | — |
+| 3 | 事件总线 | Foundation | MVP | Designed | design/gdd/event-bus.md | — |
+| 4 | 时间管理器 | Foundation | MVP | Designed | design/gdd/time-manager.md | 事件总线 |
 | 5 | 数值格式化系统 | Core Data | MVP | Not Started | — | 大数值系统 |
 | 6 | 数据配置系统 | Core Data | MVP | Not Started | — | 大数值系统 |
 | 7 | 公式引擎 | Core Data | MVP | Not Started | — | 大数值系统, 随机数与种子系统 |
@@ -85,7 +85,7 @@
 1. **大数值系统** — All numeric operations across the game use this; without it no system can express values
 2. **随机数与种子系统** — Reproducible randomness for combat, drops, and events
 3. **事件总线** — Decoupled cross-system communication; prevents hard-coded dependencies
-4. **时间管理器** — Timestamp-based time tracking; foundation for offline income and auto-production
+4. **时间管理器** — depends on: 事件总线 — Timestamp-based time tracking; foundation for offline income and auto-production
 
 ### Core Data Layer (depends on Foundation)
 
@@ -203,10 +203,10 @@ None detected. All dependency chains flow unidirectionally: Foundation → Core 
 | Metric | Count |
 |--------|-------|
 | Total systems identified | 30 |
-| Design docs started | 0 |
+| Design docs started | 4 |
 | Design docs reviewed | 0 |
 | Design docs approved | 0 |
-| MVP systems designed | 0 / 30 |
+| MVP systems designed | 4 / 30 |
 
 ---
 

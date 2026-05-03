@@ -4,40 +4,32 @@
 
 ## Current Task
 
-Systems decomposition for MVP (最小挂机闭环).
+随机数与种子系统 (Random Seed System) GDD — Complete.
 
 ## Status
 
-Systems index created and reviewed.
+All 8 required sections + Open Questions written (30 acceptance criteria). Pending independent design review.
 
 ## Files Modified This Session
 
 | File | Purpose |
 |------|---------|
-| production/project-stage-report.md | Project stage analysis (Systems Design) |
-| design/gdd/systems-index.md | MVP systems enumeration, dependency map, design order |
+| design/gdd/random-seed-system.md | GDD complete — 8 sections, 30 acceptance criteria |
+| design/gdd/systems-index.md | Updated random seed system status to Designed, progress 4/30 |
 
 ## Key Decisions
 
-- MVP scope: game-concept.md §11 (10 features, 30 systems)
-- Planning range: MVP only, no full 225-system map
+- Hybrid stream ID: enum (COMBAT/LOOT/EVENT/AFFIX) + string for extensions
+- Weighted random provided by RNG system (not downstream)
+- Seed-level replay (save seed + state, no per-call logging)
+- Multi-stream architecture with full isolation
+- Offline simulation uses state copy, online RNG unaffected
 - Review mode: full
-- TD-SYSTEM-BOUNDARY: CONCERNS (5 items, accepted — to address in GDDs)
-- PR-SCOPE: REALISTIC
-- CD-SYSTEMS: APPROVE
-
-## Design Order (first 5)
-
-1. 大数值系统
-2. 事件总线
-3. 时间管理器
-4. 随机数与种子系统
-5. 公式引擎
 
 ## Next Step
 
-Run `/design-system big-number-system` to author the first GDD.
-Or run `/map-systems next` to automatically pick the next undesigned system.
+Design next system: 公式引擎 (design order #5)
+Or run `/design-review design/gdd/random-seed-system.md` in a fresh session.
 
 ## Open Questions
 
@@ -45,6 +37,6 @@ None.
 
 <!-- STATUS -->
 Epic: MVP Systems Design
-Feature: Systems Index
-Task: Index created — ready for GDD authoring
+Feature: Random Seed System
+Task: GDD complete — pending review
 <!-- /STATUS -->
