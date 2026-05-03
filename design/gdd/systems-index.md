@@ -21,19 +21,19 @@
 
 | # | System Name | Category | Priority | Status | Design Doc | Depends On |
 |---|-------------|----------|----------|--------|------------|------------|
-| 1 | 大数值系统 | Foundation | MVP | Designed | design/gdd/big-number-system.md | — |
+| 1 | 大数值系统 | Foundation | MVP | Approved | design/gdd/big-number-system.md | — |
 | 2 | 随机数与种子系统 | Foundation | MVP | Designed | design/gdd/random-seed-system.md | — |
-| 3 | 事件总线 | Foundation | MVP | Designed | design/gdd/event-bus.md | — |
+| 3 | 事件总线 | Foundation | MVP | In Review | design/gdd/event-bus.md | — |
 | 4 | 时间管理器 | Foundation | MVP | Designed | design/gdd/time-manager.md | 事件总线 |
-| 5 | 数值格式化系统 | Core Data | MVP | Not Started | — | 大数值系统 |
-| 6 | 数据配置系统 | Core Data | MVP | Not Started | — | 大数值系统 |
-| 7 | 公式引擎 | Core Data | MVP | Not Started | — | 大数值系统, 随机数与种子系统 |
-| 8 | 修正器/倍率引擎 | Core Data | MVP | Not Started | — | 公式引擎, 大数值系统 |
-| 9 | 存档系统 | Core Data | MVP | Not Started | — | 数据配置系统, 时间管理器 |
-| 10 | 资源系统 | Core Gameplay | MVP | Not Started | — | 大数值系统, 事件总线, 公式引擎, 修正器/倍率引擎 |
-| 11 | 属性系统 | Core Gameplay | MVP | Not Started | — | 大数值系统, 公式引擎, 修正器/倍率引擎 |
-| 12 | 物品/材料系统 | Core Gameplay | MVP | Not Started | — | 数据配置系统, 大数值系统 |
-| 13 | 产出乘数系统 | Core Gameplay | MVP | Not Started | — | 修正器/倍率引擎 |
+| 5 | 数值格式化系统 | Core Data | MVP | Designed | design/gdd/number-formatting-system.md | 大数值系统 |
+| 6 | 数据配置系统 | Core Data | MVP | Designed | design/gdd/data-config-system.md | 大数值系统 |
+| 7 | 公式引擎 | Core Data | MVP | Designed | design/gdd/formula-engine.md | 大数值系统, 随机数与种子系统 |
+| 8 | 修正器/倍率引擎 | Core Data | MVP | Designed | design/gdd/modifier-engine.md | 公式引擎, 大数值系统 |
+| 9 | 存档系统 | Core Data | MVP | Designed | design/gdd/save-system.md | 数据配置系统, 时间管理器 |
+| 10 | 资源系统 | Core Gameplay | MVP | Designed | design/gdd/resource-system.md | 大数值系统, 事件总线, 公式引擎, 修正器/倍率引擎 |
+| 11 | 属性系统 | Core Gameplay | MVP | Designed | design/gdd/attribute-system.md | 大数值系统, 修正器/倍率引擎 |
+| 12 | 物品/材料系统 | Core Gameplay | MVP | Approved | design/gdd/item-material-system.md | 数据配置系统, 大数值系统 |
+| 13 | 产出乘数系统 | Core Gameplay | MVP | Designed | design/gdd/output-multiplier-system.md | 修正器/倍率引擎 |
 | 14 | 调试控制台 | Core Gameplay | MVP | Not Started | — | 事件总线, 数据配置系统 |
 | 15 | 等级系统 | Feature | MVP | Not Started | — | 属性系统, 公式引擎 |
 | 16 | 存储上限系统 | Feature | MVP | Not Started | — | 物品/材料系统, 资源系统 |
@@ -203,10 +203,10 @@ None detected. All dependency chains flow unidirectionally: Foundation → Core 
 | Metric | Count |
 |--------|-------|
 | Total systems identified | 30 |
-| Design docs started | 4 |
-| Design docs reviewed | 0 |
-| Design docs approved | 0 |
-| MVP systems designed | 4 / 30 |
+| Design docs started | 13 |
+| Design docs reviewed | 5 |
+| Design docs approved | 3 |
+| MVP systems designed | 13 / 30 |
 
 ---
 

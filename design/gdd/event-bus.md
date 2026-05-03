@@ -61,13 +61,19 @@
 10. **调试模式**：`EventBus.set_debug_enabled(true)` 开启后，每次 emit 都打印事件名和订阅者数量到控制台。不影响事件投递行为。
 
 11. **事件名空间约定**：
-    - `resource.{resource_id}.changed` — 资源变化
+    - `resource.{resource_id}.changed` — 资源数量变化（payload: `{resource_id, old_value, new_value, delta}`）
+    - `resource.{resource_id}.cap_changed` — 资源上限变化（由资源系统 `set_max` 触发）
+    - `resource.{resource_id}.overflow` — 资源溢出（add 超过上限或 set_max 截断 current 时触发；payload 含 `attempted, actual_added, lost`）
+    - `attribute.{entity_id}.{attr_id}.base_changed` — 角色属性基础值变化（payload: `{entity_id, attr_id, old_value, new_value, delta}`，由属性系统 `set_base` 触发；最终值变化不广播——订阅者按需在收到 base_changed 后重算 final）
+    - `attribute.{entity_id}.unregistered` — 实体注销聚合事件（payload: `{entity_id}`，由属性系统 `unregister_entity` 触发；HUD 据此清理面板，无需逐属性订阅删除事件）
     - `combat.{event_type}` — 战斗事件
     - `ui.{screen_name}.opened/closed` — UI 页面切换
     - `system.{system_name}.unlocked` — 系统解锁
     - `level.changed` — 等级变化
     - `achievement.unlocked` — 成就达成
     - `offline.settled` — 离线收益结算完成
+    - `item_registry.loaded` — 物品注册表启动加载完成（payload: `{count: int, item_classes: Dictionary[String, int]}`，由物品/材料系统 `_ready()` 完成时触发；HUD/掉落系统据此确认 metadata 就绪）
+    - `item_registry.reloaded` — 物品注册表热重载完成（payload: `{count: int, item_classes: Dictionary[String, int]}`，由 `ItemRegistry.reload()` 在 debug 模式触发；订阅方应刷新缓存的 metadata）
 
 ### States and Transitions
 
@@ -88,6 +94,7 @@ EventBus 自身不持有业务状态，但管理订阅关系的内部状态：
 | 系统 | 方向 | 数据接口 | 说明 |
 |------|------|---------|------|
 | 资源系统 | 上游发布 | `resource.{id}.changed`，payload: `{resource_id, old_value, new_value, delta}` | 资源增减时发布，UI/HUD 订阅更新显示 |
+| 属性系统 | 上游发布 | `attribute.{entity_id}.{attr_id}.base_changed` 和 `attribute.{entity_id}.unregistered` | 实体属性基础值变化与实体注销时发布，HUD 精准订阅主角/上阵弟子的属性事件 |
 | 等级系统 | 上游发布 | `level.changed`，payload: `{old_level, new_level}` | 升级时发布，UI 和技能系统订阅 |
 | 掉落系统 | 上游发布 | `loot.dropped`，payload: `{item_id, quantity, source}` | 物品掉落时发布，背包和日志订阅 |
 | UI 框架 | 下游订阅 | 订阅各类显示更新事件 | 响应数据变化刷新界面 |
@@ -164,6 +171,7 @@ EventBus 自身不持有业务状态，但管理订阅关系的内部状态：
 |------|------|---------|---------|
 | **（无上游依赖）** | — | — | EventBus 是 Foundation 层零依赖基础设施，不依赖任何其他系统 |
 | 资源系统 | 下游依赖 EventBus | 硬依赖 | 发布 `resource.{id}.changed` 事件，通知 UI/HUD 刷新 |
+| 属性系统 | 下游依赖 EventBus | 硬依赖 | 发布 `attribute.{entity_id}.{attr_id}.base_changed` 与 `attribute.{entity_id}.unregistered` 事件，通知 HUD/Build 评分系统刷新 |
 | 调试控制台 | 下游依赖 EventBus | 软依赖 | 订阅所有事件用于开发日志；可移除不影响游戏功能 |
 | UI 框架 | 下游依赖 EventBus | 硬依赖 | 订阅数据变化事件驱动界面刷新 |
 | HUD 系统 | 下游依赖 EventBus | 硬依赖 | 订阅资源/等级变化事件更新顶栏显示 |

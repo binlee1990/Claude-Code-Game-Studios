@@ -37,7 +37,7 @@
 #   Each entry: name, status, source, referenced_by[], attributes{}, added, revised
 
 version: 1
-last_updated: ""
+last_updated: "2026-05-03"
 
 # ─── ENTITIES ────────────────────────────────────────────────────────────────
 # Named game-world objects: enemies, NPCs, characters, factions, bosses.
@@ -77,7 +77,158 @@ entities: []
 # Attribute fields: value_gold, weight, stackable, category, and any stat
 #   modifiers that another system (e.g., economy, crafting) might reference.
 
-items: []
+items:
+  - name: lingqi
+    status: active
+    source: design/gdd/resource-system.md
+    referenced_by:
+      - design/gdd/resource-system.md
+      - design/gdd/item-material-system.md
+      - design/gdd/output-multiplier-system.md
+    category: regenerative_resource
+    has_cap: true
+    reset_scope: breakthrough
+    chinese_name: 灵气
+    storage_type: BigNumber
+    added: 2026-05-03
+    revised: ""
+
+  - name: xiuwei
+    status: active
+    source: design/gdd/resource-system.md
+    referenced_by:
+      - design/gdd/resource-system.md
+      - design/gdd/item-material-system.md
+      - design/gdd/output-multiplier-system.md
+    category: progress_resource
+    has_cap: false
+    reset_scope: breakthrough
+    chinese_name: 修为
+    storage_type: BigNumber
+    added: 2026-05-03
+    revised: ""
+
+  - name: lingshi
+    status: active
+    source: design/gdd/resource-system.md
+    referenced_by:
+      - design/gdd/resource-system.md
+      - design/gdd/item-material-system.md
+      - design/gdd/output-multiplier-system.md
+    category: currency
+    has_cap: false
+    reset_scope: ascension
+    chinese_name: 灵石
+    storage_type: BigNumber
+    added: 2026-05-03
+    revised: ""
+
+  - name: herb
+    status: active
+    source: design/gdd/resource-system.md
+    referenced_by:
+      - design/gdd/resource-system.md
+      - design/gdd/item-material-system.md
+      - design/gdd/output-multiplier-system.md
+    category: crafting_material
+    has_cap: true
+    reset_scope: ascension
+    chinese_name: 药材
+    storage_type: BigNumber
+    added: 2026-05-03
+    revised: ""
+
+  - name: exp
+    status: active
+    source: design/gdd/resource-system.md
+    referenced_by:
+      - design/gdd/resource-system.md
+      - design/gdd/item-material-system.md
+    category: progress_resource
+    has_cap: false
+    reset_scope: breakthrough
+    chinese_name: 战斗经验
+    storage_type: BigNumber
+    added: 2026-05-03
+    revised: ""
+
+  - name: hp_max
+    status: active
+    source: design/gdd/attribute-system.md
+    referenced_by:
+      - design/gdd/attribute-system.md
+    category: attribute
+    chinese_name: 生命上限
+    storage_type: BigNumber
+    recommended_range: [10, 1000000]
+    notes: "实体战斗存活基础值；hp_current 实时血量不进属性系统（见 attribute-system.md Open Questions）"
+    added: 2026-05-03
+    revised: ""
+
+  - name: atk
+    status: active
+    source: design/gdd/attribute-system.md
+    referenced_by:
+      - design/gdd/attribute-system.md
+    category: attribute
+    chinese_name: 攻击
+    storage_type: BigNumber
+    recommended_range: [1, 1000000]
+    notes: "伤害输出基础值；ModifierEngine target 命名约定 {entity_id}.atk"
+    added: 2026-05-03
+    revised: ""
+
+  - name: def
+    status: active
+    source: design/gdd/attribute-system.md
+    referenced_by:
+      - design/gdd/attribute-system.md
+    category: attribute
+    chinese_name: 防御
+    storage_type: BigNumber
+    recommended_range: [0, 1000000]
+    notes: "伤害减免基础值"
+    added: 2026-05-03
+    revised: ""
+
+  - name: spd
+    status: active
+    source: design/gdd/attribute-system.md
+    referenced_by:
+      - design/gdd/attribute-system.md
+    category: attribute
+    chinese_name: 速度
+    storage_type: BigNumber
+    recommended_range: [1, 1000]
+    notes: "行动顺序与攻速基础值"
+    added: 2026-05-03
+    revised: ""
+
+  - name: crit_rate
+    status: active
+    source: design/gdd/attribute-system.md
+    referenced_by:
+      - design/gdd/attribute-system.md
+    category: attribute
+    chinese_name: 暴击率
+    storage_type: BigNumber
+    recommended_range: [0.0, 1.0]
+    notes: "概率值；为 schema 一致仍存为 BigNumber，调用方按 float 语义解读"
+    added: 2026-05-03
+    revised: ""
+
+  - name: crit_dmg
+    status: active
+    source: design/gdd/attribute-system.md
+    referenced_by:
+      - design/gdd/attribute-system.md
+    category: attribute
+    chinese_name: 暴击伤害
+    storage_type: BigNumber
+    recommended_range: [1.0, 100.0]
+    notes: "暴击发生时的伤害倍率"
+    added: 2026-05-03
+    revised: ""
 
 # Example:
 #
@@ -139,7 +290,99 @@ formulas: []
 #
 # Required fields: name, status, source, referenced_by, value, unit, added
 
-constants: []
+constants:
+  - name: item_rarity_enum
+    status: active
+    source: design/gdd/item-material-system.md
+    referenced_by:
+      - design/gdd/item-material-system.md
+    value:
+      - fanpin       # 凡品（MVP material 全部使用此值）
+      - jingliang    # 精良
+      - xiyou        # 稀有
+      - shishi       # 史诗
+      - chuanshuo    # 传说
+      - shenhua      # 神话
+      - xiantian     # 先天
+      - hundun       # 混沌
+    unit: enum_strings
+    notes: "8 元修仙稀有度枚举，与 game-concept.md §9 #108 装备品质 8 级一致。HUD GDD 据此定义 RGB 颜色映射；本 GDD 仅锁定字符串集合。任何 GDD 引入新稀有度字符串前应先在此追加。"
+    added: 2026-05-03
+    revised: ""
+
+  - name: item_class_enum
+    status: active
+    source: design/gdd/item-material-system.md
+    referenced_by:
+      - design/gdd/item-material-system.md
+    value:
+      - resource_material   # MVP 唯一使用的类别
+      - consumable          # Alpha 预留
+      - equipment           # Alpha 预留
+      - quest               # Alpha 预留
+    unit: enum_strings
+    notes: "4 元 ItemRegistry item_class 字段锁定枚举（**字段名为 item_class 而非 category**——/design-review 2026-05-03 将字段重命名以避免与 ResourceSystem.category 在共享 id 命名空间下的语义分叉；旧名 item_category_enum 重命名为 item_class_enum）。MVP 仅用 resource_material。Alpha 引入新类别前必须在此追加，否则 ItemRegistry 加载会拒绝。注意 ItemRegistry.item_class 与 ResourceSystem.category（regenerative/material/progress/currency）不同维度——前者按物品大类分，后者按数量行为分。"
+    added: 2026-05-03
+    revised: 2026-05-03
+
+  - name: production_base_rate_lingqi
+    status: active
+    source: design/gdd/output-multiplier-system.md
+    referenced_by:
+      - design/gdd/output-multiplier-system.md
+    value: 1.0
+    unit: per_second
+    notes: "灵气基础被动产出速率。与 xiuwei 保持 10:1 比例（修仙叙事一致性）"
+    added: 2026-05-03
+    revised: ""
+
+  - name: production_base_rate_xiuwei
+    status: active
+    source: design/gdd/output-multiplier-system.md
+    referenced_by:
+      - design/gdd/output-multiplier-system.md
+    value: 0.1
+    unit: per_second
+    notes: "修为基础被动产出速率。灵气:修为 = 10:1"
+    added: 2026-05-03
+    revised: ""
+
+  - name: production_base_rate_lingshi
+    status: active
+    source: design/gdd/output-multiplier-system.md
+    referenced_by:
+      - design/gdd/output-multiplier-system.md
+    value: 0.1
+    unit: per_second
+    notes: "灵石基础被动产出速率。与首件可购买物品定价（80-120 灵石）联动——改动此值需同步调整商店定价"
+    added: 2026-05-03
+    revised: ""
+
+  - name: production_base_rate_herb
+    status: active
+    source: design/gdd/output-multiplier-system.md
+    referenced_by:
+      - design/gdd/output-multiplier-system.md
+    value: 0.02
+    unit: per_second
+    notes: "药材基础被动产出速率。与 lingqi 保持 1:50 比例以维持稀缺性"
+    added: 2026-05-03
+    revised: ""
+
+  - name: production_source_types_mvp
+    status: active
+    source: design/gdd/output-multiplier-system.md
+    referenced_by:
+      - design/gdd/output-multiplier-system.md
+    value:
+      - realm
+      - equipment
+      - zone
+      - buff
+    unit: enum_strings
+    notes: "MVP 4 类产出来源类型，映射到 ModifierEngine 同名池。skill 和 milestone 为 Alpha/Post-MVP 预留。新增来源类型需在此追加并在 ModifierEngine 中创建对应池"
+    added: 2026-05-03
+    revised: ""
 
 # Example:
 #
