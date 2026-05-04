@@ -33,6 +33,12 @@ Use `/quick-design` to author.
 - Per-screen specs: `design/ux/[screen-name].md`
 - HUD design: `design/ux/hud.md`
 - Interaction pattern library: `design/ux/interaction-patterns.md`
-- Accessibility requirements: `design/ux/accessibility-requirements.md`
 
 Use `/ux-design` to author. Validate with `/ux-review` before passing to `/team-ui`.
+
+## Accessibility Requirements (`design/`)
+
+- **Path**: `design/accessibility-requirements.md`（项目根 `design/` 下，**不在** `design/ux/` 子目录）
+- 与 `gate-check` skill 的 Required Artifact 路径保持一致
+- 包含 tier 承诺、特性表、已知限制、跨节引用 art-bible Sec 4.6 的色弱矩阵
+- 单屏的 accessibility 注释仍写在各 `design/ux/[screen].md` 内，但项目级承诺写本文件

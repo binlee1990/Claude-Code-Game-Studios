@@ -1,0 +1,7 @@
+# Integration tests go here — one subdirectory per system or per cross-system flow, e.g.:
+#   tests/integration/save_system/
+#   tests/integration/offline_combat/
+#   tests/integration/event_bus/
+#
+# 集成测试可以涉及真实存档 IO、Autoload 协作、信号链等，但仍要 setup/teardown 自己的状态。
+# 该文件名故意带 _placeholder 后缀，让 Godot 不会真把目录当 .gdignore 处理。

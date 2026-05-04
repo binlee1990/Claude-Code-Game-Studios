@@ -1,0 +1,38 @@
+name: Automated Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Run GdUnit4 Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Run GdUnit4 Tests
+        # NOTE: godot-version pinned to docs/engine-reference/godot/VERSION.md.
+        # If MikeSchulze/gdUnit4-action does not yet publish 4.6.2,
+        # temporarily downgrade to the latest supported stable, log the reason
+        # in tests/README.md, and reopen as a tracked task.
+        uses: MikeSchulze/gdUnit4-action@v1
+        with:
+          godot-version: '4.6.2'
+          paths: |
+            tests/unit
+            tests/integration
+          report-name: test-results
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: reports/

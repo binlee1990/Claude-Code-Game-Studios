@@ -1,0 +1,7 @@
+# Unit tests go here — one subdirectory per system, e.g.:
+#   tests/unit/combat/
+#   tests/unit/resource_system/
+#   tests/unit/big_number/
+#
+# 该文件名故意带 _placeholder 后缀，让 Godot 不会真把目录当 .gdignore 处理，
+# 但仍能让空目录在 git 中可见。把它当作占位 README 用。

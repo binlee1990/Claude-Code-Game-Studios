@@ -1,0 +1,5 @@
+# 该目录存放 Visual / UI / Feel 故事的手测证据：
+#   - 截图（含日期、commit hash、设备/分辨率）
+#   - 手测签字记录（lead 签字时间 + 通过/不通过 + 备注）
+#   - 短录屏（仅当截图无法表达手感）
+# 命名建议: STORY-ID_YYYY-MM-DD_<short-desc>.{png|md|mp4}

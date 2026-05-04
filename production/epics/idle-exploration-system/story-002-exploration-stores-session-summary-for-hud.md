@@ -1,0 +1,90 @@
+# Story 002: exploration stores session summary for HUD
+
+> **Epic**: 挂机探索系统
+> **Status**: Ready
+> **Layer**: Simulation
+> **Type**: UI
+> **Manifest Version**: 2026-05-04
+
+## Context
+
+**GDD**: `design/gdd/idle-exploration-system.md`
+**Requirement**: `TR-idle-exploration-001` — IdleExplorationSystem coordinates selected zone exploration through semi-auto combat and zone state.
+
+**ADR Governing Implementation**: ADR-0002: 事件总线架构
+**ADR Decision Summary**: Use a global `EventBus` Autoload Node with string event names and `Dictionary` payloads. The bus dispatches events synchronously in the current frame. Exact subscriptions are the production path. Prefix pattern subscriptions exist only for debug tooling such as `event watch resource`. Coalesced events are allowed only for display refreshes where latest-state wins.
+
+**Engine**: Godot 4.6.2 | **Risk**: HIGH
+**Engine Notes**: ADR-0002 status is Accepted; verify any Godot 4.6.2 behavior named by the ADR before closing the story.
+
+**Control Manifest Rules (this layer)**:
+- Required: **Use CombatCalculator as the single damage-resolution service for online and offline combat** — source: ADR-0009
+- Required: **Use RNGManager COMBAT and LOOT streams consistently for combat and drops** — source: ADR-0004, ADR-0009
+- Required: **Aggregate offline combat/reward facts into a draft before settlement** — source: ADR-0009, ADR-0015
+- Required: **Use OutputMultiplierSystem/ModifierEngine for production multipliers; ResourceSystem only receives settled amounts** — source: ADR-0007, ADR-0010
+- Forbidden: **Never duplicate combat damage formulas inside OfflineCombatSimulation** — source: ADR-0009
+- Forbidden: **Never let OfflineCombatSimulation call SemiAutoCombatSystem directly** — source: ADR-0009
+- Forbidden: **Never let feature systems write resources by bypassing ResourceSystem APIs** — source: ADR-0010
+- Guardrail: **Offline simulation**: chunk long deltas and profile before vertical slice — source: ADR-0015
+- Guardrail: **Combat/offline equivalence**: fixed-seed online/offline replay tests are mandatory before Pre-Production prototype confidence — source: ADR-0009, ADR-0015
+
+---
+
+## Acceptance Criteria
+
+*From GDD `design/gdd/idle-exploration-system.md`, scoped to this story:*
+
+- [ ] GIVEN: offline combat returns summary, **WHEN** player returns, **THEN** exploration stores session summary for HUD.
+- [ ] GIVEN: capacity factor is below threshold, **WHEN** summary is generated, **THEN** recommendation includes capacity pressure.
+
+---
+
+## Implementation Notes
+
+*Derived from ADR-0002 Implementation Guidelines:*
+
+- Must define event names as constants; production code must not use untracked magic strings.
+- Must use exact subscriptions for production UI and gameplay consumers.
+- Must restrict `subscribe_pattern` to DebugConsole and similar diagnostics.
+- Must reject empty prefix pattern subscriptions.
+- Must validate `Callable.is_valid()` before delivery and remove invalid callables.
+- Must defer subscribe/unsubscribe mutations until after current dispatch completes.
+
+---
+
+## Out of Scope
+
+- Story 001 covers the baseline contract for this epic; do not duplicate its setup work here.
+
+---
+
+## QA Test Cases
+
+*Written at story creation. The developer implements against these cases.*
+
+- **Manual check**: GIVEN: offline combat returns summary, **WHEN** player returns, **THEN** exploration stores session summary for HUD.
+  - Setup: offline combat returns summary
+  - Verify: player returns
+  - Pass condition: exploration stores session summary for HUD
+
+- **Manual check**: GIVEN: capacity factor is below threshold, **WHEN** summary is generated, **THEN** recommendation includes capacity pressure.
+  - Setup: capacity factor is below threshold
+  - Verify: summary is generated
+  - Pass condition: recommendation includes capacity pressure
+
+---
+
+## Test Evidence
+
+**Story Type**: UI
+**Required evidence**:
+- `production/qa/evidence/exploration-stores-session-summary-for-hud-evidence.md` — manual/interaction evidence with sign-off
+
+**Status**: [ ] Not yet created
+
+---
+
+## Dependencies
+
+- Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
+- Unlocks: None
