@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=8 format=3]
+[gd_resource type="Theme" load_steps=12 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/ui/frames/panel_primary.png" id="1_panel_primary"]
 [ext_resource type="Texture2D" path="res://assets/ui/frames/panel_secondary.png" id="2_panel_secondary"]
@@ -34,9 +34,49 @@ texture_margin_top = 12.0
 texture_margin_right = 12.0
 texture_margin_bottom = 12.0
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_button_hover"]
+texture = ExtResource("4_button_states")
+region_rect = Rect2(96, 0, 96, 96)
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_button_pressed"]
+texture = ExtResource("4_button_states")
+region_rect = Rect2(192, 0, 96, 96)
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_button_disabled"]
+texture = ExtResource("4_button_states")
+region_rect = Rect2(288, 0, 96, 96)
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_focus"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.961, 0.784, 0.259, 1)
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_right = 0
+corner_radius_bottom_left = 0
+
 [resource]
 Panel/styles/panel = SubResource("StyleBoxTexture_panel_primary")
 PopupPanel/styles/panel = SubResource("StyleBoxTexture_panel_elevated")
 Button/styles/normal = SubResource("StyleBoxTexture_button_normal")
+Button/styles/hover = SubResource("StyleBoxTexture_button_hover")
+Button/styles/pressed = SubResource("StyleBoxTexture_button_pressed")
+Button/styles/disabled = SubResource("StyleBoxTexture_button_disabled")
+Button/styles/focus = SubResource("StyleBoxFlat_focus")
 Label/colors/font_color = Color(0.909804, 0.878431, 0.815686, 1)
 Label/colors/font_shadow_color = Color(0.239216, 0.219608, 0.188235, 1)

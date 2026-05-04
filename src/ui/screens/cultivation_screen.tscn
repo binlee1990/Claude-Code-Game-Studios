@@ -1,0 +1,183 @@
+[gd_scene load_steps=2 format=3 uid="uid://cultivationscreen001"]
+
+[ext_resource type="Script" path="res://src/ui/screens/cultivation_screen.gd" id="1_script"]
+
+[node name="CultivationScreen" type="Control"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="HeroZone" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.34
+anchor_bottom = 0.67
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+
+[node name="HeroVBox" type="VBoxContainer" parent="HeroZone"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PortraitRect" type="TextureRect" parent="HeroZone/HeroVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(320, 480)
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StanceIcon" type="TextureRect" parent="HeroZone/HeroVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(48, 48)
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LevelRealmLabel" type="Label" parent="HeroZone/HeroVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Lv.1 凡人"
+theme_override_font_sizes/font_size = 24
+
+[node name="DecisionZone" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.34
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.67
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+
+[node name="DecisionVBox" type="VBoxContainer" parent="DecisionZone"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="LingqiRow" parent="DecisionZone/DecisionVBox" type="ResourceProductionRow"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="XiuweiRow" parent="DecisionZone/DecisionVBox" type="ResourceProductionRow"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LingshiRow" parent="DecisionZone/DecisionVBox" type="ResourceProductionRow"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HerbRow" parent="DecisionZone/DecisionVBox" type="ResourceProductionRow"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="StanceSwitchBtn" type="Button" parent="DecisionZone/DecisionVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "切换姿态"
+theme_override_font_sizes/font_size = 18
+
+[node name="ActionZone" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0
+anchor_top = 0.67
+anchor_right = 0.34
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+
+[node name="ActionVBox" type="VBoxContainer" parent="ActionZone"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ManualBtn" type="Button" parent="ActionZone/ActionVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "手动修炼 (+1 灵气)"
+theme_override_font_sizes/font_size = 18
+
+[node name="CooldownBar" type="ProgressBar" parent="ActionZone/ActionVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 0.5
+value = 0.0
+
+[node name="CondenseCostLabel" type="Label" parent="ActionZone/ActionVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "凝练消耗: --"
+visible = false
+theme_override_font_sizes/font_size = 16
+
+[node name="CondenseRateLabel" type="Label" parent="ActionZone/ActionVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "凝练效率: --"
+visible = false
+theme_override_font_sizes/font_size = 16
+
+[node name="ShortageChip" type="PanelContainer" parent="ActionZone/ActionVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+visible = false
+
+[node name="ShortageLabel" type="Label" parent="ActionZone/ActionVBox/ShortageChip"]
+layout_mode = 2
+text = "灵气不足"
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.8, 0.133, 0.133, 1)
+
+[node name="InspectionZone" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.34
+anchor_top = 0.67
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+
+[node name="InspectionVBox" type="VBoxContainer" parent="InspectionZone"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SimHeaderLabel" type="Label" parent="InspectionZone/InspectionVBox"]
+layout_mode = 2
+text = "试算面板"
+theme_override_font_sizes/font_size = 18
+
+[node name="SimStanceOption" type="OptionButton" parent="InspectionZone/InspectionVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SimDurationSlider" type="HSlider" parent="InspectionZone/InspectionVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 10.0
+max_value = 1800.0
+value = 60.0
+
+[node name="SimResultLabel" type="RichTextLabel" parent="InspectionZone/InspectionVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+bbcode_enabled = true
+text = "拖动滑块查看试算结果"
+custom_minimum_size = Vector2(0, 60)
+
+[node name="SimApplyBtn" type="Button" parent="InspectionZone/InspectionVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "应用此姿态"
+theme_override_font_sizes/font_size = 16

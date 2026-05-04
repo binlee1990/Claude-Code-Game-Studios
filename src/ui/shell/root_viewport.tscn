@@ -1,0 +1,144 @@
+[gd_scene load_steps=4 format=3 uid="uid://rootviewport001"]
+
+[ext_resource type="Script" path="res://src/ui/shell/root_viewport.gd" id="1_script"]
+[ext_resource type="Theme" path="res://assets/ui/theme.tres" id="2_theme"]
+[ext_resource type="Script" path="res://src/ui/shell/left_nav.gd" id="3_left_nav_script"]
+
+[node name="RootViewport" type="Control"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="Shell" type="VBoxContainer" parent="UILayer"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+theme_override_constants/separation = 0
+
+[node name="TopStrip" type="PanelContainer" parent="UILayer/Shell"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 64)
+theme_override_styles/panel = null
+
+[node name="TopStripHBox" type="HBoxContainer" parent="UILayer/Shell/TopStrip"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TopStripPlaceholder" type="Label" parent="UILayer/Shell/TopStrip/TopStripHBox"]
+layout_mode = 2
+text = "TOP STRIP — resources / level / realm / zone / settings"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.604, 0.580, 0.533, 1)
+
+[node name="MainHBox" type="HBoxContainer" parent="UILayer/Shell"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="LeftNav" type="PanelContainer" parent="UILayer/Shell/MainHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(192, 0)
+theme_override_styles/panel = null
+script = ExtResource("3_left_nav_script")
+
+[node name="LeftNavVBox" type="VBoxContainer" parent="UILayer/Shell/MainHBox/LeftNav"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="NavTabPlaceholder" type="Label" parent="UILayer/Shell/MainHBox/LeftNav/LeftNavVBox"]
+layout_mode = 2
+text = "LEFT NAV — 5 tabs"
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.604, 0.580, 0.533, 1)
+
+[node name="CenterContent" type="Control" parent="UILayer/Shell/MainHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ScreenContainer" type="Control" parent="UILayer/Shell/MainHBox/CenterContent"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RightPanel" type="PanelContainer" parent="UILayer/Shell/MainHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(320, 0)
+theme_override_styles/panel = null
+
+[node name="RightPanelVBox" type="VBoxContainer" parent="UILayer/Shell/MainHBox/RightPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="RightPanelPlaceholder" type="Label" parent="UILayer/Shell/MainHBox/RightPanel/RightPanelVBox"]
+layout_mode = 2
+text = "RIGHT PANEL — battle log + status chips"
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.604, 0.580, 0.533, 1)
+
+[node name="BottomActionBar" type="PanelContainer" parent="UILayer/Shell"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
+visible = false
+theme_override_styles/panel = null
+
+[node name="BottomActionPlaceholder" type="Label" parent="UILayer/Shell/BottomActionBar"]
+layout_mode = 2
+text = "BOTTOM ACTION BAR"
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.604, 0.580, 0.533, 1)
+
+[node name="ToastLayer" type="CanvasLayer" parent="."]
+layer = 1
+
+[node name="ToastStack" type="VBoxContainer" parent="ToastLayer"]
+unique_name_in_owner = true
+anchors_preset = 2
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_top = 80.0
+offset_right = -16.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/separation = 4
+alignment = 2
+
+[node name="ModalLayer" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="ModalBlocker" type="ColorRect" parent="ModalLayer"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.35)
+mouse_filter = 2
+
+[node name="ModalContainer" type="Control" parent="ModalLayer"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

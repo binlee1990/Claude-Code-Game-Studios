@@ -1,3 +1,7 @@
-[gd_scene format=3 uid="uid://dwtxn700yrcce"]
+[gd_scene load_steps=2 format=3 uid="uid://dwtxn700yrcce"]
 
-[node name="Main" type="Node" unique_id=115962191]
+[ext_resource type="PackedScene" uid="uid://rootviewport001" path="res://src/ui/shell/root_viewport.tscn" id="1_root_viewport"]
+
+[node name="Main" type="Node"]
+
+[node name="RootViewport" parent="." instance=ExtResource("1_root_viewport")]
