@@ -68,6 +68,6 @@ Sprint 11 Phase 2 Visual Design — `design/ux/visual-design-sprint-11.md` 已�
 
 <!-- STATUS -->
 Epic: Sprint 11 — UI Scene Layer
-Feature: Phase 3 Implementation — Phase A complete (shared shell + base classes + cultivation screen)
-Task: 11 files written; 4 screens + modals + item_card remaining for Phase B
+Feature: Phase 3 Implementation complete — shared shell + 5 screens + all components
+Task: 17 .gd scripts written; 3 screens need .tscn scene files (combat/resources/save/offline)
 <!-- /STATUS -->
