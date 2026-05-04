@@ -1,9 +1,10 @@
 # Sprint Plan Index
 
 > **Generated**: 2026-05-04
-> **Last Updated**: 2026-05-04（dialectical audit & supplementation pass）
+> **Last Updated**: 2026-05-05（UI 缺口补丁 — 新增 Sprint 11 UI Scene Layer）
 > **Planning Rule**: Each sprint has at most 20 stories for AI execution context safety.
-> **Total MVP Stories**: 187 + 1 (mvp-smoke-loop) = 188
+> **Total MVP Stories**: 187 + 1 (mvp-smoke-loop) + 16 (sprint-11 UI scene layer) = 204
+> **MVP First Playable Status**: ❌ 未达成（Sprint 10 完成的是 Logic Layer Complete；UI 场景层在 Sprint 11）
 
 | Sprint | Story Count | Layer | Milestone | First Epic | Last Epic | File |
 |--------|-------------|-------|-----------|------------|-----------|------|
@@ -16,7 +17,8 @@
 | Sprint 7 | 20 | Core Gameplay | ✅ **Core Gameplay Layer 完成** | 物品/材料系统 | 调试控制台 | [sprint-7.md](sprint-7.md) |
 | Sprint 8 | 20 | Feature | — | 调试控制台 | 自动产出系统 | [sprint-8.md](sprint-8.md) |
 | Sprint 9 | 20 | Feature / Integration / Simulation | ✅ **Feature + Feature Integration 完成** | 自动产出系统 | 离线战斗模拟系统 | [sprint-9.md](sprint-9.md) |
-| Sprint 10 | 8 | Simulation / Presentation / MVP | 🎯 **MVP 完成（First Playable）** | 离线战斗模拟系统 | MVP 闭环验收 | [sprint-10.md](sprint-10.md) |
+| Sprint 10 | 8 | Simulation / Presentation / MVP Integration | ✅ **MVP Logic Layer Complete**（First Playable 实际未达成 — 见 sprint-10 2026-05-05 修订） | 离线战斗模拟系统 | MVP 闭环验收 | [sprint-10.md](sprint-10.md) |
+| Sprint 11 | 16 | UI Scene Layer | 🎯 **MVP First Playable** | ui-scene-foundation | mvp-screens | [sprint-11.md](sprint-11.md) |
 
 ## Layer 进度对照
 
@@ -36,7 +38,8 @@
 - Sprint 4 出口需 ADR-0006 atomic write + ADR-0007 叠加顺序 evidence 落档
 - Sprint 7 出口需 ADR-0012 Release 排除 + OMS×ModifierEngine 职责切分 evidence 落档
 - Sprint 9 出口需 ADR-0009 在线/离线统一 + ADR-0015 tick 粒度 evidence 落档
-- **Sprint 10 出口需 mvp-smoke-loop story PASS**（30 系统端到端闭环）
+- **Sprint 10 出口需 mvp-smoke-loop story PASS**（30 系统端到端闭环 — 已 PASS 但仅 headless 验证，非 First Playable）
+- **Sprint 11 出口需 mvp-first-playable-smoke story PASS**（玩家从启动 Godot 到完成 game-concept §10.2 8 步循环全程 UI 可达）
 
 ## QA Plan 状态
 
@@ -53,3 +56,4 @@
 ## 审计记录
 
 - **2026-05-04 dialectical audit**: 完成 11 项缺陷 D1–D11 修复 — 删过时 QA 警告、重写 sprint goal、修正 ~50 处 story type 误标、Sprint 9 critical path 重排、Sprint 10 加 MVP smoke story 与 mvp-smoke-loop epic、加 milestone 标记、加 traceability DoD。
+- **2026-05-05 UI 缺口审计**: 用户 reframe-and-execute 流程暴露 "MVP First Playable Achieved" 是误判 — Sprint 1–10 完成的是 30 系统**逻辑层**（含 UIManager / HUDSystem 的 RefCounted 服务），但**没有任何 .tscn 场景**（main.tscn 空 Node 根 / src/ui 不存在 / open_screen 从未 instantiate）。修复：systems-index.md 与 sprint-10.md 措辞修正；新增临时 HUD 骨架（src/ui/hud/*）证明服务可驱动 UI；新立 Sprint 11 (16 stories, 6 新 epic) 专门补 UI 场景层达成真正 First Playable。

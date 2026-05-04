@@ -1,9 +1,9 @@
 # Epics Index
 
-> **Last Updated**: 2026-05-04
+> **Last Updated**: 2026-05-05
 > **Engine**: Godot 4.6.2
 > **Stage**: Pre-Production
-> **Total Epics Created**: 30 / 30 MVP systems + 1 MVP Integration epic = 31
+> **Total Epics Created**: 30 / 30 MVP systems + 1 MVP Integration epic + 6 Sprint-11 UI Scene Layer epics（待 EPIC.md）= 37
 
 ## Foundation Layer (4 / 4 epics created)
 
@@ -77,6 +77,22 @@
 | [mvp-smoke-loop](mvp-smoke-loop/EPIC.md) | MVP Integration | MVP 闭环验收（跨 30 系统）| [design/gdd/systems-index.md](../../design/gdd/systems-index.md) §10.2 | 1 created | Ready |
 
 > 本 epic 不新增系统设计，仅作为 Sprint 10 出口的端到端 smoke gate。引用所有 30 个 MVP GDD 与 ADR-0008/0009/0010/0015。
+
+## UI Scene Layer (6 / 6 epics planned — 2026-05-05 立项，EPIC.md 与 story 文件待 Sprint 11 启动后补)
+
+> **背景**：Sprint 1–10 完成的 ui-framework / hud-system 是 RefCounted 服务层；Sprint 11 这 6 个 epic 把服务层接入 Godot 场景树，达成真正 MVP First Playable。详见 [sprint-11.md](../sprints/sprint-11.md)。
+
+| Epic（slug） | Layer | 范围 | GDD 引用 | Stories（计划） | Status |
+|-------------|-------|------|----------|----------------|--------|
+| ui-scene-foundation | UI Scene | UIManager 真实 instantiate + main.tscn RootViewport 多 CanvasLayer 分层 | design/gdd/ui-framework.md | 3 | Planned |
+| hud-real-layout | UI Scene | hud.tscn 替换临时骨架，对齐 design/ux/hud.md 三段式 + 渐进解锁 + 警戒态 | design/gdd/hud-system.md + design/ux/hud.md | 3 | Planned |
+| toast-stack | UI Scene | P-FBK-01 浮动通知栈（突破 / 稀有掉落 / 飞升） | design/ux/interaction-patterns.md P-FBK-01 | 1 | Planned |
+| offline-drawer | UI Scene | P-NAV-04 离线结算速览 drawer | design/ux/interaction-patterns.md P-NAV-04 | 1 | Planned |
+| mvp-screens | UI Scene | 5 主屏（修炼/战斗/资源/存档/离线结算）+ first-playable smoke story | game-concept §11 + design/ux/[screen].md（待 ux-design） | 6 | Planned |
+| debug-console-ui | UI Scene | 调试控制台 Control 层（service 层 sprint-7 完成） | design/gdd/debug-console.md + ADR-0012 | 1 | Planned |
+| settings | UI Scene | 设置屏 — 音量/分辨率/语言/数字格式/reduce motion/离线收益确认 | design/gdd/hud-system.md §Settings | 1 | Planned |
+
+> 临时 HUD 骨架（`src/ui/hud/hud.tscn` + `hud.gd` + project.godot `HUDBootstrap` autoload）已在 2026-05-05 创建，让用户启动 Godot 即可看到资源数字 + 修炼按钮 + 战斗日志，证明服务层可驱动 UI。Sprint 11 完成后，临时骨架由 `mvp-screens` epic 的 cultivation_screen 取代，HUDBootstrap autoload 移除。
 
 ## Review Notes
 

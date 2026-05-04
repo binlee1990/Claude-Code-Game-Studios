@@ -1,0 +1,251 @@
+[gd_scene load_steps=10 format=3 uid="uid://b5g7y3xqn8wk1"]
+
+[ext_resource type="Script" path="res://src/ui/hud/hud.gd" id="1_hud_script"]
+[ext_resource type="Theme" path="res://assets/ui/theme.tres" id="2_theme"]
+[ext_resource type="Texture2D" path="res://assets/map/main_base.png" id="3_bg_main_base"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/resources/lingqi.png" id="4_icon_lingqi"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/resources/xiuwei.png" id="5_icon_xiuwei"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/resources/lingshi.png" id="6_icon_lingshi"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/resources/herb.png" id="7_icon_herb"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/resources/exp.png" id="8_icon_exp"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/realm/mortal.png" id="9_icon_realm_default"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_hud_script")
+
+[node name="Background" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_bg_main_base")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="BackgroundDim" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.05, 0.07, 0.62)
+
+[node name="Root" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="MainPanel" type="PanelContainer" parent="Root"]
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="Root/MainPanel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="Root/MainPanel/VBox"]
+layout_mode = 2
+text = "GUAJI · 修仙挂机 — MVP HUD（Sprint 11 临时骨架，资产已挂载）"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.918, 0.788, 0.404, 1)
+
+[node name="Sep1" type="HSeparator" parent="Root/MainPanel/VBox"]
+layout_mode = 2
+
+[node name="ResourcesGroupTitle" type="Label" parent="Root/MainPanel/VBox"]
+layout_mode = 2
+text = "▌资源（图标 + 数值；订阅 resource.{id}.changed）"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.6, 0.7, 0.85, 1)
+
+[node name="Resources" type="VBoxContainer" parent="Root/MainPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="LingqiRow" type="HBoxContainer" parent="Root/MainPanel/VBox/Resources"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Icon" type="TextureRect" parent="Root/MainPanel/VBox/Resources/LingqiRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(28, 28)
+texture = ExtResource("4_icon_lingqi")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LingqiValue" type="Label" parent="Root/MainPanel/VBox/Resources/LingqiRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "灵气: 0"
+theme_override_font_sizes/font_size = 20
+
+[node name="XiuweiRow" type="HBoxContainer" parent="Root/MainPanel/VBox/Resources"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Icon" type="TextureRect" parent="Root/MainPanel/VBox/Resources/XiuweiRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(28, 28)
+texture = ExtResource("5_icon_xiuwei")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="XiuweiValue" type="Label" parent="Root/MainPanel/VBox/Resources/XiuweiRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "修为: 0"
+theme_override_font_sizes/font_size = 20
+
+[node name="LingshiRow" type="HBoxContainer" parent="Root/MainPanel/VBox/Resources"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Icon" type="TextureRect" parent="Root/MainPanel/VBox/Resources/LingshiRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(28, 28)
+texture = ExtResource("6_icon_lingshi")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LingshiValue" type="Label" parent="Root/MainPanel/VBox/Resources/LingshiRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "灵石: 0"
+theme_override_font_sizes/font_size = 20
+
+[node name="HerbRow" type="HBoxContainer" parent="Root/MainPanel/VBox/Resources"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Icon" type="TextureRect" parent="Root/MainPanel/VBox/Resources/HerbRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(28, 28)
+texture = ExtResource("7_icon_herb")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HerbValue" type="Label" parent="Root/MainPanel/VBox/Resources/HerbRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "药材: 0"
+theme_override_font_sizes/font_size = 20
+
+[node name="ExpRow" type="HBoxContainer" parent="Root/MainPanel/VBox/Resources"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Icon" type="TextureRect" parent="Root/MainPanel/VBox/Resources/ExpRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(28, 28)
+texture = ExtResource("8_icon_exp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ExpValue" type="Label" parent="Root/MainPanel/VBox/Resources/ExpRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "经验: 0"
+theme_override_font_sizes/font_size = 20
+
+[node name="Sep2" type="HSeparator" parent="Root/MainPanel/VBox"]
+layout_mode = 2
+
+[node name="PlayerInfoTitle" type="Label" parent="Root/MainPanel/VBox"]
+layout_mode = 2
+text = "▌角色（境界 / 姿态 / 战斗状态点 — 图标动态切换）"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.6, 0.7, 0.85, 1)
+
+[node name="PlayerInfoRow" type="HBoxContainer" parent="Root/MainPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="RealmIcon" type="TextureRect" parent="Root/MainPanel/VBox/PlayerInfoRow"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(40, 40)
+texture = ExtResource("9_icon_realm_default")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LevelLabel" type="Label" parent="Root/MainPanel/VBox/PlayerInfoRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Lv.1  fanren"
+theme_override_font_sizes/font_size = 18
+
+[node name="StanceIcon" type="TextureRect" parent="Root/MainPanel/VBox/PlayerInfoRow"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(40, 40)
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StanceLabel" type="Label" parent="Root/MainPanel/VBox/PlayerInfoRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "姿态: meditate"
+theme_override_font_sizes/font_size = 18
+
+[node name="CombatStatusIcon" type="TextureRect" parent="Root/MainPanel/VBox/PlayerInfoRow"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(40, 40)
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Sep3" type="HSeparator" parent="Root/MainPanel/VBox"]
+layout_mode = 2
+
+[node name="ActionsTitle" type="Label" parent="Root/MainPanel/VBox"]
+layout_mode = 2
+text = "▌操作"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.6, 0.7, 0.85, 1)
+
+[node name="Actions" type="HBoxContainer" parent="Root/MainPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ManualCultivateButton" type="Button" parent="Root/MainPanel/VBox/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "手动修炼 (+1 灵气)"
+
+[node name="ToggleStanceButton" type="Button" parent="Root/MainPanel/VBox/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "切换姿态 (meditate / condense)"
+
+[node name="TickCondenseButton" type="Button" parent="Root/MainPanel/VBox/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "凝丹 (-1 灵气 → +1 修为)"
+
+[node name="Sep4" type="HSeparator" parent="Root/MainPanel/VBox"]
+layout_mode = 2
+
+[node name="LogTitle" type="Label" parent="Root/MainPanel/VBox"]
+layout_mode = 2
+text = "▌事件日志（订阅 EventBus 全量事件）"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.6, 0.7, 0.85, 1)
+
+[node name="LogPanel" type="PanelContainer" parent="Root/MainPanel/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LogText" type="RichTextLabel" parent="Root/MainPanel/VBox/LogPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+bbcode_enabled = true
+scroll_following = true
+text = "等待事件..."

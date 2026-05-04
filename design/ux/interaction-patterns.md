@@ -44,6 +44,7 @@
 | Pattern | 一句话 | Used In（计划） |
 |---|---|---|
 | **P-DAT-01** Resource Row | 单行资源显示：图标 + 名称 + 数值 + 可选 cap/fill bar + 趋势 | HUD 顶栏 / 仓库 / 配方 |
+| **P-DAT-01-EXP** Expandable Resource Row | P-DAT-01 扩展：展开后显示 5–8 行来源拆解明细 | 修炼屏 DECISION ZONE |
 | **P-DAT-02** Virtualized List | 长列表只渲染可视行 + overscan（ui-framework `visible_list_items`） | 背包 / 战斗日志 / 图鉴 |
 | **P-DAT-03** Sortable Filterable Data Table | 多列表格，支持排序 / 过滤 / 列显示切换 | 装备 / 词条 / 居民 / 派遣 |
 | **P-DAT-04** Item Card | 物品卡：图标 + 名称 + 8 阶稀有度边框 + 三重 backup（形状 / 文字 / 图标） | 掉落 / 背包 / 拍卖 / 拆分对比 |
@@ -183,7 +184,35 @@
 
 **When to Use**：单一资源 / 单行展示，频繁刷新（hud_refresh_interval coalesced）。
 
-**When NOT to Use**：多列对比 → 用 P-DAT-03 Data Table；单一资源详情页 → 自定义 hero block。
+**When NOT to Use**：多列对比 → 用 P-DAT-03 Data Table；单一资源详情页 → 自定义 hero block；需要展开显示分项明细 → 用 P-DAT-01-EXP（本 pattern 的扩展变体）。
+
+---
+
+### P-DAT-01-EXP  Expandable Resource Row
+
+**Category**: Data Display (extends P-DAT-01)
+**Used In**: 修炼屏 DECISION ZONE（4 资源每秒产出拆解）
+
+**Description**: P-DAT-01 的扩展变体。收起态与 P-DAT-01 完全一致（图标 + 名称 + 数值 + 趋势箭头）。展开后新增 5–8 行来源拆解明细，每行显示"来源名称 + 倍率贡献 + 绝对值贡献"。展开/收起用 200ms 高度动画，减动模式下 instant。
+
+**Specification**:
+
+- 收起态：完全复用 P-DAT-01（32px 行高、24px 图标、名称左对齐、数值右对齐）
+- 展开触发：Click 行 / 键盘 Tab + Enter / 手柄 A 键
+- 展开动画：高度 expand 200ms + 内容 fade-in；减动模式 instant
+- 拆解明细行高：24px @ 1080p；字号 16–18px（`text_secondary`）
+- 拆解每行格式：`[来源中文名]  [倍率]  [贡献值]`
+  - 例如：`境界倍率    ×2.0    +1.65/s`
+  - 来源名 14–16px `text_secondary`；倍率 16px `text_primary`；贡献值 16px `text_primary` 右对齐
+- 展开态底行：**合计校验行** — 所有来源贡献值之和 = 收起态显示的总数（容差 ≤ 0.01）
+- 同一时间最多展开 1 行（手风琴模式 — 展开新行时旧行自动收起）
+- 空数据（来源 API 未就绪）：展开区显示"拆解数据暂不可用"（`text_secondary` 斜体）
+
+**When to Use**：玩家需要理解"这个总数是怎么来的"——产出速率来源拆解、属性值来源拆解、伤害公式分项解释。
+
+**When NOT to Use**：不需要展开的数据 → 用 P-DAT-01；多行同时对比 → 用 P-DAT-03 Data Table。
+
+**Reference**：`design/ux/cultivation-screen.md` §DECISION ZONE Component Inventory；OMS `get_breakdown(resource_id)` API。
 
 ---
 

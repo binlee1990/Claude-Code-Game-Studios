@@ -42,6 +42,7 @@ OfflineRewardSettlementSystemHostAutoload="*res://src/systems/features/offline_r
 UIManagerHostAutoload="*res://src/systems/presentation/ui_manager_host.gd"
 HUDSystemHostAutoload="*res://src/systems/presentation/hud_system_host.gd"
 DebugConsoleAutoload="*res://src/tools/debug_console/debug_console.gd"
+HUDBootstrap="*res://src/ui/hud/hud.tscn"
 
 [editor_plugins]
 
