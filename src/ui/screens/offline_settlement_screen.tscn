@@ -1,0 +1,95 @@
+[gd_scene load_steps=2 format=3 uid="uid://offsettlement001"]
+
+[ext_resource type="Script" path="res://src/ui/screens/offline_settlement_screen.gd" id="1_script"]
+
+[node name="OfflineSettlementScreen" type="Control"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -56.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ReportVBox" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_top = 16
+
+[node name="DurationLabel" type="Label" parent="ScrollContainer/ReportVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "你离开了 --"
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+
+[node name="ResourceBreakdown" type="VBoxContainer" parent="ScrollContainer/ReportVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Separator1" type="HSeparator" parent="ScrollContainer/ReportVBox"]
+layout_mode = 2
+
+[node name="LootGalleryLabel" type="Label" parent="ScrollContainer/ReportVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "获得物品"
+theme_override_font_sizes/font_size = 20
+visible = false
+
+[node name="LootGrid" type="GridContainer" parent="ScrollContainer/ReportVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 4
+
+[node name="Separator2" type="HSeparator" parent="ScrollContainer/ReportVBox"]
+layout_mode = 2
+
+[node name="CapacityLosses" type="VBoxContainer" parent="ScrollContainer/ReportVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+visible = false
+
+[node name="LossHeader" type="Label" parent="ScrollContainer/ReportVBox/CapacityLosses"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "⚠ 满仓损失"
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.8, 0.133, 0.133)
+
+[node name="ActionBar" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -48.0
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="ContinueBtn" type="Button" parent="ActionBar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "继续修炼"
+theme_override_font_sizes/font_size = 18
+
+[node name="DeferBtn" type="Button" parent="ActionBar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "延后查看"
+theme_override_font_sizes/font_size = 16

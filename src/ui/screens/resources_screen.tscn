@@ -1,0 +1,133 @@
+[gd_scene load_steps=2 format=3 uid="uid://resourcesscreen001"]
+
+[ext_resource type="Script" path="res://src/ui/screens/resources_screen.gd" id="1_script"]
+
+[node name="ResourcesScreen" type="Control"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="TabBar" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+offset_bottom = 48.0
+theme_override_constants/separation = 4
+
+[node name="TabResourcesBtn" type="Button" parent="TabBar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "资源"
+flat = true
+theme_override_font_sizes/font_size = 18
+
+[node name="TabBackpackBtn" type="Button" parent="TabBar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "背包"
+flat = true
+theme_override_font_sizes/font_size = 18
+
+[node name="TabEncyclopediaBtn" type="Button" parent="TabBar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "图鉴"
+flat = true
+theme_override_font_sizes/font_size = 18
+
+[node name="ResourcesContent" type="ScrollContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 52.0
+
+[node name="ResVBox" type="VBoxContainer" parent="ResourcesContent"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ResLingqiRow" type="ResourceProductionRow" parent="ResourcesContent/ResVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ResXiuweiRow" type="ResourceProductionRow" parent="ResourcesContent/ResVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ResLingshiRow" type="ResourceProductionRow" parent="ResourcesContent/ResVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ResHerbRow" type="ResourceProductionRow" parent="ResourcesContent/ResVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ResExpRow" type="ResourceProductionRow" parent="ResourcesContent/ResVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="BackpackContent" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 52.0
+visible = false
+
+[node name="ItemGrid" type="GridContainer" parent="BackpackContent"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 4
+
+[node name="EmptyPlaceholder" type="Label" parent="BackpackContent"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+text = "暂无物品 — 前往战斗获取掉落"
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EncyclopediaContent" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+visible = false
+
+[node name="EncyclopediaPlaceholder" type="Label" parent="EncyclopediaContent"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+text = "图鉴 — Sprint 12+ 开放"
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.604, 0.580, 0.533)
+horizontal_alignment = 1
+vertical_alignment = 1
