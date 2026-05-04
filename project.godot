@@ -1,0 +1,48 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="GUAJI_01"
+config/features=PackedStringArray("4.6")
+run/main_scene="res://src/main/main.tscn"
+
+[autoload]
+
+EventBusAutoload="*res://src/systems/foundation/event_bus.gd"
+RNGManagerAutoload="*res://src/systems/foundation/rng_manager.gd"
+TimeManagerAutoload="*res://src/systems/foundation/time_manager.gd"
+DataConfigHostAutoload="*res://src/systems/core/data_config_host.gd"
+SaveManagerAutoload="*res://src/systems/core/save_manager.gd"
+ResourceSystemHostAutoload="*res://src/systems/gameplay/resource_system_host.gd"
+AttributeSystemHostAutoload="*res://src/systems/gameplay/attribute_system_host.gd"
+ItemRegistryHostAutoload="*res://src/systems/gameplay/item_registry_host.gd"
+OutputMultiplierSystemHostAutoload="*res://src/systems/gameplay/output_multiplier_system_host.gd"
+LevelSystemHostAutoload="*res://src/systems/features/level_system_host.gd"
+StorageLimitSystemHostAutoload="*res://src/systems/features/storage_limit_system_host.gd"
+AutoProductionSystemHostAutoload="*res://src/systems/features/auto_production_system_host.gd"
+EnemyDatabaseHostAutoload="*res://src/systems/features/enemy_database_host.gd"
+LootSystemHostAutoload="*res://src/systems/features/loot_system_host.gd"
+CultivationSystemHostAutoload="*res://src/systems/features/cultivation_system_host.gd"
+CombatCalculatorHostAutoload="*res://src/systems/features/combat_calculator_host.gd"
+ZoneSystemHostAutoload="*res://src/systems/features/zone_system_host.gd"
+MapProgressionSystemHostAutoload="*res://src/systems/features/map_progression_system_host.gd"
+SemiAutoCombatSystemHostAutoload="*res://src/systems/features/semi_auto_combat_system_host.gd"
+OfflineSimulationCoreHostAutoload="*res://src/systems/features/offline_simulation_core_host.gd"
+IdleExplorationSystemHostAutoload="*res://src/systems/features/idle_exploration_system_host.gd"
+OfflineCombatSimulationSystemHostAutoload="*res://src/systems/features/offline_combat_simulation_system_host.gd"
+OfflineRewardSettlementSystemHostAutoload="*res://src/systems/features/offline_reward_settlement_system_host.gd"
+UIManagerHostAutoload="*res://src/systems/presentation/ui_manager_host.gd"
+HUDSystemHostAutoload="*res://src/systems/presentation/hud_system_host.gd"
+DebugConsoleAutoload="*res://src/tools/debug_console/debug_console.gd"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg")

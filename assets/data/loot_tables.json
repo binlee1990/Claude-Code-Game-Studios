@@ -1,0 +1,18 @@
+{
+  "starter_enemy": {
+    "max_drops": 5,
+    "entries": [
+      {"item_id": "exp", "chance": 1.0, "min_qty": 8, "max_qty": 12, "tags": ["combat"]},
+      {"item_id": "lingshi", "chance": 0.5, "min_qty": 1, "max_qty": 2, "tags": ["currency"]},
+      {"item_id": "herb", "chance": 0.25, "min_qty": 1, "max_qty": 1, "tags": ["material"]}
+    ]
+  },
+  "bandit_enemy": {
+    "max_drops": 5,
+    "entries": [
+      {"item_id": "exp", "chance": 1.0, "min_qty": 20, "max_qty": 28, "tags": ["combat"]},
+      {"item_id": "lingshi", "chance": 1.0, "min_qty": 3, "max_qty": 5, "tags": ["currency"]},
+      {"item_id": "herb", "chance": 0.4, "min_qty": 1, "max_qty": 2, "tags": ["material"]}
+    ]
+  }
+}

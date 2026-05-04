@@ -1,0 +1,9 @@
+{
+  "fanren": {"id": 0, "start_level": 1, "modifier_value": 0.0, "display_name": "凡人境"},
+  "lianqi": {"id": 1, "start_level": 10, "modifier_value": 0.20, "display_name": "炼气境"},
+  "zhuji": {"id": 2, "start_level": 30, "modifier_value": 0.50, "display_name": "筑基境"},
+  "jindan": {"id": 3, "start_level": 60, "modifier_value": 0.80, "display_name": "金丹境"},
+  "yuanying": {"id": 4, "start_level": 100, "modifier_value": 1.20, "display_name": "元婴境"},
+  "huashen": {"id": 5, "start_level": 150, "modifier_value": 1.60, "display_name": "化神境"},
+  "heti": {"id": 6, "start_level": 200, "modifier_value": 2.00, "display_name": "合体境"}
+}

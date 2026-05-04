@@ -1,0 +1,32 @@
+{
+  "training_dummy": {
+    "name": "练功木偶",
+    "level": 1,
+    "attribute_set": "enemy_basic_set",
+    "base_attributes": {"hp_max": "80", "atk": "8", "def": "2", "spd": "8", "crit_rate": "0", "crit_dmg": "1.5"},
+    "loot_table_id": "starter_enemy",
+    "zone_tags": ["starter"],
+    "combat_tags": ["training"],
+    "weight": 5
+  },
+  "wild_wolf": {
+    "name": "野狼",
+    "level": 3,
+    "attribute_set": "enemy_basic_set",
+    "base_attributes": {"hp_max": "140", "atk": "16", "def": "4", "spd": "14", "crit_rate": "0.05", "crit_dmg": "1.5"},
+    "loot_table_id": "starter_enemy",
+    "zone_tags": ["starter", "forest"],
+    "combat_tags": ["beast"],
+    "weight": 3
+  },
+  "mountain_bandit": {
+    "name": "山贼",
+    "level": 6,
+    "attribute_set": "enemy_basic_set",
+    "base_attributes": {"hp_max": "260", "atk": "28", "def": "10", "spd": "10", "crit_rate": "0.08", "crit_dmg": "1.6"},
+    "loot_table_id": "bandit_enemy",
+    "zone_tags": ["forest"],
+    "combat_tags": ["human"],
+    "weight": 2
+  }
+}

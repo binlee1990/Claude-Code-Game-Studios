@@ -4,7 +4,7 @@
 |------|-----|
 | **Engine** | Godot 4.6.2 |
 | **Test Framework** | GdUnit4 |
-| **CI** | `.github/workflows/tests.yml` |
+| **CI** | 未配置 |
 | **Setup date** | 2026-05-04 |
 
 ## 目录结构
@@ -15,7 +15,7 @@ tests/
   integration/      # 跨系统、存档往返、Autoload 协作测试
   smoke/            # /smoke-check 关键路径列表（≤15 分钟人工验证）
   evidence/         # 截图证据 / 手测签字记录（Visual/UI/Feel 故事用）
-  gdunit4_runner.gd # 本地 headless 入口（手动跑用）
+  gdunit4_runner.gd # 本地插件存在性 smoke 检查
   README.md         # 本文档
 ```
 
@@ -31,19 +31,19 @@ tests/
 
 ```powershell
 # Windows PowerShell
-godot --headless --script tests/gdunit4_runner.gd
+godot --headless --path . -s -d res://addons/gdUnit4/bin/GdUnitCmdTool.gd --ignoreHeadlessMode -a tests/unit -a tests/integration
 
-# 或者使用 GdUnit4 自带 runtest 脚本（取决于已安装版本）
-.\addons\gdUnit4\runtest.cmd -a tests/unit -a tests/integration
+# 仅检查插件是否安装
+godot --headless --path . --script tests/gdunit4_runner.gd
 ```
 
 ### CI
 
-`main` 分支与所有 PR 上自动跑。失败会阻塞合并。
+当前仓库未包含 `.github/workflows/tests.yml`。如需接入 CI，复用上面的 `GdUnitCmdTool.gd` 命令或接入 GdUnit4 官方 action。
 
-## 安装 GdUnit4 插件
+## GdUnit4 插件
 
-scaffold 不含插件本体。首次运行前需要：
+插件已安装在 `addons/gdUnit4/`，版本见 `addons/gdUnit4/plugin.cfg`。如需要重新安装或升级：
 
 1. Godot Editor → AssetLib → 搜索 `gdUnit4` → Download & Install
 2. 启用插件: Project → Project Settings → Plugins → gdUnit4 ✓
@@ -51,10 +51,6 @@ scaffold 不含插件本体。首次运行前需要：
 4. 校验: `addons/gdUnit4/plugin.cfg` 存在
 
 > **路径备注**：当前 GdUnit4 主线插件目录通常为 `addons/gdUnit4/`（大小写按 plugin.cfg 实际为准）。如安装后路径不同，请同步修改 `tests/gdunit4_runner.gd` 与 CI 工作流。
-
-## CI Godot 版本
-
-`.github/workflows/tests.yml` 中固定为 **`4.6.2`**（与 `docs/engine-reference/godot/VERSION.md` 一致）。如 `MikeSchulze/gdUnit4-action@v1` 暂不支持该版本，可临时降级为最近一个被支持的稳定版（如 `4.5.x`），并在本 README 顶部记录降级原因与计划升回时间。
 
 ## 测试命名规范
 
@@ -91,7 +87,7 @@ scaffold 不含插件本体。首次运行前需要：
 `/gate-check Technical Setup → Pre-Production` 要求：
 
 - `tests/unit/` 与 `tests/integration/` 目录存在 ✓
-- `.github/workflows/tests.yml` 存在 ✓
+- `.github/workflows/tests.yml` 存在（当前未配置）
 - 至少一个示例测试文件存在 ✓ (`tests/unit/_example/example_logic_test.gd`)
 
 `/gate-check Pre-Production → Production` 要求所有 Logic 故事都有对应 unit test，且 `/smoke-check` 通过。

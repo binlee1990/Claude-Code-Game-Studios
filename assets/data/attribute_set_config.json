@@ -1,0 +1,5 @@
+{
+  "player_set": ["hp_max", "atk", "def", "spd", "crit_rate", "crit_dmg"],
+  "enemy_basic_set": ["hp_max", "atk", "def", "spd", "crit_rate", "crit_dmg"]
+}
+

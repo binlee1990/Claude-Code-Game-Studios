@@ -1,0 +1,52 @@
+{
+  "lingqi": {
+    "name": "灵气",
+    "item_class": "resource_material",
+    "rarity": "fanpin",
+    "icon_path": "",
+    "tags": ["resource", "cultivation", "low_tier"],
+    "description": "基础修炼气息",
+    "stackable": true,
+    "stack_limit": -1
+  },
+  "xiuwei": {
+    "name": "修为",
+    "item_class": "resource_material",
+    "rarity": "fanpin",
+    "icon_path": "",
+    "tags": ["resource", "progress"],
+    "description": "境界推进所需积累",
+    "stackable": true,
+    "stack_limit": -1
+  },
+  "lingshi": {
+    "name": "灵石",
+    "item_class": "resource_material",
+    "rarity": "fanpin",
+    "icon_path": "",
+    "tags": ["resource", "currency"],
+    "description": "通用修炼货币",
+    "stackable": true,
+    "stack_limit": -1
+  },
+  "herb": {
+    "name": "药材",
+    "item_class": "resource_material",
+    "rarity": "fanpin",
+    "icon_path": "",
+    "tags": ["herb", "low_tier"],
+    "description": "炼丹与疗伤的基础材料",
+    "stackable": true,
+    "stack_limit": -1
+  },
+  "exp": {
+    "name": "经验",
+    "item_class": "resource_material",
+    "rarity": "fanpin",
+    "icon_path": "",
+    "tags": ["resource", "combat"],
+    "description": "战斗与探索经验",
+    "stackable": true,
+    "stack_limit": -1
+  }
+}

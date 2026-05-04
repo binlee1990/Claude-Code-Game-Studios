@@ -1,30 +1,37 @@
-task_id: 2026-05-04-all-gdd-production-planning
+task_id: 2026-05-04-serial-sprint-qa-fix
 skill: reframe-and-execute
-phase: completed
 complexity_level: L3+
 diagnosis:
-  real_goal: "Create epics, stories, and AI-executable sprint plans for every approved MVP GDD system."
-  target_object: "design/gdd/*.md plus production/epics and production/sprints artifacts"
-  expected_output: "Complete production planning chain from GDD to sprint-status.yaml"
-  success_signal: "30 epics, stories for all epics, sprints <=20 stories each, traceability validation pass"
+  real_goal: "对 production/sprints 下全部 sprint 串行执行 qa-plan 并修复，每个 sprint 通过后才进入下一个。"
+  target_object: "production/sprints/sprint-1.md 到 sprint-10.md、production/qa、src、tests、相关生产故事文档"
+  expected_output: "每个 sprint 的 QA 计划、必要代码/测试/证据修复，以及验证记录"
+  success_signal: "所有 sprint 依序完成 QA 计划、修复和可用验证；未完成 sprint 不被跳过"
+  constraints:
+    - "不新增依赖"
+    - "不提交 git commit"
+    - "按 sprint 编号串行"
+    - "文档输出中文"
 challenge:
-  thesis: "Run the requested three local skills over all approved systems."
+  thesis: "直接按 sprint 1-10 执行 qa-plan、补齐实现和测试，并逐个验证。"
   antithesis:
-    - "The Claude skills ask for per-item confirmation and Task gates that are not available as-is in this Codex execution surface."
-    - "Generating all layers at once conflicts with the skill's conservative staged advice, but the user explicitly asked for all systems."
-  synthesis: "Treat explicit user request as write approval, skip unavailable interactive gates with notes, preserve source traceability, and validate mechanically."
+    - "qa-plan 原始技能面向 sprint 开始前规划，且要求写入前询问。"
+    - "10 个 sprint/187 个故事可能超出单次完整实现能力，必须用每个 sprint 的验证 gate 控制范围。"
+    - "Godot/GdUnit4 本地环境可能不可运行，需要将环境缺口与静态验证分开记录。"
+  synthesis: "将用户的显式批量执行请求视为写入授权；把 qa-plan 作为每个 sprint 的验收清单来源；严格串行处理并记录每个 sprint 的执行和验证结果。"
 execution_gate:
   target_explicit: true
   environment_known: true
   side_effects_acceptable: true
   success_verifiable: true
   verdict: PASS
-completed_at: "2026-05-04"
+phase: complete
+current_sprint: null
+completed_sprints: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 validation:
-  systems: 30
-  epics: 30
-  stories: 187
-  sprints: 10
-  sprint_links: 187
-  max_sprint_stories: 20
-  verdict: PASS
+  initial_git_status: clean
+  sprint_count: 10
+  story_count_indexed: 187
+  godot_version: "4.6.2.stable.steam.71f334935"
+  godot_headless_editor: pass
+  godot_headless_runtime: pass
+  gdunit4_runner: "blocked: missing res://addons/gdUnit4/plugin.cfg"

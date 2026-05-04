@@ -1,0 +1,38 @@
+{
+  "lingqi_rate": {
+    "expression": "base_rate * (1.0 + level * 0.1)",
+    "variables": ["base_rate", "level"]
+  },
+  "softcap_example": {
+    "expression": "softcap(value, threshold, power)",
+    "variables": ["value", "threshold", "power"]
+  },
+  "level_exp": {
+    "expression": "10.4 * level + softcap((level - 3) * (level - 3) * (level - 3) * 2.7, 0.0, 1.0)",
+    "variables": ["level"]
+  },
+  "hp_max_growth": {
+    "expression": "100.0 + (level - 1) * (level - 1) * (1.0 + realm_id * 0.35)",
+    "variables": ["level", "realm_id"]
+  },
+  "atk_growth": {
+    "expression": "100.0 + level * 8.0 + realm_id * 20.0",
+    "variables": ["level", "realm_id"]
+  },
+  "def_growth": {
+    "expression": "20.0 + level * 3.0 + realm_id * 10.0",
+    "variables": ["level", "realm_id"]
+  },
+  "spd_growth": {
+    "expression": "10.0 + level * 0.5 + realm_id * 2.0",
+    "variables": ["level", "realm_id"]
+  },
+  "crit_rate_growth": {
+    "expression": "clamp(0.05 + level * 0.0015 + realm_id * 0.01, 0.0, 1.0)",
+    "variables": ["level", "realm_id"]
+  },
+  "crit_dmg_growth": {
+    "expression": "2.0 + level * 0.01 + realm_id * 0.10",
+    "variables": ["level", "realm_id"]
+  }
+}

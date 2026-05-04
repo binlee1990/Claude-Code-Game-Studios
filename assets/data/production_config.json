@@ -1,0 +1,27 @@
+{
+  "lingqi": {
+    "base_rate_per_second": "1.0",
+    "allows_passive": true,
+    "passive_sources": ["realm", "equipment", "zone", "buff"]
+  },
+  "xiuwei": {
+    "base_rate_per_second": "0.1",
+    "allows_passive": true,
+    "passive_sources": ["realm", "equipment", "zone", "buff"]
+  },
+  "lingshi": {
+    "base_rate_per_second": "0.1",
+    "allows_passive": true,
+    "passive_sources": ["realm", "equipment", "zone", "buff"]
+  },
+  "herb": {
+    "base_rate_per_second": "0.02",
+    "allows_passive": true,
+    "passive_sources": ["realm", "equipment", "zone", "buff"]
+  },
+  "exp": {
+    "base_rate_per_second": "0",
+    "allows_passive": false,
+    "passive_sources": []
+  }
+}
