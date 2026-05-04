@@ -1,0 +1,1 @@
+Generated with $generate2dsprite via built-in image_gen. forest_wolf 3x3 unit atlas v3: strict 9-slot layout, cell1 portrait, cells2-5 idle, cells6-9 attack.

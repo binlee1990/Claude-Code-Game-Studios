@@ -1,0 +1,10 @@
+{
+  "source": "image_gen",
+  "skill": "generate2dsprite",
+  "pack": "ui_seals",
+  "raw_sheet": "D:/work/Games/GUAJI_01/.omx/assetgen/ui_seals_clean/raw-sheet.png",
+  "cell_index": 2,
+  "postprocess": "generate2dsprite.py process + broad magenta cleanup",
+  "width": 512,
+  "height": 512
+}

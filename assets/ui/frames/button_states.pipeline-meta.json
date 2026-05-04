@@ -1,0 +1,12 @@
+{
+  "source": "image_gen",
+  "skill": "generate2dsprite",
+  "pack": "ui_button_states",
+  "raw_sheet": "D:/work/Games/GUAJI_01/.omx/assetgen/ui_button_states/raw-sheet.png",
+  "postprocess": "generate2dsprite.py process",
+  "rows": 3,
+  "cols": 1,
+  "cell_size": 96,
+  "width": 96,
+  "height": 288
+}

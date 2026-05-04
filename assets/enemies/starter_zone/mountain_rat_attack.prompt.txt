@@ -1,0 +1,1 @@
+Generated with $generate2dsprite via built-in image_gen. mountain_rat 3x3 compact unit atlas v3: cell1 portrait, cells2-5 idle, cells6-9 compact attack.

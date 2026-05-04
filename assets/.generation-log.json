@@ -1,0 +1,861 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "path": "assets/ui/icons/resources/lingqi.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "category": "ui_resource_icon",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/resources/xiuwei.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "category": "ui_resource_icon",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/resources/lingshi.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "category": "ui_resource_icon",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/resources/herb.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "category": "ui_resource_icon",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/resources/exp.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "category": "ui_resource_icon",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/stances/idle.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "category": "ui_stance_icon",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/stances/meditate.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "category": "ui_stance_icon",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/stances/condense.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "category": "ui_stance_icon",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/stances/closed_door.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "category": "ui_stance_icon",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/status/overflow_warn.png",
+      "status": "generated",
+      "width": 48,
+      "height": 48,
+      "category": "ui_status_icon",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/status/combat_active.png",
+      "status": "generated",
+      "width": 48,
+      "height": 48,
+      "category": "ui_status_icon",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/status/combat_failed.png",
+      "status": "generated",
+      "width": 48,
+      "height": 48,
+      "category": "ui_status_icon",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/status/level_up.png",
+      "status": "generated",
+      "width": 48,
+      "height": 48,
+      "category": "ui_status_icon",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/status/offline_pending.png",
+      "status": "generated",
+      "width": 48,
+      "height": 48,
+      "category": "ui_status_icon",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/rarity/common_frame.png",
+      "status": "generated",
+      "width": 128,
+      "height": 128,
+      "category": "ui_rarity_frame",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/rarity/uncommon_frame.png",
+      "status": "generated",
+      "width": 128,
+      "height": 128,
+      "category": "ui_rarity_frame",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/rarity/rare_frame.png",
+      "status": "generated",
+      "width": 128,
+      "height": 128,
+      "category": "ui_rarity_frame",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/rarity/epic_frame.png",
+      "status": "generated",
+      "width": 128,
+      "height": 128,
+      "category": "ui_rarity_frame",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/rarity/legendary_frame.png",
+      "status": "generated",
+      "width": 128,
+      "height": 128,
+      "category": "ui_rarity_frame",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/rarity/mythic_frame.png",
+      "status": "generated",
+      "width": 128,
+      "height": 128,
+      "category": "ui_rarity_frame",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/rarity/innate_frame.png",
+      "status": "generated",
+      "width": 128,
+      "height": 128,
+      "category": "ui_rarity_frame",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/rarity/chaos_frame.png",
+      "status": "generated",
+      "width": 128,
+      "height": 128,
+      "category": "ui_rarity_frame",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/realm/mortal.png",
+      "status": "generated",
+      "width": 96,
+      "height": 96,
+      "category": "ui_realm_badge",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/realm/qi_refining.png",
+      "status": "generated",
+      "width": 96,
+      "height": 96,
+      "category": "ui_realm_badge",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/realm/foundation.png",
+      "status": "generated",
+      "width": 96,
+      "height": 96,
+      "category": "ui_realm_badge",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/realm/golden_core.png",
+      "status": "generated",
+      "width": 96,
+      "height": 96,
+      "category": "ui_realm_badge",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/realm/yuanying.png",
+      "status": "generated",
+      "width": 96,
+      "height": 96,
+      "category": "ui_realm_badge",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/realm/huashen.png",
+      "status": "generated",
+      "width": 96,
+      "height": 96,
+      "category": "ui_realm_badge",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/icons/realm/heti.png",
+      "status": "generated",
+      "width": 96,
+      "height": 96,
+      "category": "ui_realm_badge",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/frames/panel_primary.png",
+      "status": "generated",
+      "width": 192,
+      "height": 192,
+      "category": "ui_frame",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/frames/panel_secondary.png",
+      "status": "generated",
+      "width": 192,
+      "height": 192,
+      "category": "ui_frame",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/frames/panel_elevated.png",
+      "status": "generated",
+      "width": 192,
+      "height": 192,
+      "category": "ui_frame",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/frames/button_states.png",
+      "status": "generated",
+      "width": 96,
+      "height": 288,
+      "category": "ui_frame",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/seals/burst_gold.png",
+      "status": "generated",
+      "width": 512,
+      "height": 512,
+      "category": "ui_seal",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/seals/failure_red.png",
+      "status": "generated",
+      "width": 512,
+      "height": 512,
+      "category": "ui_seal",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/ui/seals/ink_default.png",
+      "status": "generated",
+      "width": 512,
+      "height": 512,
+      "category": "ui_seal",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/characters/player/portrait.png",
+      "status": "generated",
+      "width": 512,
+      "height": 768,
+      "category": "player",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/characters/player/idle_sheet.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 1024,
+      "category": "player",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/characters/player/attack_sheet.png",
+      "status": "generated",
+      "width": 768,
+      "height": 512,
+      "category": "player",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/characters/player/hurt_sheet.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "category": "player",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/characters/player/death_sheet.png",
+      "status": "generated",
+      "width": 768,
+      "height": 512,
+      "category": "player",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/starter_zone/mountain_rat_idle.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/starter_zone/mountain_rat_attack.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/starter_zone/mountain_rat_portrait.png",
+      "status": "generated",
+      "width": 256,
+      "height": 256,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/starter_zone/forest_wolf_idle.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/starter_zone/forest_wolf_attack.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/starter_zone/forest_wolf_portrait.png",
+      "status": "generated",
+      "width": 256,
+      "height": 256,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/starter_zone/low_yao_qi_idle.png",
+      "status": "generated",
+      "width": 512,
+      "height": 512,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/starter_zone/low_yao_qi_attack.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/starter_zone/low_yao_qi_portrait.png",
+      "status": "generated",
+      "width": 256,
+      "height": 256,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/mid_zone/ghost_flame_idle.png",
+      "status": "generated",
+      "width": 512,
+      "height": 512,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/mid_zone/ghost_flame_projectile.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/mid_zone/ghost_flame_portrait.png",
+      "status": "generated",
+      "width": 256,
+      "height": 256,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/mid_zone/cold_corpse_idle.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/mid_zone/cold_corpse_attack.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/mid_zone/cold_corpse_portrait.png",
+      "status": "generated",
+      "width": 256,
+      "height": 256,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/mid_zone/evil_disciple_idle.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/mid_zone/evil_disciple_attack.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/mid_zone/evil_disciple_portrait.png",
+      "status": "generated",
+      "width": 256,
+      "height": 256,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/end_zone/reef_shark_idle.png",
+      "status": "generated",
+      "width": 768,
+      "height": 512,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/end_zone/reef_shark_attack.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/end_zone/reef_shark_portrait.png",
+      "status": "generated",
+      "width": 256,
+      "height": 256,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/end_zone/sea_yao_idle.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/end_zone/sea_yao_attack.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/end_zone/sea_yao_portrait.png",
+      "status": "generated",
+      "width": 256,
+      "height": 256,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/end_zone/broken_dragon_shadow_idle.png",
+      "status": "generated",
+      "width": 768,
+      "height": 512,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/end_zone/broken_dragon_shadow_attack.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/end_zone/broken_dragon_shadow_portrait.png",
+      "status": "generated",
+      "width": 256,
+      "height": 256,
+      "category": "enemy",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/current/training_dummy_idle.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "category": "enemy_current",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/current/training_dummy_attack.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "category": "enemy_current",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/current/training_dummy_portrait.png",
+      "status": "generated",
+      "width": 256,
+      "height": 256,
+      "category": "enemy_current",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/current/wild_wolf_idle.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "category": "enemy_current",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/current/wild_wolf_attack.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "category": "enemy_current",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/current/wild_wolf_portrait.png",
+      "status": "generated",
+      "width": 256,
+      "height": 256,
+      "category": "enemy_current",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/current/mountain_bandit_idle.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "category": "enemy_current",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/current/mountain_bandit_attack.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "category": "enemy_current",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/enemies/current/mountain_bandit_portrait.png",
+      "status": "generated",
+      "width": 256,
+      "height": 256,
+      "category": "enemy_current",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/map/main_base.png",
+      "status": "generated",
+      "width": 1920,
+      "height": 1080,
+      "category": "map",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/map/starter_forest.png",
+      "status": "generated",
+      "width": 1920,
+      "height": 1080,
+      "category": "map",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/map/ruined_temple.png",
+      "status": "generated",
+      "width": 1920,
+      "height": 1080,
+      "category": "map",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/map/east_sea_shore.png",
+      "status": "generated",
+      "width": 1920,
+      "height": 1080,
+      "category": "map",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/map/town_economy.png",
+      "status": "generated",
+      "width": 1920,
+      "height": 1080,
+      "category": "map",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/overlays/failure_grey.png",
+      "status": "generated",
+      "width": 1920,
+      "height": 1080,
+      "category": "overlay",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/overlays/offline_paper.png",
+      "status": "generated",
+      "width": 1280,
+      "height": 720,
+      "category": "overlay",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/items/low_lingshi.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "category": "item",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/items/mid_lingshi.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "category": "item",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/items/high_lingshi.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "category": "item",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/items/ling_grass.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "category": "item",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/items/blood_ginseng.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "category": "item",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/items/sea_pearl.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "category": "item",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/items/low_pill.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "category": "item",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/items/talisman_paper.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "category": "item",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/items/iron_ore.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "category": "item",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/items/evil_dust.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "category": "item",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/items/dragon_scale.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "category": "item",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/items/pure_qi_crystal.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "category": "item",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/items/item_pack_basic_sheet.png",
+      "status": "generated",
+      "width": 768,
+      "height": 768,
+      "category": "item_pack",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/items/item_pack_rare_sheet.png",
+      "status": "generated",
+      "width": 512,
+      "height": 512,
+      "category": "item_pack",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/vfx/manual_click_pulse.png",
+      "status": "generated",
+      "width": 512,
+      "height": 128,
+      "category": "vfx",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/vfx/overflow_warn_flash.png",
+      "status": "generated",
+      "width": 384,
+      "height": 96,
+      "category": "vfx",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/vfx/victory_burst_gold.png",
+      "status": "generated",
+      "width": 1152,
+      "height": 768,
+      "category": "vfx",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/vfx/crit_hit_spark.png",
+      "status": "generated",
+      "width": 512,
+      "height": 128,
+      "category": "vfx",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/vfx/level_up_ring.png",
+      "status": "generated",
+      "width": 512,
+      "height": 512,
+      "category": "vfx",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/vfx/zone_transition_ink_wipe_01.png",
+      "status": "generated",
+      "width": 1920,
+      "height": 1080,
+      "category": "vfx",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/vfx/zone_transition_ink_wipe_02.png",
+      "status": "generated",
+      "width": 1920,
+      "height": 1080,
+      "category": "vfx",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/vfx/zone_transition_ink_wipe_03.png",
+      "status": "generated",
+      "width": 1920,
+      "height": 1080,
+      "category": "vfx",
+      "source": "deterministic_mvp_fallback"
+    },
+    {
+      "path": "assets/vfx/zone_transition_ink_wipe_04.png",
+      "status": "generated",
+      "width": 1920,
+      "height": 1080,
+      "category": "vfx",
+      "source": "deterministic_mvp_fallback"
+    }
+  ]
+}

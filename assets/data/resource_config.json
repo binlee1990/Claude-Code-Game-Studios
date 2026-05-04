@@ -1,8 +1,7 @@
 {
-  "lingqi": {"id": "lingqi", "category": "regenerative", "has_cap": true, "reset_scope": "breakthrough", "cap": "1000"},
-  "xiuwei": {"id": "xiuwei", "category": "progress", "has_cap": false, "reset_scope": "breakthrough", "cap": "1e9999"},
-  "lingshi": {"id": "lingshi", "category": "currency", "has_cap": false, "reset_scope": "ascension", "cap": "1e9999"},
-  "herb": {"id": "herb", "category": "material", "has_cap": true, "reset_scope": "ascension", "cap": "500"},
-  "exp": {"id": "exp", "category": "progress", "has_cap": false, "reset_scope": "breakthrough", "cap": "1e9999"}
+  "lingqi": {"id": "lingqi", "category": "regenerative", "has_cap": true, "reset_scope": "breakthrough", "cap": "1000", "metadata": {"icon_path": "res://assets/ui/icons/resources/lingqi.png"}},
+  "xiuwei": {"id": "xiuwei", "category": "progress", "has_cap": false, "reset_scope": "breakthrough", "cap": "1e9999", "metadata": {"icon_path": "res://assets/ui/icons/resources/xiuwei.png"}},
+  "lingshi": {"id": "lingshi", "category": "currency", "has_cap": false, "reset_scope": "ascension", "cap": "1e9999", "metadata": {"icon_path": "res://assets/ui/icons/resources/lingshi.png"}},
+  "herb": {"id": "herb", "category": "material", "has_cap": true, "reset_scope": "ascension", "cap": "500", "metadata": {"icon_path": "res://assets/ui/icons/resources/herb.png"}},
+  "exp": {"id": "exp", "category": "progress", "has_cap": false, "reset_scope": "breakthrough", "cap": "1e9999", "metadata": {"icon_path": "res://assets/ui/icons/resources/exp.png"}}
 }
-

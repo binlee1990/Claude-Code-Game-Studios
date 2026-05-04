@@ -9,6 +9,7 @@ var resource_rows := {}
 var offline_summary_visible := false
 var offline_summary := {}
 var level_badge := ""
+var level_badge_icon_path := ""
 var layout_refresh_count := 0
 var _refresh_pending := false
 
@@ -31,6 +32,12 @@ func refresh_resource(resource_id: String) -> void:
 		return
 	var value := resource_system.get_value(resource_id)
 	var row := {"text": NumberFormatter.format(value), "state": "normal"}
+	var definition := resource_system.get_definition(resource_id)
+	var metadata = definition.get("metadata", {})
+	if typeof(metadata) == TYPE_DICTIONARY:
+		var icon_path := str(metadata.get("icon_path", ""))
+		if not icon_path.is_empty():
+			row["icon_path"] = icon_path
 	if storage_limits != null:
 		var state := storage_limits.get_capacity_state(resource_id)
 		row["fill_ratio"] = state.get("fill_ratio", 0.0)
@@ -48,7 +55,9 @@ func handle_offline_settled(summary: Dictionary) -> void:
 func handle_level_changed(payload: Dictionary) -> void:
 	if str(payload.get("entity_id", "")) != "player" or level_system == null:
 		return
-	level_badge = "Lv.%d %s" % [level_system.get_level("player"), level_system.get_realm("player")]
+	var realm := level_system.get_realm("player")
+	level_badge = "Lv.%d %s" % [level_system.get_level("player"), realm]
+	level_badge_icon_path = _realm_icon_path(realm)
 	request_refresh()
 
 
@@ -65,3 +74,23 @@ func flush_refresh() -> void:
 	_refresh_pending = false
 	if ui_manager != null:
 		ui_manager.flush_layout()
+
+
+func _realm_icon_path(realm: String) -> String:
+	match realm:
+		"fanren":
+			return "res://assets/ui/icons/realm/mortal.png"
+		"lianqi":
+			return "res://assets/ui/icons/realm/qi_refining.png"
+		"zhuji":
+			return "res://assets/ui/icons/realm/foundation.png"
+		"jindan":
+			return "res://assets/ui/icons/realm/golden_core.png"
+		"yuanying":
+			return "res://assets/ui/icons/realm/yuanying.png"
+		"huashen":
+			return "res://assets/ui/icons/realm/huashen.png"
+		"heti":
+			return "res://assets/ui/icons/realm/heti.png"
+		_:
+			return ""

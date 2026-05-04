@@ -1,0 +1,2 @@
+Generated with $generate2dmap via built-in image_gen. Prompt: sect town economy view, top-down leaning isometric, Chinese ink-painted xianxia style, no people/no animals/no text/no UI.
+Raw image: C:\Users\888\.codex\generated_images\019df25c-ac82-7fa0-9386-c0fd48da3263\ig_0c54078472a6f7670169f88636b90881918d0ac17b2b07e80e.png

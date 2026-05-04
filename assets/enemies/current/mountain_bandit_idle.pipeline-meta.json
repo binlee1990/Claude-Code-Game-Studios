@@ -1,0 +1,20 @@
+{
+  "source": "image_gen",
+  "skill": "generate2dsprite",
+  "asset_id": "mountain_bandit",
+  "output_role": "idle",
+  "raw_image": "C:/Users/888/.codex/generated_images/019df25c-ac82-7fa0-9386-c0fd48da3263/ig_0d9506974af9a2760169f8b1f281388191a79e7ad9ff12d916.png",
+  "processed_dir": "D:/work/Games/GUAJI_01/.omx/assetgen/enemy_mountain_bandit_idle",
+  "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+  "width": 1024,
+  "height": 256,
+  "processor": {
+    "target": "creature",
+    "mode": "sheet",
+    "rows": 1,
+    "cols": 4,
+    "cell_size": 256,
+    "single_size": null,
+    "edge_touch_frames": []
+  }
+}

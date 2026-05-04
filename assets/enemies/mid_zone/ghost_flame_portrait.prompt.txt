@@ -1,0 +1,1 @@
+Generated with $generate2dsprite via built-in image_gen. ghost_flame 3x3 unit atlas retry: largest component cleanup, cell1 portrait, cells2-5 idle, cells6-9 projectile.

@@ -49,6 +49,14 @@
 
 ---
 
+## 2026-05-04 执行记录
+
+- Godot CLI 已通过 Steam 安装路径执行：`G:\SteamLibrary\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe`。
+- `reports/report_8/results.xml`：137 个测试，0 个失败，0 个跳过，0 个 flaky。
+- Sprint 3 gate 证据：`production/qa/evidence/sprint-3-qa-result-2026-05-04.md`。
+
+---
+
 ## Manual QA Checklist
 
 Checklist:

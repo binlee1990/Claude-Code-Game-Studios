@@ -1,0 +1,2 @@
+Generated with $generate2dmap via built-in image_gen. Prompt: offline settlement warm paper card texture, center clean for HUD text, no text/no symbols.
+Raw image: C:\Users\888\.codex\generated_images\019df25c-ac82-7fa0-9386-c0fd48da3263\ig_0c54078472a6f7670169f886f901f8819188322e6ce09f5f16.png

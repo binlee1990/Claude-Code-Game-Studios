@@ -1,0 +1,1 @@
+Generated with $generate2dsprite via built-in image_gen UI panel atlas 2x2. Extracted cell 3.

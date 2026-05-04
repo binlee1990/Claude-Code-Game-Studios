@@ -11,14 +11,19 @@
 - `tests/integration/item_registry/item_registry_lifecycle_test.gd`
 - `tests/performance/item_registry_performance_test.gd`
 
+## 2026-05-04 执行记录
+- Godot CLI 已通过 Steam 安装路径执行：`G:\SteamLibrary\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe`。
+- `reports/report_8/results.xml`：137 个测试，0 个失败，0 个跳过，0 个 flaky。
+- Sprint 6 gate 证据：`production/qa/evidence/sprint-6-qa-result-2026-05-04.md`。
+
 ## Static Gates
 - `project.godot` autoload order includes DataConfigHost before ItemRegistryHost.
 - `assets/data/items.json` parses as JSON and contains the 5 MVP item ids: `lingqi`, `xiuwei`, `lingshi`, `herb`, `exp`.
 - No deprecated Godot 3 tokens: `yield(`, `OS.get_ticks_msec(`, `connect("`.
 
-## Manual / Blocked Evidence
+## Manual / Runtime Evidence
 - Godot/GdUnit runtime execution is required for real timing, memory, and EventBus lifecycle proof.
-- Current environment has no Godot CLI in PATH, so runtime pass/fail remains blocked until the engine is installed.
+- 本轮已通过本机 Godot 4.6.2 CLI 完成 runtime 证据，不再因 PATH 未配置而阻塞。
 
 ## Risks
 - Autoload singleton is named `ItemRegistryHost` to match existing Host-suffix project convention and avoid a `class_name ItemRegistry` singleton name collision.

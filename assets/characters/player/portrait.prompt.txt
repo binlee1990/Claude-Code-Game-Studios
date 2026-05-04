@@ -1,0 +1,1 @@
+Generated with $generate2dsprite via built-in image_gen. Player portrait identity anchor, no aura/no glow/no magenta effects.

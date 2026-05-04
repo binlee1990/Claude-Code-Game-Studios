@@ -1,0 +1,10 @@
+{
+  "source": "image_gen",
+  "skill": "generate2dsprite",
+  "pack": "item_pack_basic",
+  "raw_sheet": "D:/work/Games/GUAJI_01/.omx/assetgen/item_pack_basic/raw-sheet.png",
+  "cell_index": 5,
+  "postprocess": "generate2dsprite.py process chroma_key_extract_align",
+  "width": 64,
+  "height": 64
+}

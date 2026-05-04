@@ -1,0 +1,9 @@
+{
+  "source": "image_gen",
+  "skill": "generate2dsprite",
+  "asset": "player_portrait",
+  "raw_image": "D:/work/Games/GUAJI_01/.omx/assetgen/player_portrait_v2/raw.png",
+  "postprocess": "generate2dsprite.py process + connected magenta cleanup",
+  "width": 512,
+  "height": 512
+}

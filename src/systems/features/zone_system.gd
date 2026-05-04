@@ -30,7 +30,16 @@ func load_all() -> void:
 				degraded_warnings.append("%s missing enemy %s" % [str(id), enemy_id])
 				continue
 			pool.append({"enemy_id": enemy_id, "weight": float(entry.get("weight", 1.0))})
-		_zones[str(id)] = {"id": str(id), "name": str(zone.get("name", id)), "order": int(zone.get("order", 0)), "unlocked": bool(zone.get("unlocked", false)), "enemy_pool": pool, "unlock": zone.get("unlock", {})}
+		_zones[str(id)] = {
+			"id": str(id),
+			"name": str(zone.get("name", id)),
+			"order": int(zone.get("order", 0)),
+			"unlocked": bool(zone.get("unlocked", false)),
+			"enemy_pool": pool,
+			"unlock": zone.get("unlock", {}),
+			"background_path": str(zone.get("background_path", "")),
+			"transition_vfx_path": str(zone.get("transition_vfx_path", "")),
+		}
 	if current_zone_id.is_empty() and not get_sorted_zones().is_empty():
 		current_zone_id = get_sorted_zones()[0]["id"]
 

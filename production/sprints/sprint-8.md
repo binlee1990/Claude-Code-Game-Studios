@@ -74,6 +74,11 @@ Feature 起步：DebugConsole 命令收尾（help/error/Test Strategy）+ LevelS
 - [ ] Code reviewed and merged
 - [ ] **Traceability**: 所有 sprint stories 映射回 `debug-console.md` / `level-system.md` / `storage-limit-system.md` / `auto-production-system.md` 的 GDD acceptance criteria（覆盖率 100%）
 
+## 2026-05-04 执行记录
+- 本轮按 sprint 顺序执行到 Sprint 8 后，QA gate PASS。
+- 证据：`production/qa/evidence/sprint-8-qa-result-2026-05-04.md`。
+- 最新 GdUnit：`reports/report_8/results.xml`（137 个测试，0 个失败，0 个跳过，0 个 flaky）。
+
 ## Next Steps
 - `/story-readiness [story-file]` for the first Must Have story
 - `/dev-story [story-file]` after readiness passes

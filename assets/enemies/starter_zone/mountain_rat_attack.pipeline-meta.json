@@ -1,0 +1,23 @@
+{
+  "source": "image_gen",
+  "skill": "generate2dsprite",
+  "pack": "enemy_unit_atlas_3x3",
+  "enemy_id": "mountain_rat",
+  "raw_sheet": "D:/work/Games/GUAJI_01/.omx/assetgen/enemy_mountain_rat_v3/raw-sheet.png",
+  "postprocess": "generate2dsprite.py process + assemble_enemy_unit_atlas.py",
+  "processor": {
+    "rows": 3,
+    "cols": 3,
+    "cell_size": 256,
+    "edge_touch_frames": []
+  },
+  "output_role": "attack",
+  "cells": [
+    6,
+    7,
+    8,
+    9
+  ],
+  "width": 1024,
+  "height": 256
+}

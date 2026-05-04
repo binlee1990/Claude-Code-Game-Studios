@@ -1,0 +1,1 @@
+Generated with $generate2dsprite via built-in image_gen. evil_disciple 3x3 unit atlas v2 retry: largest component cleanup, cell1 portrait, cells2-5 idle, cells6-9 attack.

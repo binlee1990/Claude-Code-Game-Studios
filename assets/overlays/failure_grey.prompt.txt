@@ -1,0 +1,2 @@
+Generated with $generate2dmap via built-in image_gen. Prompt: abstract failure-state grey ink veil, later postprocessed to 60 percent alpha.
+Raw image: C:\Users\888\.codex\generated_images\019df25c-ac82-7fa0-9386-c0fd48da3263\ig_0c54078472a6f7670169f886c446d88191b89afdb3d56b7d13.png

@@ -1,0 +1,10 @@
+{
+  "source": "image_gen",
+  "skill": "generate2dsprite",
+  "pack": "item_pack_rare",
+  "raw_sheet": "D:/work/Games/GUAJI_01/.omx/assetgen/item_pack_rare/raw-sheet.png",
+  "postprocess": "generate2dsprite.py process",
+  "rows": 2,
+  "cols": 2,
+  "cell_size": 64
+}

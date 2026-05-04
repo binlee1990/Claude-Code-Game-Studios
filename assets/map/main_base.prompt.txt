@@ -1,0 +1,2 @@
+Generated with $generate2dmap via built-in image_gen. Prompt: Clean hand-painted HD 2D game background, Chinese ink-painted xianxia style, side-view baked raster, xianxia mountain cave entrance home base, no text, no UI, no characters.
+Raw image: C:\Users\888\.codex\generated_images\019df25c-ac82-7fa0-9386-c0fd48da3263\ig_0c54078472a6f7670169f884b2fef4819181d7e12869b3a8d1.png

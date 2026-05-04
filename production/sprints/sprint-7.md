@@ -75,6 +75,11 @@ Core Gameplay 完成：物品/材料 跨系统边界 + 内部一致性收尾；O
 - [ ] **Traceability**: 所有 sprint stories 映射回 `item-material-system.md` / `output-multiplier-system.md` / `debug-console.md` 的 GDD acceptance criteria（覆盖率 100%）
 - [ ] **Core Gameplay Layer milestone**: ADR-0012 Release 排除 evidence + ADR-0007 OMS×ModifierEngine 职责分割证明 已记录到 `production/qa/evidence/`
 
+## 2026-05-04 执行记录
+- 本轮按 sprint 顺序执行到 Sprint 7 后，QA gate PASS。
+- 证据：`production/qa/evidence/sprint-7-qa-result-2026-05-04.md`。
+- 最新 GdUnit：`reports/report_8/results.xml`（137 个测试，0 个失败，0 个跳过，0 个 flaky）。
+
 ## Next Steps
 - `/story-readiness [story-file]` for the first Must Have story
 - `/dev-story [story-file]` after readiness passes

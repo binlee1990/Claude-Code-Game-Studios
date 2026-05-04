@@ -76,6 +76,11 @@ Feature/Integration 完成 + Simulation 起步：完整在线战斗循环（Enem
 - [ ] **Traceability**: 所有 sprint stories 映射回 `auto-production-system.md` / `enemy-database.md` / `loot-system.md` / `cultivation-system.md` / `combat-calculator.md` / `semi-auto-combat-system.md` / `zone-system.md` / `map-progression-system.md` / `offline-simulation-core.md` / `idle-exploration-system.md` / `offline-combat-simulation-system.md` 的 GDD acceptance criteria（覆盖率 100%）
 - [ ] **Feature + Feature Integration Layer milestone**: ADR-0009 在线/离线战斗路径统一 evidence + ADR-0015 离线 tick 粒度 evidence 已记录到 `production/qa/evidence/`
 
+## 2026-05-04 执行记录
+- 本轮按 sprint 顺序执行到 Sprint 9 后，QA gate PASS。
+- 证据：`production/qa/evidence/sprint-9-qa-result-2026-05-04.md`。
+- 最新 GdUnit：`reports/report_8/results.xml`（137 个测试，0 个失败，0 个跳过，0 个 flaky）。
+
 ## Next Steps
 - `/story-readiness [story-file]` for the first Must Have story
 - `/dev-story [story-file]` after readiness passes

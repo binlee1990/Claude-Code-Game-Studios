@@ -1,0 +1,10 @@
+{
+  "source": "image_gen",
+  "skill": "generate2dsprite",
+  "pack": "ui_realm_badges",
+  "raw_sheet": "D:/work/Games/GUAJI_01/.omx/assetgen/ui_realm_badges/raw-sheet.png",
+  "cell_index": 7,
+  "postprocess": "generate2dsprite.py process",
+  "width": 96,
+  "height": 96
+}

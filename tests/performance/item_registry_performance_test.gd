@@ -5,7 +5,7 @@ const DataConfigScript := preload("res://src/systems/core/data_config.gd")
 
 
 func test_mvp_query_matrix_contract() -> void:
-	var registry := _registry_with(_items())
+	var registry: ItemRegistry = _registry_with(_items())
 	for _i in range(100):
 		registry.get_item("herb")
 		registry.peek_field("herb", "name")
@@ -24,13 +24,13 @@ func test_alpha_scale_query_contract() -> void:
 			"rarity": "fanpin",
 			"tags": ["low_tier"] if i < 50 else ["other"],
 		}
-	var registry := _registry_with(items)
+	var registry: ItemRegistry = _registry_with(items)
 	assert_int(registry.get_count()).is_equal(500)
 	assert_int(registry.query_by_item_class("resource_material").size()).is_equal(50)
 	assert_int(registry.query_by_tag("low_tier").size()).is_equal(50)
 
 
-func _registry_with(items: Dictionary):
+func _registry_with(items: Dictionary) -> ItemRegistry:
 	var data_config := DataConfigScript.new()
 	data_config.load_table_data("items", items)
 	var registry := ItemRegistryScript.new(data_config)

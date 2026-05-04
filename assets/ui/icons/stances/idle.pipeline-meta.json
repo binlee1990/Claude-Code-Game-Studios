@@ -1,0 +1,10 @@
+{
+  "source": "image_gen",
+  "skill": "generate2dsprite",
+  "pack": "ui_stance_status",
+  "raw_sheet": "D:/work/Games/GUAJI_01/.omx/assetgen/ui_stance_status/raw-sheet.png",
+  "cell_index": 1,
+  "postprocess": "generate2dsprite.py process",
+  "width": 64,
+  "height": 64
+}

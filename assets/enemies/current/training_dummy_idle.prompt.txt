@@ -1,0 +1,1 @@
+Generated with $generate2dsprite via built-in image_gen. training_dummy idle 1x4 sheet, exactly four sprites, one per cell.

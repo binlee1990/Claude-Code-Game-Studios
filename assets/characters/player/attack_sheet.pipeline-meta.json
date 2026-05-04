@@ -1,0 +1,12 @@
+{
+  "source": "image_gen",
+  "skill": "generate2dsprite",
+  "asset": "player_attack_sheet",
+  "raw_sheet": "D:/work/Games/GUAJI_01/.omx/assetgen/player_attack_sheet/raw-sheet.png",
+  "postprocess": "generate2dsprite.py process",
+  "rows": 2,
+  "cols": 3,
+  "cell_size": 256,
+  "width": 768,
+  "height": 512
+}

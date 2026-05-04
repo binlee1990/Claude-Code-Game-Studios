@@ -1,0 +1,8 @@
+{
+  "source": "image_gen",
+  "skill": "generate2dmap",
+  "raw_image": "C:/Users/888/.codex/generated_images/019df25c-ac82-7fa0-9386-c0fd48da3263/ig_0c54078472a6f7670169f886c446d88191b89afdb3d56b7d13.png",
+  "postprocess": "cover_resize_center_crop_set_alpha_153",
+  "width": 1920,
+  "height": 1080
+}

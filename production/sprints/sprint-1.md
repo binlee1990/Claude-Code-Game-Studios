@@ -76,6 +76,11 @@ Foundation 起步：交付 BigNumber API contract（含 60fps 帧预算性能 sp
 - [ ] **Traceability**: 所有 sprint stories 映射回 GDD `big-number-system.md` / `random-seed-system.md` 的 acceptance criteria 并在测试 docstring 中标注（覆盖率 100%）
 - [ ] **ADR 验证证据**: BigNumber 60fps 性能 + RNG 多流独立性 evidence 已记录到 `production/qa/evidence/`
 
+## 2026-05-04 执行记录
+- 本轮按 sprint 顺序执行到 Sprint 1 后，QA gate PASS。
+- 证据：`production/qa/evidence/sprint-1-qa-result-2026-05-04.md`。
+- 最新 GdUnit：`reports/report_8/results.xml`（137 个测试，0 个失败，0 个跳过，0 个 flaky）。
+
 ## Next Steps
 - `/story-readiness [story-file]` for the first Must Have story
 - `/dev-story [story-file]` after readiness passes

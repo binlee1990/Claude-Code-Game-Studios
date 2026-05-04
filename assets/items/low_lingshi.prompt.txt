@@ -1,0 +1,1 @@
+Generated with $generate2dsprite via built-in image_gen item_pack_basic 3x3. Extracted cell 1.

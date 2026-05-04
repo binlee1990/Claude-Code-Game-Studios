@@ -1,0 +1,1 @@
+Generated with $generate2dsprite via built-in image_gen. reef_shark 3x3 unit atlas: strict 9 sprites, cell1 portrait, cells2-5 idle, cells6-9 attack.

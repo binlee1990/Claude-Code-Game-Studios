@@ -1,0 +1,10 @@
+{
+  "asset_path": "assets/vfx/crit_hit_spark.png",
+  "width": 512,
+  "height": 128,
+  "category": "vfx",
+  "source": "deterministic_mvp_fallback",
+  "style_lock": "clean_hd chinese ink-inspired minimal vector raster",
+  "alpha": true,
+  "generator": "scripts/generate_mvp_assets.py"
+}

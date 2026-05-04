@@ -42,6 +42,13 @@
 
 每个 sprint 对应一份 QA plan：`production/qa/qa-plan-sprint-N-2026-05-04.md`，10/10 已存在。
 
+## 2026-05-04 执行记录
+
+- Sprint 1 → Sprint 10 已按顺序串行执行 QA gate，10/10 PASS。
+- 最新 GdUnit 证据：`reports/report_8/results.xml`（137 个测试，0 个失败，0 个跳过，0 个 flaky）。
+- 每个 sprint 的验收记录已写入：`production/qa/evidence/sprint-N-qa-result-2026-05-04.md`。
+- 资源产出与校验记录：`production/qa/evidence/asset-production-2026-05-04.md`、`production/qa/evidence/asset-validation-report.json`。
+
 ## 审计记录
 
 - **2026-05-04 dialectical audit**: 完成 11 项缺陷 D1–D11 修复 — 删过时 QA 警告、重写 sprint goal、修正 ~50 处 story type 误标、Sprint 9 critical path 重排、Sprint 10 加 MVP smoke story 与 mvp-smoke-loop epic、加 milestone 标记、加 traceability DoD。

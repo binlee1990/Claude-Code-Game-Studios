@@ -1,0 +1,10 @@
+{
+  "asset_path": "assets/vfx/overflow_warn_flash.png",
+  "width": 384,
+  "height": 96,
+  "category": "vfx",
+  "source": "deterministic_mvp_fallback",
+  "style_lock": "clean_hd chinese ink-inspired minimal vector raster",
+  "alpha": true,
+  "generator": "scripts/generate_mvp_assets.py"
+}

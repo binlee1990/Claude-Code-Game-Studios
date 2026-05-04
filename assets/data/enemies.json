@@ -7,7 +7,12 @@
     "loot_table_id": "starter_enemy",
     "zone_tags": ["starter"],
     "combat_tags": ["training"],
-    "weight": 5
+    "weight": 5,
+    "art_paths": {
+      "portrait": "res://assets/enemies/current/training_dummy_portrait.png",
+      "idle": "res://assets/enemies/current/training_dummy_idle.png",
+      "attack": "res://assets/enemies/current/training_dummy_attack.png"
+    }
   },
   "wild_wolf": {
     "name": "野狼",
@@ -17,7 +22,12 @@
     "loot_table_id": "starter_enemy",
     "zone_tags": ["starter", "forest"],
     "combat_tags": ["beast"],
-    "weight": 3
+    "weight": 3,
+    "art_paths": {
+      "portrait": "res://assets/enemies/current/wild_wolf_portrait.png",
+      "idle": "res://assets/enemies/current/wild_wolf_idle.png",
+      "attack": "res://assets/enemies/current/wild_wolf_attack.png"
+    }
   },
   "mountain_bandit": {
     "name": "山贼",
@@ -27,6 +37,11 @@
     "loot_table_id": "bandit_enemy",
     "zone_tags": ["forest"],
     "combat_tags": ["human"],
-    "weight": 2
+    "weight": 2,
+    "art_paths": {
+      "portrait": "res://assets/enemies/current/mountain_bandit_portrait.png",
+      "idle": "res://assets/enemies/current/mountain_bandit_idle.png",
+      "attack": "res://assets/enemies/current/mountain_bandit_attack.png"
+    }
   }
 }

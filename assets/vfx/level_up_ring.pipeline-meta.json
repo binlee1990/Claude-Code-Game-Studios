@@ -1,0 +1,10 @@
+{
+  "asset_path": "assets/vfx/level_up_ring.png",
+  "width": 512,
+  "height": 512,
+  "category": "vfx",
+  "source": "deterministic_mvp_fallback",
+  "style_lock": "clean_hd chinese ink-inspired minimal vector raster",
+  "alpha": true,
+  "generator": "scripts/generate_mvp_assets.py"
+}

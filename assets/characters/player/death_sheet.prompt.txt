@@ -1,0 +1,1 @@
+Generated with $generate2dsprite via built-in image_gen. Player 2x3 death/fade sheet, same identity anchor.

@@ -86,6 +86,7 @@ func _normalize_enemy(id: String, raw_value: Variant) -> Dictionary:
 		"zone_tags": raw.get("zone_tags", []).duplicate(),
 		"combat_tags": raw.get("combat_tags", []).duplicate(),
 		"weight": max(0.0, float(raw.get("weight", 1.0))),
+		"art_paths": _normalize_art_paths(raw.get("art_paths", {})),
 	}
 
 
@@ -93,3 +94,14 @@ func _to_number(value: Variant) -> float:
 	if typeof(value) == TYPE_STRING:
 		return str(value).to_float()
 	return float(value)
+
+
+func _normalize_art_paths(value: Variant) -> Dictionary:
+	if typeof(value) != TYPE_DICTIONARY:
+		return {}
+	var result := {}
+	for key in value.keys():
+		var path := str(value[key]).strip_edges()
+		if not path.is_empty():
+			result[str(key)] = path
+	return result

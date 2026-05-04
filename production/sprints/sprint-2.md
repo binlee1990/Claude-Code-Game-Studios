@@ -75,6 +75,11 @@ Foundation 完成：RNG snapshot/恢复 + EventBus 完整生命周期（含 life
 - [ ] **Traceability**: 所有 sprint stories 映射回 `random-seed-system.md` / `event-bus.md` / `time-manager.md` 的 GDD acceptance criteria（覆盖率 100%）
 - [ ] **Foundation Layer milestone**: Foundation 4 Autoload（BigNumber/RNG/EventBus/TimeManager）启动顺序通过 ADR-0008 守护测试
 
+## 2026-05-04 执行记录
+- 本轮按 sprint 顺序执行到 Sprint 2 后，QA gate PASS。
+- 证据：`production/qa/evidence/sprint-2-qa-result-2026-05-04.md`。
+- 最新 GdUnit：`reports/report_8/results.xml`（137 个测试，0 个失败，0 个跳过，0 个 flaky）。
+
 ## Next Steps
 - `/story-readiness [story-file]` for the first Must Have story
 - `/dev-story [story-file]` after readiness passes

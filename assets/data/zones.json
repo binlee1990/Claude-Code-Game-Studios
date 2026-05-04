@@ -4,20 +4,26 @@
     "order": 1,
     "unlocked": true,
     "enemy_pool": [{"enemy_id": "training_dummy", "weight": 5}, {"enemy_id": "wild_wolf", "weight": 2}],
-    "unlock": {"required_level": 1, "prerequisite": ""}
+    "unlock": {"required_level": 1, "prerequisite": ""},
+    "background_path": "res://assets/map/starter_forest.png",
+    "transition_vfx_path": "res://assets/vfx/zone_transition_ink_wipe_01.png"
   },
   "pine_forest": {
     "name": "松林",
     "order": 2,
     "unlocked": false,
     "enemy_pool": [{"enemy_id": "wild_wolf", "weight": 4}, {"enemy_id": "mountain_bandit", "weight": 1}],
-    "unlock": {"required_level": 4, "prerequisite": "starter_valley"}
+    "unlock": {"required_level": 4, "prerequisite": "starter_valley"},
+    "background_path": "res://assets/map/starter_forest.png",
+    "transition_vfx_path": "res://assets/vfx/zone_transition_ink_wipe_02.png"
   },
   "mist_peak": {
     "name": "雾峰",
     "order": 3,
     "unlocked": false,
     "enemy_pool": [{"enemy_id": "missing_enemy", "weight": 1}, {"enemy_id": "mountain_bandit", "weight": 3}],
-    "unlock": {"required_level": 8, "prerequisite": "pine_forest"}
+    "unlock": {"required_level": 8, "prerequisite": "pine_forest"},
+    "background_path": "res://assets/map/ruined_temple.png",
+    "transition_vfx_path": "res://assets/vfx/zone_transition_ink_wipe_03.png"
   }
 }

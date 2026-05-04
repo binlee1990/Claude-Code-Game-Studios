@@ -1,0 +1,10 @@
+{
+  "asset_path": "assets/vfx/victory_burst_gold.png",
+  "width": 1152,
+  "height": 768,
+  "category": "vfx",
+  "source": "deterministic_mvp_fallback",
+  "style_lock": "clean_hd chinese ink-inspired minimal vector raster",
+  "alpha": true,
+  "generator": "scripts/generate_mvp_assets.py"
+}
