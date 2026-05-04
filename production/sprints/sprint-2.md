@@ -1,7 +1,11 @@
 # Sprint 2 -- 2026-05-18 to 2026-05-31
 
 ## Sprint Goal
-Deliver the planning and implementation slice from 随机数与种子系统 through 时间管理器 while preserving upstream dependency order.
+Foundation 完成：RNG snapshot/恢复 + EventBus 完整生命周期（含 lifecycle spike、反递归、callable 失效清理） + TimeManager 时间源就绪（含离线 delta cap）。Sprint 出口标志 Foundation Layer milestone — Foundation 4 系统全部可作 Autoload 投入后续 sprint。
+
+## Layer / Milestone
+- Layer: Foundation
+- Milestone: ✅ **Foundation Layer 完成**（end of Sprint 2）
 
 ## AI Context Budget
 - Stories: 20 total（≤ 20 — context window hard constraint）
@@ -30,7 +34,7 @@ Deliver the planning and implementation slice from 随机数与种子系统 thro
 | ID | Story | Epic | Type | Depends On |
 |----|-------|------|------|------------|
 | S2-009-event-bus | [cb1 与 cb2 均被触发；cb1 收到一个参数（payload），cb2 收到两个参数（event_name + payload）](../epics/event-bus/story-009-cb1-cb2-cb1-payload-cb2-event-name-payload.md) | 事件总线 | Integration | Story 001 must be ready or done for shared test fixtures and baseline APIs |
-| S2-010-event-bus | [订阅者只收到 1 次 `ui.hud.refresh`，payload 等于第 10 次调用的 payload](../epics/event-bus/story-010-1-ui-hud-refresh-payload-10-payload.md) | 事件总线 | UI | Story 001 must be ready or done for shared test fixtures and baseline APIs |
+| S2-010-event-bus | [订阅者只收到 1 次 `ui.hud.refresh`，payload 等于第 10 次调用的 payload](../epics/event-bus/story-010-1-ui-hud-refresh-payload-10-payload.md) | 事件总线 | Logic | Story 001 must be ready or done for shared test fixtures and baseline APIs |
 | S2-001-time-manager | [返回当前 Unix 时间戳（精度 ±1 秒）](../epics/time-manager/story-001-unix-1.md) | 时间管理器 | Integration | None |
 | S2-002-time-manager | [返回 3.0（乘法叠加）](../epics/time-manager/story-002-3-0.md) | 时间管理器 | Logic | Story 001 must be ready or done for shared test fixtures and baseline APIs |
 | S2-003-time-manager | [`get_effective_speed()` 返回 100.0（截断）](../epics/time-manager/story-003-get-effective-speed-100-0.md) | 时间管理器 | Integration | Story 001 must be ready or done for shared test fixtures and baseline APIs |
@@ -50,26 +54,26 @@ Deliver the planning and implementation slice from 随机数与种子系统 thro
 ## Risks
 | Risk | Probability | Impact | Mitigation |
 |------|-------------|--------|------------|
-| Missing sprint QA plan | Medium | High | Run `/qa-plan sprint` before implementing the final story in this sprint. |
-| Godot 4.6.2 post-cutoff API behavior | Medium | High | Verify against `docs/engine-reference/godot/` when a governing ADR marks HIGH or MEDIUM risk. |
+| Godot 4.6 Callable lifecycle 与 4.3 不兼容 | Medium | High | S2-001-event-bus 是 spike；不通过即把 ADR-0002 升级为 fast-fail issue 并触发 architecture review。 |
+| Web 不活跃情境下 Time.get_unix_time_from_system 行为差异 | Medium | High | S2-005 钳位测试覆盖该路径；同时手测 Web 切后台 9 小时。 |
 | Cross-epic dependency drift | Medium | Medium | Work stories in listed order and run `/story-readiness` for each story before `/dev-story`. |
 
 ## Dependencies on External Factors
 - Godot 4.6.2 behavior must be checked against `docs/engine-reference/godot/` where ADRs require verification.
-- QA plan is not present yet; sprint closure remains gated on `/qa-plan sprint`.
+- QA plan is in place: `production/qa/qa-plan-sprint-2-2026-05-04.md`.
 
 ## Definition of Done for this Sprint
 - [ ] All Must Have tasks completed
 - [ ] All tasks pass acceptance criteria
-- [ ] QA plan exists (`production/qa/qa-plan-sprint-2.md`)
+- [ ] QA plan exists (`production/qa/qa-plan-sprint-2-2026-05-04.md`) ✅
 - [ ] All Logic/Integration stories have passing unit/integration tests
 - [ ] Smoke check passed (`/smoke-check sprint`)
 - [ ] QA sign-off report: APPROVED or APPROVED WITH CONDITIONS (`/team-qa sprint`)
 - [ ] No S1 or S2 bugs in delivered features
 - [ ] Design documents updated for any deviations
 - [ ] Code reviewed and merged
-
-> WARNING: No QA Plan was found for this generated sprint. Run `/qa-plan sprint` before the last story is implemented. The Production -> Polish gate requires a QA sign-off report, which requires a QA plan.
+- [ ] **Traceability**: 所有 sprint stories 映射回 `random-seed-system.md` / `event-bus.md` / `time-manager.md` 的 GDD acceptance criteria（覆盖率 100%）
+- [ ] **Foundation Layer milestone**: Foundation 4 Autoload（BigNumber/RNG/EventBus/TimeManager）启动顺序通过 ADR-0008 守护测试
 
 ## Next Steps
 - `/story-readiness [story-file]` for the first Must Have story

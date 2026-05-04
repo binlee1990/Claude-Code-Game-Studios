@@ -3,7 +3,7 @@
 > **Last Updated**: 2026-05-04
 > **Engine**: Godot 4.6.2
 > **Stage**: Pre-Production
-> **Total Epics Created**: 30 / 30 MVP systems
+> **Total Epics Created**: 30 / 30 MVP systems + 1 MVP Integration epic = 31
 
 ## Foundation Layer (4 / 4 epics created)
 
@@ -69,6 +69,14 @@
 |------|-------|--------|-----|---------|--------|
 | [ui-framework](ui-framework/EPIC.md) | Presentation | UI 框架 | [design/gdd/ui-framework.md](../../design/gdd/ui-framework.md) | 2 created | Ready |
 | [hud-system](hud-system/EPIC.md) | Presentation | HUD 系统 | [design/gdd/hud-system.md](../../design/gdd/hud-system.md) | 2 created | Ready |
+
+## MVP Integration Layer (1 / 1 epic created — added 2026-05-04 dialectical audit)
+
+| Epic | Layer | System | GDD | Stories | Status |
+|------|-------|--------|-----|---------|--------|
+| [mvp-smoke-loop](mvp-smoke-loop/EPIC.md) | MVP Integration | MVP 闭环验收（跨 30 系统）| [design/gdd/systems-index.md](../../design/gdd/systems-index.md) §10.2 | 1 created | Ready |
+
+> 本 epic 不新增系统设计，仅作为 Sprint 10 出口的端到端 smoke gate。引用所有 30 个 MVP GDD 与 ADR-0008/0009/0010/0015。
 
 ## Review Notes
 

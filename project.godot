@@ -11,8 +11,8 @@ config_version=5
 [application]
 
 config/name="GUAJI_01"
-config/features=PackedStringArray("4.6")
 run/main_scene="res://src/main/main.tscn"
+config/features=PackedStringArray("4.6")
 
 [autoload]
 

@@ -1,158 +1,79 @@
 # Active Session State
 
-**Updated**: 2026-05-04
+**Updated**: 2026-05-04（dialectical sprint audit & supplementation pass）
 
 ## Current Task
 
-Technical Setup phase — master architecture, ADR set, architecture traceability, and control manifest completed; Technical Setup → Pre-Production gate checked.
+Pre-Production — Sprint 计划辩证审计与补全完成。30 MVP 系统 × 187 stories × 10 sprints 全部对账无误；新增 MVP 闭环验收 epic（mvp-smoke-loop, 1 story）作为 Sprint 10 出口 gate。
 
 ## Status
 
-Architecture documentation is technically ready, but the Technical Setup → Pre-Production gate is **NOT READY** because non-architecture gate artifacts are missing: test framework, CI workflow, accessibility requirements, UX pattern docs, and art bible.
+Pre-Production stage 保持。Sprint 1–10 计划已通过 reframe-and-execute 11 项缺陷修复，进入可执行状态。Sprint 1 可启动（`/story-readiness` → `/dev-story`）。
 
-## Completed This Session
+## 本次 session 完成
 
-| Area | Result |
-|------|--------|
-| Gate check | Systems Design → Technical Setup: **PASS** |
-| Stage update | `production/stage.txt` set to `Technical Setup` |
-| Master architecture | `docs/architecture/architecture.md` written with all 7 phases |
-| TD sign-off | APPROVED 2026-05-04 |
-| LP feasibility | FEASIBLE 2026-05-04 |
-| ADR set | ADR-0001 through ADR-0015 written and Accepted |
-| Architecture traceability | `docs/architecture/architecture-traceability.md` written; 30 / 30 systems covered |
-| Architecture review | `docs/architecture/architecture-review-2026-05-04.md` written; PASS |
-| Control manifest | `docs/architecture/control-manifest.md` generated from Accepted ADRs |
-| Gate check | Technical Setup → Pre-Production: **FAIL / NOT READY** |
+| 阶段 | 动作 | 结果 |
+|------|------|------|
+| Phase 1 Diagnose | 读 systems-index.md + 10 sprints + epics/index.md + active.md | 30/30 系统覆盖、187/187 stories 已分配 |
+| Phase 2 Reframe | 11 项缺陷分类（D1–D11）| 高严重度 4 项 / 中 5 项 / 低 2 项 |
+| Phase 3 Challenge | 用户审批 全量修复 + Sprint 10 加 MVP smoke story + epic story 语义判定 type | 范围确认 |
+| Phase 4 Execute | 修改 13 个文件 | 见下表 |
+| Phase 5 Evaluate | 复核 sprint 文件 story 总数 = 188（187 + mvp-smoke-loop） | PASS |
 
-## Architecture Document Summary
+## 修改 / 创建文件清单
 
-- 30 systems mapped to 4 layers: Foundation (4), Core (10), Feature (13), Presentation (3)
-- 15 Required ADRs written and Accepted
-- 5 architecture principles defined
-- Implementation validation watchlist retained for BigNumber/RNG performance, UI dual-focus, SaveManager FileAccess writes, and offline deterministic replay
-- Engine knowledge gaps: UI (HIGH), FileAccess (MEDIUM), Resources (MEDIUM)
+| 文件 | 动作 | 关键变更 |
+|------|------|----------|
+| `production/sprints/sprint-1.md` | Edit | 删过时 QA 警告；重写 goal 为 "Foundation 起步"；加 traceability DoD；加 ADR 验证证据 DoD |
+| `production/sprints/sprint-2.md` | Edit | 同上；加 ✅ Foundation Layer 完成 milestone；S2-010-event-bus type UI→Logic |
+| `production/sprints/sprint-3.md` | Edit | 同上；S3-007 number-formatting UI→Logic；S3-001~004 formula-engine Config/Data→Logic |
+| `production/sprints/sprint-4.md` | Edit | 同上；加 ✅ Core Data Layer 完成 milestone；modifier-engine 7 处 UI/Config-Data→Logic；formula-engine S4-008/009 Config/Data→Logic；save-system 8 处 Config/Data→Integration |
+| `production/sprints/sprint-5.md` | Edit | 同上；resource S5-001/011 Config/Data→Integration；attribute S5-001/003/005 UI/Config-Data→Integration；S5-007 UI→Integration |
+| `production/sprints/sprint-6.md` | Edit | 同上；attribute S6-009 UI→Integration；item-material S6-007 UI→Logic；S6-010/011 UI→Integration；S6-012/015 Config-Data→Integration；S6-013/014 Config-Data→Logic |
+| `production/sprints/sprint-7.md` | Edit | 同上；加 ✅ Core Gameplay Layer 完成 milestone；OutputMultiplier 9 处 UI→Logic/Integration；DebugConsole S7-001 UI→Integration、S7-005/006 UI/Config→Logic、S7-007/008/009 UI/Config→Integration |
+| `production/sprints/sprint-8.md` | Edit | 同上；DebugConsole S8-010/011/013 UI→Logic；level-system S8-001 Config-Data→Integration；S8-011 Logic→Integration |
+| `production/sprints/sprint-9.md` | Edit | 同上；加 ✅ Feature + Feature Integration 完成 milestone；**critical path 重排**：把 zone/loot/cultivation/semi-auto/map-progression 按依赖顺序拉进 Must Have；type 修正多处 |
+| `production/sprints/sprint-10.md` | Edit | 同上；加 🎯 MVP 完成 milestone；**新增 S10-001-mvp-smoke-loop Must Have story**（端到端 smoke）|
+| `production/sprints/index.md` | Rewrite | 加 Layer 列 + Milestone 列 + Layer 进度对照表 + Sprint 间依赖摘要 + 审计记录 |
+| `production/epics/index.md` | Edit | 新增 "MVP Integration Layer" 段落；total epics 30→31 |
+| `production/epics/mvp-smoke-loop/EPIC.md` | Create | 新 epic 定义（不新增系统，仅作 Sprint 10 出口 gate） |
+| `production/epics/mvp-smoke-loop/story-001-mvp-end-to-end-smoke.md` | Create | 9 AC 覆盖核心循环 8 节点 + 时长断言；fail-fast；不允许 mock |
+| `production/session-state/active.md` | Rewrite | 同步当前状态 |
 
-## Accepted ADRs
+## 缺陷修复对照（D1–D11）
 
-1. ADR-0001: BigNumber 实现策略
-2. ADR-0002: 事件总线架构
-3. ADR-0003: 时间源与双时间体系
-4. ADR-0004: 确定性随机数架构
-5. ADR-0005: 数据配置加载策略
-6. ADR-0006: 存档格式与版本迁移
-7. ADR-0007: 修正器叠加顺序
-8. ADR-0008: Autoload 初始化顺序
-9. ADR-0009: 在线/离线战斗路径统一
-10. ADR-0010: ResourceSystem 不可变 BigNumber 策略
-11. ADR-0011: UI 屏幕管理架构
-12. ADR-0012: DebugConsole 发布构建排除
-13. ADR-0013: FormulaEngine 表达式 DSL 深度
-14. ADR-0014: NumberFormatter 缩写映射策略
-15. ADR-0015: 离线模拟 tick 粒度
+| ID | 缺陷 | 修复 |
+|----|------|------|
+| D1 | 过时 QA 警告 | 全 10 sprint 已删除并改为 "QA plan exists" 状态行 |
+| D2 | Sprint goal 模板化 | 全 10 sprint goal 重写为功能性产出描述 |
+| D3 | Story type 误标 ~50 处 | 全部按 epic story 文件 AC 语义重新判定并回写 |
+| D4 | Sprint 9 critical path 错排 | Must/Should/Nice Have 按依赖严格重排 |
+| D5 | Sprint 8 优先级倒挂 | storage-limit / auto-production 提到 Must Have |
+| D6 | 缺 milestone 标记 | 4 个 layer 完成 milestone + 1 个 MVP 完成 milestone |
+| D7 | 无 MVP 闭环 smoke | 新增 mvp-smoke-loop epic + 1 story 进 Sprint 10 |
+| D8 | DoD 缺 traceability | 全 10 sprint DoD 加 traceability + ADR evidence 项 |
+| D9 | sprints/index 缺列 | 加 Layer / Milestone 列 + Layer 进度表 + 依赖摘要 |
+| D10 | Sprint 3 epic 跨界排序 | time-manager S7 + Core Data 三 epic 已显式排序 |
+| D11 | active.md 状态不同步 | 本次 rewrite 同步 |
 
-## Gate Blockers
+## 关键不变量（不能修改）
 
-- `tests/unit/` and `tests/integration/` do not exist.
-- `.github/workflows/tests.yml` or equivalent CI workflow does not exist.
-- `design/accessibility-requirements.md` does not exist.
-- `design/ux/interaction-patterns.md` and key HUD/Main Menu UX specs do not exist.
-- `design/art/art-bible.md` does not exist.
-- Engine/ADR validation evidence remains pending for BigNumber/RNG performance, FileAccess save behavior, UI dual-focus, Autoload startup order, and offline deterministic replay.
-
-## Files Modified This Session
-
-| File | Action |
-|------|--------|
-| `production/stage.txt` | Created — "Technical Setup" |
-| `docs/architecture/architecture.md` | Created — master architecture document |
-| `production/review-mode.txt` | Read (already set to `full`) |
-| `docs/architecture/adr-0001`–`adr-0015` | Created — accepted ADR baseline |
-| `docs/architecture/architecture-traceability.md` | Created — 30 / 30 MVP systems mapped |
-| `docs/architecture/architecture-review-2026-05-04.md` | Created — architecture PASS report |
-| `docs/architecture/control-manifest.md` | Created — layer rules manifest |
-| `docs/architecture/tr-registry.yaml` | Updated — stable TR IDs populated |
-| `.claude/docs/technical-preferences.md` | Updated — ADR log refreshed |
-| `production/gate-checks/technical-setup-to-pre-production-2026-05-04.md` | Created — gate FAIL report |
-| `production/gate-checks/technical-setup-to-pre-production-2026-05-04.md` | Edited — appended same-day re-run section, FAIL unchanged |
-| `tests/README.md` | Created — Godot 4.6.2 + GdUnit4 test 框架文档 |
-| `tests/gdunit4_runner.gd` | Created — headless presence-check shim |
-| `tests/unit/.gdignore_placeholder` | Created — 单元测试占位 |
-| `tests/unit/_example/example_logic_test.gd` | Created — 框架自证示例测试（3 个 assert）|
-| `tests/integration/.gdignore_placeholder` | Created — 集成测试占位 |
-| `tests/smoke/critical-paths.md` | Created — `/smoke-check` 关键路径 15 条 |
-| `tests/evidence/.gitkeep` | Created — 手测证据目录占位 |
-| `.github/workflows/tests.yml` | Created — CI（MikeSchulze/gdUnit4-action@v1，Godot 4.6.2）|
-| `design/art/art-bible.md` | Created — Sections 1–4 + Sections 5–9 deferred 标记 |
-| `design/art/art-bible.md` | Edited × 4 — Sections 1–4 逐节落盘 |
-| `design/art/art-bible.md` | Edited — AD-ART-BIBLE 状态头 APPROVED 2026-05-04 |
-| `design/accessibility-requirements.md` | Created — Standard tier + rationale + 顶层承诺表 + 已知限制 + Deferred 区段 |
-| `design/CLAUDE.md` | Edited — accessibility 路径从 `design/ux/` 同步到 `design/`，与 gate-check skill 对齐 |
-| `design/ux/interaction-patterns.md` | Created — 12 patterns（Navigation / Data Display / Feedback / Input） + 8 Gap + 5 Open Questions |
-| `design/ux/hud.md` | Created — Philosophy / Info Architecture / Layout (1080p 三段式 + ASCII wireframe) / 13 元素规格 / 4 类 Dynamic Behaviors / Platform Variants / Standard tier accessibility / 10 acceptance criteria |
-
-## Re-run @ 2026-05-04
-
-Second `/gate-check` invocation on the same day. All four directors returned NOT READY with identical findings to the first run — no required artifacts were created between runs. Verdict: **FAIL (unchanged)**. Stage remains `Technical Setup`.
-
-User-approved follow-up plan (multi-select) — execution status：
-
-1. ✅ `/test-setup` — DONE。tests/ 全套 + CI workflow + 示例测试。**Blockers 1 + 2 解除**（pending：用户装 GdUnit4 插件后跑通 example test、首次 CI 验证）。
-2. ✅ `/art-bible` — DONE。Sections 1–4 完成，creative-director 走完 AD-ART-BIBLE gate verdict = **APPROVED 无 concerns**。Sections 5–9 deferred 到 production。**Blocker 4 解除**。
-3. ✅ Accessibility 文档 — DONE。`design/accessibility-requirements.md` Standard tier；与 art-bible Sec 4.6 交叉引用；`design/CLAUDE.md` 路径同步修正。**Blocker 3 解除**。
-4. ✅ UX 文档 — DONE（用户改主意，本 session 内追加）。`design/ux/interaction-patterns.md` 12 patterns + `design/ux/hud.md` 完整 8 节 + 1 个 starter screen UX spec。**Blocker 5 解除**。
-
-## Blockers Status After This Session
-
-| Blocker | Before | After |
-|---|---|---|
-| 1. Test framework | OPEN | ✅ 解除 |
-| 2. CI workflow | OPEN | ✅ 解除 |
-| 3. Accessibility | OPEN | ✅ 解除 |
-| 4. Art bible | OPEN | ✅ 解除 |
-| 5. UX 文档 | OPEN | ✅ 解除 |
-
-**全部 5 个 blocker 已解除**。
-
-## Re-run @ 2026-05-04（第 3 次）— PASS ✅
-
-第三次 gate-check 全部 4 director READY，13/13 artifact + 10/10 quality 全 PASS，Chain-of-Verification 5 问无升级。Verdict: **PASS**。
-
-Stage 已 advance：`production/stage.txt` 从 `Technical Setup` → **`Pre-Production`**。
-
-### Pre-Production Sprint 1 Watchlist（不阻塞 entry，但需消化）
-
-1. GdUnit4 插件用户手动安装（5 分钟，AssetLib）+ 跑通 `tests/unit/_example/example_logic_test.gd`
-2. 首次 CI run 验证 `MikeSchulze/gdUnit4-action@v1` 是否实支持 Godot 4.6.2；不支持时按 `tests/README.md` 备注临时降级
-3. ADR 实施验证证据收集（BigNumber/RNG perf、FileAccess writes、Autoload startup 排序、UI dual-focus、offline 确定性回放）
-4. `design/player-journey.md` 创建（patterns 与 HUD spec 已记为 gap）
-5. art-bible Sections 5–9 增量补全（用 `/asset-spec [system|character|environment]` 触发）
-
-## Pre-Production 进度
-
-### Epics — Foundation 层 ✅
-4 epics 创建完毕，PR-EPIC verdict: **REALISTIC + APPROVED**：
-
-| Epic | Sprint | 关键约束 |
-|---|---|---|
-| `big-number-system` | Sprint 1 | Story #1 含 GdUnit4 + CI 首次绿灯；API 第 3 天冻结；性能 benchmark |
-| `event-bus` | Sprint 1 | Story #1 必须是 Godot 4.6 lifecycle spike；Autoload 顺序守护测试 |
-| `time-manager` | Sprint 2 | 离线 delta cap = 28800s 测试；Web 不活跃情境断言 |
-| `random-seed-system` | Sprint 2 | 确定性回放 + 多流独立性 + 离线/在线重现性测试 |
-
-### Watchlist 折叠
-6 个 ADR 验证证据 + 2 个测试基础设施 watchlist 已折叠到对应 epic DoD；`player-journey.md` + `art-bible Sec 5–9` 留 watchlist（非 Foundation 域）。
+- **未修改 GDD**（design/gdd/*.md）— 30 GDD baseline 保持 Approved
+- **未修改 ADR**（docs/architecture/adr-*.md）— 15 ADR baseline 保持 Accepted
+- **未修改 epic story 文件**（production/epics/*/story-*.md）— 已存在的 187 story 内容不动；type 字段在 sprint 文件层修正
 
 ## Next Recommended Step
 
-按 PR-EPIC 推荐顺序：
-1. `/create-stories big-number-system` —— 启动 Sprint 1（含 GdUnit4 + CI 绿灯）
-2. `/create-stories event-bus` —— Story #1 = lifecycle spike
-3. （Sprint 1 完成后）`/create-stories time-manager` + `/create-stories random-seed-system`（并行）
-4. `/sprint-plan` 起首个 sprint
+按修复后的 sprint 计划顺序：
+1. `/story-readiness production/epics/big-number-system/story-001-testing-harness-and-bignumber-api-contract.md`
+2. `/dev-story` 完成 Sprint 1 Must Have
+3. Sprint 1 出口前 `/smoke-check sprint` + `/team-qa sprint`
+4. `/sprint-status` 监控 burndown
+
+如需在执行前对某个 sprint 文件做局部 review，可单独 `/scope-check [epic-slug]`。
 
 <!-- STATUS -->
 Epic: Pre-Production
-Feature: Foundation Epics Created
-Task: 4 Foundation epics ready; next /create-stories big-number-system
+Feature: Sprint Plan Audit Complete
+Task: 13 files updated; mvp-smoke-loop epic added; ready to start /story-readiness for Sprint 1
 <!-- /STATUS -->

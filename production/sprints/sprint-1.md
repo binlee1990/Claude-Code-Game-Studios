@@ -1,7 +1,11 @@
 # Sprint 1 -- 2026-05-04 to 2026-05-17
 
 ## Sprint Goal
-Deliver the planning and implementation slice from 大数值系统 through 随机数与种子系统 while preserving upstream dependency order.
+Foundation 起步：交付 BigNumber API contract（含 60fps 帧预算性能 spike 与饱和/零边界）+ RandomSeedSystem 全局单例与多流独立性。Sprint 出口意味着 GdUnit4 + CI 首次绿灯，且所有数值原语 + 多流 RNG 可被后续 sprint 调用。
+
+## Layer / Milestone
+- Layer: Foundation
+- Milestone: 无（Foundation 完成节点在 Sprint 2 出口）
 
 ## AI Context Budget
 - Stories: 20 total（≤ 20 — context window hard constraint）
@@ -50,26 +54,27 @@ Deliver the planning and implementation slice from 大数值系统 through 随�
 ## Risks
 | Risk | Probability | Impact | Mitigation |
 |------|-------------|--------|------------|
-| Missing sprint QA plan | Medium | High | Run `/qa-plan sprint` before implementing the final story in this sprint. |
+| GdUnit4 插件未在用户本地安装 | Medium | High | Sprint 出口前确保 `addons/gdUnit4/plugin.cfg` 存在；仍缺失则把 example test 留为 known blocker。 |
 | Godot 4.6.2 post-cutoff API behavior | Medium | High | Verify against `docs/engine-reference/godot/` when a governing ADR marks HIGH or MEDIUM risk. |
+| BigNumber 纯 GDScript 不达 60fps 帧预算 | Medium | High | S1-008 是 spike；不达标即按 ADR-0001 升级 GDExtension C++ 路径。 |
 | Cross-epic dependency drift | Medium | Medium | Work stories in listed order and run `/story-readiness` for each story before `/dev-story`. |
 
 ## Dependencies on External Factors
 - Godot 4.6.2 behavior must be checked against `docs/engine-reference/godot/` where ADRs require verification.
-- QA plan is not present yet; sprint closure remains gated on `/qa-plan sprint`.
+- QA plan is in place: `production/qa/qa-plan-sprint-1-2026-05-04.md`.
 
 ## Definition of Done for this Sprint
 - [ ] All Must Have tasks completed
 - [ ] All tasks pass acceptance criteria
-- [ ] QA plan exists (`production/qa/qa-plan-sprint-1.md`)
+- [ ] QA plan exists (`production/qa/qa-plan-sprint-1-2026-05-04.md`) ✅
 - [ ] All Logic/Integration stories have passing unit/integration tests
 - [ ] Smoke check passed (`/smoke-check sprint`)
 - [ ] QA sign-off report: APPROVED or APPROVED WITH CONDITIONS (`/team-qa sprint`)
 - [ ] No S1 or S2 bugs in delivered features
 - [ ] Design documents updated for any deviations
 - [ ] Code reviewed and merged
-
-> WARNING: No QA Plan was found for this generated sprint. Run `/qa-plan sprint` before the last story is implemented. The Production -> Polish gate requires a QA sign-off report, which requires a QA plan.
+- [ ] **Traceability**: 所有 sprint stories 映射回 GDD `big-number-system.md` / `random-seed-system.md` 的 acceptance criteria 并在测试 docstring 中标注（覆盖率 100%）
+- [ ] **ADR 验证证据**: BigNumber 60fps 性能 + RNG 多流独立性 evidence 已记录到 `production/qa/evidence/`
 
 ## Next Steps
 - `/story-readiness [story-file]` for the first Must Have story
