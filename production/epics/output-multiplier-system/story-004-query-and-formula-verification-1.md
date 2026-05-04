@@ -1,7 +1,7 @@
 # Story 004: Query and Formula Verification 1
 
 > **Epic**: 产出乘数系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: UI
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/output-multiplier-system.md`, scoped to this story:*
 
-- [ ] AC-09: **GIVEN** target `"lingqi_production"` 下无任何 modifier，**WHEN** 调用 `get_production_rate("lingqi")`，**THEN** 返回 `1.0`（base_rate × 1.0）
-- [ ] AC-10: **GIVEN** lingqi 下 4 个来源均激活：realm value=1.0（池倍率 2.0）、equipment 两件 value=0.15+0.10（池倍率 1.25）、zone value=0.10（池倍率 1.10）、buff value=0.20（池倍率 1.20），总 final_mult = 2.0 × 1.25 × 1.10 × 1.20 = 3.30，**WHEN** 调用 `get_production_rate("lingqi")`，**THEN** 返回 `3.30`
-- [ ] AC-11: **GIVEN** `get_production_rate("lingshi")` 返回 `0.33`（base 0.1 × multiplier 3.30），**WHEN** 在 fresh carry 状态下调用 `get_tick_amount("lingshi", 0.5)`，**THEN** 返回 `BigNumber.ZERO` 且 `fractional_carry["lingshi"] == 0.165`；**WHEN** 在 fresh carry 状态下调用 `get_tick_amount("lingshi", 1800.0)`，**THEN** 返回 `BigNumber.from_float(594.0)` 且 carry 归零
+- [x] AC-09: **GIVEN** target `"lingqi_production"` 下无任何 modifier，**WHEN** 调用 `get_production_rate("lingqi")`，**THEN** 返回 `1.0`（base_rate × 1.0）
+- [x] AC-10: **GIVEN** lingqi 下 4 个来源均激活：realm value=1.0（池倍率 2.0）、equipment 两件 value=0.15+0.10（池倍率 1.25）、zone value=0.10（池倍率 1.10）、buff value=0.20（池倍率 1.20），总 final_mult = 2.0 × 1.25 × 1.10 × 1.20 = 3.30，**WHEN** 调用 `get_production_rate("lingqi")`，**THEN** 返回 `3.30`
+- [x] AC-11: **GIVEN** `get_production_rate("lingshi")` 返回 `0.33`（base 0.1 × multiplier 3.30），**WHEN** 在 fresh carry 状态下调用 `get_tick_amount("lingshi", 0.5)`，**THEN** 返回 `BigNumber.ZERO` 且 `fractional_carry["lingshi"] == 0.165`；**WHEN** 在 fresh carry 状态下调用 `get_tick_amount("lingshi", 1800.0)`，**THEN** 返回 `BigNumber.from_float(594.0)` 且 carry 归零
 
 ---
 
@@ -88,7 +88,7 @@
 **Required evidence**:
 - `production/qa/evidence/query-and-formula-verification-1-evidence.md` — manual/interaction evidence with sign-off
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -96,3 +96,19 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 005
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 7, story 6/20
+- Sprint source: `production/sprints/sprint-7.md`
+- QA plan: `production/qa/qa-plan-sprint-7-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-7-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/item_registry/item_registry_boundary_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd`
+  - `tests/integration/output_multiplier_system/output_multiplier_events_test.gd`
+  - `tests/unit/debug_console/debug_console_command_test.gd`
+  - `tests/integration/debug_console/debug_console_smoke_test.gd`

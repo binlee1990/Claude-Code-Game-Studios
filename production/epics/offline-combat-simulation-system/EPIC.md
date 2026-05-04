@@ -3,7 +3,7 @@
 > **Layer**: Simulation
 > **GDD**: design/gdd/offline-combat-simulation-system.md
 > **Architecture Module**: `OfflineCombatSimulation` (服务)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (2 stories)
 
 ## Overview
@@ -50,8 +50,8 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [encounter count is 360](story-001-encounter-count-is-360.md) | Integration | Ready | ADR-0009 |
-| 002 | [mode switches to expected and records degradation](story-002-mode-switches-to-expected-and-records-degradation.md) | Integration | Ready | ADR-0009 |
+| 001 | [encounter count is 360](story-001-encounter-count-is-360.md) | Integration | Done | ADR-0009 |
+| 002 | [mode switches to expected and records degradation](story-002-mode-switches-to-expected-and-records-degradation.md) | Integration | Done | ADR-0009 |
 
 ## Next Step
 

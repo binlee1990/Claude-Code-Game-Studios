@@ -1,7 +1,7 @@
 # Story 001: it contains 4 chunks
 
 > **Epic**: 离线模拟内核
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Simulation
 > **Type**: UI
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/offline-simulation-core.md`, scoped to this story:*
 
-- [ ] GIVEN: offline delta 7200s and chunk size 1800s, **WHEN** plan builds, **THEN** it contains 4 chunks.
-- [ ] GIVEN: two registered simulators, **WHEN** offline simulation runs, **THEN** both are called in priority order.
-- [ ] GIVEN: one non-critical simulator fails, **WHEN** simulation completes, **THEN** draft includes failure and successful simulator output.
+- [x] GIVEN: offline delta 7200s and chunk size 1800s, **WHEN** plan builds, **THEN** it contains 4 chunks.
+- [x] GIVEN: two registered simulators, **WHEN** offline simulation runs, **THEN** both are called in priority order.
+- [x] GIVEN: one non-critical simulator fails, **WHEN** simulation completes, **THEN** draft includes failure and successful simulator output.
 
 ---
 
@@ -87,7 +87,7 @@
 **Required evidence**:
 - `production/qa/evidence/it-contains-4-chunks-evidence.md` — manual/interaction evidence with sign-off
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -95,3 +95,14 @@
 
 - Depends on: None
 - Unlocks: Story 002
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 9, story 16/20
+- Sprint source: `production/sprints/sprint-9.md`
+- QA plan: `production/qa/qa-plan-sprint-9-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-9-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/sprint9/sprint9_feature_stack_test.gd`

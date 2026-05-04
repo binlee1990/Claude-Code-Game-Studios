@@ -3,7 +3,7 @@
 > **Layer**: Feature Integration
 > **GDD**: design/gdd/semi-auto-combat-system.md
 > **Architecture Module**: `SemiAutoCombatSystem` (Autoload)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (2 stories)
 
 ## Overview
@@ -49,8 +49,8 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [loot is rolled and combat finished event includes victory](story-001-loot-is-rolled-and-combat-finished-event-includes-victor.md) | Integration | Ready | ADR-0009 |
-| 002 | [no crash and HUD can show a zone data error](story-002-no-crash-and-hud-can-show-a-zone-data-error.md) | UI | Ready | ADR-0002 |
+| 001 | [loot is rolled and combat finished event includes victory](story-001-loot-is-rolled-and-combat-finished-event-includes-victor.md) | Integration | Done | ADR-0009 |
+| 002 | [no crash and HUD can show a zone data error](story-002-no-crash-and-hud-can-show-a-zone-data-error.md) | UI | Done | ADR-0002 |
 
 ## Next Step
 

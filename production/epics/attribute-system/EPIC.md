@@ -3,7 +3,7 @@
 > **Layer**: Core Gameplay
 > **GDD**: design/gdd/attribute-system.md
 > **Architecture Module**: `AttributeSystem` (RefCounted) (Autoload 持有)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (12 stories)
 
 ## Overview
@@ -50,18 +50,18 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [实体生命周期 1](story-001-1.md) | Config/Data | Ready | ADR-0007 |
-| 002 | [实体生命周期 2](story-002-2.md) | Integration | Ready | ADR-0002 |
-| 003 | [Single CRUD 1](story-003-single-crud-1.md) | Config/Data | Ready | ADR-0007 |
-| 004 | [Single CRUD 2](story-004-single-crud-2.md) | Logic | Ready | ADR-0001 |
-| 005 | [Final Value Integration 1](story-005-final-value-integration-1.md) | UI | Ready | ADR-0002 |
-| 006 | [Final Value Integration 2](story-006-final-value-integration-2.md) | Integration | Ready | ADR-0002 |
-| 007 | [Events](story-007-events.md) | UI | Ready | ADR-0002 |
-| 008 | [Batch / Snapshot / Restore 1](story-008-batch-snapshot-restore-1.md) | Config/Data | Ready | ADR-0007 |
-| 009 | [Batch / Snapshot / Restore 2](story-009-batch-snapshot-restore-2.md) | UI | Ready | ADR-0002 |
-| 010 | [Edge Cases](story-010-edge-cases.md) | Integration | Ready | ADR-0002 |
-| 011 | [Performance / Memory 1](story-011-performance-memory-1.md) | Logic | Ready | ADR-0001 |
-| 012 | [Performance / Memory 2](story-012-performance-memory-2.md) | Logic | Ready | ADR-0001 |
+| 001 | [实体生命周期 1](story-001-1.md) | Config/Data | Done | ADR-0007 |
+| 002 | [实体生命周期 2](story-002-2.md) | Integration | Done | ADR-0002 |
+| 003 | [Single CRUD 1](story-003-single-crud-1.md) | Config/Data | Done | ADR-0007 |
+| 004 | [Single CRUD 2](story-004-single-crud-2.md) | Logic | Done | ADR-0001 |
+| 005 | [Final Value Integration 1](story-005-final-value-integration-1.md) | UI | Done | ADR-0002 |
+| 006 | [Final Value Integration 2](story-006-final-value-integration-2.md) | Integration | Done | ADR-0002 |
+| 007 | [Events](story-007-events.md) | UI | Done | ADR-0002 |
+| 008 | [Batch / Snapshot / Restore 1](story-008-batch-snapshot-restore-1.md) | Config/Data | Done | ADR-0007 |
+| 009 | [Batch / Snapshot / Restore 2](story-009-batch-snapshot-restore-2.md) | UI | Done | ADR-0002 |
+| 010 | [Edge Cases](story-010-edge-cases.md) | Integration | Done | ADR-0002 |
+| 011 | [Performance / Memory 1](story-011-performance-memory-1.md) | Logic | Done | ADR-0001 |
+| 012 | [Performance / Memory 2](story-012-performance-memory-2.md) | Logic | Done | ADR-0001 |
 
 ## Next Step
 

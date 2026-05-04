@@ -1,7 +1,7 @@
 # Story 002: only enemies tagged starter are returned
 
 > **Epic**: 敌人数据库
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Feature
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -34,8 +34,8 @@
 
 *From GDD `design/gdd/enemy-database.md`, scoped to this story:*
 
-- [ ] GIVEN: zone tag `starter`, **WHEN** `get_by_zone_tag("starter")`, **THEN** only enemies tagged starter are returned.
-- [ ] GIVEN: debug reload changes enemy atk, **WHEN** new combat snapshot is created, **THEN** it uses the updated value.
+- [x] GIVEN: zone tag `starter`, **WHEN** `get_by_zone_tag("starter")`, **THEN** only enemies tagged starter are returned.
+- [x] GIVEN: debug reload changes enemy atk, **WHEN** new combat snapshot is created, **THEN** it uses the updated value.
 
 ---
 
@@ -82,7 +82,7 @@
 **Required evidence**:
 - `tests/integration/enemy_database/only-enemies-tagged-starter-are-returned_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -90,3 +90,14 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: None
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 9, story 3/20
+- Sprint source: `production/sprints/sprint-9.md`
+- QA plan: `production/qa/qa-plan-sprint-9-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-9-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/sprint9/sprint9_feature_stack_test.gd`

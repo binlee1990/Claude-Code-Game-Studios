@@ -1,0 +1,2139 @@
+{
+  "date": "2026-05-04",
+  "report": {
+    "path": "reports/report_13/results.xml",
+    "name": "report_13",
+    "tests": 137,
+    "failures": 0,
+    "skipped": 0,
+    "flaky": 0
+  },
+  "sprints": 10,
+  "story_executions": 188,
+  "stories": [
+    {
+      "sprint": 1,
+      "order": 1,
+      "story": "production/epics/big-number-system/story-001-testing-harness-and-bignumber-api-contract.md",
+      "qa_tests": [
+        "tests/integration/big_number/api_contract_test.gd",
+        "tests/unit/big_number/big_number_arithmetic_test.gd",
+        "tests/performance/big_number_performance_test.gd",
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/unit/rng/stream_independence_test.gd"
+      ]
+    },
+    {
+      "sprint": 1,
+      "order": 2,
+      "story": "production/epics/big-number-system/story-002-mantissa-1-0-10-0-exponent-mantissa-10-exponent.md",
+      "qa_tests": [
+        "tests/integration/big_number/api_contract_test.gd",
+        "tests/unit/big_number/big_number_arithmetic_test.gd",
+        "tests/performance/big_number_performance_test.gd",
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/unit/rng/stream_independence_test.gd"
+      ]
+    },
+    {
+      "sprint": 1,
+      "order": 3,
+      "story": "production/epics/big-number-system/story-003-6-0-8.md",
+      "qa_tests": [
+        "tests/integration/big_number/api_contract_test.gd",
+        "tests/unit/big_number/big_number_arithmetic_test.gd",
+        "tests/performance/big_number_performance_test.gd",
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/unit/rng/stream_independence_test.gd"
+      ]
+    },
+    {
+      "sprint": 1,
+      "order": 4,
+      "story": "production/epics/big-number-system/story-004-5-5-float-0-01.md",
+      "qa_tests": [
+        "tests/integration/big_number/api_contract_test.gd",
+        "tests/unit/big_number/big_number_arithmetic_test.gd",
+        "tests/performance/big_number_performance_test.gd",
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/unit/rng/stream_independence_test.gd"
+      ]
+    },
+    {
+      "sprint": 1,
+      "order": 5,
+      "story": "production/epics/big-number-system/story-005-bignumber-zero.md",
+      "qa_tests": [
+        "tests/integration/big_number/api_contract_test.gd",
+        "tests/unit/big_number/big_number_arithmetic_test.gd",
+        "tests/performance/big_number_performance_test.gd",
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/unit/rng/stream_independence_test.gd"
+      ]
+    },
+    {
+      "sprint": 1,
+      "order": 6,
+      "story": "production/epics/big-number-system/story-006-bignumber-zero.md",
+      "qa_tests": [
+        "tests/integration/big_number/api_contract_test.gd",
+        "tests/unit/big_number/big_number_arithmetic_test.gd",
+        "tests/performance/big_number_performance_test.gd",
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/unit/rng/stream_independence_test.gd"
+      ]
+    },
+    {
+      "sprint": 1,
+      "order": 7,
+      "story": "production/epics/big-number-system/story-007-bignumber-max.md",
+      "qa_tests": [
+        "tests/integration/big_number/api_contract_test.gd",
+        "tests/unit/big_number/big_number_arithmetic_test.gd",
+        "tests/performance/big_number_performance_test.gd",
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/unit/rng/stream_independence_test.gd"
+      ]
+    },
+    {
+      "sprint": 1,
+      "order": 8,
+      "story": "production/epics/big-number-system/story-008-16-6ms-60fps-gdscript-mvp-gdextension-c.md",
+      "qa_tests": [
+        "tests/integration/big_number/api_contract_test.gd",
+        "tests/unit/big_number/big_number_arithmetic_test.gd",
+        "tests/performance/big_number_performance_test.gd",
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/unit/rng/stream_independence_test.gd"
+      ]
+    },
+    {
+      "sprint": 1,
+      "order": 9,
+      "story": "production/epics/big-number-system/story-009-mantissa-4-2-exponent-1.md",
+      "qa_tests": [
+        "tests/integration/big_number/api_contract_test.gd",
+        "tests/unit/big_number/big_number_arithmetic_test.gd",
+        "tests/performance/big_number_performance_test.gd",
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/unit/rng/stream_independence_test.gd"
+      ]
+    },
+    {
+      "sprint": 1,
+      "order": 10,
+      "story": "production/epics/big-number-system/story-010-100.md",
+      "qa_tests": [
+        "tests/integration/big_number/api_contract_test.gd",
+        "tests/unit/big_number/big_number_arithmetic_test.gd",
+        "tests/performance/big_number_performance_test.gd",
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/unit/rng/stream_independence_test.gd"
+      ]
+    },
+    {
+      "sprint": 1,
+      "order": 11,
+      "story": "production/epics/big-number-system/story-011-1-23e150.md",
+      "qa_tests": [
+        "tests/integration/big_number/api_contract_test.gd",
+        "tests/unit/big_number/big_number_arithmetic_test.gd",
+        "tests/performance/big_number_performance_test.gd",
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/unit/rng/stream_independence_test.gd"
+      ]
+    },
+    {
+      "sprint": 1,
+      "order": 12,
+      "story": "production/epics/big-number-system/story-012-true.md",
+      "qa_tests": [
+        "tests/integration/big_number/api_contract_test.gd",
+        "tests/unit/big_number/big_number_arithmetic_test.gd",
+        "tests/performance/big_number_performance_test.gd",
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/unit/rng/stream_independence_test.gd"
+      ]
+    },
+    {
+      "sprint": 1,
+      "order": 13,
+      "story": "production/epics/big-number-system/story-013-bignumber-max.md",
+      "qa_tests": [
+        "tests/integration/big_number/api_contract_test.gd",
+        "tests/unit/big_number/big_number_arithmetic_test.gd",
+        "tests/performance/big_number_performance_test.gd",
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/unit/rng/stream_independence_test.gd"
+      ]
+    },
+    {
+      "sprint": 1,
+      "order": 14,
+      "story": "production/epics/big-number-system/story-014-bignumber-max.md",
+      "qa_tests": [
+        "tests/integration/big_number/api_contract_test.gd",
+        "tests/unit/big_number/big_number_arithmetic_test.gd",
+        "tests/performance/big_number_performance_test.gd",
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/unit/rng/stream_independence_test.gd"
+      ]
+    },
+    {
+      "sprint": 1,
+      "order": 15,
+      "story": "production/epics/random-seed-system/story-001-001-integration.md",
+      "qa_tests": [
+        "tests/integration/big_number/api_contract_test.gd",
+        "tests/unit/big_number/big_number_arithmetic_test.gd",
+        "tests/performance/big_number_performance_test.gd",
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/unit/rng/stream_independence_test.gd"
+      ]
+    },
+    {
+      "sprint": 1,
+      "order": 16,
+      "story": "production/epics/random-seed-system/story-002-loot-rand-float-combat.md",
+      "qa_tests": [
+        "tests/integration/big_number/api_contract_test.gd",
+        "tests/unit/big_number/big_number_arithmetic_test.gd",
+        "tests/performance/big_number_performance_test.gd",
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/unit/rng/stream_independence_test.gd"
+      ]
+    },
+    {
+      "sprint": 1,
+      "order": 17,
+      "story": "production/epics/random-seed-system/story-003-1.md",
+      "qa_tests": [
+        "tests/integration/big_number/api_contract_test.gd",
+        "tests/unit/big_number/big_number_arithmetic_test.gd",
+        "tests/performance/big_number_performance_test.gd",
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/unit/rng/stream_independence_test.gd"
+      ]
+    },
+    {
+      "sprint": 1,
+      "order": 18,
+      "story": "production/epics/random-seed-system/story-004-given-rand-bool-combat-0.md",
+      "qa_tests": [
+        "tests/integration/big_number/api_contract_test.gd",
+        "tests/unit/big_number/big_number_arithmetic_test.gd",
+        "tests/performance/big_number_performance_test.gd",
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/unit/rng/stream_independence_test.gd"
+      ]
+    },
+    {
+      "sprint": 1,
+      "order": 19,
+      "story": "production/epics/random-seed-system/story-005-0-false.md",
+      "qa_tests": [
+        "tests/integration/big_number/api_contract_test.gd",
+        "tests/unit/big_number/big_number_arithmetic_test.gd",
+        "tests/performance/big_number_performance_test.gd",
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/unit/rng/stream_independence_test.gd"
+      ]
+    },
+    {
+      "sprint": 1,
+      "order": 20,
+      "story": "production/epics/random-seed-system/story-006-7.md",
+      "qa_tests": [
+        "tests/integration/big_number/api_contract_test.gd",
+        "tests/unit/big_number/big_number_arithmetic_test.gd",
+        "tests/performance/big_number_performance_test.gd",
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/unit/rng/stream_independence_test.gd"
+      ]
+    },
+    {
+      "sprint": 2,
+      "order": 1,
+      "story": "production/epics/random-seed-system/story-007-007-integration.md",
+      "qa_tests": [
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/performance/rng_performance_test.gd",
+        "tests/integration/event_bus/event_bus_delivery_test.gd",
+        "tests/integration/time_manager/time_manager_integration_test.gd",
+        "tests/unit/time_manager/time_manager_logic_test.gd"
+      ]
+    },
+    {
+      "sprint": 2,
+      "order": 2,
+      "story": "production/epics/random-seed-system/story-008-rng-s1.md",
+      "qa_tests": [
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/performance/rng_performance_test.gd",
+        "tests/integration/event_bus/event_bus_delivery_test.gd",
+        "tests/integration/time_manager/time_manager_integration_test.gd",
+        "tests/unit/time_manager/time_manager_logic_test.gd"
+      ]
+    },
+    {
+      "sprint": 2,
+      "order": 3,
+      "story": "production/epics/random-seed-system/story-009-null.md",
+      "qa_tests": [
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/performance/rng_performance_test.gd",
+        "tests/integration/event_bus/event_bus_delivery_test.gd",
+        "tests/integration/time_manager/time_manager_integration_test.gd",
+        "tests/unit/time_manager/time_manager_logic_test.gd"
+      ]
+    },
+    {
+      "sprint": 2,
+      "order": 4,
+      "story": "production/epics/random-seed-system/story-010-rng-1.md",
+      "qa_tests": [
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/performance/rng_performance_test.gd",
+        "tests/integration/event_bus/event_bus_delivery_test.gd",
+        "tests/integration/time_manager/time_manager_integration_test.gd",
+        "tests/unit/time_manager/time_manager_logic_test.gd"
+      ]
+    },
+    {
+      "sprint": 2,
+      "order": 5,
+      "story": "production/epics/event-bus/story-001-godot-4-6-callable-lifecycle-spike.md",
+      "qa_tests": [
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/performance/rng_performance_test.gd",
+        "tests/integration/event_bus/event_bus_delivery_test.gd",
+        "tests/integration/time_manager/time_manager_integration_test.gd",
+        "tests/unit/time_manager/time_manager_logic_test.gd"
+      ]
+    },
+    {
+      "sprint": 2,
+      "order": 6,
+      "story": "production/epics/event-bus/story-002-002-integration.md",
+      "qa_tests": [
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/performance/rng_performance_test.gd",
+        "tests/integration/event_bus/event_bus_delivery_test.gd",
+        "tests/integration/time_manager/time_manager_integration_test.gd",
+        "tests/unit/time_manager/time_manager_logic_test.gd"
+      ]
+    },
+    {
+      "sprint": 2,
+      "order": 7,
+      "story": "production/epics/event-bus/story-003-emit-callable.md",
+      "qa_tests": [
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/performance/rng_performance_test.gd",
+        "tests/integration/event_bus/event_bus_delivery_test.gd",
+        "tests/integration/time_manager/time_manager_integration_test.gd",
+        "tests/unit/time_manager/time_manager_logic_test.gd"
+      ]
+    },
+    {
+      "sprint": 2,
+      "order": 8,
+      "story": "production/epics/event-bus/story-004-1-3-2-callable.md",
+      "qa_tests": [
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/performance/rng_performance_test.gd",
+        "tests/integration/event_bus/event_bus_delivery_test.gd",
+        "tests/integration/time_manager/time_manager_integration_test.gd",
+        "tests/unit/time_manager/time_manager_logic_test.gd"
+      ]
+    },
+    {
+      "sprint": 2,
+      "order": 9,
+      "story": "production/epics/event-bus/story-005-emit.md",
+      "qa_tests": [
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/performance/rng_performance_test.gd",
+        "tests/integration/event_bus/event_bus_delivery_test.gd",
+        "tests/integration/time_manager/time_manager_integration_test.gd",
+        "tests/unit/time_manager/time_manager_logic_test.gd"
+      ]
+    },
+    {
+      "sprint": 2,
+      "order": 10,
+      "story": "production/epics/event-bus/story-006-006-integration.md",
+      "qa_tests": [
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/performance/rng_performance_test.gd",
+        "tests/integration/event_bus/event_bus_delivery_test.gd",
+        "tests/integration/time_manager/time_manager_integration_test.gd",
+        "tests/unit/time_manager/time_manager_logic_test.gd"
+      ]
+    },
+    {
+      "sprint": 2,
+      "order": 11,
+      "story": "production/epics/event-bus/story-007-emit-callable.md",
+      "qa_tests": [
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/performance/rng_performance_test.gd",
+        "tests/integration/event_bus/event_bus_delivery_test.gd",
+        "tests/integration/time_manager/time_manager_integration_test.gd",
+        "tests/unit/time_manager/time_manager_logic_test.gd"
+      ]
+    },
+    {
+      "sprint": 2,
+      "order": 12,
+      "story": "production/epics/event-bus/story-008-callable-resource-lingqi-changed-emit-payl.md",
+      "qa_tests": [
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/performance/rng_performance_test.gd",
+        "tests/integration/event_bus/event_bus_delivery_test.gd",
+        "tests/integration/time_manager/time_manager_integration_test.gd",
+        "tests/unit/time_manager/time_manager_logic_test.gd"
+      ]
+    },
+    {
+      "sprint": 2,
+      "order": 13,
+      "story": "production/epics/event-bus/story-009-cb1-cb2-cb1-payload-cb2-event-name-payload.md",
+      "qa_tests": [
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/performance/rng_performance_test.gd",
+        "tests/integration/event_bus/event_bus_delivery_test.gd",
+        "tests/integration/time_manager/time_manager_integration_test.gd",
+        "tests/unit/time_manager/time_manager_logic_test.gd"
+      ]
+    },
+    {
+      "sprint": 2,
+      "order": 14,
+      "story": "production/epics/event-bus/story-010-1-ui-hud-refresh-payload-10-payload.md",
+      "qa_tests": [
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/performance/rng_performance_test.gd",
+        "tests/integration/event_bus/event_bus_delivery_test.gd",
+        "tests/integration/time_manager/time_manager_integration_test.gd",
+        "tests/unit/time_manager/time_manager_logic_test.gd"
+      ]
+    },
+    {
+      "sprint": 2,
+      "order": 15,
+      "story": "production/epics/time-manager/story-001-unix-1.md",
+      "qa_tests": [
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/performance/rng_performance_test.gd",
+        "tests/integration/event_bus/event_bus_delivery_test.gd",
+        "tests/integration/time_manager/time_manager_integration_test.gd",
+        "tests/unit/time_manager/time_manager_logic_test.gd"
+      ]
+    },
+    {
+      "sprint": 2,
+      "order": 16,
+      "story": "production/epics/time-manager/story-002-3-0.md",
+      "qa_tests": [
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/performance/rng_performance_test.gd",
+        "tests/integration/event_bus/event_bus_delivery_test.gd",
+        "tests/integration/time_manager/time_manager_integration_test.gd",
+        "tests/unit/time_manager/time_manager_logic_test.gd"
+      ]
+    },
+    {
+      "sprint": 2,
+      "order": 17,
+      "story": "production/epics/time-manager/story-003-get-effective-speed-100-0.md",
+      "qa_tests": [
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/performance/rng_performance_test.gd",
+        "tests/integration/event_bus/event_bus_delivery_test.gd",
+        "tests/integration/time_manager/time_manager_integration_test.gd",
+        "tests/unit/time_manager/time_manager_logic_test.gd"
+      ]
+    },
+    {
+      "sprint": 2,
+      "order": 18,
+      "story": "production/epics/time-manager/story-004-0-0.md",
+      "qa_tests": [
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/performance/rng_performance_test.gd",
+        "tests/integration/event_bus/event_bus_delivery_test.gd",
+        "tests/integration/time_manager/time_manager_integration_test.gd",
+        "tests/unit/time_manager/time_manager_logic_test.gd"
+      ]
+    },
+    {
+      "sprint": 2,
+      "order": 19,
+      "story": "production/epics/time-manager/story-005-offline-delta-28800-max-offline-seconds.md",
+      "qa_tests": [
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/performance/rng_performance_test.gd",
+        "tests/integration/event_bus/event_bus_delivery_test.gd",
+        "tests/integration/time_manager/time_manager_integration_test.gd",
+        "tests/unit/time_manager/time_manager_logic_test.gd"
+      ]
+    },
+    {
+      "sprint": 2,
+      "order": 20,
+      "story": "production/epics/time-manager/story-006-game-time.md",
+      "qa_tests": [
+        "tests/integration/rng/deterministic_replay_test.gd",
+        "tests/performance/rng_performance_test.gd",
+        "tests/integration/event_bus/event_bus_delivery_test.gd",
+        "tests/integration/time_manager/time_manager_integration_test.gd",
+        "tests/unit/time_manager/time_manager_logic_test.gd"
+      ]
+    },
+    {
+      "sprint": 3,
+      "order": 1,
+      "story": "production/epics/time-manager/story-007-007-logic.md",
+      "qa_tests": [
+        "tests/unit/time_manager/time_manager_logic_test.gd",
+        "tests/unit/number_formatting/number_formatter_test.gd",
+        "tests/performance/number_formatter_performance_test.gd",
+        "tests/unit/data_config/data_config_test.gd",
+        "tests/unit/formula_engine/formula_engine_test.gd"
+      ]
+    },
+    {
+      "sprint": 3,
+      "order": 2,
+      "story": "production/epics/number-formatting-system/story-001-0.md",
+      "qa_tests": [
+        "tests/unit/time_manager/time_manager_logic_test.gd",
+        "tests/unit/number_formatting/number_formatter_test.gd",
+        "tests/performance/number_formatter_performance_test.gd",
+        "tests/unit/data_config/data_config_test.gd",
+        "tests/unit/formula_engine/formula_engine_test.gd"
+      ]
+    },
+    {
+      "sprint": 3,
+      "order": 3,
+      "story": "production/epics/number-formatting-system/story-002-9-999.md",
+      "qa_tests": [
+        "tests/unit/time_manager/time_manager_logic_test.gd",
+        "tests/unit/number_formatting/number_formatter_test.gd",
+        "tests/performance/number_formatter_performance_test.gd",
+        "tests/unit/data_config/data_config_test.gd",
+        "tests/unit/formula_engine/formula_engine_test.gd"
+      ]
+    },
+    {
+      "sprint": 3,
+      "order": 4,
+      "story": "production/epics/number-formatting-system/story-003-567.md",
+      "qa_tests": [
+        "tests/unit/time_manager/time_manager_logic_test.gd",
+        "tests/unit/number_formatting/number_formatter_test.gd",
+        "tests/performance/number_formatter_performance_test.gd",
+        "tests/unit/data_config/data_config_test.gd",
+        "tests/unit/formula_engine/formula_engine_test.gd"
+      ]
+    },
+    {
+      "sprint": 3,
+      "order": 5,
+      "story": "production/epics/number-formatting-system/story-004-1234.md",
+      "qa_tests": [
+        "tests/unit/time_manager/time_manager_logic_test.gd",
+        "tests/unit/number_formatting/number_formatter_test.gd",
+        "tests/performance/number_formatter_performance_test.gd",
+        "tests/unit/data_config/data_config_test.gd",
+        "tests/unit/formula_engine/formula_engine_test.gd"
+      ]
+    },
+    {
+      "sprint": 3,
+      "order": 6,
+      "story": "production/epics/number-formatting-system/story-005-max.md",
+      "qa_tests": [
+        "tests/unit/time_manager/time_manager_logic_test.gd",
+        "tests/unit/number_formatting/number_formatter_test.gd",
+        "tests/performance/number_formatter_performance_test.gd",
+        "tests/unit/data_config/data_config_test.gd",
+        "tests/unit/formula_engine/formula_engine_test.gd"
+      ]
+    },
+    {
+      "sprint": 3,
+      "order": 7,
+      "story": "production/epics/number-formatting-system/story-006-1-00.md",
+      "qa_tests": [
+        "tests/unit/time_manager/time_manager_logic_test.gd",
+        "tests/unit/number_formatting/number_formatter_test.gd",
+        "tests/performance/number_formatter_performance_test.gd",
+        "tests/unit/data_config/data_config_test.gd",
+        "tests/unit/formula_engine/formula_engine_test.gd"
+      ]
+    },
+    {
+      "sprint": 3,
+      "order": 8,
+      "story": "production/epics/number-formatting-system/story-007-007-ui.md",
+      "qa_tests": [
+        "tests/unit/time_manager/time_manager_logic_test.gd",
+        "tests/unit/number_formatting/number_formatter_test.gd",
+        "tests/performance/number_formatter_performance_test.gd",
+        "tests/unit/data_config/data_config_test.gd",
+        "tests/unit/formula_engine/formula_engine_test.gd"
+      ]
+    },
+    {
+      "sprint": 3,
+      "order": 9,
+      "story": "production/epics/number-formatting-system/story-008-1ms.md",
+      "qa_tests": [
+        "tests/unit/time_manager/time_manager_logic_test.gd",
+        "tests/unit/number_formatting/number_formatter_test.gd",
+        "tests/performance/number_formatter_performance_test.gd",
+        "tests/unit/data_config/data_config_test.gd",
+        "tests/unit/formula_engine/formula_engine_test.gd"
+      ]
+    },
+    {
+      "sprint": 3,
+      "order": 10,
+      "story": "production/epics/data-config-system/story-001-name-hp-100.md",
+      "qa_tests": [
+        "tests/unit/time_manager/time_manager_logic_test.gd",
+        "tests/unit/number_formatting/number_formatter_test.gd",
+        "tests/performance/number_formatter_performance_test.gd",
+        "tests/unit/data_config/data_config_test.gd",
+        "tests/unit/formula_engine/formula_engine_test.gd"
+      ]
+    },
+    {
+      "sprint": 3,
+      "order": 11,
+      "story": "production/epics/data-config-system/story-002-3-dictionary.md",
+      "qa_tests": [
+        "tests/unit/time_manager/time_manager_logic_test.gd",
+        "tests/unit/number_formatting/number_formatter_test.gd",
+        "tests/performance/number_formatter_performance_test.gd",
+        "tests/unit/data_config/data_config_test.gd",
+        "tests/unit/formula_engine/formula_engine_test.gd"
+      ]
+    },
+    {
+      "sprint": 3,
+      "order": 12,
+      "story": "production/epics/data-config-system/story-003-003-config-data.md",
+      "qa_tests": [
+        "tests/unit/time_manager/time_manager_logic_test.gd",
+        "tests/unit/number_formatting/number_formatter_test.gd",
+        "tests/performance/number_formatter_performance_test.gd",
+        "tests/unit/data_config/data_config_test.gd",
+        "tests/unit/formula_engine/formula_engine_test.gd"
+      ]
+    },
+    {
+      "sprint": 3,
+      "order": 13,
+      "story": "production/epics/data-config-system/story-004-004-config-data.md",
+      "qa_tests": [
+        "tests/unit/time_manager/time_manager_logic_test.gd",
+        "tests/unit/number_formatting/number_formatter_test.gd",
+        "tests/performance/number_formatter_performance_test.gd",
+        "tests/unit/data_config/data_config_test.gd",
+        "tests/unit/formula_engine/formula_engine_test.gd"
+      ]
+    },
+    {
+      "sprint": 3,
+      "order": 14,
+      "story": "production/epics/data-config-system/story-005-005-config-data.md",
+      "qa_tests": [
+        "tests/unit/time_manager/time_manager_logic_test.gd",
+        "tests/unit/number_formatting/number_formatter_test.gd",
+        "tests/performance/number_formatter_performance_test.gd",
+        "tests/unit/data_config/data_config_test.gd",
+        "tests/unit/formula_engine/formula_engine_test.gd"
+      ]
+    },
+    {
+      "sprint": 3,
+      "order": 15,
+      "story": "production/epics/data-config-system/story-006-tags-beast-slime-array.md",
+      "qa_tests": [
+        "tests/unit/time_manager/time_manager_logic_test.gd",
+        "tests/unit/number_formatting/number_formatter_test.gd",
+        "tests/performance/number_formatter_performance_test.gd",
+        "tests/unit/data_config/data_config_test.gd",
+        "tests/unit/formula_engine/formula_engine_test.gd"
+      ]
+    },
+    {
+      "sprint": 3,
+      "order": 16,
+      "story": "production/epics/formula-engine/story-001-15-0.md",
+      "qa_tests": [
+        "tests/unit/time_manager/time_manager_logic_test.gd",
+        "tests/unit/number_formatting/number_formatter_test.gd",
+        "tests/performance/number_formatter_performance_test.gd",
+        "tests/unit/data_config/data_config_test.gd",
+        "tests/unit/formula_engine/formula_engine_test.gd"
+      ]
+    },
+    {
+      "sprint": 3,
+      "order": 17,
+      "story": "production/epics/formula-engine/story-002-002-config-data.md",
+      "qa_tests": [
+        "tests/unit/time_manager/time_manager_logic_test.gd",
+        "tests/unit/number_formatting/number_formatter_test.gd",
+        "tests/performance/number_formatter_performance_test.gd",
+        "tests/unit/data_config/data_config_test.gd",
+        "tests/unit/formula_engine/formula_engine_test.gd"
+      ]
+    },
+    {
+      "sprint": 3,
+      "order": 18,
+      "story": "production/epics/formula-engine/story-003-0-0-0-0.md",
+      "qa_tests": [
+        "tests/unit/time_manager/time_manager_logic_test.gd",
+        "tests/unit/number_formatting/number_formatter_test.gd",
+        "tests/performance/number_formatter_performance_test.gd",
+        "tests/unit/data_config/data_config_test.gd",
+        "tests/unit/formula_engine/formula_engine_test.gd"
+      ]
+    },
+    {
+      "sprint": 3,
+      "order": 19,
+      "story": "production/epics/formula-engine/story-004-1-0-true-float.md",
+      "qa_tests": [
+        "tests/unit/time_manager/time_manager_logic_test.gd",
+        "tests/unit/number_formatting/number_formatter_test.gd",
+        "tests/performance/number_formatter_performance_test.gd",
+        "tests/unit/data_config/data_config_test.gd",
+        "tests/unit/formula_engine/formula_engine_test.gd"
+      ]
+    },
+    {
+      "sprint": 3,
+      "order": 20,
+      "story": "production/epics/formula-engine/story-005-120-0.md",
+      "qa_tests": [
+        "tests/unit/time_manager/time_manager_logic_test.gd",
+        "tests/unit/number_formatting/number_formatter_test.gd",
+        "tests/performance/number_formatter_performance_test.gd",
+        "tests/unit/data_config/data_config_test.gd",
+        "tests/unit/formula_engine/formula_engine_test.gd"
+      ]
+    },
+    {
+      "sprint": 4,
+      "order": 1,
+      "story": "production/epics/formula-engine/story-006-50-0.md",
+      "qa_tests": [
+        "tests/unit/formula_engine/formula_engine_edges_test.gd",
+        "tests/unit/modifier_engine/modifier_engine_test.gd",
+        "tests/unit/save_system/save_manager_collect_test.gd",
+        "tests/integration/save_system/save_manager_file_contract_test.gd"
+      ]
+    },
+    {
+      "sprint": 4,
+      "order": 2,
+      "story": "production/epics/formula-engine/story-007-30-0.md",
+      "qa_tests": [
+        "tests/unit/formula_engine/formula_engine_edges_test.gd",
+        "tests/unit/modifier_engine/modifier_engine_test.gd",
+        "tests/unit/save_system/save_manager_collect_test.gd",
+        "tests/integration/save_system/save_manager_file_contract_test.gd"
+      ]
+    },
+    {
+      "sprint": 4,
+      "order": 3,
+      "story": "production/epics/formula-engine/story-008-008-config-data.md",
+      "qa_tests": [
+        "tests/unit/formula_engine/formula_engine_edges_test.gd",
+        "tests/unit/modifier_engine/modifier_engine_test.gd",
+        "tests/unit/save_system/save_manager_collect_test.gd",
+        "tests/integration/save_system/save_manager_file_contract_test.gd"
+      ]
+    },
+    {
+      "sprint": 4,
+      "order": 4,
+      "story": "production/epics/formula-engine/story-009-7-0.md",
+      "qa_tests": [
+        "tests/unit/formula_engine/formula_engine_edges_test.gd",
+        "tests/unit/modifier_engine/modifier_engine_test.gd",
+        "tests/unit/save_system/save_manager_collect_test.gd",
+        "tests/integration/save_system/save_manager_file_contract_test.gd"
+      ]
+    },
+    {
+      "sprint": 4,
+      "order": 5,
+      "story": "production/epics/formula-engine/story-010-threshold-1-0.md",
+      "qa_tests": [
+        "tests/unit/formula_engine/formula_engine_edges_test.gd",
+        "tests/unit/modifier_engine/modifier_engine_test.gd",
+        "tests/unit/save_system/save_manager_collect_test.gd",
+        "tests/integration/save_system/save_manager_file_contract_test.gd"
+      ]
+    },
+    {
+      "sprint": 4,
+      "order": 6,
+      "story": "production/epics/modifier-engine/story-001-250-0.md",
+      "qa_tests": [
+        "tests/unit/formula_engine/formula_engine_edges_test.gd",
+        "tests/unit/modifier_engine/modifier_engine_test.gd",
+        "tests/unit/save_system/save_manager_collect_test.gd",
+        "tests/integration/save_system/save_manager_file_contract_test.gd"
+      ]
+    },
+    {
+      "sprint": 4,
+      "order": 7,
+      "story": "production/epics/modifier-engine/story-002-bignumber-2500.md",
+      "qa_tests": [
+        "tests/unit/formula_engine/formula_engine_edges_test.gd",
+        "tests/unit/modifier_engine/modifier_engine_test.gd",
+        "tests/unit/save_system/save_manager_collect_test.gd",
+        "tests/integration/save_system/save_manager_file_contract_test.gd"
+      ]
+    },
+    {
+      "sprint": 4,
+      "order": 8,
+      "story": "production/epics/modifier-engine/story-003-true-unregister-abc-false.md",
+      "qa_tests": [
+        "tests/unit/formula_engine/formula_engine_edges_test.gd",
+        "tests/unit/modifier_engine/modifier_engine_test.gd",
+        "tests/unit/save_system/save_manager_collect_test.gd",
+        "tests/integration/save_system/save_manager_file_contract_test.gd"
+      ]
+    },
+    {
+      "sprint": 4,
+      "order": 9,
+      "story": "production/epics/modifier-engine/story-004-004-logic.md",
+      "qa_tests": [
+        "tests/unit/formula_engine/formula_engine_edges_test.gd",
+        "tests/unit/modifier_engine/modifier_engine_test.gd",
+        "tests/unit/save_system/save_manager_collect_test.gd",
+        "tests/integration/save_system/save_manager_file_contract_test.gd"
+      ]
+    },
+    {
+      "sprint": 4,
+      "order": 10,
+      "story": "production/epics/modifier-engine/story-005-id-get-add-sum-0-0.md",
+      "qa_tests": [
+        "tests/unit/formula_engine/formula_engine_edges_test.gd",
+        "tests/unit/modifier_engine/modifier_engine_test.gd",
+        "tests/unit/save_system/save_manager_collect_test.gd",
+        "tests/integration/save_system/save_manager_file_contract_test.gd"
+      ]
+    },
+    {
+      "sprint": 4,
+      "order": 11,
+      "story": "production/epics/modifier-engine/story-006-006-ui.md",
+      "qa_tests": [
+        "tests/unit/formula_engine/formula_engine_edges_test.gd",
+        "tests/unit/modifier_engine/modifier_engine_test.gd",
+        "tests/unit/save_system/save_manager_collect_test.gd",
+        "tests/integration/save_system/save_manager_file_contract_test.gd"
+      ]
+    },
+    {
+      "sprint": 4,
+      "order": 12,
+      "story": "production/epics/modifier-engine/story-007-2-player-atk-lingqi-production.md",
+      "qa_tests": [
+        "tests/unit/formula_engine/formula_engine_edges_test.gd",
+        "tests/unit/modifier_engine/modifier_engine_test.gd",
+        "tests/unit/save_system/save_manager_collect_test.gd",
+        "tests/integration/save_system/save_manager_file_contract_test.gd"
+      ]
+    },
+    {
+      "sprint": 4,
+      "order": 13,
+      "story": "production/epics/save-system/story-001-user-save-save-json-meta-systems-systems-time-manager.md",
+      "qa_tests": [
+        "tests/unit/formula_engine/formula_engine_edges_test.gd",
+        "tests/unit/modifier_engine/modifier_engine_test.gd",
+        "tests/unit/save_system/save_manager_collect_test.gd",
+        "tests/integration/save_system/save_manager_file_contract_test.gd"
+      ]
+    },
+    {
+      "sprint": 4,
+      "order": 14,
+      "story": "production/epics/save-system/story-002-save-json-bak-backup-backup-save-corrupted.md",
+      "qa_tests": [
+        "tests/unit/formula_engine/formula_engine_edges_test.gd",
+        "tests/unit/modifier_engine/modifier_engine_test.gd",
+        "tests/unit/save_system/save_manager_collect_test.gd",
+        "tests/integration/save_system/save_manager_file_contract_test.gd"
+      ]
+    },
+    {
+      "sprint": 4,
+      "order": 15,
+      "story": "production/epics/save-system/story-003-a-namespace-null-b.md",
+      "qa_tests": [
+        "tests/unit/formula_engine/formula_engine_edges_test.gd",
+        "tests/unit/modifier_engine/modifier_engine_test.gd",
+        "tests/unit/save_system/save_manager_collect_test.gd",
+        "tests/integration/save_system/save_manager_file_contract_test.gd"
+      ]
+    },
+    {
+      "sprint": 4,
+      "order": 16,
+      "story": "production/epics/save-system/story-004-provider-restore-fn-dictionary.md",
+      "qa_tests": [
+        "tests/unit/formula_engine/formula_engine_edges_test.gd",
+        "tests/unit/modifier_engine/modifier_engine_test.gd",
+        "tests/unit/save_system/save_manager_collect_test.gd",
+        "tests/integration/save_system/save_manager_file_contract_test.gd"
+      ]
+    },
+    {
+      "sprint": 4,
+      "order": 17,
+      "story": "production/epics/save-system/story-005-backup.md",
+      "qa_tests": [
+        "tests/unit/formula_engine/formula_engine_edges_test.gd",
+        "tests/unit/modifier_engine/modifier_engine_test.gd",
+        "tests/unit/save_system/save_manager_collect_test.gd",
+        "tests/integration/save_system/save_manager_file_contract_test.gd"
+      ]
+    },
+    {
+      "sprint": 4,
+      "order": 18,
+      "story": "production/epics/save-system/story-006-006-integration.md",
+      "qa_tests": [
+        "tests/unit/formula_engine/formula_engine_edges_test.gd",
+        "tests/unit/modifier_engine/modifier_engine_test.gd",
+        "tests/unit/save_system/save_manager_collect_test.gd",
+        "tests/integration/save_system/save_manager_file_contract_test.gd"
+      ]
+    },
+    {
+      "sprint": 4,
+      "order": 19,
+      "story": "production/epics/save-system/story-007-user-test-save-save-json.md",
+      "qa_tests": [
+        "tests/unit/formula_engine/formula_engine_edges_test.gd",
+        "tests/unit/modifier_engine/modifier_engine_test.gd",
+        "tests/unit/save_system/save_manager_collect_test.gd",
+        "tests/integration/save_system/save_manager_file_contract_test.gd"
+      ]
+    },
+    {
+      "sprint": 4,
+      "order": 20,
+      "story": "production/epics/save-system/story-008-save-json-save-json-bak-save-json-tmp.md",
+      "qa_tests": [
+        "tests/unit/formula_engine/formula_engine_edges_test.gd",
+        "tests/unit/modifier_engine/modifier_engine_test.gd",
+        "tests/unit/save_system/save_manager_collect_test.gd",
+        "tests/integration/save_system/save_manager_file_contract_test.gd"
+      ]
+    },
+    {
+      "sprint": 5,
+      "order": 1,
+      "story": "production/epics/resource-system/story-001-core-crud-1.md",
+      "qa_tests": [
+        "tests/unit/resource_system/resource_system_crud_test.gd",
+        "tests/integration/resource_system/resource_system_state_test.gd",
+        "tests/unit/attribute_system/attribute_system_crud_test.gd",
+        "tests/integration/attribute_system/attribute_system_final_test.gd"
+      ]
+    },
+    {
+      "sprint": 5,
+      "order": 2,
+      "story": "production/epics/resource-system/story-002-core-crud-2.md",
+      "qa_tests": [
+        "tests/unit/resource_system/resource_system_crud_test.gd",
+        "tests/integration/resource_system/resource_system_state_test.gd",
+        "tests/unit/attribute_system/attribute_system_crud_test.gd",
+        "tests/integration/attribute_system/attribute_system_final_test.gd"
+      ]
+    },
+    {
+      "sprint": 5,
+      "order": 3,
+      "story": "production/epics/resource-system/story-003-core-crud-3.md",
+      "qa_tests": [
+        "tests/unit/resource_system/resource_system_crud_test.gd",
+        "tests/integration/resource_system/resource_system_state_test.gd",
+        "tests/unit/attribute_system/attribute_system_crud_test.gd",
+        "tests/integration/attribute_system/attribute_system_final_test.gd"
+      ]
+    },
+    {
+      "sprint": 5,
+      "order": 4,
+      "story": "production/epics/resource-system/story-004-core-crud-4.md",
+      "qa_tests": [
+        "tests/unit/resource_system/resource_system_crud_test.gd",
+        "tests/integration/resource_system/resource_system_state_test.gd",
+        "tests/unit/attribute_system/attribute_system_crud_test.gd",
+        "tests/integration/attribute_system/attribute_system_final_test.gd"
+      ]
+    },
+    {
+      "sprint": 5,
+      "order": 5,
+      "story": "production/epics/resource-system/story-005-events-1.md",
+      "qa_tests": [
+        "tests/unit/resource_system/resource_system_crud_test.gd",
+        "tests/integration/resource_system/resource_system_state_test.gd",
+        "tests/unit/attribute_system/attribute_system_crud_test.gd",
+        "tests/integration/attribute_system/attribute_system_final_test.gd"
+      ]
+    },
+    {
+      "sprint": 5,
+      "order": 6,
+      "story": "production/epics/resource-system/story-006-events-2.md",
+      "qa_tests": [
+        "tests/unit/resource_system/resource_system_crud_test.gd",
+        "tests/integration/resource_system/resource_system_state_test.gd",
+        "tests/unit/attribute_system/attribute_system_crud_test.gd",
+        "tests/integration/attribute_system/attribute_system_final_test.gd"
+      ]
+    },
+    {
+      "sprint": 5,
+      "order": 7,
+      "story": "production/epics/resource-system/story-007-set-max-1.md",
+      "qa_tests": [
+        "tests/unit/resource_system/resource_system_crud_test.gd",
+        "tests/integration/resource_system/resource_system_state_test.gd",
+        "tests/unit/attribute_system/attribute_system_crud_test.gd",
+        "tests/integration/attribute_system/attribute_system_final_test.gd"
+      ]
+    },
+    {
+      "sprint": 5,
+      "order": 8,
+      "story": "production/epics/resource-system/story-008-set-max-2.md",
+      "qa_tests": [
+        "tests/unit/resource_system/resource_system_crud_test.gd",
+        "tests/integration/resource_system/resource_system_state_test.gd",
+        "tests/unit/attribute_system/attribute_system_crud_test.gd",
+        "tests/integration/attribute_system/attribute_system_final_test.gd"
+      ]
+    },
+    {
+      "sprint": 5,
+      "order": 9,
+      "story": "production/epics/resource-system/story-009-reset-1.md",
+      "qa_tests": [
+        "tests/unit/resource_system/resource_system_crud_test.gd",
+        "tests/integration/resource_system/resource_system_state_test.gd",
+        "tests/unit/attribute_system/attribute_system_crud_test.gd",
+        "tests/integration/attribute_system/attribute_system_final_test.gd"
+      ]
+    },
+    {
+      "sprint": 5,
+      "order": 10,
+      "story": "production/epics/resource-system/story-010-reset-2.md",
+      "qa_tests": [
+        "tests/unit/resource_system/resource_system_crud_test.gd",
+        "tests/integration/resource_system/resource_system_state_test.gd",
+        "tests/unit/attribute_system/attribute_system_crud_test.gd",
+        "tests/integration/attribute_system/attribute_system_final_test.gd"
+      ]
+    },
+    {
+      "sprint": 5,
+      "order": 11,
+      "story": "production/epics/resource-system/story-011-snapshot-restore.md",
+      "qa_tests": [
+        "tests/unit/resource_system/resource_system_crud_test.gd",
+        "tests/integration/resource_system/resource_system_state_test.gd",
+        "tests/unit/attribute_system/attribute_system_crud_test.gd",
+        "tests/integration/attribute_system/attribute_system_final_test.gd"
+      ]
+    },
+    {
+      "sprint": 5,
+      "order": 12,
+      "story": "production/epics/resource-system/story-012-edge-cases.md",
+      "qa_tests": [
+        "tests/unit/resource_system/resource_system_crud_test.gd",
+        "tests/integration/resource_system/resource_system_state_test.gd",
+        "tests/unit/attribute_system/attribute_system_crud_test.gd",
+        "tests/integration/attribute_system/attribute_system_final_test.gd"
+      ]
+    },
+    {
+      "sprint": 5,
+      "order": 13,
+      "story": "production/epics/resource-system/story-013-performance-memory.md",
+      "qa_tests": [
+        "tests/unit/resource_system/resource_system_crud_test.gd",
+        "tests/integration/resource_system/resource_system_state_test.gd",
+        "tests/unit/attribute_system/attribute_system_crud_test.gd",
+        "tests/integration/attribute_system/attribute_system_final_test.gd"
+      ]
+    },
+    {
+      "sprint": 5,
+      "order": 14,
+      "story": "production/epics/attribute-system/story-001-1.md",
+      "qa_tests": [
+        "tests/unit/resource_system/resource_system_crud_test.gd",
+        "tests/integration/resource_system/resource_system_state_test.gd",
+        "tests/unit/attribute_system/attribute_system_crud_test.gd",
+        "tests/integration/attribute_system/attribute_system_final_test.gd"
+      ]
+    },
+    {
+      "sprint": 5,
+      "order": 15,
+      "story": "production/epics/attribute-system/story-002-2.md",
+      "qa_tests": [
+        "tests/unit/resource_system/resource_system_crud_test.gd",
+        "tests/integration/resource_system/resource_system_state_test.gd",
+        "tests/unit/attribute_system/attribute_system_crud_test.gd",
+        "tests/integration/attribute_system/attribute_system_final_test.gd"
+      ]
+    },
+    {
+      "sprint": 5,
+      "order": 16,
+      "story": "production/epics/attribute-system/story-003-single-crud-1.md",
+      "qa_tests": [
+        "tests/unit/resource_system/resource_system_crud_test.gd",
+        "tests/integration/resource_system/resource_system_state_test.gd",
+        "tests/unit/attribute_system/attribute_system_crud_test.gd",
+        "tests/integration/attribute_system/attribute_system_final_test.gd"
+      ]
+    },
+    {
+      "sprint": 5,
+      "order": 17,
+      "story": "production/epics/attribute-system/story-004-single-crud-2.md",
+      "qa_tests": [
+        "tests/unit/resource_system/resource_system_crud_test.gd",
+        "tests/integration/resource_system/resource_system_state_test.gd",
+        "tests/unit/attribute_system/attribute_system_crud_test.gd",
+        "tests/integration/attribute_system/attribute_system_final_test.gd"
+      ]
+    },
+    {
+      "sprint": 5,
+      "order": 18,
+      "story": "production/epics/attribute-system/story-005-final-value-integration-1.md",
+      "qa_tests": [
+        "tests/unit/resource_system/resource_system_crud_test.gd",
+        "tests/integration/resource_system/resource_system_state_test.gd",
+        "tests/unit/attribute_system/attribute_system_crud_test.gd",
+        "tests/integration/attribute_system/attribute_system_final_test.gd"
+      ]
+    },
+    {
+      "sprint": 5,
+      "order": 19,
+      "story": "production/epics/attribute-system/story-006-final-value-integration-2.md",
+      "qa_tests": [
+        "tests/unit/resource_system/resource_system_crud_test.gd",
+        "tests/integration/resource_system/resource_system_state_test.gd",
+        "tests/unit/attribute_system/attribute_system_crud_test.gd",
+        "tests/integration/attribute_system/attribute_system_final_test.gd"
+      ]
+    },
+    {
+      "sprint": 5,
+      "order": 20,
+      "story": "production/epics/attribute-system/story-007-events.md",
+      "qa_tests": [
+        "tests/unit/resource_system/resource_system_crud_test.gd",
+        "tests/integration/resource_system/resource_system_state_test.gd",
+        "tests/unit/attribute_system/attribute_system_crud_test.gd",
+        "tests/integration/attribute_system/attribute_system_final_test.gd"
+      ]
+    },
+    {
+      "sprint": 6,
+      "order": 1,
+      "story": "production/epics/attribute-system/story-008-batch-snapshot-restore-1.md",
+      "qa_tests": [
+        "tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd",
+        "tests/unit/item_registry/item_registry_load_test.gd",
+        "tests/unit/item_registry/item_registry_query_test.gd",
+        "tests/integration/item_registry/item_registry_lifecycle_test.gd",
+        "tests/performance/item_registry_performance_test.gd"
+      ]
+    },
+    {
+      "sprint": 6,
+      "order": 2,
+      "story": "production/epics/attribute-system/story-009-batch-snapshot-restore-2.md",
+      "qa_tests": [
+        "tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd",
+        "tests/unit/item_registry/item_registry_load_test.gd",
+        "tests/unit/item_registry/item_registry_query_test.gd",
+        "tests/integration/item_registry/item_registry_lifecycle_test.gd",
+        "tests/performance/item_registry_performance_test.gd"
+      ]
+    },
+    {
+      "sprint": 6,
+      "order": 3,
+      "story": "production/epics/attribute-system/story-010-edge-cases.md",
+      "qa_tests": [
+        "tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd",
+        "tests/unit/item_registry/item_registry_load_test.gd",
+        "tests/unit/item_registry/item_registry_query_test.gd",
+        "tests/integration/item_registry/item_registry_lifecycle_test.gd",
+        "tests/performance/item_registry_performance_test.gd"
+      ]
+    },
+    {
+      "sprint": 6,
+      "order": 4,
+      "story": "production/epics/attribute-system/story-011-performance-memory-1.md",
+      "qa_tests": [
+        "tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd",
+        "tests/unit/item_registry/item_registry_load_test.gd",
+        "tests/unit/item_registry/item_registry_query_test.gd",
+        "tests/integration/item_registry/item_registry_lifecycle_test.gd",
+        "tests/performance/item_registry_performance_test.gd"
+      ]
+    },
+    {
+      "sprint": 6,
+      "order": 5,
+      "story": "production/epics/attribute-system/story-012-performance-memory-2.md",
+      "qa_tests": [
+        "tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd",
+        "tests/unit/item_registry/item_registry_load_test.gd",
+        "tests/unit/item_registry/item_registry_query_test.gd",
+        "tests/integration/item_registry/item_registry_lifecycle_test.gd",
+        "tests/performance/item_registry_performance_test.gd"
+      ]
+    },
+    {
+      "sprint": 6,
+      "order": 6,
+      "story": "production/epics/item-material-system/story-001-a-11-1.md",
+      "qa_tests": [
+        "tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd",
+        "tests/unit/item_registry/item_registry_load_test.gd",
+        "tests/unit/item_registry/item_registry_query_test.gd",
+        "tests/integration/item_registry/item_registry_lifecycle_test.gd",
+        "tests/performance/item_registry_performance_test.gd"
+      ]
+    },
+    {
+      "sprint": 6,
+      "order": 7,
+      "story": "production/epics/item-material-system/story-002-a-11-2.md",
+      "qa_tests": [
+        "tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd",
+        "tests/unit/item_registry/item_registry_load_test.gd",
+        "tests/unit/item_registry/item_registry_query_test.gd",
+        "tests/integration/item_registry/item_registry_lifecycle_test.gd",
+        "tests/performance/item_registry_performance_test.gd"
+      ]
+    },
+    {
+      "sprint": 6,
+      "order": 8,
+      "story": "production/epics/item-material-system/story-003-a-11-3.md",
+      "qa_tests": [
+        "tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd",
+        "tests/unit/item_registry/item_registry_load_test.gd",
+        "tests/unit/item_registry/item_registry_query_test.gd",
+        "tests/integration/item_registry/item_registry_lifecycle_test.gd",
+        "tests/performance/item_registry_performance_test.gd"
+      ]
+    },
+    {
+      "sprint": 6,
+      "order": 9,
+      "story": "production/epics/item-material-system/story-004-a-11-4.md",
+      "qa_tests": [
+        "tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd",
+        "tests/unit/item_registry/item_registry_load_test.gd",
+        "tests/unit/item_registry/item_registry_query_test.gd",
+        "tests/integration/item_registry/item_registry_lifecycle_test.gd",
+        "tests/performance/item_registry_performance_test.gd"
+      ]
+    },
+    {
+      "sprint": 6,
+      "order": 10,
+      "story": "production/epics/item-material-system/story-005-b-api-12-1.md",
+      "qa_tests": [
+        "tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd",
+        "tests/unit/item_registry/item_registry_load_test.gd",
+        "tests/unit/item_registry/item_registry_query_test.gd",
+        "tests/integration/item_registry/item_registry_lifecycle_test.gd",
+        "tests/performance/item_registry_performance_test.gd"
+      ]
+    },
+    {
+      "sprint": 6,
+      "order": 11,
+      "story": "production/epics/item-material-system/story-006-b-api-12-2.md",
+      "qa_tests": [
+        "tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd",
+        "tests/unit/item_registry/item_registry_load_test.gd",
+        "tests/unit/item_registry/item_registry_query_test.gd",
+        "tests/integration/item_registry/item_registry_lifecycle_test.gd",
+        "tests/performance/item_registry_performance_test.gd"
+      ]
+    },
+    {
+      "sprint": 6,
+      "order": 12,
+      "story": "production/epics/item-material-system/story-007-b-api-12-3.md",
+      "qa_tests": [
+        "tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd",
+        "tests/unit/item_registry/item_registry_load_test.gd",
+        "tests/unit/item_registry/item_registry_query_test.gd",
+        "tests/integration/item_registry/item_registry_lifecycle_test.gd",
+        "tests/performance/item_registry_performance_test.gd"
+      ]
+    },
+    {
+      "sprint": 6,
+      "order": 13,
+      "story": "production/epics/item-material-system/story-008-b-api-12-4.md",
+      "qa_tests": [
+        "tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd",
+        "tests/unit/item_registry/item_registry_load_test.gd",
+        "tests/unit/item_registry/item_registry_query_test.gd",
+        "tests/integration/item_registry/item_registry_lifecycle_test.gd",
+        "tests/performance/item_registry_performance_test.gd"
+      ]
+    },
+    {
+      "sprint": 6,
+      "order": 14,
+      "story": "production/epics/item-material-system/story-009-c-4.md",
+      "qa_tests": [
+        "tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd",
+        "tests/unit/item_registry/item_registry_load_test.gd",
+        "tests/unit/item_registry/item_registry_query_test.gd",
+        "tests/integration/item_registry/item_registry_lifecycle_test.gd",
+        "tests/performance/item_registry_performance_test.gd"
+      ]
+    },
+    {
+      "sprint": 6,
+      "order": 15,
+      "story": "production/epics/item-material-system/story-010-d-2.md",
+      "qa_tests": [
+        "tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd",
+        "tests/unit/item_registry/item_registry_load_test.gd",
+        "tests/unit/item_registry/item_registry_query_test.gd",
+        "tests/integration/item_registry/item_registry_lifecycle_test.gd",
+        "tests/performance/item_registry_performance_test.gd"
+      ]
+    },
+    {
+      "sprint": 6,
+      "order": 16,
+      "story": "production/epics/item-material-system/story-011-e-4-1.md",
+      "qa_tests": [
+        "tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd",
+        "tests/unit/item_registry/item_registry_load_test.gd",
+        "tests/unit/item_registry/item_registry_query_test.gd",
+        "tests/integration/item_registry/item_registry_lifecycle_test.gd",
+        "tests/performance/item_registry_performance_test.gd"
+      ]
+    },
+    {
+      "sprint": 6,
+      "order": 17,
+      "story": "production/epics/item-material-system/story-012-e-4-2.md",
+      "qa_tests": [
+        "tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd",
+        "tests/unit/item_registry/item_registry_load_test.gd",
+        "tests/unit/item_registry/item_registry_query_test.gd",
+        "tests/integration/item_registry/item_registry_lifecycle_test.gd",
+        "tests/performance/item_registry_performance_test.gd"
+      ]
+    },
+    {
+      "sprint": 6,
+      "order": 18,
+      "story": "production/epics/item-material-system/story-013-f-6-1.md",
+      "qa_tests": [
+        "tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd",
+        "tests/unit/item_registry/item_registry_load_test.gd",
+        "tests/unit/item_registry/item_registry_query_test.gd",
+        "tests/integration/item_registry/item_registry_lifecycle_test.gd",
+        "tests/performance/item_registry_performance_test.gd"
+      ]
+    },
+    {
+      "sprint": 6,
+      "order": 19,
+      "story": "production/epics/item-material-system/story-014-f-6-2.md",
+      "qa_tests": [
+        "tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd",
+        "tests/unit/item_registry/item_registry_load_test.gd",
+        "tests/unit/item_registry/item_registry_query_test.gd",
+        "tests/integration/item_registry/item_registry_lifecycle_test.gd",
+        "tests/performance/item_registry_performance_test.gd"
+      ]
+    },
+    {
+      "sprint": 6,
+      "order": 20,
+      "story": "production/epics/item-material-system/story-015-g-lifecycle-2.md",
+      "qa_tests": [
+        "tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd",
+        "tests/unit/item_registry/item_registry_load_test.gd",
+        "tests/unit/item_registry/item_registry_query_test.gd",
+        "tests/integration/item_registry/item_registry_lifecycle_test.gd",
+        "tests/performance/item_registry_performance_test.gd"
+      ]
+    },
+    {
+      "sprint": 7,
+      "order": 1,
+      "story": "production/epics/item-material-system/story-016-h-1.md",
+      "qa_tests": [
+        "tests/integration/item_registry/item_registry_boundary_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd",
+        "tests/integration/output_multiplier_system/output_multiplier_events_test.gd",
+        "tests/unit/debug_console/debug_console_command_test.gd",
+        "tests/integration/debug_console/debug_console_smoke_test.gd"
+      ]
+    },
+    {
+      "sprint": 7,
+      "order": 2,
+      "story": "production/epics/item-material-system/story-017-i-1.md",
+      "qa_tests": [
+        "tests/integration/item_registry/item_registry_boundary_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd",
+        "tests/integration/output_multiplier_system/output_multiplier_events_test.gd",
+        "tests/unit/debug_console/debug_console_command_test.gd",
+        "tests/integration/debug_console/debug_console_smoke_test.gd"
+      ]
+    },
+    {
+      "sprint": 7,
+      "order": 3,
+      "story": "production/epics/output-multiplier-system/story-001-configuration-and-initialization.md",
+      "qa_tests": [
+        "tests/integration/item_registry/item_registry_boundary_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd",
+        "tests/integration/output_multiplier_system/output_multiplier_events_test.gd",
+        "tests/unit/debug_console/debug_console_command_test.gd",
+        "tests/integration/debug_console/debug_console_smoke_test.gd"
+      ]
+    },
+    {
+      "sprint": 7,
+      "order": 4,
+      "story": "production/epics/output-multiplier-system/story-002-activation-and-source-registration-1.md",
+      "qa_tests": [
+        "tests/integration/item_registry/item_registry_boundary_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd",
+        "tests/integration/output_multiplier_system/output_multiplier_events_test.gd",
+        "tests/unit/debug_console/debug_console_command_test.gd",
+        "tests/integration/debug_console/debug_console_smoke_test.gd"
+      ]
+    },
+    {
+      "sprint": 7,
+      "order": 5,
+      "story": "production/epics/output-multiplier-system/story-003-activation-and-source-registration-2.md",
+      "qa_tests": [
+        "tests/integration/item_registry/item_registry_boundary_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd",
+        "tests/integration/output_multiplier_system/output_multiplier_events_test.gd",
+        "tests/unit/debug_console/debug_console_command_test.gd",
+        "tests/integration/debug_console/debug_console_smoke_test.gd"
+      ]
+    },
+    {
+      "sprint": 7,
+      "order": 6,
+      "story": "production/epics/output-multiplier-system/story-004-query-and-formula-verification-1.md",
+      "qa_tests": [
+        "tests/integration/item_registry/item_registry_boundary_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd",
+        "tests/integration/output_multiplier_system/output_multiplier_events_test.gd",
+        "tests/unit/debug_console/debug_console_command_test.gd",
+        "tests/integration/debug_console/debug_console_smoke_test.gd"
+      ]
+    },
+    {
+      "sprint": 7,
+      "order": 7,
+      "story": "production/epics/output-multiplier-system/story-005-query-and-formula-verification-2.md",
+      "qa_tests": [
+        "tests/integration/item_registry/item_registry_boundary_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd",
+        "tests/integration/output_multiplier_system/output_multiplier_events_test.gd",
+        "tests/unit/debug_console/debug_console_command_test.gd",
+        "tests/integration/debug_console/debug_console_smoke_test.gd"
+      ]
+    },
+    {
+      "sprint": 7,
+      "order": 8,
+      "story": "production/epics/output-multiplier-system/story-006-within-pool-additivity-and-cross-pool-multiplicativity.md",
+      "qa_tests": [
+        "tests/integration/item_registry/item_registry_boundary_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd",
+        "tests/integration/output_multiplier_system/output_multiplier_events_test.gd",
+        "tests/unit/debug_console/debug_console_command_test.gd",
+        "tests/integration/debug_console/debug_console_smoke_test.gd"
+      ]
+    },
+    {
+      "sprint": 7,
+      "order": 9,
+      "story": "production/epics/output-multiplier-system/story-007-deactivation-and-lifecycle.md",
+      "qa_tests": [
+        "tests/integration/item_registry/item_registry_boundary_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd",
+        "tests/integration/output_multiplier_system/output_multiplier_events_test.gd",
+        "tests/unit/debug_console/debug_console_command_test.gd",
+        "tests/integration/debug_console/debug_console_smoke_test.gd"
+      ]
+    },
+    {
+      "sprint": 7,
+      "order": 10,
+      "story": "production/epics/output-multiplier-system/story-008-event-emission.md",
+      "qa_tests": [
+        "tests/integration/item_registry/item_registry_boundary_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd",
+        "tests/integration/output_multiplier_system/output_multiplier_events_test.gd",
+        "tests/unit/debug_console/debug_console_command_test.gd",
+        "tests/integration/debug_console/debug_console_smoke_test.gd"
+      ]
+    },
+    {
+      "sprint": 7,
+      "order": 11,
+      "story": "production/epics/output-multiplier-system/story-009-error-handling.md",
+      "qa_tests": [
+        "tests/integration/item_registry/item_registry_boundary_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd",
+        "tests/integration/output_multiplier_system/output_multiplier_events_test.gd",
+        "tests/unit/debug_console/debug_console_command_test.gd",
+        "tests/integration/debug_console/debug_console_smoke_test.gd"
+      ]
+    },
+    {
+      "sprint": 7,
+      "order": 12,
+      "story": "production/epics/debug-console/story-001-the-node-calls-queue-free-and-returns-immediately-leavin.md",
+      "qa_tests": [
+        "tests/integration/item_registry/item_registry_boundary_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd",
+        "tests/integration/output_multiplier_system/output_multiplier_events_test.gd",
+        "tests/unit/debug_console/debug_console_command_test.gd",
+        "tests/integration/debug_console/debug_console_smoke_test.gd"
+      ]
+    },
+    {
+      "sprint": 7,
+      "order": 13,
+      "story": "production/epics/debug-console/story-002-canvaslayer-visible-becomes-true-get-tree-paused-becomes.md",
+      "qa_tests": [
+        "tests/integration/item_registry/item_registry_boundary_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd",
+        "tests/integration/output_multiplier_system/output_multiplier_events_test.gd",
+        "tests/unit/debug_console/debug_console_command_test.gd",
+        "tests/integration/debug_console/debug_console_smoke_test.gd"
+      ]
+    },
+    {
+      "sprint": 7,
+      "order": 14,
+      "story": "production/epics/debug-console/story-003-lineedit-release-focus-is-called-instead-of-restoring-th.md",
+      "qa_tests": [
+        "tests/integration/item_registry/item_registry_boundary_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd",
+        "tests/integration/output_multiplier_system/output_multiplier_events_test.gd",
+        "tests/unit/debug_console/debug_console_command_test.gd",
+        "tests/integration/debug_console/debug_console_smoke_test.gd"
+      ]
+    },
+    {
+      "sprint": 7,
+      "order": 15,
+      "story": "production/epics/debug-console/story-004-eventbus-subscribe-pattern-resource-callable-is-called-e.md",
+      "qa_tests": [
+        "tests/integration/item_registry/item_registry_boundary_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd",
+        "tests/integration/output_multiplier_system/output_multiplier_events_test.gd",
+        "tests/unit/debug_console/debug_console_command_test.gd",
+        "tests/integration/debug_console/debug_console_smoke_test.gd"
+      ]
+    },
+    {
+      "sprint": 7,
+      "order": 16,
+      "story": "production/epics/debug-console/story-005-the-second-invocation-outputs-warn-already-watching-reso.md",
+      "qa_tests": [
+        "tests/integration/item_registry/item_registry_boundary_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd",
+        "tests/integration/output_multiplier_system/output_multiplier_events_test.gd",
+        "tests/unit/debug_console/debug_console_command_test.gd",
+        "tests/integration/debug_console/debug_console_smoke_test.gd"
+      ]
+    },
+    {
+      "sprint": 7,
+      "order": 17,
+      "story": "production/epics/debug-console/story-006-each-record-in-the-enemies-table-is-output-as-a-single-l.md",
+      "qa_tests": [
+        "tests/integration/item_registry/item_registry_boundary_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd",
+        "tests/integration/output_multiplier_system/output_multiplier_events_test.gd",
+        "tests/unit/debug_console/debug_console_command_test.gd",
+        "tests/integration/debug_console/debug_console_smoke_test.gd"
+      ]
+    },
+    {
+      "sprint": 7,
+      "order": 18,
+      "story": "production/epics/debug-console/story-007-the-output-lists-all-entity-ids-registered-in-attributes.md",
+      "qa_tests": [
+        "tests/integration/item_registry/item_registry_boundary_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd",
+        "tests/integration/output_multiplier_system/output_multiplier_events_test.gd",
+        "tests/unit/debug_console/debug_console_command_test.gd",
+        "tests/integration/debug_console/debug_console_smoke_test.gd"
+      ]
+    },
+    {
+      "sprint": 7,
+      "order": 19,
+      "story": "production/epics/debug-console/story-008-the-output-displays-real-time-game-time-effective-speed.md",
+      "qa_tests": [
+        "tests/integration/item_registry/item_registry_boundary_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd",
+        "tests/integration/output_multiplier_system/output_multiplier_events_test.gd",
+        "tests/unit/debug_console/debug_console_command_test.gd",
+        "tests/integration/debug_console/debug_console_smoke_test.gd"
+      ]
+    },
+    {
+      "sprint": 7,
+      "order": 20,
+      "story": "production/epics/debug-console/story-009-savemanager-save-game-is-called-and-the-output-confirms.md",
+      "qa_tests": [
+        "tests/integration/item_registry/item_registry_boundary_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd",
+        "tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd",
+        "tests/integration/output_multiplier_system/output_multiplier_events_test.gd",
+        "tests/unit/debug_console/debug_console_command_test.gd",
+        "tests/integration/debug_console/debug_console_smoke_test.gd"
+      ]
+    },
+    {
+      "sprint": 8,
+      "order": 1,
+      "story": "production/epics/debug-console/story-010-the-output-displays-exactly-the-event-command-s-full-hel.md",
+      "qa_tests": [
+        "tests/unit/debug_console/debug_console_history_test.gd",
+        "tests/unit/level_system/level_system_formula_test.gd",
+        "tests/integration/level_system/level_system_progression_test.gd",
+        "tests/integration/storage_limit_system/storage_limit_system_test.gd",
+        "tests/integration/auto_production_system/auto_production_system_test.gd"
+      ]
+    },
+    {
+      "sprint": 8,
+      "order": 2,
+      "story": "production/epics/debug-console/story-011-the-output-displays-error-command-handler-unavailable-co.md",
+      "qa_tests": [
+        "tests/unit/debug_console/debug_console_history_test.gd",
+        "tests/unit/level_system/level_system_formula_test.gd",
+        "tests/integration/level_system/level_system_progression_test.gd",
+        "tests/integration/storage_limit_system/storage_limit_system_test.gd",
+        "tests/integration/auto_production_system/auto_production_system_test.gd"
+      ]
+    },
+    {
+      "sprint": 8,
+      "order": 3,
+      "story": "production/epics/debug-console/story-012-the-lineedit-content-does-not-change-and-no-error-or-exc.md",
+      "qa_tests": [
+        "tests/unit/debug_console/debug_console_history_test.gd",
+        "tests/unit/level_system/level_system_formula_test.gd",
+        "tests/integration/level_system/level_system_progression_test.gd",
+        "tests/integration/storage_limit_system/storage_limit_system_test.gd",
+        "tests/integration/auto_production_system/auto_production_system_test.gd"
+      ]
+    },
+    {
+      "sprint": 8,
+      "order": 4,
+      "story": "production/epics/debug-console/story-013-test-strategy-notes-1.md",
+      "qa_tests": [
+        "tests/unit/debug_console/debug_console_history_test.gd",
+        "tests/unit/level_system/level_system_formula_test.gd",
+        "tests/integration/level_system/level_system_progression_test.gd",
+        "tests/integration/storage_limit_system/storage_limit_system_test.gd",
+        "tests/integration/auto_production_system/auto_production_system_test.gd"
+      ]
+    },
+    {
+      "sprint": 8,
+      "order": 5,
+      "story": "production/epics/debug-console/story-014-test-strategy-notes-2.md",
+      "qa_tests": [
+        "tests/unit/debug_console/debug_console_history_test.gd",
+        "tests/unit/level_system/level_system_formula_test.gd",
+        "tests/integration/level_system/level_system_progression_test.gd",
+        "tests/integration/storage_limit_system/storage_limit_system_test.gd",
+        "tests/integration/auto_production_system/auto_production_system_test.gd"
+      ]
+    },
+    {
+      "sprint": 8,
+      "order": 6,
+      "story": "production/epics/level-system/story-001-001-config-data.md",
+      "qa_tests": [
+        "tests/unit/debug_console/debug_console_history_test.gd",
+        "tests/unit/level_system/level_system_formula_test.gd",
+        "tests/integration/level_system/level_system_progression_test.gd",
+        "tests/integration/storage_limit_system/storage_limit_system_test.gd",
+        "tests/integration/auto_production_system/auto_production_system_test.gd"
+      ]
+    },
+    {
+      "sprint": 8,
+      "order": 7,
+      "story": "production/epics/level-system/story-002-gain-exp-1.md",
+      "qa_tests": [
+        "tests/unit/debug_console/debug_console_history_test.gd",
+        "tests/unit/level_system/level_system_formula_test.gd",
+        "tests/integration/level_system/level_system_progression_test.gd",
+        "tests/integration/storage_limit_system/storage_limit_system_test.gd",
+        "tests/integration/auto_production_system/auto_production_system_test.gd"
+      ]
+    },
+    {
+      "sprint": 8,
+      "order": 8,
+      "story": "production/epics/level-system/story-003-gain-exp-2.md",
+      "qa_tests": [
+        "tests/unit/debug_console/debug_console_history_test.gd",
+        "tests/unit/level_system/level_system_formula_test.gd",
+        "tests/integration/level_system/level_system_progression_test.gd",
+        "tests/integration/storage_limit_system/storage_limit_system_test.gd",
+        "tests/integration/auto_production_system/auto_production_system_test.gd"
+      ]
+    },
+    {
+      "sprint": 8,
+      "order": 9,
+      "story": "production/epics/level-system/story-004-modifier.md",
+      "qa_tests": [
+        "tests/unit/debug_console/debug_console_history_test.gd",
+        "tests/unit/level_system/level_system_formula_test.gd",
+        "tests/integration/level_system/level_system_progression_test.gd",
+        "tests/integration/storage_limit_system/storage_limit_system_test.gd",
+        "tests/integration/auto_production_system/auto_production_system_test.gd"
+      ]
+    },
+    {
+      "sprint": 8,
+      "order": 10,
+      "story": "production/epics/level-system/story-005-save-loaded-1.md",
+      "qa_tests": [
+        "tests/unit/debug_console/debug_console_history_test.gd",
+        "tests/unit/level_system/level_system_formula_test.gd",
+        "tests/integration/level_system/level_system_progression_test.gd",
+        "tests/integration/storage_limit_system/storage_limit_system_test.gd",
+        "tests/integration/auto_production_system/auto_production_system_test.gd"
+      ]
+    },
+    {
+      "sprint": 8,
+      "order": 11,
+      "story": "production/epics/level-system/story-006-save-loaded-2.md",
+      "qa_tests": [
+        "tests/unit/debug_console/debug_console_history_test.gd",
+        "tests/unit/level_system/level_system_formula_test.gd",
+        "tests/integration/level_system/level_system_progression_test.gd",
+        "tests/integration/storage_limit_system/storage_limit_system_test.gd",
+        "tests/integration/auto_production_system/auto_production_system_test.gd"
+      ]
+    },
+    {
+      "sprint": 8,
+      "order": 12,
+      "story": "production/epics/level-system/story-007-reset.md",
+      "qa_tests": [
+        "tests/unit/debug_console/debug_console_history_test.gd",
+        "tests/unit/level_system/level_system_formula_test.gd",
+        "tests/integration/level_system/level_system_progression_test.gd",
+        "tests/integration/storage_limit_system/storage_limit_system_test.gd",
+        "tests/integration/auto_production_system/auto_production_system_test.gd"
+      ]
+    },
+    {
+      "sprint": 8,
+      "order": 13,
+      "story": "production/epics/storage-limit-system/story-001-resourcesystem-get-max-lingqi-1000.md",
+      "qa_tests": [
+        "tests/unit/debug_console/debug_console_history_test.gd",
+        "tests/unit/level_system/level_system_formula_test.gd",
+        "tests/integration/level_system/level_system_progression_test.gd",
+        "tests/integration/storage_limit_system/storage_limit_system_test.gd",
+        "tests/integration/auto_production_system/auto_production_system_test.gd"
+      ]
+    },
+    {
+      "sprint": 8,
+      "order": 14,
+      "story": "production/epics/storage-limit-system/story-002-capped-resources-receive-doubled-cap-through-resourcesys.md",
+      "qa_tests": [
+        "tests/unit/debug_console/debug_console_history_test.gd",
+        "tests/unit/level_system/level_system_formula_test.gd",
+        "tests/integration/level_system/level_system_progression_test.gd",
+        "tests/integration/storage_limit_system/storage_limit_system_test.gd",
+        "tests/integration/auto_production_system/auto_production_system_test.gd"
+      ]
+    },
+    {
+      "sprint": 8,
+      "order": 15,
+      "story": "production/epics/auto-production-system/story-001-resourcesystem-receives-lingqi-1.md",
+      "qa_tests": [
+        "tests/unit/debug_console/debug_console_history_test.gd",
+        "tests/unit/level_system/level_system_formula_test.gd",
+        "tests/integration/level_system/level_system_progression_test.gd",
+        "tests/integration/storage_limit_system/storage_limit_system_test.gd",
+        "tests/integration/auto_production_system/auto_production_system_test.gd"
+      ]
+    },
+    {
+      "sprint": 8,
+      "order": 16,
+      "story": "production/epics/level-system/story-008-1.md",
+      "qa_tests": [
+        "tests/unit/debug_console/debug_console_history_test.gd",
+        "tests/unit/level_system/level_system_formula_test.gd",
+        "tests/integration/level_system/level_system_progression_test.gd",
+        "tests/integration/storage_limit_system/storage_limit_system_test.gd",
+        "tests/integration/auto_production_system/auto_production_system_test.gd"
+      ]
+    },
+    {
+      "sprint": 8,
+      "order": 17,
+      "story": "production/epics/level-system/story-009-2.md",
+      "qa_tests": [
+        "tests/unit/debug_console/debug_console_history_test.gd",
+        "tests/unit/level_system/level_system_formula_test.gd",
+        "tests/integration/level_system/level_system_progression_test.gd",
+        "tests/integration/storage_limit_system/storage_limit_system_test.gd",
+        "tests/integration/auto_production_system/auto_production_system_test.gd"
+      ]
+    },
+    {
+      "sprint": 8,
+      "order": 18,
+      "story": "production/epics/level-system/story-010-010-integration.md",
+      "qa_tests": [
+        "tests/unit/debug_console/debug_console_history_test.gd",
+        "tests/unit/level_system/level_system_formula_test.gd",
+        "tests/integration/level_system/level_system_progression_test.gd",
+        "tests/integration/storage_limit_system/storage_limit_system_test.gd",
+        "tests/integration/auto_production_system/auto_production_system_test.gd"
+      ]
+    },
+    {
+      "sprint": 8,
+      "order": 19,
+      "story": "production/epics/level-system/story-011-011-logic.md",
+      "qa_tests": [
+        "tests/unit/debug_console/debug_console_history_test.gd",
+        "tests/unit/level_system/level_system_formula_test.gd",
+        "tests/integration/level_system/level_system_progression_test.gd",
+        "tests/integration/storage_limit_system/storage_limit_system_test.gd",
+        "tests/integration/auto_production_system/auto_production_system_test.gd"
+      ]
+    },
+    {
+      "sprint": 8,
+      "order": 20,
+      "story": "production/epics/level-system/story-012-012-logic.md",
+      "qa_tests": [
+        "tests/unit/debug_console/debug_console_history_test.gd",
+        "tests/unit/level_system/level_system_formula_test.gd",
+        "tests/integration/level_system/level_system_progression_test.gd",
+        "tests/integration/storage_limit_system/storage_limit_system_test.gd",
+        "tests/integration/auto_production_system/auto_production_system_test.gd"
+      ]
+    },
+    {
+      "sprint": 9,
+      "order": 1,
+      "story": "production/epics/auto-production-system/story-002-exp-is-never-requested-from-oms.md",
+      "qa_tests": [
+        "tests/integration/sprint9/sprint9_feature_stack_test.gd"
+      ]
+    },
+    {
+      "sprint": 9,
+      "order": 2,
+      "story": "production/epics/enemy-database/story-001-get-count-3.md",
+      "qa_tests": [
+        "tests/integration/sprint9/sprint9_feature_stack_test.gd"
+      ]
+    },
+    {
+      "sprint": 9,
+      "order": 3,
+      "story": "production/epics/enemy-database/story-002-only-enemies-tagged-starter-are-returned.md",
+      "qa_tests": [
+        "tests/integration/sprint9/sprint9_feature_stack_test.gd"
+      ]
+    },
+    {
+      "sprint": 9,
+      "order": 4,
+      "story": "production/epics/loot-system/story-001-bundle-includes-exp.md",
+      "qa_tests": [
+        "tests/integration/sprint9/sprint9_feature_stack_test.gd"
+      ]
+    },
+    {
+      "sprint": 9,
+      "order": 5,
+      "story": "production/epics/loot-system/story-002-output-is-capped-deterministically-to-5-entries.md",
+      "qa_tests": [
+        "tests/integration/sprint9/sprint9_feature_stack_test.gd"
+      ]
+    },
+    {
+      "sprint": 9,
+      "order": 6,
+      "story": "production/epics/combat-calculator/story-001-combatresult-is-identical.md",
+      "qa_tests": [
+        "tests/integration/sprint9/sprint9_feature_stack_test.gd"
+      ]
+    },
+    {
+      "sprint": 9,
+      "order": 7,
+      "story": "production/epics/combat-calculator/story-002-all-attacks-use-crit-dmg-multiplier.md",
+      "qa_tests": [
+        "tests/integration/sprint9/sprint9_feature_stack_test.gd"
+      ]
+    },
+    {
+      "sprint": 9,
+      "order": 8,
+      "story": "production/epics/zone-system/story-001-all-are-queryable-by-id-and-sorted-by-order.md",
+      "qa_tests": [
+        "tests/integration/sprint9/sprint9_feature_stack_test.gd"
+      ]
+    },
+    {
+      "sprint": 9,
+      "order": 9,
+      "story": "production/epics/zone-system/story-002-current-zone-does-not-change-and-lock-reason-is-returned.md",
+      "qa_tests": [
+        "tests/integration/sprint9/sprint9_feature_stack_test.gd"
+      ]
+    },
+    {
+      "sprint": 9,
+      "order": 10,
+      "story": "production/epics/cultivation-system/story-001-lingqi-increases-by-manual-lingqi-gain.md",
+      "qa_tests": [
+        "tests/integration/sprint9/sprint9_feature_stack_test.gd"
+      ]
+    },
+    {
+      "sprint": 9,
+      "order": 11,
+      "story": "production/epics/cultivation-system/story-002-no-resource-changes-occur.md",
+      "qa_tests": [
+        "tests/integration/sprint9/sprint9_feature_stack_test.gd"
+      ]
+    },
+    {
+      "sprint": 9,
+      "order": 12,
+      "story": "production/epics/semi-auto-combat-system/story-001-loot-is-rolled-and-combat-finished-event-includes-victor.md",
+      "qa_tests": [
+        "tests/integration/sprint9/sprint9_feature_stack_test.gd"
+      ]
+    },
+    {
+      "sprint": 9,
+      "order": 13,
+      "story": "production/epics/semi-auto-combat-system/story-002-no-crash-and-hud-can-show-a-zone-data-error.md",
+      "qa_tests": [
+        "tests/integration/sprint9/sprint9_feature_stack_test.gd"
+      ]
+    },
+    {
+      "sprint": 9,
+      "order": 14,
+      "story": "production/epics/map-progression-system/story-001-next-zone-becomes-unlocked.md",
+      "qa_tests": [
+        "tests/integration/sprint9/sprint9_feature_stack_test.gd"
+      ]
+    },
+    {
+      "sprint": 9,
+      "order": 15,
+      "story": "production/epics/map-progression-system/story-002-selection-fails-with-lock-reason.md",
+      "qa_tests": [
+        "tests/integration/sprint9/sprint9_feature_stack_test.gd"
+      ]
+    },
+    {
+      "sprint": 9,
+      "order": 16,
+      "story": "production/epics/offline-simulation-core/story-001-it-contains-4-chunks.md",
+      "qa_tests": [
+        "tests/integration/sprint9/sprint9_feature_stack_test.gd"
+      ]
+    },
+    {
+      "sprint": 9,
+      "order": 17,
+      "story": "production/epics/offline-simulation-core/story-002-no-settlement-draft-is-emitted.md",
+      "qa_tests": [
+        "tests/integration/sprint9/sprint9_feature_stack_test.gd"
+      ]
+    },
+    {
+      "sprint": 9,
+      "order": 18,
+      "story": "production/epics/idle-exploration-system/story-001-recommended-target-is-available.md",
+      "qa_tests": [
+        "tests/integration/sprint9/sprint9_feature_stack_test.gd"
+      ]
+    },
+    {
+      "sprint": 9,
+      "order": 19,
+      "story": "production/epics/idle-exploration-system/story-002-exploration-stores-session-summary-for-hud.md",
+      "qa_tests": [
+        "tests/integration/sprint9/sprint9_feature_stack_test.gd"
+      ]
+    },
+    {
+      "sprint": 9,
+      "order": 20,
+      "story": "production/epics/offline-combat-simulation-system/story-001-encounter-count-is-360.md",
+      "qa_tests": [
+        "tests/integration/sprint9/sprint9_feature_stack_test.gd"
+      ]
+    },
+    {
+      "sprint": 10,
+      "order": 1,
+      "story": "production/epics/offline-combat-simulation-system/story-002-mode-switches-to-expected-and-records-degradation.md",
+      "qa_tests": [
+        "tests/integration/sprint10/sprint10_settlement_ui_hud_test.gd"
+      ]
+    },
+    {
+      "sprint": 10,
+      "order": 2,
+      "story": "production/epics/offline-reward-settlement-system/story-001-resourcesystem-receives-100-lingqi.md",
+      "qa_tests": [
+        "tests/integration/sprint10/sprint10_settlement_ui_hud_test.gd"
+      ]
+    },
+    {
+      "sprint": 10,
+      "order": 3,
+      "story": "production/epics/offline-reward-settlement-system/story-002-warning-appears-and-other-rewards-still-apply.md",
+      "qa_tests": [
+        "tests/integration/sprint10/sprint10_settlement_ui_hud_test.gd"
+      ]
+    },
+    {
+      "sprint": 10,
+      "order": 4,
+      "story": "production/epics/ui-framework/story-001-the-scene-is-loaded-and-becomes-active.md",
+      "qa_tests": [
+        "tests/integration/sprint10/sprint10_settlement_ui_hud_test.gd"
+      ]
+    },
+    {
+      "sprint": 10,
+      "order": 5,
+      "story": "production/epics/ui-framework/story-002-layout-rebuild-is-coalesced.md",
+      "qa_tests": [
+        "tests/integration/sprint10/sprint10_settlement_ui_hud_test.gd"
+      ]
+    },
+    {
+      "sprint": 10,
+      "order": 6,
+      "story": "production/epics/hud-system/story-001-lingqi-text-updates-using-numberformattingsystem.md",
+      "qa_tests": [
+        "tests/integration/sprint10/sprint10_settlement_ui_hud_test.gd"
+      ]
+    },
+    {
+      "sprint": 10,
+      "order": 7,
+      "story": "production/epics/hud-system/story-002-level-badge-updates-after-attributes-are-already-recalcu.md",
+      "qa_tests": [
+        "tests/integration/sprint10/sprint10_settlement_ui_hud_test.gd"
+      ]
+    },
+    {
+      "sprint": 10,
+      "order": 8,
+      "story": "production/epics/mvp-smoke-loop/story-001-mvp-end-to-end-smoke.md",
+      "qa_tests": [
+        "tests/integration/sprint10/sprint10_settlement_ui_hud_test.gd"
+      ]
+    }
+  ]
+}

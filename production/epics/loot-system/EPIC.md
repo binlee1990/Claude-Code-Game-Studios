@@ -3,7 +3,7 @@
 > **Layer**: Feature
 > **GDD**: design/gdd/loot-system.md
 > **Architecture Module**: `LootSystem` (服务)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (2 stories)
 
 ## Overview
@@ -50,8 +50,8 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [bundle includes exp](story-001-bundle-includes-exp.md) | Config/Data | Ready | ADR-0005 |
-| 002 | [output is capped deterministically to 5 entries](story-002-output-is-capped-deterministically-to-5-entries.md) | Config/Data | Ready | ADR-0005 |
+| 001 | [bundle includes exp](story-001-bundle-includes-exp.md) | Config/Data | Done | ADR-0005 |
+| 002 | [output is capped deterministically to 5 entries](story-002-output-is-capped-deterministically-to-5-entries.md) | Config/Data | Done | ADR-0005 |
 
 ## Next Step
 

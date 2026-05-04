@@ -21,17 +21,17 @@
 合题:
 - 生成方案要求的资源家族，并为当前运行时敌人 ID 与 7 个境界补齐额外资源。
 - 将 `assets/ui/theme.tres` 与运行时 art 引用从 follow-up 提升为 MVP 交付物。
-- 将本地输出如实记录为 deterministic MVP fallback art，不冒充最终 gpt-image 生产美术。
+- 使用 `$generate2dmap` / `$generate2dsprite` 的内置 `image_gen` 路径替换 deterministic MVP fallback，并保留 prompt / pipeline-meta 证据链。
 
 ## 执行结果
 
 - PASS: 107 个生成 PNG 文件存在，且均可解析为 RGBA PNG。
+- PASS: 107 个 `.pipeline-meta.json` 均记录 `source=image_gen`。
 - PASS: 需要透明通道的资源类别均包含 alpha。
 - PASS: 补齐 icon/background/art path 后，JSON 数据文件解析通过。
 - PASS: 运行时数据现在暴露资源/物品图标、敌人 art paths、区域背景、境界图标路径。
+- PASS: 已修订 `docs/plans/游戏资源生成.md`，记录敌人三段式生成、VFX layout guide、转场第 4 帧 image_gen 派生策略，便于后续扩展同风格资源。
 
 ## 已知限制
 
-来源方案要求使用内置 image generation。本次执行使用 `scripts/generate_mvp_assets.py` 作为确定性本地 fallback，因为 sprint QA 需要仓库内可验证、可引用的资源文件。视觉 polish 仍应作为后续美术迭代处理。
-
-未运行 `$visual-verdict` 参考图对比，因为本次没有可用 reference image / generated screenshot 对；本轮只声明结构化资源契约、PNG 可解析性、尺寸与 alpha 校验通过，不声明最终视觉品质达标。
+未运行 `$visual-verdict` 参考图对比，因为本次没有可用 reference image / generated screenshot 对；本轮声明结构化资源契约、image_gen 来源链、PNG 可解析性、尺寸与 alpha 校验通过，不声明最终视觉品质已经通过人工 art-director 审美签核。

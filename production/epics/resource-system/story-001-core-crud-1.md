@@ -1,7 +1,7 @@
 # Story 001: Core CRUD 1
 
 > **Epic**: 资源系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: Config/Data
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/resource-system.md`, scoped to this story:*
 
-- [ ] GIVEN: `ResourceSystem` 已加载，`resource_config.json` 包含 `lingqi/xiuwei/lingshi/herb/exp` 五条定义，**WHEN** 游戏启动完成，**THEN** `get_all_ids()` 返回恰好包含这 5 个 id 的 Array，且每条资源 `current == BigNumber.ZERO`
-- [ ] GIVEN: 调用 `register({id: "lingqi", category: "regenerative", has_cap: true, reset_scope: "breakthrough", cap: BigNumber.from_int(1000)})` 成功，**WHEN** 再次调用相同 id 的 register，**THEN** 返回 `false`，已有条目不变
-- [ ] GIVEN: `lingqi` current=`BigNumber.from_int(800)`，cap=`BigNumber.from_int(1000)`，**WHEN** `add("lingqi", BigNumber.from_int(150))`，**THEN** 返回 `BigNumber.from_int(150)`，`get_value("lingqi") == BigNumber.from_int(950)`
+- [x] GIVEN: `ResourceSystem` 已加载，`resource_config.json` 包含 `lingqi/xiuwei/lingshi/herb/exp` 五条定义，**WHEN** 游戏启动完成，**THEN** `get_all_ids()` 返回恰好包含这 5 个 id 的 Array，且每条资源 `current == BigNumber.ZERO`
+- [x] GIVEN: 调用 `register({id: "lingqi", category: "regenerative", has_cap: true, reset_scope: "breakthrough", cap: BigNumber.from_int(1000)})` 成功，**WHEN** 再次调用相同 id 的 register，**THEN** 返回 `false`，已有条目不变
+- [x] GIVEN: `lingqi` current=`BigNumber.from_int(800)`，cap=`BigNumber.from_int(1000)`，**WHEN** `add("lingqi", BigNumber.from_int(150))`，**THEN** 返回 `BigNumber.from_int(150)`，`get_value("lingqi") == BigNumber.from_int(950)`
 
 ---
 
@@ -90,7 +90,7 @@
 **Required evidence**:
 - `production/qa/smoke-resource-system.md` — smoke check evidence
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -98,3 +98,17 @@
 
 - Depends on: None
 - Unlocks: Story 002
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 5, story 1/20
+- Sprint source: `production/sprints/sprint-5.md`
+- QA plan: `production/qa/qa-plan-sprint-5-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-5-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/resource_system/resource_system_crud_test.gd`
+  - `tests/integration/resource_system/resource_system_state_test.gd`
+  - `tests/unit/attribute_system/attribute_system_crud_test.gd`
+  - `tests/integration/attribute_system/attribute_system_final_test.gd`

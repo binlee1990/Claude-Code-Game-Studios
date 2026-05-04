@@ -1,7 +1,7 @@
 # Story 011: Performance / Memory 1
 
 > **Epic**: 属性系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: Logic
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/attribute-system.md`, scoped to this story:*
 
-- [ ] GIVEN: 226 实体已注册，每实体 6 属性，5 订阅者监听，**WHEN** 单帧 50 次 `get_final`，**THEN** 总耗时 < 0.667 ms（帧预算）
-- [ ] GIVEN: 1 主角，3 订阅者监听，**WHEN** 单帧 5 次 `set_base`（不同 attr），**THEN** 总耗时 < 0.155 ms
-- [ ] GIVEN: 启动时分帧批量注册 226 实体 × 7 属性，**WHEN** 完成，**THEN** 任一帧耗时 < 2.5 ms（不超过帧预算的 15%）
+- [x] GIVEN: 226 实体已注册，每实体 6 属性，5 订阅者监听，**WHEN** 单帧 50 次 `get_final`，**THEN** 总耗时 < 0.667 ms（帧预算）
+- [x] GIVEN: 1 主角，3 订阅者监听，**WHEN** 单帧 5 次 `set_base`（不同 attr），**THEN** 总耗时 < 0.155 ms
+- [x] GIVEN: 启动时分帧批量注册 226 实体 × 7 属性，**WHEN** 完成，**THEN** 任一帧耗时 < 2.5 ms（不超过帧预算的 15%）
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/unit/attribute/performance-memory-1_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 012
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 6, story 4/20
+- Sprint source: `production/sprints/sprint-6.md`
+- QA plan: `production/qa/qa-plan-sprint-6-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-6-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd`
+  - `tests/unit/item_registry/item_registry_load_test.gd`
+  - `tests/unit/item_registry/item_registry_query_test.gd`
+  - `tests/integration/item_registry/item_registry_lifecycle_test.gd`
+  - `tests/performance/item_registry_performance_test.gd`

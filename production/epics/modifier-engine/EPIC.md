@@ -3,7 +3,7 @@
 > **Layer**: Core Data
 > **GDD**: design/gdd/modifier-engine.md
 > **Architecture Module**: `ModifierEngine` (RefCounted) (Autoload 持有)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (7 stories)
 
 ## Overview
@@ -49,13 +49,13 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [返回 `250.0`](story-001-250-0.md) | UI | Ready | ADR-0007 |
-| 002 | [结果为 BigNumber 表示 2500](story-002-bignumber-2500.md) | Config/Data | Ready | ADR-0007 |
-| 003 | [返回 `true`；再次调用 `unregister("abc")` 返回 `false`](story-003-true-unregister-abc-false.md) | Logic | Ready | ADR-0007 |
-| 004 | [返回空字符串 `""`，打印警告](story-004-004-logic.md) | Logic | Ready | ADR-0007 |
-| 005 | [成功返回 ID，`get_add_sum` 包含 `0.0` 贡献](story-005-id-get-add-sum-0-0.md) | Logic | Ready | ADR-0007 |
-| 006 | [第二次直接返回缓存值](story-006-006-ui.md) | UI | Ready | ADR-0007 |
-| 007 | [返回的数组长度为 2 且包含 `"player.atk"` 和 `"lingqi_production"`（去重，顺序不保证）；空注册表时返](story-007-2-player-atk-lingqi-production.md) | Config/Data | Ready | ADR-0007 |
+| 001 | [返回 `250.0`](story-001-250-0.md) | UI | Done | ADR-0007 |
+| 002 | [结果为 BigNumber 表示 2500](story-002-bignumber-2500.md) | Config/Data | Done | ADR-0007 |
+| 003 | [返回 `true`；再次调用 `unregister("abc")` 返回 `false`](story-003-true-unregister-abc-false.md) | Logic | Done | ADR-0007 |
+| 004 | [返回空字符串 `""`，打印警告](story-004-004-logic.md) | Logic | Done | ADR-0007 |
+| 005 | [成功返回 ID，`get_add_sum` 包含 `0.0` 贡献](story-005-id-get-add-sum-0-0.md) | Logic | Done | ADR-0007 |
+| 006 | [第二次直接返回缓存值](story-006-006-ui.md) | UI | Done | ADR-0007 |
+| 007 | [返回的数组长度为 2 且包含 `"player.atk"` 和 `"lingqi_production"`（去重，顺序不保证）；空注册表时返](story-007-2-player-atk-lingqi-production.md) | Config/Data | Done | ADR-0007 |
 
 ## Next Step
 

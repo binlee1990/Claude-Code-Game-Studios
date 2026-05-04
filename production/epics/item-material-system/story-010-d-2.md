@@ -1,7 +1,7 @@
 # Story 010: D. 启动时序（2 条）
 
 > **Epic**: 物品/材料系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: UI
 > **Manifest Version**: 2026-05-04
@@ -35,8 +35,8 @@
 
 *From GDD `design/gdd/item-material-system.md`, scoped to this story:*
 
-- [ ] AC-D1: GIVEN ItemRegistry 实例已创建，通过 `set_data_config(null)` 注入空依赖（模拟 DataConfig Autoload 缺失/被禁用，**避免 mutate `project.godot`——CI 不支持**），WHEN 触发 `_initialize()` / `_ready()` 重入路径，THEN `push_error("ItemRegistry: DataConfig autoload missing or unavailable; falling back to empty registry")` 被触发 + `_items=={}` + `get_count()==0` + 所有查询返回零值，游戏不崩溃，控制台错误便于定位 Autoload 配置问题。**注**：Autoload 顺序的实际验证属于集成 playtest，应在 `production/qa/evidence/` 记录一次手动测试截图（修改 project.godot → 启动 → 观察控制台报错 → 恢复 project.godot），不要求 CI 自动覆盖
-- [ ] AC-D2: GIVEN ItemRegistry 尚未发布 `item_registry.loaded` 事件，WHEN 任意外部代码调 `get(id)`/`peek_field(id, ..)`，THEN 返回零值（`{}` / `null`），不崩溃。GDD 要求依赖 metadata 显示的下游应等待事件后再渲染（避免空名 UI 漏洞）
+- [x] AC-D1: GIVEN ItemRegistry 实例已创建，通过 `set_data_config(null)` 注入空依赖（模拟 DataConfig Autoload 缺失/被禁用，**避免 mutate `project.godot`——CI 不支持**），WHEN 触发 `_initialize()` / `_ready()` 重入路径，THEN `push_error("ItemRegistry: DataConfig autoload missing or unavailable; falling back to empty registry")` 被触发 + `_items=={}` + `get_count()==0` + 所有查询返回零值，游戏不崩溃，控制台错误便于定位 Autoload 配置问题。**注**：Autoload 顺序的实际验证属于集成 playtest，应在 `production/qa/evidence/` 记录一次手动测试截图（修改 project.godot → 启动 → 观察控制台报错 → 恢复 project.godot），不要求 CI 自动覆盖
+- [x] AC-D2: GIVEN ItemRegistry 尚未发布 `item_registry.loaded` 事件，WHEN 任意外部代码调 `get(id)`/`peek_field(id, ..)`，THEN 返回零值（`{}` / `null`），不崩溃。GDD 要求依赖 metadata 显示的下游应等待事件后再渲染（避免空名 UI 漏洞）
 
 ---
 
@@ -82,7 +82,7 @@
 **Required evidence**:
 - `production/qa/evidence/d-2-evidence.md` — manual/interaction evidence with sign-off
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -90,3 +90,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 011
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 6, story 15/20
+- Sprint source: `production/sprints/sprint-6.md`
+- QA plan: `production/qa/qa-plan-sprint-6-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-6-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd`
+  - `tests/unit/item_registry/item_registry_load_test.gd`
+  - `tests/unit/item_registry/item_registry_query_test.gd`
+  - `tests/integration/item_registry/item_registry_lifecycle_test.gd`
+  - `tests/performance/item_registry_performance_test.gd`

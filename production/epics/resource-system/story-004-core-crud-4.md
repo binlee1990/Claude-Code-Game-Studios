@@ -1,7 +1,7 @@
 # Story 004: Core CRUD 4
 
 > **Epic**: 资源系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,7 +35,7 @@
 
 *From GDD `design/gdd/resource-system.md`, scoped to this story:*
 
-- [ ] GIVEN: 5 资源已注册，changes=`{lingqi: 100, herb: 50, exp: 200}`，**WHEN** `batch_add(changes)`，**THEN** 返回 Dictionary 含 3 键，每条 actual_added 与预期一致
+- [x] GIVEN: 5 资源已注册，changes=`{lingqi: 100, herb: 50, exp: 200}`，**WHEN** `batch_add(changes)`，**THEN** 返回 Dictionary 含 3 键，每条 actual_added 与预期一致
 
 ---
 
@@ -77,7 +77,7 @@
 **Required evidence**:
 - `tests/integration/resource/core-crud-4_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -85,3 +85,17 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 005
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 5, story 4/20
+- Sprint source: `production/sprints/sprint-5.md`
+- QA plan: `production/qa/qa-plan-sprint-5-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-5-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/resource_system/resource_system_crud_test.gd`
+  - `tests/integration/resource_system/resource_system_state_test.gd`
+  - `tests/unit/attribute_system/attribute_system_crud_test.gd`
+  - `tests/integration/attribute_system/attribute_system_final_test.gd`

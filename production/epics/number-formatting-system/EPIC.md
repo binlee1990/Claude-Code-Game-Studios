@@ -3,7 +3,7 @@
 > **Layer**: Core Data
 > **GDD**: design/gdd/number-formatting-system.md
 > **Architecture Module**: `NumberFormatter` (工具类)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (8 stories)
 
 ## Overview
@@ -48,14 +48,14 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [返回 `"0"`](story-001-0.md) | Logic | Ready | ADR-0014 |
-| 002 | [返回 `"9,999"`](story-002-9-999.md) | Logic | Ready | ADR-0014 |
-| 003 | [返回 `"567万"`](story-003-567.md) | Logic | Ready | ADR-0014 |
-| 004 | [返回 `"1234极"`](story-004-1234.md) | Logic | Ready | ADR-0014 |
-| 005 | [返回 `"MAX"`](story-005-max.md) | Logic | Ready | ADR-0014 |
-| 006 | [返回 `"1.00亿"`（舍入跨单位）](story-006-1-00.md) | Logic | Ready | ADR-0014 |
-| 007 | [返回 `"万"`](story-007-007-ui.md) | UI | Ready | ADR-0014 |
-| 008 | [总耗时 < 1ms](story-008-1ms.md) | Logic | Ready | ADR-0014 |
+| 001 | [返回 `"0"`](story-001-0.md) | Logic | Done | ADR-0014 |
+| 002 | [返回 `"9,999"`](story-002-9-999.md) | Logic | Done | ADR-0014 |
+| 003 | [返回 `"567万"`](story-003-567.md) | Logic | Done | ADR-0014 |
+| 004 | [返回 `"1234极"`](story-004-1234.md) | Logic | Done | ADR-0014 |
+| 005 | [返回 `"MAX"`](story-005-max.md) | Logic | Done | ADR-0014 |
+| 006 | [返回 `"1.00亿"`（舍入跨单位）](story-006-1-00.md) | Logic | Done | ADR-0014 |
+| 007 | [返回 `"万"`](story-007-007-ui.md) | UI | Done | ADR-0014 |
+| 008 | [总耗时 < 1ms](story-008-1ms.md) | Logic | Done | ADR-0014 |
 
 ## Next Step
 

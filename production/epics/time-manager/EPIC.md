@@ -3,7 +3,7 @@
 > **Layer**: Foundation
 > **GDD**: design/gdd/time-manager.md
 > **Architecture Module**: TimeManager (Autoload, 全局单例)
-> **Status**: Ready
+> **Status**: Done
 > **Sprint Target**: Pre-Production Sprint 2（Foundation Services，与 RNGManager 并行）
 > **Stories**: Created (7 stories)
 > **PR-EPIC Verdict (2026-05-04)**: REALISTIC
@@ -59,13 +59,13 @@ TimeManager 拥有全局**双时间体系**：real_time（系统真实时间，�
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [返回当前 Unix 时间戳（精度 ±1 秒）](story-001-unix-1.md) | Integration | Ready | ADR-0008 |
-| 002 | [返回 3.0（乘法叠加）](story-002-3-0.md) | Logic | Ready | ADR-0003 |
-| 003 | [`get_effective_speed()` 返回 100.0（截断）](story-003-get-effective-speed-100-0.md) | Integration | Ready | ADR-0008 |
-| 004 | [返回 0.0](story-004-0-0.md) | Integration | Ready | ADR-0008 |
-| 005 | [offline_delta 钳位到 28800 秒（MAX_OFFLINE_SECONDS），超过部分忽略](story-005-offline-delta-28800-max-offline-seconds.md) | Integration | Ready | ADR-0008 |
-| 006 | [倍率立即更新，但 game_time 仍不推进，解冻后使用新倍率](story-006-game-time.md) | Integration | Ready | ADR-0008 |
-| 007 | [静默忽略，无错误](story-007-007-logic.md) | Logic | Ready | ADR-0003 |
+| 001 | [返回当前 Unix 时间戳（精度 ±1 秒）](story-001-unix-1.md) | Integration | Done | ADR-0008 |
+| 002 | [返回 3.0（乘法叠加）](story-002-3-0.md) | Logic | Done | ADR-0003 |
+| 003 | [`get_effective_speed()` 返回 100.0（截断）](story-003-get-effective-speed-100-0.md) | Integration | Done | ADR-0008 |
+| 004 | [返回 0.0](story-004-0-0.md) | Integration | Done | ADR-0008 |
+| 005 | [offline_delta 钳位到 28800 秒（MAX_OFFLINE_SECONDS），超过部分忽略](story-005-offline-delta-28800-max-offline-seconds.md) | Integration | Done | ADR-0008 |
+| 006 | [倍率立即更新，但 game_time 仍不推进，解冻后使用新倍率](story-006-game-time.md) | Integration | Done | ADR-0008 |
+| 007 | [静默忽略，无错误](story-007-007-logic.md) | Logic | Done | ADR-0003 |
 
 ## Next Step
 

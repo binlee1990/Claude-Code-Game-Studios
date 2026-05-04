@@ -3,7 +3,7 @@
 > **Layer**: Core Gameplay
 > **GDD**: design/gdd/item-material-system.md
 > **Architecture Module**: `ItemRegistry` (RefCounted) (Autoload 持有)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (17 stories)
 
 ## Overview
@@ -48,23 +48,23 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [A. 加载与配置（11 条） 1](story-001-a-11-1.md) | Config/Data | Ready | ADR-0005 |
-| 002 | [A. 加载与配置（11 条） 2](story-002-a-11-2.md) | Config/Data | Ready | ADR-0005 |
-| 003 | [A. 加载与配置（11 条） 3](story-003-a-11-3.md) | Config/Data | Ready | ADR-0005 |
-| 004 | [A. 加载与配置（11 条） 4](story-004-a-11-4.md) | Config/Data | Ready | ADR-0005 |
-| 005 | [B. 查询 API（12 条） 1](story-005-b-api-12-1.md) | Logic | Ready | ADR-0005 |
-| 006 | [B. 查询 API（12 条） 2](story-006-b-api-12-2.md) | Logic | Ready | ADR-0005 |
-| 007 | [B. 查询 API（12 条） 3](story-007-b-api-12-3.md) | UI | Ready | ADR-0005 |
-| 008 | [B. 查询 API（12 条） 4](story-008-b-api-12-4.md) | Logic | Ready | ADR-0005 |
-| 009 | [C. 拷贝陷阱（4 条）](story-009-c-4.md) | Logic | Ready | ADR-0005 |
-| 010 | [D. 启动时序（2 条）](story-010-d-2.md) | UI | Ready | ADR-0005 |
-| 011 | [E. 热重载（4 条） 1](story-011-e-4-1.md) | UI | Ready | ADR-0005 |
-| 012 | [E. 热重载（4 条） 2](story-012-e-4-2.md) | Config/Data | Ready | ADR-0005 |
-| 013 | [F. 性能（6 条） 1](story-013-f-6-1.md) | Config/Data | Ready | ADR-0005 |
-| 014 | [F. 性能（6 条） 2](story-014-f-6-2.md) | Config/Data | Ready | ADR-0005 |
-| 015 | [G. Lifecycle 事件（2 条）](story-015-g-lifecycle-2.md) | Config/Data | Ready | ADR-0005 |
-| 016 | [H. 跨系统边界（1 条）](story-016-h-1.md) | Integration | Ready | ADR-0005 |
-| 017 | [I. 内部一致性（1 条）](story-017-i-1.md) | Logic | Ready | ADR-0005 |
+| 001 | [A. 加载与配置（11 条） 1](story-001-a-11-1.md) | Config/Data | Done | ADR-0005 |
+| 002 | [A. 加载与配置（11 条） 2](story-002-a-11-2.md) | Config/Data | Done | ADR-0005 |
+| 003 | [A. 加载与配置（11 条） 3](story-003-a-11-3.md) | Config/Data | Done | ADR-0005 |
+| 004 | [A. 加载与配置（11 条） 4](story-004-a-11-4.md) | Config/Data | Done | ADR-0005 |
+| 005 | [B. 查询 API（12 条） 1](story-005-b-api-12-1.md) | Logic | Done | ADR-0005 |
+| 006 | [B. 查询 API（12 条） 2](story-006-b-api-12-2.md) | Logic | Done | ADR-0005 |
+| 007 | [B. 查询 API（12 条） 3](story-007-b-api-12-3.md) | UI | Done | ADR-0005 |
+| 008 | [B. 查询 API（12 条） 4](story-008-b-api-12-4.md) | Logic | Done | ADR-0005 |
+| 009 | [C. 拷贝陷阱（4 条）](story-009-c-4.md) | Logic | Done | ADR-0005 |
+| 010 | [D. 启动时序（2 条）](story-010-d-2.md) | UI | Done | ADR-0005 |
+| 011 | [E. 热重载（4 条） 1](story-011-e-4-1.md) | UI | Done | ADR-0005 |
+| 012 | [E. 热重载（4 条） 2](story-012-e-4-2.md) | Config/Data | Done | ADR-0005 |
+| 013 | [F. 性能（6 条） 1](story-013-f-6-1.md) | Config/Data | Done | ADR-0005 |
+| 014 | [F. 性能（6 条） 2](story-014-f-6-2.md) | Config/Data | Done | ADR-0005 |
+| 015 | [G. Lifecycle 事件（2 条）](story-015-g-lifecycle-2.md) | Config/Data | Done | ADR-0005 |
+| 016 | [H. 跨系统边界（1 条）](story-016-h-1.md) | Integration | Done | ADR-0005 |
+| 017 | [I. 内部一致性（1 条）](story-017-i-1.md) | Logic | Done | ADR-0005 |
 
 ## Next Step
 

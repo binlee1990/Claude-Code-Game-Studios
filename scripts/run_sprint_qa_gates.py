@@ -53,6 +53,26 @@ def linked_story_files(sprint_text: str) -> list[str]:
     return found
 
 
+def acceptance_section(text: str) -> str:
+    match = re.search(r"## Acceptance Criteria\n\n(.*?)(?=\n---|\n## |\Z)", text, re.S)
+    return match.group(1) if match else ""
+
+
+def story_execution_issues(story_rel: str) -> list[str]:
+    path = ROOT / story_rel
+    text = path.read_text(encoding="utf-8")
+    issues = []
+    if "> **Status**: Done" not in text:
+        issues.append(f"{story_rel} 未标记 Status: Done")
+    if re.search(r"^\s*[-*]\s*\[\s\]", acceptance_section(text), re.M):
+        issues.append(f"{story_rel} 仍有未勾选 Acceptance Criteria")
+    if f"**Status**: [x] Executed 2026-05-04" not in text:
+        issues.append(f"{story_rel} 未创建 2026-05-04 Test Evidence")
+    if "## 2026-05-04 Sprint Execution Evidence" not in text:
+        issues.append(f"{story_rel} 缺少 sprint execution evidence block")
+    return issues
+
+
 def check_autoload_order() -> tuple[bool, str]:
     text = (ROOT / "project.godot").read_text(encoding="utf-8")
     order = [
@@ -122,7 +142,10 @@ def gate_sprint(number: int, report: dict) -> dict:
         missing_stories = [p for p in story_files if not (ROOT / p).exists()]
         if missing_stories:
             issues.append("缺少 sprint 关联 story 文件: " + ", ".join(missing_stories))
-        checks.append(f"{len(story_files)} 个 sprint 关联 story 文件存在")
+        for story_file in story_files:
+            if (ROOT / story_file).exists():
+                issues.extend(story_execution_issues(story_file))
+        checks.append(f"{len(story_files)} 个 sprint 关联 story 文件存在且已校验执行状态")
 
     if not qa_path.exists():
         issues.append(f"缺少 {qa_path.relative_to(ROOT).as_posix()}")

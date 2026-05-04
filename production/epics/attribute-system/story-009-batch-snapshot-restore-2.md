@@ -1,7 +1,7 @@
 # Story 009: Batch / Snapshot / Restore 2
 
 > **Epic**: 属性系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: UI
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/attribute-system.md`, scoped to this story:*
 
-- [ ] GIVEN: snapshot 数据中某 BigNumber 字典缺 `"e"` 字段（损坏），**WHEN** `restore`，**THEN** 该属性 base = ZERO，打印警告，不崩溃
-- [ ] GIVEN: `restore(data)` 写入 100 条属性，**WHEN** `SUPPRESS_RESTORE_EVENTS=true`，**THEN** 期间 EventBus 不发布任何 `base_changed` 事件
-- [ ] GIVEN: `"enemy_yougui_a_session1234"`（临时实体）已注册，**WHEN** `snapshot()`，**THEN** 返回 Dictionary 包含此 entity（**不主动过滤**）；调用方（存档系统）负责过滤
+- [x] GIVEN: snapshot 数据中某 BigNumber 字典缺 `"e"` 字段（损坏），**WHEN** `restore`，**THEN** 该属性 base = ZERO，打印警告，不崩溃
+- [x] GIVEN: `restore(data)` 写入 100 条属性，**WHEN** `SUPPRESS_RESTORE_EVENTS=true`，**THEN** 期间 EventBus 不发布任何 `base_changed` 事件
+- [x] GIVEN: `"enemy_yougui_a_session1234"`（临时实体）已注册，**WHEN** `snapshot()`，**THEN** 返回 Dictionary 包含此 entity（**不主动过滤**）；调用方（存档系统）负责过滤
 
 ---
 
@@ -88,7 +88,7 @@
 **Required evidence**:
 - `production/qa/evidence/batch-snapshot-restore-2-evidence.md` — manual/interaction evidence with sign-off
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -96,3 +96,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 010
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 6, story 2/20
+- Sprint source: `production/sprints/sprint-6.md`
+- QA plan: `production/qa/qa-plan-sprint-6-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-6-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd`
+  - `tests/unit/item_registry/item_registry_load_test.gd`
+  - `tests/unit/item_registry/item_registry_query_test.gd`
+  - `tests/integration/item_registry/item_registry_lifecycle_test.gd`
+  - `tests/performance/item_registry_performance_test.gd`

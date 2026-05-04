@@ -1,7 +1,7 @@
 # Story 002: no resource changes occur
 
 > **Epic**: 修炼系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Feature Integration
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -34,8 +34,8 @@
 
 *From GDD `design/gdd/cultivation-system.md`, scoped to this story:*
 
-- [ ] GIVEN: TimeManager is frozen, **WHEN** manual or auto cultivation tries to run, **THEN** no resource changes occur.
-- [ ] GIVEN: stance changes from Meditate to Condense, **WHEN** transition succeeds, **THEN** one `cultivation.stance_changed` event is emitted.
+- [x] GIVEN: TimeManager is frozen, **WHEN** manual or auto cultivation tries to run, **THEN** no resource changes occur.
+- [x] GIVEN: stance changes from Meditate to Condense, **WHEN** transition succeeds, **THEN** one `cultivation.stance_changed` event is emitted.
 
 ---
 
@@ -82,7 +82,7 @@
 **Required evidence**:
 - `tests/integration/cultivation/no-resource-changes-occur_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -90,3 +90,14 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: None
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 9, story 11/20
+- Sprint source: `production/sprints/sprint-9.md`
+- QA plan: `production/qa/qa-plan-sprint-9-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-9-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/sprint9/sprint9_feature_stack_test.gd`

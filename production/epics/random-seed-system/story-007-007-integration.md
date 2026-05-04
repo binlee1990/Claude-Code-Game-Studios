@@ -1,7 +1,7 @@
 # Story 007: 所有流的种子和状态恢复到保存时的值，后续随机序列与保存时完全一致
 
 > **Epic**: 随机数与种子系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/random-seed-system.md`, scoped to this story:*
 
-- [ ] GIVEN: RNGManager 处于 Seeded 状态，**WHEN** 调用 `save_states()` 后再 `load_states(saved_data)`，**THEN** 所有流的种子和状态恢复到保存时的值，后续随机序列与保存时完全一致
-- [ ] GIVEN: `load_states()` 传入缺失 `"master_seed"` 字段的 Dictionary，**WHEN** 执行，**THEN** 缺失字段用默认值填充，打印警告，不崩溃
-- [ ] GIVEN: RNGManager Uninitialized 状态，**WHEN** 调用 `rand_bool(COMBAT, 0.5)`，**THEN** 返回 false，打印警告
+- [x] GIVEN: RNGManager 处于 Seeded 状态，**WHEN** 调用 `save_states()` 后再 `load_states(saved_data)`，**THEN** 所有流的种子和状态恢复到保存时的值，后续随机序列与保存时完全一致
+- [x] GIVEN: `load_states()` 传入缺失 `"master_seed"` 字段的 Dictionary，**WHEN** 执行，**THEN** 缺失字段用默认值填充，打印警告，不崩溃
+- [x] GIVEN: RNGManager Uninitialized 状态，**WHEN** 调用 `rand_bool(COMBAT, 0.5)`，**THEN** 返回 false，打印警告
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/integration/random_seed/007-integration_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 008
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 2, story 1/20
+- Sprint source: `production/sprints/sprint-2.md`
+- QA plan: `production/qa/qa-plan-sprint-2-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-2-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/performance/rng_performance_test.gd`
+  - `tests/integration/event_bus/event_bus_delivery_test.gd`
+  - `tests/integration/time_manager/time_manager_integration_test.gd`
+  - `tests/unit/time_manager/time_manager_logic_test.gd`

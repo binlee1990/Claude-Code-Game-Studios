@@ -208,6 +208,7 @@ None detected. All dependency chains flow unidirectionally: Foundation → Core 
 | Design docs approved | 30 |
 | Design docs needs revision | 0 |
 | MVP systems designed | 30 / 30 |
+| MVP First Playable Achieved | 2026-05-04 via Sprint 1-10 story execution + `reports/report_13/results.xml` |
 
 ---
 

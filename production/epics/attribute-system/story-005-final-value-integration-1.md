@@ -1,7 +1,7 @@
 # Story 005: Final Value Integration 1
 
 > **Epic**: 属性系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: UI
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/attribute-system.md`, scoped to this story:*
 
-- [ ] GIVEN: `"player"` base_atk = 1000，ModifierEngine 无注册修正器，**WHEN** `get_final("player", "atk")`，**THEN** 返回 `BigNumber.from_int(1000)`（透传）
-- [ ] GIVEN: `"player"` base_atk = 1000，ModifierEngine 已注册 `{target:"player.atk", type:ADD, value:200}`，**WHEN** `get_final("player", "atk")`，**THEN** 返回 `BigNumber.from_int(1200)`
-- [ ] GIVEN: `"player"` base_atk = 1000，ModifierEngine 已注册 ADD +200 + MULT 0.5（pool=equipment），**WHEN** `get_final`，**THEN** 返回 `BigNumber.from_int(1800)`（即 (1000+200) × 1.5）
+- [x] GIVEN: `"player"` base_atk = 1000，ModifierEngine 无注册修正器，**WHEN** `get_final("player", "atk")`，**THEN** 返回 `BigNumber.from_int(1000)`（透传）
+- [x] GIVEN: `"player"` base_atk = 1000，ModifierEngine 已注册 `{target:"player.atk", type:ADD, value:200}`，**WHEN** `get_final("player", "atk")`，**THEN** 返回 `BigNumber.from_int(1200)`
+- [x] GIVEN: `"player"` base_atk = 1000，ModifierEngine 已注册 ADD +200 + MULT 0.5（pool=equipment），**WHEN** `get_final`，**THEN** 返回 `BigNumber.from_int(1800)`（即 (1000+200) × 1.5）
 
 ---
 
@@ -88,7 +88,7 @@
 **Required evidence**:
 - `production/qa/evidence/final-value-integration-1-evidence.md` — manual/interaction evidence with sign-off
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -96,3 +96,17 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 006
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 5, story 18/20
+- Sprint source: `production/sprints/sprint-5.md`
+- QA plan: `production/qa/qa-plan-sprint-5-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-5-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/resource_system/resource_system_crud_test.gd`
+  - `tests/integration/resource_system/resource_system_state_test.gd`
+  - `tests/unit/attribute_system/attribute_system_crud_test.gd`
+  - `tests/integration/attribute_system/attribute_system_final_test.gd`

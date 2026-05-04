@@ -52,19 +52,18 @@
 ## 2026-05-04 执行记录
 
 - Godot CLI 已通过 Steam 安装路径执行：`G:\SteamLibrary\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe`。
-- `reports/report_8/results.xml`：137 个测试，0 个失败，0 个跳过，0 个 flaky。
+- 本 sprint 已按 story 顺序执行并关闭 20 个 story。
+- `reports/report_13/results.xml`：137 个测试，0 个失败，0 个跳过，0 个 flaky。
 - Sprint 4 gate 证据：`production/qa/evidence/sprint-4-qa-result-2026-05-04.md`。
-
----
 
 ## Manual QA Checklist
 
 Checklist:
-- [ ] `SaveManager` appears after `DataConfigHost` in `project.godot`.
-- [ ] `save_game()` writes `save.json.tmp`, promotes it to `save.json`, and leaves no tmp file.
-- [ ] A corrupted primary save recovers from `save.json.bak` and emits `save.corrupted`.
-- [ ] `NOTIFICATION_WM_CLOSE_REQUEST` triggers one save before close.
-- [ ] Runtime warning logs are inspected for invalid modifier/formula/save provider cases.
+- [x] `SaveManager` appears after `DataConfigHost` in `project.godot`.
+- [x] `save_game()` writes `save.json.tmp`, promotes it to `save.json`, and leaves no tmp file.
+- [x] A corrupted primary save recovers from `save.json.bak` and emits `save.corrupted`.
+- [x] `NOTIFICATION_WM_CLOSE_REQUEST` triggers one save before close.
+- [x] Runtime warning logs are inspected for invalid modifier/formula/save provider cases.
 
 ---
 
@@ -85,7 +84,7 @@ No playtest sessions required. Sprint 4 is infrastructure and persistence; runti
 
 ## Definition of Done - This Sprint
 
-- [ ] QA plan exists at this path.
-- [ ] ModifierEngine and SaveManager implementations exist.
-- [ ] Sprint 4 tests exist.
-- [ ] Runtime file-system verification runs when Godot 4.6.2 is available.
+- [x] QA plan exists at this path.
+- [x] ModifierEngine and SaveManager implementations exist.
+- [x] Sprint 4 tests exist.
+- [x] Runtime file-system verification runs when Godot 4.6.2 is available.

@@ -1,7 +1,7 @@
 # Story 005: Query and Formula Verification 2
 
 > **Epic**: 产出乘数系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: UI
 > **Manifest Version**: 2026-05-04
@@ -35,8 +35,8 @@
 
 *From GDD `design/gdd/output-multiplier-system.md`, scoped to this story:*
 
-- [ ] AC-12: **GIVEN** AC-10 的 4 池配置对 lingqi 生效，**WHEN** 调用 `get_multiplier("lingqi")`，**THEN** 返回 `3.30`，匹配 `M_total = 2.0 × 1.25 × 1.10 × 1.20`（Formula 3 文档化期望值）
-- [ ] AC-13: **GIVEN** realm（value=1.0, source_id="realm_lianqi"）和 equipment（value=0.25, source_id="equip_ring"）对 lingqi 生效，base_rate = `1.0`，**WHEN** 调用 `get_breakdown("lingqi")`，**THEN** 返回 Dictionary 其中 `base_rate` = `1.0`，`add_sum` = `0.0`，`pools.realm` = `2.0`，`pools.equipment` = `1.25`，`pools.zone` = `1.0`（空池），`pools.buff` = `1.0`（空池），`final_multiplier` = `2.50`，`rate_per_second` = `2.50`，`fractional_carry` 为当前余数
+- [x] AC-12: **GIVEN** AC-10 的 4 池配置对 lingqi 生效，**WHEN** 调用 `get_multiplier("lingqi")`，**THEN** 返回 `3.30`，匹配 `M_total = 2.0 × 1.25 × 1.10 × 1.20`（Formula 3 文档化期望值）
+- [x] AC-13: **GIVEN** realm（value=1.0, source_id="realm_lianqi"）和 equipment（value=0.25, source_id="equip_ring"）对 lingqi 生效，base_rate = `1.0`，**WHEN** 调用 `get_breakdown("lingqi")`，**THEN** 返回 Dictionary 其中 `base_rate` = `1.0`，`add_sum` = `0.0`，`pools.realm` = `2.0`，`pools.equipment` = `1.25`，`pools.zone` = `1.0`（空池），`pools.buff` = `1.0`（空池），`final_multiplier` = `2.50`，`rate_per_second` = `2.50`，`fractional_carry` 为当前余数
 
 ---
 
@@ -82,7 +82,7 @@
 **Required evidence**:
 - `production/qa/evidence/query-and-formula-verification-2-evidence.md` — manual/interaction evidence with sign-off
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -90,3 +90,19 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 006
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 7, story 7/20
+- Sprint source: `production/sprints/sprint-7.md`
+- QA plan: `production/qa/qa-plan-sprint-7-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-7-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/item_registry/item_registry_boundary_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd`
+  - `tests/integration/output_multiplier_system/output_multiplier_events_test.gd`
+  - `tests/unit/debug_console/debug_console_command_test.gd`
+  - `tests/integration/debug_console/debug_console_smoke_test.gd`

@@ -1,10 +1,10 @@
 {
-  "asset_path": "assets/vfx/zone_transition_ink_wipe_04.png",
+  "source": "image_gen",
+  "skill": "generate2dmap",
+  "asset_id": "zone_transition_ink_wipe_04",
+  "raw_image": "D:/work/Games/GUAJI_01/assets/vfx/zone_transition_ink_wipe_03.png",
+  "postprocess": "derived_full_ink_cover_from_frame03_image_gen_texture",
   "width": 1920,
   "height": 1080,
-  "category": "vfx",
-  "source": "deterministic_mvp_fallback",
-  "style_lock": "clean_hd chinese ink-inspired minimal vector raster",
-  "alpha": false,
-  "generator": "scripts/generate_mvp_assets.py"
+  "derived_from": "assets/vfx/zone_transition_ink_wipe_03.png"
 }

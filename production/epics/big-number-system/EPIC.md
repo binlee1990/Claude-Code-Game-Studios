@@ -3,7 +3,7 @@
 > **Layer**: Foundation
 > **GDD**: design/gdd/big-number-system.md
 > **Architecture Module**: BigNumber (RefCounted, value type)
-> **Status**: Ready
+> **Status**: Done
 > **Sprint Target**: Pre-Production Sprint 1（Foundation Core）
 > **Stories**: Created (14 stories)
 > **PR-EPIC Verdict (2026-05-04)**: REALISTIC
@@ -63,20 +63,20 @@ This epic is complete when：
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [Testing harness and BigNumber API contract](story-001-testing-harness-and-bignumber-api-contract.md) | Integration | Ready | ADR-0001 |
-| 002 | [`mantissa ∈ \[1.0, 10.0)` 且 `exponent` 使得 `mantissa × 10^exponent` 等于原始](story-002-mantissa-1-0-10-0-exponent-mantissa-10-exponent.md) | Logic | Ready | ADR-0001 |
-| 003 | [结果为 `{6.0, 8}`](story-003-6-0-8.md) | Logic | Ready | ADR-0001 |
-| 004 | [结果约为 5.5（float，误差 < 0.01）](story-004-5-5-float-0-01.md) | Logic | Ready | ADR-0001 |
-| 005 | [结果为 `BigNumber.ZERO`](story-005-bignumber-zero.md) | Logic | Ready | ADR-0001 |
-| 006 | [结果为 `BigNumber.ZERO`](story-006-bignumber-zero.md) | Logic | Ready | ADR-0001 |
-| 007 | [结果为 `BigNumber.MAX`（饱和）](story-007-bignumber-max.md) | Logic | Ready | ADR-0001 |
-| 008 | [总耗时 < 16.6ms（60fps 帧预算内，纯 GDScript MVP 目标；若不达标，升级至 GDExtension C++）](story-008-16-6ms-60fps-gdscript-mvp-gdextension-c.md) | Logic | Ready | ADR-0001 |
-| 009 | [`mantissa == 4.2`，`exponent == 1`](story-009-mantissa-4-2-exponent-1.md) | Logic | Ready | ADR-0001 |
-| 010 | [返回 `100`](story-010-100.md) | Logic | Ready | ADR-0001 |
-| 011 | [返回格式为 `"1.23e150"` 的字符串](story-011-1-23e150.md) | Logic | Ready | ADR-0001 |
-| 012 | [均返回 `true`](story-012-true.md) | Logic | Ready | ADR-0001 |
-| 013 | [结果为 `BigNumber.MAX`](story-013-bignumber-max.md) | Logic | Ready | ADR-0001 |
-| 014 | [结果为 `BigNumber.MAX`（饱和）](story-014-bignumber-max.md) | Logic | Ready | ADR-0001 |
+| 001 | [Testing harness and BigNumber API contract](story-001-testing-harness-and-bignumber-api-contract.md) | Integration | Done | ADR-0001 |
+| 002 | [`mantissa ∈ \[1.0, 10.0)` 且 `exponent` 使得 `mantissa × 10^exponent` 等于原始](story-002-mantissa-1-0-10-0-exponent-mantissa-10-exponent.md) | Logic | Done | ADR-0001 |
+| 003 | [结果为 `{6.0, 8}`](story-003-6-0-8.md) | Logic | Done | ADR-0001 |
+| 004 | [结果约为 5.5（float，误差 < 0.01）](story-004-5-5-float-0-01.md) | Logic | Done | ADR-0001 |
+| 005 | [结果为 `BigNumber.ZERO`](story-005-bignumber-zero.md) | Logic | Done | ADR-0001 |
+| 006 | [结果为 `BigNumber.ZERO`](story-006-bignumber-zero.md) | Logic | Done | ADR-0001 |
+| 007 | [结果为 `BigNumber.MAX`（饱和）](story-007-bignumber-max.md) | Logic | Done | ADR-0001 |
+| 008 | [总耗时 < 16.6ms（60fps 帧预算内，纯 GDScript MVP 目标；若不达标，升级至 GDExtension C++）](story-008-16-6ms-60fps-gdscript-mvp-gdextension-c.md) | Logic | Done | ADR-0001 |
+| 009 | [`mantissa == 4.2`，`exponent == 1`](story-009-mantissa-4-2-exponent-1.md) | Logic | Done | ADR-0001 |
+| 010 | [返回 `100`](story-010-100.md) | Logic | Done | ADR-0001 |
+| 011 | [返回格式为 `"1.23e150"` 的字符串](story-011-1-23e150.md) | Logic | Done | ADR-0001 |
+| 012 | [均返回 `true`](story-012-true.md) | Logic | Done | ADR-0001 |
+| 013 | [结果为 `BigNumber.MAX`](story-013-bignumber-max.md) | Logic | Done | ADR-0001 |
+| 014 | [结果为 `BigNumber.MAX`（饱和）](story-014-bignumber-max.md) | Logic | Done | ADR-0001 |
 
 ## Next Step
 

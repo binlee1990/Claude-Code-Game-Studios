@@ -3,7 +3,7 @@
 > **Layer**: Feature
 > **GDD**: design/gdd/storage-limit-system.md
 > **Architecture Module**: `StorageLimitSystem` (Autoload)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (2 stories)
 
 ## Overview
@@ -49,8 +49,8 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [`ResourceSystem.get_max("lingqi") == 1000`](story-001-resourcesystem-get-max-lingqi-1000.md) | Integration | Ready | ADR-0010 |
-| 002 | [capped resources receive doubled cap through ResourceSystem](story-002-capped-resources-receive-doubled-cap-through-resourcesys.md) | Integration | Ready | ADR-0010 |
+| 001 | [`ResourceSystem.get_max("lingqi") == 1000`](story-001-resourcesystem-get-max-lingqi-1000.md) | Integration | Done | ADR-0010 |
+| 002 | [capped resources receive doubled cap through ResourceSystem](story-002-capped-resources-receive-doubled-cap-through-resourcesys.md) | Integration | Done | ADR-0010 |
 
 ## Next Step
 

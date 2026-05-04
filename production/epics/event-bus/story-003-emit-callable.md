@@ -1,7 +1,7 @@
 # Story 003: 后续 emit 不再触发该 callable
 
 > **Epic**: 事件总线
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/event-bus.md`, scoped to this story:*
 
-- [ ] GIVEN: 系统A 订阅了 `test.event`，**WHEN** 系统A 调用 `EventBus.unsubscribe("test.event", callable)`，**THEN** 后续 emit 不再触发该 callable
-- [ ] GIVEN: 系统A 对 `test.event` 订阅了同一个 callable 两次，**WHEN** emit 被调用，**THEN** callable 只执行一次
-- [ ] GIVEN: 系统A 使用 `subscribe_once` 订阅 `test.event`，**WHEN** 事件被 emit 一次后再次 emit，**THEN** callable 只在第一次被调用
+- [x] GIVEN: 系统A 订阅了 `test.event`，**WHEN** 系统A 调用 `EventBus.unsubscribe("test.event", callable)`，**THEN** 后续 emit 不再触发该 callable
+- [x] GIVEN: 系统A 对 `test.event` 订阅了同一个 callable 两次，**WHEN** emit 被调用，**THEN** callable 只执行一次
+- [x] GIVEN: 系统A 使用 `subscribe_once` 订阅 `test.event`，**WHEN** 事件被 emit 一次后再次 emit，**THEN** callable 只在第一次被调用
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/integration/event_bus/emit-callable_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 004
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 2, story 7/20
+- Sprint source: `production/sprints/sprint-2.md`
+- QA plan: `production/qa/qa-plan-sprint-2-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-2-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/performance/rng_performance_test.gd`
+  - `tests/integration/event_bus/event_bus_delivery_test.gd`
+  - `tests/integration/time_manager/time_manager_integration_test.gd`
+  - `tests/unit/time_manager/time_manager_logic_test.gd`

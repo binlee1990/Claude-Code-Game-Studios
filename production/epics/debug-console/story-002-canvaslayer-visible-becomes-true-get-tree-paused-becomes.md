@@ -1,7 +1,7 @@
 # Story 002: `CanvasLayer.visible` becomes `true`, `get_tree().paused` becomes `tru
 
 > **Epic**: 调试控制台
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: UI
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/debug-console.md`, scoped to this story:*
 
-- [ ] GIVEN: the console is Hidden and the game is running normally, **WHEN** the developer presses the physical `~` key (`KEY_QUOTELEFT`), **THEN** `CanvasLayer.visible` becomes `true`, `get_tree().paused` becomes `true`, `LineEdit` receives keyboard focus, and the `~` character does not appear in the `LineEdit` text.
-- [ ] GIVEN: the console is Visible and `get_tree().paused == true`, **WHEN** the developer presses the physical `~` key (`KEY_QUOTELEFT`), **THEN** `CanvasLayer.visible` becomes `false`, `get_tree().paused` becomes `false`, and no further input is consumed by the console.
-- [ ] GIVEN: a UI control `ButtonA` holds keyboard focus before the console opens, **WHEN** the developer opens the console and then closes it, **THEN** `ButtonA.has_focus()` returns `true` after close, provided `ButtonA` was not freed during that interval.
+- [x] GIVEN: the console is Hidden and the game is running normally, **WHEN** the developer presses the physical `~` key (`KEY_QUOTELEFT`), **THEN** `CanvasLayer.visible` becomes `true`, `get_tree().paused` becomes `true`, `LineEdit` receives keyboard focus, and the `~` character does not appear in the `LineEdit` text.
+- [x] GIVEN: the console is Visible and `get_tree().paused == true`, **WHEN** the developer presses the physical `~` key (`KEY_QUOTELEFT`), **THEN** `CanvasLayer.visible` becomes `false`, `get_tree().paused` becomes `false`, and no further input is consumed by the console.
+- [x] GIVEN: a UI control `ButtonA` holds keyboard focus before the console opens, **WHEN** the developer opens the console and then closes it, **THEN** `ButtonA.has_focus()` returns `true` after close, provided `ButtonA` was not freed during that interval.
 
 ---
 
@@ -88,7 +88,7 @@
 **Required evidence**:
 - `production/qa/evidence/canvaslayer-visible-becomes-true-get-tree-paused-becomes-evidence.md` — manual/interaction evidence with sign-off
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -96,3 +96,19 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 003
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 7, story 13/20
+- Sprint source: `production/sprints/sprint-7.md`
+- QA plan: `production/qa/qa-plan-sprint-7-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-7-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/item_registry/item_registry_boundary_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd`
+  - `tests/integration/output_multiplier_system/output_multiplier_events_test.gd`
+  - `tests/unit/debug_console/debug_console_command_test.gd`
+  - `tests/integration/debug_console/debug_console_smoke_test.gd`

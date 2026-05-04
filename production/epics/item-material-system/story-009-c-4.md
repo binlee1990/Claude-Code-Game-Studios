@@ -1,7 +1,7 @@
 # Story 009: C. 拷贝陷阱（4 条）
 
 > **Epic**: 物品/材料系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: Logic
 > **Manifest Version**: 2026-05-04
@@ -35,10 +35,10 @@
 
 *From GDD `design/gdd/item-material-system.md`, scoped to this story:*
 
-- [ ] AC-C1: GIVEN `var d = get("herb")`，WHEN 调用方修改 `d["name"] = "fake"`，THEN 再次 `get("herb")` 返回 `name == "药材"`（registry 不受影响）
-- [ ] AC-C2: GIVEN `var n = peek_field("herb", "name")`（标量字段，String），WHEN 调用方对返回值执行 `n = "fake"` 等本地变量赋值，THEN 再次 `peek_field("herb", "name")` 返回原值 `"药材"`（标量 by-value 隔离正确）
-- [ ] AC-C3 (DOC-CONTRACT, no auto test): 容器字段引用泄漏由 **API 命名 + doc-comment + code-review checklist** 三层防御，不写自动化测试验证"污染会发生"——把 footgun 验证为通过条件是 QA 反模式。已知契约：调用方拿到 peek_field 返回的容器字段后，**必须**先 `.duplicate()` 再做任何原地修改；如需安全可写，应改用 `get(id).field`（深拷贝路径）。code-review 阶段必须扫描所有 `peek_field(_, _)` 调用点，确认未对返回容器执行 `.append()`/`.erase()`/`[k] = v` 等原地写入。Alpha 阶段建议补 lint/静态分析规则自动化此检查。
-- [ ] AC-C4: GIVEN `var arr = query_by_item_class("resource_material")`，WHEN 修改 `arr[0]["name"] = "fake"`，THEN registry 不受影响（数组中每条都是深拷贝）
+- [x] AC-C1: GIVEN `var d = get("herb")`，WHEN 调用方修改 `d["name"] = "fake"`，THEN 再次 `get("herb")` 返回 `name == "药材"`（registry 不受影响）
+- [x] AC-C2: GIVEN `var n = peek_field("herb", "name")`（标量字段，String），WHEN 调用方对返回值执行 `n = "fake"` 等本地变量赋值，THEN 再次 `peek_field("herb", "name")` 返回原值 `"药材"`（标量 by-value 隔离正确）
+- [x] AC-C3 (DOC-CONTRACT, no auto test): 容器字段引用泄漏由 **API 命名 + doc-comment + code-review checklist** 三层防御，不写自动化测试验证"污染会发生"——把 footgun 验证为通过条件是 QA 反模式。已知契约：调用方拿到 peek_field 返回的容器字段后，**必须**先 `.duplicate()` 再做任何原地修改；如需安全可写，应改用 `get(id).field`（深拷贝路径）。code-review 阶段必须扫描所有 `peek_field(_, _)` 调用点，确认未对返回容器执行 `.append()`/`.erase()`/`[k] = v` 等原地写入。Alpha 阶段建议补 lint/静态分析规则自动化此检查。
+- [x] AC-C4: GIVEN `var arr = query_by_item_class("resource_material")`，WHEN 修改 `arr[0]["name"] = "fake"`，THEN registry 不受影响（数组中每条都是深拷贝）
 
 ---
 
@@ -98,7 +98,7 @@
 **Required evidence**:
 - `tests/unit/item_material/c-4_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -106,3 +106,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 010
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 6, story 14/20
+- Sprint source: `production/sprints/sprint-6.md`
+- QA plan: `production/qa/qa-plan-sprint-6-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-6-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd`
+  - `tests/unit/item_registry/item_registry_load_test.gd`
+  - `tests/unit/item_registry/item_registry_query_test.gd`
+  - `tests/integration/item_registry/item_registry_lifecycle_test.gd`
+  - `tests/performance/item_registry_performance_test.gd`

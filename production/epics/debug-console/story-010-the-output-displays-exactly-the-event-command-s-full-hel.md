@@ -1,7 +1,7 @@
 # Story 010: the output displays exactly the `event` command's full help text: `eve
 
 > **Epic**: 调试控制台
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: UI
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/debug-console.md`, scoped to this story:*
 
-- [ ] GIVEN: the console is open, **WHEN** the developer types `help event` and presses Enter, **THEN** the output displays exactly the `event` command's full help text: `event watch <prefix> | event unwatch <prefix>`.
-- [ ] GIVEN: the console is open, **WHEN** the developer types `clear` and presses Enter, **THEN** the `RichTextLabel` output area is emptied and `_output_buffer` contains zero lines.
-- [ ] GIVEN: the console is open, **WHEN** the developer types an unrecognized command such as `foo`, **THEN** the output displays `[ERROR] Unknown command: 'foo'. Type 'help' for a list.` in red, and `"foo"` is not written to command history.
+- [x] GIVEN: the console is open, **WHEN** the developer types `help event` and presses Enter, **THEN** the output displays exactly the `event` command's full help text: `event watch <prefix> | event unwatch <prefix>`.
+- [x] GIVEN: the console is open, **WHEN** the developer types `clear` and presses Enter, **THEN** the `RichTextLabel` output area is emptied and `_output_buffer` contains zero lines.
+- [x] GIVEN: the console is open, **WHEN** the developer types an unrecognized command such as `foo`, **THEN** the output displays `[ERROR] Unknown command: 'foo'. Type 'help' for a list.` in red, and `"foo"` is not written to command history.
 
 ---
 
@@ -88,7 +88,7 @@
 **Required evidence**:
 - `production/qa/evidence/the-output-displays-exactly-the-event-command-s-full-hel-evidence.md` — manual/interaction evidence with sign-off
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -96,3 +96,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 011
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 8, story 1/20
+- Sprint source: `production/sprints/sprint-8.md`
+- QA plan: `production/qa/qa-plan-sprint-8-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-8-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/debug_console/debug_console_history_test.gd`
+  - `tests/unit/level_system/level_system_formula_test.gd`
+  - `tests/integration/level_system/level_system_progression_test.gd`
+  - `tests/integration/storage_limit_system/storage_limit_system_test.gd`
+  - `tests/integration/auto_production_system/auto_production_system_test.gd`

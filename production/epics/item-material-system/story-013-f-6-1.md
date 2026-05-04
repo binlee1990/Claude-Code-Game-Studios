@@ -1,7 +1,7 @@
 # Story 013: F. 性能（6 条） 1
 
 > **Epic**: 物品/材料系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: Config/Data
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/item-material-system.md`, scoped to this story:*
 
-- [ ] AC-F1: 性能矩阵 — MVP 5 条数据规模下，WHEN 单帧内执行各 100 次操作，THEN 总耗时满足：`get(id)` < 5 ms、`query_by_item_class` < 0.5 ms、`query_by_tag` < 0.5 ms、`peek_field` < 1 ms（公式 1/2/3a/3b 上限 × 100）
-- [ ] AC-F2: GIVEN mock items 含 5 条物品，WHEN 启动加载完成（含 DataConfig 调用），THEN 总加载耗时 < 5 ms
-- [ ] AC-F3: GIVEN MVP 5 条物品已加载，WHEN 用 `OS.get_static_memory_usage()` 差值采样，THEN ItemRegistry 净增内存 < 5 KB。**注**：跨平台/跨 GC 时机的绝对值波动较大，本 AC 仅作为 ADVISORY，限定运行环境为 Linux headless CI + 固定 GC 触发；非该环境下视为 informational
+- [x] AC-F1: 性能矩阵 — MVP 5 条数据规模下，WHEN 单帧内执行各 100 次操作，THEN 总耗时满足：`get(id)` < 5 ms、`query_by_item_class` < 0.5 ms、`query_by_tag` < 0.5 ms、`peek_field` < 1 ms（公式 1/2/3a/3b 上限 × 100）
+- [x] AC-F2: GIVEN mock items 含 5 条物品，WHEN 启动加载完成（含 DataConfig 调用），THEN 总加载耗时 < 5 ms
+- [x] AC-F3: GIVEN MVP 5 条物品已加载，WHEN 用 `OS.get_static_memory_usage()` 差值采样，THEN ItemRegistry 净增内存 < 5 KB。**注**：跨平台/跨 GC 时机的绝对值波动较大，本 AC 仅作为 ADVISORY，限定运行环境为 Linux headless CI + 固定 GC 触发；非该环境下视为 informational
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `production/qa/smoke-item-material-system.md` — smoke check evidence
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 014
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 6, story 18/20
+- Sprint source: `production/sprints/sprint-6.md`
+- QA plan: `production/qa/qa-plan-sprint-6-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-6-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd`
+  - `tests/unit/item_registry/item_registry_load_test.gd`
+  - `tests/unit/item_registry/item_registry_query_test.gd`
+  - `tests/integration/item_registry/item_registry_lifecycle_test.gd`
+  - `tests/performance/item_registry_performance_test.gd`

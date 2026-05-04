@@ -1,7 +1,7 @@
 # Story 004: `EventBus.subscribe_pattern("resource", <callable>)` is called exactly
 
 > **Epic**: 调试控制台
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/debug-console.md`, scoped to this story:*
 
-- [ ] GIVEN: the console is open, **WHEN** the developer types `event watch resource` and presses Enter, **THEN** `EventBus.subscribe_pattern("resource", <callable>)` is called exactly once, the prefix `"resource"` is recorded in `_watching_prefixes`, and the output confirms the watch is active.
-- [ ] GIVEN: an active `event watch resource` subscription, **WHEN** EventBus fires an event whose name begins with `"resource"` (e.g. `resource.lingqi.changed`) with payload `{"delta": 10}`, **THEN** the output area appends a cyan line matching `[WATCH] resource.lingqi.changed → {delta: 10}` within the same frame.
-- [ ] GIVEN: an active `event watch resource` subscription and the console is open, **WHEN** the developer presses `~` to close the console, **THEN** `EventBus.unsubscribe_pattern("resource", <callable>)` is called and `_watching_prefixes` is empty after close.
+- [x] GIVEN: the console is open, **WHEN** the developer types `event watch resource` and presses Enter, **THEN** `EventBus.subscribe_pattern("resource", <callable>)` is called exactly once, the prefix `"resource"` is recorded in `_watching_prefixes`, and the output confirms the watch is active.
+- [x] GIVEN: an active `event watch resource` subscription, **WHEN** EventBus fires an event whose name begins with `"resource"` (e.g. `resource.lingqi.changed`) with payload `{"delta": 10}`, **THEN** the output area appends a cyan line matching `[WATCH] resource.lingqi.changed → {delta: 10}` within the same frame.
+- [x] GIVEN: an active `event watch resource` subscription and the console is open, **WHEN** the developer presses `~` to close the console, **THEN** `EventBus.unsubscribe_pattern("resource", <callable>)` is called and `_watching_prefixes` is empty after close.
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/integration/debug_console/eventbus-subscribe-pattern-resource-callable-is-called-e_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,19 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 005
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 7, story 15/20
+- Sprint source: `production/sprints/sprint-7.md`
+- QA plan: `production/qa/qa-plan-sprint-7-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-7-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/item_registry/item_registry_boundary_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd`
+  - `tests/integration/output_multiplier_system/output_multiplier_events_test.gd`
+  - `tests/unit/debug_console/debug_console_command_test.gd`
+  - `tests/integration/debug_console/debug_console_smoke_test.gd`

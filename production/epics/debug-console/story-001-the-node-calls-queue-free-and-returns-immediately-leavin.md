@@ -1,7 +1,7 @@
 # Story 001: the node calls `queue_free()` and returns immediately, leaving zero re
 
 > **Epic**: 调试控制台
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: UI
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/debug-console.md`, scoped to this story:*
 
-- [ ] GIVEN: the game is exported as a Release build, **WHEN** the Godot runtime calls `DebugConsole._ready()`, **THEN** the node calls `queue_free()` and returns immediately, leaving zero resident memory, zero active `_process` calls, and no `CanvasLayer` in the scene tree.
-- [ ] GIVEN: a Release build is running, **WHEN** the player presses the physical `~` key (`KEY_QUOTELEFT`), **THEN** no console overlay appears and no input is consumed by the debug system.
-- [ ] GIVEN: the game is running as a Debug build, **WHEN** the scene tree initializes, **THEN** `/root/DebugConsole` exists as an Autoload node with `process_mode == Node.PROCESS_MODE_ALWAYS` and `CanvasLayer.layer == 128` and `CanvasLayer.visible == false`.
+- [x] GIVEN: the game is exported as a Release build, **WHEN** the Godot runtime calls `DebugConsole._ready()`, **THEN** the node calls `queue_free()` and returns immediately, leaving zero resident memory, zero active `_process` calls, and no `CanvasLayer` in the scene tree.
+- [x] GIVEN: a Release build is running, **WHEN** the player presses the physical `~` key (`KEY_QUOTELEFT`), **THEN** no console overlay appears and no input is consumed by the debug system.
+- [x] GIVEN: the game is running as a Debug build, **WHEN** the scene tree initializes, **THEN** `/root/DebugConsole` exists as an Autoload node with `process_mode == Node.PROCESS_MODE_ALWAYS` and `CanvasLayer.layer == 128` and `CanvasLayer.visible == false`.
 
 ---
 
@@ -87,7 +87,7 @@
 **Required evidence**:
 - `production/qa/evidence/the-node-calls-queue-free-and-returns-immediately-leavin-evidence.md` — manual/interaction evidence with sign-off
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -95,3 +95,19 @@
 
 - Depends on: None
 - Unlocks: Story 002
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 7, story 12/20
+- Sprint source: `production/sprints/sprint-7.md`
+- QA plan: `production/qa/qa-plan-sprint-7-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-7-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/item_registry/item_registry_boundary_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd`
+  - `tests/integration/output_multiplier_system/output_multiplier_events_test.gd`
+  - `tests/unit/debug_console/debug_console_command_test.gd`
+  - `tests/integration/debug_console/debug_console_smoke_test.gd`

@@ -1,7 +1,7 @@
 # Story 007: reset 接口
 
 > **Epic**: 等级系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Feature
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -34,8 +34,8 @@
 
 *From GDD `design/gdd/level-system.md`, scoped to this story:*
 
-- [ ] GIVEN: Lv.30 (zhuji)，**WHEN** `reset("player", "breakthrough")`，**THEN** level=1, realm="fanren", current_realm_id=0；10 条 zhuji modifier 全部 unregister；属性 base 重置至 Lv.1 默认；发 `level.changed{new_level=1, levels_gained=-29}` + `realm.advanced{new_realm="fanren"}`
-- [ ] GIVEN: 任意状态，**WHEN** `reset("player", "none")`，**THEN** 不发任何事件，level / realm 不变（与 ResourceSystem.reset_by_scope("none") 行为一致）
+- [x] GIVEN: Lv.30 (zhuji)，**WHEN** `reset("player", "breakthrough")`，**THEN** level=1, realm="fanren", current_realm_id=0；10 条 zhuji modifier 全部 unregister；属性 base 重置至 Lv.1 默认；发 `level.changed{new_level=1, levels_gained=-29}` + `realm.advanced{new_realm="fanren"}`
+- [x] GIVEN: 任意状态，**WHEN** `reset("player", "none")`，**THEN** 不发任何事件，level / realm 不变（与 ResourceSystem.reset_by_scope("none") 行为一致）
 
 ---
 
@@ -83,7 +83,7 @@
 **Required evidence**:
 - `tests/integration/level/reset_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -91,3 +91,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 008
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 8, story 12/20
+- Sprint source: `production/sprints/sprint-8.md`
+- QA plan: `production/qa/qa-plan-sprint-8-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-8-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/debug_console/debug_console_history_test.gd`
+  - `tests/unit/level_system/level_system_formula_test.gd`
+  - `tests/integration/level_system/level_system_progression_test.gd`
+  - `tests/integration/storage_limit_system/storage_limit_system_test.gd`
+  - `tests/integration/auto_production_system/auto_production_system_test.gd`

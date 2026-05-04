@@ -1,7 +1,7 @@
 # Story 005: save.loaded 重建 1
 
 > **Epic**: 等级系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Feature
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -34,9 +34,9 @@
 
 *From GDD `design/gdd/level-system.md`, scoped to this story:*
 
-- [ ] GIVEN: snapshot 数据 `{entities: {"player": {level:30, realm:"zhuji"}}}`，**WHEN** `restore(snapshot)`，**THEN** `_entries` 写入完成；ModifierEngine `realm` 池**无** modifier（重建延后到 save.loaded）
-- [ ] GIVEN: restore 完成且 `save.loaded` 事件发布，**WHEN** `_on_save_loaded` 触发，**THEN** ModifierEngine 注册 zhuji 的 10 条 modifier，**不**发布 `level.changed` 或 `realm.advanced`
-- [ ] GIVEN: `save.loaded` 事件被发布两次（异常情形），**WHEN** `_on_save_loaded` 第二次触发，**THEN** `_swap_realm_modifiers` 内部先 `unregister_by_source` 再 register；最终 ModifierEngine 中只有 1 套 zhuji 的 10 条 modifier（幂等）
+- [x] GIVEN: snapshot 数据 `{entities: {"player": {level:30, realm:"zhuji"}}}`，**WHEN** `restore(snapshot)`，**THEN** `_entries` 写入完成；ModifierEngine `realm` 池**无** modifier（重建延后到 save.loaded）
+- [x] GIVEN: restore 完成且 `save.loaded` 事件发布，**WHEN** `_on_save_loaded` 触发，**THEN** ModifierEngine 注册 zhuji 的 10 条 modifier，**不**发布 `level.changed` 或 `realm.advanced`
+- [x] GIVEN: `save.loaded` 事件被发布两次（异常情形），**WHEN** `_on_save_loaded` 第二次触发，**THEN** `_swap_realm_modifiers` 内部先 `unregister_by_source` 再 register；最终 ModifierEngine 中只有 1 套 zhuji 的 10 条 modifier（幂等）
 
 ---
 
@@ -90,7 +90,7 @@
 **Required evidence**:
 - `tests/integration/level/save-loaded-1_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -98,3 +98,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 006
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 8, story 10/20
+- Sprint source: `production/sprints/sprint-8.md`
+- QA plan: `production/qa/qa-plan-sprint-8-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-8-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/debug_console/debug_console_history_test.gd`
+  - `tests/unit/level_system/level_system_formula_test.gd`
+  - `tests/integration/level_system/level_system_progression_test.gd`
+  - `tests/integration/storage_limit_system/storage_limit_system_test.gd`
+  - `tests/integration/auto_production_system/auto_production_system_test.gd`

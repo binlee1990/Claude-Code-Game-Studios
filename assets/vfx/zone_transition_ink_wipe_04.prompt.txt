@@ -1,1 +1,1 @@
-Chinese xianxia ink-inspired clean HD MVP fallback. Zone transition ink wipe frame 4.
+Generated with $generate2dmap via built-in image_gen-derived postprocess. zone_transition_ink_wipe frame 04: full-screen dark sumi-e ink cover derived from frame 03 image_gen ink texture.

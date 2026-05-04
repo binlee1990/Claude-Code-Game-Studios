@@ -1,7 +1,7 @@
 # Story 007: 返回的数组长度为 2 且包含 `"player.atk"` 和 `"lingqi_production"`（去重，顺序不保证）；空注册表时返
 
 > **Epic**: 修正器/倍率引擎
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Data
 > **Type**: Config/Data
 > **Manifest Version**: 2026-05-04
@@ -35,7 +35,7 @@
 
 *From GDD `design/gdd/modifier-engine.md`, scoped to this story:*
 
-- [ ] GIVEN: 已注册 3 个修正器，target 分别为 `"player.atk"`、`"player.atk"`、`"lingqi_production"`，**WHEN** 调用 `get_all_targets()`，**THEN** 返回的数组长度为 2 且包含 `"player.atk"` 和 `"lingqi_production"`（去重，顺序不保证）；空注册表时返回空数组 `[]`
+- [x] GIVEN: 已注册 3 个修正器，target 分别为 `"player.atk"`、`"player.atk"`、`"lingqi_production"`，**WHEN** 调用 `get_all_targets()`，**THEN** 返回的数组长度为 2 且包含 `"player.atk"` 和 `"lingqi_production"`（去重，顺序不保证）；空注册表时返回空数组 `[]`
 
 ---
 
@@ -76,7 +76,7 @@
 **Required evidence**:
 - `production/qa/smoke-modifier-engine.md` — smoke check evidence
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -84,3 +84,17 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: None
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 4, story 12/20
+- Sprint source: `production/sprints/sprint-4.md`
+- QA plan: `production/qa/qa-plan-sprint-4-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-4-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/formula_engine/formula_engine_edges_test.gd`
+  - `tests/unit/modifier_engine/modifier_engine_test.gd`
+  - `tests/unit/save_system/save_manager_collect_test.gd`
+  - `tests/integration/save_system/save_manager_file_contract_test.gd`

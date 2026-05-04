@@ -1,7 +1,7 @@
 # Story 007: B. 查询 API（12 条） 3
 
 > **Epic**: 物品/材料系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: UI
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/item-material-system.md`, scoped to this story:*
 
-- [ ] AC-B7: GIVEN ItemRegistry 已加载 5 条 resource_material，WHEN `query_by_item_class("resource_material")`，THEN 返回 5 条 Dictionary 数组
-- [ ] AC-B8: GIVEN ItemRegistry 已加载，WHEN `query_by_item_class("equipment")`（合法但无匹配），THEN `[]`，不打印警告
-- [ ] AC-B9: GIVEN ItemRegistry 已加载，WHEN `query_by_item_class("unknown_cat")`（非锁定枚举），THEN `[]` + 打印警告
+- [x] AC-B7: GIVEN ItemRegistry 已加载 5 条 resource_material，WHEN `query_by_item_class("resource_material")`，THEN 返回 5 条 Dictionary 数组
+- [x] AC-B8: GIVEN ItemRegistry 已加载，WHEN `query_by_item_class("equipment")`（合法但无匹配），THEN `[]`，不打印警告
+- [x] AC-B9: GIVEN ItemRegistry 已加载，WHEN `query_by_item_class("unknown_cat")`（非锁定枚举），THEN `[]` + 打印警告
 
 ---
 
@@ -88,7 +88,7 @@
 **Required evidence**:
 - `production/qa/evidence/b-api-12-3-evidence.md` — manual/interaction evidence with sign-off
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -96,3 +96,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 008
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 6, story 12/20
+- Sprint source: `production/sprints/sprint-6.md`
+- QA plan: `production/qa/qa-plan-sprint-6-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-6-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd`
+  - `tests/unit/item_registry/item_registry_load_test.gd`
+  - `tests/unit/item_registry/item_registry_query_test.gd`
+  - `tests/integration/item_registry/item_registry_lifecycle_test.gd`
+  - `tests/performance/item_registry_performance_test.gd`

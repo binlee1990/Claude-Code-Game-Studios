@@ -1,7 +1,7 @@
 # Story 012: E. 热重载（4 条） 2
 
 > **Epic**: 物品/材料系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: Config/Data
 > **Manifest Version**: 2026-05-04
@@ -35,8 +35,8 @@
 
 *From GDD `design/gdd/item-material-system.md`, scoped to this story:*
 
-- [ ] AC-E3: GIVEN 初始加载含 id=`"old_item"`，reload 后 items.json 移除该 id，WHEN reload 完成，THEN：① `push_warning` 内容含 `"old_item"` 出现在差分列表中；② `has_item("old_item") == false`
-- [ ] AC-E4: GIVEN 初始加载 id=`"x"` 的 `item_class="resource_material"`，reload 后同一 id 的 `item_class` 改为 `"consumable"`，WHEN reload 完成，THEN：① `query_by_item_class("resource_material")` 返回数组不含 `"x"`；② `query_by_item_class("consumable")` 返回数组含 `"x"`
+- [x] AC-E3: GIVEN 初始加载含 id=`"old_item"`，reload 后 items.json 移除该 id，WHEN reload 完成，THEN：① `push_warning` 内容含 `"old_item"` 出现在差分列表中；② `has_item("old_item") == false`
+- [x] AC-E4: GIVEN 初始加载 id=`"x"` 的 `item_class="resource_material"`，reload 后同一 id 的 `item_class` 改为 `"consumable"`，WHEN reload 完成，THEN：① `query_by_item_class("resource_material")` 返回数组不含 `"x"`；② `query_by_item_class("consumable")` 返回数组含 `"x"`
 
 ---
 
@@ -84,7 +84,7 @@
 **Required evidence**:
 - `production/qa/smoke-item-material-system.md` — smoke check evidence
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -92,3 +92,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 013
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 6, story 17/20
+- Sprint source: `production/sprints/sprint-6.md`
+- QA plan: `production/qa/qa-plan-sprint-6-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-6-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd`
+  - `tests/unit/item_registry/item_registry_load_test.gd`
+  - `tests/unit/item_registry/item_registry_query_test.gd`
+  - `tests/integration/item_registry/item_registry_lifecycle_test.gd`
+  - `tests/performance/item_registry_performance_test.gd`

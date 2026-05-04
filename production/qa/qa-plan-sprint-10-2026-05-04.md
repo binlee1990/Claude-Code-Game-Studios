@@ -10,8 +10,10 @@
 - `tests/integration/sprint10/sprint10_settlement_ui_hud_test.gd`
 
 ## 2026-05-04 执行记录
+
 - Godot CLI 已通过 Steam 安装路径执行：`G:\SteamLibrary\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe`。
-- `reports/report_8/results.xml`：137 个测试，0 个失败，0 个跳过，0 个 flaky。
+- 本 sprint 已按 story 顺序执行并关闭 8 个 story。
+- `reports/report_13/results.xml`：137 个测试，0 个失败，0 个跳过，0 个 flaky。
 - Sprint 10 gate 证据：`production/qa/evidence/sprint-10-qa-result-2026-05-04.md`。
 - 资源校验报告：`production/qa/evidence/asset-validation-report.json`。
 

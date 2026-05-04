@@ -51,20 +51,20 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [the node calls `queue_free()` and returns immediately, leaving zero re](story-001-the-node-calls-queue-free-and-returns-immediately-leavin.md) | UI | Ready | ADR-0011 |
-| 002 | [`CanvasLayer.visible` becomes `true`, `get_tree().paused` becomes `tru](story-002-canvaslayer-visible-becomes-true-get-tree-paused-becomes.md) | UI | Ready | ADR-0011 |
-| 003 | [`LineEdit.release_focus()` is called instead of restoring the freed no](story-003-lineedit-release-focus-is-called-instead-of-restoring-th.md) | UI | Ready | ADR-0011 |
-| 004 | [`EventBus.subscribe_pattern("resource", <callable>)` is called exactly](story-004-eventbus-subscribe-pattern-resource-callable-is-called-e.md) | Integration | Ready | ADR-0002 |
+| 001 | [the node calls `queue_free()` and returns immediately, leaving zero re](story-001-the-node-calls-queue-free-and-returns-immediately-leavin.md) | UI | Done | ADR-0011 |
+| 002 | [`CanvasLayer.visible` becomes `true`, `get_tree().paused` becomes `tru](story-002-canvaslayer-visible-becomes-true-get-tree-paused-becomes.md) | UI | Done | ADR-0011 |
+| 003 | [`LineEdit.release_focus()` is called instead of restoring the freed no](story-003-lineedit-release-focus-is-called-instead-of-restoring-th.md) | UI | Done | ADR-0011 |
+| 004 | [`EventBus.subscribe_pattern("resource", <callable>)` is called exactly](story-004-eventbus-subscribe-pattern-resource-callable-is-called-e.md) | Integration | Done | ADR-0002 |
 | 005 | [the second invocation outputs `\[WARN\] Already watching 'resource'. No-](story-005-the-second-invocation-outputs-warn-already-watching-reso.md) | UI | Ready | ADR-0011 |
-| 006 | [each record in the `enemies` table is output as a single-line compact](story-006-each-record-in-the-enemies-table-is-output-as-a-single-l.md) | Config/Data | Ready | ADR-0012 |
-| 007 | [the output lists all entity IDs registered in `AttributeSystem`](story-007-the-output-lists-all-entity-ids-registered-in-attributes.md) | Logic | Ready | ADR-0012 |
-| 008 | [the output displays `real_time`, `game_time`, `effective_speed`, and `](story-008-the-output-displays-real-time-game-time-effective-speed.md) | UI | Ready | ADR-0011 |
-| 009 | [`SaveManager.save_game()` is called and the output confirms the save w](story-009-savemanager-save-game-is-called-and-the-output-confirms.md) | Config/Data | Ready | ADR-0012 |
-| 010 | [the output displays exactly the `event` command's full help text: `eve](story-010-the-output-displays-exactly-the-event-command-s-full-hel.md) | UI | Ready | ADR-0011 |
+| 006 | [each record in the `enemies` table is output as a single-line compact](story-006-each-record-in-the-enemies-table-is-output-as-a-single-l.md) | Config/Data | Done | ADR-0012 |
+| 007 | [the output lists all entity IDs registered in `AttributeSystem`](story-007-the-output-lists-all-entity-ids-registered-in-attributes.md) | Logic | Done | ADR-0012 |
+| 008 | [the output displays `real_time`, `game_time`, `effective_speed`, and `](story-008-the-output-displays-real-time-game-time-effective-speed.md) | UI | Done | ADR-0011 |
+| 009 | [`SaveManager.save_game()` is called and the output confirms the save w](story-009-savemanager-save-game-is-called-and-the-output-confirms.md) | Config/Data | Done | ADR-0012 |
+| 010 | [the output displays exactly the `event` command's full help text: `eve](story-010-the-output-displays-exactly-the-event-command-s-full-hel.md) | UI | Done | ADR-0011 |
 | 011 | [the output displays `\[ERROR\] Command handler unavailable: {command}` i](story-011-the-output-displays-error-command-handler-unavailable-co.md) | UI | Ready | ADR-0011 |
-| 012 | [the `LineEdit` content does not change and no error or exception is pr](story-012-the-lineedit-content-does-not-change-and-no-error-or-exc.md) | UI | Ready | ADR-0011 |
-| 013 | [Test Strategy Notes 1](story-013-test-strategy-notes-1.md) | UI | Ready | ADR-0011 |
-| 014 | [Test Strategy Notes 2](story-014-test-strategy-notes-2.md) | Integration | Ready | ADR-0002 |
+| 012 | [the `LineEdit` content does not change and no error or exception is pr](story-012-the-lineedit-content-does-not-change-and-no-error-or-exc.md) | UI | Done | ADR-0011 |
+| 013 | [Test Strategy Notes 1](story-013-test-strategy-notes-1.md) | UI | Done | ADR-0011 |
+| 014 | [Test Strategy Notes 2](story-014-test-strategy-notes-2.md) | Integration | Done | ADR-0002 |
 
 ## Next Step
 

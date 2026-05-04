@@ -1,7 +1,7 @@
 # Story 010: threshold 钳位到 `1.0`，打印警告
 
 > **Epic**: 公式引擎
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Data
 > **Type**: Logic
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/formula-engine.md`, scoped to this story:*
 
-- [ ] GIVEN: `softcap(200, -5, 0.5)`，**WHEN** 求值，**THEN** threshold 钳位到 `1.0`，打印警告
-- [ ] GIVEN: `softcap(200, 100, 2.0)`，**WHEN** 求值，**THEN** power 钳位到 `1.0`，结果为 `200.0`（等效无软上限）
-- [ ] GIVEN: 上下文为空字典 `{}`，**WHEN** 对无变量公式 `"42 * 2"` 求值，**THEN** 结果为 `84.0`
+- [x] GIVEN: `softcap(200, -5, 0.5)`，**WHEN** 求值，**THEN** threshold 钳位到 `1.0`，打印警告
+- [x] GIVEN: `softcap(200, 100, 2.0)`，**WHEN** 求值，**THEN** power 钳位到 `1.0`，结果为 `200.0`（等效无软上限）
+- [x] GIVEN: 上下文为空字典 `{}`，**WHEN** 对无变量公式 `"42 * 2"` 求值，**THEN** 结果为 `84.0`
 
 ---
 
@@ -90,7 +90,7 @@
 **Required evidence**:
 - `tests/unit/formula_engine/threshold-1-0_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -98,3 +98,17 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: None
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 4, story 5/20
+- Sprint source: `production/sprints/sprint-4.md`
+- QA plan: `production/qa/qa-plan-sprint-4-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-4-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/formula_engine/formula_engine_edges_test.gd`
+  - `tests/unit/modifier_engine/modifier_engine_test.gd`
+  - `tests/unit/save_system/save_manager_collect_test.gd`
+  - `tests/integration/save_system/save_manager_file_contract_test.gd`

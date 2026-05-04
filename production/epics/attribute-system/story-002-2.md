@@ -1,7 +1,7 @@
 # Story 002: 实体生命周期 2
 
 > **Epic**: 属性系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/attribute-system.md`, scoped to this story:*
 
-- [ ] GIVEN: `definition` 缺 `category` 字段，**WHEN** `register_entity`，**THEN** 返回 `false`，打印警告列出缺失字段
-- [ ] GIVEN: `"enemy_001"` 已注册含 6 属性，**WHEN** `unregister_entity("enemy_001")`，**THEN** 返回 `6`，`has_entity == false`，发布一条 `attribute.enemy_001.unregistered` 事件
-- [ ] GIVEN: `unregister_entity("never_registered")`，**WHEN** 调用，**THEN** 返回 `0`，不崩溃，不打印警告
+- [x] GIVEN: `definition` 缺 `category` 字段，**WHEN** `register_entity`，**THEN** 返回 `false`，打印警告列出缺失字段
+- [x] GIVEN: `"enemy_001"` 已注册含 6 属性，**WHEN** `unregister_entity("enemy_001")`，**THEN** 返回 `6`，`has_entity == false`，发布一条 `attribute.enemy_001.unregistered` 事件
+- [x] GIVEN: `unregister_entity("never_registered")`，**WHEN** 调用，**THEN** 返回 `0`，不崩溃，不打印警告
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/integration/attribute/2_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,17 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 003
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 5, story 15/20
+- Sprint source: `production/sprints/sprint-5.md`
+- QA plan: `production/qa/qa-plan-sprint-5-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-5-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/resource_system/resource_system_crud_test.gd`
+  - `tests/integration/resource_system/resource_system_state_test.gd`
+  - `tests/unit/attribute_system/attribute_system_crud_test.gd`
+  - `tests/integration/attribute_system/attribute_system_final_test.gd`

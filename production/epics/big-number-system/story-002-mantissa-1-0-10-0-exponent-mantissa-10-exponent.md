@@ -1,7 +1,7 @@
 # Story 002: `mantissa ∈ [1.0, 10.0)` 且 `exponent` 使得 `mantissa × 10^exponent` 等于原始
 
 > **Epic**: 大数值系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: Logic
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/big-number-system.md`, scoped to this story:*
 
-- [ ] GIVEN: 任意正 float 值，**WHEN** 通过 `BigNumber.from_float()` 创建实例，**THEN** `mantissa ∈ [1.0, 10.0)` 且 `exponent` 使得 `mantissa × 10^exponent` 等于原始值
-- [ ] GIVEN: 两个 BigNumber `a = {2.5, 3}` 和 `b = {3.0, 2}`，**WHEN** 执行 `a.add(b)`，**THEN** 结果为 `{2.8, 3}`（即 2800）
-- [ ] GIVEN: `a = {2.0, 3}` 和 `b = {5.0, 3}`，**WHEN** 执行 `a.subtract(b)`，**THEN** 结果为 `BigNumber.ZERO`（非负约束）
+- [x] GIVEN: 任意正 float 值，**WHEN** 通过 `BigNumber.from_float()` 创建实例，**THEN** `mantissa ∈ [1.0, 10.0)` 且 `exponent` 使得 `mantissa × 10^exponent` 等于原始值
+- [x] GIVEN: 两个 BigNumber `a = {2.5, 3}` 和 `b = {3.0, 2}`，**WHEN** 执行 `a.add(b)`，**THEN** 结果为 `{2.8, 3}`（即 2800）
+- [x] GIVEN: `a = {2.0, 3}` 和 `b = {5.0, 3}`，**WHEN** 执行 `a.subtract(b)`，**THEN** 结果为 `BigNumber.ZERO`（非负约束）
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/unit/big_number/mantissa-1-0-10-0-exponent-mantissa-10-exponent_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 003
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 1, story 2/20
+- Sprint source: `production/sprints/sprint-1.md`
+- QA plan: `production/qa/qa-plan-sprint-1-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-1-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/big_number/api_contract_test.gd`
+  - `tests/unit/big_number/big_number_arithmetic_test.gd`
+  - `tests/performance/big_number_performance_test.gd`
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/unit/rng/stream_independence_test.gd`

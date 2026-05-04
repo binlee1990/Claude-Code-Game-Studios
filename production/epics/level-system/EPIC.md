@@ -3,7 +3,7 @@
 > **Layer**: Feature
 > **GDD**: design/gdd/level-system.md
 > **Architecture Module**: `LevelSystem` (RefCounted) (Autoload 持有)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (12 stories)
 
 ## Overview
@@ -50,18 +50,18 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [实体生命周期](story-001-001-config-data.md) | Config/Data | Ready | ADR-0013 |
-| 002 | [gain_exp 主路径 1](story-002-gain-exp-1.md) | Integration | Ready | ADR-0013 |
-| 003 | [gain_exp 主路径 2](story-003-gain-exp-2.md) | Integration | Ready | ADR-0013 |
-| 004 | [境界跨越 + modifier](story-004-modifier.md) | Logic | Ready | ADR-0007 |
-| 005 | [save.loaded 重建 1](story-005-save-loaded-1.md) | Integration | Ready | ADR-0013 |
-| 006 | [save.loaded 重建 2](story-006-save-loaded-2.md) | Integration | Ready | ADR-0013 |
-| 007 | [reset 接口](story-007-reset.md) | Integration | Ready | ADR-0013 |
-| 008 | [公式求值 1](story-008-1.md) | Logic | Ready | ADR-0007 |
-| 009 | [公式求值 2](story-009-2.md) | Logic | Ready | ADR-0007 |
-| 010 | [公式异常 / 边界](story-010-010-integration.md) | Integration | Ready | ADR-0013 |
-| 011 | [跨系统集成](story-011-011-logic.md) | Logic | Ready | ADR-0007 |
-| 012 | [性能 / 内存](story-012-012-logic.md) | Logic | Ready | ADR-0007 |
+| 001 | [实体生命周期](story-001-001-config-data.md) | Config/Data | Done | ADR-0013 |
+| 002 | [gain_exp 主路径 1](story-002-gain-exp-1.md) | Integration | Done | ADR-0013 |
+| 003 | [gain_exp 主路径 2](story-003-gain-exp-2.md) | Integration | Done | ADR-0013 |
+| 004 | [境界跨越 + modifier](story-004-modifier.md) | Logic | Done | ADR-0007 |
+| 005 | [save.loaded 重建 1](story-005-save-loaded-1.md) | Integration | Done | ADR-0013 |
+| 006 | [save.loaded 重建 2](story-006-save-loaded-2.md) | Integration | Done | ADR-0013 |
+| 007 | [reset 接口](story-007-reset.md) | Integration | Done | ADR-0013 |
+| 008 | [公式求值 1](story-008-1.md) | Logic | Done | ADR-0007 |
+| 009 | [公式求值 2](story-009-2.md) | Logic | Done | ADR-0007 |
+| 010 | [公式异常 / 边界](story-010-010-integration.md) | Integration | Done | ADR-0013 |
+| 011 | [跨系统集成](story-011-011-logic.md) | Logic | Done | ADR-0007 |
+| 012 | [性能 / 内存](story-012-012-logic.md) | Logic | Done | ADR-0007 |
 
 ## Next Step
 

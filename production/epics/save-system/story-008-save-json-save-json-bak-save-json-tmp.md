@@ -1,7 +1,7 @@
 # Story 008: 存在 `save.json` 和 `save.json.bak`，不存在 `save.json.tmp`（临时文件已清理）
 
 > **Epic**: 存档系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Data
 > **Type**: Config/Data
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/save-system.md`, scoped to this story:*
 
-- [ ] GIVEN: 保存成功完成，**WHEN** 检查文件系统，**THEN** 存在 `save.json` 和 `save.json.bak`，不存在 `save.json.tmp`（临时文件已清理）
-- [ ] GIVEN: 两个 provider 已注册（`time_manager` 和 `resource_system`），**WHEN** 调用 `collect_save_data()`，**THEN** 返回的 Dictionary 包含 `meta` 与 `systems` 顶层键，且 `systems.time_manager` 和 `systems.resource_system` 均为非空 Dictionary，且 `user://save/save.json` 文件**未被创建或修改**
-- [ ] GIVEN: SaveManager 处于 Idle 状态，**WHEN** 调用 `is_saving()`，**THEN** 返回 `false`；启动 `save_game()` 后立即在同一帧内查询 `is_saving()`，**THEN** 返回 `true`；保存完成后再次查询，**THEN** 返回 `false`
+- [x] GIVEN: 保存成功完成，**WHEN** 检查文件系统，**THEN** 存在 `save.json` 和 `save.json.bak`，不存在 `save.json.tmp`（临时文件已清理）
+- [x] GIVEN: 两个 provider 已注册（`time_manager` 和 `resource_system`），**WHEN** 调用 `collect_save_data()`，**THEN** 返回的 Dictionary 包含 `meta` 与 `systems` 顶层键，且 `systems.time_manager` 和 `systems.resource_system` 均为非空 Dictionary，且 `user://save/save.json` 文件**未被创建或修改**
+- [x] GIVEN: SaveManager 处于 Idle 状态，**WHEN** 调用 `is_saving()`，**THEN** 返回 `false`；启动 `save_game()` 后立即在同一帧内查询 `is_saving()`，**THEN** 返回 `true`；保存完成后再次查询，**THEN** 返回 `false`
 
 ---
 
@@ -90,7 +90,7 @@
 **Required evidence**:
 - `production/qa/smoke-save-system.md` — smoke check evidence
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -98,3 +98,17 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: None
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 4, story 20/20
+- Sprint source: `production/sprints/sprint-4.md`
+- QA plan: `production/qa/qa-plan-sprint-4-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-4-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/formula_engine/formula_engine_edges_test.gd`
+  - `tests/unit/modifier_engine/modifier_engine_test.gd`
+  - `tests/unit/save_system/save_manager_collect_test.gd`
+  - `tests/integration/save_system/save_manager_file_contract_test.gd`

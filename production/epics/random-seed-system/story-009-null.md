@@ -1,7 +1,7 @@
 # Story 009: 返回 null，打印警告
 
 > **Epic**: 随机数与种子系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/random-seed-system.md`, scoped to this story:*
 
-- [ ] GIVEN: 空数组，**WHEN** 执行 `pick_random(COMBAT, [])`，**THEN** 返回 null，打印警告
-- [ ] GIVEN: 主种子为 0，**WHEN** 初始化 RNGManager，**THEN** 所有核心流正常创建，随机序列有效（不退化为全零或全同值）
-- [ ] GIVEN: 存档系统调用 `save_states()`，**WHEN** 序列化 6 个流（4 核心 + 2 扩展），**THEN** 结果 Dictionary 大小 < 1 KB
+- [x] GIVEN: 空数组，**WHEN** 执行 `pick_random(COMBAT, [])`，**THEN** 返回 null，打印警告
+- [x] GIVEN: 主种子为 0，**WHEN** 初始化 RNGManager，**THEN** 所有核心流正常创建，随机序列有效（不退化为全零或全同值）
+- [x] GIVEN: 存档系统调用 `save_states()`，**WHEN** 序列化 6 个流（4 核心 + 2 扩展），**THEN** 结果 Dictionary 大小 < 1 KB
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/integration/random_seed/null_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 010
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 2, story 3/20
+- Sprint source: `production/sprints/sprint-2.md`
+- QA plan: `production/qa/qa-plan-sprint-2-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-2-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/performance/rng_performance_test.gd`
+  - `tests/integration/event_bus/event_bus_delivery_test.gd`
+  - `tests/integration/time_manager/time_manager_integration_test.gd`
+  - `tests/unit/time_manager/time_manager_logic_test.gd`

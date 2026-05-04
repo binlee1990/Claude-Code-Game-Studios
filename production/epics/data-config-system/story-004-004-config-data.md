@@ -1,7 +1,7 @@
 # Story 004: 后者覆盖前者，打印警告
 
 > **Epic**: 数据配置系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Data
 > **Type**: Config/Data
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/data-config-system.md`, scoped to this story:*
 
-- [ ] GIVEN: 同一表内有重复 ID `"slime"`，**WHEN** 加载完成，**THEN** 后者覆盖前者，打印警告
-- [ ] GIVEN: 10 张表各 200 条记录，**WHEN** 执行 `load_all()`，**THEN** 总耗时 < 100 ms，总内存 < 5 MB
-- [ ] GIVEN: `HOT_RELOAD_ENABLED = true`，**WHEN** 修改 `enemies.json` 后执行 `reload_table("enemies")`，**THEN** 后续 `get("enemies", ...)` 返回新数据
+- [x] GIVEN: 同一表内有重复 ID `"slime"`，**WHEN** 加载完成，**THEN** 后者覆盖前者，打印警告
+- [x] GIVEN: 10 张表各 200 条记录，**WHEN** 执行 `load_all()`，**THEN** 总耗时 < 100 ms，总内存 < 5 MB
+- [x] GIVEN: `HOT_RELOAD_ENABLED = true`，**WHEN** 修改 `enemies.json` 后执行 `reload_table("enemies")`，**THEN** 后续 `get("enemies", ...)` 返回新数据
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `production/qa/smoke-data-config-system.md` — smoke check evidence
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 005
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 3, story 13/20
+- Sprint source: `production/sprints/sprint-3.md`
+- QA plan: `production/qa/qa-plan-sprint-3-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-3-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/time_manager/time_manager_logic_test.gd`
+  - `tests/unit/number_formatting/number_formatter_test.gd`
+  - `tests/performance/number_formatter_performance_test.gd`
+  - `tests/unit/data_config/data_config_test.gd`
+  - `tests/unit/formula_engine/formula_engine_test.gd`

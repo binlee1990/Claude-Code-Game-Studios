@@ -3,7 +3,7 @@
 > **Layer**: Presentation
 > **GDD**: design/gdd/hud-system.md
 > **Architecture Module**: HUD (Control scene) (事件订阅)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (2 stories)
 
 ## Overview
@@ -50,8 +50,8 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [lingqi text updates using NumberFormattingSystem](story-001-lingqi-text-updates-using-numberformattingsystem.md) | UI | Ready | ADR-0011 |
-| 002 | [level badge updates after attributes are already recalculated](story-002-level-badge-updates-after-attributes-are-already-recalcu.md) | UI | Ready | ADR-0011 |
+| 001 | [lingqi text updates using NumberFormattingSystem](story-001-lingqi-text-updates-using-numberformattingsystem.md) | UI | Done | ADR-0011 |
+| 002 | [level badge updates after attributes are already recalculated](story-002-level-badge-updates-after-attributes-are-already-recalcu.md) | UI | Done | ADR-0011 |
 
 ## Next Step
 

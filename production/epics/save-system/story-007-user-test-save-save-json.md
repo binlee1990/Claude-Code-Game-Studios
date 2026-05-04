@@ -1,7 +1,7 @@
 # Story 007: 文件写入 `user://test_save/save.json`
 
 > **Epic**: 存档系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Data
 > **Type**: Config/Data
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/save-system.md`, scoped to this story:*
 
-- [ ] GIVEN: 存档目录路径为 `"user://test_save/"`，**WHEN** 用该路径构造 SaveManager 并保存，**THEN** 文件写入 `user://test_save/save.json`
-- [ ] GIVEN: 15 个 provider 各返回 ~800 bytes 数据，**WHEN** 保存，**THEN** 文件大小 < 50 KB，保存耗时 < 20 ms
-- [ ] GIVEN: 对同一 namespace 重复调用 `register_provider()`，**WHEN** 保存，**THEN** 使用最后一次注册的回调，打印覆盖警告
+- [x] GIVEN: 存档目录路径为 `"user://test_save/"`，**WHEN** 用该路径构造 SaveManager 并保存，**THEN** 文件写入 `user://test_save/save.json`
+- [x] GIVEN: 15 个 provider 各返回 ~800 bytes 数据，**WHEN** 保存，**THEN** 文件大小 < 50 KB，保存耗时 < 20 ms
+- [x] GIVEN: 对同一 namespace 重复调用 `register_provider()`，**WHEN** 保存，**THEN** 使用最后一次注册的回调，打印覆盖警告
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `production/qa/smoke-save-system.md` — smoke check evidence
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,17 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 008
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 4, story 19/20
+- Sprint source: `production/sprints/sprint-4.md`
+- QA plan: `production/qa/qa-plan-sprint-4-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-4-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/formula_engine/formula_engine_edges_test.gd`
+  - `tests/unit/modifier_engine/modifier_engine_test.gd`
+  - `tests/unit/save_system/save_manager_collect_test.gd`
+  - `tests/integration/save_system/save_manager_file_contract_test.gd`

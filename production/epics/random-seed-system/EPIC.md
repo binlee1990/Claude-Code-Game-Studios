@@ -3,7 +3,7 @@
 > **Layer**: Foundation
 > **GDD**: design/gdd/random-seed-system.md
 > **Architecture Module**: RNGManager (Autoload, 全局单例)
-> **Status**: Ready
+> **Status**: Done
 > **Sprint Target**: Pre-Production Sprint 2（Foundation Services，与 TimeManager 并行）
 > **Stories**: Created (10 stories)
 > **PR-EPIC Verdict (2026-05-04)**: REALISTIC
@@ -59,16 +59,16 @@ RNGManager 提供**确定性随机数服务**：单一 master_seed 通过 FNV-1a
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [获得同一个全局单例实例](story-001-001-integration.md) | Integration | Ready | ADR-0008 |
-| 002 | [LOOT 流的下一个 `rand_float` 结果与从未调用 COMBAT 流时完全一致](story-002-loot-rand-float-combat.md) | Logic | Ready | ADR-0004 |
-| 003 | [返回 -1](story-003-1.md) | Logic | Ready | ADR-0004 |
-| 004 | [GIVEN: `rand_bool(COMBAT, 0](story-004-given-rand-bool-combat-0.md) | Logic | Ready | ADR-0004 |
-| 005 | [钳位到 0，返回 false](story-005-0-false.md) | Logic | Ready | ADR-0004 |
-| 006 | [返回 7，不消耗随机数](story-006-7.md) | Logic | Ready | ADR-0004 |
-| 007 | [所有流的种子和状态恢复到保存时的值，后续随机序列与保存时完全一致](story-007-007-integration.md) | Integration | Ready | ADR-0008 |
-| 008 | [模拟期间在线 RNG 仍为 S1，不受模拟调用影响](story-008-rng-s1.md) | Integration | Ready | ADR-0008 |
-| 009 | [返回 null，打印警告](story-009-null.md) | Integration | Ready | ADR-0008 |
-| 010 | [总 RNG 调用耗时占帧预算 < 1%](story-010-rng-1.md) | Integration | Ready | ADR-0008 |
+| 001 | [获得同一个全局单例实例](story-001-001-integration.md) | Integration | Done | ADR-0008 |
+| 002 | [LOOT 流的下一个 `rand_float` 结果与从未调用 COMBAT 流时完全一致](story-002-loot-rand-float-combat.md) | Logic | Done | ADR-0004 |
+| 003 | [返回 -1](story-003-1.md) | Logic | Done | ADR-0004 |
+| 004 | [GIVEN: `rand_bool(COMBAT, 0](story-004-given-rand-bool-combat-0.md) | Logic | Done | ADR-0004 |
+| 005 | [钳位到 0，返回 false](story-005-0-false.md) | Logic | Done | ADR-0004 |
+| 006 | [返回 7，不消耗随机数](story-006-7.md) | Logic | Done | ADR-0004 |
+| 007 | [所有流的种子和状态恢复到保存时的值，后续随机序列与保存时完全一致](story-007-007-integration.md) | Integration | Done | ADR-0008 |
+| 008 | [模拟期间在线 RNG 仍为 S1，不受模拟调用影响](story-008-rng-s1.md) | Integration | Done | ADR-0008 |
+| 009 | [返回 null，打印警告](story-009-null.md) | Integration | Done | ADR-0008 |
+| 010 | [总 RNG 调用耗时占帧预算 < 1%](story-010-rng-1.md) | Integration | Done | ADR-0008 |
 
 ## Next Step
 

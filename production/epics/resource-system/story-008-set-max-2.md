@@ -1,7 +1,7 @@
 # Story 008: set_max 2
 
 > **Epic**: 资源系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: Logic
 > **Manifest Version**: 2026-05-04
@@ -35,8 +35,8 @@
 
 *From GDD `design/gdd/resource-system.md`, scoped to this story:*
 
-- [ ] GIVEN: `set_max("lingqi", BigNumber.ZERO)`，**WHEN** 执行，**THEN** 拒绝，`get_max` 不变，打印警告
-- [ ] GIVEN: `lingqi` cap=1000，**WHEN** `set_max("lingqi", new_cap)` 其中 new_cap 超过 BigNumber.MAX，**THEN** 实际存储 `cap == BigNumber.MAX`，发布 `cap_changed`（视为 cap 发生变化）
+- [x] GIVEN: `set_max("lingqi", BigNumber.ZERO)`，**WHEN** 执行，**THEN** 拒绝，`get_max` 不变，打印警告
+- [x] GIVEN: `lingqi` cap=1000，**WHEN** `set_max("lingqi", new_cap)` 其中 new_cap 超过 BigNumber.MAX，**THEN** 实际存储 `cap == BigNumber.MAX`，发布 `cap_changed`（视为 cap 发生变化）
 
 ---
 
@@ -84,7 +84,7 @@
 **Required evidence**:
 - `tests/unit/resource/set-max-2_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -92,3 +92,17 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 009
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 5, story 8/20
+- Sprint source: `production/sprints/sprint-5.md`
+- QA plan: `production/qa/qa-plan-sprint-5-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-5-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/resource_system/resource_system_crud_test.gd`
+  - `tests/integration/resource_system/resource_system_state_test.gd`
+  - `tests/unit/attribute_system/attribute_system_crud_test.gd`
+  - `tests/integration/attribute_system/attribute_system_final_test.gd`

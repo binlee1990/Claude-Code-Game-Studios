@@ -3,7 +3,7 @@
 > **Layer**: Feature Integration
 > **GDD**: design/gdd/cultivation-system.md
 > **Architecture Module**: `CultivationSystem` (服务)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (2 stories)
 
 ## Overview
@@ -50,8 +50,8 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [lingqi increases by `manual_lingqi_gain`](story-001-lingqi-increases-by-manual-lingqi-gain.md) | UI | Ready | ADR-0003 |
-| 002 | [no resource changes occur](story-002-no-resource-changes-occur.md) | Integration | Ready | ADR-0003 |
+| 001 | [lingqi increases by `manual_lingqi_gain`](story-001-lingqi-increases-by-manual-lingqi-gain.md) | UI | Done | ADR-0003 |
+| 002 | [no resource changes occur](story-002-no-resource-changes-occur.md) | Integration | Done | ADR-0003 |
 
 ## Next Step
 

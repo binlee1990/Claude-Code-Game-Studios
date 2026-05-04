@@ -1,7 +1,7 @@
 # Story 001: CombatResult is identical
 
 > **Epic**: 战斗计算器
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Feature Integration
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -34,9 +34,9 @@
 
 *From GDD `design/gdd/combat-calculator.md`, scoped to this story:*
 
-- [ ] GIVEN: identical snapshots and seed, **WHEN** simulate runs twice, **THEN** CombatResult is identical.
-- [ ] GIVEN: player atk increases while enemy unchanged, **WHEN** simulate runs, **THEN** average time-to-kill does not increase over enough seeded samples.
-- [ ] GIVEN: defender def exceeds attacker atk, **WHEN** attack resolves, **THEN** damage is at least MIN_DAMAGE.
+- [x] GIVEN: identical snapshots and seed, **WHEN** simulate runs twice, **THEN** CombatResult is identical.
+- [x] GIVEN: player atk increases while enemy unchanged, **WHEN** simulate runs, **THEN** average time-to-kill does not increase over enough seeded samples.
+- [x] GIVEN: defender def exceeds attacker atk, **WHEN** attack resolves, **THEN** damage is at least MIN_DAMAGE.
 
 ---
 
@@ -89,7 +89,7 @@
 **Required evidence**:
 - `tests/integration/combat_calculator/combatresult-is-identical_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -97,3 +97,14 @@
 
 - Depends on: None
 - Unlocks: Story 002
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 9, story 6/20
+- Sprint source: `production/sprints/sprint-9.md`
+- QA plan: `production/qa/qa-plan-sprint-9-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-9-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/sprint9/sprint9_feature_stack_test.gd`

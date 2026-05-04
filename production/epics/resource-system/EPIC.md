@@ -3,7 +3,7 @@
 > **Layer**: Core Gameplay
 > **GDD**: design/gdd/resource-system.md
 > **Architecture Module**: `ResourceSystem` (RefCounted) (Autoload 持有)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (13 stories)
 
 ## Overview
@@ -50,19 +50,19 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [Core CRUD 1](story-001-core-crud-1.md) | Config/Data | Ready | ADR-0010 |
-| 002 | [Core CRUD 2](story-002-core-crud-2.md) | Logic | Ready | ADR-0001 |
-| 003 | [Core CRUD 3](story-003-core-crud-3.md) | Integration | Ready | ADR-0002 |
-| 004 | [Core CRUD 4](story-004-core-crud-4.md) | Integration | Ready | ADR-0002 |
-| 005 | [Events 1](story-005-events-1.md) | Integration | Ready | ADR-0002 |
-| 006 | [Events 2](story-006-events-2.md) | Integration | Ready | ADR-0002 |
-| 007 | [set_max 1](story-007-set-max-1.md) | Integration | Ready | ADR-0002 |
-| 008 | [set_max 2](story-008-set-max-2.md) | Logic | Ready | ADR-0001 |
-| 009 | [Reset 1](story-009-reset-1.md) | Integration | Ready | ADR-0002 |
-| 010 | [Reset 2](story-010-reset-2.md) | Logic | Ready | ADR-0001 |
-| 011 | [Snapshot / Restore](story-011-snapshot-restore.md) | Config/Data | Ready | ADR-0010 |
-| 012 | [Edge Cases](story-012-edge-cases.md) | Logic | Ready | ADR-0001 |
-| 013 | [Performance / Memory](story-013-performance-memory.md) | Integration | Ready | ADR-0002 |
+| 001 | [Core CRUD 1](story-001-core-crud-1.md) | Config/Data | Done | ADR-0010 |
+| 002 | [Core CRUD 2](story-002-core-crud-2.md) | Logic | Done | ADR-0001 |
+| 003 | [Core CRUD 3](story-003-core-crud-3.md) | Integration | Done | ADR-0002 |
+| 004 | [Core CRUD 4](story-004-core-crud-4.md) | Integration | Done | ADR-0002 |
+| 005 | [Events 1](story-005-events-1.md) | Integration | Done | ADR-0002 |
+| 006 | [Events 2](story-006-events-2.md) | Integration | Done | ADR-0002 |
+| 007 | [set_max 1](story-007-set-max-1.md) | Integration | Done | ADR-0002 |
+| 008 | [set_max 2](story-008-set-max-2.md) | Logic | Done | ADR-0001 |
+| 009 | [Reset 1](story-009-reset-1.md) | Integration | Done | ADR-0002 |
+| 010 | [Reset 2](story-010-reset-2.md) | Logic | Done | ADR-0001 |
+| 011 | [Snapshot / Restore](story-011-snapshot-restore.md) | Config/Data | Done | ADR-0010 |
+| 012 | [Edge Cases](story-012-edge-cases.md) | Logic | Done | ADR-0001 |
+| 013 | [Performance / Memory](story-013-performance-memory.md) | Integration | Done | ADR-0002 |
 
 ## Next Step
 

@@ -1,7 +1,7 @@
 # Story 001: ResourceSystem receives lingqi +1
 
 > **Epic**: 自动产出系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Feature
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -34,9 +34,9 @@
 
 *From GDD `design/gdd/auto-production-system.md`, scoped to this story:*
 
-- [ ] GIVEN: TimeManager reports delta 1.0s and OMS returns lingqi 1, **WHEN** auto production ticks, **THEN** ResourceSystem receives lingqi +1.
-- [ ] GIVEN: OMS returns ZERO for herb due to fractional carry, **WHEN** tick runs, **THEN** ResourceSystem is not called for herb.
-- [ ] GIVEN: TimeManager is frozen, **WHEN** tick update runs, **THEN** no resources are added.
+- [x] GIVEN: TimeManager reports delta 1.0s and OMS returns lingqi 1, **WHEN** auto production ticks, **THEN** ResourceSystem receives lingqi +1.
+- [x] GIVEN: OMS returns ZERO for herb due to fractional carry, **WHEN** tick runs, **THEN** ResourceSystem is not called for herb.
+- [x] GIVEN: TimeManager is frozen, **WHEN** tick update runs, **THEN** no resources are added.
 
 ---
 
@@ -89,7 +89,7 @@
 **Required evidence**:
 - `tests/integration/auto_production/resourcesystem-receives-lingqi-1_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -97,3 +97,18 @@
 
 - Depends on: None
 - Unlocks: Story 002
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 8, story 15/20
+- Sprint source: `production/sprints/sprint-8.md`
+- QA plan: `production/qa/qa-plan-sprint-8-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-8-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/debug_console/debug_console_history_test.gd`
+  - `tests/unit/level_system/level_system_formula_test.gd`
+  - `tests/integration/level_system/level_system_progression_test.gd`
+  - `tests/integration/storage_limit_system/storage_limit_system_test.gd`
+  - `tests/integration/auto_production_system/auto_production_system_test.gd`

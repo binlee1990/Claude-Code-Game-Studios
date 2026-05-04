@@ -1,7 +1,7 @@
 # Story 005: 成功返回 ID，`get_add_sum` 包含 `0.0` 贡献
 
 > **Epic**: 修正器/倍率引擎
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Data
 > **Type**: Logic
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/modifier-engine.md`, scoped to this story:*
 
-- [ ] GIVEN: 修正器 value=0，**WHEN** 注册，**THEN** 成功返回 ID，`get_add_sum` 包含 `0.0` 贡献
-- [ ] GIVEN: 同一 source 注册两个不同 target 的修正器，**WHEN** 调用 `unregister_by_source()`，**THEN** 两个 target 的修正器均被移除
-- [ ] GIVEN: target 有修正器，**WHEN** 调用 `get_breakdown("atk")`，**THEN** 返回包含 `add_sum`、`pools` 字典和 `final_mult` 的 Dictionary
+- [x] GIVEN: 修正器 value=0，**WHEN** 注册，**THEN** 成功返回 ID，`get_add_sum` 包含 `0.0` 贡献
+- [x] GIVEN: 同一 source 注册两个不同 target 的修正器，**WHEN** 调用 `unregister_by_source()`，**THEN** 两个 target 的修正器均被移除
+- [x] GIVEN: target 有修正器，**WHEN** 调用 `get_breakdown("atk")`，**THEN** 返回包含 `add_sum`、`pools` 字典和 `final_mult` 的 Dictionary
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/unit/modifier_engine/id-get-add-sum-0-0_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,17 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 006
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 4, story 10/20
+- Sprint source: `production/sprints/sprint-4.md`
+- QA plan: `production/qa/qa-plan-sprint-4-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-4-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/formula_engine/formula_engine_edges_test.gd`
+  - `tests/unit/modifier_engine/modifier_engine_test.gd`
+  - `tests/unit/save_system/save_manager_collect_test.gd`
+  - `tests/integration/save_system/save_manager_file_contract_test.gd`

@@ -1,7 +1,7 @@
 # Story 015: G. Lifecycle 事件（2 条）
 
 > **Epic**: 物品/材料系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: Config/Data
 > **Manifest Version**: 2026-05-04
@@ -35,8 +35,8 @@
 
 *From GDD `design/gdd/item-material-system.md`, scoped to this story:*
 
-- [ ] AC-G1: GIVEN ItemRegistry 启动加载成功（`get_count() > 0`，含 5 条 resource_material + 1 条 `item_class="unknown_cat"` 被 AC-A4 跳过），WHEN `_ready()` 完成，THEN EventBus 收到一次 `item_registry.loaded` 事件，payload 严格符合 schema `{count: int, item_classes: Dictionary[String, int]}`：① `count == get_count() == 5`（不含被跳过的记录）；② `item_classes.keys()` 仅含 4 元锁定枚举内的值；③ `item_classes["resource_material"] == 5`；④ 所有未出现 item_class 的 key 不在 `item_classes` 中（即 keys.size() == 实际加载的 distinct item_class 数）；⑤ `item_classes` **不包含** `"unknown_cat"` key（被拒绝记录的 item_class 不出现）。事件**同步发布**（不使用 `call_deferred` / `await`，确保订阅者在第 1 帧结束前可处理）
-- [ ] AC-G2: GIVEN AC-E1 的 reload 实际执行路径，WHEN reload 完成，THEN EventBus 收到一次 `item_registry.reloaded` 事件
+- [x] AC-G1: GIVEN ItemRegistry 启动加载成功（`get_count() > 0`，含 5 条 resource_material + 1 条 `item_class="unknown_cat"` 被 AC-A4 跳过），WHEN `_ready()` 完成，THEN EventBus 收到一次 `item_registry.loaded` 事件，payload 严格符合 schema `{count: int, item_classes: Dictionary[String, int]}`：① `count == get_count() == 5`（不含被跳过的记录）；② `item_classes.keys()` 仅含 4 元锁定枚举内的值；③ `item_classes["resource_material"] == 5`；④ 所有未出现 item_class 的 key 不在 `item_classes` 中（即 keys.size() == 实际加载的 distinct item_class 数）；⑤ `item_classes` **不包含** `"unknown_cat"` key（被拒绝记录的 item_class 不出现）。事件**同步发布**（不使用 `call_deferred` / `await`，确保订阅者在第 1 帧结束前可处理）
+- [x] AC-G2: GIVEN AC-E1 的 reload 实际执行路径，WHEN reload 完成，THEN EventBus 收到一次 `item_registry.reloaded` 事件
 
 ---
 
@@ -84,7 +84,7 @@
 **Required evidence**:
 - `production/qa/smoke-item-material-system.md` — smoke check evidence
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -92,3 +92,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 016
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 6, story 20/20
+- Sprint source: `production/sprints/sprint-6.md`
+- QA plan: `production/qa/qa-plan-sprint-6-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-6-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd`
+  - `tests/unit/item_registry/item_registry_load_test.gd`
+  - `tests/unit/item_registry/item_registry_query_test.gd`
+  - `tests/integration/item_registry/item_registry_lifecycle_test.gd`
+  - `tests/performance/item_registry_performance_test.gd`

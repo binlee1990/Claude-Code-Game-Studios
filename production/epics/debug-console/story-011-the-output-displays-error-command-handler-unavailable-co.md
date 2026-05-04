@@ -1,7 +1,7 @@
 # Story 011: the output displays `[ERROR] Command handler unavailable: {command}` i
 
 > **Epic**: 调试控制台
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: UI
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/debug-console.md`, scoped to this story:*
 
-- [ ] GIVEN: the console is open and a registered command handler `Callable` is invalid, **WHEN** the command is dispatched, **THEN** the output displays `[ERROR] Command handler unavailable: {command}` in red, the invalid command is not written to history, and no null-reference error occurs.
-- [ ] GIVEN: the console is open and `ResourceSystem` is not present at `/root/ResourceSystem`, **WHEN** the developer types `res list` and presses Enter, **THEN** the output displays `[WARN] System not available: ResourceSystem` in yellow and no null-reference error occurs.
-- [ ] GIVEN: the output buffer contains exactly 500 lines, **WHEN** one additional line is appended, **THEN** the oldest line is removed via `pop_front()`, `RichTextLabel.clear()` is called followed by a full `append_text()` rebuild, and the visible output contains exactly 500 lines (the `[WARN] Output truncated` line only appears when a single command returns > 500 lines).
+- [x] GIVEN: the console is open and a registered command handler `Callable` is invalid, **WHEN** the command is dispatched, **THEN** the output displays `[ERROR] Command handler unavailable: {command}` in red, the invalid command is not written to history, and no null-reference error occurs.
+- [x] GIVEN: the console is open and `ResourceSystem` is not present at `/root/ResourceSystem`, **WHEN** the developer types `res list` and presses Enter, **THEN** the output displays `[WARN] System not available: ResourceSystem` in yellow and no null-reference error occurs.
+- [x] GIVEN: the output buffer contains exactly 500 lines, **WHEN** one additional line is appended, **THEN** the oldest line is removed via `pop_front()`, `RichTextLabel.clear()` is called followed by a full `append_text()` rebuild, and the visible output contains exactly 500 lines (the `[WARN] Output truncated` line only appears when a single command returns > 500 lines).
 
 ---
 
@@ -88,7 +88,7 @@
 **Required evidence**:
 - `production/qa/evidence/the-output-displays-error-command-handler-unavailable-co-evidence.md` — manual/interaction evidence with sign-off
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -96,3 +96,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 012
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 8, story 2/20
+- Sprint source: `production/sprints/sprint-8.md`
+- QA plan: `production/qa/qa-plan-sprint-8-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-8-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/debug_console/debug_console_history_test.gd`
+  - `tests/unit/level_system/level_system_formula_test.gd`
+  - `tests/integration/level_system/level_system_progression_test.gd`
+  - `tests/integration/storage_limit_system/storage_limit_system_test.gd`
+  - `tests/integration/auto_production_system/auto_production_system_test.gd`

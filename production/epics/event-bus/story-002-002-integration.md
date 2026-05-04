@@ -1,7 +1,7 @@
 # Story 002: 获得同一个全局单例实例
 
 > **Epic**: 事件总线
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/event-bus.md`, scoped to this story:*
 
-- [ ] GIVEN: EventBus 作为 Autoload 加载，**WHEN** 任意系统访问 `EventBus`，**THEN** 获得同一个全局单例实例
-- [ ] GIVEN: 系统A 订阅了 `test.event`，**WHEN** 系统B 调用 `EventBus.emit("test.event", {"key": "value"})`，**THEN** 系统A 的回调被调用，且 payload 等于 `{"key": "value"}`
-- [ ] GIVEN: 系统A 未订阅 `test.event`，**WHEN** `EventBus.emit("test.event")` 被调用，**THEN** 静默完成，无错误、无副作用
+- [x] GIVEN: EventBus 作为 Autoload 加载，**WHEN** 任意系统访问 `EventBus`，**THEN** 获得同一个全局单例实例
+- [x] GIVEN: 系统A 订阅了 `test.event`，**WHEN** 系统B 调用 `EventBus.emit("test.event", {"key": "value"})`，**THEN** 系统A 的回调被调用，且 payload 等于 `{"key": "value"}`
+- [x] GIVEN: 系统A 未订阅 `test.event`，**WHEN** `EventBus.emit("test.event")` 被调用，**THEN** 静默完成，无错误、无副作用
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/integration/event_bus/002-integration_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 003
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 2, story 6/20
+- Sprint source: `production/sprints/sprint-2.md`
+- QA plan: `production/qa/qa-plan-sprint-2-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-2-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/performance/rng_performance_test.gd`
+  - `tests/integration/event_bus/event_bus_delivery_test.gd`
+  - `tests/integration/time_manager/time_manager_integration_test.gd`
+  - `tests/unit/time_manager/time_manager_logic_test.gd`

@@ -1,7 +1,7 @@
 # Story 016: H. 跨系统边界（1 条）
 
 > **Epic**: 物品/材料系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,7 +35,7 @@
 
 *From GDD `design/gdd/item-material-system.md`, scoped to this story:*
 
-- [ ] AC-H1: GIVEN ItemRegistry 注册集合 = `{a, b}`、ResourceSystem 注册集合 = `{b, c}`（部分重叠），WHEN 两者同时运行，THEN：① `ItemRegistry.has_item("c")==false`；② `ResourceSystem.has_resource("a")==false`；③ `ItemRegistry.get("c")=={}`；④ `ResourceSystem.get_value("a")==BigNumber.ZERO`；两者各自正常运行，互不报错
+- [x] AC-H1: GIVEN ItemRegistry 注册集合 = `{a, b}`、ResourceSystem 注册集合 = `{b, c}`（部分重叠），WHEN 两者同时运行，THEN：① `ItemRegistry.has_item("c")==false`；② `ResourceSystem.has_resource("a")==false`；③ `ItemRegistry.get("c")=={}`；④ `ResourceSystem.get_value("a")==BigNumber.ZERO`；两者各自正常运行，互不报错
 
 ---
 
@@ -77,7 +77,7 @@
 **Required evidence**:
 - `tests/integration/item_material/h-1_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -85,3 +85,19 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 017
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 7, story 1/20
+- Sprint source: `production/sprints/sprint-7.md`
+- QA plan: `production/qa/qa-plan-sprint-7-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-7-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/item_registry/item_registry_boundary_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd`
+  - `tests/integration/output_multiplier_system/output_multiplier_events_test.gd`
+  - `tests/unit/debug_console/debug_console_command_test.gd`
+  - `tests/integration/debug_console/debug_console_smoke_test.gd`

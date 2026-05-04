@@ -1,7 +1,7 @@
 # Story 010: Edge Cases
 
 > **Epic**: 属性系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,10 +35,10 @@
 
 *From GDD `design/gdd/attribute-system.md`, scoped to this story:*
 
-- [ ] GIVEN: `BigNumber` 实例由 NaN 创建（已归一化为 ZERO），**WHEN** `set_base("player", "atk", that_bn)`，**THEN** 写入 ZERO，根据旧值是否非 ZERO 决定是否发事件
-- [ ] GIVEN: `make_target("", "atk")` 入参空，**WHEN** 调用，**THEN** 返回空 StringName，打印警告
-- [ ] GIVEN: `get_final("player", "atk")` 在 base_changed 回调内被同步调用，**WHEN** 触发，**THEN** 正常返回当前最终值，不死锁，不递归阻断
-- [ ] GIVEN: `set_base("player", "atk", ...)` 在 `attribute.player.atk.base_changed` 自身回调内被调用 (同名递归)，**WHEN** 调用，**THEN** 写入已执行，但事件不再投递（EventBus 阻断）
+- [x] GIVEN: `BigNumber` 实例由 NaN 创建（已归一化为 ZERO），**WHEN** `set_base("player", "atk", that_bn)`，**THEN** 写入 ZERO，根据旧值是否非 ZERO 决定是否发事件
+- [x] GIVEN: `make_target("", "atk")` 入参空，**WHEN** 调用，**THEN** 返回空 StringName，打印警告
+- [x] GIVEN: `get_final("player", "atk")` 在 base_changed 回调内被同步调用，**WHEN** 触发，**THEN** 正常返回当前最终值，不死锁，不递归阻断
+- [x] GIVEN: `set_base("player", "atk", ...)` 在 `attribute.player.atk.base_changed` 自身回调内被调用 (同名递归)，**WHEN** 调用，**THEN** 写入已执行，但事件不再投递（EventBus 阻断）
 
 ---
 
@@ -98,7 +98,7 @@
 **Required evidence**:
 - `tests/integration/attribute/edge-cases_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -106,3 +106,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 011
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 6, story 3/20
+- Sprint source: `production/sprints/sprint-6.md`
+- QA plan: `production/qa/qa-plan-sprint-6-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-6-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd`
+  - `tests/unit/item_registry/item_registry_load_test.gd`
+  - `tests/unit/item_registry/item_registry_query_test.gd`
+  - `tests/integration/item_registry/item_registry_lifecycle_test.gd`
+  - `tests/performance/item_registry_performance_test.gd`

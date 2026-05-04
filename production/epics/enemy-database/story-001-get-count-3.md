@@ -1,7 +1,7 @@
 # Story 001: `get_count() == 3`
 
 > **Epic**: 敌人数据库
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Feature
 > **Type**: Config/Data
 > **Manifest Version**: 2026-05-04
@@ -34,9 +34,9 @@
 
 *From GDD `design/gdd/enemy-database.md`, scoped to this story:*
 
-- [ ] GIVEN: `enemies` table contains three valid records, **WHEN** EnemyDatabase loads, **THEN** `get_count() == 3`.
-- [ ] GIVEN: enemy has all MVP attributes, **WHEN** `create_combat_snapshot`, **THEN** snapshot contains hp_max, atk, def, spd, crit_rate, crit_dmg.
-- [ ] GIVEN: enemy has invalid attribute id, **WHEN** loading, **THEN** that record is skipped and warning includes the id.
+- [x] GIVEN: `enemies` table contains three valid records, **WHEN** EnemyDatabase loads, **THEN** `get_count() == 3`.
+- [x] GIVEN: enemy has all MVP attributes, **WHEN** `create_combat_snapshot`, **THEN** snapshot contains hp_max, atk, def, spd, crit_rate, crit_dmg.
+- [x] GIVEN: enemy has invalid attribute id, **WHEN** loading, **THEN** that record is skipped and warning includes the id.
 
 ---
 
@@ -89,7 +89,7 @@
 **Required evidence**:
 - `production/qa/smoke-enemy-database.md` — smoke check evidence
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -97,3 +97,14 @@
 
 - Depends on: None
 - Unlocks: Story 002
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 9, story 2/20
+- Sprint source: `production/sprints/sprint-9.md`
+- QA plan: `production/qa/qa-plan-sprint-9-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-9-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/sprint9/sprint9_feature_stack_test.gd`

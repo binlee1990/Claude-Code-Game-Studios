@@ -1,7 +1,7 @@
 # Story 003: 系统 A 的 namespace 数据为 `null`，系统 B 的数据正常保存，打印警告
 
 > **Epic**: 存档系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Data
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/save-system.md`, scoped to this story:*
 
-- [ ] GIVEN: 系统 A 的 `save_fn()` 返回 `null` 或非 Dictionary，**WHEN** 调用 `save_game()`，**THEN** 系统 A 的 namespace 数据为 `null`，系统 B 的数据正常保存，打印警告
-- [ ] GIVEN: 系统 A 的 `restore_fn()` 返回 `false`，**WHEN** 调用 `load_game()`，**THEN** 系统 A 以默认状态运行，系统 B 正常恢复，打印警告
-- [ ] GIVEN: 存档含 namespace `removed_system` 但无对应 provider，**WHEN** 加载，**THEN** 数据保留不分发，无错误；保存时该数据随存档写出
+- [x] GIVEN: 系统 A 的 `save_fn()` 返回 `null` 或非 Dictionary，**WHEN** 调用 `save_game()`，**THEN** 系统 A 的 namespace 数据为 `null`，系统 B 的数据正常保存，打印警告
+- [x] GIVEN: 系统 A 的 `restore_fn()` 返回 `false`，**WHEN** 调用 `load_game()`，**THEN** 系统 A 以默认状态运行，系统 B 正常恢复，打印警告
+- [x] GIVEN: 存档含 namespace `removed_system` 但无对应 provider，**WHEN** 加载，**THEN** 数据保留不分发，无错误；保存时该数据随存档写出
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/integration/save/a-namespace-null-b_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,17 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 004
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 4, story 15/20
+- Sprint source: `production/sprints/sprint-4.md`
+- QA plan: `production/qa/qa-plan-sprint-4-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-4-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/formula_engine/formula_engine_edges_test.gd`
+  - `tests/unit/modifier_engine/modifier_engine_test.gd`
+  - `tests/unit/save_system/save_manager_collect_test.gd`
+  - `tests/integration/save_system/save_manager_file_contract_test.gd`

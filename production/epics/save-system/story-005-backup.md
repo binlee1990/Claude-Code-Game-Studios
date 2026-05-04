@@ -1,7 +1,7 @@
 # Story 005: 迁移中止，不覆盖原文件，回退到 backup 或新游戏
 
 > **Epic**: 存档系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Data
 > **Type**: Config/Data
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/save-system.md`, scoped to this story:*
 
-- [ ] GIVEN: 迁移脚本 v1→v2 返回 `false`，**WHEN** 加载，**THEN** 迁移中止，不覆盖原文件，回退到 backup 或新游戏
-- [ ] GIVEN: `BACKUP_ENABLED = true`，**WHEN** 调用 `save_game()`，**THEN** 保存成功后 `save.json.bak` 包含上一次的存档数据
-- [ ] GIVEN: 正在执行保存操作，**WHEN** 再次调用 `save_game()`，**THEN** 忽略重复请求，打印调试日志
+- [x] GIVEN: 迁移脚本 v1→v2 返回 `false`，**WHEN** 加载，**THEN** 迁移中止，不覆盖原文件，回退到 backup 或新游戏
+- [x] GIVEN: `BACKUP_ENABLED = true`，**WHEN** 调用 `save_game()`，**THEN** 保存成功后 `save.json.bak` 包含上一次的存档数据
+- [x] GIVEN: 正在执行保存操作，**WHEN** 再次调用 `save_game()`，**THEN** 忽略重复请求，打印调试日志
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `production/qa/smoke-save-system.md` — smoke check evidence
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,17 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 006
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 4, story 17/20
+- Sprint source: `production/sprints/sprint-4.md`
+- QA plan: `production/qa/qa-plan-sprint-4-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-4-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/formula_engine/formula_engine_edges_test.gd`
+  - `tests/unit/modifier_engine/modifier_engine_test.gd`
+  - `tests/unit/save_system/save_manager_collect_test.gd`
+  - `tests/integration/save_system/save_manager_file_contract_test.gd`

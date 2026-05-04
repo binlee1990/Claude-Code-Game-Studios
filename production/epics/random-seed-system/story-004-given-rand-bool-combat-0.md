@@ -1,7 +1,7 @@
 # Story 004: GIVEN: `rand_bool(COMBAT, 0
 
 > **Epic**: 随机数与种子系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: Logic
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/random-seed-system.md`, scoped to this story:*
 
-- [ ] GIVEN: `rand_bool(COMBAT, 0.3)` 以固定种子执行 10000 次，**THEN** true 的频率约 30%（误差 < 3%）
-- [ ] GIVEN: `rand_bool` 的 probability 为 0，**WHEN** 执行，**THEN** 返回 false，不消耗随机数
-- [ ] GIVEN: `rand_bool` 的 probability 为 1，**WHEN** 执行，**THEN** 返回 true，不消耗随机数
+- [x] GIVEN: `rand_bool(COMBAT, 0.3)` 以固定种子执行 10000 次，**THEN** true 的频率约 30%（误差 < 3%）
+- [x] GIVEN: `rand_bool` 的 probability 为 0，**WHEN** 执行，**THEN** 返回 false，不消耗随机数
+- [x] GIVEN: `rand_bool` 的 probability 为 1，**WHEN** 执行，**THEN** 返回 true，不消耗随机数
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/unit/random_seed/given-rand-bool-combat-0_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 005
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 1, story 18/20
+- Sprint source: `production/sprints/sprint-1.md`
+- QA plan: `production/qa/qa-plan-sprint-1-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-1-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/big_number/api_contract_test.gd`
+  - `tests/unit/big_number/big_number_arithmetic_test.gd`
+  - `tests/performance/big_number_performance_test.gd`
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/unit/rng/stream_independence_test.gd`

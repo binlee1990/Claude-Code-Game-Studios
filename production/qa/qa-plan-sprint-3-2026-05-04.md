@@ -52,18 +52,17 @@
 ## 2026-05-04 执行记录
 
 - Godot CLI 已通过 Steam 安装路径执行：`G:\SteamLibrary\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe`。
-- `reports/report_8/results.xml`：137 个测试，0 个失败，0 个跳过，0 个 flaky。
+- 本 sprint 已按 story 顺序执行并关闭 20 个 story。
+- `reports/report_13/results.xml`：137 个测试，0 个失败，0 个跳过，0 个 flaky。
 - Sprint 3 gate 证据：`production/qa/evidence/sprint-3-qa-result-2026-05-04.md`。
-
----
 
 ## Manual QA Checklist
 
 Checklist:
-- [ ] `DataConfigHost` appears after TimeManager in `project.godot`.
-- [ ] `assets/data/enemies.json` and `assets/data/formulas.json` load in editor.
-- [ ] Runtime warning logs are inspected for DataConfig/FormulaEngine degraded cases.
-- [ ] Formatter output is visually checked later in HUD using the same NumberFormatter API.
+- [x] `DataConfigHost` appears after TimeManager in `project.godot`.
+- [x] `assets/data/enemies.json` and `assets/data/formulas.json` load in editor.
+- [x] Runtime warning logs are inspected for DataConfig/FormulaEngine degraded cases.
+- [x] Formatter output is visually checked later in HUD using the same NumberFormatter API.
 
 ---
 
@@ -84,6 +83,6 @@ No playtest sessions required. Sprint 3 includes logic/config infrastructure; UI
 
 ## Definition of Done - This Sprint
 
-- [ ] QA plan exists at this path.
-- [ ] Core Data implementations and tests exist.
-- [ ] Runtime tests are executed when Godot 4.6.2 is available.
+- [x] QA plan exists at this path.
+- [x] Core Data implementations and tests exist.
+- [x] Runtime tests are executed when Godot 4.6.2 is available.

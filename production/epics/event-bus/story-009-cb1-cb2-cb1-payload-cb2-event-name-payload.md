@@ -1,7 +1,7 @@
 # Story 009: cb1 与 cb2 均被触发；cb1 收到一个参数（payload），cb2 收到两个参数（event_name + payload）
 
 > **Epic**: 事件总线
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/event-bus.md`, scoped to this story:*
 
-- [ ] GIVEN: 系统A 同时调用 `subscribe("test.event", cb1)` 与 `subscribe_pattern("test", cb2)`，**WHEN** EventBus.emit("test.event", {...}) 被调用，**THEN** cb1 与 cb2 均被触发；cb1 收到一个参数（payload），cb2 收到两个参数（event_name + payload）
-- [ ] GIVEN: 系统A `subscribe_pattern("resource", callable)`，**WHEN** 调用 `unsubscribe_pattern("resource", callable)` 后再 emit `resource.lingqi.changed`，**THEN** callable 不再被触发
-- [ ] GIVEN: 系统A `subscribe_pattern("resource", callable)`，**WHEN** 错误地调用 `unsubscribe("resource", callable)`，**THEN** 该 pattern 订阅仍然有效（unsubscribe 与 unsubscribe_pattern 互不影响）
+- [x] GIVEN: 系统A 同时调用 `subscribe("test.event", cb1)` 与 `subscribe_pattern("test", cb2)`，**WHEN** EventBus.emit("test.event", {...}) 被调用，**THEN** cb1 与 cb2 均被触发；cb1 收到一个参数（payload），cb2 收到两个参数（event_name + payload）
+- [x] GIVEN: 系统A `subscribe_pattern("resource", callable)`，**WHEN** 调用 `unsubscribe_pattern("resource", callable)` 后再 emit `resource.lingqi.changed`，**THEN** callable 不再被触发
+- [x] GIVEN: 系统A `subscribe_pattern("resource", callable)`，**WHEN** 错误地调用 `unsubscribe("resource", callable)`，**THEN** 该 pattern 订阅仍然有效（unsubscribe 与 unsubscribe_pattern 互不影响）
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/integration/event_bus/cb1-cb2-cb1-payload-cb2-event-name-payload_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 010
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 2, story 13/20
+- Sprint source: `production/sprints/sprint-2.md`
+- QA plan: `production/qa/qa-plan-sprint-2-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-2-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/performance/rng_performance_test.gd`
+  - `tests/integration/event_bus/event_bus_delivery_test.gd`
+  - `tests/integration/time_manager/time_manager_integration_test.gd`
+  - `tests/unit/time_manager/time_manager_logic_test.gd`

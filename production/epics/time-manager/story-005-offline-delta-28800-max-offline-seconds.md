@@ -1,7 +1,7 @@
 # Story 005: offline_delta 钳位到 28800 秒（MAX_OFFLINE_SECONDS），超过部分忽略
 
 > **Epic**: 时间管理器
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/time-manager.md`, scoped to this story:*
 
-- [ ] GIVEN: exit_timestamp 存在，**WHEN** 玩家离线 12 小时后返回，**THEN** offline_delta 钳位到 28800 秒（MAX_OFFLINE_SECONDS），超过部分忽略
-- [ ] GIVEN: 系统时钟回拨导致 real_time_now < exit_timestamp，**WHEN** 计算离线 delta，**THEN** delta = 0.0，打印警告，不进行离线结算
-- [ ] GIVEN: 存档中无 exit_timestamp，**WHEN** 首次加载游戏，**THEN** 跳过离线结算，game_ref = 0，real_ref = current_real_time
+- [x] GIVEN: exit_timestamp 存在，**WHEN** 玩家离线 12 小时后返回，**THEN** offline_delta 钳位到 28800 秒（MAX_OFFLINE_SECONDS），超过部分忽略
+- [x] GIVEN: 系统时钟回拨导致 real_time_now < exit_timestamp，**WHEN** 计算离线 delta，**THEN** delta = 0.0，打印警告，不进行离线结算
+- [x] GIVEN: 存档中无 exit_timestamp，**WHEN** 首次加载游戏，**THEN** 跳过离线结算，game_ref = 0，real_ref = current_real_time
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/integration/time_manager/offline-delta-28800-max-offline-seconds_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 006
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 2, story 19/20
+- Sprint source: `production/sprints/sprint-2.md`
+- QA plan: `production/qa/qa-plan-sprint-2-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-2-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/performance/rng_performance_test.gd`
+  - `tests/integration/event_bus/event_bus_delivery_test.gd`
+  - `tests/integration/time_manager/time_manager_integration_test.gd`
+  - `tests/unit/time_manager/time_manager_logic_test.gd`

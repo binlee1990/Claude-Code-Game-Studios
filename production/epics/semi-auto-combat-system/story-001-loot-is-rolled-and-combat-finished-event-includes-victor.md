@@ -1,7 +1,7 @@
 # Story 001: loot is rolled and combat finished event includes victory
 
 > **Epic**: 半自动战斗系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Feature Integration
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -34,9 +34,9 @@
 
 *From GDD `design/gdd/semi-auto-combat-system.md`, scoped to this story:*
 
-- [ ] GIVEN: current zone has valid enemies and player wins, **WHEN** encounter resolves, **THEN** loot is rolled and combat finished event includes victory.
-- [ ] GIVEN: player loses, **WHEN** encounter resolves, **THEN** no loot is rolled and failure cooldown starts.
-- [ ] GIVEN: same seed context and same snapshots, **WHEN** online combat and offline combat call calculator, **THEN** result parity is possible.
+- [x] GIVEN: current zone has valid enemies and player wins, **WHEN** encounter resolves, **THEN** loot is rolled and combat finished event includes victory.
+- [x] GIVEN: player loses, **WHEN** encounter resolves, **THEN** no loot is rolled and failure cooldown starts.
+- [x] GIVEN: same seed context and same snapshots, **WHEN** online combat and offline combat call calculator, **THEN** result parity is possible.
 
 ---
 
@@ -89,7 +89,7 @@
 **Required evidence**:
 - `tests/integration/semi_auto_combat/loot-is-rolled-and-combat-finished-event-includes-victor_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -97,3 +97,14 @@
 
 - Depends on: None
 - Unlocks: Story 002
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 9, story 12/20
+- Sprint source: `production/sprints/sprint-9.md`
+- QA plan: `production/qa/qa-plan-sprint-9-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-9-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/sprint9/sprint9_feature_stack_test.gd`

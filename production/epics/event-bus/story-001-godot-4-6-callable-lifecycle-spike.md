@@ -1,7 +1,7 @@
 # Story 001: Godot 4.6 Callable lifecycle spike
 
 > **Epic**: 事件总线
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From existing EventBus EPIC Producer addendum, scoped to this story:*
 
-- [ ] GIVEN Godot 4.6 Callable lifecycle risk is unresolved, WHEN this spike completes, THEN `production/qa/evidence/event-bus-callable-lifecycle-spike.md` records weak-reference, strong-reference, and deferred-cleanup behavior.
-- [ ] GIVEN the spike selects a safe cleanup path, WHEN ADR-0002 is reviewed, THEN the implementation decision is recorded or ADR-0002 is marked for replacement before EventBus implementation continues.
-- [ ] GIVEN EventBus must initialize before all other Autoload services, WHEN `tests/integration/event_bus/autoload_order_test.gd` runs, THEN EventBus is verified as the first Autoload dependency.
+- [x] GIVEN Godot 4.6 Callable lifecycle risk is unresolved, WHEN this spike completes, THEN `production/qa/evidence/event-bus-callable-lifecycle-spike.md` records weak-reference, strong-reference, and deferred-cleanup behavior.
+- [x] GIVEN the spike selects a safe cleanup path, WHEN ADR-0002 is reviewed, THEN the implementation decision is recorded or ADR-0002 is marked for replacement before EventBus implementation continues.
+- [x] GIVEN EventBus must initialize before all other Autoload services, WHEN `tests/integration/event_bus/autoload_order_test.gd` runs, THEN EventBus is verified as the first Autoload dependency.
 
 ---
 
@@ -90,7 +90,7 @@
 **Required evidence**:
 - `tests/integration/event_bus/godot-4-6-callable-lifecycle-spike_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -98,3 +98,18 @@
 
 - Depends on: None
 - Unlocks: Story 002
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 2, story 5/20
+- Sprint source: `production/sprints/sprint-2.md`
+- QA plan: `production/qa/qa-plan-sprint-2-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-2-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/performance/rng_performance_test.gd`
+  - `tests/integration/event_bus/event_bus_delivery_test.gd`
+  - `tests/integration/time_manager/time_manager_integration_test.gd`
+  - `tests/unit/time_manager/time_manager_logic_test.gd`

@@ -1,7 +1,7 @@
 # Story 002: exp is never requested from OMS
 
 > **Epic**: 自动产出系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Feature
 > **Type**: Config/Data
 > **Manifest Version**: 2026-05-04
@@ -34,8 +34,8 @@
 
 *From GDD `design/gdd/auto-production-system.md`, scoped to this story:*
 
-- [ ] GIVEN: exp is configured as non-passive, **WHEN** tick runs, **THEN** exp is never requested from OMS.
-- [ ] GIVEN: one resource id is invalid, **WHEN** batch production runs, **THEN** valid resources still settle.
+- [x] GIVEN: exp is configured as non-passive, **WHEN** tick runs, **THEN** exp is never requested from OMS.
+- [x] GIVEN: one resource id is invalid, **WHEN** batch production runs, **THEN** valid resources still settle.
 
 ---
 
@@ -82,7 +82,7 @@
 **Required evidence**:
 - `production/qa/smoke-auto-production-system.md` — smoke check evidence
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -90,3 +90,14 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: None
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 9, story 1/20
+- Sprint source: `production/sprints/sprint-9.md`
+- QA plan: `production/qa/qa-plan-sprint-9-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-9-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/sprint9/sprint9_feature_stack_test.gd`

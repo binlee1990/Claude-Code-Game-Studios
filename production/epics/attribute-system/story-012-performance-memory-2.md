@@ -1,7 +1,7 @@
 # Story 012: Performance / Memory 2
 
 > **Epic**: 属性系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: Logic
 > **Manifest Version**: 2026-05-04
@@ -35,8 +35,8 @@
 
 *From GDD `design/gdd/attribute-system.md`, scoped to this story:*
 
-- [ ] GIVEN: 226 实体 × 7 属性已注册，**WHEN** 内存采样，**THEN** AttributeSystem 总占用 < 200 KB
-- [ ] GIVEN: ModifierEngine 已对 `"player.atk"` 缓存最终倍率，**WHEN** 连续 100 次 `get_final("player", "atk")`，**THEN** 平均单次耗时 < 0.015 ms
+- [x] GIVEN: 226 实体 × 7 属性已注册，**WHEN** 内存采样，**THEN** AttributeSystem 总占用 < 200 KB
+- [x] GIVEN: ModifierEngine 已对 `"player.atk"` 缓存最终倍率，**WHEN** 连续 100 次 `get_final("player", "atk")`，**THEN** 平均单次耗时 < 0.015 ms
 
 ---
 
@@ -83,7 +83,7 @@
 **Required evidence**:
 - `tests/unit/attribute/performance-memory-2_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -91,3 +91,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: None
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 6, story 5/20
+- Sprint source: `production/sprints/sprint-6.md`
+- QA plan: `production/qa/qa-plan-sprint-6-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-6-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd`
+  - `tests/unit/item_registry/item_registry_load_test.gd`
+  - `tests/unit/item_registry/item_registry_query_test.gd`
+  - `tests/integration/item_registry/item_registry_lifecycle_test.gd`
+  - `tests/performance/item_registry_performance_test.gd`

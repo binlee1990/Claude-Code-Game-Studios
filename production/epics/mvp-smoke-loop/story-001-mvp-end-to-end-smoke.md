@@ -1,7 +1,7 @@
 # Story 001: MVP 端到端 smoke：修炼→资源→升级→战斗→掉落→区域推进→离线结算 全链路通过
 
 > **Epic**: MVP 闭环验收
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: MVP Integration
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -30,23 +30,23 @@
 
 *From `design/gdd/systems-index.md` §10.2 核心循环 + 30 系统 GDD acceptance criteria，scoped 到本 story:*
 
-- [ ] **AC-01 启动**: `BigNumber/RNG/EventBus/TimeManager/DataConfig/FormulaEngine/ModifierEngine/SaveManager/ResourceSystem/AttributeSystem/ItemMaterialSystem/OutputMultiplierSystem/LevelSystem/StorageLimit/AutoProductionSystem/EnemyDatabase/LootSystem/CultivationSystem/CombatCalculator/SemiAutoCombatSystem/ZoneSystem/MapProgressionSystem/OfflineSimulationCore/IdleExplorationSystem/OfflineCombatSimulationSystem/OfflineRewardSettlementSystem/UIFramework/HUDSystem/NumberFormattingSystem/DebugConsole（debug build only）` 30 个 Autoload 全部 `_ready()` 成功，无 console error。
+- [x] **AC-01 启动**: `BigNumber/RNG/EventBus/TimeManager/DataConfig/FormulaEngine/ModifierEngine/SaveManager/ResourceSystem/AttributeSystem/ItemMaterialSystem/OutputMultiplierSystem/LevelSystem/StorageLimit/AutoProductionSystem/EnemyDatabase/LootSystem/CultivationSystem/CombatCalculator/SemiAutoCombatSystem/ZoneSystem/MapProgressionSystem/OfflineSimulationCore/IdleExplorationSystem/OfflineCombatSimulationSystem/OfflineRewardSettlementSystem/UIFramework/HUDSystem/NumberFormattingSystem/DebugConsole（debug build only）` 30 个 Autoload 全部 `_ready()` 成功，无 console error。
 
-- [ ] **AC-02 修炼产出资源**: GIVEN 角色起始 lingqi=0、xiuwei=0；WHEN 调用 `CultivationSystem.start_manual_cultivation()` + `TimeManager.advance(60.0)`（60 秒模拟时间）；THEN `ResourceSystem.get("lingqi") > 0` 且 `ResourceSystem.get("xiuwei") > 0`，`resource.lingqi.changed` 事件 ≥ 1 次。
+- [x] **AC-02 修炼产出资源**: GIVEN 角色起始 lingqi=0、xiuwei=0；WHEN 调用 `CultivationSystem.start_manual_cultivation()` + `TimeManager.advance(60.0)`（60 秒模拟时间）；THEN `ResourceSystem.get("lingqi") > 0` 且 `ResourceSystem.get("xiuwei") > 0`，`resource.lingqi.changed` 事件 ≥ 1 次。
 
-- [ ] **AC-03 等级提升**: GIVEN 角色 level=1, exp=0；WHEN `LevelSystem.gain_exp(player, BigNumber.from_int(1000))`；THEN level >= 2，`player.atk` final value > 起始值（境界跨越 modifier 已注册），`level.changed` 事件触发。
+- [x] **AC-03 等级提升**: GIVEN 角色 level=1, exp=0；WHEN `LevelSystem.gain_exp(player, BigNumber.from_int(1000))`；THEN level >= 2，`player.atk` final value > 起始值（境界跨越 modifier 已注册），`level.changed` 事件触发。
 
-- [ ] **AC-04 在线战斗 + 掉落**: GIVEN 当前 zone=zone_001，敌人池非空；WHEN `SemiAutoCombatSystem.start_encounter()` 触发一次完整战斗（victory）；THEN `combat.finished` 事件 payload 包含 victory=true，LootSystem 已投放 ≥ 1 个 item 到 ItemMaterialSystem，`loot.granted` 事件 payload 与 LootSystem 计算结果完全一致。
+- [x] **AC-04 在线战斗 + 掉落**: GIVEN 当前 zone=zone_001，敌人池非空；WHEN `SemiAutoCombatSystem.start_encounter()` 触发一次完整战斗（victory）；THEN `combat.finished` 事件 payload 包含 victory=true，LootSystem 已投放 ≥ 1 个 item 到 ItemMaterialSystem，`loot.granted` 事件 payload 与 LootSystem 计算结果完全一致。
 
-- [ ] **AC-05 区域推进**: GIVEN 完成 zone_001 解锁条件（击败若干敌人 + 等级达标）；WHEN 调用 `MapProgressionSystem.try_advance()`；THEN current_zone 更新到 zone_002，`zone.changed` 事件触发，HUDSystem 接收 zone 变更。
+- [x] **AC-05 区域推进**: GIVEN 完成 zone_001 解锁条件（击败若干敌人 + 等级达标）；WHEN 调用 `MapProgressionSystem.try_advance()`；THEN current_zone 更新到 zone_002，`zone.changed` 事件触发，HUDSystem 接收 zone 变更。
 
-- [ ] **AC-06 存档**: GIVEN 上述步骤完成；WHEN `SaveManager.save_game()` 完成；THEN `user://save/save.json` 包含 lingqi/xiuwei/level/current_zone/inventory 等核心状态，且 `save.json.bak` 同步更新。
+- [x] **AC-06 存档**: GIVEN 上述步骤完成；WHEN `SaveManager.save_game()` 完成；THEN `user://save/save.json` 包含 lingqi/xiuwei/level/current_zone/inventory 等核心状态，且 `save.json.bak` 同步更新。
 
-- [ ] **AC-07 离线结算（同 calculator 一致性）**: GIVEN 在线路径已运行 1 小时（实时模拟）；WHEN 模拟离线 1 小时（OfflineSimulationCore 批次模拟，调用 OfflineCombatSimulation 共享 CombatCalculator）+ `OfflineRewardSettlement.apply()`；THEN ResourceSystem/AttributeSystem 状态与连续在线运行 1 小时的结果**等价**（误差 ≤ ADR-0015 容差）。
+- [x] **AC-07 离线结算（同 calculator 一致性）**: GIVEN 在线路径已运行 1 小时（实时模拟）；WHEN 模拟离线 1 小时（OfflineSimulationCore 批次模拟，调用 OfflineCombatSimulation 共享 CombatCalculator）+ `OfflineRewardSettlement.apply()`；THEN ResourceSystem/AttributeSystem 状态与连续在线运行 1 小时的结果**等价**（误差 ≤ ADR-0015 容差）。
 
-- [ ] **AC-08 HUD 反馈**: WHEN 上述步骤运行期间，HUDSystem 接收 `resource.lingqi.changed` / `level.changed` / `zone.changed` 全部事件；THEN HUD lingqi 文本经 NumberFormattingSystem 缩写显示，level badge 在属性重算后更新（顺序由 EventBus 同步分发保证）。
+- [x] **AC-08 HUD 反馈**: WHEN 上述步骤运行期间，HUDSystem 接收 `resource.lingqi.changed` / `level.changed` / `zone.changed` 全部事件；THEN HUD lingqi 文本经 NumberFormattingSystem 缩写显示，level badge 在属性重算后更新（顺序由 EventBus 同步分发保证）。
 
-- [ ] **AC-09 总耗时**: 上述 AC-01 → AC-08 在 headless GdUnit4 中端到端跑通 ≤ 10 秒；任一 AC 失败立即标红并不进入下一 AC（fail-fast）。
+- [x] **AC-09 总耗时**: 上述 AC-01 → AC-08 在 headless GdUnit4 中端到端跑通 ≤ 10 秒；任一 AC 失败立即标红并不进入下一 AC（fail-fast）。
 
 ---
 
@@ -90,3 +90,18 @@
 1. 立即记录失败 AC 与最小复现步骤到 `production/qa/evidence/mvp-smoke-fail-2026-09-XX.md`
 2. 不能 force-pass；必须 spawn 修复 story 进入下一迭代
 3. Production → Polish gate-check 阻塞，直至本 story PASS
+
+## Test Evidence
+
+**Status**: [x] Executed 2026-05-04
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 10, story 8/8
+- Sprint source: `production/sprints/sprint-10.md`
+- QA plan: `production/qa/qa-plan-sprint-10-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-10-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/sprint10/sprint10_settlement_ui_hud_test.gd`

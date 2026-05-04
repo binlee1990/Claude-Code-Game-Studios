@@ -1,7 +1,7 @@
 # Story 002: no settlement draft is emitted
 
 > **Epic**: 离线模拟内核
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Simulation
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,8 +35,8 @@
 
 *From GDD `design/gdd/offline-simulation-core.md`, scoped to this story:*
 
-- [ ] GIVEN: delta is 0, **WHEN** simulation is requested, **THEN** no settlement draft is emitted.
-- [ ] GIVEN: save.loaded has not completed, **WHEN** offline delta arrives, **THEN** simulation is deferred.
+- [x] GIVEN: delta is 0, **WHEN** simulation is requested, **THEN** no settlement draft is emitted.
+- [x] GIVEN: save.loaded has not completed, **WHEN** offline delta arrives, **THEN** simulation is deferred.
 
 ---
 
@@ -83,7 +83,7 @@
 **Required evidence**:
 - `tests/integration/offline_simulation_core/no-settlement-draft-is-emitted_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -91,3 +91,14 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: None
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 9, story 17/20
+- Sprint source: `production/sprints/sprint-9.md`
+- QA plan: `production/qa/qa-plan-sprint-9-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-9-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/sprint9/sprint9_feature_stack_test.gd`

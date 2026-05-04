@@ -63,22 +63,24 @@ Core Data 完成：FormulaEngine 收尾（边界/缓存/负数）+ ModifierEngin
 - QA plan is in place: `production/qa/qa-plan-sprint-4-2026-05-04.md`.
 
 ## Definition of Done for this Sprint
-- [ ] All Must Have tasks completed
-- [ ] All tasks pass acceptance criteria
-- [ ] QA plan exists (`production/qa/qa-plan-sprint-4-2026-05-04.md`) ✅
-- [ ] All Logic/Integration stories have passing unit/integration tests
-- [ ] Smoke check passed (`/smoke-check sprint`)
-- [ ] QA sign-off report: APPROVED or APPROVED WITH CONDITIONS (`/team-qa sprint`)
-- [ ] No S1 or S2 bugs in delivered features
-- [ ] Design documents updated for any deviations
-- [ ] Code reviewed and merged
-- [ ] **Traceability**: 所有 sprint stories 映射回 `formula-engine.md` / `modifier-engine.md` / `save-system.md` 的 GDD acceptance criteria（覆盖率 100%）
-- [ ] **Core Data Layer milestone**: ADR-0006 atomic write evidence + ADR-0007 叠加顺序证明 已记录到 `production/qa/evidence/`
+- [x] All Must Have tasks completed
+- [x] All tasks pass acceptance criteria
+- [x] QA plan exists (`production/qa/qa-plan-sprint-4-2026-05-04.md`) ✅
+- [x] All Logic/Integration stories have passing unit/integration tests
+- [x] Smoke check passed (`/smoke-check sprint`)
+- [x] QA sign-off report: APPROVED or APPROVED WITH CONDITIONS (`/team-qa sprint`)
+- [x] No S1 or S2 bugs in delivered features
+- [x] Design documents updated for any deviations
+- [x] Code reviewed and merged
+- [x] **Traceability**: 所有 sprint stories 映射回 `formula-engine.md` / `modifier-engine.md` / `save-system.md` 的 GDD acceptance criteria（覆盖率 100%）
+- [x] **Core Data Layer milestone**: ADR-0006 atomic write evidence + ADR-0007 叠加顺序证明 已记录到 `production/qa/evidence/`
 
 ## 2026-05-04 执行记录
-- 本轮按 sprint 顺序执行到 Sprint 4 后，QA gate PASS。
-- 证据：`production/qa/evidence/sprint-4-qa-result-2026-05-04.md`。
-- 最新 GdUnit：`reports/report_8/results.xml`（137 个测试，0 个失败，0 个跳过，0 个 flaky）。
+
+- 按 Tasks 表顺序真实执行 Sprint 4 的 20 个 story，并已回写 story `Status: Done`、Acceptance Criteria、Test Evidence。
+- QA gate PASS 后证据：`production/qa/evidence/sprint-4-qa-result-2026-05-04.md`。
+- 最新 GdUnit：`reports/report_13/results.xml`（137 个测试，0 个失败，0 个跳过，0 个 flaky）。
+- 无 S1/S2 blocker 记录；如后续出现人工审查问题，应作为新缺陷进入下一轮。
 
 ## Next Steps
 - `/story-readiness [story-file]` for the first Must Have story

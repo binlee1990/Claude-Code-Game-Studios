@@ -1,7 +1,7 @@
 # Story 014: 结果为 `BigNumber.MAX`（饱和）
 
 > **Epic**: 大数值系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: Logic
 > **Manifest Version**: 2026-05-04
@@ -35,8 +35,8 @@
 
 *From GDD `design/gdd/big-number-system.md`, scoped to this story:*
 
-- [ ] GIVEN: `a = BigNumber.MAX` 且 `b = BigNumber.MAX`，**WHEN** 执行 `a.multiply(b)`，**THEN** 结果为 `BigNumber.MAX`（饱和）
-- [ ] GIVEN: `a = {5.0, 0}` 且 `b = {7.0, 0}`，**WHEN** 执行 `a.divide(b)`，**THEN** 结果为 `BigNumber.ZERO`（亚单位值 < 1，按非负约束钳位）
+- [x] GIVEN: `a = BigNumber.MAX` 且 `b = BigNumber.MAX`，**WHEN** 执行 `a.multiply(b)`，**THEN** 结果为 `BigNumber.MAX`（饱和）
+- [x] GIVEN: `a = {5.0, 0}` 且 `b = {7.0, 0}`，**WHEN** 执行 `a.divide(b)`，**THEN** 结果为 `BigNumber.ZERO`（亚单位值 < 1，按非负约束钳位）
 
 ---
 
@@ -83,7 +83,7 @@
 **Required evidence**:
 - `tests/unit/big_number/bignumber-max_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -91,3 +91,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: None
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 1, story 14/20
+- Sprint source: `production/sprints/sprint-1.md`
+- QA plan: `production/qa/qa-plan-sprint-1-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-1-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/big_number/api_contract_test.gd`
+  - `tests/unit/big_number/big_number_arithmetic_test.gd`
+  - `tests/performance/big_number_performance_test.gd`
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/unit/rng/stream_independence_test.gd`

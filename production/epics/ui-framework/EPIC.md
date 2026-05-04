@@ -3,7 +3,7 @@
 > **Layer**: Presentation
 > **GDD**: design/gdd/ui-framework.md
 > **Architecture Module**: `UIManager` (Autoload) + Control scenes (屏幕管理)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (2 stories)
 
 ## Overview
@@ -50,8 +50,8 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [the scene is loaded and becomes active](story-001-the-scene-is-loaded-and-becomes-active.md) | UI | Ready | ADR-0011 |
-| 002 | [layout rebuild is coalesced](story-002-layout-rebuild-is-coalesced.md) | UI | Ready | ADR-0011 |
+| 001 | [the scene is loaded and becomes active](story-001-the-scene-is-loaded-and-becomes-active.md) | UI | Done | ADR-0011 |
+| 002 | [layout rebuild is coalesced](story-002-layout-rebuild-is-coalesced.md) | UI | Done | ADR-0011 |
 
 ## Next Step
 

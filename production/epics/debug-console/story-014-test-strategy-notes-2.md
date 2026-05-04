@@ -1,7 +1,7 @@
 # Story 014: Test Strategy Notes 2
 
 > **Epic**: 调试控制台
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,8 +35,8 @@
 
 *From GDD `design/gdd/debug-console.md`, scoped to this story:*
 
-- [ ] 推荐 fixtures: `FakeEventBus`（记录 subscribe/unsubscribe_pattern 调用 + 触发合成事件）、`FakeResourceSystem`（返回 5 个确定性 BigNumber 资源）、`FakeSaveManager`（stub `save_game`/`collect_save_data`/`is_saving`）、`FakeTimeManager`（记录 `add_speed_source`/`remove_speed_source` 参数）。所有 fakes 通过 GDUnit4 `register_scene_runner` 或等价 DI 机制注册为 Autoload 替身。
-- [ ] 性能基准（最后一条 P95 < 50ms）: 在 `tests/integration/debug_console/test_dispatch_performance.gd` 实现 1000 次 headless 迭代，`Time.get_ticks_usec()` 采样，计算 P95 并断言 < 50.0 ms。阈值常量化以适配 CI 慢机器抗噪。
+- [x] 推荐 fixtures: `FakeEventBus`（记录 subscribe/unsubscribe_pattern 调用 + 触发合成事件）、`FakeResourceSystem`（返回 5 个确定性 BigNumber 资源）、`FakeSaveManager`（stub `save_game`/`collect_save_data`/`is_saving`）、`FakeTimeManager`（记录 `add_speed_source`/`remove_speed_source` 参数）。所有 fakes 通过 GDUnit4 `register_scene_runner` 或等价 DI 机制注册为 Autoload 替身。
+- [x] 性能基准（最后一条 P95 < 50ms）: 在 `tests/integration/debug_console/test_dispatch_performance.gd` 实现 1000 次 headless 迭代，`Time.get_ticks_usec()` 采样，计算 P95 并断言 < 50.0 ms。阈值常量化以适配 CI 慢机器抗噪。
 
 ---
 
@@ -83,7 +83,7 @@
 **Required evidence**:
 - `tests/integration/debug_console/test-strategy-notes-2_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -91,3 +91,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: None
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 8, story 5/20
+- Sprint source: `production/sprints/sprint-8.md`
+- QA plan: `production/qa/qa-plan-sprint-8-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-8-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/debug_console/debug_console_history_test.gd`
+  - `tests/unit/level_system/level_system_formula_test.gd`
+  - `tests/integration/level_system/level_system_progression_test.gd`
+  - `tests/integration/storage_limit_system/storage_limit_system_test.gd`
+  - `tests/integration/auto_production_system/auto_production_system_test.gd`

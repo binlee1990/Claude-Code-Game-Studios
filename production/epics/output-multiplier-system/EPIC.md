@@ -3,7 +3,7 @@
 > **Layer**: Core Gameplay
 > **GDD**: design/gdd/output-multiplier-system.md
 > **Architecture Module**: `OutputMultiplierSystem` (RefCounted) (Autoload 持有)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (9 stories)
 
 ## Overview
@@ -49,15 +49,15 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [Configuration and Initialization](story-001-configuration-and-initialization.md) | UI | Ready | ADR-0007 |
-| 002 | [Activation and Source Registration 1](story-002-activation-and-source-registration-1.md) | UI | Ready | ADR-0007 |
-| 003 | [Activation and Source Registration 2](story-003-activation-and-source-registration-2.md) | UI | Ready | ADR-0007 |
-| 004 | [Query and Formula Verification 1](story-004-query-and-formula-verification-1.md) | UI | Ready | ADR-0007 |
-| 005 | [Query and Formula Verification 2](story-005-query-and-formula-verification-2.md) | UI | Ready | ADR-0007 |
-| 006 | [Within-Pool Additivity and Cross-Pool Multiplicativity](story-006-within-pool-additivity-and-cross-pool-multiplicativity.md) | UI | Ready | ADR-0007 |
-| 007 | [Deactivation and Lifecycle](story-007-deactivation-and-lifecycle.md) | UI | Ready | ADR-0007 |
-| 008 | [Event Emission](story-008-event-emission.md) | UI | Ready | ADR-0007 |
-| 009 | [Error Handling](story-009-error-handling.md) | Logic | Ready | ADR-0007 |
+| 001 | [Configuration and Initialization](story-001-configuration-and-initialization.md) | UI | Done | ADR-0007 |
+| 002 | [Activation and Source Registration 1](story-002-activation-and-source-registration-1.md) | UI | Done | ADR-0007 |
+| 003 | [Activation and Source Registration 2](story-003-activation-and-source-registration-2.md) | UI | Done | ADR-0007 |
+| 004 | [Query and Formula Verification 1](story-004-query-and-formula-verification-1.md) | UI | Done | ADR-0007 |
+| 005 | [Query and Formula Verification 2](story-005-query-and-formula-verification-2.md) | UI | Done | ADR-0007 |
+| 006 | [Within-Pool Additivity and Cross-Pool Multiplicativity](story-006-within-pool-additivity-and-cross-pool-multiplicativity.md) | UI | Done | ADR-0007 |
+| 007 | [Deactivation and Lifecycle](story-007-deactivation-and-lifecycle.md) | UI | Done | ADR-0007 |
+| 008 | [Event Emission](story-008-event-emission.md) | UI | Done | ADR-0007 |
+| 009 | [Error Handling](story-009-error-handling.md) | Logic | Done | ADR-0007 |
 
 ## Next Step
 

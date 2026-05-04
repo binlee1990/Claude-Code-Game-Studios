@@ -1,7 +1,7 @@
 # Story 001: next zone becomes unlocked
 
 > **Epic**: 地图推进系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Feature Integration
 > **Type**: UI
 > **Manifest Version**: 2026-05-04
@@ -34,9 +34,9 @@
 
 *From GDD `design/gdd/map-progression-system.md`, scoped to this story:*
 
-- [ ] GIVEN: player reaches required level and prerequisite zone is cleared, **WHEN** unlock evaluation runs, **THEN** next zone becomes unlocked.
-- [ ] GIVEN: player wins first encounter in an unlocked zone, **WHEN** event is processed, **THEN** zone state becomes cleared and `zone.first_cleared` emits once.
-- [ ] GIVEN: recent win rate exceeds farm threshold, **WHEN** HUD queries zone state, **THEN** zone is marked farmable.
+- [x] GIVEN: player reaches required level and prerequisite zone is cleared, **WHEN** unlock evaluation runs, **THEN** next zone becomes unlocked.
+- [x] GIVEN: player wins first encounter in an unlocked zone, **WHEN** event is processed, **THEN** zone state becomes cleared and `zone.first_cleared` emits once.
+- [x] GIVEN: recent win rate exceeds farm threshold, **WHEN** HUD queries zone state, **THEN** zone is marked farmable.
 
 ---
 
@@ -86,7 +86,7 @@
 **Required evidence**:
 - `production/qa/evidence/next-zone-becomes-unlocked-evidence.md` — manual/interaction evidence with sign-off
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -94,3 +94,14 @@
 
 - Depends on: None
 - Unlocks: Story 002
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 9, story 14/20
+- Sprint source: `production/sprints/sprint-9.md`
+- QA plan: `production/qa/qa-plan-sprint-9-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-9-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/sprint9/sprint9_feature_stack_test.gd`

@@ -3,7 +3,7 @@
 > **Layer**: Simulation
 > **GDD**: design/gdd/idle-exploration-system.md
 > **Architecture Module**: `IdleExplorationSystem` (服务)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (2 stories)
 
 ## Overview
@@ -49,8 +49,8 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [recommended target is available](story-001-recommended-target-is-available.md) | Integration | Ready | ADR-0009 |
-| 002 | [exploration stores session summary for HUD](story-002-exploration-stores-session-summary-for-hud.md) | UI | Ready | ADR-0002 |
+| 001 | [recommended target is available](story-001-recommended-target-is-available.md) | Integration | Done | ADR-0009 |
+| 002 | [exploration stores session summary for HUD](story-002-exploration-stores-session-summary-for-hud.md) | UI | Done | ADR-0002 |
 
 ## Next Step
 

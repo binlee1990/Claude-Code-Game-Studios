@@ -1,7 +1,7 @@
 # Story 014: F. 性能（6 条） 2
 
 > **Epic**: 物品/材料系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: Config/Data
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/item-material-system.md`, scoped to this story:*
 
-- [ ] AC-F4: Alpha 规模性能门槛 — GIVEN mock items 含 N=500 条记录（其中 50 条 item_class="resource_material"），WHEN 单次执行 `query_by_item_class("resource_material")`，THEN 单次耗时 < 2.5 ms（公式 3a 典型值上界）。**MVP 实施时此 AC 可标 `@tag("alpha_perf")` 跳过，Alpha 数据集准备完毕后启用**
-- [ ] AC-F5: Alpha 倒排索引门槛 — GIVEN mock items 含 N=500 条记录（每条 tags 平均 5 项，匹配 50 条），WHEN 单次执行 `query_by_tag("low_tier")`，THEN 单次耗时 < 5 ms（暗示已实现倒排索引）。**MVP 实施时此 AC 可标 `@tag("alpha_perf")` 跳过；Alpha 数据集启用后若该 AC 失败则要求实现倒排索引（详见 §Tuning Knobs `INVERTED_INDEX_THRESHOLD`）**
-- [ ] AC-F6: `get_all_ids()` 调用约束（契约 AC，非运行时检测） — **注**：GDScript 无运行时调用栈自省 API（无 `get_stack()` 等），无法在 ItemRegistry 内部检测调用者是否在 `_process` 中。本 AC 验证的是代码约定而非运行时行为：① API doc-comment 中明确写有 "不得在 `_process` / `_physics_process` 内调用此方法，应在 `item_registry.loaded` 事件回调中缓存结果"；② code-review checklist（见 AC-C3 的 checklist）中包含 "所有 `get_all_ids()` 调用点是否出现在 `_process` / `_physics_process` 中" 检查项。**Alpha 扩展**（N > INVERTED_INDEX_THRESHOLD 时）：ItemRegistry 内部维护 `_get_all_ids_last_frame: int` 帧计数器，若同一帧内被重复调用且 N > THRESHOLD 则 `push_warning` 提示缓存（仅检测重复调用频率，不检测调用栈）
+- [x] AC-F4: Alpha 规模性能门槛 — GIVEN mock items 含 N=500 条记录（其中 50 条 item_class="resource_material"），WHEN 单次执行 `query_by_item_class("resource_material")`，THEN 单次耗时 < 2.5 ms（公式 3a 典型值上界）。**MVP 实施时此 AC 可标 `@tag("alpha_perf")` 跳过，Alpha 数据集准备完毕后启用**
+- [x] AC-F5: Alpha 倒排索引门槛 — GIVEN mock items 含 N=500 条记录（每条 tags 平均 5 项，匹配 50 条），WHEN 单次执行 `query_by_tag("low_tier")`，THEN 单次耗时 < 5 ms（暗示已实现倒排索引）。**MVP 实施时此 AC 可标 `@tag("alpha_perf")` 跳过；Alpha 数据集启用后若该 AC 失败则要求实现倒排索引（详见 §Tuning Knobs `INVERTED_INDEX_THRESHOLD`）**
+- [x] AC-F6: `get_all_ids()` 调用约束（契约 AC，非运行时检测） — **注**：GDScript 无运行时调用栈自省 API（无 `get_stack()` 等），无法在 ItemRegistry 内部检测调用者是否在 `_process` 中。本 AC 验证的是代码约定而非运行时行为：① API doc-comment 中明确写有 "不得在 `_process` / `_physics_process` 内调用此方法，应在 `item_registry.loaded` 事件回调中缓存结果"；② code-review checklist（见 AC-C3 的 checklist）中包含 "所有 `get_all_ids()` 调用点是否出现在 `_process` / `_physics_process` 中" 检查项。**Alpha 扩展**（N > INVERTED_INDEX_THRESHOLD 时）：ItemRegistry 内部维护 `_get_all_ids_last_frame: int` 帧计数器，若同一帧内被重复调用且 N > THRESHOLD 则 `push_warning` 提示缓存（仅检测重复调用频率，不检测调用栈）
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `production/qa/smoke-item-material-system.md` — smoke check evidence
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 015
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 6, story 19/20
+- Sprint source: `production/sprints/sprint-6.md`
+- QA plan: `production/qa/qa-plan-sprint-6-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-6-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd`
+  - `tests/unit/item_registry/item_registry_load_test.gd`
+  - `tests/unit/item_registry/item_registry_query_test.gd`
+  - `tests/integration/item_registry/item_registry_lifecycle_test.gd`
+  - `tests/performance/item_registry_performance_test.gd`

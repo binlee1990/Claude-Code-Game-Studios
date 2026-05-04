@@ -46,18 +46,17 @@
 ## 2026-05-04 执行记录
 
 - Godot CLI 已通过 Steam 安装路径执行：`G:\SteamLibrary\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe`。
-- `reports/report_8/results.xml`：137 个测试，0 个失败，0 个跳过，0 个 flaky。
+- 本 sprint 已按 story 顺序执行并关闭 20 个 story。
+- `reports/report_13/results.xml`：137 个测试，0 个失败，0 个跳过，0 个 flaky。
 - Sprint 5 gate 证据：`production/qa/evidence/sprint-5-qa-result-2026-05-04.md`。
-
----
 
 ## Manual QA Checklist
 
 Checklist:
-- [ ] `ResourceSystemHost` and `AttributeSystemHost` appear after `SaveManager` in `project.godot`.
-- [ ] Resource events are inspected in runtime logs for changed/cap_changed/overflow ordering.
-- [ ] Attribute base_changed and unregistered events are inspected in runtime logs.
-- [ ] Performance tests are run on Godot 4.6.2 when available.
+- [x] `ResourceSystemHost` and `AttributeSystemHost` appear after `SaveManager` in `project.godot`.
+- [x] Resource events are inspected in runtime logs for changed/cap_changed/overflow ordering.
+- [x] Attribute base_changed and unregistered events are inspected in runtime logs.
+- [x] Performance tests are run on Godot 4.6.2 when available.
 
 ---
 
@@ -78,7 +77,7 @@ No playtest sessions required. Sprint 5 is data/service infrastructure; UI-facin
 
 ## Definition of Done - This Sprint
 
-- [ ] QA plan exists at this path.
-- [ ] ResourceSystem and AttributeSystem implementations exist.
-- [ ] Sprint 5 tests exist.
-- [ ] Runtime EventBus/performance verification runs when Godot 4.6.2 is available.
+- [x] QA plan exists at this path.
+- [x] ResourceSystem and AttributeSystem implementations exist.
+- [x] Sprint 5 tests exist.
+- [x] Runtime EventBus/performance verification runs when Godot 4.6.2 is available.

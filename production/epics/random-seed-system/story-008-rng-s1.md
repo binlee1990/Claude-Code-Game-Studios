@@ -1,7 +1,7 @@
 # Story 008: 模拟期间在线 RNG 仍为 S1，不受模拟调用影响
 
 > **Epic**: 随机数与种子系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/random-seed-system.md`, scoped to this story:*
 
-- [ ] GIVEN: 在线 RNG 状态为 S1，**WHEN** 启动离线模拟（使用状态副本），**THEN** 模拟期间在线 RNG 仍为 S1，不受模拟调用影响
-- [ ] GIVEN: 数组 `[1, 2, 3, 4, 5]`，**WHEN** 以固定种子执行 `shuffle(COMBAT, array)`，**THEN** 返回一个排列，且以相同种子再次 shuffle 得到相同排列
-- [ ] GIVEN: 空数组，**WHEN** 执行 `shuffle(COMBAT, [])`，**THEN** 返回空数组
+- [x] GIVEN: 在线 RNG 状态为 S1，**WHEN** 启动离线模拟（使用状态副本），**THEN** 模拟期间在线 RNG 仍为 S1，不受模拟调用影响
+- [x] GIVEN: 数组 `[1, 2, 3, 4, 5]`，**WHEN** 以固定种子执行 `shuffle(COMBAT, array)`，**THEN** 返回一个排列，且以相同种子再次 shuffle 得到相同排列
+- [x] GIVEN: 空数组，**WHEN** 执行 `shuffle(COMBAT, [])`，**THEN** 返回空数组
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/integration/random_seed/rng-s1_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 009
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 2, story 2/20
+- Sprint source: `production/sprints/sprint-2.md`
+- QA plan: `production/qa/qa-plan-sprint-2-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-2-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/performance/rng_performance_test.gd`
+  - `tests/integration/event_bus/event_bus_delivery_test.gd`
+  - `tests/integration/time_manager/time_manager_integration_test.gd`
+  - `tests/unit/time_manager/time_manager_logic_test.gd`

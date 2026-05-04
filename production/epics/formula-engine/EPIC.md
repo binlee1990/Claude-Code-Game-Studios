@@ -3,7 +3,7 @@
 > **Layer**: Core Data
 > **GDD**: design/gdd/formula-engine.md
 > **Architecture Module**: `FormulaEngine` (静态工具)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (10 stories)
 
 ## Overview
@@ -48,16 +48,16 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [结果为 `15.0`](story-001-15-0.md) | Config/Data | Ready | ADR-0013 |
-| 002 | [多余变量被忽略，结果正确](story-002-002-config-data.md) | Config/Data | Ready | ADR-0013 |
-| 003 | [返回 `0.0`，打印警告；再次调用返回 `0.0` 不重复解析](story-003-0-0-0-0.md) | Config/Data | Ready | ADR-0013 |
-| 004 | [结果为 `1.0`（布尔 true → float）](story-004-1-0-true-float.md) | Config/Data | Ready | ADR-0013 |
-| 005 | [结果为 `120.0`](story-005-120-0.md) | Logic | Ready | ADR-0013 |
-| 006 | [结果为 `50.0`](story-006-50-0.md) | Logic | Ready | ADR-0013 |
-| 007 | [结果为 `30.0`](story-007-30-0.md) | Logic | Ready | ADR-0013 |
-| 008 | [缓存清空，后续调用触发重新解析](story-008-008-config-data.md) | Config/Data | Ready | ADR-0013 |
-| 009 | [结果为 `-7.0`（负数允许）](story-009-7-0.md) | Config/Data | Ready | ADR-0013 |
-| 010 | [threshold 钳位到 `1.0`，打印警告](story-010-threshold-1-0.md) | Logic | Ready | ADR-0013 |
+| 001 | [结果为 `15.0`](story-001-15-0.md) | Config/Data | Done | ADR-0013 |
+| 002 | [多余变量被忽略，结果正确](story-002-002-config-data.md) | Config/Data | Done | ADR-0013 |
+| 003 | [返回 `0.0`，打印警告；再次调用返回 `0.0` 不重复解析](story-003-0-0-0-0.md) | Config/Data | Done | ADR-0013 |
+| 004 | [结果为 `1.0`（布尔 true → float）](story-004-1-0-true-float.md) | Config/Data | Done | ADR-0013 |
+| 005 | [结果为 `120.0`](story-005-120-0.md) | Logic | Done | ADR-0013 |
+| 006 | [结果为 `50.0`](story-006-50-0.md) | Logic | Done | ADR-0013 |
+| 007 | [结果为 `30.0`](story-007-30-0.md) | Logic | Done | ADR-0013 |
+| 008 | [缓存清空，后续调用触发重新解析](story-008-008-config-data.md) | Config/Data | Done | ADR-0013 |
+| 009 | [结果为 `-7.0`（负数允许）](story-009-7-0.md) | Config/Data | Done | ADR-0013 |
+| 010 | [threshold 钳位到 `1.0`，打印警告](story-010-threshold-1-0.md) | Logic | Done | ADR-0013 |
 
 ## Next Step
 

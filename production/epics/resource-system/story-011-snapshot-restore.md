@@ -1,7 +1,7 @@
 # Story 011: Snapshot / Restore
 
 > **Epic**: 资源系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: Config/Data
 > **Manifest Version**: 2026-05-04
@@ -35,10 +35,10 @@
 
 *From GDD `design/gdd/resource-system.md`, scoped to this story:*
 
-- [ ] GIVEN: `lingqi` current=500/cap=1000；`lingshi` current=2000（has_cap=false），**WHEN** `snapshot()`，**THEN** 返回 `{version:1, resources: {lingqi:{current:{...},cap:{...}}, ...}}` 可被 `BigNumber.from_dict` 还原
-- [ ] GIVEN: snapshot 数据中 `lingqi.cap=1000, lingqi.current=800`，初始注册 cap=500，**WHEN** `restore(data)`，**THEN** `get_max==1000` 且 `get_value==800`（验证 set_max 在 set_value 之前执行——否则 current 会被旧 cap 500 截断）
-- [ ] GIVEN: `restore(data)` 含未在配置中的 id `"ancient_ore"`，**WHEN** 调用，**THEN** 跳过该条目并打印警告，其他 5 资源正常恢复，不崩溃
-- [ ] GIVEN: `restore(data)` 中 `herb.current` 缺少 `"e"` 字段（存档损坏），**WHEN** 调用，**THEN** `get_value("herb")==ZERO`，打印警告，不崩溃
+- [x] GIVEN: `lingqi` current=500/cap=1000；`lingshi` current=2000（has_cap=false），**WHEN** `snapshot()`，**THEN** 返回 `{version:1, resources: {lingqi:{current:{...},cap:{...}}, ...}}` 可被 `BigNumber.from_dict` 还原
+- [x] GIVEN: snapshot 数据中 `lingqi.cap=1000, lingqi.current=800`，初始注册 cap=500，**WHEN** `restore(data)`，**THEN** `get_max==1000` 且 `get_value==800`（验证 set_max 在 set_value 之前执行——否则 current 会被旧 cap 500 截断）
+- [x] GIVEN: `restore(data)` 含未在配置中的 id `"ancient_ore"`，**WHEN** 调用，**THEN** 跳过该条目并打印警告，其他 5 资源正常恢复，不崩溃
+- [x] GIVEN: `restore(data)` 中 `herb.current` 缺少 `"e"` 字段（存档损坏），**WHEN** 调用，**THEN** `get_value("herb")==ZERO`，打印警告，不崩溃
 
 ---
 
@@ -98,7 +98,7 @@
 **Required evidence**:
 - `production/qa/smoke-resource-system.md` — smoke check evidence
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -106,3 +106,17 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 012
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 5, story 11/20
+- Sprint source: `production/sprints/sprint-5.md`
+- QA plan: `production/qa/qa-plan-sprint-5-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-5-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/resource_system/resource_system_crud_test.gd`
+  - `tests/integration/resource_system/resource_system_state_test.gd`
+  - `tests/unit/attribute_system/attribute_system_crud_test.gd`
+  - `tests/integration/attribute_system/attribute_system_final_test.gd`

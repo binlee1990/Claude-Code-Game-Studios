@@ -71,8 +71,9 @@ func rand_int(stream_id: Variant, min_val: int, max_val: int) -> int:
 		var old_min := min_val
 		min_val = max_val
 		max_val = old_min
-	var rng := _get_rng(stream_id)
-	_count_call(_stream_key(stream_id))
+	var key := _stream_key(stream_id)
+	var rng := _get_rng_by_key(key)
+	_count_call(key)
 	return rng.randi_range(min_val, max_val)
 
 
@@ -88,8 +89,9 @@ func rand_float(stream_id: Variant, min_val: float = 0.0, max_val: float = 1.0) 
 		var old_min := min_val
 		min_val = max_val
 		max_val = old_min
-	var rng := _get_rng(stream_id)
-	_count_call(_stream_key(stream_id))
+	var key := _stream_key(stream_id)
+	var rng := _get_rng_by_key(key)
+	_count_call(key)
 	return rng.randf_range(min_val, max_val)
 
 
@@ -99,7 +101,13 @@ func rand_bool(stream_id: Variant, probability: float = 0.5) -> bool:
 		return false
 	if probability >= 1.0:
 		return true
-	return rand_float(stream_id, 0.0, 1.0) < probability
+	if not _initialized:
+		push_warning("RNG stream %s not initialized, returning default" % str(stream_id))
+		return false
+	var key := _stream_key(stream_id)
+	var rng := _get_rng_by_key(key)
+	_count_call(key)
+	return rng.randf() < probability
 
 
 ## Picks an index from weighted entries. Invalid or all-zero weights return -1.
@@ -209,7 +217,10 @@ func run_with_state_copy(state_data: Dictionary, callback: Callable) -> Variant:
 
 
 func _get_rng(stream_id: Variant) -> RandomNumberGenerator:
-	var key := _stream_key(stream_id)
+	return _get_rng_by_key(_stream_key(stream_id))
+
+
+func _get_rng_by_key(key: String) -> RandomNumberGenerator:
 	if not _streams.has(key):
 		push_warning("RNG stream '%s' not registered, auto-created with derived seed" % key)
 		_create_stream(key)
@@ -224,8 +235,16 @@ func _create_stream(key: String) -> void:
 
 
 func _stream_key(stream_id: Variant) -> String:
-	if typeof(stream_id) == TYPE_INT and CORE_STREAM_KEYS.has(stream_id):
-		return CORE_STREAM_KEYS[stream_id]
+	if typeof(stream_id) == TYPE_INT:
+		match int(stream_id):
+			CoreStream.COMBAT:
+				return "combat"
+			CoreStream.LOOT:
+				return "loot"
+			CoreStream.EVENT:
+				return "event"
+			CoreStream.AFFIX:
+				return "affix"
 	return str(stream_id).strip_edges().to_lower()
 
 

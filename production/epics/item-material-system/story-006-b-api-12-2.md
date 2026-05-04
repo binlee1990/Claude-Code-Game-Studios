@@ -1,7 +1,7 @@
 # Story 006: B. 查询 API（12 条） 2
 
 > **Epic**: 物品/材料系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: Logic
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/item-material-system.md`, scoped to this story:*
 
-- [ ] AC-B4: GIVEN ItemRegistry 已加载，WHEN `peek_field("herb", "name")`，THEN 字符串 `"药材"`，无警告
-- [ ] AC-B5: GIVEN ItemRegistry 已加载，WHEN `peek_field("nonexistent", "name")`，THEN `null`，不打印警告
-- [ ] AC-B6: GIVEN ItemRegistry 已加载，WHEN `peek_field("herb", "nonexistent_field")`，THEN `null`，不打印警告
+- [x] AC-B4: GIVEN ItemRegistry 已加载，WHEN `peek_field("herb", "name")`，THEN 字符串 `"药材"`，无警告
+- [x] AC-B5: GIVEN ItemRegistry 已加载，WHEN `peek_field("nonexistent", "name")`，THEN `null`，不打印警告
+- [x] AC-B6: GIVEN ItemRegistry 已加载，WHEN `peek_field("herb", "nonexistent_field")`，THEN `null`，不打印警告
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/unit/item_material/b-api-12-2_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 007
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 6, story 11/20
+- Sprint source: `production/sprints/sprint-6.md`
+- QA plan: `production/qa/qa-plan-sprint-6-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-6-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd`
+  - `tests/unit/item_registry/item_registry_load_test.gd`
+  - `tests/unit/item_registry/item_registry_query_test.gd`
+  - `tests/integration/item_registry/item_registry_lifecycle_test.gd`
+  - `tests/performance/item_registry_performance_test.gd`

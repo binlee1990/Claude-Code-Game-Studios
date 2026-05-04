@@ -1,7 +1,7 @@
 # Story 001: `ResourceSystem.get_max("lingqi") == 1000`
 
 > **Epic**: 存储上限系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Feature
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -34,9 +34,9 @@
 
 *From GDD `design/gdd/storage-limit-system.md`, scoped to this story:*
 
-- [ ] GIVEN: `lingqi` base cap 1000 and no modifiers, **WHEN** storage limits initialize, **THEN** `ResourceSystem.get_max("lingqi") == 1000`.
-- [ ] GIVEN: `lingqi` current 900 and cap 1000, **WHEN** `get_capacity_state("lingqi")`, **THEN** state is `warning` and fill_ratio is 0.9.
-- [ ] GIVEN: `lingshi` is uncapped, **WHEN** `get_capacity_state("lingshi")`, **THEN** state is `uncapped` and no warning is emitted.
+- [x] GIVEN: `lingqi` base cap 1000 and no modifiers, **WHEN** storage limits initialize, **THEN** `ResourceSystem.get_max("lingqi") == 1000`.
+- [x] GIVEN: `lingqi` current 900 and cap 1000, **WHEN** `get_capacity_state("lingqi")`, **THEN** state is `warning` and fill_ratio is 0.9.
+- [x] GIVEN: `lingshi` is uncapped, **WHEN** `get_capacity_state("lingshi")`, **THEN** state is `uncapped` and no warning is emitted.
 
 ---
 
@@ -89,7 +89,7 @@
 **Required evidence**:
 - `tests/integration/storage_limit/resourcesystem-get-max-lingqi-1000_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -97,3 +97,18 @@
 
 - Depends on: None
 - Unlocks: Story 002
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 8, story 13/20
+- Sprint source: `production/sprints/sprint-8.md`
+- QA plan: `production/qa/qa-plan-sprint-8-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-8-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/debug_console/debug_console_history_test.gd`
+  - `tests/unit/level_system/level_system_formula_test.gd`
+  - `tests/integration/level_system/level_system_progression_test.gd`
+  - `tests/integration/storage_limit_system/storage_limit_system_test.gd`
+  - `tests/integration/auto_production_system/auto_production_system_test.gd`

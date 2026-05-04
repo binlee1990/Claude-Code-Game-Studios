@@ -3,7 +3,7 @@
 > **Layer**: Simulation
 > **GDD**: design/gdd/offline-reward-settlement-system.md
 > **Architecture Module**: `OfflineRewardSettlement` (服务)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (2 stories)
 
 ## Overview
@@ -51,8 +51,8 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [ResourceSystem receives 100 lingqi](story-001-resourcesystem-receives-100-lingqi.md) | Integration | Ready | ADR-0009 |
-| 002 | [warning appears and other rewards still apply](story-002-warning-appears-and-other-rewards-still-apply.md) | Integration | Ready | ADR-0009 |
+| 001 | [ResourceSystem receives 100 lingqi](story-001-resourcesystem-receives-100-lingqi.md) | Integration | Done | ADR-0009 |
+| 002 | [warning appears and other rewards still apply](story-002-warning-appears-and-other-rewards-still-apply.md) | Integration | Done | ADR-0009 |
 
 ## Next Step
 

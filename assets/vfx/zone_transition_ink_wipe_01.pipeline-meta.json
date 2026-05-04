@@ -1,10 +1,9 @@
 {
-  "asset_path": "assets/vfx/zone_transition_ink_wipe_01.png",
+  "source": "image_gen",
+  "skill": "generate2dmap",
+  "asset_id": "zone_transition_ink_wipe_01",
+  "raw_image": "C:/Users/888/.codex/generated_images/019df25c-ac82-7fa0-9386-c0fd48da3263/ig_0d9506974af9a2760169f8c4f7de0c8191bde8658b8846c6df.png",
+  "postprocess": "place_map_output.py cover_resize_center_crop",
   "width": 1920,
-  "height": 1080,
-  "category": "vfx",
-  "source": "deterministic_mvp_fallback",
-  "style_lock": "clean_hd chinese ink-inspired minimal vector raster",
-  "alpha": true,
-  "generator": "scripts/generate_mvp_assets.py"
+  "height": 1080
 }

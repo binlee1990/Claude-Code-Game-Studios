@@ -1,7 +1,7 @@
 # Story 004: 结果约为 5.5（float，误差 < 0.01）
 
 > **Epic**: 大数值系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: Logic
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/big-number-system.md`, scoped to this story:*
 
-- [ ] GIVEN: `a = {3.16, 5}`，**WHEN** 执行 `a.log10()`，**THEN** 结果约为 5.5（float，误差 < 0.01）
-- [ ] GIVEN: `b = BigNumber.ZERO`，**WHEN** 执行 `a.divide(b)`，**THEN** 结果为 `BigNumber.MAX`
-- [ ] GIVEN: 运算结果使 exponent > 308，**WHEN** 归一化执行，**THEN** 结果钳位为 `{9.999, 308}`
+- [x] GIVEN: `a = {3.16, 5}`，**WHEN** 执行 `a.log10()`，**THEN** 结果约为 5.5（float，误差 < 0.01）
+- [x] GIVEN: `b = BigNumber.ZERO`，**WHEN** 执行 `a.divide(b)`，**THEN** 结果为 `BigNumber.MAX`
+- [x] GIVEN: 运算结果使 exponent > 308，**WHEN** 归一化执行，**THEN** 结果钳位为 `{9.999, 308}`
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/unit/big_number/5-5-float-0-01_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 005
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 1, story 4/20
+- Sprint source: `production/sprints/sprint-1.md`
+- QA plan: `production/qa/qa-plan-sprint-1-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-1-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/big_number/api_contract_test.gd`
+  - `tests/unit/big_number/big_number_arithmetic_test.gd`
+  - `tests/performance/big_number_performance_test.gd`
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/unit/rng/stream_independence_test.gd`

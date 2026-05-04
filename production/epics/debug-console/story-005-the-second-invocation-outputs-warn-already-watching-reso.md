@@ -1,7 +1,7 @@
 # Story 005: the second invocation outputs `[WARN] Already watching 'resource'. No-
 
 > **Epic**: 调试控制台
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: UI
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/debug-console.md`, scoped to this story:*
 
-- [ ] GIVEN: the console is open, **WHEN** the developer types `event watch resource` twice, **THEN** the second invocation outputs `[WARN] Already watching 'resource'. No-op.` in yellow and `EventBus.subscribe_pattern` is called only once total.
-- [ ] GIVEN: the console is open, **WHEN** the developer types `event watch ` (empty prefix, only a space after `watch`), **THEN** the output displays `[ERROR] Prefix must not be empty. Usage: event watch <prefix>` in red and no subscription is created.
-- [ ] GIVEN: the console is open, **WHEN** the developer types `config list` and presses Enter, **THEN** the output lists all table names returned by `DataConfig.get_table_names()`, one per line.
+- [x] GIVEN: the console is open, **WHEN** the developer types `event watch resource` twice, **THEN** the second invocation outputs `[WARN] Already watching 'resource'. No-op.` in yellow and `EventBus.subscribe_pattern` is called only once total.
+- [x] GIVEN: the console is open, **WHEN** the developer types `event watch ` (empty prefix, only a space after `watch`), **THEN** the output displays `[ERROR] Prefix must not be empty. Usage: event watch <prefix>` in red and no subscription is created.
+- [x] GIVEN: the console is open, **WHEN** the developer types `config list` and presses Enter, **THEN** the output lists all table names returned by `DataConfig.get_table_names()`, one per line.
 
 ---
 
@@ -88,7 +88,7 @@
 **Required evidence**:
 - `production/qa/evidence/the-second-invocation-outputs-warn-already-watching-reso-evidence.md` — manual/interaction evidence with sign-off
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -96,3 +96,19 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 006
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 7, story 16/20
+- Sprint source: `production/sprints/sprint-7.md`
+- QA plan: `production/qa/qa-plan-sprint-7-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-7-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/item_registry/item_registry_boundary_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd`
+  - `tests/integration/output_multiplier_system/output_multiplier_events_test.gd`
+  - `tests/unit/debug_console/debug_console_command_test.gd`
+  - `tests/integration/debug_console/debug_console_smoke_test.gd`

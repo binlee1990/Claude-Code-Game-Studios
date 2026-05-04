@@ -3,7 +3,7 @@
 > **Layer**: Feature
 > **GDD**: design/gdd/auto-production-system.md
 > **Architecture Module**: `AutoProductionSystem` (Autoload)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (2 stories)
 
 ## Overview
@@ -50,8 +50,8 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [ResourceSystem receives lingqi +1](story-001-resourcesystem-receives-lingqi-1.md) | Integration | Ready | ADR-0003 |
-| 002 | [exp is never requested from OMS](story-002-exp-is-never-requested-from-oms.md) | Config/Data | Ready | ADR-0003 |
+| 001 | [ResourceSystem receives lingqi +1](story-001-resourcesystem-receives-lingqi-1.md) | Integration | Done | ADR-0003 |
+| 002 | [exp is never requested from OMS](story-002-exp-is-never-requested-from-oms.md) | Config/Data | Done | ADR-0003 |
 
 ## Next Step
 

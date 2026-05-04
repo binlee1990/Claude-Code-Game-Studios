@@ -44,8 +44,9 @@
 
 ## 2026-05-04 执行记录
 
-- Sprint 1 → Sprint 10 已按顺序串行执行 QA gate，10/10 PASS。
-- 最新 GdUnit 证据：`reports/report_8/results.xml`（137 个测试，0 个失败，0 个跳过，0 个 flaky）。
+- Sprint 1 → Sprint 10 已按 Tasks 表顺序真实执行并关闭 188 个 sprint story，10/10 sprint QA gate PASS。
+- 最新 GdUnit 证据：`reports/report_13/results.xml`（137 个测试，0 个失败，0 个跳过，0 个 flaky）。
+- Story 执行总账：`production/qa/evidence/sprint-story-execution-2026-05-04.json`。
 - 每个 sprint 的验收记录已写入：`production/qa/evidence/sprint-N-qa-result-2026-05-04.md`。
 - 资源产出与校验记录：`production/qa/evidence/asset-production-2026-05-04.md`、`production/qa/evidence/asset-validation-report.json`。
 

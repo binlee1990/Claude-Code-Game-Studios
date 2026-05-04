@@ -1,7 +1,7 @@
 # Story 008: 总耗时 < 1ms
 
 > **Epic**: 数值格式化系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Data
 > **Type**: Logic
 > **Manifest Version**: 2026-05-04
@@ -35,7 +35,7 @@
 
 *From GDD `design/gdd/number-formatting-system.md`, scoped to this story:*
 
-- [ ] GIVEN: 1000 个不同量级的 BigNumber，**WHEN** 各调用 `format()` 一次，**THEN** 总耗时 < 1ms
+- [x] GIVEN: 1000 个不同量级的 BigNumber，**WHEN** 各调用 `format()` 一次，**THEN** 总耗时 < 1ms
 
 ---
 
@@ -76,7 +76,7 @@
 **Required evidence**:
 - `tests/unit/number_formatting/1ms_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -84,3 +84,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: None
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 3, story 9/20
+- Sprint source: `production/sprints/sprint-3.md`
+- QA plan: `production/qa/qa-plan-sprint-3-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-3-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/time_manager/time_manager_logic_test.gd`
+  - `tests/unit/number_formatting/number_formatter_test.gd`
+  - `tests/performance/number_formatter_performance_test.gd`
+  - `tests/unit/data_config/data_config_test.gd`
+  - `tests/unit/formula_engine/formula_engine_test.gd`

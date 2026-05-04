@@ -1,7 +1,7 @@
 # Story 008: the output displays `real_time`, `game_time`, `effective_speed`, and `
 
 > **Epic**: 调试控制台
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: UI
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/debug-console.md`, scoped to this story:*
 
-- [ ] GIVEN: the console is open, **WHEN** the developer types `time status` and presses Enter, **THEN** the output displays `real_time`, `game_time`, `effective_speed`, and `frozen` status from `TimeManager` on separate lines.
-- [ ] GIVEN: the console is open, **WHEN** the developer types `time speed 0.5` and presses Enter, **THEN** `TimeManager.add_speed_source("debug_console", 0.5)` is called and the output confirms the speed change.
-- [ ] GIVEN: the console is open, **WHEN** the developer types `time speed 0` or `time speed -1` and presses Enter, **THEN** the output displays `[ERROR] Speed must be in range [0.1, 100.0]. Got: {N}.` in red and `TimeManager.add_speed_source` is not called.
+- [x] GIVEN: the console is open, **WHEN** the developer types `time status` and presses Enter, **THEN** the output displays `real_time`, `game_time`, `effective_speed`, and `frozen` status from `TimeManager` on separate lines.
+- [x] GIVEN: the console is open, **WHEN** the developer types `time speed 0.5` and presses Enter, **THEN** `TimeManager.add_speed_source("debug_console", 0.5)` is called and the output confirms the speed change.
+- [x] GIVEN: the console is open, **WHEN** the developer types `time speed 0` or `time speed -1` and presses Enter, **THEN** the output displays `[ERROR] Speed must be in range [0.1, 100.0]. Got: {N}.` in red and `TimeManager.add_speed_source` is not called.
 
 ---
 
@@ -88,7 +88,7 @@
 **Required evidence**:
 - `production/qa/evidence/the-output-displays-real-time-game-time-effective-speed-evidence.md` — manual/interaction evidence with sign-off
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -96,3 +96,19 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 009
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 7, story 19/20
+- Sprint source: `production/sprints/sprint-7.md`
+- QA plan: `production/qa/qa-plan-sprint-7-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-7-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/item_registry/item_registry_boundary_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd`
+  - `tests/integration/output_multiplier_system/output_multiplier_events_test.gd`
+  - `tests/unit/debug_console/debug_console_command_test.gd`
+  - `tests/integration/debug_console/debug_console_smoke_test.gd`

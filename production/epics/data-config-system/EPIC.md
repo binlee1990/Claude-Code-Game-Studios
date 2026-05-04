@@ -49,11 +49,11 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [返回 `{"name": "史莱姆", "hp": "100"}`](story-001-name-hp-100.md) | Config/Data | Ready | ADR-0005 |
-| 002 | [返回含 3 个键的 Dictionary](story-002-3-dictionary.md) | Config/Data | Ready | ADR-0005 |
-| 003 | [该表为空，其他表正常加载，打印错误含文件路径](story-003-003-config-data.md) | Config/Data | Ready | ADR-0005 |
-| 004 | [后者覆盖前者，打印警告](story-004-004-config-data.md) | Config/Data | Ready | ADR-0005 |
-| 005 | [无操作](story-005-005-config-data.md) | Config/Data | Ready | ADR-0005 |
+| 001 | [返回 `{"name": "史莱姆", "hp": "100"}`](story-001-name-hp-100.md) | Config/Data | Done | ADR-0005 |
+| 002 | [返回含 3 个键的 Dictionary](story-002-3-dictionary.md) | Config/Data | Done | ADR-0005 |
+| 003 | [该表为空，其他表正常加载，打印错误含文件路径](story-003-003-config-data.md) | Config/Data | Done | ADR-0005 |
+| 004 | [后者覆盖前者，打印警告](story-004-004-config-data.md) | Config/Data | Done | ADR-0005 |
+| 005 | [无操作](story-005-005-config-data.md) | Config/Data | Done | ADR-0005 |
 | 006 | [`tags` 为 `\["beast", "slime"\]`（Array 类型）](story-006-tags-beast-slime-array.md) | Config/Data | Ready | ADR-0005 |
 
 ## Next Step

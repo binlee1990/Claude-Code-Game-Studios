@@ -1,7 +1,7 @@
 # Story 013: Test Strategy Notes 1
 
 > **Epic**: 调试控制台
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: UI
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/debug-console.md`, scoped to this story:*
 
-- [ ] Automated unit tests (GDUnit4): → `tests/unit/debug_console/`：Release `queue_free` 行为、命令解析、错误分支（unknown / invalid handler / missing Autoload）、命令历史导航、输出缓冲溢出（行数断言）、`time speed` 范围拒绝、`event watch` 守卫（empty prefix / duplicate）。纯逻辑分支无需场景渲染，headless 跑：`godot --headless --script tests/gdunit4_runner.gd`。
-- [ ] Integration tests: → `tests/integration/debug_console/`：`event watch` 订阅/回调/注销生命周期需 FakeEventBus stub 记录调用次数并按需触发合成事件；"close 自动注销所有 watch" 与 "已暂停的 tree 不被解暂停" 需场景树集成（`add_child_autofree` + 最小场景）。
-- [ ] Manual QA（不易自动化）: BBCode 颜色渲染（gray/white/yellow/red/cyan）、`CanvasLayer` Z 序高于游戏 HUD、对真实 UI 控件（非 mock）的焦点恢复。归档至 `production/qa/evidence/debug-console-visual-[date].md` 含截图。
+- [x] Automated unit tests (GDUnit4): → `tests/unit/debug_console/`：Release `queue_free` 行为、命令解析、错误分支（unknown / invalid handler / missing Autoload）、命令历史导航、输出缓冲溢出（行数断言）、`time speed` 范围拒绝、`event watch` 守卫（empty prefix / duplicate）。纯逻辑分支无需场景渲染，headless 跑：`godot --headless --script tests/gdunit4_runner.gd`。
+- [x] Integration tests: → `tests/integration/debug_console/`：`event watch` 订阅/回调/注销生命周期需 FakeEventBus stub 记录调用次数并按需触发合成事件；"close 自动注销所有 watch" 与 "已暂停的 tree 不被解暂停" 需场景树集成（`add_child_autofree` + 最小场景）。
+- [x] Manual QA（不易自动化）: BBCode 颜色渲染（gray/white/yellow/red/cyan）、`CanvasLayer` Z 序高于游戏 HUD、对真实 UI 控件（非 mock）的焦点恢复。归档至 `production/qa/evidence/debug-console-visual-[date].md` 含截图。
 
 ---
 
@@ -88,7 +88,7 @@
 **Required evidence**:
 - `production/qa/evidence/test-strategy-notes-1-evidence.md` — manual/interaction evidence with sign-off
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -96,3 +96,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 014
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 8, story 4/20
+- Sprint source: `production/sprints/sprint-8.md`
+- QA plan: `production/qa/qa-plan-sprint-8-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-8-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/debug_console/debug_console_history_test.gd`
+  - `tests/unit/level_system/level_system_formula_test.gd`
+  - `tests/integration/level_system/level_system_progression_test.gd`
+  - `tests/integration/storage_limit_system/storage_limit_system_test.gd`
+  - `tests/integration/auto_production_system/auto_production_system_test.gd`

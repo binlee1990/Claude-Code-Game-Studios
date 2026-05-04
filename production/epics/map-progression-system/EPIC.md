@@ -3,7 +3,7 @@
 > **Layer**: Feature Integration
 > **GDD**: design/gdd/map-progression-system.md
 > **Architecture Module**: `MapProgressionSystem` (服务)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (2 stories)
 
 ## Overview
@@ -50,8 +50,8 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [next zone becomes unlocked](story-001-next-zone-becomes-unlocked.md) | UI | Ready | ADR-0002 |
-| 002 | [selection fails with lock reason](story-002-selection-fails-with-lock-reason.md) | Integration | Ready | ADR-0002 |
+| 001 | [next zone becomes unlocked](story-001-next-zone-becomes-unlocked.md) | UI | Done | ADR-0002 |
+| 002 | [selection fails with lock reason](story-002-selection-fails-with-lock-reason.md) | Integration | Done | ADR-0002 |
 
 ## Next Step
 

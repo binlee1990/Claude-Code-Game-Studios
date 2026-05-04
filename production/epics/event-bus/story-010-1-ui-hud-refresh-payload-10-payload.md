@@ -1,7 +1,7 @@
 # Story 010: 订阅者只收到 1 次 `ui.hud.refresh`，payload 等于第 10 次调用的 payload
 
 > **Epic**: 事件总线
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: UI
 > **Manifest Version**: 2026-05-04
@@ -35,7 +35,7 @@
 
 *From GDD `design/gdd/event-bus.md`, scoped to this story:*
 
-- [ ] GIVEN: 同一帧内连续 10 次调用 `emit_coalesced("ui.hud.refresh", payload_i, "resource_panel")`，**WHEN** 帧末 flush 执行，**THEN** 订阅者只收到 1 次 `ui.hud.refresh`，payload 等于第 10 次调用的 payload
+- [x] GIVEN: 同一帧内连续 10 次调用 `emit_coalesced("ui.hud.refresh", payload_i, "resource_panel")`，**WHEN** 帧末 flush 执行，**THEN** 订阅者只收到 1 次 `ui.hud.refresh`，payload 等于第 10 次调用的 payload
 
 ---
 
@@ -75,7 +75,7 @@
 **Required evidence**:
 - `production/qa/evidence/1-ui-hud-refresh-payload-10-payload-evidence.md` — manual/interaction evidence with sign-off
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -83,3 +83,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: None
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 2, story 14/20
+- Sprint source: `production/sprints/sprint-2.md`
+- QA plan: `production/qa/qa-plan-sprint-2-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-2-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/performance/rng_performance_test.gd`
+  - `tests/integration/event_bus/event_bus_delivery_test.gd`
+  - `tests/integration/time_manager/time_manager_integration_test.gd`
+  - `tests/unit/time_manager/time_manager_logic_test.gd`

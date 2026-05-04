@@ -1,7 +1,7 @@
 # Story 004: 境界跨越 + modifier
 
 > **Epic**: 等级系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Feature
 > **Type**: Logic
 > **Manifest Version**: 2026-05-04
@@ -34,9 +34,9 @@
 
 *From GDD `design/gdd/level-system.md`, scoped to this story:*
 
-- [ ] GIVEN: Lv.9 (fanren)，**WHEN** gain_exp 升至 Lv.10，**THEN** `get_realm == "lianqi"`，`get_realm_id == 1`，ModifierEngine 注册 10 条 source=`"level_system.realm.player.lianqi"` 的 modifier（4 OMS + 6 attribute），每条 value=0.20，发 `realm.advanced{old="fanren", new="lianqi"}`
-- [ ] GIVEN: Lv.9 (fanren)，**WHEN** gain_exp 一次性跨 fanren → lianqi → zhuji 升至 Lv.31，**THEN** ModifierEngine 中**只有 1 个 source**（`"level_system.realm.player.zhuji"`，value=0.50）的 10 条 modifier；fanren / lianqi 的 source 永不出现；`realm.advanced` 仅发 1 条 (old="fanren", new="zhuji")
-- [ ] GIVEN: Lv.30 (zhuji)，**WHEN** `ModifierEngine.get_multiplier("player.atk")`，**THEN** 返回 1.50（= 1.0 + 0.50 累计 MULT）
+- [x] GIVEN: Lv.9 (fanren)，**WHEN** gain_exp 升至 Lv.10，**THEN** `get_realm == "lianqi"`，`get_realm_id == 1`，ModifierEngine 注册 10 条 source=`"level_system.realm.player.lianqi"` 的 modifier（4 OMS + 6 attribute），每条 value=0.20，发 `realm.advanced{old="fanren", new="lianqi"}`
+- [x] GIVEN: Lv.9 (fanren)，**WHEN** gain_exp 一次性跨 fanren → lianqi → zhuji 升至 Lv.31，**THEN** ModifierEngine 中**只有 1 个 source**（`"level_system.realm.player.zhuji"`，value=0.50）的 10 条 modifier；fanren / lianqi 的 source 永不出现；`realm.advanced` 仅发 1 条 (old="fanren", new="zhuji")
+- [x] GIVEN: Lv.30 (zhuji)，**WHEN** `ModifierEngine.get_multiplier("player.atk")`，**THEN** 返回 1.50（= 1.0 + 0.50 累计 MULT）
 
 ---
 
@@ -90,7 +90,7 @@
 **Required evidence**:
 - `tests/unit/level/modifier_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -98,3 +98,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 005
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 8, story 9/20
+- Sprint source: `production/sprints/sprint-8.md`
+- QA plan: `production/qa/qa-plan-sprint-8-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-8-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/debug_console/debug_console_history_test.gd`
+  - `tests/unit/level_system/level_system_formula_test.gd`
+  - `tests/integration/level_system/level_system_progression_test.gd`
+  - `tests/integration/storage_limit_system/storage_limit_system_test.gd`
+  - `tests/integration/auto_production_system/auto_production_system_test.gd`

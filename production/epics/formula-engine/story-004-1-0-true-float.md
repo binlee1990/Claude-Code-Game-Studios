@@ -1,7 +1,7 @@
 # Story 004: 结果为 `1.0`（布尔 true → float）
 
 > **Epic**: 公式引擎
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Data
 > **Type**: Config/Data
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/formula-engine.md`, scoped to this story:*
 
-- [ ] GIVEN: 表达式 `"x > 5"` 且 `x = 10.0`，**WHEN** 求值，**THEN** 结果为 `1.0`（布尔 true → float）
-- [ ] GIVEN: 表达式 `"x > 5"` 且 `x = 3.0`，**WHEN** 求值，**THEN** 结果为 `0.0`（布尔 false → float）
-- [ ] GIVEN: 三元表达式 `"base * 2.0 if active else base * 0.5"` 且 `base=100.0, active=1.0`，**WHEN** 求值，**THEN** 结果为 `200.0`
+- [x] GIVEN: 表达式 `"x > 5"` 且 `x = 10.0`，**WHEN** 求值，**THEN** 结果为 `1.0`（布尔 true → float）
+- [x] GIVEN: 表达式 `"x > 5"` 且 `x = 3.0`，**WHEN** 求值，**THEN** 结果为 `0.0`（布尔 false → float）
+- [x] GIVEN: 三元表达式 `"base * 2.0 if active else base * 0.5"` 且 `base=100.0, active=1.0`，**WHEN** 求值，**THEN** 结果为 `200.0`
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `production/qa/smoke-formula-engine.md` — smoke check evidence
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 005
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 3, story 19/20
+- Sprint source: `production/sprints/sprint-3.md`
+- QA plan: `production/qa/qa-plan-sprint-3-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-3-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/time_manager/time_manager_logic_test.gd`
+  - `tests/unit/number_formatting/number_formatter_test.gd`
+  - `tests/performance/number_formatter_performance_test.gd`
+  - `tests/unit/data_config/data_config_test.gd`
+  - `tests/unit/formula_engine/formula_engine_test.gd`

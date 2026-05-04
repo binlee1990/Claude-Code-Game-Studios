@@ -1,7 +1,7 @@
 # Story 004: 该 provider 的 `restore_fn()` 收到空 Dictionary `{}`
 
 > **Epic**: 存档系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Data
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/save-system.md`, scoped to this story:*
 
-- [ ] GIVEN: 新系统注册了 provider 但存档中无对应 namespace，**WHEN** 加载，**THEN** 该 provider 的 `restore_fn()` 收到空 Dictionary `{}`
-- [ ] GIVEN: 存档 `meta.version = 1`，当前 `CURRENT_SAVE_VERSION = 3`，注册了 v1→v2 和 v2→v3 迁移，**WHEN** 加载，**THEN** 迁移链按序执行，最终 `meta.version = 3`
-- [ ] GIVEN: 存档 `meta.version = 5`，当前 `CURRENT_SAVE_VERSION = 3`，**WHEN** 加载，**THEN** 拒绝加载，创建新游戏，打印版本过高警告
+- [x] GIVEN: 新系统注册了 provider 但存档中无对应 namespace，**WHEN** 加载，**THEN** 该 provider 的 `restore_fn()` 收到空 Dictionary `{}`
+- [x] GIVEN: 存档 `meta.version = 1`，当前 `CURRENT_SAVE_VERSION = 3`，注册了 v1→v2 和 v2→v3 迁移，**WHEN** 加载，**THEN** 迁移链按序执行，最终 `meta.version = 3`
+- [x] GIVEN: 存档 `meta.version = 5`，当前 `CURRENT_SAVE_VERSION = 3`，**WHEN** 加载，**THEN** 拒绝加载，创建新游戏，打印版本过高警告
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/integration/save/provider-restore-fn-dictionary_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,17 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 005
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 4, story 16/20
+- Sprint source: `production/sprints/sprint-4.md`
+- QA plan: `production/qa/qa-plan-sprint-4-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-4-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/formula_engine/formula_engine_edges_test.gd`
+  - `tests/unit/modifier_engine/modifier_engine_test.gd`
+  - `tests/unit/save_system/save_manager_collect_test.gd`
+  - `tests/integration/save_system/save_manager_file_contract_test.gd`

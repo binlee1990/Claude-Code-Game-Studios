@@ -1,7 +1,7 @@
 # Story 007: 返回 `"万"`
 
 > **Epic**: 数值格式化系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Data
 > **Type**: UI
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/number-formatting-system.md`, scoped to this story:*
 
-- [ ] GIVEN: `BigNumber.from_int(15000)`，**WHEN** 调用 `get_display_unit()`，**THEN** 返回 `"万"`
-- [ ] GIVEN: `{5.678, 150}`，**WHEN** 调用 `get_display_unit()`，**THEN** 返回 `"e"`
-- [ ] GIVEN: mantissa 为 NaN 的 BigNumber，**WHEN** 调用 `format()`，**THEN** 返回 `"0"`
+- [x] GIVEN: `BigNumber.from_int(15000)`，**WHEN** 调用 `get_display_unit()`，**THEN** 返回 `"万"`
+- [x] GIVEN: `{5.678, 150}`，**WHEN** 调用 `get_display_unit()`，**THEN** 返回 `"e"`
+- [x] GIVEN: mantissa 为 NaN 的 BigNumber，**WHEN** 调用 `format()`，**THEN** 返回 `"0"`
 
 ---
 
@@ -88,7 +88,7 @@
 **Required evidence**:
 - `production/qa/evidence/007-ui-evidence.md` — manual/interaction evidence with sign-off
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -96,3 +96,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 008
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 3, story 8/20
+- Sprint source: `production/sprints/sprint-3.md`
+- QA plan: `production/qa/qa-plan-sprint-3-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-3-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/time_manager/time_manager_logic_test.gd`
+  - `tests/unit/number_formatting/number_formatter_test.gd`
+  - `tests/performance/number_formatter_performance_test.gd`
+  - `tests/unit/data_config/data_config_test.gd`
+  - `tests/unit/formula_engine/formula_engine_test.gd`

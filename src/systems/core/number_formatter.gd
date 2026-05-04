@@ -5,6 +5,7 @@ const CHINESE_UNITS := ["万", "亿", "兆", "京", "垓", "秭", "穰", "沟", 
 const SCIENTIFIC_THRESHOLD := 52
 const THOUSAND_SEPARATOR := ","
 const MAX_FORMAT_CACHE_SIZE := 2048
+const SMALL_POWERS := [1.0, 10.0, 100.0, 1000.0]
 
 static var _format_cache := {}
 
@@ -18,13 +19,14 @@ static func format(value: BigNumber) -> String:
 	if value.is_max():
 		return "MAX"
 	var cache_key := Vector2(value.mantissa, float(value.exponent))
-	if _format_cache.has(cache_key):
-		return str(_format_cache[cache_key])
+	var cached: Variant = _format_cache.get(cache_key)
+	if cached != null:
+		return cached
 	var formatted := ""
 	if value.exponent < 4:
-		var plain_value := int(round(value.mantissa * pow(10.0, value.exponent)))
+		var plain_value := int(round(value.mantissa * SMALL_POWERS[value.exponent]))
 		if plain_value >= 10000:
-			formatted = format(BigNumber.from_int(plain_value))
+			formatted = _format_plain_large_int(plain_value)
 		else:
 			formatted = _add_thousand_separators(plain_value)
 	else:
@@ -59,7 +61,7 @@ static func get_display_unit(value: BigNumber) -> String:
 		return ""
 	if value.exponent >= SCIENTIFIC_THRESHOLD:
 		return "e"
-	var threshold := int(floor(float(value.exponent) / 4.0)) * 4
+	var threshold := int(value.exponent / 4) * 4
 	if threshold < 4:
 		return ""
 	if threshold > 48:
@@ -70,7 +72,7 @@ static func get_display_unit(value: BigNumber) -> String:
 static func _format_large(value: BigNumber) -> String:
 	if value.exponent >= SCIENTIFIC_THRESHOLD:
 		return format_scientific(value)
-	var threshold := int(floor(float(value.exponent) / 4.0)) * 4
+	var threshold := int(value.exponent / 4) * 4
 	var display_mantissa := value.mantissa * _small_power_of_ten(value.exponent - threshold)
 	var decimals := _decimals_for(display_mantissa)
 	var rounded := _round_to_decimals(display_mantissa, decimals)
@@ -111,29 +113,32 @@ static func _round_to_decimals(value: float, decimals: int) -> float:
 
 
 static func _small_power_of_ten(exponent: int) -> float:
-	match exponent:
-		0:
-			return 1.0
-		1:
-			return 10.0
-		2:
-			return 100.0
-		3:
-			return 1000.0
-		_:
-			return pow(10.0, exponent)
+	if exponent >= 0 and exponent < SMALL_POWERS.size():
+		return SMALL_POWERS[exponent]
+	return pow(10.0, exponent)
+
+
+static func _format_plain_large_int(value: int) -> String:
+	var exponent := 0
+	var mantissa := float(value)
+	while mantissa >= 10.0:
+		mantissa /= 10.0
+		exponent += 1
+	return _format_large(BigNumber.new(mantissa, exponent))
 
 
 static func _add_thousand_separators(value: int) -> String:
 	var text := str(value)
-	var result := ""
-	var count := 0
-	for i in range(text.length() - 1, -1, -1):
-		if count > 0 and count % 3 == 0:
-			result = THOUSAND_SEPARATOR + result
-		result = text.substr(i, 1) + result
-		count += 1
-	return result
+	var length := text.length()
+	if length <= 3:
+		return text
+	var first_group := length % 3
+	var parts := []
+	if first_group > 0:
+		parts.append(text.substr(0, first_group))
+	for index in range(first_group, length, 3):
+		parts.append(text.substr(index, 3))
+	return THOUSAND_SEPARATOR.join(parts)
 
 
 static func _store_format_cache(key: Variant, value: String) -> void:

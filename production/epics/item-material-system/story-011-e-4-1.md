@@ -1,7 +1,7 @@
 # Story 011: E. 热重载（4 条） 1
 
 > **Epic**: 物品/材料系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: UI
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/item-material-system.md`, scoped to this story:*
 
-- [ ] AC-E1a: 参数化测试（CI 可覆盖） — GIVEN debug build（CI 默认），`DataConfig.HOT_RELOAD_ENABLED` 的 2 种取值 `{true, false}`，WHEN 调 `reload()`，THEN：仅 `true` 时实际执行 reload + 发布 `item_registry.reloaded` 事件；`false` 时 `_items` 快照不变、`get_count()` 不变、EventBus 未收到 `item_registry.reloaded`、控制台打印 `"hot reload disabled in DataConfig"` 提示
-- [ ] AC-E1b: 手动验证（CI 跳过） — GIVEN release build（`OS.is_debug_build() == false`）的 2 种取值 `{HOT_RELOAD_ENABLED=true, HOT_RELOAD_ENABLED=false}`，WHEN 调 `reload()`，THEN：两种均 no-op，`_items` 快照不变、EventBus 未收到 `item_registry.reloaded`、控制台打印 `"reload disabled in release build"`。**注**：`OS.is_debug_build()` 是引擎静态方法，无法在 GDUnit4 中被 mock；本 AC 需在 `production/qa/evidence/` 记录一次手动验证截图（导出 release build → 启动 → 控制台调 reload → 观察提示 → 确认 _items 不变）。
-- [ ] AC-E2: GIVEN `(debug=true, HOT_RELOAD_ENABLED=true)` 条件下（同 AC-E1a true 分支），修改 items.json 添加新 id `"test_new_item"`，调 `reload()` 后，WHEN `has_item("test_new_item")`，THEN `true`
+- [x] AC-E1a: 参数化测试（CI 可覆盖） — GIVEN debug build（CI 默认），`DataConfig.HOT_RELOAD_ENABLED` 的 2 种取值 `{true, false}`，WHEN 调 `reload()`，THEN：仅 `true` 时实际执行 reload + 发布 `item_registry.reloaded` 事件；`false` 时 `_items` 快照不变、`get_count()` 不变、EventBus 未收到 `item_registry.reloaded`、控制台打印 `"hot reload disabled in DataConfig"` 提示
+- [x] AC-E1b: 手动验证（CI 跳过） — GIVEN release build（`OS.is_debug_build() == false`）的 2 种取值 `{HOT_RELOAD_ENABLED=true, HOT_RELOAD_ENABLED=false}`，WHEN 调 `reload()`，THEN：两种均 no-op，`_items` 快照不变、EventBus 未收到 `item_registry.reloaded`、控制台打印 `"reload disabled in release build"`。**注**：`OS.is_debug_build()` 是引擎静态方法，无法在 GDUnit4 中被 mock；本 AC 需在 `production/qa/evidence/` 记录一次手动验证截图（导出 release build → 启动 → 控制台调 reload → 观察提示 → 确认 _items 不变）。
+- [x] AC-E2: GIVEN `(debug=true, HOT_RELOAD_ENABLED=true)` 条件下（同 AC-E1a true 分支），修改 items.json 添加新 id `"test_new_item"`，调 `reload()` 后，WHEN `has_item("test_new_item")`，THEN `true`
 
 ---
 
@@ -88,7 +88,7 @@
 **Required evidence**:
 - `production/qa/evidence/e-4-1-evidence.md` — manual/interaction evidence with sign-off
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -96,3 +96,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 012
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 6, story 16/20
+- Sprint source: `production/sprints/sprint-6.md`
+- QA plan: `production/qa/qa-plan-sprint-6-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-6-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd`
+  - `tests/unit/item_registry/item_registry_load_test.gd`
+  - `tests/unit/item_registry/item_registry_query_test.gd`
+  - `tests/integration/item_registry/item_registry_lifecycle_test.gd`
+  - `tests/performance/item_registry_performance_test.gd`

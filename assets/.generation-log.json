@@ -1,861 +1,1293 @@
 {
-  "version": 1,
+  "version": 2,
+  "generated_at": "2026-05-04",
+  "policy": "official visual assets use built-in image_gen through $generate2dmap / $generate2dsprite; deterministic fallback is deprecated",
+  "total_png_with_meta": 107,
+  "non_image_gen_count": 0,
   "entries": [
-    {
-      "path": "assets/ui/icons/resources/lingqi.png",
-      "status": "generated",
-      "width": 64,
-      "height": 64,
-      "category": "ui_resource_icon",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/resources/xiuwei.png",
-      "status": "generated",
-      "width": 64,
-      "height": 64,
-      "category": "ui_resource_icon",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/resources/lingshi.png",
-      "status": "generated",
-      "width": 64,
-      "height": 64,
-      "category": "ui_resource_icon",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/resources/herb.png",
-      "status": "generated",
-      "width": 64,
-      "height": 64,
-      "category": "ui_resource_icon",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/resources/exp.png",
-      "status": "generated",
-      "width": 64,
-      "height": 64,
-      "category": "ui_resource_icon",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/stances/idle.png",
-      "status": "generated",
-      "width": 64,
-      "height": 64,
-      "category": "ui_stance_icon",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/stances/meditate.png",
-      "status": "generated",
-      "width": 64,
-      "height": 64,
-      "category": "ui_stance_icon",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/stances/condense.png",
-      "status": "generated",
-      "width": 64,
-      "height": 64,
-      "category": "ui_stance_icon",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/stances/closed_door.png",
-      "status": "generated",
-      "width": 64,
-      "height": 64,
-      "category": "ui_stance_icon",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/status/overflow_warn.png",
-      "status": "generated",
-      "width": 48,
-      "height": 48,
-      "category": "ui_status_icon",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/status/combat_active.png",
-      "status": "generated",
-      "width": 48,
-      "height": 48,
-      "category": "ui_status_icon",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/status/combat_failed.png",
-      "status": "generated",
-      "width": 48,
-      "height": 48,
-      "category": "ui_status_icon",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/status/level_up.png",
-      "status": "generated",
-      "width": 48,
-      "height": 48,
-      "category": "ui_status_icon",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/status/offline_pending.png",
-      "status": "generated",
-      "width": 48,
-      "height": 48,
-      "category": "ui_status_icon",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/rarity/common_frame.png",
-      "status": "generated",
-      "width": 128,
-      "height": 128,
-      "category": "ui_rarity_frame",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/rarity/uncommon_frame.png",
-      "status": "generated",
-      "width": 128,
-      "height": 128,
-      "category": "ui_rarity_frame",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/rarity/rare_frame.png",
-      "status": "generated",
-      "width": 128,
-      "height": 128,
-      "category": "ui_rarity_frame",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/rarity/epic_frame.png",
-      "status": "generated",
-      "width": 128,
-      "height": 128,
-      "category": "ui_rarity_frame",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/rarity/legendary_frame.png",
-      "status": "generated",
-      "width": 128,
-      "height": 128,
-      "category": "ui_rarity_frame",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/rarity/mythic_frame.png",
-      "status": "generated",
-      "width": 128,
-      "height": 128,
-      "category": "ui_rarity_frame",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/rarity/innate_frame.png",
-      "status": "generated",
-      "width": 128,
-      "height": 128,
-      "category": "ui_rarity_frame",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/rarity/chaos_frame.png",
-      "status": "generated",
-      "width": 128,
-      "height": 128,
-      "category": "ui_rarity_frame",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/realm/mortal.png",
-      "status": "generated",
-      "width": 96,
-      "height": 96,
-      "category": "ui_realm_badge",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/realm/qi_refining.png",
-      "status": "generated",
-      "width": 96,
-      "height": 96,
-      "category": "ui_realm_badge",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/realm/foundation.png",
-      "status": "generated",
-      "width": 96,
-      "height": 96,
-      "category": "ui_realm_badge",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/realm/golden_core.png",
-      "status": "generated",
-      "width": 96,
-      "height": 96,
-      "category": "ui_realm_badge",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/realm/yuanying.png",
-      "status": "generated",
-      "width": 96,
-      "height": 96,
-      "category": "ui_realm_badge",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/realm/huashen.png",
-      "status": "generated",
-      "width": 96,
-      "height": 96,
-      "category": "ui_realm_badge",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/icons/realm/heti.png",
-      "status": "generated",
-      "width": 96,
-      "height": 96,
-      "category": "ui_realm_badge",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/frames/panel_primary.png",
-      "status": "generated",
-      "width": 192,
-      "height": 192,
-      "category": "ui_frame",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/frames/panel_secondary.png",
-      "status": "generated",
-      "width": 192,
-      "height": 192,
-      "category": "ui_frame",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/frames/panel_elevated.png",
-      "status": "generated",
-      "width": 192,
-      "height": 192,
-      "category": "ui_frame",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/frames/button_states.png",
-      "status": "generated",
-      "width": 96,
-      "height": 288,
-      "category": "ui_frame",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/seals/burst_gold.png",
-      "status": "generated",
-      "width": 512,
-      "height": 512,
-      "category": "ui_seal",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/seals/failure_red.png",
-      "status": "generated",
-      "width": 512,
-      "height": 512,
-      "category": "ui_seal",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/ui/seals/ink_default.png",
-      "status": "generated",
-      "width": 512,
-      "height": 512,
-      "category": "ui_seal",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/characters/player/portrait.png",
-      "status": "generated",
-      "width": 512,
-      "height": 768,
-      "category": "player",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/characters/player/idle_sheet.png",
-      "status": "generated",
-      "width": 1024,
-      "height": 1024,
-      "category": "player",
-      "source": "deterministic_mvp_fallback"
-    },
     {
       "path": "assets/characters/player/attack_sheet.png",
       "status": "generated",
       "width": 768,
       "height": 512,
-      "category": "player",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/characters/player/hurt_sheet.png",
-      "status": "generated",
-      "width": 1024,
-      "height": 256,
-      "category": "player",
-      "source": "deterministic_mvp_fallback"
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/characters/player/attack_sheet.prompt.txt",
+      "meta_path": "assets/characters/player/attack_sheet.pipeline-meta.json"
     },
     {
       "path": "assets/characters/player/death_sheet.png",
       "status": "generated",
       "width": 768,
       "height": 512,
-      "category": "player",
-      "source": "deterministic_mvp_fallback"
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/characters/player/death_sheet.prompt.txt",
+      "meta_path": "assets/characters/player/death_sheet.pipeline-meta.json"
     },
     {
-      "path": "assets/enemies/starter_zone/mountain_rat_idle.png",
+      "path": "assets/characters/player/hurt_sheet.png",
       "status": "generated",
       "width": 1024,
       "height": 256,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/characters/player/hurt_sheet.prompt.txt",
+      "meta_path": "assets/characters/player/hurt_sheet.pipeline-meta.json"
     },
     {
-      "path": "assets/enemies/starter_zone/mountain_rat_attack.png",
+      "path": "assets/characters/player/idle_sheet.png",
       "status": "generated",
       "width": 1024,
-      "height": 256,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
+      "height": 1024,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + broad magenta cleanup",
+      "prompt_path": "assets/characters/player/idle_sheet.prompt.txt",
+      "meta_path": "assets/characters/player/idle_sheet.pipeline-meta.json"
     },
     {
-      "path": "assets/enemies/starter_zone/mountain_rat_portrait.png",
-      "status": "generated",
-      "width": 256,
-      "height": 256,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/starter_zone/forest_wolf_idle.png",
-      "status": "generated",
-      "width": 1024,
-      "height": 256,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/starter_zone/forest_wolf_attack.png",
-      "status": "generated",
-      "width": 1024,
-      "height": 256,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/starter_zone/forest_wolf_portrait.png",
-      "status": "generated",
-      "width": 256,
-      "height": 256,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/starter_zone/low_yao_qi_idle.png",
+      "path": "assets/characters/player/portrait.png",
       "status": "generated",
       "width": 512,
       "height": 512,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/starter_zone/low_yao_qi_attack.png",
-      "status": "generated",
-      "width": 1024,
-      "height": 256,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/starter_zone/low_yao_qi_portrait.png",
-      "status": "generated",
-      "width": 256,
-      "height": 256,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/mid_zone/ghost_flame_idle.png",
-      "status": "generated",
-      "width": 512,
-      "height": 512,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/mid_zone/ghost_flame_projectile.png",
-      "status": "generated",
-      "width": 1024,
-      "height": 256,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/mid_zone/ghost_flame_portrait.png",
-      "status": "generated",
-      "width": 256,
-      "height": 256,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/mid_zone/cold_corpse_idle.png",
-      "status": "generated",
-      "width": 1024,
-      "height": 256,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/mid_zone/cold_corpse_attack.png",
-      "status": "generated",
-      "width": 1024,
-      "height": 256,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/mid_zone/cold_corpse_portrait.png",
-      "status": "generated",
-      "width": 256,
-      "height": 256,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/mid_zone/evil_disciple_idle.png",
-      "status": "generated",
-      "width": 1024,
-      "height": 256,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/mid_zone/evil_disciple_attack.png",
-      "status": "generated",
-      "width": 1024,
-      "height": 256,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/mid_zone/evil_disciple_portrait.png",
-      "status": "generated",
-      "width": 256,
-      "height": 256,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/end_zone/reef_shark_idle.png",
-      "status": "generated",
-      "width": 768,
-      "height": 512,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/end_zone/reef_shark_attack.png",
-      "status": "generated",
-      "width": 1024,
-      "height": 256,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/end_zone/reef_shark_portrait.png",
-      "status": "generated",
-      "width": 256,
-      "height": 256,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/end_zone/sea_yao_idle.png",
-      "status": "generated",
-      "width": 1024,
-      "height": 256,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/end_zone/sea_yao_attack.png",
-      "status": "generated",
-      "width": 1024,
-      "height": 256,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/end_zone/sea_yao_portrait.png",
-      "status": "generated",
-      "width": 256,
-      "height": 256,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/end_zone/broken_dragon_shadow_idle.png",
-      "status": "generated",
-      "width": 768,
-      "height": 512,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/end_zone/broken_dragon_shadow_attack.png",
-      "status": "generated",
-      "width": 1024,
-      "height": 256,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/end_zone/broken_dragon_shadow_portrait.png",
-      "status": "generated",
-      "width": 256,
-      "height": 256,
-      "category": "enemy",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/current/training_dummy_idle.png",
-      "status": "generated",
-      "width": 1024,
-      "height": 256,
-      "category": "enemy_current",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/current/training_dummy_attack.png",
-      "status": "generated",
-      "width": 1024,
-      "height": 256,
-      "category": "enemy_current",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/current/training_dummy_portrait.png",
-      "status": "generated",
-      "width": 256,
-      "height": 256,
-      "category": "enemy_current",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/current/wild_wolf_idle.png",
-      "status": "generated",
-      "width": 1024,
-      "height": 256,
-      "category": "enemy_current",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/current/wild_wolf_attack.png",
-      "status": "generated",
-      "width": 1024,
-      "height": 256,
-      "category": "enemy_current",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/current/wild_wolf_portrait.png",
-      "status": "generated",
-      "width": 256,
-      "height": 256,
-      "category": "enemy_current",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/enemies/current/mountain_bandit_idle.png",
-      "status": "generated",
-      "width": 1024,
-      "height": 256,
-      "category": "enemy_current",
-      "source": "deterministic_mvp_fallback"
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + connected magenta cleanup",
+      "prompt_path": "assets/characters/player/portrait.prompt.txt",
+      "meta_path": "assets/characters/player/portrait.pipeline-meta.json"
     },
     {
       "path": "assets/enemies/current/mountain_bandit_attack.png",
       "status": "generated",
       "width": 1024,
       "height": 256,
-      "category": "enemy_current",
-      "source": "deterministic_mvp_fallback"
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+      "prompt_path": "assets/enemies/current/mountain_bandit_attack.prompt.txt",
+      "meta_path": "assets/enemies/current/mountain_bandit_attack.pipeline-meta.json"
+    },
+    {
+      "path": "assets/enemies/current/mountain_bandit_idle.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+      "prompt_path": "assets/enemies/current/mountain_bandit_idle.prompt.txt",
+      "meta_path": "assets/enemies/current/mountain_bandit_idle.pipeline-meta.json"
     },
     {
       "path": "assets/enemies/current/mountain_bandit_portrait.png",
       "status": "generated",
       "width": 256,
       "height": 256,
-      "category": "enemy_current",
-      "source": "deterministic_mvp_fallback"
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+      "prompt_path": "assets/enemies/current/mountain_bandit_portrait.prompt.txt",
+      "meta_path": "assets/enemies/current/mountain_bandit_portrait.pipeline-meta.json"
     },
     {
-      "path": "assets/map/main_base.png",
+      "path": "assets/enemies/current/training_dummy_attack.png",
       "status": "generated",
-      "width": 1920,
-      "height": 1080,
-      "category": "map",
-      "source": "deterministic_mvp_fallback"
+      "width": 1024,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+      "prompt_path": "assets/enemies/current/training_dummy_attack.prompt.txt",
+      "meta_path": "assets/enemies/current/training_dummy_attack.pipeline-meta.json"
     },
     {
-      "path": "assets/map/starter_forest.png",
+      "path": "assets/enemies/current/training_dummy_idle.png",
       "status": "generated",
-      "width": 1920,
-      "height": 1080,
-      "category": "map",
-      "source": "deterministic_mvp_fallback"
+      "width": 1024,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+      "prompt_path": "assets/enemies/current/training_dummy_idle.prompt.txt",
+      "meta_path": "assets/enemies/current/training_dummy_idle.pipeline-meta.json"
     },
     {
-      "path": "assets/map/ruined_temple.png",
+      "path": "assets/enemies/current/training_dummy_portrait.png",
       "status": "generated",
-      "width": 1920,
-      "height": 1080,
-      "category": "map",
-      "source": "deterministic_mvp_fallback"
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+      "prompt_path": "assets/enemies/current/training_dummy_portrait.prompt.txt",
+      "meta_path": "assets/enemies/current/training_dummy_portrait.pipeline-meta.json"
     },
     {
-      "path": "assets/map/east_sea_shore.png",
+      "path": "assets/enemies/current/wild_wolf_attack.png",
       "status": "generated",
-      "width": 1920,
-      "height": 1080,
-      "category": "map",
-      "source": "deterministic_mvp_fallback"
+      "width": 1024,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+      "prompt_path": "assets/enemies/current/wild_wolf_attack.prompt.txt",
+      "meta_path": "assets/enemies/current/wild_wolf_attack.pipeline-meta.json"
     },
     {
-      "path": "assets/map/town_economy.png",
+      "path": "assets/enemies/current/wild_wolf_idle.png",
       "status": "generated",
-      "width": 1920,
-      "height": 1080,
-      "category": "map",
-      "source": "deterministic_mvp_fallback"
+      "width": 1024,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+      "prompt_path": "assets/enemies/current/wild_wolf_idle.prompt.txt",
+      "meta_path": "assets/enemies/current/wild_wolf_idle.pipeline-meta.json"
     },
     {
-      "path": "assets/overlays/failure_grey.png",
+      "path": "assets/enemies/current/wild_wolf_portrait.png",
       "status": "generated",
-      "width": 1920,
-      "height": 1080,
-      "category": "overlay",
-      "source": "deterministic_mvp_fallback"
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+      "prompt_path": "assets/enemies/current/wild_wolf_portrait.prompt.txt",
+      "meta_path": "assets/enemies/current/wild_wolf_portrait.pipeline-meta.json"
     },
     {
-      "path": "assets/overlays/offline_paper.png",
+      "path": "assets/enemies/end_zone/broken_dragon_shadow_attack.png",
       "status": "generated",
-      "width": 1280,
-      "height": 720,
-      "category": "overlay",
-      "source": "deterministic_mvp_fallback"
+      "width": 1024,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+      "prompt_path": "assets/enemies/end_zone/broken_dragon_shadow_attack.prompt.txt",
+      "meta_path": "assets/enemies/end_zone/broken_dragon_shadow_attack.pipeline-meta.json"
     },
     {
-      "path": "assets/items/low_lingshi.png",
+      "path": "assets/enemies/end_zone/broken_dragon_shadow_idle.png",
       "status": "generated",
-      "width": 64,
-      "height": 64,
-      "category": "item",
-      "source": "deterministic_mvp_fallback"
+      "width": 1024,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+      "prompt_path": "assets/enemies/end_zone/broken_dragon_shadow_idle.prompt.txt",
+      "meta_path": "assets/enemies/end_zone/broken_dragon_shadow_idle.pipeline-meta.json"
     },
     {
-      "path": "assets/items/mid_lingshi.png",
+      "path": "assets/enemies/end_zone/broken_dragon_shadow_portrait.png",
       "status": "generated",
-      "width": 64,
-      "height": 64,
-      "category": "item",
-      "source": "deterministic_mvp_fallback"
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+      "prompt_path": "assets/enemies/end_zone/broken_dragon_shadow_portrait.prompt.txt",
+      "meta_path": "assets/enemies/end_zone/broken_dragon_shadow_portrait.pipeline-meta.json"
     },
     {
-      "path": "assets/items/high_lingshi.png",
+      "path": "assets/enemies/end_zone/reef_shark_attack.png",
       "status": "generated",
-      "width": 64,
-      "height": 64,
-      "category": "item",
-      "source": "deterministic_mvp_fallback"
+      "width": 1024,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + assemble_enemy_unit_atlas.py",
+      "prompt_path": "assets/enemies/end_zone/reef_shark_attack.prompt.txt",
+      "meta_path": "assets/enemies/end_zone/reef_shark_attack.pipeline-meta.json"
     },
     {
-      "path": "assets/items/ling_grass.png",
+      "path": "assets/enemies/end_zone/reef_shark_idle.png",
       "status": "generated",
-      "width": 64,
-      "height": 64,
-      "category": "item",
-      "source": "deterministic_mvp_fallback"
+      "width": 1024,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + assemble_enemy_unit_atlas.py",
+      "prompt_path": "assets/enemies/end_zone/reef_shark_idle.prompt.txt",
+      "meta_path": "assets/enemies/end_zone/reef_shark_idle.pipeline-meta.json"
+    },
+    {
+      "path": "assets/enemies/end_zone/reef_shark_portrait.png",
+      "status": "generated",
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + assemble_enemy_unit_atlas.py",
+      "prompt_path": "assets/enemies/end_zone/reef_shark_portrait.prompt.txt",
+      "meta_path": "assets/enemies/end_zone/reef_shark_portrait.pipeline-meta.json"
+    },
+    {
+      "path": "assets/enemies/end_zone/sea_yao_attack.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+      "prompt_path": "assets/enemies/end_zone/sea_yao_attack.prompt.txt",
+      "meta_path": "assets/enemies/end_zone/sea_yao_attack.pipeline-meta.json"
+    },
+    {
+      "path": "assets/enemies/end_zone/sea_yao_idle.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+      "prompt_path": "assets/enemies/end_zone/sea_yao_idle.prompt.txt",
+      "meta_path": "assets/enemies/end_zone/sea_yao_idle.pipeline-meta.json"
+    },
+    {
+      "path": "assets/enemies/end_zone/sea_yao_portrait.png",
+      "status": "generated",
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+      "prompt_path": "assets/enemies/end_zone/sea_yao_portrait.prompt.txt",
+      "meta_path": "assets/enemies/end_zone/sea_yao_portrait.pipeline-meta.json"
+    },
+    {
+      "path": "assets/enemies/mid_zone/cold_corpse_attack.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + assemble_enemy_unit_atlas.py",
+      "prompt_path": "assets/enemies/mid_zone/cold_corpse_attack.prompt.txt",
+      "meta_path": "assets/enemies/mid_zone/cold_corpse_attack.pipeline-meta.json"
+    },
+    {
+      "path": "assets/enemies/mid_zone/cold_corpse_idle.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + assemble_enemy_unit_atlas.py",
+      "prompt_path": "assets/enemies/mid_zone/cold_corpse_idle.prompt.txt",
+      "meta_path": "assets/enemies/mid_zone/cold_corpse_idle.pipeline-meta.json"
+    },
+    {
+      "path": "assets/enemies/mid_zone/cold_corpse_portrait.png",
+      "status": "generated",
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + assemble_enemy_unit_atlas.py",
+      "prompt_path": "assets/enemies/mid_zone/cold_corpse_portrait.prompt.txt",
+      "meta_path": "assets/enemies/mid_zone/cold_corpse_portrait.pipeline-meta.json"
+    },
+    {
+      "path": "assets/enemies/mid_zone/evil_disciple_attack.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + assemble_enemy_unit_atlas.py",
+      "prompt_path": "assets/enemies/mid_zone/evil_disciple_attack.prompt.txt",
+      "meta_path": "assets/enemies/mid_zone/evil_disciple_attack.pipeline-meta.json"
+    },
+    {
+      "path": "assets/enemies/mid_zone/evil_disciple_idle.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + assemble_enemy_unit_atlas.py",
+      "prompt_path": "assets/enemies/mid_zone/evil_disciple_idle.prompt.txt",
+      "meta_path": "assets/enemies/mid_zone/evil_disciple_idle.pipeline-meta.json"
+    },
+    {
+      "path": "assets/enemies/mid_zone/evil_disciple_portrait.png",
+      "status": "generated",
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + assemble_enemy_unit_atlas.py",
+      "prompt_path": "assets/enemies/mid_zone/evil_disciple_portrait.prompt.txt",
+      "meta_path": "assets/enemies/mid_zone/evil_disciple_portrait.pipeline-meta.json"
+    },
+    {
+      "path": "assets/enemies/mid_zone/ghost_flame_idle.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + assemble_enemy_unit_atlas.py",
+      "prompt_path": "assets/enemies/mid_zone/ghost_flame_idle.prompt.txt",
+      "meta_path": "assets/enemies/mid_zone/ghost_flame_idle.pipeline-meta.json"
+    },
+    {
+      "path": "assets/enemies/mid_zone/ghost_flame_portrait.png",
+      "status": "generated",
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + assemble_enemy_unit_atlas.py",
+      "prompt_path": "assets/enemies/mid_zone/ghost_flame_portrait.prompt.txt",
+      "meta_path": "assets/enemies/mid_zone/ghost_flame_portrait.pipeline-meta.json"
+    },
+    {
+      "path": "assets/enemies/mid_zone/ghost_flame_projectile.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + assemble_enemy_unit_atlas.py",
+      "prompt_path": "assets/enemies/mid_zone/ghost_flame_projectile.prompt.txt",
+      "meta_path": "assets/enemies/mid_zone/ghost_flame_projectile.pipeline-meta.json"
+    },
+    {
+      "path": "assets/enemies/starter_zone/forest_wolf_attack.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + assemble_enemy_unit_atlas.py",
+      "prompt_path": "assets/enemies/starter_zone/forest_wolf_attack.prompt.txt",
+      "meta_path": "assets/enemies/starter_zone/forest_wolf_attack.pipeline-meta.json"
+    },
+    {
+      "path": "assets/enemies/starter_zone/forest_wolf_idle.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + assemble_enemy_unit_atlas.py",
+      "prompt_path": "assets/enemies/starter_zone/forest_wolf_idle.prompt.txt",
+      "meta_path": "assets/enemies/starter_zone/forest_wolf_idle.pipeline-meta.json"
+    },
+    {
+      "path": "assets/enemies/starter_zone/forest_wolf_portrait.png",
+      "status": "generated",
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + assemble_enemy_unit_atlas.py",
+      "prompt_path": "assets/enemies/starter_zone/forest_wolf_portrait.prompt.txt",
+      "meta_path": "assets/enemies/starter_zone/forest_wolf_portrait.pipeline-meta.json"
+    },
+    {
+      "path": "assets/enemies/starter_zone/low_yao_qi_attack.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + assemble_enemy_unit_atlas.py",
+      "prompt_path": "assets/enemies/starter_zone/low_yao_qi_attack.prompt.txt",
+      "meta_path": "assets/enemies/starter_zone/low_yao_qi_attack.pipeline-meta.json"
+    },
+    {
+      "path": "assets/enemies/starter_zone/low_yao_qi_idle.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + assemble_enemy_unit_atlas.py",
+      "prompt_path": "assets/enemies/starter_zone/low_yao_qi_idle.prompt.txt",
+      "meta_path": "assets/enemies/starter_zone/low_yao_qi_idle.pipeline-meta.json"
+    },
+    {
+      "path": "assets/enemies/starter_zone/low_yao_qi_portrait.png",
+      "status": "generated",
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + assemble_enemy_unit_atlas.py",
+      "prompt_path": "assets/enemies/starter_zone/low_yao_qi_portrait.prompt.txt",
+      "meta_path": "assets/enemies/starter_zone/low_yao_qi_portrait.pipeline-meta.json"
+    },
+    {
+      "path": "assets/enemies/starter_zone/mountain_rat_attack.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + assemble_enemy_unit_atlas.py",
+      "prompt_path": "assets/enemies/starter_zone/mountain_rat_attack.prompt.txt",
+      "meta_path": "assets/enemies/starter_zone/mountain_rat_attack.pipeline-meta.json"
+    },
+    {
+      "path": "assets/enemies/starter_zone/mountain_rat_idle.png",
+      "status": "generated",
+      "width": 1024,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + assemble_enemy_unit_atlas.py",
+      "prompt_path": "assets/enemies/starter_zone/mountain_rat_idle.prompt.txt",
+      "meta_path": "assets/enemies/starter_zone/mountain_rat_idle.pipeline-meta.json"
+    },
+    {
+      "path": "assets/enemies/starter_zone/mountain_rat_portrait.png",
+      "status": "generated",
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + assemble_enemy_unit_atlas.py",
+      "prompt_path": "assets/enemies/starter_zone/mountain_rat_portrait.prompt.txt",
+      "meta_path": "assets/enemies/starter_zone/mountain_rat_portrait.pipeline-meta.json"
     },
     {
       "path": "assets/items/blood_ginseng.png",
       "status": "generated",
       "width": 64,
       "height": 64,
-      "category": "item",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/items/sea_pearl.png",
-      "status": "generated",
-      "width": 64,
-      "height": 64,
-      "category": "item",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/items/low_pill.png",
-      "status": "generated",
-      "width": 64,
-      "height": 64,
-      "category": "item",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/items/talisman_paper.png",
-      "status": "generated",
-      "width": 64,
-      "height": 64,
-      "category": "item",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/items/iron_ore.png",
-      "status": "generated",
-      "width": 64,
-      "height": 64,
-      "category": "item",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/items/evil_dust.png",
-      "status": "generated",
-      "width": 64,
-      "height": 64,
-      "category": "item",
-      "source": "deterministic_mvp_fallback"
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process chroma_key_extract_align",
+      "prompt_path": "assets/items/blood_ginseng.prompt.txt",
+      "meta_path": "assets/items/blood_ginseng.pipeline-meta.json"
     },
     {
       "path": "assets/items/dragon_scale.png",
       "status": "generated",
       "width": 64,
       "height": 64,
-      "category": "item",
-      "source": "deterministic_mvp_fallback"
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process chroma_key_extract_align",
+      "prompt_path": "assets/items/dragon_scale.prompt.txt",
+      "meta_path": "assets/items/dragon_scale.pipeline-meta.json"
+    },
+    {
+      "path": "assets/items/evil_dust.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process chroma_key_extract_align",
+      "prompt_path": "assets/items/evil_dust.prompt.txt",
+      "meta_path": "assets/items/evil_dust.pipeline-meta.json"
+    },
+    {
+      "path": "assets/items/high_lingshi.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process chroma_key_extract_align",
+      "prompt_path": "assets/items/high_lingshi.prompt.txt",
+      "meta_path": "assets/items/high_lingshi.pipeline-meta.json"
+    },
+    {
+      "path": "assets/items/iron_ore.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process chroma_key_extract_align",
+      "prompt_path": "assets/items/iron_ore.prompt.txt",
+      "meta_path": "assets/items/iron_ore.pipeline-meta.json"
+    },
+    {
+      "path": "assets/items/item_pack_basic_sheet.png",
+      "status": "generated",
+      "width": 192,
+      "height": 192,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/items/item_pack_basic_sheet.prompt.txt",
+      "meta_path": "assets/items/item_pack_basic_sheet.pipeline-meta.json"
+    },
+    {
+      "path": "assets/items/item_pack_rare_sheet.png",
+      "status": "generated",
+      "width": 128,
+      "height": 128,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/items/item_pack_rare_sheet.prompt.txt",
+      "meta_path": "assets/items/item_pack_rare_sheet.pipeline-meta.json"
+    },
+    {
+      "path": "assets/items/ling_grass.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process chroma_key_extract_align",
+      "prompt_path": "assets/items/ling_grass.prompt.txt",
+      "meta_path": "assets/items/ling_grass.pipeline-meta.json"
+    },
+    {
+      "path": "assets/items/low_lingshi.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process chroma_key_extract_align",
+      "prompt_path": "assets/items/low_lingshi.prompt.txt",
+      "meta_path": "assets/items/low_lingshi.pipeline-meta.json"
+    },
+    {
+      "path": "assets/items/low_pill.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process chroma_key_extract_align",
+      "prompt_path": "assets/items/low_pill.prompt.txt",
+      "meta_path": "assets/items/low_pill.pipeline-meta.json"
+    },
+    {
+      "path": "assets/items/mid_lingshi.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process chroma_key_extract_align",
+      "prompt_path": "assets/items/mid_lingshi.prompt.txt",
+      "meta_path": "assets/items/mid_lingshi.pipeline-meta.json"
     },
     {
       "path": "assets/items/pure_qi_crystal.png",
       "status": "generated",
       "width": 64,
       "height": 64,
-      "category": "item",
-      "source": "deterministic_mvp_fallback"
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process chroma_key_extract_align",
+      "prompt_path": "assets/items/pure_qi_crystal.prompt.txt",
+      "meta_path": "assets/items/pure_qi_crystal.pipeline-meta.json"
     },
     {
-      "path": "assets/items/item_pack_basic_sheet.png",
+      "path": "assets/items/sea_pearl.png",
       "status": "generated",
-      "width": 768,
-      "height": 768,
-      "category": "item_pack",
-      "source": "deterministic_mvp_fallback"
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process chroma_key_extract_align",
+      "prompt_path": "assets/items/sea_pearl.prompt.txt",
+      "meta_path": "assets/items/sea_pearl.pipeline-meta.json"
     },
     {
-      "path": "assets/items/item_pack_rare_sheet.png",
+      "path": "assets/items/talisman_paper.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process chroma_key_extract_align",
+      "prompt_path": "assets/items/talisman_paper.prompt.txt",
+      "meta_path": "assets/items/talisman_paper.pipeline-meta.json"
+    },
+    {
+      "path": "assets/map/east_sea_shore.png",
+      "status": "generated",
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dmap",
+      "postprocess": "cover_resize_center_crop",
+      "prompt_path": "assets/map/east_sea_shore.prompt.txt",
+      "meta_path": "assets/map/east_sea_shore.pipeline-meta.json"
+    },
+    {
+      "path": "assets/map/main_base.png",
+      "status": "generated",
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dmap",
+      "postprocess": "cover_resize_center_crop",
+      "prompt_path": "assets/map/main_base.prompt.txt",
+      "meta_path": "assets/map/main_base.pipeline-meta.json"
+    },
+    {
+      "path": "assets/map/ruined_temple.png",
+      "status": "generated",
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dmap",
+      "postprocess": "cover_resize_center_crop",
+      "prompt_path": "assets/map/ruined_temple.prompt.txt",
+      "meta_path": "assets/map/ruined_temple.pipeline-meta.json"
+    },
+    {
+      "path": "assets/map/starter_forest.png",
+      "status": "generated",
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dmap",
+      "postprocess": "cover_resize_center_crop",
+      "prompt_path": "assets/map/starter_forest.prompt.txt",
+      "meta_path": "assets/map/starter_forest.pipeline-meta.json"
+    },
+    {
+      "path": "assets/map/town_economy.png",
+      "status": "generated",
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dmap",
+      "postprocess": "cover_resize_center_crop",
+      "prompt_path": "assets/map/town_economy.prompt.txt",
+      "meta_path": "assets/map/town_economy.pipeline-meta.json"
+    },
+    {
+      "path": "assets/overlays/failure_grey.png",
+      "status": "generated",
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dmap",
+      "postprocess": "cover_resize_center_crop_set_alpha_153",
+      "prompt_path": "assets/overlays/failure_grey.prompt.txt",
+      "meta_path": "assets/overlays/failure_grey.pipeline-meta.json"
+    },
+    {
+      "path": "assets/overlays/offline_paper.png",
+      "status": "generated",
+      "width": 1280,
+      "height": 720,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dmap",
+      "postprocess": "cover_resize_center_crop",
+      "prompt_path": "assets/overlays/offline_paper.prompt.txt",
+      "meta_path": "assets/overlays/offline_paper.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/frames/button_states.png",
+      "status": "generated",
+      "width": 96,
+      "height": 288,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/frames/button_states.prompt.txt",
+      "meta_path": "assets/ui/frames/button_states.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/frames/panel_elevated.png",
+      "status": "generated",
+      "width": 192,
+      "height": 192,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/frames/panel_elevated.prompt.txt",
+      "meta_path": "assets/ui/frames/panel_elevated.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/frames/panel_primary.png",
+      "status": "generated",
+      "width": 192,
+      "height": 192,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/frames/panel_primary.prompt.txt",
+      "meta_path": "assets/ui/frames/panel_primary.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/frames/panel_secondary.png",
+      "status": "generated",
+      "width": 192,
+      "height": 192,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/frames/panel_secondary.prompt.txt",
+      "meta_path": "assets/ui/frames/panel_secondary.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/rarity/chaos_frame.png",
+      "status": "generated",
+      "width": 128,
+      "height": 128,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/rarity/chaos_frame.prompt.txt",
+      "meta_path": "assets/ui/icons/rarity/chaos_frame.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/rarity/common_frame.png",
+      "status": "generated",
+      "width": 128,
+      "height": 128,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/rarity/common_frame.prompt.txt",
+      "meta_path": "assets/ui/icons/rarity/common_frame.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/rarity/epic_frame.png",
+      "status": "generated",
+      "width": 128,
+      "height": 128,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/rarity/epic_frame.prompt.txt",
+      "meta_path": "assets/ui/icons/rarity/epic_frame.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/rarity/innate_frame.png",
+      "status": "generated",
+      "width": 128,
+      "height": 128,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/rarity/innate_frame.prompt.txt",
+      "meta_path": "assets/ui/icons/rarity/innate_frame.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/rarity/legendary_frame.png",
+      "status": "generated",
+      "width": 128,
+      "height": 128,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/rarity/legendary_frame.prompt.txt",
+      "meta_path": "assets/ui/icons/rarity/legendary_frame.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/rarity/mythic_frame.png",
+      "status": "generated",
+      "width": 128,
+      "height": 128,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/rarity/mythic_frame.prompt.txt",
+      "meta_path": "assets/ui/icons/rarity/mythic_frame.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/rarity/rare_frame.png",
+      "status": "generated",
+      "width": 128,
+      "height": 128,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/rarity/rare_frame.prompt.txt",
+      "meta_path": "assets/ui/icons/rarity/rare_frame.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/rarity/uncommon_frame.png",
+      "status": "generated",
+      "width": 128,
+      "height": 128,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/rarity/uncommon_frame.prompt.txt",
+      "meta_path": "assets/ui/icons/rarity/uncommon_frame.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/realm/foundation.png",
+      "status": "generated",
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/realm/foundation.prompt.txt",
+      "meta_path": "assets/ui/icons/realm/foundation.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/realm/golden_core.png",
+      "status": "generated",
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/realm/golden_core.prompt.txt",
+      "meta_path": "assets/ui/icons/realm/golden_core.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/realm/heti.png",
+      "status": "generated",
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/realm/heti.prompt.txt",
+      "meta_path": "assets/ui/icons/realm/heti.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/realm/huashen.png",
+      "status": "generated",
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/realm/huashen.prompt.txt",
+      "meta_path": "assets/ui/icons/realm/huashen.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/realm/mortal.png",
+      "status": "generated",
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/realm/mortal.prompt.txt",
+      "meta_path": "assets/ui/icons/realm/mortal.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/realm/qi_refining.png",
+      "status": "generated",
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/realm/qi_refining.prompt.txt",
+      "meta_path": "assets/ui/icons/realm/qi_refining.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/realm/yuanying.png",
+      "status": "generated",
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/realm/yuanying.prompt.txt",
+      "meta_path": "assets/ui/icons/realm/yuanying.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/resources/exp.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/resources/exp.prompt.txt",
+      "meta_path": "assets/ui/icons/resources/exp.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/resources/herb.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/resources/herb.prompt.txt",
+      "meta_path": "assets/ui/icons/resources/herb.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/resources/lingqi.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/resources/lingqi.prompt.txt",
+      "meta_path": "assets/ui/icons/resources/lingqi.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/resources/lingshi.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/resources/lingshi.prompt.txt",
+      "meta_path": "assets/ui/icons/resources/lingshi.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/resources/xiuwei.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/resources/xiuwei.prompt.txt",
+      "meta_path": "assets/ui/icons/resources/xiuwei.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/stances/closed_door.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/stances/closed_door.prompt.txt",
+      "meta_path": "assets/ui/icons/stances/closed_door.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/stances/condense.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/stances/condense.prompt.txt",
+      "meta_path": "assets/ui/icons/stances/condense.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/stances/idle.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/stances/idle.prompt.txt",
+      "meta_path": "assets/ui/icons/stances/idle.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/stances/meditate.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/stances/meditate.prompt.txt",
+      "meta_path": "assets/ui/icons/stances/meditate.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/status/combat_active.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/status/combat_active.prompt.txt",
+      "meta_path": "assets/ui/icons/status/combat_active.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/status/combat_failed.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/status/combat_failed.prompt.txt",
+      "meta_path": "assets/ui/icons/status/combat_failed.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/status/level_up.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/status/level_up.prompt.txt",
+      "meta_path": "assets/ui/icons/status/level_up.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/status/offline_pending.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/status/offline_pending.prompt.txt",
+      "meta_path": "assets/ui/icons/status/offline_pending.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/icons/status/overflow_warn.png",
+      "status": "generated",
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process",
+      "prompt_path": "assets/ui/icons/status/overflow_warn.prompt.txt",
+      "meta_path": "assets/ui/icons/status/overflow_warn.pipeline-meta.json"
+    },
+    {
+      "path": "assets/ui/seals/burst_gold.png",
       "status": "generated",
       "width": 512,
       "height": 512,
-      "category": "item_pack",
-      "source": "deterministic_mvp_fallback"
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + broad magenta cleanup",
+      "prompt_path": "assets/ui/seals/burst_gold.prompt.txt",
+      "meta_path": "assets/ui/seals/burst_gold.pipeline-meta.json"
     },
     {
-      "path": "assets/vfx/manual_click_pulse.png",
+      "path": "assets/ui/seals/failure_red.png",
       "status": "generated",
       "width": 512,
-      "height": 128,
-      "category": "vfx",
-      "source": "deterministic_mvp_fallback"
+      "height": 512,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + broad magenta cleanup",
+      "prompt_path": "assets/ui/seals/failure_red.prompt.txt",
+      "meta_path": "assets/ui/seals/failure_red.pipeline-meta.json"
     },
     {
-      "path": "assets/vfx/overflow_warn_flash.png",
+      "path": "assets/ui/seals/ink_default.png",
       "status": "generated",
-      "width": 384,
-      "height": 96,
-      "category": "vfx",
-      "source": "deterministic_mvp_fallback"
-    },
-    {
-      "path": "assets/vfx/victory_burst_gold.png",
-      "status": "generated",
-      "width": 1152,
-      "height": 768,
-      "category": "vfx",
-      "source": "deterministic_mvp_fallback"
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + broad magenta cleanup",
+      "prompt_path": "assets/ui/seals/ink_default.prompt.txt",
+      "meta_path": "assets/ui/seals/ink_default.pipeline-meta.json"
     },
     {
       "path": "assets/vfx/crit_hit_spark.png",
       "status": "generated",
       "width": 512,
       "height": 128,
-      "category": "vfx",
-      "source": "deterministic_mvp_fallback"
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+      "prompt_path": "assets/vfx/crit_hit_spark.prompt.txt",
+      "meta_path": "assets/vfx/crit_hit_spark.pipeline-meta.json"
     },
     {
       "path": "assets/vfx/level_up_ring.png",
       "status": "generated",
       "width": 512,
       "height": 512,
-      "category": "vfx",
-      "source": "deterministic_mvp_fallback"
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+      "prompt_path": "assets/vfx/level_up_ring.prompt.txt",
+      "meta_path": "assets/vfx/level_up_ring.pipeline-meta.json"
+    },
+    {
+      "path": "assets/vfx/manual_click_pulse.png",
+      "status": "generated",
+      "width": 512,
+      "height": 128,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+      "prompt_path": "assets/vfx/manual_click_pulse.prompt.txt",
+      "meta_path": "assets/vfx/manual_click_pulse.pipeline-meta.json"
+    },
+    {
+      "path": "assets/vfx/overflow_warn_flash.png",
+      "status": "generated",
+      "width": 384,
+      "height": 96,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+      "prompt_path": "assets/vfx/overflow_warn_flash.prompt.txt",
+      "meta_path": "assets/vfx/overflow_warn_flash.pipeline-meta.json"
+    },
+    {
+      "path": "assets/vfx/victory_burst_gold.png",
+      "status": "generated",
+      "width": 1152,
+      "height": 768,
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dsprite",
+      "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+      "prompt_path": "assets/vfx/victory_burst_gold.prompt.txt",
+      "meta_path": "assets/vfx/victory_burst_gold.pipeline-meta.json"
     },
     {
       "path": "assets/vfx/zone_transition_ink_wipe_01.png",
       "status": "generated",
       "width": 1920,
       "height": 1080,
-      "category": "vfx",
-      "source": "deterministic_mvp_fallback"
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dmap",
+      "postprocess": "place_map_output.py cover_resize_center_crop",
+      "prompt_path": "assets/vfx/zone_transition_ink_wipe_01.prompt.txt",
+      "meta_path": "assets/vfx/zone_transition_ink_wipe_01.pipeline-meta.json"
     },
     {
       "path": "assets/vfx/zone_transition_ink_wipe_02.png",
       "status": "generated",
       "width": 1920,
       "height": 1080,
-      "category": "vfx",
-      "source": "deterministic_mvp_fallback"
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dmap",
+      "postprocess": "place_map_output.py cover_resize_center_crop",
+      "prompt_path": "assets/vfx/zone_transition_ink_wipe_02.prompt.txt",
+      "meta_path": "assets/vfx/zone_transition_ink_wipe_02.pipeline-meta.json"
     },
     {
       "path": "assets/vfx/zone_transition_ink_wipe_03.png",
       "status": "generated",
       "width": 1920,
       "height": 1080,
-      "category": "vfx",
-      "source": "deterministic_mvp_fallback"
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dmap",
+      "postprocess": "place_map_output.py cover_resize_center_crop",
+      "prompt_path": "assets/vfx/zone_transition_ink_wipe_03.prompt.txt",
+      "meta_path": "assets/vfx/zone_transition_ink_wipe_03.pipeline-meta.json"
     },
     {
       "path": "assets/vfx/zone_transition_ink_wipe_04.png",
       "status": "generated",
       "width": 1920,
       "height": 1080,
-      "category": "vfx",
-      "source": "deterministic_mvp_fallback"
+      "mode": "RGBA",
+      "source": "image_gen",
+      "skill": "generate2dmap",
+      "postprocess": "derived_full_ink_cover_from_frame03_image_gen_texture",
+      "prompt_path": "assets/vfx/zone_transition_ink_wipe_04.prompt.txt",
+      "meta_path": "assets/vfx/zone_transition_ink_wipe_04.pipeline-meta.json"
     }
   ]
 }

@@ -1,4 +1,9 @@
 {
   "checked": 107,
-  "failures": []
+  "failures": [],
+  "non_image_gen_count": 0,
+  "notes": [
+    "All checked PNG files have pipeline metadata.",
+    "zone_transition_ink_wipe_04 is image_gen-derived from frame 03 texture and records derived_from metadata."
+  ]
 }

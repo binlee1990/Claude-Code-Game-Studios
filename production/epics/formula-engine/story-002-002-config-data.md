@@ -1,7 +1,7 @@
 # Story 002: 多余变量被忽略，结果正确
 
 > **Epic**: 公式引擎
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Data
 > **Type**: Config/Data
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/formula-engine.md`, scoped to this story:*
 
-- [ ] GIVEN: 公式声明变量 `["atk"]`，**WHEN** 上下文传入 `{"atk": 100.0, "spd": 50.0, "luck": 3.0}`，**THEN** 多余变量被忽略，结果正确
-- [ ] GIVEN: 不存在的公式 ID `"nonexistent"`，**WHEN** 执行 `evaluate("nonexistent", {})`，**THEN** 返回 `0.0`，打印警告
-- [ ] GIVEN: 空表达式公式，**WHEN** 执行 `evaluate`，**THEN** 返回 `0.0`，打印警告
+- [x] GIVEN: 公式声明变量 `["atk"]`，**WHEN** 上下文传入 `{"atk": 100.0, "spd": 50.0, "luck": 3.0}`，**THEN** 多余变量被忽略，结果正确
+- [x] GIVEN: 不存在的公式 ID `"nonexistent"`，**WHEN** 执行 `evaluate("nonexistent", {})`，**THEN** 返回 `0.0`，打印警告
+- [x] GIVEN: 空表达式公式，**WHEN** 执行 `evaluate`，**THEN** 返回 `0.0`，打印警告
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `production/qa/smoke-formula-engine.md` — smoke check evidence
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 003
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 3, story 17/20
+- Sprint source: `production/sprints/sprint-3.md`
+- QA plan: `production/qa/qa-plan-sprint-3-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-3-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/time_manager/time_manager_logic_test.gd`
+  - `tests/unit/number_formatting/number_formatter_test.gd`
+  - `tests/performance/number_formatter_performance_test.gd`
+  - `tests/unit/data_config/data_config_test.gd`
+  - `tests/unit/formula_engine/formula_engine_test.gd`

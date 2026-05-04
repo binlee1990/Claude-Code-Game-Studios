@@ -1,7 +1,7 @@
 # Story 006: Within-Pool Additivity and Cross-Pool Multiplicativity
 
 > **Epic**: 产出乘数系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: UI
 > **Manifest Version**: 2026-05-04
@@ -35,8 +35,8 @@
 
 *From GDD `design/gdd/output-multiplier-system.md`, scoped to this story:*
 
-- [ ] AC-14: **GIVEN** 两个 equipment modifier 对 lingqi 生效：source "equip_a" value=0.15 + source "equip_b" value=0.10，无其他 modifier，**WHEN** 调用 ModifierEngine 的 `get_pool_multiplier("lingqi_production", "equipment")` 和 OMS 的 `get_multiplier("lingqi")`，**THEN** equipment 池倍率为 `1.25`（1.0 + 0.15 + 0.10），**NOT** `1.265`（1.15 × 1.10），且 `get_multiplier("lingqi")` 返回 `1.25`
-- [ ] AC-15: **GIVEN** lingqi 下 realm modifier（value=1.0, 池倍率 2.0）和 zone modifier（value=0.10, 池倍率 1.10）生效，无其他 modifier，**WHEN** 调用 `get_multiplier("lingqi")`，**THEN** 返回 `2.20`（2.0 × 1.10），确认两池独立相乘而非值先加总
+- [x] AC-14: **GIVEN** 两个 equipment modifier 对 lingqi 生效：source "equip_a" value=0.15 + source "equip_b" value=0.10，无其他 modifier，**WHEN** 调用 ModifierEngine 的 `get_pool_multiplier("lingqi_production", "equipment")` 和 OMS 的 `get_multiplier("lingqi")`，**THEN** equipment 池倍率为 `1.25`（1.0 + 0.15 + 0.10），**NOT** `1.265`（1.15 × 1.10），且 `get_multiplier("lingqi")` 返回 `1.25`
+- [x] AC-15: **GIVEN** lingqi 下 realm modifier（value=1.0, 池倍率 2.0）和 zone modifier（value=0.10, 池倍率 1.10）生效，无其他 modifier，**WHEN** 调用 `get_multiplier("lingqi")`，**THEN** 返回 `2.20`（2.0 × 1.10），确认两池独立相乘而非值先加总
 
 ---
 
@@ -82,7 +82,7 @@
 **Required evidence**:
 - `production/qa/evidence/within-pool-additivity-and-cross-pool-multiplicativity-evidence.md` — manual/interaction evidence with sign-off
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -90,3 +90,19 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 007
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 7, story 8/20
+- Sprint source: `production/sprints/sprint-7.md`
+- QA plan: `production/qa/qa-plan-sprint-7-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-7-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/item_registry/item_registry_boundary_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd`
+  - `tests/integration/output_multiplier_system/output_multiplier_events_test.gd`
+  - `tests/unit/debug_console/debug_console_command_test.gd`
+  - `tests/integration/debug_console/debug_console_smoke_test.gd`

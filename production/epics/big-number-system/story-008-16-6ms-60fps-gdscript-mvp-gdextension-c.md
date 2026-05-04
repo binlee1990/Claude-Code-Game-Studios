@@ -1,7 +1,7 @@
 # Story 008: 总耗时 < 16.6ms（60fps 帧预算内，纯 GDScript MVP 目标；若不达标，升级至 GDExtension C++）
 
 > **Epic**: 大数值系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: Logic
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/big-number-system.md`, scoped to this story:*
 
-- [ ] GIVEN: 1000 个 BigNumber 实例执行各 50 次加减乘除，**WHEN** 在单帧内完成，**THEN** 总耗时 < 16.6ms（60fps 帧预算内，纯 GDScript MVP 目标；若不达标，升级至 GDExtension C++）
-- [ ] GIVEN: `BigNumber.from_int(0)`，**WHEN** 创建零值实例，**THEN** `is_zero()` 返回 `true`，`mantissa == 0.0`，`exponent == 0`
-- [ ] GIVEN: `a = {2.0, 3}` 且 `n = 0`，**WHEN** 执行 `a.power(n)`，**THEN** 结果为 `BigNumber.ONE`
+- [x] GIVEN: 1000 个 BigNumber 实例执行各 50 次加减乘除，**WHEN** 在单帧内完成，**THEN** 总耗时 < 16.6ms（60fps 帧预算内，纯 GDScript MVP 目标；若不达标，升级至 GDExtension C++）
+- [x] GIVEN: `BigNumber.from_int(0)`，**WHEN** 创建零值实例，**THEN** `is_zero()` 返回 `true`，`mantissa == 0.0`，`exponent == 0`
+- [x] GIVEN: `a = {2.0, 3}` 且 `n = 0`，**WHEN** 执行 `a.power(n)`，**THEN** 结果为 `BigNumber.ONE`
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/unit/big_number/16-6ms-60fps-gdscript-mvp-gdextension-c_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 009
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 1, story 8/20
+- Sprint source: `production/sprints/sprint-1.md`
+- QA plan: `production/qa/qa-plan-sprint-1-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-1-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/big_number/api_contract_test.gd`
+  - `tests/unit/big_number/big_number_arithmetic_test.gd`
+  - `tests/performance/big_number_performance_test.gd`
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/unit/rng/stream_independence_test.gd`

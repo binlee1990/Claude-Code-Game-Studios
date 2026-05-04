@@ -1,7 +1,7 @@
 # Story 010: 公式异常 / 边界
 
 > **Epic**: 等级系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Feature
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -34,8 +34,8 @@
 
 *From GDD `design/gdd/level-system.md`, scoped to this story:*
 
-- [ ] GIVEN: FormulaEngine 中 `level_exp` 公式未注册（缺失），**WHEN** `gain_exp("player", BN(1000))`，**THEN** evaluate 返回 0.0 → 触发 MAX_LEVELS_PER_GAIN 截断保护，返回 100，`amount_remaining` 退回，打印警告
-- [ ] GIVEN: Lv.200（合体境上限），**WHEN** `gain_exp("player", BN(1e8))`，**THEN** 返回 0，level 仍 200，全部 amount 退回，不发事件
+- [x] GIVEN: FormulaEngine 中 `level_exp` 公式未注册（缺失），**WHEN** `gain_exp("player", BN(1000))`，**THEN** evaluate 返回 0.0 → 触发 MAX_LEVELS_PER_GAIN 截断保护，返回 100，`amount_remaining` 退回，打印警告
+- [x] GIVEN: Lv.200（合体境上限），**WHEN** `gain_exp("player", BN(1e8))`，**THEN** 返回 0，level 仍 200，全部 amount 退回，不发事件
 
 ---
 
@@ -83,7 +83,7 @@
 **Required evidence**:
 - `tests/integration/level/010-integration_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -91,3 +91,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 011
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 8, story 18/20
+- Sprint source: `production/sprints/sprint-8.md`
+- QA plan: `production/qa/qa-plan-sprint-8-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-8-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/debug_console/debug_console_history_test.gd`
+  - `tests/unit/level_system/level_system_formula_test.gd`
+  - `tests/integration/level_system/level_system_progression_test.gd`
+  - `tests/integration/storage_limit_system/storage_limit_system_test.gd`
+  - `tests/integration/auto_production_system/auto_production_system_test.gd`

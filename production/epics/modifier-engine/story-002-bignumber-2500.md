@@ -1,7 +1,7 @@
 # Story 002: 结果为 BigNumber 表示 2500
 
 > **Epic**: 修正器/倍率引擎
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Data
 > **Type**: Config/Data
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/modifier-engine.md`, scoped to this story:*
 
-- [ ] GIVEN: base=BigNumber(1000) 且 add_sum=250, final_mult=2.0，**WHEN** 调用 `apply("atk", base)`，**THEN** 结果为 BigNumber 表示 2500
-- [ ] GIVEN: target 无任何修正器，**WHEN** 调用 `get_multiplier("atk")` 和 `get_add_sum("atk")`，**THEN** 分别返回 `1.0` 和 `0.0`
-- [ ] GIVEN: 一个限时修正器 duration=5.0，**WHEN** 调用 `update(3.0)` 后 `update(3.0)`，**THEN** 修正器已注销，触发 `"modifier_expired"` 事件
+- [x] GIVEN: base=BigNumber(1000) 且 add_sum=250, final_mult=2.0，**WHEN** 调用 `apply("atk", base)`，**THEN** 结果为 BigNumber 表示 2500
+- [x] GIVEN: target 无任何修正器，**WHEN** 调用 `get_multiplier("atk")` 和 `get_add_sum("atk")`，**THEN** 分别返回 `1.0` 和 `0.0`
+- [x] GIVEN: 一个限时修正器 duration=5.0，**WHEN** 调用 `update(3.0)` 后 `update(3.0)`，**THEN** 修正器已注销，触发 `"modifier_expired"` 事件
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `production/qa/smoke-modifier-engine.md` — smoke check evidence
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,17 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 003
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 4, story 7/20
+- Sprint source: `production/sprints/sprint-4.md`
+- QA plan: `production/qa/qa-plan-sprint-4-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-4-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/formula_engine/formula_engine_edges_test.gd`
+  - `tests/unit/modifier_engine/modifier_engine_test.gd`
+  - `tests/unit/save_system/save_manager_collect_test.gd`
+  - `tests/integration/save_system/save_manager_file_contract_test.gd`

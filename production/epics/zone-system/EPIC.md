@@ -3,7 +3,7 @@
 > **Layer**: Feature Integration
 > **GDD**: design/gdd/zone-system.md
 > **Architecture Module**: `ZoneSystem` (Autoload)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (2 stories)
 
 ## Overview
@@ -48,8 +48,8 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [all are queryable by id and sorted by order](story-001-all-are-queryable-by-id-and-sorted-by-order.md) | Integration | Ready | ADR-0005 |
-| 002 | [current zone does not change and lock reason is returned](story-002-current-zone-does-not-change-and-lock-reason-is-returned.md) | Logic | Ready | ADR-0005 |
+| 001 | [all are queryable by id and sorted by order](story-001-all-are-queryable-by-id-and-sorted-by-order.md) | Integration | Done | ADR-0005 |
+| 002 | [current zone does not change and lock reason is returned](story-002-current-zone-does-not-change-and-lock-reason-is-returned.md) | Logic | Done | ADR-0005 |
 
 ## Next Step
 

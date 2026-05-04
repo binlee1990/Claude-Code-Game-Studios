@@ -1,7 +1,7 @@
 # Story 002: 尝试加载 `save.json.bak`，若 backup 有效则从 backup 恢复，发布 `save.corrupted` 事件
 
 > **Epic**: 存档系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Data
 > **Type**: Config/Data
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/save-system.md`, scoped to this story:*
 
-- [ ] GIVEN: `save.json` JSON 语法错误，**WHEN** 调用 `load_game()`，**THEN** 尝试加载 `save.json.bak`，若 backup 有效则从 backup 恢复，发布 `save.corrupted` 事件
-- [ ] GIVEN: `save.json` 和 `save.json.bak` 都损坏，**WHEN** 调用 `load_game()`，**THEN** 游戏以默认状态开始，发布 `save.corrupted` 事件（`recovered_from_backup: false`）
-- [ ] GIVEN: `save.json` 缺少 `meta` 顶层键，**WHEN** 调用 `load_game()`，**THEN** 视为格式错误，触发损坏恢复流程
+- [x] GIVEN: `save.json` JSON 语法错误，**WHEN** 调用 `load_game()`，**THEN** 尝试加载 `save.json.bak`，若 backup 有效则从 backup 恢复，发布 `save.corrupted` 事件
+- [x] GIVEN: `save.json` 和 `save.json.bak` 都损坏，**WHEN** 调用 `load_game()`，**THEN** 游戏以默认状态开始，发布 `save.corrupted` 事件（`recovered_from_backup: false`）
+- [x] GIVEN: `save.json` 缺少 `meta` 顶层键，**WHEN** 调用 `load_game()`，**THEN** 视为格式错误，触发损坏恢复流程
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `production/qa/smoke-save-system.md` — smoke check evidence
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,17 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 003
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 4, story 14/20
+- Sprint source: `production/sprints/sprint-4.md`
+- QA plan: `production/qa/qa-plan-sprint-4-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-4-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/formula_engine/formula_engine_edges_test.gd`
+  - `tests/unit/modifier_engine/modifier_engine_test.gd`
+  - `tests/unit/save_system/save_manager_collect_test.gd`
+  - `tests/integration/save_system/save_manager_file_contract_test.gd`

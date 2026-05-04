@@ -1,7 +1,7 @@
 # Story 008: Batch / Snapshot / Restore 1
 
 > **Epic**: 属性系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: Config/Data
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/attribute-system.md`, scoped to this story:*
 
-- [ ] GIVEN: `"player"` 注册，**WHEN** `set_base_batch("player", {atk:BN(500), def:BN(200), spd:BN(80)})`，**THEN** 三个属性 base 全部更新，发布 3 条 `base_changed` 事件
-- [ ] GIVEN: 主角和 5 弟子已注册，含若干 base 值，**WHEN** `snapshot()`，**THEN** 返回 `{version:1, entities:{...}}` 含全部 6 实体；BigNumber 字典可被 `from_dict` 还原
-- [ ] GIVEN: snapshot 数据中含 `"deprecated_disciple"` 但配置无此 schema，**WHEN** `restore(data)`，**THEN** 跳过该 entity 并打印警告，其他 entity 正常恢复
+- [x] GIVEN: `"player"` 注册，**WHEN** `set_base_batch("player", {atk:BN(500), def:BN(200), spd:BN(80)})`，**THEN** 三个属性 base 全部更新，发布 3 条 `base_changed` 事件
+- [x] GIVEN: 主角和 5 弟子已注册，含若干 base 值，**WHEN** `snapshot()`，**THEN** 返回 `{version:1, entities:{...}}` 含全部 6 实体；BigNumber 字典可被 `from_dict` 还原
+- [x] GIVEN: snapshot 数据中含 `"deprecated_disciple"` 但配置无此 schema，**WHEN** `restore(data)`，**THEN** 跳过该 entity 并打印警告，其他 entity 正常恢复
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `production/qa/smoke-attribute-system.md` — smoke check evidence
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 009
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 6, story 1/20
+- Sprint source: `production/sprints/sprint-6.md`
+- QA plan: `production/qa/qa-plan-sprint-6-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-6-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd`
+  - `tests/unit/item_registry/item_registry_load_test.gd`
+  - `tests/unit/item_registry/item_registry_query_test.gd`
+  - `tests/integration/item_registry/item_registry_lifecycle_test.gd`
+  - `tests/performance/item_registry_performance_test.gd`

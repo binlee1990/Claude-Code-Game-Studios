@@ -1,7 +1,7 @@
 # Story 001: lingqi text updates using NumberFormattingSystem
 
 > **Epic**: HUD 系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Presentation
 > **Type**: UI
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/hud-system.md`, scoped to this story:*
 
-- [ ] GIVEN: resource.lingqi.changed emits, **WHEN** HUD refreshes, **THEN** lingqi text updates using NumberFormattingSystem.
-- [ ] GIVEN: lingqi fill ratio exceeds threshold, **WHEN** HUD renders, **THEN** resource row shows warning state.
-- [ ] GIVEN: `offline.settled` event arrives, **WHEN** HUD handles it, **THEN** offline summary entry becomes visible or modal opens per setting.
+- [x] GIVEN: resource.lingqi.changed emits, **WHEN** HUD refreshes, **THEN** lingqi text updates using NumberFormattingSystem.
+- [x] GIVEN: lingqi fill ratio exceeds threshold, **WHEN** HUD renders, **THEN** resource row shows warning state.
+- [x] GIVEN: `offline.settled` event arrives, **WHEN** HUD handles it, **THEN** offline summary entry becomes visible or modal opens per setting.
 
 ---
 
@@ -87,7 +87,7 @@
 **Required evidence**:
 - `production/qa/evidence/lingqi-text-updates-using-numberformattingsystem-evidence.md` — manual/interaction evidence with sign-off
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -95,3 +95,14 @@
 
 - Depends on: None
 - Unlocks: Story 002
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 10, story 6/8
+- Sprint source: `production/sprints/sprint-10.md`
+- QA plan: `production/qa/qa-plan-sprint-10-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-10-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/sprint10/sprint10_settlement_ui_hud_test.gd`

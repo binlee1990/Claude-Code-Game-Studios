@@ -1,7 +1,7 @@
 # Story 006: 无错误、无副作用
 
 > **Epic**: 事件总线
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/event-bus.md`, scoped to this story:*
 
-- [ ] GIVEN: 对从未订阅过的 callable 调用 `unsubscribe`，**WHEN** 执行完毕，**THEN** 无错误、无副作用
-- [ ] GIVEN: `DEBUG_ENABLED = true`，**WHEN** 任意 emit 被调用，**THEN** 控制台输出事件名和当前订阅者数量
-- [ ] GIVEN: 同一帧内对 `resource.lingqi.changed` emit 100 次，**WHEN** `HIGH_EMIT_FREQUENCY_THRESHOLD = 50` 且调试模式开启，**THEN** 帧结束时打印高频告警
+- [x] GIVEN: 对从未订阅过的 callable 调用 `unsubscribe`，**WHEN** 执行完毕，**THEN** 无错误、无副作用
+- [x] GIVEN: `DEBUG_ENABLED = true`，**WHEN** 任意 emit 被调用，**THEN** 控制台输出事件名和当前订阅者数量
+- [x] GIVEN: 同一帧内对 `resource.lingqi.changed` emit 100 次，**WHEN** `HIGH_EMIT_FREQUENCY_THRESHOLD = 50` 且调试模式开启，**THEN** 帧结束时打印高频告警
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/integration/event_bus/006-integration_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 007
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 2, story 10/20
+- Sprint source: `production/sprints/sprint-2.md`
+- QA plan: `production/qa/qa-plan-sprint-2-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-2-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/performance/rng_performance_test.gd`
+  - `tests/integration/event_bus/event_bus_delivery_test.gd`
+  - `tests/integration/time_manager/time_manager_integration_test.gd`
+  - `tests/unit/time_manager/time_manager_logic_test.gd`

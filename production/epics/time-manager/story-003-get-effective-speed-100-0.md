@@ -1,7 +1,7 @@
 # Story 003: `get_effective_speed()` 返回 100.0（截断）
 
 > **Epic**: 时间管理器
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/time-manager.md`, scoped to this story:*
 
-- [ ] GIVEN: speed = 10.0x，**WHEN** 注册新来源使乘积超过 MAX_SPEED(100)，**THEN** `get_effective_speed()` 返回 100.0（截断）
-- [ ] GIVEN: 注册倍率为 0 或 -1 的来源，**WHEN** 执行 `add_speed_source()`，**THEN** 该来源倍率钳位到 1.0，打印警告
-- [ ] GIVEN: Running 状态，**WHEN** 调用 `freeze()`，**THEN** `get_game_time()` 停止增长，发布 `time.frozen` 事件
+- [x] GIVEN: speed = 10.0x，**WHEN** 注册新来源使乘积超过 MAX_SPEED(100)，**THEN** `get_effective_speed()` 返回 100.0（截断）
+- [x] GIVEN: 注册倍率为 0 或 -1 的来源，**WHEN** 执行 `add_speed_source()`，**THEN** 该来源倍率钳位到 1.0，打印警告
+- [x] GIVEN: Running 状态，**WHEN** 调用 `freeze()`，**THEN** `get_game_time()` 停止增长，发布 `time.frozen` 事件
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/integration/time_manager/get-effective-speed-100-0_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 004
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 2, story 17/20
+- Sprint source: `production/sprints/sprint-2.md`
+- QA plan: `production/qa/qa-plan-sprint-2-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-2-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/performance/rng_performance_test.gd`
+  - `tests/integration/event_bus/event_bus_delivery_test.gd`
+  - `tests/integration/time_manager/time_manager_integration_test.gd`
+  - `tests/unit/time_manager/time_manager_logic_test.gd`

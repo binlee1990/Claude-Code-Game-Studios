@@ -3,7 +3,7 @@
 > **Layer**: Feature
 > **GDD**: design/gdd/enemy-database.md
 > **Architecture Module**: `EnemyDatabase` (Autoload)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (2 stories)
 
 ## Overview
@@ -48,8 +48,8 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [`get_count() == 3`](story-001-get-count-3.md) | Config/Data | Ready | ADR-0005 |
-| 002 | [only enemies tagged starter are returned](story-002-only-enemies-tagged-starter-are-returned.md) | Integration | Ready | ADR-0005 |
+| 001 | [`get_count() == 3`](story-001-get-count-3.md) | Config/Data | Done | ADR-0005 |
+| 002 | [only enemies tagged starter are returned](story-002-only-enemies-tagged-starter-are-returned.md) | Integration | Done | ADR-0005 |
 
 ## Next Step
 

@@ -1,7 +1,7 @@
 # Story 002: capped resources receive doubled cap through ResourceSystem
 
 > **Epic**: 存储上限系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Feature
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -34,8 +34,8 @@
 
 *From GDD `design/gdd/storage-limit-system.md`, scoped to this story:*
 
-- [ ] GIVEN: a realm multiplier changes from 1.0 to 2.0, **WHEN** storage limits recompute, **THEN** capped resources receive doubled cap through ResourceSystem.
-- [ ] GIVEN: a new cap below current value, **WHEN** `set_max` is called, **THEN** ResourceSystem performs clamping and overflow reporting.
+- [x] GIVEN: a realm multiplier changes from 1.0 to 2.0, **WHEN** storage limits recompute, **THEN** capped resources receive doubled cap through ResourceSystem.
+- [x] GIVEN: a new cap below current value, **WHEN** `set_max` is called, **THEN** ResourceSystem performs clamping and overflow reporting.
 
 ---
 
@@ -82,7 +82,7 @@
 **Required evidence**:
 - `tests/integration/storage_limit/capped-resources-receive-doubled-cap-through-resourcesys_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -90,3 +90,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: None
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 8, story 14/20
+- Sprint source: `production/sprints/sprint-8.md`
+- QA plan: `production/qa/qa-plan-sprint-8-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-8-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/debug_console/debug_console_history_test.gd`
+  - `tests/unit/level_system/level_system_formula_test.gd`
+  - `tests/integration/level_system/level_system_progression_test.gd`
+  - `tests/integration/storage_limit_system/storage_limit_system_test.gd`
+  - `tests/integration/auto_production_system/auto_production_system_test.gd`

@@ -1,7 +1,7 @@
 # Story 002: LOOT 流的下一个 `rand_float` 结果与从未调用 COMBAT 流时完全一致
 
 > **Epic**: 随机数与种子系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: Logic
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/random-seed-system.md`, scoped to this story:*
 
-- [ ] GIVEN: COMBAT 流和 LOOT 流已初始化，**WHEN** 从 COMBAT 流连续调用 100 次 `rand_bool`，**THEN** LOOT 流的下一个 `rand_float` 结果与从未调用 COMBAT 流时完全一致
-- [ ] GIVEN: 权重数组 `[10.0, 30.0, 5.0, 55.0]`，**WHEN** 以固定种子执行 `weighted_pick` 10000 次，**THEN** 各索引命中频率比例近似 10:30:5:55（误差 < 5%）
-- [ ] GIVEN: 权重数组 `[100.0]`（仅一项），**WHEN** 执行 `weighted_pick`，**THEN** 返回 0，且不消耗随机数
+- [x] GIVEN: COMBAT 流和 LOOT 流已初始化，**WHEN** 从 COMBAT 流连续调用 100 次 `rand_bool`，**THEN** LOOT 流的下一个 `rand_float` 结果与从未调用 COMBAT 流时完全一致
+- [x] GIVEN: 权重数组 `[10.0, 30.0, 5.0, 55.0]`，**WHEN** 以固定种子执行 `weighted_pick` 10000 次，**THEN** 各索引命中频率比例近似 10:30:5:55（误差 < 5%）
+- [x] GIVEN: 权重数组 `[100.0]`（仅一项），**WHEN** 执行 `weighted_pick`，**THEN** 返回 0，且不消耗随机数
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/unit/random_seed/loot-rand-float-combat_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 003
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 1, story 16/20
+- Sprint source: `production/sprints/sprint-1.md`
+- QA plan: `production/qa/qa-plan-sprint-1-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-1-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/big_number/api_contract_test.gd`
+  - `tests/unit/big_number/big_number_arithmetic_test.gd`
+  - `tests/performance/big_number_performance_test.gd`
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/unit/rng/stream_independence_test.gd`

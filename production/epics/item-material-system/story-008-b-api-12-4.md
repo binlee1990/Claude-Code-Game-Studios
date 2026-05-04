@@ -1,7 +1,7 @@
 # Story 008: B. 查询 API（12 条） 4
 
 > **Epic**: 物品/材料系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: Logic
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/item-material-system.md`, scoped to this story:*
 
-- [ ] AC-B10: GIVEN herb.tags=`["herb","low_tier"]`，WHEN `query_by_tag("herb")`，THEN herb 在返回数组中（contains 语义，不是精确匹配）
-- [ ] AC-B11: GIVEN herb.tags=`["herb","low_tier"]`，WHEN `query_by_tag("nonexistent_tag")`，THEN `[]`，不打印警告
-- [ ] AC-B12: GIVEN ItemRegistry 已加载多条带 tags 的物品，WHEN `query_by_tag("")` 空字符串，THEN `[]`（无任何 record.tags 含空字符串），不打印警告
+- [x] AC-B10: GIVEN herb.tags=`["herb","low_tier"]`，WHEN `query_by_tag("herb")`，THEN herb 在返回数组中（contains 语义，不是精确匹配）
+- [x] AC-B11: GIVEN herb.tags=`["herb","low_tier"]`，WHEN `query_by_tag("nonexistent_tag")`，THEN `[]`，不打印警告
+- [x] AC-B12: GIVEN ItemRegistry 已加载多条带 tags 的物品，WHEN `query_by_tag("")` 空字符串，THEN `[]`（无任何 record.tags 含空字符串），不打印警告
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/unit/item_material/b-api-12-4_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 009
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 6, story 13/20
+- Sprint source: `production/sprints/sprint-6.md`
+- QA plan: `production/qa/qa-plan-sprint-6-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-6-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/attribute_system/attribute_system_batch_snapshot_test.gd`
+  - `tests/unit/item_registry/item_registry_load_test.gd`
+  - `tests/unit/item_registry/item_registry_query_test.gd`
+  - `tests/integration/item_registry/item_registry_lifecycle_test.gd`
+  - `tests/performance/item_registry_performance_test.gd`

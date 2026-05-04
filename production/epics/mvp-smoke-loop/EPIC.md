@@ -1,6 +1,6 @@
 # Epic: MVP 闭环验收（mvp-smoke-loop）
 
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: MVP Integration（跨层 sprint-10 收尾验收）
 > **Stage**: Pre-Production → Sprint 10
 > **Owner**: lead-programmer + qa-lead 联合

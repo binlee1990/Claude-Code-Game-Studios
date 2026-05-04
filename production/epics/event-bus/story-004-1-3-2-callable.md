@@ -1,7 +1,7 @@
 # Story 004: 第 1 和第 3 个订阅者正常收到事件，第 2 个订阅记录被移除，控制台打印无效 callable 警告
 
 > **Epic**: 事件总线
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/event-bus.md`, scoped to this story:*
 
-- [ ] GIVEN: 3 个订阅者订阅同一事件，其中第 2 个 callable 在投递前已无效，**WHEN** `EventBus.emit()` 被调用，**THEN** 第 1 和第 3 个订阅者正常收到事件，第 2 个订阅记录被移除，控制台打印无效 callable 警告
-- [ ] GIVEN: 一个 Node 作为订阅者，**WHEN** 该 Node 被 `queue_free()` 释放，**THEN** EventBus 自动移除该 Node 的所有订阅，后续 emit 不触发该 Node 的回调
-- [ ] GIVEN: 回调执行中调用 `subscribe("other.event", callable)`，**WHEN** 当前 emit 完成，**THEN** 延迟的订阅生效，可接收后续 `other.event` 的 emit
+- [x] GIVEN: 3 个订阅者订阅同一事件，其中第 2 个 callable 在投递前已无效，**WHEN** `EventBus.emit()` 被调用，**THEN** 第 1 和第 3 个订阅者正常收到事件，第 2 个订阅记录被移除，控制台打印无效 callable 警告
+- [x] GIVEN: 一个 Node 作为订阅者，**WHEN** 该 Node 被 `queue_free()` 释放，**THEN** EventBus 自动移除该 Node 的所有订阅，后续 emit 不触发该 Node 的回调
+- [x] GIVEN: 回调执行中调用 `subscribe("other.event", callable)`，**WHEN** 当前 emit 完成，**THEN** 延迟的订阅生效，可接收后续 `other.event` 的 emit
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/integration/event_bus/1-3-2-callable_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 005
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 2, story 8/20
+- Sprint source: `production/sprints/sprint-2.md`
+- QA plan: `production/qa/qa-plan-sprint-2-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-2-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/performance/rng_performance_test.gd`
+  - `tests/integration/event_bus/event_bus_delivery_test.gd`
+  - `tests/integration/time_manager/time_manager_integration_test.gd`
+  - `tests/unit/time_manager/time_manager_logic_test.gd`

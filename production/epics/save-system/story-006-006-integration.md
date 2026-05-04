@@ -1,7 +1,7 @@
 # Story 006: 在关闭前完成一次保存
 
 > **Epic**: 存档系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Data
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/save-system.md`, scoped to this story:*
 
-- [ ] GIVEN: SaveManager 收到 `NOTIFICATION_WM_CLOSE_REQUEST`，**WHEN** 退出流程触发，**THEN** 在关闭前完成一次保存
-- [ ] GIVEN: 自动保存间隔设为 60 秒，**WHEN** 游戏运行 180 秒，**THEN** 至少触发 2 次自动保存（不含退出保存）
-- [ ] GIVEN: `meta.data_version` 与当前游戏数据版本不一致，**WHEN** 加载，**THEN** 打印版本不匹配警告，继续加载不中止
+- [x] GIVEN: SaveManager 收到 `NOTIFICATION_WM_CLOSE_REQUEST`，**WHEN** 退出流程触发，**THEN** 在关闭前完成一次保存
+- [x] GIVEN: 自动保存间隔设为 60 秒，**WHEN** 游戏运行 180 秒，**THEN** 至少触发 2 次自动保存（不含退出保存）
+- [x] GIVEN: `meta.data_version` 与当前游戏数据版本不一致，**WHEN** 加载，**THEN** 打印版本不匹配警告，继续加载不中止
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/integration/save/006-integration_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,17 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 007
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 4, story 18/20
+- Sprint source: `production/sprints/sprint-4.md`
+- QA plan: `production/qa/qa-plan-sprint-4-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-4-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/formula_engine/formula_engine_edges_test.gd`
+  - `tests/unit/modifier_engine/modifier_engine_test.gd`
+  - `tests/unit/save_system/save_manager_collect_test.gd`
+  - `tests/integration/save_system/save_manager_file_contract_test.gd`

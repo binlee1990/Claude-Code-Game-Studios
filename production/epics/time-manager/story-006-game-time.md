@@ -1,7 +1,7 @@
 # Story 006: 倍率立即更新，但 game_time 仍不推进，解冻后使用新倍率
 
 > **Epic**: 时间管理器
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/time-manager.md`, scoped to this story:*
 
-- [ ] GIVEN: Frozen 状态，**WHEN** 变更加速倍率，**THEN** 倍率立即更新，但 game_time 仍不推进，解冻后使用新倍率
-- [ ] GIVEN: 倍率变更生效，**WHEN** 调用 `add_speed_source()` 或 `remove_speed_source()`，**THEN** 发布 `time.speed_changed` 事件，payload 包含 `effective_speed`
-- [ ] GIVEN: TimeManager 初始化完成，**WHEN** 在 1 秒内执行 1000 次 `get_game_time()`，**THEN** 总耗时 < 0.1 ms（纯数学计算，无 I/O）
+- [x] GIVEN: Frozen 状态，**WHEN** 变更加速倍率，**THEN** 倍率立即更新，但 game_time 仍不推进，解冻后使用新倍率
+- [x] GIVEN: 倍率变更生效，**WHEN** 调用 `add_speed_source()` 或 `remove_speed_source()`，**THEN** 发布 `time.speed_changed` 事件，payload 包含 `effective_speed`
+- [x] GIVEN: TimeManager 初始化完成，**WHEN** 在 1 秒内执行 1000 次 `get_game_time()`，**THEN** 总耗时 < 0.1 ms（纯数学计算，无 I/O）
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/integration/time_manager/game-time_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 007
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 2, story 20/20
+- Sprint source: `production/sprints/sprint-2.md`
+- QA plan: `production/qa/qa-plan-sprint-2-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-2-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/performance/rng_performance_test.gd`
+  - `tests/integration/event_bus/event_bus_delivery_test.gd`
+  - `tests/integration/time_manager/time_manager_integration_test.gd`
+  - `tests/unit/time_manager/time_manager_logic_test.gd`

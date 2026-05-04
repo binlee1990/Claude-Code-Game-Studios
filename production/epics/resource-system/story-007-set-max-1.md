@@ -1,7 +1,7 @@
 # Story 007: set_max 1
 
 > **Epic**: 资源系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/resource-system.md`, scoped to this story:*
 
-- [ ] GIVEN: `lingqi` cap=1000, current=600，**WHEN** `set_max("lingqi", BigNumber.from_int(2000))`，**THEN** `get_max==2000`，`get_value` 不变，仅发布 `cap_changed`，不发布 `changed/overflow`
-- [ ] GIVEN: `lingqi` cap=1000, current=800，**WHEN** `set_max("lingqi", BigNumber.from_int(500))`，**THEN** `get_value==500`，事件顺序严格为 ① `cap_changed` → ② `changed` → ③ `overflow`（lost=300）
-- [ ] GIVEN: `lingqi` cap=1000，**WHEN** `set_max("lingqi", BigNumber.from_int(1000))`（与现 cap 相同），**THEN** EventBus 不发布任何事件，调用静默 no-op
+- [x] GIVEN: `lingqi` cap=1000, current=600，**WHEN** `set_max("lingqi", BigNumber.from_int(2000))`，**THEN** `get_max==2000`，`get_value` 不变，仅发布 `cap_changed`，不发布 `changed/overflow`
+- [x] GIVEN: `lingqi` cap=1000, current=800，**WHEN** `set_max("lingqi", BigNumber.from_int(500))`，**THEN** `get_value==500`，事件顺序严格为 ① `cap_changed` → ② `changed` → ③ `overflow`（lost=300）
+- [x] GIVEN: `lingqi` cap=1000，**WHEN** `set_max("lingqi", BigNumber.from_int(1000))`（与现 cap 相同），**THEN** EventBus 不发布任何事件，调用静默 no-op
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/integration/resource/set-max-1_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,17 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 008
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 5, story 7/20
+- Sprint source: `production/sprints/sprint-5.md`
+- QA plan: `production/qa/qa-plan-sprint-5-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-5-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/resource_system/resource_system_crud_test.gd`
+  - `tests/integration/resource_system/resource_system_state_test.gd`
+  - `tests/unit/attribute_system/attribute_system_crud_test.gd`
+  - `tests/integration/attribute_system/attribute_system_final_test.gd`

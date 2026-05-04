@@ -1,7 +1,7 @@
 # Story 010: 总 RNG 调用耗时占帧预算 < 1%
 
 > **Epic**: 随机数与种子系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/random-seed-system.md`, scoped to this story:*
 
-- [ ] GIVEN: 单流每帧调用 100 次 `rand_bool`，**WHEN** 在 60fps 下运行 1 小时，**THEN** 总 RNG 调用耗时占帧预算 < 1%
-- [ ] GIVEN: 权重数组长度 1024，**WHEN** 执行 `weighted_pick`，**THEN** 单次调用耗时 < 0.1 ms
-- [ ] GIVEN: 存档中包含旧版本已删除的流名称，**WHEN** `load_states()` 执行，**THEN** 静默恢复该流状态，不报错
+- [x] GIVEN: 单流每帧调用 100 次 `rand_bool`，**WHEN** 在 60fps 下运行 1 小时，**THEN** 总 RNG 调用耗时占帧预算 < 1%
+- [x] GIVEN: 权重数组长度 1024，**WHEN** 执行 `weighted_pick`，**THEN** 单次调用耗时 < 0.1 ms
+- [x] GIVEN: 存档中包含旧版本已删除的流名称，**WHEN** `load_states()` 执行，**THEN** 静默恢复该流状态，不报错
 
 ---
 
@@ -90,7 +90,7 @@
 **Required evidence**:
 - `tests/integration/random_seed/rng-1_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -98,3 +98,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: None
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 2, story 4/20
+- Sprint source: `production/sprints/sprint-2.md`
+- QA plan: `production/qa/qa-plan-sprint-2-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-2-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/performance/rng_performance_test.gd`
+  - `tests/integration/event_bus/event_bus_delivery_test.gd`
+  - `tests/integration/time_manager/time_manager_integration_test.gd`
+  - `tests/unit/time_manager/time_manager_logic_test.gd`

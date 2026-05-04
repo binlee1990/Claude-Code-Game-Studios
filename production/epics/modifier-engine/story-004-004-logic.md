@@ -1,7 +1,7 @@
 # Story 004: 返回空字符串 `""`，打印警告
 
 > **Epic**: 修正器/倍率引擎
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Data
 > **Type**: Logic
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/modifier-engine.md`, scoped to this story:*
 
-- [ ] GIVEN: 注册缺少 target 字段的修正器，**WHEN** 调用 `register()`，**THEN** 返回空字符串 `""`，打印警告
-- [ ] GIVEN: MULT 修正器 pool="" 空字符串，**WHEN** 注册，**THEN** 分配到 `"default"` 池，打印警告
-- [ ] GIVEN: 同一池内修正值之和 = -1.5，**WHEN** 调用 `get_pool_multiplier()`，**THEN** 钳位到 `0.0`，打印警告
+- [x] GIVEN: 注册缺少 target 字段的修正器，**WHEN** 调用 `register()`，**THEN** 返回空字符串 `""`，打印警告
+- [x] GIVEN: MULT 修正器 pool="" 空字符串，**WHEN** 注册，**THEN** 分配到 `"default"` 池，打印警告
+- [x] GIVEN: 同一池内修正值之和 = -1.5，**WHEN** 调用 `get_pool_multiplier()`，**THEN** 钳位到 `0.0`，打印警告
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/unit/modifier_engine/004-logic_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,17 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 005
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 4, story 9/20
+- Sprint source: `production/sprints/sprint-4.md`
+- QA plan: `production/qa/qa-plan-sprint-4-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-4-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/formula_engine/formula_engine_edges_test.gd`
+  - `tests/unit/modifier_engine/modifier_engine_test.gd`
+  - `tests/unit/save_system/save_manager_collect_test.gd`
+  - `tests/integration/save_system/save_manager_file_contract_test.gd`

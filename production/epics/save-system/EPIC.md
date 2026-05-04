@@ -3,7 +3,7 @@
 > **Layer**: Core Data
 > **GDD**: design/gdd/save-system.md
 > **Architecture Module**: `SaveManager` (Autoload) (全局单例)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (8 stories)
 
 ## Overview
@@ -49,14 +49,14 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [`user://save/save.json` 包含 `meta` 和 `systems`，且 `systems.time_manager`](story-001-user-save-save-json-meta-systems-systems-time-manager.md) | Config/Data | Ready | ADR-0006 |
-| 002 | [尝试加载 `save.json.bak`，若 backup 有效则从 backup 恢复，发布 `save.corrupted` 事件](story-002-save-json-bak-backup-backup-save-corrupted.md) | Config/Data | Ready | ADR-0006 |
-| 003 | [系统 A 的 namespace 数据为 `null`，系统 B 的数据正常保存，打印警告](story-003-a-namespace-null-b.md) | Integration | Ready | ADR-0008 |
-| 004 | [该 provider 的 `restore_fn()` 收到空 Dictionary `{}`](story-004-provider-restore-fn-dictionary.md) | Integration | Ready | ADR-0008 |
-| 005 | [迁移中止，不覆盖原文件，回退到 backup 或新游戏](story-005-backup.md) | Config/Data | Ready | ADR-0006 |
-| 006 | [在关闭前完成一次保存](story-006-006-integration.md) | Integration | Ready | ADR-0008 |
-| 007 | [文件写入 `user://test_save/save.json`](story-007-user-test-save-save-json.md) | Config/Data | Ready | ADR-0006 |
-| 008 | [存在 `save.json` 和 `save.json.bak`，不存在 `save.json.tmp`（临时文件已清理）](story-008-save-json-save-json-bak-save-json-tmp.md) | Config/Data | Ready | ADR-0006 |
+| 001 | [`user://save/save.json` 包含 `meta` 和 `systems`，且 `systems.time_manager`](story-001-user-save-save-json-meta-systems-systems-time-manager.md) | Config/Data | Done | ADR-0006 |
+| 002 | [尝试加载 `save.json.bak`，若 backup 有效则从 backup 恢复，发布 `save.corrupted` 事件](story-002-save-json-bak-backup-backup-save-corrupted.md) | Config/Data | Done | ADR-0006 |
+| 003 | [系统 A 的 namespace 数据为 `null`，系统 B 的数据正常保存，打印警告](story-003-a-namespace-null-b.md) | Integration | Done | ADR-0008 |
+| 004 | [该 provider 的 `restore_fn()` 收到空 Dictionary `{}`](story-004-provider-restore-fn-dictionary.md) | Integration | Done | ADR-0008 |
+| 005 | [迁移中止，不覆盖原文件，回退到 backup 或新游戏](story-005-backup.md) | Config/Data | Done | ADR-0006 |
+| 006 | [在关闭前完成一次保存](story-006-006-integration.md) | Integration | Done | ADR-0008 |
+| 007 | [文件写入 `user://test_save/save.json`](story-007-user-test-save-save-json.md) | Config/Data | Done | ADR-0006 |
+| 008 | [存在 `save.json` 和 `save.json.bak`，不存在 `save.json.tmp`（临时文件已清理）](story-008-save-json-save-json-bak-save-json-tmp.md) | Config/Data | Done | ADR-0006 |
 
 ## Next Step
 

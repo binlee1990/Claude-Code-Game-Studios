@@ -1,7 +1,7 @@
 # Story 003: 该表为空，其他表正常加载，打印错误含文件路径
 
 > **Epic**: 数据配置系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Data
 > **Type**: Config/Data
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/data-config-system.md`, scoped to this story:*
 
-- [ ] GIVEN: 某表 JSON 语法错误，**WHEN** 执行 `load_all()`，**THEN** 该表为空，其他表正常加载，打印错误含文件路径
-- [ ] GIVEN: 表 `enemies` 含 `{"slime": {"name": "史莱姆", "hp": "100"}}`，**WHEN** 执行 `DataConfig.get_field("enemies", "slime", "hp")`，**THEN** 返回 `"100"`（字符串类型保持原样）
-- [ ] GIVEN: 记录中不含字段 `mp`，**WHEN** 执行 `DataConfig.get_field("enemies", "slime", "mp")`，**THEN** 返回 `null`，不打印警告
+- [x] GIVEN: 某表 JSON 语法错误，**WHEN** 执行 `load_all()`，**THEN** 该表为空，其他表正常加载，打印错误含文件路径
+- [x] GIVEN: 表 `enemies` 含 `{"slime": {"name": "史莱姆", "hp": "100"}}`，**WHEN** 执行 `DataConfig.get_field("enemies", "slime", "hp")`，**THEN** 返回 `"100"`（字符串类型保持原样）
+- [x] GIVEN: 记录中不含字段 `mp`，**WHEN** 执行 `DataConfig.get_field("enemies", "slime", "mp")`，**THEN** 返回 `null`，不打印警告
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `production/qa/smoke-data-config-system.md` — smoke check evidence
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 004
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 3, story 12/20
+- Sprint source: `production/sprints/sprint-3.md`
+- QA plan: `production/qa/qa-plan-sprint-3-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-3-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/time_manager/time_manager_logic_test.gd`
+  - `tests/unit/number_formatting/number_formatter_test.gd`
+  - `tests/performance/number_formatter_performance_test.gd`
+  - `tests/unit/data_config/data_config_test.gd`
+  - `tests/unit/formula_engine/formula_engine_test.gd`

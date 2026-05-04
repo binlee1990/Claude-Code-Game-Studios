@@ -1,7 +1,7 @@
 # Story 008: callable 被触发一次，第一个参数等于 `"resource.lingqi.changed"`，第二个参数等于 emit 的 payl
 
 > **Epic**: 事件总线
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/event-bus.md`, scoped to this story:*
 
-- [ ] GIVEN: 系统A 调用 `subscribe_pattern("resource", callable)`，**WHEN** EventBus.emit("resource.lingqi.changed", {...}) 被调用，**THEN** callable 被触发一次，第一个参数等于 `"resource.lingqi.changed"`，第二个参数等于 emit 的 payload
-- [ ] GIVEN: 系统A 调用 `subscribe_pattern("resource", callable)`，**WHEN** EventBus.emit("attribute.player.atk.base_changed", {...}) 被调用（前缀不匹配），**THEN** callable 不被触发
-- [ ] GIVEN: 系统A 调用 `subscribe_pattern("", callable)`（空 prefix），**WHEN** 注册被处理，**THEN** 注册被拒绝，控制台打印警告，后续任何 emit 都不触发该 callable
+- [x] GIVEN: 系统A 调用 `subscribe_pattern("resource", callable)`，**WHEN** EventBus.emit("resource.lingqi.changed", {...}) 被调用，**THEN** callable 被触发一次，第一个参数等于 `"resource.lingqi.changed"`，第二个参数等于 emit 的 payload
+- [x] GIVEN: 系统A 调用 `subscribe_pattern("resource", callable)`，**WHEN** EventBus.emit("attribute.player.atk.base_changed", {...}) 被调用（前缀不匹配），**THEN** callable 不被触发
+- [x] GIVEN: 系统A 调用 `subscribe_pattern("", callable)`（空 prefix），**WHEN** 注册被处理，**THEN** 注册被拒绝，控制台打印警告，后续任何 emit 都不触发该 callable
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/integration/event_bus/callable-resource-lingqi-changed-emit-payl_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 009
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 2, story 12/20
+- Sprint source: `production/sprints/sprint-2.md`
+- QA plan: `production/qa/qa-plan-sprint-2-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-2-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/performance/rng_performance_test.gd`
+  - `tests/integration/event_bus/event_bus_delivery_test.gd`
+  - `tests/integration/time_manager/time_manager_integration_test.gd`
+  - `tests/unit/time_manager/time_manager_logic_test.gd`

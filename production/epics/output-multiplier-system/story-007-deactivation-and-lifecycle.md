@@ -1,7 +1,7 @@
 # Story 007: Deactivation and Lifecycle
 
 > **Epic**: 产出乘数系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: UI
 > **Manifest Version**: 2026-05-04
@@ -35,8 +35,8 @@
 
 *From GDD `design/gdd/output-multiplier-system.md`, scoped to this story:*
 
-- [ ] AC-16: **GIVEN** equipment modifier `source_id: "equip_ring_001"`（value=0.15）对 lingqi 生效，`get_multiplier("lingqi")` = `1.15`，**WHEN** 调用 `deactivate_source("equip_ring_001")`，**THEN** 返回 `1`（一个 modifier 被移除），且 `get_multiplier("lingqi")` 返回 `1.0`，且 `get_production_rate("lingqi")` 返回 `1.0`
-- [ ] AC-17: **GIVEN** buff modifier 对 lingqi 生效：`source_id: "buff_pill_001"`, `duration: 5.0`, `value: 0.20`，`get_multiplier("lingqi")` = `1.20`，**WHEN** `ModifierEngine.update(6.0)` 被调用（耗尽 duration 触发过期），`"modifier_expired"` 事件发射，**THEN** OMS 发射 `"production_multiplier_changed"` 事件 `action: "deactivated"`, `source_id: "buff_pill_001"`，且 `get_multiplier("lingqi")` 返回 `1.0`
+- [x] AC-16: **GIVEN** equipment modifier `source_id: "equip_ring_001"`（value=0.15）对 lingqi 生效，`get_multiplier("lingqi")` = `1.15`，**WHEN** 调用 `deactivate_source("equip_ring_001")`，**THEN** 返回 `1`（一个 modifier 被移除），且 `get_multiplier("lingqi")` 返回 `1.0`，且 `get_production_rate("lingqi")` 返回 `1.0`
+- [x] AC-17: **GIVEN** buff modifier 对 lingqi 生效：`source_id: "buff_pill_001"`, `duration: 5.0`, `value: 0.20`，`get_multiplier("lingqi")` = `1.20`，**WHEN** `ModifierEngine.update(6.0)` 被调用（耗尽 duration 触发过期），`"modifier_expired"` 事件发射，**THEN** OMS 发射 `"production_multiplier_changed"` 事件 `action: "deactivated"`, `source_id: "buff_pill_001"`，且 `get_multiplier("lingqi")` 返回 `1.0`
 
 ---
 
@@ -82,7 +82,7 @@
 **Required evidence**:
 - `production/qa/evidence/deactivation-and-lifecycle-evidence.md` — manual/interaction evidence with sign-off
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -90,3 +90,19 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 008
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 7, story 9/20
+- Sprint source: `production/sprints/sprint-7.md`
+- QA plan: `production/qa/qa-plan-sprint-7-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-7-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/item_registry/item_registry_boundary_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd`
+  - `tests/integration/output_multiplier_system/output_multiplier_events_test.gd`
+  - `tests/unit/debug_console/debug_console_command_test.gd`
+  - `tests/integration/debug_console/debug_console_smoke_test.gd`

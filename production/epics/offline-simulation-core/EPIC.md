@@ -3,7 +3,7 @@
 > **Layer**: Simulation
 > **GDD**: design/gdd/offline-simulation-core.md
 > **Architecture Module**: `OfflineSimCore` (服务)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (2 stories)
 
 ## Overview
@@ -49,8 +49,8 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [it contains 4 chunks](story-001-it-contains-4-chunks.md) | UI | Ready | ADR-0015 |
-| 002 | [no settlement draft is emitted](story-002-no-settlement-draft-is-emitted.md) | Integration | Ready | ADR-0015 |
+| 001 | [it contains 4 chunks](story-001-it-contains-4-chunks.md) | UI | Done | ADR-0015 |
+| 002 | [no settlement draft is emitted](story-002-no-settlement-draft-is-emitted.md) | Integration | Done | ADR-0015 |
 
 ## Next Step
 

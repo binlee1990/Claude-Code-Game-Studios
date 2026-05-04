@@ -1,7 +1,7 @@
 # Story 001: 返回当前 Unix 时间戳（精度 ±1 秒）
 
 > **Epic**: 时间管理器
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/time-manager.md`, scoped to this story:*
 
-- [ ] GIVEN: TimeManager 作为 Autoload 加载，**WHEN** 调用 `get_real_time()`，**THEN** 返回当前 Unix 时间戳（精度 ±1 秒）
-- [ ] GIVEN: speed = 2.0，**WHEN** 真实时间经过 60 秒，**THEN** `get_game_delta_since(last_game_time)` 返回约 120.0 秒
-- [ ] GIVEN: speed = 1.0（无加速），**WHEN** 真实时间经过 60 秒，**THEN** `get_game_delta_since(last_game_time)` 返回约 60.0 秒
+- [x] GIVEN: TimeManager 作为 Autoload 加载，**WHEN** 调用 `get_real_time()`，**THEN** 返回当前 Unix 时间戳（精度 ±1 秒）
+- [x] GIVEN: speed = 2.0，**WHEN** 真实时间经过 60 秒，**THEN** `get_game_delta_since(last_game_time)` 返回约 120.0 秒
+- [x] GIVEN: speed = 1.0（无加速），**WHEN** 真实时间经过 60 秒，**THEN** `get_game_delta_since(last_game_time)` 返回约 60.0 秒
 
 ---
 
@@ -90,7 +90,7 @@
 **Required evidence**:
 - `tests/integration/time_manager/unix-1_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -98,3 +98,18 @@
 
 - Depends on: None
 - Unlocks: Story 002
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 2, story 15/20
+- Sprint source: `production/sprints/sprint-2.md`
+- QA plan: `production/qa/qa-plan-sprint-2-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-2-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/performance/rng_performance_test.gd`
+  - `tests/integration/event_bus/event_bus_delivery_test.gd`
+  - `tests/integration/time_manager/time_manager_integration_test.gd`
+  - `tests/unit/time_manager/time_manager_logic_test.gd`

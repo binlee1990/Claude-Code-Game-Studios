@@ -1,7 +1,7 @@
 # Story 001: 实体生命周期 1
 
 > **Epic**: 属性系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: Config/Data
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/attribute-system.md`, scoped to this story:*
 
-- [ ] GIVEN: `AttributeSystem` 已加载，`attribute_set_config.json` 含 `"player_set"` schema (含 6 项 MVP 属性)，**WHEN** 调用 `register_entity("player", {category:"player", attribute_set:"player_set"})`，**THEN** 返回 `true`，`has_entity("player") == true`，`get_attribute_set("player")` 返回含 6 个 attr_id 的 Dictionary
-- [ ] GIVEN: `"player"` 已注册，**WHEN** 再次调用 `register_entity("player", ...)`，**THEN** 返回 `false`，已有条目不变，打印警告
-- [ ] GIVEN: `definition.attribute_set` 为未知 schema `"unknown_set"`，**WHEN** `register_entity("test", ...)`，**THEN** 返回 `false`，`has_entity("test") == false`，打印警告
+- [x] GIVEN: `AttributeSystem` 已加载，`attribute_set_config.json` 含 `"player_set"` schema (含 6 项 MVP 属性)，**WHEN** 调用 `register_entity("player", {category:"player", attribute_set:"player_set"})`，**THEN** 返回 `true`，`has_entity("player") == true`，`get_attribute_set("player")` 返回含 6 个 attr_id 的 Dictionary
+- [x] GIVEN: `"player"` 已注册，**WHEN** 再次调用 `register_entity("player", ...)`，**THEN** 返回 `false`，已有条目不变，打印警告
+- [x] GIVEN: `definition.attribute_set` 为未知 schema `"unknown_set"`，**WHEN** `register_entity("test", ...)`，**THEN** 返回 `false`，`has_entity("test") == false`，打印警告
 
 ---
 
@@ -90,7 +90,7 @@
 **Required evidence**:
 - `production/qa/smoke-attribute-system.md` — smoke check evidence
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -98,3 +98,17 @@
 
 - Depends on: None
 - Unlocks: Story 002
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 5, story 14/20
+- Sprint source: `production/sprints/sprint-5.md`
+- QA plan: `production/qa/qa-plan-sprint-5-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-5-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/resource_system/resource_system_crud_test.gd`
+  - `tests/integration/resource_system/resource_system_state_test.gd`
+  - `tests/unit/attribute_system/attribute_system_crud_test.gd`
+  - `tests/integration/attribute_system/attribute_system_final_test.gd`

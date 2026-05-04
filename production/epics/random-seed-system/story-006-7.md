@@ -1,7 +1,7 @@
 # Story 006: 返回 7，不消耗随机数
 
 > **Epic**: 随机数与种子系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: Logic
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/random-seed-system.md`, scoped to this story:*
 
-- [ ] GIVEN: `rand_int(COMBAT, 7, 7)`（min == max），**WHEN** 执行，**THEN** 返回 7，不消耗随机数
-- [ ] GIVEN: 流名称 `"custom_mod"`，**WHEN** 调用 `register_stream("custom_mod")`，**THEN** 创建新 RNG 流并从主种子推导种子；再次调用返回同一实例
-- [ ] GIVEN: 空字符串，**WHEN** 调用 `register_stream("")`，**THEN** 拒绝注册，打印错误，不创建任何流
+- [x] GIVEN: `rand_int(COMBAT, 7, 7)`（min == max），**WHEN** 执行，**THEN** 返回 7，不消耗随机数
+- [x] GIVEN: 流名称 `"custom_mod"`，**WHEN** 调用 `register_stream("custom_mod")`，**THEN** 创建新 RNG 流并从主种子推导种子；再次调用返回同一实例
+- [x] GIVEN: 空字符串，**WHEN** 调用 `register_stream("")`，**THEN** 拒绝注册，打印错误，不创建任何流
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/unit/random_seed/7_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 007
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 1, story 20/20
+- Sprint source: `production/sprints/sprint-1.md`
+- QA plan: `production/qa/qa-plan-sprint-1-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-1-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/big_number/api_contract_test.gd`
+  - `tests/unit/big_number/big_number_arithmetic_test.gd`
+  - `tests/performance/big_number_performance_test.gd`
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/unit/rng/stream_independence_test.gd`

@@ -1,7 +1,7 @@
 # Story 007: the output lists all entity IDs registered in `AttributeSystem`
 
 > **Epic**: 调试控制台
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: Logic
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/debug-console.md`, scoped to this story:*
 
-- [ ] GIVEN: the console is open, **WHEN** the developer types `attr` (no arguments) and presses Enter, **THEN** the output lists all entity IDs registered in `AttributeSystem`.
-- [ ] GIVEN: the console is open and entity `"player"` is registered, **WHEN** the developer types `attr player` and presses Enter, **THEN** the output shows one line per attribute in the format `{attr_id}  base={base}  final={final}`, appending `(+{pct}%)` where `final != base`.
-- [ ] GIVEN: the console is open, **WHEN** the developer types `prod breakdown lingqi` and presses Enter, **THEN** the output includes `base_rate`, each source pool's multiplier, `final_mult`, `rate_per_second`, and `fractional_carry` on separate labeled lines.
+- [x] GIVEN: the console is open, **WHEN** the developer types `attr` (no arguments) and presses Enter, **THEN** the output lists all entity IDs registered in `AttributeSystem`.
+- [x] GIVEN: the console is open and entity `"player"` is registered, **WHEN** the developer types `attr player` and presses Enter, **THEN** the output shows one line per attribute in the format `{attr_id}  base={base}  final={final}`, appending `(+{pct}%)` where `final != base`.
+- [x] GIVEN: the console is open, **WHEN** the developer types `prod breakdown lingqi` and presses Enter, **THEN** the output includes `base_rate`, each source pool's multiplier, `final_mult`, `rate_per_second`, and `fractional_carry` on separate labeled lines.
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/unit/debug_console/the-output-lists-all-entity-ids-registered-in-attributes_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,19 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 008
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 7, story 18/20
+- Sprint source: `production/sprints/sprint-7.md`
+- QA plan: `production/qa/qa-plan-sprint-7-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-7-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/item_registry/item_registry_boundary_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd`
+  - `tests/integration/output_multiplier_system/output_multiplier_events_test.gd`
+  - `tests/unit/debug_console/debug_console_command_test.gd`
+  - `tests/integration/debug_console/debug_console_smoke_test.gd`

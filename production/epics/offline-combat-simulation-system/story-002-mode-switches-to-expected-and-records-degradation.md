@@ -1,7 +1,7 @@
 # Story 002: mode switches to expected and records degradation
 
 > **Epic**: 离线战斗模拟系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Simulation
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -34,8 +34,8 @@
 
 *From GDD `design/gdd/offline-combat-simulation-system.md`, scoped to this story:*
 
-- [ ] GIVEN: CPU budget exceeded, **WHEN** simulation continues, **THEN** mode switches to expected and records degradation.
-- [ ] GIVEN: generated rewards exist, **WHEN** simulation completes, **THEN** no ResourceSystem writes have occurred.
+- [x] GIVEN: CPU budget exceeded, **WHEN** simulation continues, **THEN** mode switches to expected and records degradation.
+- [x] GIVEN: generated rewards exist, **WHEN** simulation completes, **THEN** no ResourceSystem writes have occurred.
 
 ---
 
@@ -82,7 +82,7 @@
 **Required evidence**:
 - `tests/integration/offline_combat_simulation/mode-switches-to-expected-and-records-degradation_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -90,3 +90,14 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: None
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 10, story 1/8
+- Sprint source: `production/sprints/sprint-10.md`
+- QA plan: `production/qa/qa-plan-sprint-10-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-10-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/sprint10/sprint10_settlement_ui_hud_test.gd`

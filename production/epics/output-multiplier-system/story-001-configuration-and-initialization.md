@@ -1,7 +1,7 @@
 # Story 001: Configuration and Initialization
 
 > **Epic**: 产出乘数系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: UI
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/output-multiplier-system.md`, scoped to this story:*
 
-- [ ] AC-01: **GIVEN** `production_config.json` 包含 5 资源定义（lingqi base `"1.0"` allows_passive=true, xiuwei base `"0.1"` allows_passive=true, lingshi base `"0.1"` allows_passive=true, herb base `"0.02"` allows_passive=true, exp base `"0"` allows_passive=false），**WHEN** `OutputMultiplierSystem._ready()` 执行完毕，**THEN** `get_production_rate("lingqi") == 1.0`，`get_production_rate("xiuwei") == 0.1`，`get_production_rate("lingshi") == 0.1`，`get_production_rate("herb") == 0.02`，`get_production_rate("exp") == 0.0`，且各资源 `fractional_carry` 初始为 `0.0`
-- [ ] AC-02: **GIVEN** exp 的 `allows_passive = false`，且 target `"exp_production"` 下存在 realm modifier（value=1.0, MULT, pool="realm"），**WHEN** 调用 `get_production_rate("exp")`，**THEN** 返回 `0.0`（无视 modifier），且 `get_tick_amount("exp", 10.0)` 返回 `BigNumber.ZERO`，且 `activate_source({resource_id: "exp", source_type: "equipment", value: 0.15, source_id: "exp_src"})` 返回 `""` 并打印 warning
-- [ ] AC-03: **GIVEN** `DataConfig.get("production_config")` 返回空 Dictionary（配置缺失或不可解析），**WHEN** `load_config()` 执行，**THEN** 系统以零资源、空 base_rates / fractional_carry 初始化，`get_production_rate("lingqi")` 返回 `0.0`，`activate_source({...})` 对任何 resource_id 返回 `""`，不崩溃
+- [x] AC-01: **GIVEN** `production_config.json` 包含 5 资源定义（lingqi base `"1.0"` allows_passive=true, xiuwei base `"0.1"` allows_passive=true, lingshi base `"0.1"` allows_passive=true, herb base `"0.02"` allows_passive=true, exp base `"0"` allows_passive=false），**WHEN** `OutputMultiplierSystem._ready()` 执行完毕，**THEN** `get_production_rate("lingqi") == 1.0`，`get_production_rate("xiuwei") == 0.1`，`get_production_rate("lingshi") == 0.1`，`get_production_rate("herb") == 0.02`，`get_production_rate("exp") == 0.0`，且各资源 `fractional_carry` 初始为 `0.0`
+- [x] AC-02: **GIVEN** exp 的 `allows_passive = false`，且 target `"exp_production"` 下存在 realm modifier（value=1.0, MULT, pool="realm"），**WHEN** 调用 `get_production_rate("exp")`，**THEN** 返回 `0.0`（无视 modifier），且 `get_tick_amount("exp", 10.0)` 返回 `BigNumber.ZERO`，且 `activate_source({resource_id: "exp", source_type: "equipment", value: 0.15, source_id: "exp_src"})` 返回 `""` 并打印 warning
+- [x] AC-03: **GIVEN** `DataConfig.get("production_config")` 返回空 Dictionary（配置缺失或不可解析），**WHEN** `load_config()` 执行，**THEN** 系统以零资源、空 base_rates / fractional_carry 初始化，`get_production_rate("lingqi")` 返回 `0.0`，`activate_source({...})` 对任何 resource_id 返回 `""`，不崩溃
 
 ---
 
@@ -87,7 +87,7 @@
 **Required evidence**:
 - `production/qa/evidence/configuration-and-initialization-evidence.md` — manual/interaction evidence with sign-off
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -95,3 +95,19 @@
 
 - Depends on: None
 - Unlocks: Story 002
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 7, story 3/20
+- Sprint source: `production/sprints/sprint-7.md`
+- QA plan: `production/qa/qa-plan-sprint-7-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-7-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/item_registry/item_registry_boundary_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_config_test.gd`
+  - `tests/unit/output_multiplier_system/output_multiplier_system_formula_test.gd`
+  - `tests/integration/output_multiplier_system/output_multiplier_events_test.gd`
+  - `tests/unit/debug_console/debug_console_command_test.gd`
+  - `tests/integration/debug_console/debug_console_smoke_test.gd`

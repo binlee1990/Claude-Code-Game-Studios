@@ -1,7 +1,7 @@
 # Story 005: 递归 emit 被忽略，控制台打印警告
 
 > **Epic**: 事件总线
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Foundation
 > **Type**: Integration
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/event-bus.md`, scoped to this story:*
 
-- [ ] GIVEN: 回调执行中再次对同一事件调用 `emit`，**WHEN** 检测到递归，**THEN** 递归 emit 被忽略，控制台打印警告
-- [ ] GIVEN: 嵌套 emit 深度达到 9 层，**WHEN** 第 9 层尝试 emit，**THEN** emit 被截断，控制台打印深度警告
-- [ ] GIVEN: 单事件订阅者数量达到 129，**WHEN** 第 129 次 subscribe 被调用，**THEN** 订阅被拒绝，控制台打印上限警告
+- [x] GIVEN: 回调执行中再次对同一事件调用 `emit`，**WHEN** 检测到递归，**THEN** 递归 emit 被忽略，控制台打印警告
+- [x] GIVEN: 嵌套 emit 深度达到 9 层，**WHEN** 第 9 层尝试 emit，**THEN** emit 被截断，控制台打印深度警告
+- [x] GIVEN: 单事件订阅者数量达到 129，**WHEN** 第 129 次 subscribe 被调用，**THEN** 订阅被拒绝，控制台打印上限警告
 
 ---
 
@@ -91,7 +91,7 @@
 **Required evidence**:
 - `tests/integration/event_bus/emit_test.gd` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -99,3 +99,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 006
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 2, story 9/20
+- Sprint source: `production/sprints/sprint-2.md`
+- QA plan: `production/qa/qa-plan-sprint-2-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-2-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/integration/rng/deterministic_replay_test.gd`
+  - `tests/performance/rng_performance_test.gd`
+  - `tests/integration/event_bus/event_bus_delivery_test.gd`
+  - `tests/integration/time_manager/time_manager_integration_test.gd`
+  - `tests/unit/time_manager/time_manager_logic_test.gd`

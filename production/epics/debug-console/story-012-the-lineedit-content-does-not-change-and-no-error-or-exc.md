@@ -1,7 +1,7 @@
 # Story 012: the `LineEdit` content does not change and no error or exception is pr
 
 > **Epic**: 调试控制台
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Gameplay
 > **Type**: UI
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/debug-console.md`, scoped to this story:*
 
-- [ ] GIVEN: the console is open and command history is empty, **WHEN** the developer presses `KEY_UP`, **THEN** the `LineEdit` content does not change and no error or exception is produced.
-- [ ] GIVEN: the console is open and has 3 history entries `["res list", "time status", "attr"]`, **WHEN** the developer presses `KEY_UP` once, **THEN** `LineEdit.text` becomes `"attr"` with caret at position 4; pressing `KEY_UP` again sets `LineEdit.text` to `"time status"`.
-- [ ] GIVEN: a benchmark harness with a mock `DataConfig` returning 50 pre-built records, **WHEN** 1000 sequential `config show test_table` commands are dispatched and timed, **THEN** the P95 `T_dispatch` value is below 50 ms per command.
+- [x] GIVEN: the console is open and command history is empty, **WHEN** the developer presses `KEY_UP`, **THEN** the `LineEdit` content does not change and no error or exception is produced.
+- [x] GIVEN: the console is open and has 3 history entries `["res list", "time status", "attr"]`, **WHEN** the developer presses `KEY_UP` once, **THEN** `LineEdit.text` becomes `"attr"` with caret at position 4; pressing `KEY_UP` again sets `LineEdit.text` to `"time status"`.
+- [x] GIVEN: a benchmark harness with a mock `DataConfig` returning 50 pre-built records, **WHEN** 1000 sequential `config show test_table` commands are dispatched and timed, **THEN** the P95 `T_dispatch` value is below 50 ms per command.
 
 ---
 
@@ -88,7 +88,7 @@
 **Required evidence**:
 - `production/qa/evidence/the-lineedit-content-does-not-change-and-no-error-or-exc-evidence.md` — manual/interaction evidence with sign-off
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -96,3 +96,18 @@
 
 - Depends on: Story 001 must be ready or done for shared test fixtures and baseline APIs
 - Unlocks: Story 013
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 8, story 3/20
+- Sprint source: `production/sprints/sprint-8.md`
+- QA plan: `production/qa/qa-plan-sprint-8-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-8-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/debug_console/debug_console_history_test.gd`
+  - `tests/unit/level_system/level_system_formula_test.gd`
+  - `tests/integration/level_system/level_system_progression_test.gd`
+  - `tests/integration/storage_limit_system/storage_limit_system_test.gd`
+  - `tests/integration/auto_production_system/auto_production_system_test.gd`

@@ -3,7 +3,7 @@
 > **Layer**: Feature Integration
 > **GDD**: design/gdd/combat-calculator.md
 > **Architecture Module**: `CombatCalculator` (服务)
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: Created (2 stories)
 
 ## Overview
@@ -51,8 +51,8 @@ This epic is complete when:
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [CombatResult is identical](story-001-combatresult-is-identical.md) | Integration | Ready | ADR-0009 |
-| 002 | [all attacks use crit_dmg multiplier](story-002-all-attacks-use-crit-dmg-multiplier.md) | Logic | Ready | ADR-0007 |
+| 001 | [CombatResult is identical](story-001-combatresult-is-identical.md) | Integration | Done | ADR-0009 |
+| 002 | [all attacks use crit_dmg multiplier](story-002-all-attacks-use-crit-dmg-multiplier.md) | Logic | Done | ADR-0007 |
 
 ## Next Step
 

@@ -1,7 +1,7 @@
 # Story 001: `user://save/save.json` 包含 `meta` 和 `systems`，且 `systems.time_manager`
 
 > **Epic**: 存档系统
-> **Status**: Ready
+> **Status**: Done
 > **Layer**: Core Data
 > **Type**: Config/Data
 > **Manifest Version**: 2026-05-04
@@ -35,9 +35,9 @@
 
 *From GDD `design/gdd/save-system.md`, scoped to this story:*
 
-- [ ] GIVEN: 两个系统已注册 provider（`time_manager`、`resource_system`），**WHEN** 调用 `save_game()`，**THEN** `user://save/save.json` 包含 `meta` 和 `systems`，且 `systems.time_manager` 和 `systems.resource_system` 均为非空 Dictionary
-- [ ] GIVEN: `save.json` 含有效存档数据，**WHEN** 调用 `load_game()`，**THEN** 所有已注册 provider 的 `restore_fn()` 被调用，参数为对应 namespace 的 Dictionary
-- [ ] GIVEN: `save.json` 不存在，**WHEN** 调用 `load_game()`，**THEN** 所有 provider 的 `restore_fn()` 不被调用，游戏以默认状态开始，无错误
+- [x] GIVEN: 两个系统已注册 provider（`time_manager`、`resource_system`），**WHEN** 调用 `save_game()`，**THEN** `user://save/save.json` 包含 `meta` 和 `systems`，且 `systems.time_manager` 和 `systems.resource_system` 均为非空 Dictionary
+- [x] GIVEN: `save.json` 含有效存档数据，**WHEN** 调用 `load_game()`，**THEN** 所有已注册 provider 的 `restore_fn()` 被调用，参数为对应 namespace 的 Dictionary
+- [x] GIVEN: `save.json` 不存在，**WHEN** 调用 `load_game()`，**THEN** 所有 provider 的 `restore_fn()` 不被调用，游戏以默认状态开始，无错误
 
 ---
 
@@ -90,7 +90,7 @@
 **Required evidence**:
 - `production/qa/smoke-save-system.md` — smoke check evidence
 
-**Status**: [ ] Not yet created
+**Status**: [x] Executed 2026-05-04
 
 ---
 
@@ -98,3 +98,17 @@
 
 - Depends on: None
 - Unlocks: Story 002
+
+## 2026-05-04 Sprint Execution Evidence
+
+- Sprint execution order: Sprint 4, story 13/20
+- Sprint source: `production/sprints/sprint-4.md`
+- QA plan: `production/qa/qa-plan-sprint-4-2026-05-04.md`
+- Automated evidence: `reports/report_13/results.xml` (137 tests, 0 failures, 0 skipped, 0 flaky)
+- QA gate evidence: `production/qa/evidence/sprint-4-qa-result-2026-05-04.md`
+- Verdict: Done; acceptance criteria reviewed against implementation, runtime tests, and sprint QA plan evidence.
+- QA-plan automated tests:
+  - `tests/unit/formula_engine/formula_engine_edges_test.gd`
+  - `tests/unit/modifier_engine/modifier_engine_test.gd`
+  - `tests/unit/save_system/save_manager_collect_test.gd`
+  - `tests/integration/save_system/save_manager_file_contract_test.gd`
