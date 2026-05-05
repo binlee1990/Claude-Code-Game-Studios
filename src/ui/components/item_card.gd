@@ -7,6 +7,7 @@
 class_name ItemCard
 extends PanelContainer
 
+const Sprint11AssetCatalog := preload("res://src/ui/sprint11_asset_catalog.gd")
 
 enum CardSize { GRID, DETAIL }
 
@@ -17,18 +18,19 @@ const RARITY_COLORS: Dictionary = {
 	"epic":       Color(0.64, 0.20, 0.79),      # 史 — purple
 	"legendary":  Color(0.96, 0.78, 0.26),      # 传 — gold
 	"mythic":     Color(0.96, 0.40, 0.16),      # 神 — orange
+	"innate":     Color(0.86, 0.70, 0.20),      # 先 — gold
 	"primordial": Color(0.86, 0.08, 0.24),      # 先 — crimson
 	"chaos":      Color(0.06, 0.06, 0.12),      # 混 — void
 }
 
 const RARITY_BORDER_WIDTH: Dictionary = {
 	"common": 1, "uncommon": 1, "rare": 2, "epic": 2,
-	"legendary": 3, "mythic": 3, "primordial": 4, "chaos": 4,
+	"legendary": 3, "mythic": 3, "innate": 4, "primordial": 4, "chaos": 4,
 }
 
 const RARITY_NAMES: Dictionary = {
 	"common": "凡", "uncommon": "精", "rare": "稀", "epic": "史",
-	"legendary": "传", "mythic": "神", "primordial": "先", "chaos": "混",
+	"legendary": "传", "mythic": "神", "innate": "先", "primordial": "先", "chaos": "混",
 }
 
 var _card_size: CardSize = CardSize.GRID
@@ -36,6 +38,7 @@ var _icon_rect: TextureRect = null
 var _name_label: Label = null
 var _count_badge: Label = null
 var _rarity_badge: Label = null
+var _pending_item_data: Dictionary = {}
 
 
 func _init() -> void:
@@ -50,7 +53,7 @@ func _build_card() -> void:
 	var vbox := VBoxContainer.new()
 	vbox.name = "CardVBox"
 	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
-	vbox.theme_override_constants_separation = 4
+	vbox.add_theme_constant_override("separation", 4)
 
 	# Icon container with rarity border
 	var icon_container := PanelContainer.new()
@@ -90,11 +93,22 @@ func _build_card() -> void:
 	vbox.add_child(_count_badge)
 
 	add_child(vbox)
+	if not _pending_item_data.is_empty():
+		_apply_item_data(_pending_item_data)
 
 
 ## Set the item data on this card.
 func set_item(item_data: Dictionary) -> void:
+	_pending_item_data = item_data.duplicate(true)
+	if _icon_rect == null or _name_label == null:
+		return
+	_apply_item_data(_pending_item_data)
+
+
+func _apply_item_data(item_data: Dictionary) -> void:
 	var rarity: String = item_data.get("rarity", "common")
+	if rarity == "primordial":
+		rarity = "innate"
 	var icon_path: String = item_data.get("icon_path", "")
 	var item_name: String = item_data.get("name", "?")
 	var count: int = item_data.get("count", 0)
@@ -118,18 +132,27 @@ func set_item(item_data: Dictionary) -> void:
 
 
 func _apply_rarity(rarity: String) -> void:
+	if rarity == "primordial":
+		rarity = "innate"
 	var col: Color = RARITY_COLORS.get(rarity, Color(0.58, 0.58, 0.58))
 	var border_w: int = RARITY_BORDER_WIDTH.get(rarity, 1)
 	var rarity_text: String = RARITY_NAMES.get(rarity, "?")
 
-	var style := StyleBoxFlat.new()
-	style.border_width_left = border_w
-	style.border_width_right = border_w
-	style.border_width_top = border_w
-	style.border_width_bottom = border_w
-	style.border_color = col
-	style.bg_color = Color(0, 0, 0, 0.15)
-	add_theme_stylebox_override("panel", style)
+	var frame_texture := Sprint11AssetCatalog.get_texture(Sprint11AssetCatalog.RARITY_FRAMES, rarity)
+	if frame_texture != null:
+		var texture_style := StyleBoxTexture.new()
+		texture_style.texture = frame_texture
+		texture_style.texture_margin_left = 10
+		texture_style.texture_margin_top = 10
+		texture_style.texture_margin_right = 10
+		texture_style.texture_margin_bottom = 10
+		add_theme_stylebox_override("panel", texture_style)
+	else:
+		var style := StyleBoxFlat.new()
+		style.set_border_width_all(border_w)
+		style.border_color = col
+		style.bg_color = Color(0, 0, 0, 0.15)
+		add_theme_stylebox_override("panel", style)
 
 	# Rarity badge (text — colorblind backup)
 	_rarity_badge.text = rarity_text

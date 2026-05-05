@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites id="2026-05-05" name="report_32" tests="137" failures="0" skipped="0" flaky="0" time="0.000">
+	<testsuite id="0" name="attribute_system_final_test" package="tests/integration/attribute_system" timestamp="2026-05-05T04:53:10" hostname="localhost" tests="3" failures="0" errors="0" skipped="0" flaky="0" time="0.016">
+		<testcase name="test_get_final_passthrough_without_modifiers" classname="attribute_system_final_test" time="0.002">
+		</testcase>
+		<testcase name="test_get_final_applies_modifier_engine" classname="attribute_system_final_test" time="0.003">
+		</testcase>
+		<testcase name="test_make_target_returns_canonical_string_name" classname="attribute_system_final_test" time="0.003">
+		</testcase>
+	</testsuite>
+	<testsuite id="1" name="auto_production_system_test" package="tests/integration/auto_production_system" timestamp="2026-05-05T04:53:10" hostname="localhost" tests="2" failures="0" errors="0" skipped="0" flaky="0" time="0.020">
+		<testcase name="test_tick_adds_nonzero_passive_resources_and_skips_fractional_zero" classname="auto_production_system_test" time="0.004">
+		</testcase>
+		<testcase name="test_frozen_time_skips_tick_and_invalid_resource_does_not_block_valid" classname="auto_production_system_test" time="0.006">
+		</testcase>
+	</testsuite>
+	<testsuite id="2" name="api_contract_test" package="tests/integration/big_number" timestamp="2026-05-05T04:53:10" hostname="localhost" tests="2" failures="0" errors="0" skipped="0" flaky="0" time="0.019">
+		<testcase name="test_big_number_public_api_contract_exists" classname="api_contract_test" time="0.005">
+		</testcase>
+		<testcase name="test_dict_round_trip_preserves_value" classname="api_contract_test" time="0.005">
+		</testcase>
+	</testsuite>
+	<testsuite id="3" name="debug_console_smoke_test" package="tests/integration/debug_console" timestamp="2026-05-05T04:53:10" hostname="localhost" tests="1" failures="0" errors="0" skipped="0" flaky="0" time="0.036">
+		<testcase name="test_debug_ready_builds_hidden_canvas_layer" classname="debug_console_smoke_test" time="0.017">
+		</testcase>
+	</testsuite>
+	<testsuite id="4" name="event_bus_delivery_test" package="tests/integration/event_bus" timestamp="2026-05-05T04:53:10" hostname="localhost" tests="6" failures="0" errors="0" skipped="0" flaky="0" time="0.169">
+		<testcase name="test_exact_subscribe_emit_and_unsubscribe" classname="event_bus_delivery_test" time="0.019">
+		</testcase>
+		<testcase name="test_subscribe_once_only_fires_once" classname="event_bus_delivery_test" time="0.020">
+		</testcase>
+		<testcase name="test_pattern_subscriber_receives_event_name_and_payload" classname="event_bus_delivery_test" time="0.021">
+		</testcase>
+		<testcase name="test_exact_and_pattern_subscriptions_are_independent" classname="event_bus_delivery_test" time="0.022">
+		</testcase>
+		<testcase name="test_coalesced_event_delivers_latest_payload_once" classname="event_bus_delivery_test" time="0.023">
+		</testcase>
+		<testcase name="test_recursive_same_event_emit_is_ignored" classname="event_bus_delivery_test" time="0.026">
+		</testcase>
+	</testsuite>
+	<testsuite id="5" name="item_registry_boundary_test" package="tests/integration/item_registry" timestamp="2026-05-05T04:53:11" hostname="localhost" tests="2" failures="0" errors="0" skipped="0" flaky="0" time="0.074">
+		<testcase name="test_item_registry_and_resource_system_share_ids_without_coupling" classname="item_registry_boundary_test" time="0.023">
+		</testcase>
+		<testcase name="test_item_registry_internal_consistency_across_classes" classname="item_registry_boundary_test" time="0.024">
+		</testcase>
+	</testsuite>
+	<testsuite id="6" name="item_registry_lifecycle_test" package="tests/integration/item_registry" timestamp="2026-05-05T04:53:11" hostname="localhost" tests="2" failures="0" errors="0" skipped="0" flaky="0" time="0.083">
+		<testcase name="test_initialize_emits_loaded_payload" classname="item_registry_lifecycle_test" time="0.026">
+		</testcase>
+		<testcase name="test_reload_refreshes_table_when_hot_reload_enabled" classname="item_registry_lifecycle_test" time="0.026">
+		</testcase>
+	</testsuite>
+	<testsuite id="7" name="level_system_progression_test" package="tests/integration/level_system" timestamp="2026-05-05T04:53:11" hostname="localhost" tests="2" failures="0" errors="0" skipped="0" flaky="0" time="0.096">
+		<testcase name="test_register_gain_exp_and_realm_modifiers" classname="level_system_progression_test" time="0.040">
+		</testcase>
+		<testcase name="test_restore_save_loaded_reset_and_unregister_contracts" classname="level_system_progression_test" time="0.026">
+		</testcase>
+	</testsuite>
+	<testsuite id="8" name="output_multiplier_events_test" package="tests/integration/output_multiplier_system" timestamp="2026-05-05T04:53:11" hostname="localhost" tests="2" failures="0" errors="0" skipped="0" flaky="0" time="0.086">
+		<testcase name="test_activation_and_deactivation_emit_changed_events" classname="output_multiplier_events_test" time="0.026">
+		</testcase>
+		<testcase name="test_modifier_expiry_emits_deactivation_event" classname="output_multiplier_events_test" time="0.028">
+		</testcase>
+	</testsuite>
+	<testsuite id="9" name="resource_system_state_test" package="tests/integration/resource_system" timestamp="2026-05-05T04:53:11" hostname="localhost" tests="3" failures="0" errors="0" skipped="0" flaky="0" time="0.127">
+		<testcase name="test_set_max_clamps_current_when_cap_shrinks" classname="resource_system_state_test" time="0.028">
+		</testcase>
+		<testcase name="test_reset_by_scope_breakthrough_resets_three_resources" classname="resource_system_state_test" time="0.028">
+		</testcase>
+		<testcase name="test_snapshot_restore_preserves_cap_before_current" classname="resource_system_state_test" time="0.033">
+		</testcase>
+	</testsuite>
+	<testsuite id="10" name="deterministic_replay_test" package="tests/integration/rng" timestamp="2026-05-05T04:53:11" hostname="localhost" tests="3" failures="0" errors="0" skipped="0" flaky="0" time="0.129">
+		<testcase name="test_save_load_restores_next_sequence" classname="deterministic_replay_test" time="0.029">
+		</testcase>
+		<testcase name="test_state_copy_does_not_consume_online_rng" classname="deterministic_replay_test" time="0.031">
+		</testcase>
+		<testcase name="test_pick_random_empty_array_returns_null" classname="deterministic_replay_test" time="0.032">
+		</testcase>
+	</testsuite>
+	<testsuite id="11" name="save_manager_file_contract_test" package="tests/integration/save_system" timestamp="2026-05-05T04:53:11" hostname="localhost" tests="2" failures="0" errors="0" skipped="0" flaky="0" time="0.101">
+		<testcase name="test_save_manager_exposes_configurable_save_dir" classname="save_manager_file_contract_test" time="0.032">
+		</testcase>
+		<testcase name="test_idle_state_reports_not_saving_or_loading" classname="save_manager_file_contract_test" time="0.033">
+		</testcase>
+	</testsuite>
+	<testsuite id="12" name="sprint10_settlement_ui_hud_test" package="tests/integration/sprint10" timestamp="2026-05-05T04:53:11" hostname="localhost" tests="3" failures="0" errors="0" skipped="0" flaky="0" time="0.153">
+		<testcase name="test_offline_combat_degrades_without_resource_writes" classname="sprint10_settlement_ui_hud_test" time="0.035">
+		</testcase>
+		<testcase name="test_offline_settlement_applies_capacity_loss_and_dedupes" classname="sprint10_settlement_ui_hud_test" time="0.036">
+		</testcase>
+		<testcase name="test_ui_manager_and_hud_view_model_contracts" classname="sprint10_settlement_ui_hud_test" time="0.037">
+		</testcase>
+	</testsuite>
+	<testsuite id="13" name="sprint9_feature_stack_test" package="tests/integration/sprint9" timestamp="2026-05-05T04:53:12" hostname="localhost" tests="3" failures="0" errors="0" skipped="0" flaky="0" time="0.170">
+		<testcase name="test_enemy_database_zone_and_loot_contracts" classname="sprint9_feature_stack_test" time="0.038">
+		</testcase>
+		<testcase name="test_cultivation_combat_zone_and_progression_contracts" classname="sprint9_feature_stack_test" time="0.039">
+		</testcase>
+		<testcase name="test_auto_offline_idle_and_semi_auto_contracts" classname="sprint9_feature_stack_test" time="0.043">
+		</testcase>
+	</testsuite>
+	<testsuite id="14" name="storage_limit_system_test" package="tests/integration/storage_limit_system" timestamp="2026-05-05T04:53:12" hostname="localhost" tests="2" failures="0" errors="0" skipped="0" flaky="0" time="0.122">
+		<testcase name="test_storage_limits_initialize_and_report_capacity_state" classname="storage_limit_system_test" time="0.040">
+		</testcase>
+		<testcase name="test_recompute_applies_realm_multiplier_and_resource_clamps" classname="storage_limit_system_test" time="0.038">
+		</testcase>
+	</testsuite>
+	<testsuite id="15" name="time_manager_integration_test" package="tests/integration/time_manager" timestamp="2026-05-05T04:53:12" hostname="localhost" tests="5" failures="0" errors="0" skipped="0" flaky="0" time="0.277">
+		<testcase name="test_get_real_time_uses_unix_timestamp_source" classname="time_manager_integration_test" time="0.042">
+		</testcase>
+		<testcase name="test_frozen_game_delta_returns_zero" classname="time_manager_integration_test" time="0.043">
+		</testcase>
+		<testcase name="test_speed_changes_while_frozen_apply_after_unfreeze" classname="time_manager_integration_test" time="0.044">
+		</testcase>
+		<testcase name="test_offline_delta_clamps_to_max_seconds" classname="time_manager_integration_test" time="0.045">
+		</testcase>
+		<testcase name="test_clock_rollback_returns_zero_delta" classname="time_manager_integration_test" time="0.048">
+		</testcase>
+	</testsuite>
+	<testsuite id="16" name="big_number_performance_test" package="tests/performance" timestamp="2026-05-05T04:53:12" hostname="localhost" tests="1" failures="0" errors="0" skipped="0" flaky="0" time="0.109">
+		<testcase name="test_big_number_bulk_arithmetic_stays_under_frame_budget" classname="big_number_performance_test" time="0.063">
+		</testcase>
+	</testsuite>
+	<testsuite id="17" name="item_registry_performance_test" package="tests/performance" timestamp="2026-05-05T04:53:12" hostname="localhost" tests="2" failures="0" errors="0" skipped="0" flaky="0" time="0.143">
+		<testcase name="test_mvp_query_matrix_contract" classname="item_registry_performance_test" time="0.045">
+		</testcase>
+		<testcase name="test_alpha_scale_query_contract" classname="item_registry_performance_test" time="0.049">
+		</testcase>
+	</testsuite>
+	<testsuite id="18" name="number_formatter_performance_test" package="tests/performance" timestamp="2026-05-05T04:53:12" hostname="localhost" tests="1" failures="0" errors="0" skipped="0" flaky="0" time="0.092">
+		<testcase name="test_one_thousand_format_calls_stay_under_one_ms" classname="number_formatter_performance_test" time="0.045">
+		</testcase>
+	</testsuite>
+	<testsuite id="19" name="rng_performance_test" package="tests/performance" timestamp="2026-05-05T04:53:12" hostname="localhost" tests="1" failures="0" errors="0" skipped="0" flaky="0" time="0.091">
+		<testcase name="test_rng_calls_stay_under_one_percent_frame_budget" classname="rng_performance_test" time="0.045">
+		</testcase>
+	</testsuite>
+	<testsuite id="20" name="attribute_system_batch_snapshot_test" package="tests/unit/attribute_system" timestamp="2026-05-05T04:53:13" hostname="localhost" tests="4" failures="0" errors="0" skipped="0" flaky="0" time="0.256">
+		<testcase name="test_set_base_batch_updates_all_valid_attributes_and_emits_events" classname="attribute_system_batch_snapshot_test" time="0.048">
+		</testcase>
+		<testcase name="test_snapshot_contains_player_and_five_disciples" classname="attribute_system_batch_snapshot_test" time="0.049">
+		</testcase>
+		<testcase name="test_restore_skips_deprecated_schema_and_restores_other_entities" classname="attribute_system_batch_snapshot_test" time="0.050">
+		</testcase>
+		<testcase name="test_restore_suppresses_base_changed_events" classname="attribute_system_batch_snapshot_test" time="0.050">
+		</testcase>
+	</testsuite>
+	<testsuite id="21" name="attribute_system_crud_test" package="tests/unit/attribute_system" timestamp="2026-05-05T04:53:13" hostname="localhost" tests="5" failures="0" errors="0" skipped="0" flaky="0" time="0.315">
+		<testcase name="test_register_player_creates_six_attributes" classname="attribute_system_crud_test" time="0.051">
+		</testcase>
+		<testcase name="test_duplicate_entity_register_returns_false" classname="attribute_system_crud_test" time="0.051">
+		</testcase>
+		<testcase name="test_set_base_updates_value" classname="attribute_system_crud_test" time="0.050">
+		</testcase>
+		<testcase name="test_unknown_attribute_rejects_write" classname="attribute_system_crud_test" time="0.051">
+		</testcase>
+		<testcase name="test_unregister_returns_attribute_count" classname="attribute_system_crud_test" time="0.051">
+		</testcase>
+	</testsuite>
+	<testsuite id="22" name="big_number_arithmetic_test" package="tests/unit/big_number" timestamp="2026-05-05T04:53:13" hostname="localhost" tests="12" failures="0" errors="0" skipped="0" flaky="0" time="0.753">
+		<testcase name="test_from_float_normalizes_mantissa_and_exponent" classname="big_number_arithmetic_test" time="0.056">
+		</testcase>
+		<testcase name="test_multiply_returns_expected_mantissa_and_exponent" classname="big_number_arithmetic_test" time="0.056">
+		</testcase>
+		<testcase name="test_log10_returns_expected_float" classname="big_number_arithmetic_test" time="0.057">
+		</testcase>
+		<testcase name="test_subtract_negative_result_clamps_to_zero" classname="big_number_arithmetic_test" time="0.056">
+		</testcase>
+		<testcase name="test_exponent_underflow_clamps_to_zero" classname="big_number_arithmetic_test" time="0.057">
+		</testcase>
+		<testcase name="test_divide_by_zero_returns_max" classname="big_number_arithmetic_test" time="0.057">
+		</testcase>
+		<testcase name="test_overflow_returns_max" classname="big_number_arithmetic_test" time="0.056">
+		</testcase>
+		<testcase name="test_from_int_42_has_expected_components" classname="big_number_arithmetic_test" time="0.056">
+		</testcase>
+		<testcase name="test_to_int_returns_plain_integer" classname="big_number_arithmetic_test" time="0.056">
+		</testcase>
+		<testcase name="test_to_string_formats_scientific_notation" classname="big_number_arithmetic_test" time="0.057">
+		</testcase>
+		<testcase name="test_comparison_helpers_return_true_for_equal_bounds" classname="big_number_arithmetic_test" time="0.056">
+		</testcase>
+		<testcase name="test_max_constant_is_saturated" classname="big_number_arithmetic_test" time="0.056">
+		</testcase>
+	</testsuite>
+	<testsuite id="23" name="data_config_test" package="tests/unit/data_config" timestamp="2026-05-05T04:53:14" hostname="localhost" tests="5" failures="0" errors="0" skipped="0" flaky="0" time="0.314">
+		<testcase name="test_get_returns_record" classname="data_config_test" time="0.051">
+		</testcase>
+		<testcase name="test_get_all_returns_three_keys" classname="data_config_test" time="0.051">
+		</testcase>
+		<testcase name="test_missing_table_returns_empty_dictionary" classname="data_config_test" time="0.051">
+		</testcase>
+		<testcase name="test_reload_table_noops_when_hot_reload_disabled" classname="data_config_test" time="0.051">
+		</testcase>
+		<testcase name="test_array_field_preserves_type" classname="data_config_test" time="0.051">
+		</testcase>
+	</testsuite>
+	<testsuite id="24" name="debug_console_command_test" package="tests/unit/debug_console" timestamp="2026-05-05T04:53:14" hostname="localhost" tests="2" failures="0" errors="0" skipped="0" flaky="0" time="0.162">
+		<testcase name="test_help_lists_ten_commands" classname="debug_console_command_test" time="0.051">
+		</testcase>
+		<testcase name="test_event_watch_rejects_duplicate_and_empty_prefix" classname="debug_console_command_test" time="0.052">
+		</testcase>
+	</testsuite>
+	<testsuite id="25" name="debug_console_history_test" package="tests/unit/debug_console" timestamp="2026-05-05T04:53:14" hostname="localhost" tests="2" failures="0" errors="0" skipped="0" flaky="0" time="0.193">
+		<testcase name="test_help_event_clear_unknown_and_invalid_handler_contracts" classname="debug_console_history_test" time="0.056">
+		</testcase>
+		<testcase name="test_history_empty_and_navigation_contract" classname="debug_console_history_test" time="0.066">
+		</testcase>
+	</testsuite>
+	<testsuite id="26" name="formula_engine_edges_test" package="tests/unit/formula_engine" timestamp="2026-05-05T04:53:15" hostname="localhost" tests="5" failures="0" errors="0" skipped="0" flaky="0" time="0.428">
+		<testcase name="test_value_below_softcap_returns_original_value" classname="formula_engine_edges_test" time="0.069">
+		</testcase>
+		<testcase name="test_lerp_returns_expected_value" classname="formula_engine_edges_test" time="0.069">
+		</testcase>
+		<testcase name="test_invalidate_all_clears_cache" classname="formula_engine_edges_test" time="0.069">
+		</testcase>
+		<testcase name="test_negative_results_are_allowed" classname="formula_engine_edges_test" time="0.075">
+		</testcase>
+		<testcase name="test_softcap_invalid_threshold_degrades_without_crash" classname="formula_engine_edges_test" time="0.069">
+		</testcase>
+	</testsuite>
+	<testsuite id="27" name="formula_engine_test" package="tests/unit/formula_engine" timestamp="2026-05-05T04:53:15" hostname="localhost" tests="6" failures="0" errors="0" skipped="0" flaky="0" time="0.500">
+		<testcase name="test_registered_formula_returns_expected_value" classname="formula_engine_test" time="0.069">
+		</testcase>
+		<testcase name="test_raw_expression_respects_operator_precedence" classname="formula_engine_test" time="0.071">
+		</testcase>
+		<testcase name="test_extra_variables_are_ignored" classname="formula_engine_test" time="0.070">
+		</testcase>
+		<testcase name="test_bad_formula_returns_zero_and_is_cached_as_error" classname="formula_engine_test" time="0.070">
+		</testcase>
+		<testcase name="test_boolean_result_converts_to_float" classname="formula_engine_test" time="0.069">
+		</testcase>
+		<testcase name="test_softcap_returns_expected_value" classname="formula_engine_test" time="0.070">
+		</testcase>
+	</testsuite>
+	<testsuite id="28" name="item_registry_load_test" package="tests/unit/item_registry" timestamp="2026-05-05T04:53:15" hostname="localhost" tests="4" failures="0" errors="0" skipped="0" flaky="0" time="0.350">
+		<testcase name="test_loads_five_mvp_material_items" classname="item_registry_load_test" time="0.070">
+		</testcase>
+		<testcase name="test_defaults_optional_fields" classname="item_registry_load_test" time="0.068">
+		</testcase>
+		<testcase name="test_rejects_invalid_class_and_empty_name_but_defaults_bad_rarity" classname="item_registry_load_test" time="0.069">
+		</testcase>
+		<testcase name="test_missing_or_null_table_degrades_to_empty_registry" classname="item_registry_load_test" time="0.068">
+		</testcase>
+	</testsuite>
+	<testsuite id="29" name="item_registry_query_test" package="tests/unit/item_registry" timestamp="2026-05-05T04:53:16" hostname="localhost" tests="3" failures="0" errors="0" skipped="0" flaky="0" time="0.275">
+		<testcase name="test_query_and_peek_contracts" classname="item_registry_query_test" time="0.068">
+		</testcase>
+		<testcase name="test_query_by_item_class_and_tag" classname="item_registry_query_test" time="0.067">
+		</testcase>
+		<testcase name="test_get_and_query_results_are_deep_copies" classname="item_registry_query_test" time="0.066">
+		</testcase>
+	</testsuite>
+	<testsuite id="30" name="level_system_formula_test" package="tests/unit/level_system" timestamp="2026-05-05T04:53:16" hostname="localhost" tests="1" failures="0" errors="0" skipped="0" flaky="0" time="0.132">
+		<testcase name="test_default_level_and_growth_formulas" classname="level_system_formula_test" time="0.065">
+		</testcase>
+	</testsuite>
+	<testsuite id="31" name="modifier_engine_test" package="tests/unit/modifier_engine" timestamp="2026-05-05T04:53:16" hostname="localhost" tests="7" failures="0" errors="0" skipped="0" flaky="0" time="0.608">
+		<testcase name="test_add_sum_returns_250" classname="modifier_engine_test" time="0.071">
+		</testcase>
+		<testcase name="test_same_pool_multipliers_add_before_multiply" classname="modifier_engine_test" time="0.074">
+		</testcase>
+		<testcase name="test_apply_returns_big_number_2500" classname="modifier_engine_test" time="0.072">
+		</testcase>
+		<testcase name="test_unregister_returns_true_then_false" classname="modifier_engine_test" time="0.072">
+		</testcase>
+		<testcase name="test_missing_target_register_returns_empty_id" classname="modifier_engine_test" time="0.074">
+		</testcase>
+		<testcase name="test_zero_value_modifier_registers" classname="modifier_engine_test" time="0.080">
+		</testcase>
+		<testcase name="test_get_all_targets_is_unique" classname="modifier_engine_test" time="0.079">
+		</testcase>
+	</testsuite>
+	<testsuite id="32" name="number_formatter_test" package="tests/unit/number_formatting" timestamp="2026-05-05T04:53:17" hostname="localhost" tests="7" failures="0" errors="0" skipped="0" flaky="0" time="0.594">
+		<testcase name="test_zero_formats_as_zero" classname="number_formatter_test" time="0.072">
+		</testcase>
+		<testcase name="test_direct_number_uses_thousand_separator" classname="number_formatter_test" time="0.072">
+		</testcase>
+		<testcase name="test_chinese_unit_wan_without_decimals_for_hundreds" classname="number_formatter_test" time="0.074">
+		</testcase>
+		<testcase name="test_ji_unit_formats_1234" classname="number_formatter_test" time="0.072">
+		</testcase>
+		<testcase name="test_max_formats_as_max" classname="number_formatter_test" time="0.070">
+		</testcase>
+		<testcase name="test_rounding_crosses_to_next_unit" classname="number_formatter_test" time="0.073">
+		</testcase>
+		<testcase name="test_get_display_unit_returns_wan" classname="number_formatter_test" time="0.074">
+		</testcase>
+	</testsuite>
+	<testsuite id="33" name="output_multiplier_system_config_test" package="tests/unit/output_multiplier_system" timestamp="2026-05-05T04:53:17" hostname="localhost" tests="3" failures="0" errors="0" skipped="0" flaky="0" time="0.279">
+		<testcase name="test_loads_production_config_and_initial_rates" classname="output_multiplier_system_config_test" time="0.067">
+		</testcase>
+		<testcase name="test_exp_passive_disabled_ignores_modifier_and_activation" classname="output_multiplier_system_config_test" time="0.068">
+		</testcase>
+		<testcase name="test_empty_config_degrades_to_zero_resources" classname="output_multiplier_system_config_test" time="0.069">
+		</testcase>
+	</testsuite>
+	<testsuite id="34" name="output_multiplier_system_formula_test" package="tests/unit/output_multiplier_system" timestamp="2026-05-05T04:53:18" hostname="localhost" tests="3" failures="0" errors="0" skipped="0" flaky="0" time="0.296">
+		<testcase name="test_activation_duplicate_and_source_guards" classname="output_multiplier_system_formula_test" time="0.067">
+		</testcase>
+		<testcase name="test_pool_math_tick_amount_and_breakdown" classname="output_multiplier_system_formula_test" time="0.069">
+		</testcase>
+		<testcase name="test_deactivation_returns_multiplier_to_base" classname="output_multiplier_system_formula_test" time="0.075">
+		</testcase>
+	</testsuite>
+	<testsuite id="35" name="resource_system_crud_test" package="tests/unit/resource_system" timestamp="2026-05-05T04:53:18" hostname="localhost" tests="6" failures="0" errors="0" skipped="0" flaky="0" time="0.524">
+		<testcase name="test_register_five_mvp_resources" classname="resource_system_crud_test" time="0.075">
+		</testcase>
+		<testcase name="test_duplicate_register_returns_false" classname="resource_system_crud_test" time="0.072">
+		</testcase>
+		<testcase name="test_capped_add_returns_actual_added" classname="resource_system_crud_test" time="0.074">
+		</testcase>
+		<testcase name="test_uncapped_add_returns_full_amount" classname="resource_system_crud_test" time="0.073">
+		</testcase>
+		<testcase name="test_spend_rejects_insufficient_balance" classname="resource_system_crud_test" time="0.072">
+		</testcase>
+		<testcase name="test_batch_add_returns_each_actual_added" classname="resource_system_crud_test" time="0.073">
+		</testcase>
+	</testsuite>
+	<testsuite id="36" name="stream_independence_test" package="tests/unit/rng" timestamp="2026-05-05T04:53:19" hostname="localhost" tests="4" failures="0" errors="0" skipped="0" flaky="0" time="0.377">
+		<testcase name="test_combat_calls_do_not_change_next_loot_float" classname="stream_independence_test" time="0.072">
+		</testcase>
+		<testcase name="test_weighted_pick_empty_or_zero_weights_returns_minus_one" classname="stream_independence_test" time="0.073">
+		</testcase>
+		<testcase name="test_rand_bool_probability_zero_returns_false_without_consuming" classname="stream_independence_test" time="0.074">
+		</testcase>
+		<testcase name="test_rand_int_equal_bounds_returns_value_without_consuming" classname="stream_independence_test" time="0.074">
+		</testcase>
+	</testsuite>
+	<testsuite id="37" name="save_manager_collect_test" package="tests/unit/save_system" timestamp="2026-05-05T04:53:19" hostname="localhost" tests="3" failures="0" errors="0" skipped="0" flaky="0" time="0.313">
+		<testcase name="test_collect_save_data_contains_meta_and_systems" classname="save_manager_collect_test" time="0.075">
+		</testcase>
+		<testcase name="test_invalid_provider_data_becomes_null" classname="save_manager_collect_test" time="0.076">
+		</testcase>
+		<testcase name="test_missing_namespace_restore_receives_empty_dictionary" classname="save_manager_collect_test" time="0.077">
+		</testcase>
+	</testsuite>
+	<testsuite id="38" name="time_manager_logic_test" package="tests/unit/time_manager" timestamp="2026-05-05T04:53:19" hostname="localhost" tests="4" failures="0" errors="0" skipped="0" flaky="0" time="0.414">
+		<testcase name="test_speed_sources_multiply" classname="time_manager_logic_test" time="0.079">
+		</testcase>
+		<testcase name="test_effective_speed_clamps_to_max" classname="time_manager_logic_test" time="0.081">
+		</testcase>
+		<testcase name="test_invalid_speed_source_clamps_to_one" classname="time_manager_logic_test" time="0.081">
+		</testcase>
+		<testcase name="test_remove_missing_speed_source_is_noop" classname="time_manager_logic_test" time="0.082">
+		</testcase>
+	</testsuite>
+	<testsuite id="39" name="example_logic_test" package="tests/unit/_example" timestamp="2026-05-05T04:53:20" hostname="localhost" tests="3" failures="0" errors="0" skipped="0" flaky="0" time="0.329">
+		<testcase name="test_arithmetic_is_deterministic" classname="example_logic_test" time="0.080">
+		</testcase>
+		<testcase name="test_string_compare_is_exact" classname="example_logic_test" time="0.082">
+		</testcase>
+		<testcase name="test_array_membership" classname="example_logic_test" time="0.082">
+		</testcase>
+	</testsuite>
+</testsuites>

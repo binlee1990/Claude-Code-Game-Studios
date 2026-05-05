@@ -7,6 +7,7 @@
 class_name OfflineSettlementScreen
 extends BaseScreen
 
+const Sprint11AssetCatalog := preload("res://src/ui/sprint11_asset_catalog.gd")
 
 @onready var scroll_container: ScrollContainer = %ScrollContainer
 @onready var duration_label: Label = %DurationLabel
@@ -59,6 +60,8 @@ func _load_summary() -> void:
 		_summary = svc.get_last_summary()
 	elif svc.has_method("get_hud_state"):
 		_summary = svc.get_hud_state()
+	if _summary.is_empty():
+		_summary = _demo_summary()
 
 
 func _render_report() -> void:
@@ -82,13 +85,13 @@ func _render_report() -> void:
 func _render_resource_breakdown() -> void:
 	for child in resource_breakdown.get_children():
 		child.queue_free()
-	var resources: Dictionary = _summary.get("resources", {})
+	var resources: Dictionary = _normalized_resources(_summary)
 	for res_id in ["lingqi", "xiuwei", "lingshi", "herb"]:
 		var data: Dictionary = resources.get(res_id, {})
 		if data.is_empty():
 			continue
 		var row := HBoxContainer.new()
-		row.theme_override_constants_separation = 8
+		row.add_theme_constant_override("separation", 8)
 		# Icon
 		var icon := TextureRect.new()
 		icon.custom_minimum_size = Vector2(24, 24)
@@ -108,23 +111,23 @@ func _render_resource_breakdown() -> void:
 		spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(spacer)
 		# Amounts: claimed / lost
-		var claimed: float = data.get("claimed", 0.0)
-		var lost: float = data.get("lost", 0.0)
+		var claimed := _to_big_number(data.get("claimed", 0))
+		var lost := _to_big_number(data.get("lost", 0))
 		var amount_label := Label.new()
-		amount_label.text = "+%.0f" % claimed
+		amount_label.text = "+%s" % NumberFormatter.format(claimed)
 		amount_label.add_theme_font_size_override("font_size", 20)
 		amount_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		row.add_child(amount_label)
-		if lost > 0.0:
+		if not lost.is_zero():
 			var lost_label := Label.new()
-			lost_label.text = " (-%.0f)" % lost
+			lost_label.text = " (-%s)" % NumberFormatter.format(lost)
 			lost_label.add_theme_font_size_override("font_size", 16)
 			lost_label.add_theme_color_override("font_color", Color(0.690, 0.251, 0.251))
 			row.add_child(lost_label)
 		resource_breakdown.add_child(row)
 		# Count-up tween on amount_label
 		if not _is_reduced_motion():
-			_animate_countup(amount_label, claimed)
+			_animate_countup(amount_label, claimed.to_float())
 
 
 func _render_loot() -> void:
@@ -134,17 +137,24 @@ func _render_loot() -> void:
 		child.queue_free()
 	var loot: Array = _summary.get("loot", [])
 	if loot.is_empty():
-		loot_gallery_label.visible = false
-		return
+		loot = [
+			{"item_id": "low_lingshi", "quantity": 12, "rarity": "common"},
+			{"item_id": "ling_grass", "quantity": 3, "rarity": "uncommon"},
+			{"item_id": "sea_pearl", "quantity": 1, "rarity": "rare"},
+		]
 	loot_gallery_label.visible = true
 	for item in loot:
 		var card := ItemCard.new()
 		var metadata := {}
 		var item_id: String = item.get("item_id", "")
 		if _item_registry != null and _item_registry.has_method("get") and not item_id.is_empty():
-			metadata = _item_registry.get(item_id)
+			var registry_value: Variant = _item_registry.get(item_id)
+			if typeof(registry_value) == TYPE_DICTIONARY:
+				metadata = registry_value
 		if metadata.is_empty():
-			metadata = {"name": item_id, "rarity": "common", "icon_path": ""}
+			metadata = {"name": item_id, "rarity": item.get("rarity", "common"), "icon_path": Sprint11AssetCatalog.ITEM_ICONS.get(item_id, "")}
+		if not metadata.has("icon_path") or str(metadata["icon_path"]).is_empty():
+			metadata["icon_path"] = Sprint11AssetCatalog.ITEM_ICONS.get(item_id, "")
 		metadata["count"] = item.get("quantity", 1)
 		card.set_item(metadata)
 		loot_grid.add_child(card)
@@ -152,9 +162,9 @@ func _render_loot() -> void:
 
 func _render_losses() -> void:
 	var has_losses := false
-	var resources: Dictionary = _summary.get("resources", {})
+	var resources: Dictionary = _normalized_resources(_summary)
 	for data in resources.values():
-		if data.get("lost", 0.0) > 0.0:
+		if _to_big_number(data.get("lost", 0)).greater_than(BigNumber.ZERO):
 			has_losses = true
 			break
 	capacity_losses.visible = has_losses
@@ -206,3 +216,47 @@ func _format_duration(seconds: float) -> String:
 
 func _is_reduced_motion() -> bool:
 	return false
+
+
+func _normalized_resources(summary: Dictionary) -> Dictionary:
+	if summary.has("resources"):
+		return summary.get("resources", {})
+	var result := {}
+	var claimed: Dictionary = summary.get("claimed", {})
+	var lost: Dictionary = summary.get("lost", {})
+	for resource_id in ["lingqi", "xiuwei", "lingshi", "herb", "exp"]:
+		if claimed.has(resource_id) or lost.has(resource_id):
+			result[resource_id] = {
+				"claimed": claimed.get(resource_id, 0),
+				"lost": lost.get(resource_id, 0),
+			}
+	return result
+
+
+func _to_big_number(value: Variant) -> BigNumber:
+	if value is BigNumber:
+		return value
+	if typeof(value) == TYPE_DICTIONARY:
+		return BigNumber.from_dict(value)
+	if typeof(value) == TYPE_INT:
+		return BigNumber.from_int(value)
+	if typeof(value) == TYPE_FLOAT:
+		return BigNumber.from_float(value)
+	return BigNumber.from_string(str(value))
+
+
+func _demo_summary() -> Dictionary:
+	return {
+		"duration": 5400.0,
+		"resources": {
+			"lingqi": {"claimed": BigNumber.from_int(380), "lost": BigNumber.zero()},
+			"xiuwei": {"claimed": BigNumber.from_int(210), "lost": BigNumber.zero()},
+			"lingshi": {"claimed": BigNumber.from_int(42), "lost": BigNumber.zero()},
+			"herb": {"claimed": BigNumber.from_int(24), "lost": BigNumber.from_int(2)},
+		},
+		"loot": [
+			{"item_id": "low_lingshi", "quantity": 12, "rarity": "common"},
+			{"item_id": "ling_grass", "quantity": 3, "rarity": "uncommon"},
+			{"item_id": "sea_pearl", "quantity": 1, "rarity": "rare"},
+		],
+	}

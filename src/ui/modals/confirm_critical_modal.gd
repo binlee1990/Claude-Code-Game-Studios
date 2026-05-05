@@ -36,8 +36,8 @@ func open(payload_data: Dictionary = {}) -> void:
 	super.open(payload_data)
 	title_label.text = tr(payload_data.get("title", "确认操作"))
 	_build_consequences(payload_data.get("consequences", []))
-	_confirm_label := tr(payload_data.get("confirm_label", "确认"))
-	confirm_button.text = _confirm_label
+	var confirm_label := tr(payload_data.get("confirm_label", "确认"))
+	confirm_button.text = confirm_label
 	# Reset state
 	_cooldown_elapsed = 0.0
 	_confirmed = false

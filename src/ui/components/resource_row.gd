@@ -6,6 +6,7 @@
 class_name ResourceProductionRow
 extends Control
 
+const Sprint11AssetCatalog := preload("res://src/ui/sprint11_asset_catalog.gd")
 
 const COLLAPSED_HEIGHT: float = 44.0
 const ROW_HEIGHT: float = 28.0
@@ -20,7 +21,9 @@ var _expand_tween: Tween = null
 # Child references
 var _icon_rect: TextureRect = null
 var _name_label: Label = null
+var _value_label: Label = null
 var _rate_label: Label = null
+var _cap_bar: ProgressBar = null
 var _expand_indicator: Label = null
 var _breakdown_container: VBoxContainer = null
 
@@ -40,7 +43,7 @@ func _build_ui() -> void:
 	# Collapsed row
 	var collapsed_row := HBoxContainer.new()
 	collapsed_row.name = "CollapsedRow"
-	collapsed_row.theme_override_constants_separation = 8
+	collapsed_row.add_theme_constant_override("separation", 8)
 	collapsed_row.alignment = BoxContainer.ALIGNMENT_CENTER
 
 	# Icon
@@ -65,6 +68,15 @@ func _build_ui() -> void:
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	collapsed_row.add_child(spacer)
+
+	# Current value
+	_value_label = Label.new()
+	_value_label.name = "Value"
+	_value_label.text = "0"
+	_value_label.add_theme_font_size_override("font_size", 18)
+	_value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_value_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	collapsed_row.add_child(_value_label)
 
 	# Production rate
 	_rate_label = Label.new()
@@ -101,9 +113,17 @@ func _build_ui() -> void:
 	_breakdown_container.name = "Breakdown"
 	_breakdown_container.visible = false
 	_breakdown_container.modulate = Color(1, 1, 1, 0)
-	_breakdown_container.theme_override_constants_separation = 2
+	_breakdown_container.add_theme_constant_override("separation", 2)
 	_breakdown_container.add_theme_constant_override("margin_left", 32)
 	add_child(_breakdown_container)
+
+	_cap_bar = ProgressBar.new()
+	_cap_bar.name = "CapFill"
+	_cap_bar.visible = false
+	_cap_bar.max_value = 1.0
+	_cap_bar.value = 0.0
+	_cap_bar.custom_minimum_size = Vector2(0, 8)
+	_breakdown_container.add_child(_cap_bar)
 
 	# Initial layout
 	_update_layout()
@@ -180,13 +200,42 @@ func set_rate(rate_per_second: float) -> void:
 	_rate_label.text = "%+.1f/s" % rate_per_second
 
 
+func configure(p_id: String, p_label: String, p_icon: String) -> void:
+	resource_id = p_id
+	resource_label = p_label
+	icon_path = p_icon
+	if _name_label != null:
+		_name_label.text = tr(resource_label)
+	if _icon_rect != null:
+		_icon_rect.texture = Sprint11AssetCatalog.texture(icon_path)
+
+
+func set_value(value: BigNumber) -> void:
+	if _value_label == null or value == null:
+		return
+	_value_label.text = NumberFormatter.format(value)
+
+
+func set_capacity_state(state: Dictionary) -> void:
+	if _cap_bar == null:
+		return
+	var fill_ratio := float(state.get("fill_ratio", 0.0))
+	_cap_bar.visible = str(state.get("state", "")) != "uncapped"
+	_cap_bar.value = clamp(fill_ratio, 0.0, 1.0)
+	if fill_ratio >= 0.85:
+		var style := StyleBoxFlat.new()
+		style.bg_color = Color(0.690, 0.251, 0.251)
+		_cap_bar.add_theme_stylebox_override("fill", style)
+
+
 ## Set breakdown rows from OMS.get_breakdown() Dictionary.
 func set_breakdown(breakdown: Dictionary) -> void:
 	if _breakdown_container == null:
 		return
 	# Clear existing breakdown rows.
 	for child in _breakdown_container.get_children():
-		child.queue_free()
+		if child != _cap_bar:
+			child.queue_free()
 
 	var base_rate: float = breakdown.get("base_rate", 0.0)
 	var pools: Dictionary = breakdown.get("pools", {})
@@ -207,7 +256,7 @@ func set_breakdown(breakdown: Dictionary) -> void:
 
 func _add_breakdown_row(label_text: String, value_text: String, bold: bool = false) -> void:
 	var row := HBoxContainer.new()
-	row.theme_override_constants_separation = 8
+	row.add_theme_constant_override("separation", 8)
 
 	var label := Label.new()
 	label.text = label_text

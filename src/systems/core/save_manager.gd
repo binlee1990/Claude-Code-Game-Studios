@@ -13,6 +13,7 @@ var _provider_order := []
 var _migrations := {}
 var _saving := false
 var _loading := false
+var _last_autosave_time: float = 0.0
 
 
 func _ready() -> void:
@@ -85,7 +86,7 @@ func collect_save_data() -> Dictionary:
 
 
 ## Writes the current save object to disk with a temporary file and backup.
-func save_game() -> bool:
+func save_game(slot: int = -1) -> bool:
 	if _saving:
 		push_warning("Save already in progress")
 		return false
@@ -95,22 +96,23 @@ func save_game() -> bool:
 	_saving = true
 	var save_data := collect_save_data()
 	var json_text := JSON.stringify(save_data, "\t")
-	var ok := _write_atomic(json_text)
+	var ok := _write_atomic(json_text, slot)
 	_saving = false
 	if ok:
-		_emit_save_event("save.saved", {"path": _save_path()})
+		_last_autosave_time = Time.get_unix_time_from_system()
+		_emit_save_event("save.saved", {"path": _save_path(slot), "slot": slot})
 	return ok
 
 
 ## Loads save data from disk and restores registered providers.
-func load_game() -> bool:
+func load_game(slot: int = -1) -> bool:
 	if _loading:
 		return false
 	_loading = true
-	var loaded: Variant = _read_save_file(_save_path())
+	var loaded: Variant = _read_save_file(_save_path(slot))
 	var recovered_from_backup := false
 	if loaded == null:
-		var backup: Variant = _read_save_file(_backup_path())
+		var backup: Variant = _read_save_file(_backup_path(slot))
 		if backup != null:
 			loaded = backup
 			recovered_from_backup = true
@@ -124,9 +126,42 @@ func load_game() -> bool:
 		_loading = false
 		return false
 	_restore_providers(migrated)
-	_emit_save_event("save.loaded", {})
+	_emit_save_event("save.loaded", {"slot": slot})
 	_loading = false
 	return true
+
+
+func list_saves(slot_count: int = 3) -> Array:
+	var result := []
+	for slot in range(slot_count):
+		var data: Variant = _read_save_file(_save_path(slot))
+		if data == null and slot == 0:
+			data = _read_save_file(_save_path())
+		if typeof(data) == TYPE_DICTIONARY:
+			var meta: Dictionary = data.get("meta", {})
+			result.append({
+				"slot": slot,
+				"meta": meta,
+				"level": _extract_level(data),
+				"realm": _extract_realm(data),
+			})
+		else:
+			result.append({})
+	return result
+
+
+func delete_save(slot: int = -1) -> bool:
+	var removed := false
+	for path in [_save_path(slot), _backup_path(slot), _tmp_path(slot)]:
+		if FileAccess.file_exists(path):
+			removed = DirAccess.remove_absolute(path) == OK or removed
+	if removed:
+		_emit_save_event("save.deleted", {"slot": slot})
+	return removed
+
+
+func get_last_autosave_time() -> float:
+	return _last_autosave_time
 
 
 ## Clears providers and migrations for isolated tests.
@@ -138,11 +173,11 @@ func clear_all() -> void:
 	_loading = false
 
 
-func _write_atomic(json_text: String) -> bool:
+func _write_atomic(json_text: String, slot: int = -1) -> bool:
 	DirAccess.make_dir_recursive_absolute(save_dir)
-	var tmp_path := _tmp_path()
-	var save_path := _save_path()
-	var backup_path := _backup_path()
+	var tmp_path := _tmp_path(slot)
+	var save_path := _save_path(slot)
+	var backup_path := _backup_path(slot)
 	var file := FileAccess.open(tmp_path, FileAccess.WRITE)
 	if file == null:
 		push_error("Failed to open temp save file: %s" % tmp_path)
@@ -215,16 +250,34 @@ func _restore_providers(data: Dictionary) -> void:
 			push_warning("Provider '%s' restore returned false" % provider_namespace)
 
 
-func _save_path() -> String:
+func _save_path(slot: int = -1) -> String:
+	if slot >= 0:
+		return save_dir.path_join("save_slot_%d.json" % slot)
 	return save_dir.path_join("save.json")
 
 
-func _backup_path() -> String:
+func _backup_path(slot: int = -1) -> String:
+	if slot >= 0:
+		return save_dir.path_join("save_slot_%d.json.bak" % slot)
 	return save_dir.path_join("save.json.bak")
 
 
-func _tmp_path() -> String:
+func _tmp_path(slot: int = -1) -> String:
+	if slot >= 0:
+		return save_dir.path_join("save_slot_%d.json.tmp" % slot)
 	return save_dir.path_join("save.json.tmp")
+
+
+func _extract_level(data: Dictionary) -> int:
+	var level_data: Dictionary = data.get("systems", {}).get("level_system", {})
+	var entities: Dictionary = level_data.get("entities", {})
+	return int(entities.get("player", {}).get("level", 1))
+
+
+func _extract_realm(data: Dictionary) -> String:
+	var level_data: Dictionary = data.get("systems", {}).get("level_system", {})
+	var entities: Dictionary = level_data.get("entities", {})
+	return str(entities.get("player", {}).get("realm", "fanren"))
 
 
 func _emit_save_event(event_name: String, payload: Dictionary) -> void:

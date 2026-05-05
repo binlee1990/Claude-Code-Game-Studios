@@ -141,7 +141,7 @@ func open_modal(id: String, allow_passthrough: bool = false) -> bool:
 func close_modal() -> String:
 	if modal_stack.is_empty():
 		return ""
-	var entry := modal_stack.pop_back()
+	var entry: Dictionary = modal_stack.pop_back()
 	return str(entry.get("id", ""))
 
 

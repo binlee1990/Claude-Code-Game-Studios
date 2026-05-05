@@ -11,6 +11,10 @@ class_name BaseScreen
 extends Control
 
 
+func _ready() -> void:
+	pass
+
+
 ## Called by UIManagerHost when this screen becomes the active screen.
 ## Subscribe to EventBus events here and set initial focus.
 func on_activated() -> void:

@@ -6,6 +6,7 @@
 class_name SaveScreen
 extends BaseScreen
 
+const Sprint11AssetCatalog := preload("res://src/ui/sprint11_asset_catalog.gd")
 
 @onready var autosave_label: Label = %AutosaveLabel
 @onready var slot_container: VBoxContainer = %SlotContainer
@@ -14,7 +15,7 @@ extends BaseScreen
 @onready var delete_btn: Button = %DeleteBtn
 @onready var return_btn: Button = %ReturnBtn
 
-var _save_manager: RefCounted = null
+var _save_manager: SaveManager = null
 var _selected_slot: int = 0
 var _slot_cards: Array[PanelContainer] = []
 
@@ -70,9 +71,30 @@ func _build_slots() -> void:
 
 		var vbox := VBoxContainer.new()
 		vbox.name = "SlotVBox"
-		vbox.theme_override_constants_separation = 4
+		vbox.add_theme_constant_override("separation", 4)
 		vbox.add_theme_constant_override("margin_left", 12)
 		vbox.add_theme_constant_override("margin_top", 8)
+
+		var visual_row := HBoxContainer.new()
+		visual_row.name = "VisualRow"
+		visual_row.add_theme_constant_override("separation", 8)
+
+		var portrait := TextureRect.new()
+		portrait.name = "Portrait"
+		portrait.custom_minimum_size = Vector2(48, 48)
+		portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		portrait.texture = Sprint11AssetCatalog.get_texture(Sprint11AssetCatalog.PLAYER, "portrait")
+		visual_row.add_child(portrait)
+
+		var realm_icon := TextureRect.new()
+		realm_icon.name = "RealmIcon"
+		realm_icon.custom_minimum_size = Vector2(32, 32)
+		realm_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		realm_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		realm_icon.texture = Sprint11AssetCatalog.get_texture(Sprint11AssetCatalog.REALM_ICONS, "fanren")
+		visual_row.add_child(realm_icon)
+		vbox.add_child(visual_row)
 
 		var title := Label.new()
 		title.name = "SlotTitle"

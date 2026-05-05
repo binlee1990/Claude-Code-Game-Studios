@@ -7,6 +7,7 @@
 class_name ResourcesScreen
 extends BaseScreen
 
+const Sprint11AssetCatalog := preload("res://src/ui/sprint11_asset_catalog.gd")
 
 # Tab bar
 @onready var tab_resources_btn: Button = %TabResourcesBtn
@@ -43,9 +44,31 @@ const RESOURCE_ICONS: Dictionary = {
 const RESOURCE_NAMES: Dictionary = {
 	"lingqi": "灵气", "xiuwei": "修为", "lingshi": "灵石", "herb": "药材", "exp": "经验",
 }
+const ITEM_IDS := [
+	"low_lingshi", "mid_lingshi", "high_lingshi", "pure_qi_crystal", "talisman_paper",
+	"blood_ginseng", "ling_grass", "iron_ore", "dragon_scale", "sea_pearl",
+	"evil_dust", "low_pill", "item_pack_basic_sheet", "item_pack_rare_sheet",
+]
+const ITEM_NAMES := {
+	"low_lingshi": "下品灵石",
+	"mid_lingshi": "中品灵石",
+	"high_lingshi": "上品灵石",
+	"pure_qi_crystal": "灵晶",
+	"talisman_paper": "符纸",
+	"blood_ginseng": "血参",
+	"ling_grass": "灵草",
+	"iron_ore": "玄铁矿",
+	"dragon_scale": "龙鳞",
+	"sea_pearl": "海珠",
+	"evil_dust": "邪尘",
+	"low_pill": "小还丹",
+	"item_pack_basic_sheet": "基础包",
+	"item_pack_rare_sheet": "珍稀包",
+}
 
 var _resource_service: RefCounted = null
 var _item_registry: RefCounted = null
+var _storage_service: RefCounted = null
 var _active_tab: String = "resources"
 
 
@@ -75,6 +98,8 @@ func _resolve_services() -> void:
 	if host != null: _resource_service = host.get_service()
 	var item_host := ItemRegistryHost.get_instance()
 	if item_host != null: _item_registry = item_host.get_service()
+	var storage_host := StorageLimitSystemHost.get_instance()
+	if storage_host != null: _storage_service = storage_host.get_service()
 
 
 func _connect_tabs() -> void:
@@ -108,13 +133,17 @@ func _switch_tab(tab: String) -> void:
 func _refresh_resource_rows() -> void:
 	if _resource_service == null:
 		return
-	var rows := [res_lingqi_row, res_xiuwei_row, res_lingshi_row, res_herb_row, res_exp_row]
+	var rows: Array[ResourceProductionRow] = [res_lingqi_row, res_xiuwei_row, res_lingshi_row, res_herb_row, res_exp_row]
 	for i in range(RESOURCE_IDS.size()):
-		var res_id := RESOURCE_IDS[i]
+		var res_id: String = RESOURCE_IDS[i]
 		var row: ResourceProductionRow = rows[i]
 		if row == null:
 			continue
-		var value := _resource_service.get_value(res_id)
+		row.configure(res_id, str(RESOURCE_NAMES.get(res_id, res_id)), str(Sprint11AssetCatalog.RESOURCE_ICONS.get(res_id, "")))
+		var value: BigNumber = _resource_service.get_value(res_id)
+		row.set_value(value)
+		if _storage_service != null and _storage_service.has_method("get_capacity_state"):
+			row.set_capacity_state(_storage_service.get_capacity_state(res_id))
 		# Update rate via OMS
 		var oms_host := OutputMultiplierSystemHost.get_instance()
 		var rate: float = 0.0
@@ -135,13 +164,14 @@ func _on_resource_changed(payload: Dictionary) -> void:
 	var idx := RESOURCE_IDS.find(res_id)
 	if idx < 0:
 		return
-	var rows := [res_lingqi_row, res_xiuwei_row, res_lingshi_row, res_herb_row, res_exp_row]
+	var rows: Array[ResourceProductionRow] = [res_lingqi_row, res_xiuwei_row, res_lingshi_row, res_herb_row, res_exp_row]
 	var row: ResourceProductionRow = rows[idx]
 	if row == null or _resource_service == null:
 		return
-	var value := _resource_service.get_value(res_id)
-	if row.has_method("set_value"):
-		row.set_value(value)
+	var value: BigNumber = _resource_service.get_value(res_id)
+	row.set_value(value)
+	if _storage_service != null and _storage_service.has_method("get_capacity_state"):
+		row.set_capacity_state(_storage_service.get_capacity_state(res_id))
 
 
 func _on_cap_warning(payload: Dictionary) -> void:
@@ -162,14 +192,15 @@ func _refresh_backpack() -> void:
 	if _item_registry == null or _resource_service == null:
 		empty_placeholder.visible = true
 		return
-	# Collect items with quantities from ResourceSystem
+	# Show all Sprint 11 item icons. Actual quantities come from the current
+	# resource service where applicable; non-resource loot appears as preview.
 	var items_displayed := 0
-	for item_id in ["herb", "lingshi"]:
-		var qty := _resource_service.get_value(item_id)
-		if qty.is_greater_than(BigNumber.from_int(0)):
-			_add_item_card(item_id, qty)
-			items_displayed += 1
-	# TODO: extend with full inventory from item-material-system
+	for item_id in ITEM_IDS:
+		var qty := BigNumber.from_int(1)
+		if _resource_service.has_method("has_resource") and _resource_service.has_resource(item_id):
+			qty = _resource_service.get_value(item_id)
+		_add_item_card(item_id, qty)
+		items_displayed += 1
 	empty_placeholder.visible = (items_displayed == 0)
 
 
@@ -177,13 +208,21 @@ func _add_item_card(item_id: String, qty: BigNumber) -> void:
 	var card := ItemCard.new()
 	var metadata := {}
 	if _item_registry != null and _item_registry.has_method("get"):
-		metadata = _item_registry.get(item_id)
+		var registry_value: Variant = _item_registry.get(item_id)
+		if typeof(registry_value) == TYPE_DICTIONARY:
+			metadata = registry_value
 	if metadata.is_empty():
 		metadata = {
-			"name": RESOURCE_NAMES.get(item_id, item_id),
+			"name": ITEM_NAMES.get(item_id, RESOURCE_NAMES.get(item_id, item_id)),
 			"rarity": "common",
-			"icon_path": RESOURCE_ICONS.get(item_id, ""),
+			"icon_path": Sprint11AssetCatalog.ITEM_ICONS.get(item_id, RESOURCE_ICONS.get(item_id, "")),
 		}
+	elif str(metadata.get("name", item_id)) == item_id:
+		metadata["name"] = ITEM_NAMES.get(item_id, item_id)
+	if str(metadata.get("rarity", "")) == "fanpin":
+		metadata["rarity"] = "common"
+	if not metadata.has("icon_path") or str(metadata["icon_path"]).is_empty():
+		metadata["icon_path"] = Sprint11AssetCatalog.ITEM_ICONS.get(item_id, RESOURCE_ICONS.get(item_id, ""))
 	var count: int = max(1, int(qty.to_float()))
 	metadata["count"] = count
 	card.set_item(metadata)

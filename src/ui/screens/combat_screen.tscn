@@ -28,7 +28,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "未选择区域"
 theme_override_font_sizes/font_size = 16
-theme_override_colors/font_color = Color(0.604, 0.580, 0.533)
+theme_override_colors/font_color = Color(0.604, 0.580, 0.533, 1)
 
 [node name="MainArea" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -38,40 +38,58 @@ anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 64.0
-offset_bottom = -56.0
+offset_bottom = -72.0
+clip_contents = true
 theme_override_constants/separation = 8
 
 [node name="EnemyZone" type="PanelContainer" parent="MainArea"]
 layout_mode = 2
+clip_contents = true
 size_flags_horizontal = 3
 
-[node name="EnemyVBox" type="VBoxContainer" parent="MainArea/EnemyZone"]
+[node name="EnemyField" type="Control" parent="MainArea/EnemyZone"]
 layout_mode = 2
-theme_override_constants/separation = 8
+
+[node name="ZoneBackground" type="TextureRect" parent="MainArea/EnemyZone/EnemyField"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="EnemyOverlay" type="VBoxContainer" parent="MainArea/EnemyZone/EnemyField"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = -12.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 6
 alignment = 1
 
-[node name="ZoneBackground" type="TextureRect" parent="MainArea/EnemyZone/EnemyVBox"]
+[node name="EnemyPortrait" type="TextureRect" parent="MainArea/EnemyZone/EnemyField/EnemyOverlay"]
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(480, 320)
+custom_minimum_size = Vector2(180, 150)
 expand_mode = 1
 stretch_mode = 5
 
-[node name="EnemyPortrait" type="TextureRect" parent="MainArea/EnemyZone/EnemyVBox"]
+[node name="EnemyHPBar" type="ProgressBar" parent="MainArea/EnemyZone/EnemyField/EnemyOverlay"]
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(320, 400)
-expand_mode = 1
-stretch_mode = 5
-
-[node name="EnemyHPBar" type="ProgressBar" parent="MainArea/EnemyZone/EnemyVBox"]
-unique_name_in_owner = true
-layout_mode = 2
-custom_minimum_size = Vector2(300, 16)
+custom_minimum_size = Vector2(260, 16)
 max_value = 100.0
 value = 100.0
 
-[node name="EnemyNameLabel" type="Label" parent="MainArea/EnemyZone/EnemyVBox"]
+[node name="EnemyNameLabel" type="Label" parent="MainArea/EnemyZone/EnemyField/EnemyOverlay"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "待机中"
@@ -80,6 +98,7 @@ horizontal_alignment = 1
 
 [node name="PlayerZone" type="PanelContainer" parent="MainArea"]
 layout_mode = 2
+clip_contents = true
 custom_minimum_size = Vector2(280, 0)
 
 [node name="PlayerVBox" type="VBoxContainer" parent="MainArea/PlayerZone"]
@@ -87,8 +106,12 @@ layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="PlayerSprite" type="AnimatedSprite2D" parent="MainArea/PlayerZone/PlayerVBox"]
+[node name="PlayerSprite" type="TextureRect" parent="MainArea/PlayerZone/PlayerVBox"]
 unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(220, 240)
+expand_mode = 1
+stretch_mode = 5
 
 [node name="PlayerHPBar" type="ProgressBar" parent="MainArea/PlayerZone/PlayerVBox"]
 unique_name_in_owner = true
@@ -111,11 +134,26 @@ anchor_left = 0.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -48.0
+offset_top = -64.0
 offset_bottom = 0.0
 
-[node name="PauseToggle" type="Button" parent="ControlBar"]
+[node name="ControlBarHBox" type="HBoxContainer" parent="ControlBar"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="PauseToggle" type="Button" parent="ControlBar/ControlBarHBox"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 48)
 text = "暂停战斗"
+theme_override_font_sizes/font_size = 16
+
+[node name="ResolveBtn" type="Button" parent="ControlBar/ControlBarHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 48)
+text = "立即结算一场"
 theme_override_font_sizes/font_size = 16

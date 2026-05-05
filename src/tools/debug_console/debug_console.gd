@@ -104,24 +104,72 @@ func _build_ui() -> void:
 	canvas_layer.layer = 128
 	canvas_layer.visible = false
 	add_child(canvas_layer)
+
 	root_control = Control.new()
 	root_control.mouse_filter = Control.MOUSE_FILTER_STOP
 	root_control.set_anchors_preset(Control.PRESET_FULL_RECT)
 	canvas_layer.add_child(root_control)
+
+	var dim := ColorRect.new()
+	dim.name = "DebugDim"
+	dim.color = Color(0, 0, 0, 0.58)
+	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	root_control.add_child(dim)
+
+	var panel := PanelContainer.new()
+	panel.name = "DebugConsolePanel"
+	panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+	panel.offset_left = 96.0
+	panel.offset_top = 72.0
+	panel.offset_right = -96.0
+	panel.offset_bottom = -96.0
+	panel.add_theme_stylebox_override("panel", _console_panel_style())
+	root_control.add_child(panel)
+
+	var vbox := VBoxContainer.new()
+	vbox.name = "DebugConsoleVBox"
+	vbox.add_theme_constant_override("separation", 8)
+	panel.add_child(vbox)
+
+	var title := Label.new()
+	title.text = "Debug Console"
+	title.add_theme_font_size_override("font_size", 22)
+	title.add_theme_color_override("font_color", Color(0.92, 0.86, 0.72))
+	vbox.add_child(title)
+
 	output_label = RichTextLabel.new()
 	output_label.bbcode_enabled = true
 	output_label.scroll_following = true
 	output_label.selection_enabled = true
-	output_label.set_anchors_preset(Control.PRESET_FULL_RECT)
-	output_label.offset_bottom = -36.0
-	root_control.add_child(output_label)
+	output_label.fit_content = false
+	output_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	output_label.add_theme_font_size_override("normal_font_size", 14)
+	output_label.add_theme_color_override("default_color", Color(0.88, 0.88, 0.82))
+	vbox.add_child(output_label)
+
 	line_edit = LineEdit.new()
-	line_edit.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	line_edit.offset_top = -32.0
 	line_edit.placeholder_text = "command"
+	line_edit.custom_minimum_size = Vector2(0, 36)
 	line_edit.text_submitted.connect(_on_text_submitted)
 	line_edit.gui_input.connect(_on_line_edit_gui_input)
-	root_control.add_child(line_edit)
+	vbox.add_child(line_edit)
+
+
+func _console_panel_style() -> StyleBox:
+	var texture := load("res://assets/ui/frames/panel_elevated.png") as Texture2D
+	if texture != null:
+		var style := StyleBoxTexture.new()
+		style.texture = texture
+		style.texture_margin_left = 18
+		style.texture_margin_top = 18
+		style.texture_margin_right = 18
+		style.texture_margin_bottom = 18
+		return style
+	var fallback := StyleBoxFlat.new()
+	fallback.bg_color = Color(0.07, 0.07, 0.08, 0.92)
+	fallback.border_color = Color(0.48, 0.38, 0.22)
+	fallback.set_border_width_all(2)
+	return fallback
 
 
 func _register_commands() -> void:

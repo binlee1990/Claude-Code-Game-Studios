@@ -33,7 +33,7 @@ func _build_content() -> void:
 	# Toggle row: "简略/详细" + collapse button
 	var toggle_row := HBoxContainer.new()
 	toggle_row.name = "ToggleRow"
-	toggle_row.theme_override_constants_separation = 8
+	toggle_row.add_theme_constant_override("separation", 8)
 
 	var toggle_label := Label.new()
 	toggle_label.text = "   " + tr("战斗日志")
@@ -73,7 +73,7 @@ func _build_content() -> void:
 	# Status chip stack
 	_chip_container = VBoxContainer.new()
 	_chip_container.name = "ChipStack"
-	_chip_container.theme_override_constants_separation = 4
+	_chip_container.add_theme_constant_override("separation", 4)
 	vbox.add_child(_chip_container)
 
 	# Initialize with a placeholder.

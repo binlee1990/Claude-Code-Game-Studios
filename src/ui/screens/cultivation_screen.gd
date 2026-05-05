@@ -10,6 +10,7 @@
 class_name CultivationScreen
 extends BaseScreen
 
+const Sprint11AssetCatalog := preload("res://src/ui/sprint11_asset_catalog.gd")
 
 # ---------------------------------------------------------------------------
 # HERO ZONE
@@ -45,6 +46,8 @@ extends BaseScreen
 @onready var sim_apply_btn: Button = %SimApplyBtn
 
 var _oms_service: RefCounted = null
+var _resource_service: RefCounted = null
+var _storage_service: RefCounted = null
 var _cultivation_service: RefCounted = null
 var _cooldown_remaining: float = 0.0
 
@@ -88,6 +91,12 @@ func _resolve_services() -> void:
 	var oms_host := OutputMultiplierSystemHost.get_instance()
 	if oms_host != null:
 		_oms_service = oms_host.get_service()
+	var res_host := ResourceSystemHost.get_instance()
+	if res_host != null:
+		_resource_service = res_host.get_service()
+	var storage_host := StorageLimitSystemHost.get_instance()
+	if storage_host != null:
+		_storage_service = storage_host.get_service()
 	var cult_host := CultivationSystemHost.get_instance()
 	if cult_host != null:
 		_cultivation_service = cult_host.get_service()
@@ -126,7 +135,7 @@ func _refresh_all() -> void:
 func _refresh_hero() -> void:
 	# Portrait
 	if portrait_rect != null:
-		var tex := _try_load_texture("res://assets/ui/player/portrait.png")
+		var tex := Sprint11AssetCatalog.get_texture(Sprint11AssetCatalog.PLAYER, "portrait")
 		if tex != null:
 			portrait_rect.texture = tex
 	# Stance icon
@@ -141,9 +150,10 @@ func _refresh_stance_icon() -> void:
 	var stance: String = "meditate"
 	if _cultivation_service.has_method("get_stance"):
 		stance = _cultivation_service.get_stance()
-	var path := "res://assets/ui/icons/stances/%s.png" % stance
-	if ResourceLoader.exists(path):
-		stance_icon.texture = load(path) as Texture2D
+	elif _cultivation_service.has_method("get_hud_state"):
+		var state: Dictionary = _cultivation_service.get_hud_state()
+		stance = str(state.get("stance", stance))
+	stance_icon.texture = Sprint11AssetCatalog.get_texture(Sprint11AssetCatalog.STANCE_ICONS, stance)
 
 
 func _refresh_level_realm(_payload: Dictionary) -> void:
@@ -170,10 +180,15 @@ func _refresh_single_row(resource_id: String) -> void:
 	var row: ResourceProductionRow = _get_row_for(resource_id)
 	if row == null:
 		return
+	row.configure(resource_id, _label_for_resource(resource_id), str(Sprint11AssetCatalog.RESOURCE_ICONS.get(resource_id, "")))
 	var rate: float = 0.0
 	if _oms_service != null and _oms_service.has_method("get_production_rate"):
 		rate = _oms_service.get_production_rate(resource_id)
 	row.set_rate(rate)
+	if _resource_service != null and _resource_service.has_method("get_value"):
+		row.set_value(_resource_service.get_value(resource_id))
+	if _storage_service != null and _storage_service.has_method("get_capacity_state"):
+		row.set_capacity_state(_storage_service.get_capacity_state(resource_id))
 	if _oms_service != null and _oms_service.has_method("get_breakdown"):
 		var breakdown: Dictionary = _oms_service.get_breakdown(resource_id)
 		row.set_breakdown(breakdown)
@@ -194,6 +209,9 @@ func _refresh_action_zone() -> void:
 	var stance: String = "meditate"
 	if _cultivation_service.has_method("get_stance"):
 		stance = _cultivation_service.get_stance()
+	elif _cultivation_service.has_method("get_hud_state"):
+		var state: Dictionary = _cultivation_service.get_hud_state()
+		stance = str(state.get("stance", stance))
 	var is_condense := stance == "condense"
 	if condense_cost_label != null:
 		condense_cost_label.visible = is_condense
@@ -202,13 +220,18 @@ func _refresh_action_zone() -> void:
 	# Condense params
 	if is_condense:
 		if _cultivation_service.has_method("get_condense_cost"):
-			var cost := _cultivation_service.get_condense_cost()
+			var cost: BigNumber = _cultivation_service.get_condense_cost()
 			if condense_cost_label != null:
 				condense_cost_label.text = "%s: %s" % [tr("凝练消耗"), NumberFormatter.format(cost)]
+		elif _cultivation_service.get("condense_cost") != null and condense_cost_label != null:
+			var cost: BigNumber = _cultivation_service.get("condense_cost")
+			condense_cost_label.text = "%s: %s" % [tr("凝练消耗"), NumberFormatter.format(cost)]
 		if _cultivation_service.has_method("get_condense_rate"):
 			var rate: float = _cultivation_service.get_condense_rate()
 			if condense_rate_label != null:
 				condense_rate_label.text = "%s: %.0f%%" % [tr("凝练效率"), rate * 100.0]
+		elif condense_rate_label != null:
+			condense_rate_label.text = "%s: %s" % [tr("凝练效率"), tr("1 灵气 -> 1 修为")]
 	# Shortage chip
 	if shortage_chip != null and _cultivation_service.has_method("get_hud_state"):
 		var state: Dictionary = _cultivation_service.get_hud_state()
@@ -254,16 +277,17 @@ func _on_manual_cultivate_pressed() -> void:
 	if cooldown_bar != null:
 		cooldown_bar.max_value = 0.5
 		cooldown_bar.value = 0.5
+	_play_manual_pulse()
 
 
 func _on_sim_apply_pressed() -> void:
 	if _cultivation_service == null or sim_stance_option == null:
 		return
-	var stance_names := ["meditate", "condense"]
+	var stance_names: Array[String] = ["meditate", "condense"]
 	var idx := sim_stance_option.selected
 	if idx < 0 or idx >= stance_names.size():
 		return
-	var target_stance := stance_names[idx]
+	var target_stance: String = stance_names[idx]
 	if _cultivation_service.has_method("set_stance"):
 		_cultivation_service.set_stance(target_stance)
 
@@ -280,3 +304,33 @@ func _process(delta: float) -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel") and not UIManagerHost.has_open_modal():
 		pass  # ESC does nothing on cultivation screen — no parent to go back to
+
+
+func _label_for_resource(resource_id: String) -> String:
+	match resource_id:
+		"lingqi": return "灵气"
+		"xiuwei": return "修为"
+		"lingshi": return "灵石"
+		"herb": return "药材"
+		"exp": return "经验"
+	return resource_id
+
+
+func _play_manual_pulse() -> void:
+	if manual_btn == null:
+		return
+	var tex := Sprint11AssetCatalog.get_texture(Sprint11AssetCatalog.VFX, "manual_click_pulse")
+	if tex == null:
+		return
+	var pulse := TextureRect.new()
+	pulse.texture = tex
+	pulse.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	pulse.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	pulse.custom_minimum_size = manual_btn.size
+	manual_btn.add_child(pulse)
+	var tween := pulse.create_tween().set_parallel(true)
+	pulse.modulate = Color(1, 1, 1, 0.7)
+	pulse.scale = Vector2(0.8, 0.8)
+	tween.tween_property(pulse, "scale", Vector2(1.2, 1.2), 0.28)
+	tween.tween_property(pulse, "modulate:a", 0.0, 0.28)
+	tween.tween_callback(pulse.queue_free)

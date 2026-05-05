@@ -209,7 +209,7 @@ None detected. All dependency chains flow unidirectionally: Foundation → Core 
 | Design docs needs revision | 0 |
 | MVP systems designed | 30 / 30 |
 | MVP Logic Layer Complete | 2026-05-04 via Sprint 1-10 story execution + `reports/report_13/results.xml`（30 系统逻辑/集成层 187+1 stories 全 done） |
-| MVP First Playable (运行时可见 UI) | ❌ **未达成** — UI 框架与 HUD 仅完成服务/管理器层（UIManager、HUDSystem RefCounted 服务），未实现任何 .tscn 场景；`src/main/main.tscn` 仅含一个空 Node 根，运行 Godot 屏幕一片黑。Sprint 11 立项专门补这一层。 |
+| MVP First Playable Achieved | 2026-05-05 via Sprint 11 UI Scene Layer completion + `production/qa/evidence/sprint-11/first-playable-smoke.md` + `reports/report_21/results.xml`（完整 HUD shell、5 MVP 主屏、Toast、Offline Drawer、Settings/Confirm/Stance modals、Debug Console UI） |
 
 ---
 

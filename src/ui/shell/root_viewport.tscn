@@ -1,8 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://rootviewport001"]
+[gd_scene load_steps=8 format=3 uid="uid://rootviewport001"]
 
 [ext_resource type="Script" path="res://src/ui/shell/root_viewport.gd" id="1_script"]
 [ext_resource type="Theme" path="res://assets/ui/theme.tres" id="2_theme"]
 [ext_resource type="Script" path="res://src/ui/shell/left_nav.gd" id="3_left_nav_script"]
+[ext_resource type="Script" path="res://src/ui/shell/top_strip.gd" id="4_top_strip_script"]
+[ext_resource type="Script" path="res://src/ui/shell/right_panel.gd" id="5_right_panel_script"]
+[ext_resource type="Script" path="res://src/ui/toast/toast_stack.gd" id="6_toast_stack_script"]
+[ext_resource type="Script" path="res://src/ui/shell/offline_drawer.gd" id="7_offline_drawer_script"]
 
 [node name="RootViewport" type="Control"]
 anchors_preset = 15
@@ -30,6 +34,7 @@ unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(0, 64)
 theme_override_styles/panel = null
+script = ExtResource("4_top_strip_script")
 
 [node name="TopStripHBox" type="HBoxContainer" parent="UILayer/Shell/TopStrip"]
 layout_mode = 2
@@ -81,6 +86,7 @@ unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(320, 0)
 theme_override_styles/panel = null
+script = ExtResource("5_right_panel_script")
 
 [node name="RightPanelVBox" type="VBoxContainer" parent="UILayer/Shell/MainHBox/RightPanel"]
 layout_mode = 2
@@ -120,9 +126,28 @@ grow_horizontal = 0
 grow_vertical = 0
 theme_override_constants/separation = 4
 alignment = 2
+script = ExtResource("6_toast_stack_script")
+
+[node name="DrawerLayer" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="OfflineDrawer" type="PanelContainer" parent="DrawerLayer"]
+unique_name_in_owner = true
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -480.0
+offset_right = 0.0
+grow_horizontal = 0
+grow_vertical = 2
+visible = false
+theme_override_styles/panel = null
+script = ExtResource("7_offline_drawer_script")
 
 [node name="ModalLayer" type="CanvasLayer" parent="."]
-layer = 2
+layer = 3
 
 [node name="ModalBlocker" type="ColorRect" parent="ModalLayer"]
 unique_name_in_owner = true

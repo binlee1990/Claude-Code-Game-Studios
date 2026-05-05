@@ -22,7 +22,7 @@ const TAB_HEIGHT: int = 48
 const ICON_SIZE: int = 24
 const TOGGLE_DURATION: float = 0.15
 
-var _tab_buttons: Array[Button] = []
+var _tab_buttons: Array[PanelContainer] = []
 var _tab_labels: Array[Label] = []
 var _nav_expanded: bool = true
 var _nav_tween: Tween = null
@@ -47,7 +47,7 @@ func _build_tabs() -> void:
 	for tab_def in TAB_DEFINITIONS:
 		var row := HBoxContainer.new()
 		row.custom_minimum_size = Vector2(0, TAB_HEIGHT)
-		row.theme_override_constants_separation = 8
+		row.add_theme_constant_override("separation", 8)
 		row.alignment = BoxContainer.ALIGNMENT_CENTER
 
 		# Icon
@@ -68,16 +68,6 @@ func _build_tabs() -> void:
 		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		label.add_theme_font_size_override("font_size", 16)
 		row.add_child(label)
-
-		# Clickable button (transparent, covers whole row)
-		var btn := Button.new()
-		btn.name = "TabButton"
-		btn.text = ""
-		btn.flat = true
-		btn.mouse_filter = Control.MOUSE_FILTER_PASS
-		btn.focus_mode = Control.FOCUS_ALL
-		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		btn.size_flags_vertical = Control.SIZE_EXPAND_FILL
 
 		# Use a reference container so the button fills the row.
 		# We wrap the row in a Control that handles click.
@@ -150,7 +140,7 @@ func _on_screen_opened(payload: Dictionary) -> void:
 ## Apply active highlight: left 4px burst_gold strip + panel_bg_elevated.
 func _apply_active_highlight() -> void:
 	for i in range(TAB_DEFINITIONS.size()):
-		var wrapper := _tab_buttons[i] as PanelContainer
+		var wrapper := _tab_buttons[i]
 		if wrapper == null:
 			continue
 		var tab_id: String = TAB_DEFINITIONS[i].get("id", "")

@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://cultivationscreen001"]
+[gd_scene load_steps=4 format=3 uid="uid://cultivationscreen001"]
 
 [ext_resource type="Script" path="res://src/ui/screens/cultivation_screen.gd" id="1_script"]
+[ext_resource type="Script" path="res://src/ui/components/resource_row.gd" id="2_resource_row"]
+[ext_resource type="Texture2D" path="res://assets/map/main_base.png" id="3_main_base"]
 
 [node name="CultivationScreen" type="Control"]
 anchors_preset = 15
@@ -9,6 +11,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_main_base")
+expand_mode = 1
+stretch_mode = 6
+modulate = Color(1, 1, 1, 0.28)
 
 [node name="HeroZone" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -52,7 +66,7 @@ anchors_preset = -1
 anchor_left = 0.34
 anchor_top = 0.0
 anchor_right = 1.0
-anchor_bottom = 0.67
+anchor_bottom = 0.55
 offset_left = 8.0
 offset_top = 8.0
 offset_right = -8.0
@@ -62,21 +76,25 @@ offset_bottom = -8.0
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="LingqiRow" parent="DecisionZone/DecisionVBox" type="ResourceProductionRow"]
+[node name="LingqiRow" parent="DecisionZone/DecisionVBox" type="Control"]
 unique_name_in_owner = true
 layout_mode = 2
+script = ExtResource("2_resource_row")
 
-[node name="XiuweiRow" parent="DecisionZone/DecisionVBox" type="ResourceProductionRow"]
+[node name="XiuweiRow" parent="DecisionZone/DecisionVBox" type="Control"]
 unique_name_in_owner = true
 layout_mode = 2
+script = ExtResource("2_resource_row")
 
-[node name="LingshiRow" parent="DecisionZone/DecisionVBox" type="ResourceProductionRow"]
+[node name="LingshiRow" parent="DecisionZone/DecisionVBox" type="Control"]
 unique_name_in_owner = true
 layout_mode = 2
+script = ExtResource("2_resource_row")
 
-[node name="HerbRow" parent="DecisionZone/DecisionVBox" type="ResourceProductionRow"]
+[node name="HerbRow" parent="DecisionZone/DecisionVBox" type="Control"]
 unique_name_in_owner = true
 layout_mode = 2
+script = ExtResource("2_resource_row")
 
 [node name="StanceSwitchBtn" type="Button" parent="DecisionZone/DecisionVBox"]
 unique_name_in_owner = true
@@ -141,7 +159,7 @@ theme_override_colors/font_color = Color(0.8, 0.133, 0.133, 1)
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.34
-anchor_top = 0.67
+anchor_top = 0.55
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 8.0
@@ -149,34 +167,39 @@ offset_top = 8.0
 offset_right = -8.0
 offset_bottom = -8.0
 
-[node name="InspectionVBox" type="VBoxContainer" parent="InspectionZone"]
+[node name="InspectionScroll" type="ScrollContainer" parent="InspectionZone"]
 layout_mode = 2
-theme_override_constants/separation = 8
+size_flags_vertical = 3
 
-[node name="SimHeaderLabel" type="Label" parent="InspectionZone/InspectionVBox"]
+[node name="InspectionVBox" type="VBoxContainer" parent="InspectionZone/InspectionScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="SimHeaderLabel" type="Label" parent="InspectionZone/InspectionScroll/InspectionVBox"]
 layout_mode = 2
 text = "试算面板"
 theme_override_font_sizes/font_size = 18
 
-[node name="SimStanceOption" type="OptionButton" parent="InspectionZone/InspectionVBox"]
+[node name="SimStanceOption" type="OptionButton" parent="InspectionZone/InspectionScroll/InspectionVBox"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="SimDurationSlider" type="HSlider" parent="InspectionZone/InspectionVBox"]
+[node name="SimDurationSlider" type="HSlider" parent="InspectionZone/InspectionScroll/InspectionVBox"]
 unique_name_in_owner = true
 layout_mode = 2
 min_value = 10.0
 max_value = 1800.0
 value = 60.0
 
-[node name="SimResultLabel" type="RichTextLabel" parent="InspectionZone/InspectionVBox"]
+[node name="SimResultLabel" type="RichTextLabel" parent="InspectionZone/InspectionScroll/InspectionVBox"]
 unique_name_in_owner = true
 layout_mode = 2
 bbcode_enabled = true
 text = "拖动滑块查看试算结果"
-custom_minimum_size = Vector2(0, 60)
+custom_minimum_size = Vector2(0, 24)
 
-[node name="SimApplyBtn" type="Button" parent="InspectionZone/InspectionVBox"]
+[node name="SimApplyBtn" type="Button" parent="InspectionZone/InspectionScroll/InspectionVBox"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "应用此姿态"

@@ -11,6 +11,7 @@ extends Node
 static var instance: UIManagerHost
 
 var service := UIManager.new()
+var ui_scale_settings: UIScaleSettings = null
 
 # Reference to RootViewport (set after main scene loads).
 var _root_viewport: RootViewport = null
@@ -23,11 +24,15 @@ var _current_screen_node: BaseScreen = null
 
 # Track if post-initialization has run.
 var _post_init_done: bool = false
+var _post_init_attempts: int = 0
+const MAX_POST_INIT_ATTEMPTS := 30
 
 
 func _ready() -> void:
 	if instance == null:
 		instance = self
+
+	_ensure_ui_scale_settings()
 
 	# Register all 5 MVP screens (scene paths, always unlocked for now).
 	service.register_screen("cultivation",        "res://src/ui/screens/cultivation_screen.tscn", true)
@@ -36,22 +41,48 @@ func _ready() -> void:
 	service.register_screen("save",               "res://src/ui/screens/save_screen.tscn", true)
 	service.register_screen("offline_settlement", "res://src/ui/screens/offline_settlement_screen.tscn", true)
 	service.register_screen("settings",           "res://src/ui/modals/settings_modal.tscn", true)
+	service.register_screen("confirm_critical",   "res://src/ui/modals/confirm_critical_modal.tscn", true)
+	service.register_screen("stance_select",      "res://src/ui/modals/stance_select_modal.tscn", true)
 
 	# Defer post-init until main scene is loaded.
-	call_deferred("_post_initialize")
+	_schedule_post_initialize()
+
+
+func _ensure_ui_scale_settings() -> void:
+	var existing := UIScaleSettings.get_instance()
+	if existing != null:
+		ui_scale_settings = existing
+		return
+	ui_scale_settings = UIScaleSettings.new()
+	ui_scale_settings.name = "UIScaleSettings"
+	add_child(ui_scale_settings)
+
+
+func _schedule_post_initialize() -> void:
+	var tree := get_tree()
+	if tree == null:
+		call_deferred("_post_initialize")
+		return
+	var callback := Callable(self, "_post_initialize")
+	if not tree.process_frame.is_connected(callback):
+		tree.process_frame.connect(callback, CONNECT_ONE_SHOT)
 
 
 ## Called deferred after main scene is in the tree.
 func _post_initialize() -> void:
 	if _post_init_done:
 		return
-	_post_init_done = true
 
 	_root_viewport = _find_root_viewport()
 	if _root_viewport == null:
-		push_warning("UIManagerHost: RootViewport not found. UI will be degraded.")
+		_post_init_attempts += 1
+		if _post_init_attempts >= MAX_POST_INIT_ATTEMPTS:
+			push_warning("UIManagerHost: RootViewport not found after deferred retries. UI will be degraded.")
+		else:
+			_schedule_post_initialize()
 		return
 
+	_post_init_done = true
 	_setup_input_handling()
 
 	# Open the default first screen (cultivation per spec).
@@ -76,6 +107,16 @@ func _find_root_viewport() -> RootViewport:
 
 static func get_instance() -> UIManagerHost:
 	return instance
+
+
+static func find_root_viewport() -> RootViewport:
+	if instance == null:
+		return null
+	return instance._find_root_viewport()
+
+
+static func has_open_modal() -> bool:
+	return instance != null and instance.service.has_open_modal()
 
 
 func get_service() -> UIManager:
@@ -170,20 +211,24 @@ func open_modal(screen_id: String, payload: Dictionary = {}) -> void:
 
 	var modal_container := _root_viewport.get_modal_container()
 	if modal_container == null:
+		_rollback_modal_open()
 		return
 
 	var scene_path := service.get_screen_path(screen_id)
 	if scene_path.is_empty():
+		_rollback_modal_open()
 		return
 
 	var modal_scene := _load_scene(scene_path)
 	if modal_scene == null:
+		_rollback_modal_open()
 		return
 
 	var modal := modal_scene.instantiate()
 	if not modal is BaseModal:
 		push_warning("UIManagerHost: modal '%s' does not extend BaseModal" % screen_id)
 		modal.queue_free()
+		_rollback_modal_open()
 		return
 
 	_configure_modal(modal as BaseModal, payload)
@@ -214,6 +259,10 @@ func close_modal() -> void:
 
 	if not service.has_open_modal():
 		_root_viewport.hide_modal_blocker()
+
+
+func go_back() -> void:
+	open_screen("cultivation")
 
 
 # ---------------------------------------------------------------------------
@@ -268,6 +317,12 @@ func _load_scene(path: String) -> PackedScene:
 	return res
 
 
+func _rollback_modal_open() -> void:
+	service.close_modal()
+	if _root_viewport != null and not service.has_open_modal():
+		_root_viewport.hide_modal_blocker()
+
+
 ## Configure modal blocker and focus.
 func _configure_modal(modal: BaseModal, payload: Dictionary) -> void:
 	modal.payload = payload
@@ -290,7 +345,7 @@ func _input(event: InputEvent) -> void:
 		return
 
 	# ESC: close topmost modal, or open settings if no modal.
-	if event.is_action_pressed("ui_cancel"):
+	if _is_action_pressed(event, "ui_cancel"):
 		if service.has_open_modal():
 			close_modal()
 		else:
@@ -299,22 +354,26 @@ func _input(event: InputEvent) -> void:
 		return
 
 	# Keyboard shortcuts 1-5 for screens.
-	if event.is_action_pressed("ui_screen_1"):
+	if _is_action_pressed(event, "ui_screen_1"):
 		open_screen("cultivation")
 		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("ui_screen_2"):
+	elif _is_action_pressed(event, "ui_screen_2"):
 		open_screen("combat")
 		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("ui_screen_3"):
+	elif _is_action_pressed(event, "ui_screen_3"):
 		open_screen("resources")
 		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("ui_screen_4"):
+	elif _is_action_pressed(event, "ui_screen_4"):
 		open_screen("save")
 		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("ui_screen_5"):
+	elif _is_action_pressed(event, "ui_screen_5"):
 		open_screen("offline_settlement")
 		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("ui_toggle_nav"):
+	elif _is_action_pressed(event, "ui_toggle_nav"):
 		if _root_viewport != null:
 			_root_viewport.toggle_nav()
 		get_viewport().set_input_as_handled()
+
+
+func _is_action_pressed(event: InputEvent, action_name: String) -> bool:
+	return InputMap.has_action(action_name) and event.is_action_pressed(action_name)

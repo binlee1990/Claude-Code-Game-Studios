@@ -3,7 +3,7 @@
 > **Last Updated**: 2026-05-05
 > **Engine**: Godot 4.6.2
 > **Stage**: Pre-Production
-> **Total Epics Created**: 30 / 30 MVP systems + 1 MVP Integration epic + 6 Sprint-11 UI Scene Layer epics（待 EPIC.md）= 37
+> **Total Epics Created**: 30 / 30 MVP systems + 1 MVP Integration epic + 7 Sprint-11 UI Scene Layer epics = 38
 
 ## Foundation Layer (4 / 4 epics created)
 
@@ -78,21 +78,21 @@
 
 > 本 epic 不新增系统设计，仅作为 Sprint 10 出口的端到端 smoke gate。引用所有 30 个 MVP GDD 与 ADR-0008/0009/0010/0015。
 
-## UI Scene Layer (6 / 6 epics planned — 2026-05-05 立项，EPIC.md 与 story 文件待 Sprint 11 启动后补)
+## UI Scene Layer (7 / 7 epics completed — 2026-05-05 Sprint 11)
 
 > **背景**：Sprint 1–10 完成的 ui-framework / hud-system 是 RefCounted 服务层；Sprint 11 这 6 个 epic 把服务层接入 Godot 场景树，达成真正 MVP First Playable。详见 [sprint-11.md](../sprints/sprint-11.md)。
 
-| Epic（slug） | Layer | 范围 | GDD 引用 | Stories（计划） | Status |
+| Epic（slug） | Layer | 范围 | GDD 引用 | Stories | Status |
 |-------------|-------|------|----------|----------------|--------|
-| ui-scene-foundation | UI Scene | UIManager 真实 instantiate + main.tscn RootViewport 多 CanvasLayer 分层 | design/gdd/ui-framework.md | 3 | Planned |
-| hud-real-layout | UI Scene | hud.tscn 替换临时骨架，对齐 design/ux/hud.md 三段式 + 渐进解锁 + 警戒态 | design/gdd/hud-system.md + design/ux/hud.md | 3 | Planned |
-| toast-stack | UI Scene | P-FBK-01 浮动通知栈（突破 / 稀有掉落 / 飞升） | design/ux/interaction-patterns.md P-FBK-01 | 1 | Planned |
-| offline-drawer | UI Scene | P-NAV-04 离线结算速览 drawer | design/ux/interaction-patterns.md P-NAV-04 | 1 | Planned |
-| mvp-screens | UI Scene | 5 主屏（修炼/战斗/资源/存档/离线结算）+ first-playable smoke story | game-concept §11 + design/ux/[screen].md（待 ux-design） | 6 | Planned |
-| debug-console-ui | UI Scene | 调试控制台 Control 层（service 层 sprint-7 完成） | design/gdd/debug-console.md + ADR-0012 | 1 | Planned |
-| settings | UI Scene | 设置屏 — 音量/分辨率/语言/数字格式/reduce motion/离线收益确认 | design/gdd/hud-system.md §Settings | 1 | Planned |
+| [ui-scene-foundation](ui-scene-foundation/EPIC.md) | UI Scene | UIManager 真实 instantiate + main.tscn RootViewport 多 CanvasLayer 分层 | design/gdd/ui-framework.md | 3 done | Done |
+| [hud-real-layout](hud-real-layout/EPIC.md) | UI Scene | HUD shell 三段式布局 + 渐进解锁 + 警戒态 | design/gdd/hud-system.md + design/ux/hud.md | 3 done | Done |
+| [toast-stack](toast-stack/EPIC.md) | UI Scene | P-FBK-01 浮动通知栈 | design/ux/interaction-patterns.md P-FBK-01 | 1 done | Done |
+| [offline-drawer](offline-drawer/EPIC.md) | UI Scene | P-NAV-04 离线结算速览 drawer | design/ux/interaction-patterns.md P-NAV-04 | 1 done | Done |
+| [mvp-screens](mvp-screens/EPIC.md) | UI Scene | 5 主屏 + first-playable smoke | game-concept §11 + design/ux/[screen].md | 6 done | Done |
+| [debug-console-ui](debug-console-ui/EPIC.md) | UI Scene | 调试控制台 Control 层 | design/gdd/debug-console.md + ADR-0012 | 1 done | Done |
+| [settings](settings/EPIC.md) | UI Scene | 设置 modal | design/gdd/hud-system.md §Settings | 1 done | Done |
 
-> 临时 HUD 骨架（`src/ui/hud/hud.tscn` + `hud.gd` + project.godot `HUDBootstrap` autoload）已在 2026-05-05 创建，让用户启动 Godot 即可看到资源数字 + 修炼按钮 + 战斗日志，证明服务层可驱动 UI。Sprint 11 完成后，临时骨架由 `mvp-screens` epic 的 cultivation_screen 取代，HUDBootstrap autoload 移除。
+> Sprint 11 完成证据：`production/qa/evidence/sprint-11/first-playable-smoke.md`、`production/qa/evidence/sprint-11/asset-coverage-report.json`、`reports/report_21/results.xml`。
 
 ## Review Notes
 

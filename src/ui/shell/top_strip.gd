@@ -6,6 +6,7 @@
 class_name TopStripControl
 extends PanelContainer
 
+const Sprint11AssetCatalog := preload("res://src/ui/sprint11_asset_catalog.gd")
 
 const RESOURCE_IDS := ["lingqi", "xiuwei", "lingshi", "herb", "exp"]
 const RESOURCE_LABELS: Dictionary = {
@@ -25,8 +26,11 @@ const RESOURCE_ICONS: Dictionary = {
 const REFRESH_INTERVAL: float = 0.1
 
 var _resource_labels: Dictionary = {}    # resource_id -> Label
+var _realm_icon: TextureRect = null
 var _level_label: Label = null
 var _zone_label: Label = null
+var _status_icons: Dictionary = {}
+var _offline_button: Button = null
 var _dirty_resources: Array[String] = []
 var _refresh_timer: float = 0.0
 
@@ -58,7 +62,7 @@ func _build_content() -> void:
 	for resource_id in RESOURCE_IDS:
 		var row := HBoxContainer.new()
 		row.name = "Res_%s" % resource_id
-		row.theme_override_constants_separation = 4
+		row.add_theme_constant_override("separation", 4)
 		row.alignment = BoxContainer.ALIGNMENT_CENTER
 
 		var icon := TextureRect.new()
@@ -66,9 +70,7 @@ func _build_content() -> void:
 		icon.custom_minimum_size = Vector2(20, 20)
 		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		var icon_path: String = RESOURCE_ICONS.get(resource_id, "")
-		if not icon_path.is_empty() and ResourceLoader.exists(icon_path):
-			icon.texture = load(icon_path) as Texture2D
+		icon.texture = Sprint11AssetCatalog.get_texture(Sprint11AssetCatalog.RESOURCE_ICONS, resource_id)
 		row.add_child(icon)
 
 		var value_label := Label.new()
@@ -85,13 +87,46 @@ func _build_content() -> void:
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hbox.add_child(spacer)
 
-	# Level + realm badge
+	# Realm badge + level text
+	_realm_icon = TextureRect.new()
+	_realm_icon.name = "RealmIcon"
+	_realm_icon.custom_minimum_size = Vector2(28, 28)
+	_realm_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_realm_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	hbox.add_child(_realm_icon)
+
 	_level_label = Label.new()
 	_level_label.name = "LevelBadge"
 	_level_label.add_theme_font_size_override("font_size", 18)
 	hbox.add_child(_level_label)
 
 	# Separator
+	hbox.add_child(_make_separator())
+
+	var status_row := HBoxContainer.new()
+	status_row.name = "StatusIcons"
+	status_row.add_theme_constant_override("separation", 6)
+	for status_id in ["combat_active", "combat_failed", "level_up", "overflow_warn"]:
+		var status_icon := TextureRect.new()
+		status_icon.name = status_id
+		status_icon.custom_minimum_size = Vector2(22, 22)
+		status_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		status_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		status_icon.texture = Sprint11AssetCatalog.get_texture(Sprint11AssetCatalog.STATUS_ICONS, status_id)
+		status_icon.visible = status_id in ["combat_active"]
+		status_row.add_child(status_icon)
+		_status_icons[status_id] = status_icon
+	hbox.add_child(status_row)
+
+	_offline_button = Button.new()
+	_offline_button.name = "OfflineButton"
+	_offline_button.text = tr("离线")
+	_offline_button.icon = Sprint11AssetCatalog.get_texture(Sprint11AssetCatalog.STATUS_ICONS, "offline_pending")
+	_offline_button.flat = true
+	_offline_button.focus_mode = Control.FOCUS_ALL
+	_offline_button.pressed.connect(_on_offline_pressed)
+	hbox.add_child(_offline_button)
+
 	hbox.add_child(_make_separator())
 
 	# Zone context label
@@ -130,9 +165,12 @@ func _subscribe_events() -> void:
 		return
 	for resource_id in RESOURCE_IDS:
 		bus.subscribe("resource.%s.changed" % resource_id, _on_resource_changed)
+		bus.subscribe("resource.%s.overflow" % resource_id, _on_resource_overflow)
 	bus.subscribe("level.changed", _on_level_changed)
 	bus.subscribe("realm.advanced", _on_level_changed)
 	bus.subscribe("zone.changed", _on_zone_changed)
+	bus.subscribe("combat.finished", _on_combat_finished)
+	bus.subscribe("offline.settled", _on_offline_settled)
 
 
 func _refresh_all() -> void:
@@ -169,6 +207,8 @@ func _refresh_level_display() -> void:
 	var service := level_host.get_service()
 	var realm := service.get_realm("player")
 	_level_label.text = "Lv.%d %s" % [service.get_level("player"), tr(realm)]
+	if _realm_icon != null:
+		_realm_icon.texture = Sprint11AssetCatalog.get_texture(Sprint11AssetCatalog.REALM_ICONS, realm)
 
 
 func _refresh_zone_display() -> void:
@@ -183,8 +223,12 @@ func _refresh_zone_display() -> void:
 	var zone_name := ""
 	if service.has_method("get_current_zone_name"):
 		zone_name = service.get_current_zone_name()
+	elif service.get("current_zone_id") != null and service.has_method("get_zone"):
+		var zone_id := str(service.get("current_zone_id"))
+		var zone: Dictionary = service.get_zone(zone_id)
+		zone_name = str(zone.get("name", zone_id))
 	elif service.has_method("get_hud_state"):
-		var state := service.get_hud_state()
+		var state: Dictionary = service.get_hud_state()
 		zone_name = str(state.get("current_zone_name", ""))
 	_zone_label.text = zone_name if not zone_name.is_empty() else tr("未知区域")
 
@@ -200,10 +244,30 @@ func _on_resource_changed(payload: Dictionary) -> void:
 
 func _on_level_changed(_payload: Dictionary) -> void:
 	_refresh_level_display()
+	_show_status("level_up")
 
 
 func _on_zone_changed(_payload: Dictionary) -> void:
 	_refresh_zone_display()
+
+
+func _on_resource_overflow(_payload: Dictionary) -> void:
+	_show_status("overflow_warn")
+
+
+func _on_combat_finished(payload: Dictionary) -> void:
+	_show_status("combat_active" if bool(payload.get("victory", false)) else "combat_failed")
+
+
+func _on_offline_settled(_payload: Dictionary) -> void:
+	if _offline_button != null:
+		_offline_button.text = tr("离线 *")
+
+
+func _show_status(status_id: String) -> void:
+	var icon: TextureRect = _status_icons.get(status_id)
+	if icon != null:
+		icon.visible = true
 
 
 ## Apply coalesced refresh for dirty resources.
@@ -217,3 +281,11 @@ func _on_settings_pressed() -> void:
 	var host := UIManagerHost.get_instance()
 	if host != null:
 		host.open_modal("settings")
+
+
+func _on_offline_pressed() -> void:
+	var rv := UIManagerHost.find_root_viewport()
+	if rv != null and rv.has_method("toggle_offline_drawer"):
+		rv.toggle_offline_drawer()
+	if _offline_button != null:
+		_offline_button.text = tr("离线")

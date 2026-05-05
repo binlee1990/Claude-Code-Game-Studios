@@ -1,4 +1,4 @@
-## BaseModal — common lifecycle and input gate for all modal popups.
+## BaseModal — common lifecycle and input gate for modal panels.
 ##
 ## Modal scenes extend this class. UIManagerHost manages the modal stack
 ## and calls open(payload) / close(). The modal_input_blocker ColorRect on
@@ -8,7 +8,7 @@
 ## Close: scale 100%→95% + fade-out 150ms ease-in.
 ## ESC / Gamepad B triggers close via _input override.
 class_name BaseModal
-extends PopupPanel
+extends PanelContainer
 
 
 ## Payload passed by UIManagerHost.open_modal().
@@ -23,11 +23,10 @@ func _ready() -> void:
 	_setup_input()
 
 
-## Configure PopupPanel properties: exclusive, no click-outside-close.
+## Configure modal panel focus and input capture.
 func _popup_configure() -> void:
-	popup_exclusive = true
-	# Prevent closing by clicking outside (modal must be explicitly dismissed).
-	popup_window = false
+	mouse_filter = Control.MOUSE_FILTER_STOP
+	focus_mode = Control.FOCUS_ALL
 
 
 ## Set up input handling — ESC and Gamepad B close the modal.

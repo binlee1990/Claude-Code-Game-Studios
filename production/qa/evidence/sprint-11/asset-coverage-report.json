@@ -1,0 +1,81 @@
+{
+	"by_group": {
+		"enemies": {
+			"existing": 36,
+			"expected": 36,
+			"missing": []
+		},
+		"frames": {
+			"existing": 4,
+			"expected": 4,
+			"missing": []
+		},
+		"items": {
+			"existing": 14,
+			"expected": 14,
+			"missing": []
+		},
+		"maps": {
+			"existing": 5,
+			"expected": 5,
+			"missing": []
+		},
+		"overlays": {
+			"existing": 2,
+			"expected": 2,
+			"missing": []
+		},
+		"player": {
+			"existing": 5,
+			"expected": 5,
+			"missing": []
+		},
+		"rarity_frames": {
+			"existing": 8,
+			"expected": 8,
+			"missing": []
+		},
+		"realm_icons": {
+			"existing": 7,
+			"expected": 7,
+			"missing": []
+		},
+		"resource_icons": {
+			"existing": 5,
+			"expected": 5,
+			"missing": []
+		},
+		"seals": {
+			"existing": 3,
+			"expected": 3,
+			"missing": []
+		},
+		"stance_icons": {
+			"existing": 4,
+			"expected": 4,
+			"missing": []
+		},
+		"status_icons": {
+			"existing": 5,
+			"expected": 5,
+			"missing": []
+		},
+		"theme": {
+			"existing": 1,
+			"expected": 1,
+			"missing": []
+		},
+		"vfx": {
+			"existing": 9,
+			"expected": 9,
+			"missing": []
+		}
+	},
+	"generated_at": "2026-05-05",
+	"totals": {
+		"existing": 108,
+		"expected": 108,
+		"missing": []
+	},
+	"verdict": "PASS"
+}
