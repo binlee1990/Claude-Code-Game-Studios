@@ -15,6 +15,7 @@ extends BaseScreen
 const Sprint11AssetCatalog := preload("res://src/ui/sprint11_asset_catalog.gd")
 
 # ZONE SELECTOR
+@onready var main_area: HBoxContainer = $MainArea
 @onready var zone_tabs: HBoxContainer = %ZoneTabs
 @onready var current_zone_label: Label = %CurrentZoneLabel
 
@@ -52,11 +53,19 @@ var _paused: bool = false
 
 func _ready() -> void:
 	super._ready()
+	_apply_compact_visual_layout()
 	_resolve_services()
 	_setup_player_spriteframes()
 	_build_zone_tabs()
 	_connect_buttons()
 	_refresh_player_status()
+
+
+func _apply_compact_visual_layout() -> void:
+	if main_area != null:
+		main_area.offset_bottom = -88.0
+	if player_sprite != null:
+		player_sprite.custom_minimum_size = Vector2(220, 220)
 
 
 func on_activated() -> void:

@@ -1,18 +1,122 @@
 {
-  "starter_enemy": {
+  "loot_zone1_golem_stone": {
     "max_drops": 5,
     "entries": [
-      {"item_id": "exp", "chance": 1.0, "min_qty": 8, "max_qty": 12, "tags": ["combat"]},
-      {"item_id": "lingshi", "chance": 0.5, "min_qty": 1, "max_qty": 2, "tags": ["currency"]},
-      {"item_id": "herb", "chance": 0.25, "min_qty": 1, "max_qty": 1, "tags": ["material"]}
+      {"item_id": "exp", "chance": 1.0, "min_qty": 8, "max_qty": 8, "tags": ["combat"]},
+      {"item_id": "lingshi", "chance": 0.15, "min_qty": 1, "max_qty": 2, "tags": ["currency"]},
+      {"item_id": "herb", "chance": 0.05, "min_qty": 1, "max_qty": 1, "tags": ["material"]}
     ]
   },
-  "bandit_enemy": {
+  "loot_zone1_hare_wild": {
     "max_drops": 5,
     "entries": [
-      {"item_id": "exp", "chance": 1.0, "min_qty": 20, "max_qty": 28, "tags": ["combat"]},
-      {"item_id": "lingshi", "chance": 1.0, "min_qty": 3, "max_qty": 5, "tags": ["currency"]},
-      {"item_id": "herb", "chance": 0.4, "min_qty": 1, "max_qty": 2, "tags": ["material"]}
+      {"item_id": "exp", "chance": 1.0, "min_qty": 15, "max_qty": 15, "tags": ["combat"]},
+      {"item_id": "lingshi", "chance": 0.20, "min_qty": 1, "max_qty": 3, "tags": ["currency"]},
+      {"item_id": "herb", "chance": 0.08, "min_qty": 1, "max_qty": 1, "tags": ["material"]}
+    ]
+  },
+  "loot_zone1_spirit_withered": {
+    "max_drops": 5,
+    "entries": [
+      {"item_id": "exp", "chance": 1.0, "min_qty": 24, "max_qty": 24, "tags": ["combat"]},
+      {"item_id": "lingshi", "chance": 0.22, "min_qty": 2, "max_qty": 4, "tags": ["currency"]},
+      {"item_id": "herb", "chance": 0.10, "min_qty": 1, "max_qty": 1, "tags": ["material"]}
+    ]
+  },
+  "loot_zone1_bat_mist": {
+    "max_drops": 5,
+    "entries": [
+      {"item_id": "exp", "chance": 1.0, "min_qty": 36, "max_qty": 36, "tags": ["combat"]},
+      {"item_id": "lingshi", "chance": 0.25, "min_qty": 2, "max_qty": 5, "tags": ["currency"]},
+      {"item_id": "herb", "chance": 0.10, "min_qty": 1, "max_qty": 2, "tags": ["material"]}
+    ]
+  },
+  "loot_zone1_snake_newborn": {
+    "max_drops": 5,
+    "entries": [
+      {"item_id": "exp", "chance": 1.0, "min_qty": 52, "max_qty": 52, "tags": ["combat"]},
+      {"item_id": "lingshi", "chance": 0.28, "min_qty": 3, "max_qty": 6, "tags": ["currency"]},
+      {"item_id": "herb", "chance": 0.12, "min_qty": 1, "max_qty": 2, "tags": ["material"]}
+    ]
+  },
+  "loot_zone2_wolf_shadow": {
+    "max_drops": 5,
+    "entries": [
+      {"item_id": "exp", "chance": 1.0, "min_qty": 72, "max_qty": 72, "tags": ["combat"]},
+      {"item_id": "lingshi", "chance": 0.25, "min_qty": 3, "max_qty": 8, "tags": ["currency"]},
+      {"item_id": "herb", "chance": 0.12, "min_qty": 1, "max_qty": 2, "tags": ["material"]}
+    ]
+  },
+  "loot_zone2_vine_strangle": {
+    "max_drops": 5,
+    "entries": [
+      {"item_id": "exp", "chance": 1.0, "min_qty": 125, "max_qty": 125, "tags": ["combat"]},
+      {"item_id": "lingshi", "chance": 0.28, "min_qty": 4, "max_qty": 10, "tags": ["currency"]},
+      {"item_id": "herb", "chance": 0.14, "min_qty": 1, "max_qty": 3, "tags": ["material"]}
+    ]
+  },
+  "loot_zone2_wraith_forest": {
+    "max_drops": 5,
+    "entries": [
+      {"item_id": "exp", "chance": 1.0, "min_qty": 200, "max_qty": 200, "tags": ["combat"]},
+      {"item_id": "lingshi", "chance": 0.30, "min_qty": 5, "max_qty": 14, "tags": ["currency"]},
+      {"item_id": "herb", "chance": 0.15, "min_qty": 2, "max_qty": 3, "tags": ["material"]}
+    ]
+  },
+  "loot_zone2_spider_venomfang": {
+    "max_drops": 5,
+    "entries": [
+      {"item_id": "exp", "chance": 1.0, "min_qty": 310, "max_qty": 310, "tags": ["combat"]},
+      {"item_id": "lingshi", "chance": 0.33, "min_qty": 6, "max_qty": 18, "tags": ["currency"]},
+      {"item_id": "herb", "chance": 0.18, "min_qty": 2, "max_qty": 4, "tags": ["material"]}
+    ]
+  },
+  "loot_zone2_beast_stonedevour": {
+    "max_drops": 5,
+    "entries": [
+      {"item_id": "exp", "chance": 1.0, "min_qty": 520, "max_qty": 520, "tags": ["combat"]},
+      {"item_id": "lingshi", "chance": 0.35, "min_qty": 8, "max_qty": 24, "tags": ["currency"]},
+      {"item_id": "herb", "chance": 0.20, "min_qty": 2, "max_qty": 5, "tags": ["material"]}
+    ]
+  },
+  "loot_zone3_golem_crystal": {
+    "max_drops": 5,
+    "entries": [
+      {"item_id": "exp", "chance": 1.0, "min_qty": 600, "max_qty": 600, "tags": ["combat"]},
+      {"item_id": "lingshi", "chance": 0.32, "min_qty": 8, "max_qty": 25, "tags": ["currency"]},
+      {"item_id": "herb", "chance": 0.20, "min_qty": 2, "max_qty": 6, "tags": ["material"]}
+    ]
+  },
+  "loot_zone3_bat_crystal": {
+    "max_drops": 5,
+    "entries": [
+      {"item_id": "exp", "chance": 1.0, "min_qty": 950, "max_qty": 950, "tags": ["combat"]},
+      {"item_id": "lingshi", "chance": 0.35, "min_qty": 10, "max_qty": 32, "tags": ["currency"]},
+      {"item_id": "herb", "chance": 0.22, "min_qty": 3, "max_qty": 8, "tags": ["material"]}
+    ]
+  },
+  "loot_zone3_spirit_vein": {
+    "max_drops": 5,
+    "entries": [
+      {"item_id": "exp", "chance": 1.0, "min_qty": 1680, "max_qty": 1680, "tags": ["combat"]},
+      {"item_id": "lingshi", "chance": 0.38, "min_qty": 14, "max_qty": 42, "tags": ["currency"]},
+      {"item_id": "herb", "chance": 0.25, "min_qty": 3, "max_qty": 10, "tags": ["material"]}
+    ]
+  },
+  "loot_zone3_dragon_crystal": {
+    "max_drops": 5,
+    "entries": [
+      {"item_id": "exp", "chance": 1.0, "min_qty": 3000, "max_qty": 3000, "tags": ["combat"]},
+      {"item_id": "lingshi", "chance": 0.42, "min_qty": 18, "max_qty": 55, "tags": ["currency"]},
+      {"item_id": "herb", "chance": 0.28, "min_qty": 4, "max_qty": 12, "tags": ["material"]}
+    ]
+  },
+  "loot_zone3_guardian_vein": {
+    "max_drops": 7,
+    "entries": [
+      {"item_id": "exp", "chance": 1.0, "min_qty": 12000, "max_qty": 12000, "tags": ["combat", "elite"]},
+      {"item_id": "lingshi", "chance": 0.50, "min_qty": 30, "max_qty": 80, "tags": ["currency", "elite"]},
+      {"item_id": "herb", "chance": 0.35, "min_qty": 5, "max_qty": 15, "tags": ["material", "elite"]}
     ]
   }
 }

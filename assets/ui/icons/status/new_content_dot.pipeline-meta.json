@@ -1,0 +1,20 @@
+{
+  "source": "image_gen",
+  "skill": "generate2dsprite",
+  "asset_id": "new_content_dot",
+  "output_role": "ui_icon",
+  "raw_image": "C:/Users/888/.codex/generated_images/019df72a-4075-7343-8275-3565c372f5ae/ig_0f5135473dc5cd420169f9cf28aeb48191ac06de19243b65fa.png",
+  "processed_dir": "D:/work/Games/GUAJI_01/assets/_generated_work/sprint12/new_content_dot",
+  "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+  "width": 16,
+  "height": 16,
+  "processor": {
+    "target": "asset",
+    "mode": "icon",
+    "rows": null,
+    "cols": null,
+    "cell_size": null,
+    "single_size": 16,
+    "edge_touch_frames": []
+  }
+}

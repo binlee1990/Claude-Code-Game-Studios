@@ -1,0 +1,1 @@
+vine_strangle idle 1x4

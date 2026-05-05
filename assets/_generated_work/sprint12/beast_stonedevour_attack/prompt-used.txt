@@ -1,0 +1,1 @@
+beast_stonedevour attack 1x4

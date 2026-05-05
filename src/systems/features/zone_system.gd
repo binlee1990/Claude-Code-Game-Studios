@@ -67,7 +67,10 @@ func select_zone(zone_id: String) -> Dictionary:
 func unlock_zone(zone_id: String) -> bool:
 	if not _zones.has(zone_id):
 		return false
+	var was_unlocked := bool(_zones[zone_id].get("unlocked", false))
 	_zones[zone_id]["unlocked"] = true
+	if not was_unlocked:
+		_emit("zone.unlocked", {"zone_id": zone_id})
 	return true
 
 

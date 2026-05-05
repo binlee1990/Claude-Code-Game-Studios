@@ -1,0 +1,11 @@
+{
+  "target": "creature",
+  "mode": "portrait",
+  "prompt": "hare_wild portrait",
+  "role": "",
+  "input": "C:\\Users\\888\\.codex\\generated_images\\019df72a-4075-7343-8275-3565c372f5ae\\ig_0f5135473dc5cd420169f9aa9303d88191a0a78d33770429d5.png",
+  "threshold": 100,
+  "edge_threshold": 150,
+  "duration": 200,
+  "single_size": 256
+}

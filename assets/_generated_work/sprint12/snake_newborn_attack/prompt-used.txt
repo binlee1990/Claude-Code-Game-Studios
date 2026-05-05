@@ -1,0 +1,1 @@
+snake_newborn attack 1x4

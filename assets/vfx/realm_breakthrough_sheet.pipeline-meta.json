@@ -1,0 +1,41 @@
+{
+  "source": "image_gen",
+  "skill": "generate2dsprite",
+  "asset_id": "realm_breakthrough_sheet",
+  "output_role": "vfx_sheet",
+  "raw_image": "C:/Users/888/.codex/generated_images/019df72a-4075-7343-8275-3565c372f5ae/ig_0f5135473dc5cd420169f9c955af1c8191a6e8f1310106c9b4.png",
+  "processed_dir": "D:/work/Games/GUAJI_01/assets/_generated_work/sprint12/realm_breakthrough_sheet",
+  "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+  "width": 2048,
+  "height": 256,
+  "processor": {
+    "target": "asset",
+    "mode": "explode",
+    "rows": 1,
+    "cols": 8,
+    "cell_size": 256,
+    "single_size": null,
+    "edge_touch_frames": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        0,
+        5
+      ]
+    ]
+  }
+}

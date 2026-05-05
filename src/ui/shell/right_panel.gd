@@ -18,6 +18,7 @@ var _chip_container: VBoxContainer = null
 
 
 func _ready() -> void:
+	add_theme_stylebox_override("panel", _make_panel_style(Color(0.095, 0.095, 0.100), Color(0.235, 0.235, 0.245)))
 	_build_content()
 	_subscribe_events()
 
@@ -36,8 +37,9 @@ func _build_content() -> void:
 	toggle_row.add_theme_constant_override("separation", 8)
 
 	var toggle_label := Label.new()
-	toggle_label.text = "   " + tr("战斗日志")
-	toggle_label.add_theme_font_size_override("font_size", 14)
+	toggle_label.text = "   " + tr("事件日志")
+	toggle_label.add_theme_font_size_override("font_size", 16)
+	toggle_label.add_theme_color_override("font_color", Color(0.890, 0.878, 0.839))
 	toggle_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	toggle_row.add_child(toggle_label)
 
@@ -66,7 +68,8 @@ func _build_content() -> void:
 	_log_rich_label.scroll_following = true
 	_log_rich_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_log_rich_label.custom_minimum_size = Vector2(0, 200)
-	_log_rich_label.add_theme_font_size_override("font_size", 12)
+	_log_rich_label.add_theme_font_size_override("font_size", 13)
+	_log_rich_label.add_theme_color_override("default_color", Color(0.78, 0.78, 0.74))
 	_log_rich_label.gui_input.connect(_on_log_scroll_input)
 	vbox.add_child(_log_rich_label)
 
@@ -79,6 +82,18 @@ func _build_content() -> void:
 	# Initialize with a placeholder.
 	_append_log(tr("战斗日志就绪 — 等待战斗事件..."), Color(0.604, 0.580, 0.533))
 	_rebuild_bbcode()
+
+
+func _make_panel_style(bg: Color, stroke: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = bg
+	style.border_color = stroke
+	style.set_border_width_all(1)
+	style.content_margin_left = 10.0
+	style.content_margin_right = 10.0
+	style.content_margin_top = 10.0
+	style.content_margin_bottom = 10.0
+	return style
 
 
 func _get_content_vbox() -> VBoxContainer:
@@ -97,6 +112,58 @@ func _subscribe_events() -> void:
 	bus.subscribe("resource.xiuwei.overflow", _on_resource_warning)
 	bus.subscribe("resource.lingshi.overflow", _on_resource_warning)
 	bus.subscribe("resource.herb.overflow", _on_resource_warning)
+	bus.subscribe("ui.screen_opened", _on_screen_opened)
+
+
+## Switch RIGHT PANEL content based on active screen.
+func _on_screen_opened(payload: Dictionary) -> void:
+	var screen_id := str(payload.get("screen_id", ""))
+	match screen_id:
+		"combat":
+			_set_mode_combat()
+		"resources":
+			_set_mode_resources()
+		"cultivation":
+			_set_mode_cultivation()
+		"offline_settlement":
+			_set_mode_offline()
+		_:
+			_set_mode_default()
+
+
+func _set_mode_combat() -> void:
+	_show_log_area(true)
+	_show_chip_area(true)
+
+
+func _set_mode_resources() -> void:
+	_show_log_area(false)
+	_show_chip_area(true)
+
+
+func _set_mode_cultivation() -> void:
+	_show_log_area(false)
+	_show_chip_area(true)
+
+
+func _set_mode_offline() -> void:
+	_show_log_area(true)
+	_show_chip_area(true)
+
+
+func _set_mode_default() -> void:
+	_show_log_area(false)
+	_show_chip_area(false)
+
+
+func _show_log_area(visible_state: bool) -> void:
+	if _log_rich_label != null:
+		_log_rich_label.visible = visible_state
+
+
+func _show_chip_area(visible_state: bool) -> void:
+	if _chip_container != null:
+		_chip_container.visible = visible_state
 
 
 ## Append a log entry. Color-coded per combat event type.

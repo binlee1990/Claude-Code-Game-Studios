@@ -1,47 +1,228 @@
 {
-  "training_dummy": {
-    "name": "练功木偶",
+  "golem_stone": {
+    "name": "石傀儡",
     "level": 1,
     "attribute_set": "enemy_basic_set",
-    "base_attributes": {"hp_max": "80", "atk": "8", "def": "2", "spd": "8", "crit_rate": "0", "crit_dmg": "1.5"},
-    "loot_table_id": "starter_enemy",
-    "zone_tags": ["starter"],
-    "combat_tags": ["training"],
+    "base_attributes": {"hp_max": "30", "atk": "4", "def": "2", "spd": "7", "crit_rate": "0.03", "crit_dmg": "1.3"},
+    "loot_table_id": "loot_zone1_golem_stone",
+    "zone_tags": ["zone_starter"],
+    "combat_tags": ["spirit"],
     "weight": 5,
     "art_paths": {
-      "portrait": "res://assets/enemies/current/training_dummy_portrait.png",
-      "idle": "res://assets/enemies/current/training_dummy_idle.png",
-      "attack": "res://assets/enemies/current/training_dummy_attack.png"
+      "portrait": "res://assets/enemies/current/golem_stone_portrait.png",
+      "idle": "res://assets/enemies/current/golem_stone_idle.png",
+      "attack": "res://assets/enemies/current/golem_stone_attack.png"
     }
   },
-  "wild_wolf": {
-    "name": "野狼",
+  "hare_wild": {
+    "name": "野兔妖",
+    "level": 2,
+    "attribute_set": "enemy_basic_set",
+    "base_attributes": {"hp_max": "55", "atk": "8", "def": "5", "spd": "10", "crit_rate": "0.04", "crit_dmg": "1.3"},
+    "loot_table_id": "loot_zone1_hare_wild",
+    "zone_tags": ["zone_starter"],
+    "combat_tags": ["beast"],
+    "weight": 4,
+    "art_paths": {
+      "portrait": "res://assets/enemies/current/hare_wild_portrait.png",
+      "idle": "res://assets/enemies/current/hare_wild_idle.png",
+      "attack": "res://assets/enemies/current/hare_wild_attack.png"
+    }
+  },
+  "spirit_withered": {
+    "name": "枯木精",
     "level": 3,
     "attribute_set": "enemy_basic_set",
-    "base_attributes": {"hp_max": "140", "atk": "16", "def": "4", "spd": "14", "crit_rate": "0.05", "crit_dmg": "1.5"},
-    "loot_table_id": "starter_enemy",
-    "zone_tags": ["starter", "forest"],
-    "combat_tags": ["beast"],
+    "base_attributes": {"hp_max": "95", "atk": "14", "def": "10", "spd": "14", "crit_rate": "0.04", "crit_dmg": "1.35"},
+    "loot_table_id": "loot_zone1_spirit_withered",
+    "zone_tags": ["zone_starter"],
+    "combat_tags": ["spirit", "plant"],
     "weight": 3,
     "art_paths": {
-      "portrait": "res://assets/enemies/current/wild_wolf_portrait.png",
-      "idle": "res://assets/enemies/current/wild_wolf_idle.png",
-      "attack": "res://assets/enemies/current/wild_wolf_attack.png"
+      "portrait": "res://assets/enemies/current/spirit_withered_portrait.png",
+      "idle": "res://assets/enemies/current/spirit_withered_idle.png",
+      "attack": "res://assets/enemies/current/spirit_withered_attack.png"
     }
   },
-  "mountain_bandit": {
-    "name": "山贼",
-    "level": 6,
+  "bat_mist": {
+    "name": "毒雾蝠",
+    "level": 4,
     "attribute_set": "enemy_basic_set",
-    "base_attributes": {"hp_max": "260", "atk": "28", "def": "10", "spd": "10", "crit_rate": "0.08", "crit_dmg": "1.6"},
-    "loot_table_id": "bandit_enemy",
-    "zone_tags": ["forest"],
-    "combat_tags": ["human"],
+    "base_attributes": {"hp_max": "150", "atk": "22", "def": "16", "spd": "20", "crit_rate": "0.05", "crit_dmg": "1.35"},
+    "loot_table_id": "loot_zone1_bat_mist",
+    "zone_tags": ["zone_starter"],
+    "combat_tags": ["beast", "poison"],
+    "weight": 3,
+    "art_paths": {
+      "portrait": "res://assets/enemies/current/bat_mist_portrait.png",
+      "idle": "res://assets/enemies/current/bat_mist_idle.png",
+      "attack": "res://assets/enemies/current/bat_mist_attack.png"
+    }
+  },
+  "snake_newborn": {
+    "name": "初生蛇妖",
+    "level": 5,
+    "attribute_set": "enemy_basic_set",
+    "base_attributes": {"hp_max": "240", "atk": "38", "def": "24", "spd": "28", "crit_rate": "0.05", "crit_dmg": "1.4"},
+    "loot_table_id": "loot_zone1_snake_newborn",
+    "zone_tags": ["zone_starter"],
+    "combat_tags": ["beast", "poison"],
     "weight": 2,
     "art_paths": {
-      "portrait": "res://assets/enemies/current/mountain_bandit_portrait.png",
-      "idle": "res://assets/enemies/current/mountain_bandit_idle.png",
-      "attack": "res://assets/enemies/current/mountain_bandit_attack.png"
+      "portrait": "res://assets/enemies/current/snake_newborn_portrait.png",
+      "idle": "res://assets/enemies/current/snake_newborn_idle.png",
+      "attack": "res://assets/enemies/current/snake_newborn_attack.png"
+    }
+  },
+  "wolf_shadow": {
+    "name": "影狼",
+    "level": 6,
+    "attribute_set": "enemy_basic_set",
+    "base_attributes": {"hp_max": "360", "atk": "58", "def": "35", "spd": "40", "crit_rate": "0.06", "crit_dmg": "1.4"},
+    "loot_table_id": "loot_zone2_wolf_shadow",
+    "zone_tags": ["zone_forest"],
+    "combat_tags": ["beast"],
+    "weight": 5,
+    "art_paths": {
+      "portrait": "res://assets/enemies/current/wolf_shadow_portrait.png",
+      "idle": "res://assets/enemies/current/wolf_shadow_idle.png",
+      "attack": "res://assets/enemies/current/wolf_shadow_attack.png"
+    }
+  },
+  "vine_strangle": {
+    "name": "绞杀藤",
+    "level": 8,
+    "attribute_set": "enemy_basic_set",
+    "base_attributes": {"hp_max": "600", "atk": "90", "def": "55", "spd": "50", "crit_rate": "0.06", "crit_dmg": "1.45"},
+    "loot_table_id": "loot_zone2_vine_strangle",
+    "zone_tags": ["zone_forest"],
+    "combat_tags": ["plant"],
+    "weight": 4,
+    "art_paths": {
+      "portrait": "res://assets/enemies/current/vine_strangle_portrait.png",
+      "idle": "res://assets/enemies/current/vine_strangle_idle.png",
+      "attack": "res://assets/enemies/current/vine_strangle_attack.png"
+    }
+  },
+  "wraith_forest": {
+    "name": "林地怨灵",
+    "level": 10,
+    "attribute_set": "enemy_basic_set",
+    "base_attributes": {"hp_max": "900", "atk": "140", "def": "80", "spd": "70", "crit_rate": "0.07", "crit_dmg": "1.5"},
+    "loot_table_id": "loot_zone2_wraith_forest",
+    "zone_tags": ["zone_forest"],
+    "combat_tags": ["spirit", "undead"],
+    "weight": 3,
+    "art_paths": {
+      "portrait": "res://assets/enemies/current/wraith_forest_portrait.png",
+      "idle": "res://assets/enemies/current/wraith_forest_idle.png",
+      "attack": "res://assets/enemies/current/wraith_forest_attack.png"
+    }
+  },
+  "spider_venomfang": {
+    "name": "毒牙蛛",
+    "level": 12,
+    "attribute_set": "enemy_basic_set",
+    "base_attributes": {"hp_max": "1350", "atk": "210", "def": "120", "spd": "100", "crit_rate": "0.07", "crit_dmg": "1.5"},
+    "loot_table_id": "loot_zone2_spider_venomfang",
+    "zone_tags": ["zone_forest"],
+    "combat_tags": ["beast", "poison"],
+    "weight": 3,
+    "art_paths": {
+      "portrait": "res://assets/enemies/current/spider_venomfang_portrait.png",
+      "idle": "res://assets/enemies/current/spider_venomfang_idle.png",
+      "attack": "res://assets/enemies/current/spider_venomfang_attack.png"
+    }
+  },
+  "beast_stonedevour": {
+    "name": "噬石兽",
+    "level": 15,
+    "attribute_set": "enemy_basic_set",
+    "base_attributes": {"hp_max": "2200", "atk": "340", "def": "200", "spd": "150", "crit_rate": "0.08", "crit_dmg": "1.55"},
+    "loot_table_id": "loot_zone2_beast_stonedevour",
+    "zone_tags": ["zone_forest"],
+    "combat_tags": ["beast", "elite_zone"],
+    "weight": 2,
+    "art_paths": {
+      "portrait": "res://assets/enemies/current/beast_stonedevour_portrait.png",
+      "idle": "res://assets/enemies/current/beast_stonedevour_idle.png",
+      "attack": "res://assets/enemies/current/beast_stonedevour_attack.png"
+    }
+  },
+  "golem_crystal": {
+    "name": "晶石傀儡",
+    "level": 16,
+    "attribute_set": "enemy_basic_set",
+    "base_attributes": {"hp_max": "2800", "atk": "400", "def": "260", "spd": "180", "crit_rate": "0.08", "crit_dmg": "1.55"},
+    "loot_table_id": "loot_zone3_golem_crystal",
+    "zone_tags": ["zone_mine"],
+    "combat_tags": ["spirit", "crystal"],
+    "weight": 5,
+    "art_paths": {
+      "portrait": "res://assets/enemies/current/golem_crystal_portrait.png",
+      "idle": "res://assets/enemies/current/golem_crystal_idle.png",
+      "attack": "res://assets/enemies/current/golem_crystal_attack.png"
+    }
+  },
+  "bat_crystal": {
+    "name": "晶蝠",
+    "level": 19,
+    "attribute_set": "enemy_basic_set",
+    "base_attributes": {"hp_max": "4200", "atk": "600", "def": "380", "spd": "240", "crit_rate": "0.09", "crit_dmg": "1.6"},
+    "loot_table_id": "loot_zone3_bat_crystal",
+    "zone_tags": ["zone_mine"],
+    "combat_tags": ["beast", "crystal"],
+    "weight": 4,
+    "art_paths": {
+      "portrait": "res://assets/enemies/current/bat_crystal_portrait.png",
+      "idle": "res://assets/enemies/current/bat_crystal_idle.png",
+      "attack": "res://assets/enemies/current/bat_crystal_attack.png"
+    }
+  },
+  "spirit_vein": {
+    "name": "矿脉精魄",
+    "level": 23,
+    "attribute_set": "enemy_basic_set",
+    "base_attributes": {"hp_max": "7500", "atk": "1050", "def": "650", "spd": "360", "crit_rate": "0.10", "crit_dmg": "1.65"},
+    "loot_table_id": "loot_zone3_spirit_vein",
+    "zone_tags": ["zone_mine"],
+    "combat_tags": ["spirit", "crystal"],
+    "weight": 3,
+    "art_paths": {
+      "portrait": "res://assets/enemies/current/spirit_vein_portrait.png",
+      "idle": "res://assets/enemies/current/spirit_vein_idle.png",
+      "attack": "res://assets/enemies/current/spirit_vein_attack.png"
+    }
+  },
+  "dragon_crystal": {
+    "name": "晶牙龙蜥",
+    "level": 27,
+    "attribute_set": "enemy_basic_set",
+    "base_attributes": {"hp_max": "13500", "atk": "1800", "def": "1100", "spd": "500", "crit_rate": "0.11", "crit_dmg": "1.7"},
+    "loot_table_id": "loot_zone3_dragon_crystal",
+    "zone_tags": ["zone_mine"],
+    "combat_tags": ["beast", "dragon", "crystal"],
+    "weight": 3,
+    "art_paths": {
+      "portrait": "res://assets/enemies/current/dragon_crystal_portrait.png",
+      "idle": "res://assets/enemies/current/dragon_crystal_idle.png",
+      "attack": "res://assets/enemies/current/dragon_crystal_attack.png"
+    }
+  },
+  "guardian_vein": {
+    "name": "矿脉守护灵",
+    "level": 30,
+    "attribute_set": "enemy_basic_set",
+    "base_attributes": {"hp_max": "25000", "atk": "3200", "def": "2000", "spd": "650", "crit_rate": "0.12", "crit_dmg": "1.8"},
+    "loot_table_id": "loot_zone3_guardian_vein",
+    "zone_tags": ["zone_mine"],
+    "combat_tags": ["spirit", "elite", "boss"],
+    "weight": 1,
+    "elite": true,
+    "art_paths": {
+      "portrait": "res://assets/enemies/current/guardian_vein_portrait.png",
+      "idle": "res://assets/enemies/current/guardian_vein_idle.png",
+      "attack": "res://assets/enemies/current/guardian_vein_attack.png"
     }
   }
 }

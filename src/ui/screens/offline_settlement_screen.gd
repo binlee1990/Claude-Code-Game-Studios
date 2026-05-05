@@ -80,6 +80,8 @@ func _render_report() -> void:
 	_render_loot()
 	# Capacity losses
 	_render_losses()
+	# Session exit "expectation anchor" — S12-019
+	_render_next_session_hint()
 
 
 func _render_resource_breakdown() -> void:
@@ -202,6 +204,70 @@ func _on_defer() -> void:
 	var host := UIManagerHost.get_instance()
 	if host != null:
 		host.go_back()
+
+
+## Session exit "expectation anchor" (S12-019).
+## Shows predicted hourly offline gains based on current zone efficiency.
+func _render_next_session_hint() -> void:
+	var hint_label := Label.new()
+	hint_label.name = "NextSessionHint"
+	hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint_label.add_theme_font_size_override("font_size", 14)
+	hint_label.add_theme_color_override("font_color", Color(0.604, 0.580, 0.533))
+
+	var hourly := _estimate_hourly_offline()
+	if hourly.is_empty():
+		hint_label.text = tr("继续修炼，下次归来收获更多")
+	else:
+		var parts: Array[String] = []
+		for res_id in ["lingqi", "lingshi", "herb", "exp"]:
+			if hourly.has(res_id):
+				parts.append("%s +%s" % [tr(RESOURCE_NAMES.get(res_id, res_id)), NumberFormatter.format(hourly[res_id])])
+		hint_label.text = tr("下次归来预计（每小时）：%s" % " · ".join(parts))
+
+	# Insert before the button row.
+	var btn_row := continue_btn.get_parent()
+	if btn_row != null:
+		btn_row.add_child(hint_label)
+		btn_row.move_child(hint_label, 0)
+
+
+func _estimate_hourly_offline() -> Dictionary:
+	var result := {}
+	var zone_host := ZoneSystemHost.get_instance()
+	var zone_id := "zone_starter"
+	if zone_host != null and zone_host.get_service() != null:
+		var svc := zone_host.get_service()
+		if svc.has_method("get_current_zone"):
+			zone_id = svc.get_current_zone("player")
+	var zones_data := _load_zones_config()
+	var zone: Dictionary = zones_data.get(zone_id, {})
+	var loot_mult: float = float(zone.get("loot_mult", 1.0))
+	# Base rates from mvp-content-progression.md zone efficiencies
+	var base_lingqi := 60.0  # per minute base
+	var base_lingshi := 15.0 * loot_mult
+	var base_herb := 1.5 * loot_mult
+	var base_exp := 200.0 * loot_mult
+	result["lingqi"] = BigNumber.from_float(base_lingqi * 60.0)
+	result["lingshi"] = BigNumber.from_float(base_lingshi * 60.0)
+	result["herb"] = BigNumber.from_float(base_herb * 60.0)
+	result["exp"] = BigNumber.from_float(base_exp * 60.0)
+	return result
+
+
+func _load_zones_config() -> Dictionary:
+	var path := "res://assets/data/zones.json"
+	if not ResourceLoader.exists(path):
+		return {}
+	var file := FileAccess.open(path, FileAccess.READ)
+	if file == null:
+		return {}
+	var json := JSON.new()
+	var err := json.parse(file.get_as_text())
+	file.close()
+	if err != OK:
+		return {}
+	return json.get_data() as Dictionary
 
 
 # --- Helpers ---

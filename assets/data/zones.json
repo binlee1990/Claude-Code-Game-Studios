@@ -1,29 +1,56 @@
 {
-  "starter_valley": {
-    "name": "新手谷",
+  "zone_starter": {
+    "name": "青丘山林",
     "order": 1,
     "unlocked": true,
-    "enemy_pool": [{"enemy_id": "training_dummy", "weight": 5}, {"enemy_id": "wild_wolf", "weight": 2}],
-    "unlock": {"required_level": 1, "prerequisite": ""},
-    "background_path": "res://assets/map/starter_forest.png",
-    "transition_vfx_path": "res://assets/vfx/zone_transition_ink_wipe_01.png"
+    "enemy_pool": [
+      {"enemy_id": "golem_stone", "weight": 5},
+      {"enemy_id": "hare_wild", "weight": 4},
+      {"enemy_id": "spirit_withered", "weight": 3},
+      {"enemy_id": "bat_mist", "weight": 3},
+      {"enemy_id": "snake_newborn", "weight": 2}
+    ],
+    "unlock": {"required_level": 1, "required_atk": 0, "prerequisite": ""},
+    "graduate": {"required_level": 5, "required_atk": 180},
+    "loot_mult": 1.0,
+    "background_path": "res://assets/map/zone_starter.png",
+    "transition_vfx_path": "res://assets/vfx/zone_transition_ink_wipe_01.png",
+    "narrative_hook": "山中偶有奇异光柱一闪而逝——那是上古禁制偶尔泄出的灵气余波。"
   },
-  "pine_forest": {
-    "name": "松林",
+  "zone_forest": {
+    "name": "幽墟灵谷",
     "order": 2,
     "unlocked": false,
-    "enemy_pool": [{"enemy_id": "wild_wolf", "weight": 4}, {"enemy_id": "mountain_bandit", "weight": 1}],
-    "unlock": {"required_level": 4, "prerequisite": "starter_valley"},
-    "background_path": "res://assets/map/starter_forest.png",
-    "transition_vfx_path": "res://assets/vfx/zone_transition_ink_wipe_02.png"
+    "enemy_pool": [
+      {"enemy_id": "wolf_shadow", "weight": 5},
+      {"enemy_id": "vine_strangle", "weight": 4},
+      {"enemy_id": "wraith_forest", "weight": 3},
+      {"enemy_id": "spider_venomfang", "weight": 3},
+      {"enemy_id": "beast_stonedevour", "weight": 2}
+    ],
+    "unlock": {"required_level": 5, "required_atk": 180, "prerequisite": "zone_starter"},
+    "graduate": {"required_level": 15, "required_atk": 1700},
+    "loot_mult": 1.3,
+    "background_path": "res://assets/map/zone_forest.png",
+    "transition_vfx_path": "res://assets/vfx/zone_transition_ink_wipe_02.png",
+    "narrative_hook": "星图倒映的灵泉底，似乎藏着什么东西——或许是上古修士留下的传承。"
   },
-  "mist_peak": {
-    "name": "雾峰",
+  "zone_mine": {
+    "name": "荒殒战场",
     "order": 3,
     "unlocked": false,
-    "enemy_pool": [{"enemy_id": "missing_enemy", "weight": 1}, {"enemy_id": "mountain_bandit", "weight": 3}],
-    "unlock": {"required_level": 8, "prerequisite": "pine_forest"},
-    "background_path": "res://assets/map/ruined_temple.png",
-    "transition_vfx_path": "res://assets/vfx/zone_transition_ink_wipe_03.png"
+    "enemy_pool": [
+      {"enemy_id": "golem_crystal", "weight": 5},
+      {"enemy_id": "bat_crystal", "weight": 4},
+      {"enemy_id": "spirit_vein", "weight": 3},
+      {"enemy_id": "dragon_crystal", "weight": 3},
+      {"enemy_id": "guardian_vein", "weight": 1}
+    ],
+    "unlock": {"required_level": 15, "required_atk": 1600, "prerequisite": "zone_forest"},
+    "graduate": {"required_level": 30, "required_atk": 7500},
+    "loot_mult": 1.8,
+    "background_path": "res://assets/map/zone_mine.png",
+    "transition_vfx_path": "res://assets/vfx/zone_transition_ink_wipe_03.png",
+    "narrative_hook": "战场上最深的那道剑痕之下，掩埋着一柄折断的古剑——它在等一个能重新举起它的人。"
   }
 }

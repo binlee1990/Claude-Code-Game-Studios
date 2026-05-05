@@ -1,0 +1,1 @@
+wolf_shadow idle 1x4

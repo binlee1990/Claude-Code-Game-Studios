@@ -1,0 +1,41 @@
+{
+  "_schema": "离线收益倍率与经济平衡参数",
+  "_source": "design/balance/mvp-content-progression.md §1.3, §5.3",
+  "offline": {
+    "base_multiplier": 1.0,
+    "base_multiplier_note": "100% 同在线收益，使用相同 CombatCalculator + LootSystem",
+    "tick_granularity_seconds": 1,
+    "tick_note": "批量结算，与在线每 tick 逻辑一致但不渲染",
+    "no_decay_hours": 4,
+    "no_decay_note": "连续离线 ≤4h 收益无衰减，鼓励规律回访",
+    "decay_start_hours": 4,
+    "decay_end_hours": 24,
+    "decay_end_multiplier": 0.5,
+    "decay_curve": "linear",
+    "decay_rate_per_hour": 0.025,
+    "decay_note": "4h 后每小时衰减 ~2.5%，24h 处达最低 50%",
+    "max_offline_hours": 72,
+    "max_offline_note": "超过 72h 离线按 72h 结算，防止极端时间戳差值"
+  },
+  "online_premium": {
+    "base": 1.0,
+    "manual_advantage": 0.10,
+    "manual_advantage_max": 0.20,
+    "manual_advantage_note": "在线手动推图+切换区域+及时清包获得 10-20% 额外效率溢价"
+  },
+  "economy": {
+    "lingshi_production_per_second_base": 0.25,
+    "lingshi_production_note": "Zone 1 Lv.5 基准秒产，受 zone_loot_mult 和 realm_pool 缩放",
+    "herb_production_per_minute_base": 1.5,
+    "herb_production_note": "Zone 1 在线挂机基准，受 zone_loot_mult 缩放"
+  },
+  "storage": {
+    "lingqi_cap_base": 1000,
+    "herb_cap_base": 500,
+    "lingshi_cap_base": 999999,
+    "xiuwei_cap_base": 999999,
+    "exp_cap_base": 999999,
+    "overflow_policy": "clamp",
+    "overflow_note": "离线产出受 ResourceSystem cap 钳位，超出部分触发 overflow 事件"
+  }
+}

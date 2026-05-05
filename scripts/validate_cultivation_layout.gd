@@ -79,6 +79,9 @@ func _frames(count: int) -> void:
 
 
 func _capture(path: String) -> bool:
+	if DisplayServer.get_name() == "headless":
+		print("CULTIVATION_SCREENSHOT_SKIPPED_HEADLESS")
+		return true
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(path.get_base_dir()))
 	var viewport_texture := root.get_texture()
 	if viewport_texture == null:

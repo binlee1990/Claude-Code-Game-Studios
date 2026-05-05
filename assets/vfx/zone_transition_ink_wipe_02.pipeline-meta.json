@@ -2,7 +2,7 @@
   "source": "image_gen",
   "skill": "generate2dmap",
   "asset_id": "zone_transition_ink_wipe_02",
-  "raw_image": "C:/Users/888/.codex/generated_images/019df25c-ac82-7fa0-9386-c0fd48da3263/ig_0d9506974af9a2760169f8c634b0b08191a0625c501ebb5156.png",
+  "raw_image": "C:/Users/888/.codex/generated_images/019df72a-4075-7343-8275-3565c372f5ae/ig_0f5135473dc5cd420169f9cd72de60819187f8ef29afc5f0a7.png",
   "postprocess": "place_map_output.py cover_resize_center_crop",
   "width": 1920,
   "height": 1080

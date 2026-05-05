@@ -1,0 +1,11 @@
+{
+  "target": "creature",
+  "mode": "portrait",
+  "prompt": "wraith_forest portrait",
+  "role": "",
+  "input": "C:\\Users\\888\\.codex\\generated_images\\019df72a-4075-7343-8275-3565c372f5ae\\ig_0f5135473dc5cd420169f9b1745c3081919ef9255ff130cbdc.png",
+  "threshold": 100,
+  "edge_threshold": 150,
+  "duration": 200,
+  "single_size": 256
+}

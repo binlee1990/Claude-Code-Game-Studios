@@ -1,0 +1,180 @@
+{
+  "target": "creature",
+  "mode": "attack",
+  "prompt": "snake_newborn attack 1x4",
+  "role": "",
+  "input": "C:\\Users\\888\\.codex\\generated_images\\019df72a-4075-7343-8275-3565c372f5ae\\ig_0f5135473dc5cd420169f9ae3a0ecc8191a7b4c3774f67d083.png",
+  "threshold": 100,
+  "edge_threshold": 150,
+  "duration": 200,
+  "rows": 1,
+  "cols": 4,
+  "cell_size": 256,
+  "fit_scale": 0.74,
+  "trim_border": 4,
+  "edge_clean_depth": 3,
+  "align": "feet",
+  "shared_scale": true,
+  "component_mode": "largest",
+  "component_padding": 12,
+  "min_component_area": 1,
+  "edge_touch_margin": 0,
+  "frame_labels": [
+    "attack-1",
+    "attack-2",
+    "attack-3",
+    "attack-4"
+  ],
+  "frames": [
+    {
+      "grid": [
+        0,
+        0
+      ],
+      "source_box": [
+        0,
+        0,
+        543,
+        724
+      ],
+      "component_mode": "largest",
+      "component_count": 14,
+      "selected_component_area": 108359,
+      "selected_component_bbox": [
+        63,
+        186,
+        503,
+        556
+      ],
+      "crop_bbox": [
+        51,
+        174,
+        515,
+        568
+      ],
+      "edge_touch": false,
+      "output_size": [
+        170,
+        144
+      ],
+      "paste_position": [
+        43,
+        79
+      ]
+    },
+    {
+      "grid": [
+        0,
+        1
+      ],
+      "source_box": [
+        543,
+        0,
+        1086,
+        724
+      ],
+      "component_mode": "largest",
+      "component_count": 42,
+      "selected_component_area": 105137,
+      "selected_component_bbox": [
+        15,
+        112,
+        445,
+        559
+      ],
+      "crop_bbox": [
+        3,
+        100,
+        457,
+        571
+      ],
+      "edge_touch": false,
+      "output_size": [
+        166,
+        172
+      ],
+      "paste_position": [
+        45,
+        51
+      ]
+    },
+    {
+      "grid": [
+        0,
+        2
+      ],
+      "source_box": [
+        1086,
+        0,
+        1629,
+        724
+      ],
+      "component_mode": "largest",
+      "component_count": 53,
+      "selected_component_area": 75406,
+      "selected_component_bbox": [
+        0,
+        294,
+        504,
+        561
+      ],
+      "crop_bbox": [
+        0,
+        282,
+        516,
+        573
+      ],
+      "edge_touch": true,
+      "output_size": [
+        189,
+        106
+      ],
+      "paste_position": [
+        33,
+        117
+      ]
+    },
+    {
+      "grid": [
+        0,
+        3
+      ],
+      "source_box": [
+        1629,
+        0,
+        2172,
+        724
+      ],
+      "component_mode": "largest",
+      "component_count": 9,
+      "selected_component_area": 103330,
+      "selected_component_bbox": [
+        39,
+        193,
+        489,
+        567
+      ],
+      "crop_bbox": [
+        27,
+        181,
+        501,
+        579
+      ],
+      "edge_touch": false,
+      "output_size": [
+        174,
+        146
+      ],
+      "paste_position": [
+        41,
+        77
+      ]
+    }
+  ],
+  "edge_touch_frames": [
+    [
+      0,
+      2
+    ]
+  ]
+}

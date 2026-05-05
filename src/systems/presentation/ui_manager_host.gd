@@ -34,15 +34,17 @@ func _ready() -> void:
 
 	_ensure_ui_scale_settings()
 
-	# Register all 5 MVP screens (scene paths, always unlocked for now).
+	# Register all 5 MVP screens with FTUE-aware unlock conditions.
+	# Cultivation and save are always available; combat/resources/offline
+	# unlock progressively per screen-flow.md §3.
 	service.register_screen("cultivation",        "res://src/ui/screens/cultivation_screen.tscn", true)
-	service.register_screen("combat",             "res://src/ui/screens/combat_screen.tscn", true)
-	service.register_screen("resources",          "res://src/ui/screens/resources_screen.tscn", true)
+	service.register_screen("combat",             "res://src/ui/screens/combat_screen.tscn", _ftue_unlocked(1))
+	service.register_screen("resources",          "res://src/ui/screens/resources_screen.tscn", _ftue_unlocked(2))
 	service.register_screen("save",               "res://src/ui/screens/save_screen.tscn", true)
-	service.register_screen("offline_settlement", "res://src/ui/screens/offline_settlement_screen.tscn", true)
+	service.register_screen("offline_settlement", "res://src/ui/screens/offline_settlement_screen.tscn", _ftue_unlocked(5))
 	service.register_screen("settings",           "res://src/ui/modals/settings_modal.tscn", true)
 	service.register_screen("confirm_critical",   "res://src/ui/modals/confirm_critical_modal.tscn", true)
-	service.register_screen("stance_select",      "res://src/ui/modals/stance_select_modal.tscn", true)
+	service.register_screen("stance_select",      "res://src/ui/modals/stance_select_modal.tscn", _ftue_unlocked(4))
 
 	# Defer post-init until main scene is loaded.
 	_schedule_post_initialize()
@@ -117,6 +119,15 @@ static func find_root_viewport() -> RootViewport:
 
 static func has_open_modal() -> bool:
 	return instance != null and instance.service.has_open_modal()
+
+
+## Returns a Callable that checks if FTUE stage >= required_stage.
+func _ftue_unlocked(required_stage: int) -> Callable:
+	return func() -> bool:
+		var ftue_host := FTUEStateMachineHost.get_instance()
+		if ftue_host == null:
+			return true  # fallback: allow if FTUE system not ready
+		return ftue_host.get_service().get_stage() >= required_stage
 
 
 func get_service() -> UIManager:

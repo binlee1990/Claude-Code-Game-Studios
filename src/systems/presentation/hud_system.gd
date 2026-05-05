@@ -12,6 +12,9 @@ var level_badge := ""
 var level_badge_icon_path := ""
 var layout_refresh_count := 0
 var _refresh_pending := false
+var _ftue_stage := 0
+var _last_realm := "fanren"
+var _realm_ceremony_pending := false
 
 
 func _init(resources: ResourceSystem = null, storage: StorageLimitSystem = null, levels: LevelSystem = null, ui: UIManager = null) -> void:
@@ -19,6 +22,91 @@ func _init(resources: ResourceSystem = null, storage: StorageLimitSystem = null,
 	storage_limits = storage
 	level_system = levels
 	ui_manager = ui
+	_subscribe_ftue()
+	_subscribe_realm()
+
+
+func _subscribe_ftue() -> void:
+	var bus := EventBus.get_instance()
+	if bus != null:
+		bus.subscribe("ftue.stage_changed", _on_ftue_stage_changed)
+
+
+func _on_ftue_stage_changed(payload: Dictionary) -> void:
+	_ftue_stage = payload.get("new_stage", _ftue_stage)
+	request_refresh()
+
+
+func _subscribe_realm() -> void:
+	var bus := EventBus.get_instance()
+	if bus != null:
+		bus.subscribe("realm.advanced", _on_realm_advanced)
+
+
+func _on_realm_advanced(payload: Dictionary) -> void:
+	if str(payload.get("entity_id", "")) != "player":
+		return
+	var new_realm: String = payload.get("new_realm", "")
+	var old_realm: String = payload.get("old_realm", "")
+	_last_realm = new_realm
+	_realm_ceremony_pending = true
+	var bus := EventBus.get_instance()
+	if bus != null:
+		bus.emit("hud.realm_ceremony", {"old_realm": old_realm, "new_realm": new_realm})
+
+
+## Return which HUD fields should be visible at current FTUE stage.
+## Screen-flow.md §3: 4 fields (Stage 0) → 12 fields (Stage 5).
+func get_field_visibility() -> Dictionary:
+	match _ftue_stage:
+		0:
+			return {
+				"lingqi": true, "xiuwei": true, "level_realm": true, "settings": true,
+				"combat_status": false, "zone_selector": false,
+				"lingshi": false, "herb": false,
+				"zone_info": false, "breakthrough_hint": false,
+				"offline_indicator": false, "stance_switch": false,
+			}
+		1:
+			return {
+				"lingqi": true, "xiuwei": true, "level_realm": true, "settings": true,
+				"combat_status": true, "zone_selector": true,
+				"lingshi": false, "herb": false,
+				"zone_info": false, "breakthrough_hint": false,
+				"offline_indicator": false, "stance_switch": false,
+			}
+		2:
+			return {
+				"lingqi": true, "xiuwei": true, "level_realm": true, "settings": true,
+				"combat_status": true, "zone_selector": true,
+				"lingshi": true, "herb": true,
+				"zone_info": false, "breakthrough_hint": false,
+				"offline_indicator": false, "stance_switch": false,
+			}
+		3:
+			return {
+				"lingqi": true, "xiuwei": true, "level_realm": true, "settings": true,
+				"combat_status": true, "zone_selector": true,
+				"lingshi": true, "herb": true,
+				"zone_info": true, "breakthrough_hint": true,
+				"offline_indicator": false, "stance_switch": false,
+			}
+		4:
+			return {
+				"lingqi": true, "xiuwei": true, "level_realm": true, "settings": true,
+				"combat_status": true, "zone_selector": true,
+				"lingshi": true, "herb": true,
+				"zone_info": true, "breakthrough_hint": true,
+				"offline_indicator": false, "stance_switch": true,
+			}
+		_:
+			return {
+				"lingqi": true, "xiuwei": true, "level_realm": true, "settings": true,
+				"combat_status": true, "zone_selector": true,
+				"lingshi": true, "herb": true,
+				"zone_info": true, "breakthrough_hint": true,
+				"offline_indicator": true, "stance_switch": true,
+			}
 
 
 func handle_resource_changed(payload: Dictionary) -> void:

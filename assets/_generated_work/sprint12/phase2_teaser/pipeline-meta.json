@@ -1,0 +1,11 @@
+{
+  "target": "asset",
+  "mode": "icon",
+  "prompt": "phase2_teaser",
+  "role": "",
+  "input": "C:\\Users\\888\\.codex\\generated_images\\019df72a-4075-7343-8275-3565c372f5ae\\ig_0f5135473dc5cd420169f9cf826a0081919213131d6b2d8770.png",
+  "threshold": 100,
+  "edge_threshold": 150,
+  "duration": 200,
+  "single_size": 32
+}

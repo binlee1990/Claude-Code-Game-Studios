@@ -1,0 +1,9 @@
+{
+  "source": "image_gen",
+  "skill": "generate2dmap",
+  "asset_id": "zone_starter",
+  "raw_image": "C:/Users/888/.codex/generated_images/019df72a-4075-7343-8275-3565c372f5ae/ig_0f5135473dc5cd420169f9c38e2f7081919b40795b338ae875.png",
+  "postprocess": "place_map_output.py cover_resize_center_crop",
+  "width": 1920,
+  "height": 1080
+}

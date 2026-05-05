@@ -1,0 +1,184 @@
+{
+  "target": "creature",
+  "mode": "attack",
+  "prompt": "golem_stone attack 1x4",
+  "role": "",
+  "input": "C:\\Users\\888\\.codex\\generated_images\\019df72a-4075-7343-8275-3565c372f5ae\\ig_0f5135473dc5cd420169f9aa4bb94c81919fa422a9b433f165.png",
+  "threshold": 100,
+  "edge_threshold": 150,
+  "duration": 200,
+  "rows": 1,
+  "cols": 4,
+  "cell_size": 256,
+  "fit_scale": 0.84,
+  "trim_border": 4,
+  "edge_clean_depth": 3,
+  "align": "feet",
+  "shared_scale": true,
+  "component_mode": "largest",
+  "component_padding": 12,
+  "min_component_area": 1,
+  "edge_touch_margin": 0,
+  "frame_labels": [
+    "attack-1",
+    "attack-2",
+    "attack-3",
+    "attack-4"
+  ],
+  "frames": [
+    {
+      "grid": [
+        0,
+        0
+      ],
+      "source_box": [
+        0,
+        0,
+        543,
+        724
+      ],
+      "component_mode": "largest",
+      "component_count": 5,
+      "selected_component_area": 119224,
+      "selected_component_bbox": [
+        54,
+        167,
+        499,
+        588
+      ],
+      "crop_bbox": [
+        42,
+        155,
+        511,
+        600
+      ],
+      "edge_touch": false,
+      "output_size": [
+        189,
+        179
+      ],
+      "paste_position": [
+        33,
+        57
+      ]
+    },
+    {
+      "grid": [
+        0,
+        1
+      ],
+      "source_box": [
+        543,
+        0,
+        1086,
+        724
+      ],
+      "component_mode": "largest",
+      "component_count": 10,
+      "selected_component_area": 122649,
+      "selected_component_bbox": [
+        46,
+        87,
+        506,
+        596
+      ],
+      "crop_bbox": [
+        34,
+        75,
+        518,
+        608
+      ],
+      "edge_touch": false,
+      "output_size": [
+        195,
+        215
+      ],
+      "paste_position": [
+        30,
+        21
+      ]
+    },
+    {
+      "grid": [
+        0,
+        2
+      ],
+      "source_box": [
+        1086,
+        0,
+        1629,
+        724
+      ],
+      "component_mode": "largest",
+      "component_count": 33,
+      "selected_component_area": 112842,
+      "selected_component_bbox": [
+        0,
+        235,
+        430,
+        638
+      ],
+      "crop_bbox": [
+        0,
+        223,
+        442,
+        650
+      ],
+      "edge_touch": true,
+      "output_size": [
+        178,
+        172
+      ],
+      "paste_position": [
+        39,
+        64
+      ]
+    },
+    {
+      "grid": [
+        0,
+        3
+      ],
+      "source_box": [
+        1629,
+        0,
+        2172,
+        724
+      ],
+      "component_mode": "largest",
+      "component_count": 11,
+      "selected_component_area": 122938,
+      "selected_component_bbox": [
+        0,
+        190,
+        466,
+        593
+      ],
+      "crop_bbox": [
+        0,
+        178,
+        478,
+        605
+      ],
+      "edge_touch": true,
+      "output_size": [
+        192,
+        172
+      ],
+      "paste_position": [
+        32,
+        64
+      ]
+    }
+  ],
+  "edge_touch_frames": [
+    [
+      0,
+      2
+    ],
+    [
+      0,
+      3
+    ]
+  ]
+}

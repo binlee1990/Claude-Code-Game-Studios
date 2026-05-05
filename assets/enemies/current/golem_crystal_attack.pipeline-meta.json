@@ -1,0 +1,25 @@
+{
+  "source": "image_gen",
+  "skill": "generate2dsprite",
+  "asset_id": "golem_crystal",
+  "output_role": "attack",
+  "raw_image": "C:/Users/888/.codex/generated_images/019df72a-4075-7343-8275-3565c372f5ae/ig_0f5135473dc5cd420169f9b62a5e3481918835f4f4fcf16ec9.png",
+  "processed_dir": "D:/work/Games/GUAJI_01/assets/_generated_work/sprint12/golem_crystal_attack",
+  "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+  "width": 1024,
+  "height": 256,
+  "processor": {
+    "target": "creature",
+    "mode": "attack",
+    "rows": 1,
+    "cols": 4,
+    "cell_size": 256,
+    "single_size": null,
+    "edge_touch_frames": [
+      [
+        0,
+        2
+      ]
+    ]
+  }
+}

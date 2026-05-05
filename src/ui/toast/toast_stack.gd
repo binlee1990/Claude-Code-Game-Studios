@@ -19,6 +19,45 @@ func _ready() -> void:
 	alignment = BoxContainer.ALIGNMENT_END
 	custom_minimum_size = Vector2(320, 0)
 	_subscribe_events()
+	_subscribe_ftue()
+
+
+func _subscribe_ftue() -> void:
+	var bus := EventBus.get_instance()
+	if bus != null:
+		bus.subscribe("ftue.stage_changed", _on_ftue_stage_changed)
+		bus.subscribe("offline.settled", _on_offline_settled)
+
+
+func _on_offline_settled(payload: Dictionary) -> void:
+	var hours := float(payload.get("offline_hours", 0.0))
+	if hours <= 0.0:
+		hours = float(payload.get("duration", 0.0)) / 3600.0
+	var claimed: Dictionary = payload.get("claimed", {})
+	var lingshi: Variant = payload.get("lingshi_gained", claimed.get("lingshi"))
+	var herb: Variant = payload.get("herb_gained", claimed.get("herb"))
+	var exp: Variant = payload.get("exp_gained", claimed.get("exp"))
+	var parts: Array[String] = []
+	if lingshi != null:
+		parts.append("灵石 +%s" % _format_reward_value(lingshi))
+	if herb != null:
+		parts.append("药材 +%s" % _format_reward_value(herb))
+	if exp != null:
+		parts.append("经验 +%s" % _format_reward_value(exp))
+	if parts.is_empty():
+		parts.append("收益已入账")
+	var msg := "闭关 %.1f 小时归来 — %s" % [hours, ", ".join(parts)]
+	push_typed_toast("offline_summary", msg, {"hours": hours}, 6.0)
+
+
+func _on_ftue_stage_changed(payload: Dictionary) -> void:
+	var narrative: String = payload.get("narrative", "")
+	if narrative.is_empty():
+		return
+	var stage: int = int(payload.get("new_stage", -1))
+	if stage <= 0:
+		return
+	push_typed_toast("narrative", narrative, {"stage": stage}, 5.0)
 
 
 ## Push a new toast message onto the stack.
@@ -107,7 +146,21 @@ func _icon_for(kind: String, payload: Dictionary) -> Texture2D:
 			return Sprint11AssetCatalog.get_texture(Sprint11AssetCatalog.ITEM_ICONS, item_id)
 		"realm":
 			return Sprint11AssetCatalog.get_texture(Sprint11AssetCatalog.SEALS, "burst_gold")
+		"phase2":
+			return Sprint11AssetCatalog.get_texture(Sprint11AssetCatalog.STATUS_ICONS, "phase2_teaser")
 	return Sprint11AssetCatalog.get_texture(Sprint11AssetCatalog.SEALS, "ink_default")
+
+
+func _format_reward_value(value: Variant) -> String:
+	if value is BigNumber:
+		return NumberFormatter.format(value)
+	if typeof(value) == TYPE_DICTIONARY:
+		return NumberFormatter.format(BigNumber.from_dict(value))
+	if typeof(value) == TYPE_INT:
+		return NumberFormatter.format(BigNumber.from_int(value))
+	if typeof(value) == TYPE_FLOAT:
+		return NumberFormatter.format(BigNumber.from_float(value))
+	return str(value)
 
 
 func _subscribe_events() -> void:
@@ -125,7 +178,10 @@ func _on_level_changed(payload: Dictionary) -> void:
 
 
 func _on_realm_advanced(payload: Dictionary) -> void:
-	push_typed_toast("realm", tr("境界突破：%s") % tr(str(payload.get("new_realm", ""))), payload)
+	var new_realm := str(payload.get("new_realm", ""))
+	push_typed_toast("realm", tr("境界突破：%s") % tr(new_realm), payload)
+	if new_realm == "zhuji":
+		push_typed_toast("phase2", tr("筑基已成：金丹期与装备刷宝将在后续阶段开放"), payload, 6.0)
 
 
 func _on_combat_finished(payload: Dictionary) -> void:

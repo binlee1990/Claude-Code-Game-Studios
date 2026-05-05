@@ -45,8 +45,11 @@ const STATUS_ICONS := {
 	"combat_active": "res://assets/ui/icons/status/combat_active.png",
 	"combat_failed": "res://assets/ui/icons/status/combat_failed.png",
 	"level_up": "res://assets/ui/icons/status/level_up.png",
+	"locked": "res://assets/ui/icons/status/locked.png",
+	"new_content_dot": "res://assets/ui/icons/status/new_content_dot.png",
 	"offline_pending": "res://assets/ui/icons/status/offline_pending.png",
 	"overflow_warn": "res://assets/ui/icons/status/overflow_warn.png",
+	"phase2_teaser": "res://assets/ui/icons/status/phase2_teaser.png",
 }
 
 const RARITY_FRAMES := {
@@ -72,6 +75,9 @@ const MAPS := {
 	"east_sea_shore": "res://assets/map/east_sea_shore.png",
 	"ruined_temple": "res://assets/map/ruined_temple.png",
 	"town_economy": "res://assets/map/town_economy.png",
+	"zone_starter": "res://assets/map/zone_starter.png",
+	"zone_forest": "res://assets/map/zone_forest.png",
+	"zone_mine": "res://assets/map/zone_mine.png",
 }
 
 const OVERLAYS := {
@@ -172,6 +178,8 @@ const VFX := {
 	"level_up_ring": "res://assets/vfx/level_up_ring.png",
 	"manual_click_pulse": "res://assets/vfx/manual_click_pulse.png",
 	"overflow_warn_flash": "res://assets/vfx/overflow_warn_flash.png",
+	"realm_burst_gold": "res://assets/vfx/realm_burst_gold.png",
+	"realm_breakthrough_sheet": "res://assets/vfx/realm_breakthrough_sheet.png",
 	"victory_burst_gold": "res://assets/vfx/victory_burst_gold.png",
 	"zone_transition_ink_wipe_01": "res://assets/vfx/zone_transition_ink_wipe_01.png",
 	"zone_transition_ink_wipe_02": "res://assets/vfx/zone_transition_ink_wipe_02.png",

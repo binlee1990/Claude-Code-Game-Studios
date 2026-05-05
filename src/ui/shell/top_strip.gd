@@ -76,6 +76,7 @@ func _build_content() -> void:
 		var value_label := Label.new()
 		value_label.name = "Value"
 		value_label.add_theme_font_size_override("font_size", 16)
+		value_label.add_theme_color_override("font_color", Color(1.0, 0.624, 0.039))
 		value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		row.add_child(value_label)
 		_resource_labels[resource_id] = value_label
@@ -98,6 +99,7 @@ func _build_content() -> void:
 	_level_label = Label.new()
 	_level_label.name = "LevelBadge"
 	_level_label.add_theme_font_size_override("font_size", 18)
+	_level_label.add_theme_color_override("font_color", Color(0.890, 0.878, 0.839))
 	hbox.add_child(_level_label)
 
 	# Separator
@@ -122,8 +124,9 @@ func _build_content() -> void:
 	_offline_button.name = "OfflineButton"
 	_offline_button.text = tr("离线")
 	_offline_button.icon = Sprint11AssetCatalog.get_texture(Sprint11AssetCatalog.STATUS_ICONS, "offline_pending")
-	_offline_button.flat = true
+	_offline_button.flat = false
 	_offline_button.focus_mode = Control.FOCUS_ALL
+	_style_top_button(_offline_button, Color(1.0, 0.624, 0.039))
 	_offline_button.pressed.connect(_on_offline_pressed)
 	hbox.add_child(_offline_button)
 
@@ -140,10 +143,32 @@ func _build_content() -> void:
 	var settings_btn := Button.new()
 	settings_btn.name = "SettingsButton"
 	settings_btn.text = "  " + tr("设置") + "  "
-	settings_btn.flat = true
+	settings_btn.flat = false
 	settings_btn.focus_mode = Control.FOCUS_ALL
+	_style_top_button(settings_btn, Color(0.118, 0.569, 0.925))
 	settings_btn.pressed.connect(_on_settings_pressed)
 	hbox.add_child(settings_btn)
+
+
+func _style_top_button(button: Button, accent: Color) -> void:
+	button.custom_minimum_size = Vector2(76, 40)
+	button.add_theme_color_override("font_color", Color(0.89, 0.88, 0.84))
+	button.add_theme_color_override("font_hover_color", Color.WHITE)
+	button.add_theme_stylebox_override("normal", _make_button_style(Color(0.155, 0.155, 0.165), Color(0.215, 0.215, 0.225)))
+	button.add_theme_stylebox_override("hover", _make_button_style(Color(0.200, 0.200, 0.210), accent))
+	button.add_theme_stylebox_override("pressed", _make_button_style(accent.darkened(0.10), accent))
+
+
+func _make_button_style(bg: Color, border: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = bg
+	style.border_color = border
+	style.set_border_width_all(1)
+	style.content_margin_left = 12.0
+	style.content_margin_right = 12.0
+	style.content_margin_top = 8.0
+	style.content_margin_bottom = 8.0
+	return style
 
 
 func _make_separator() -> VSeparator:

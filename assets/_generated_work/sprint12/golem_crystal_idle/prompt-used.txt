@@ -1,0 +1,1 @@
+golem_crystal idle 1x4

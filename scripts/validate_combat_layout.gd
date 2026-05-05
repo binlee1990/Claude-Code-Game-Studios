@@ -33,6 +33,7 @@ func _initialize() -> void:
 	settings.set_ui_scale_multiplier(1.35, false)
 	await _frames(8)
 
+	_unlock_ftue_for_full_navigation()
 	ui_host.open_screen("combat")
 	await _frames(8)
 
@@ -105,6 +106,13 @@ func _initialize() -> void:
 func _frames(count: int) -> void:
 	for _i in range(count):
 		await process_frame
+
+
+func _unlock_ftue_for_full_navigation() -> void:
+	var ftue_host := FTUEStateMachineHost.get_instance()
+	if ftue_host == null or ftue_host.get_service() == null:
+		return
+	ftue_host.get_service().advance_to(5)
 
 
 func _rects_overlap(a: Rect2, b: Rect2) -> bool:

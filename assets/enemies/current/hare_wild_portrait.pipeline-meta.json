@@ -1,0 +1,20 @@
+{
+  "source": "image_gen",
+  "skill": "generate2dsprite",
+  "asset_id": "hare_wild",
+  "output_role": "portrait",
+  "raw_image": "C:/Users/888/.codex/generated_images/019df72a-4075-7343-8275-3565c372f5ae/ig_0f5135473dc5cd420169f9aa9303d88191a0a78d33770429d5.png",
+  "processed_dir": "D:/work/Games/GUAJI_01/assets/_generated_work/sprint12/hare_wild_portrait",
+  "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+  "width": 256,
+  "height": 256,
+  "processor": {
+    "target": "creature",
+    "mode": "portrait",
+    "rows": null,
+    "cols": null,
+    "cell_size": null,
+    "single_size": 256,
+    "edge_touch_frames": []
+  }
+}

@@ -41,6 +41,7 @@ func _initialize() -> void:
 		elif service.active_screen_id != "cultivation":
 			failures.append("Expected default screen 'cultivation', got '%s'" % service.active_screen_id)
 		else:
+			_unlock_ftue_for_full_navigation()
 			for screen_id in ["combat", "resources", "save", "offline_settlement", "cultivation"]:
 				ui_host.open_screen(screen_id)
 				await process_frame
@@ -81,6 +82,13 @@ func _initialize() -> void:
 
 	print("MAIN_SCENE_LOAD_OK")
 	quit(0)
+
+
+func _unlock_ftue_for_full_navigation() -> void:
+	var ftue_host := FTUEStateMachineHost.get_instance()
+	if ftue_host == null or ftue_host.get_service() == null:
+		return
+	ftue_host.get_service().advance_to(5)
 
 
 func _validate_settings_controls(failures: Array[String]) -> void:

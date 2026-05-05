@@ -1,0 +1,25 @@
+{
+  "source": "image_gen",
+  "skill": "generate2dsprite",
+  "asset_id": "wolf_shadow",
+  "output_role": "idle",
+  "raw_image": "C:/Users/888/.codex/generated_images/019df72a-4075-7343-8275-3565c372f5ae/ig_0f5135473dc5cd420169f9af81a3bc8191ad97e6e2f30097ec.png",
+  "processed_dir": "D:/work/Games/GUAJI_01/assets/_generated_work/sprint12/wolf_shadow_idle",
+  "postprocess": "generate2dsprite.py process + place_sprite_output.py",
+  "width": 1024,
+  "height": 256,
+  "processor": {
+    "target": "creature",
+    "mode": "idle",
+    "rows": 1,
+    "cols": 4,
+    "cell_size": 256,
+    "single_size": null,
+    "edge_touch_frames": [
+      [
+        0,
+        3
+      ]
+    ]
+  }
+}

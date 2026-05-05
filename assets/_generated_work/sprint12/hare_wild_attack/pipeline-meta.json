@@ -1,0 +1,180 @@
+{
+  "target": "creature",
+  "mode": "attack",
+  "prompt": "hare_wild attack 1x4",
+  "role": "",
+  "input": "C:\\Users\\888\\.codex\\generated_images\\019df72a-4075-7343-8275-3565c372f5ae\\ig_0f5135473dc5cd420169f9ab0aa1dc8191898c69c1c8da2169.png",
+  "threshold": 100,
+  "edge_threshold": 150,
+  "duration": 200,
+  "rows": 1,
+  "cols": 4,
+  "cell_size": 256,
+  "fit_scale": 0.84,
+  "trim_border": 4,
+  "edge_clean_depth": 3,
+  "align": "feet",
+  "shared_scale": true,
+  "component_mode": "largest",
+  "component_padding": 12,
+  "min_component_area": 1,
+  "edge_touch_margin": 0,
+  "frame_labels": [
+    "attack-1",
+    "attack-2",
+    "attack-3",
+    "attack-4"
+  ],
+  "frames": [
+    {
+      "grid": [
+        0,
+        0
+      ],
+      "source_box": [
+        0,
+        0,
+        543,
+        724
+      ],
+      "component_mode": "largest",
+      "component_count": 27,
+      "selected_component_area": 96552,
+      "selected_component_bbox": [
+        43,
+        248,
+        488,
+        620
+      ],
+      "crop_bbox": [
+        31,
+        236,
+        500,
+        632
+      ],
+      "edge_touch": false,
+      "output_size": [
+        183,
+        154
+      ],
+      "paste_position": [
+        36,
+        82
+      ]
+    },
+    {
+      "grid": [
+        0,
+        1
+      ],
+      "source_box": [
+        543,
+        0,
+        1086,
+        724
+      ],
+      "component_mode": "largest",
+      "component_count": 57,
+      "selected_component_area": 96399,
+      "selected_component_bbox": [
+        18,
+        64,
+        452,
+        590
+      ],
+      "crop_bbox": [
+        6,
+        52,
+        464,
+        602
+      ],
+      "edge_touch": false,
+      "output_size": [
+        179,
+        215
+      ],
+      "paste_position": [
+        38,
+        21
+      ]
+    },
+    {
+      "grid": [
+        0,
+        2
+      ],
+      "source_box": [
+        1086,
+        0,
+        1629,
+        724
+      ],
+      "component_mode": "largest",
+      "component_count": 113,
+      "selected_component_area": 121360,
+      "selected_component_bbox": [
+        0,
+        125,
+        530,
+        645
+      ],
+      "crop_bbox": [
+        0,
+        113,
+        535,
+        657
+      ],
+      "edge_touch": true,
+      "output_size": [
+        209,
+        212
+      ],
+      "paste_position": [
+        23,
+        24
+      ]
+    },
+    {
+      "grid": [
+        0,
+        3
+      ],
+      "source_box": [
+        1629,
+        0,
+        2172,
+        724
+      ],
+      "component_mode": "largest",
+      "component_count": 53,
+      "selected_component_area": 110828,
+      "selected_component_bbox": [
+        43,
+        232,
+        497,
+        631
+      ],
+      "crop_bbox": [
+        31,
+        220,
+        509,
+        643
+      ],
+      "edge_touch": false,
+      "output_size": [
+        186,
+        165
+      ],
+      "paste_position": [
+        35,
+        71
+      ]
+    }
+  ],
+  "edge_touch_frames": [
+    [
+      0,
+      2
+    ]
+  ]
+}

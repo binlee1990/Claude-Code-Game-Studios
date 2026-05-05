@@ -53,6 +53,7 @@ func _initialize() -> void:
 			failures.append("RootViewport missing in 4K scale validation")
 		var ui_host := UIManagerHost.get_instance()
 		if ui_host != null and root_viewport != null:
+			_unlock_ftue_for_full_navigation()
 			ui_host.open_screen("combat")
 		await _frames(8)
 		var combat_screen := root.get_node_or_null("Main/RootViewport/UILayer/Shell/MainHBox/CenterContent/ScreenContainer/CombatScreen")
@@ -87,7 +88,17 @@ func _frames(count: int) -> void:
 		await process_frame
 
 
+func _unlock_ftue_for_full_navigation() -> void:
+	var ftue_host := FTUEStateMachineHost.get_instance()
+	if ftue_host == null or ftue_host.get_service() == null:
+		return
+	ftue_host.get_service().advance_to(5)
+
+
 func _capture(path: String) -> bool:
+	if DisplayServer.get_name() == "headless":
+		print("4K_SCREENSHOT_SKIPPED_HEADLESS")
+		return true
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(path.get_base_dir()))
 	var viewport_texture := root.get_texture()
 	if viewport_texture == null:

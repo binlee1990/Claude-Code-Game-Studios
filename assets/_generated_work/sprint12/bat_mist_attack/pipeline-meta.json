@@ -1,0 +1,175 @@
+{
+  "target": "creature",
+  "mode": "attack",
+  "prompt": "bat_mist attack 1x4",
+  "role": "",
+  "input": "C:\\Users\\888\\.codex\\generated_images\\019df72a-4075-7343-8275-3565c372f5ae\\ig_0f5135473dc5cd420169f9ad2b60488191b14ba1ec5f2774d2.png",
+  "threshold": 100,
+  "edge_threshold": 150,
+  "duration": 200,
+  "rows": 1,
+  "cols": 4,
+  "cell_size": 256,
+  "fit_scale": 0.74,
+  "trim_border": 4,
+  "edge_clean_depth": 3,
+  "align": "center",
+  "shared_scale": true,
+  "component_mode": "largest",
+  "component_padding": 10,
+  "min_component_area": 1,
+  "edge_touch_margin": 0,
+  "frame_labels": [
+    "attack-1",
+    "attack-2",
+    "attack-3",
+    "attack-4"
+  ],
+  "frames": [
+    {
+      "grid": [
+        0,
+        0
+      ],
+      "source_box": [
+        0,
+        0,
+        543,
+        724
+      ],
+      "component_mode": "largest",
+      "component_count": 52,
+      "selected_component_area": 68903,
+      "selected_component_bbox": [
+        31,
+        151,
+        535,
+        555
+      ],
+      "crop_bbox": [
+        21,
+        141,
+        535,
+        565
+      ],
+      "edge_touch": false,
+      "output_size": [
+        185,
+        152
+      ],
+      "paste_position": [
+        35,
+        52
+      ]
+    },
+    {
+      "grid": [
+        0,
+        1
+      ],
+      "source_box": [
+        543,
+        0,
+        1086,
+        724
+      ],
+      "component_mode": "largest",
+      "component_count": 48,
+      "selected_component_area": 50061,
+      "selected_component_bbox": [
+        59,
+        153,
+        509,
+        581
+      ],
+      "crop_bbox": [
+        49,
+        143,
+        519,
+        591
+      ],
+      "edge_touch": false,
+      "output_size": [
+        169,
+        161
+      ],
+      "paste_position": [
+        43,
+        47
+      ]
+    },
+    {
+      "grid": [
+        0,
+        2
+      ],
+      "source_box": [
+        1086,
+        0,
+        1629,
+        724
+      ],
+      "component_mode": "largest",
+      "component_count": 45,
+      "selected_component_area": 66792,
+      "selected_component_bbox": [
+        15,
+        287,
+        521,
+        575
+      ],
+      "crop_bbox": [
+        5,
+        277,
+        531,
+        585
+      ],
+      "edge_touch": false,
+      "output_size": [
+        189,
+        110
+      ],
+      "paste_position": [
+        33,
+        73
+      ]
+    },
+    {
+      "grid": [
+        0,
+        3
+      ],
+      "source_box": [
+        1629,
+        0,
+        2172,
+        724
+      ],
+      "component_mode": "largest",
+      "component_count": 45,
+      "selected_component_area": 66371,
+      "selected_component_bbox": [
+        24,
+        224,
+        507,
+        525
+      ],
+      "crop_bbox": [
+        14,
+        214,
+        517,
+        535
+      ],
+      "edge_touch": false,
+      "output_size": [
+        181,
+        115
+      ],
+      "paste_position": [
+        37,
+        70
+      ]
+    }
+  ],
+  "edge_touch_frames": []
+}
